@@ -1,4 +1,6 @@
-// var config = require('config');
-
+var config = require('config');
+var db     = require('./src/db');
 var Server = require('./src/Server');
-Server.start(8082/*config.get('express.port')*/);
+
+db.connect(config.get('database'));
+Server.start(config.get('express.port'));

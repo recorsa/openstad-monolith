@@ -1,0 +1,11 @@
+{
+	"database": {
+		"host": "localhost",
+		"user": "",
+		"password": "",
+		"database": ""
+	},
+	"express": {
+		"port": 8082
+	}
+}
