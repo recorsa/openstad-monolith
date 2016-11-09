@@ -1,0 +1,3 @@
+[submodule "lib/fractal"]
+	path = lib/fractal
+	url = git@github.com:tjoekbezoer/Fractal.git
