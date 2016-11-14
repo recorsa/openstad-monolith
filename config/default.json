@@ -1,9 +1,15 @@
 {
+	"debug": false,
+	
 	"database": {
-		"host": "localhost",
-		"user": "",
-		"password": "",
-		"database": ""
+		"dialect"            : "mysql",
+		"host"               : "localhost",
+		"user"               : "",
+		"password"           : "",
+		"database"           : "",
+		
+		"multipleStatements" : true,
+		"logging"            : false
 	},
 	"express": {
 		"port": 8082
