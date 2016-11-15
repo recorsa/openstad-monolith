@@ -5,6 +5,14 @@ module.exports = function( sequelize, DataTypes ) {
 			defaultValue : DataTypes.UUIDV4,
 			allowNull    : false
 		},
+		userName: {
+			type         : DataTypes.STRING(32),
+			allowNull    : true
+		},
+		password: {
+			type         : DataTypes.STRING(255),
+			allowNull    : true
+		},
 		firstName: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true
@@ -13,12 +21,8 @@ module.exports = function( sequelize, DataTypes ) {
 			type         : DataTypes.STRING(64),
 			allowNull    : true
 		},
-		userName: {
-			type         : DataTypes.STRING(32),
-			allowNull    : true
-		},
-		password: {
-			type         : DataTypes.STRING(255),
+		gender: {
+			type         : DataTypes.ENUM('male', 'female'),
 			allowNull    : true
 		},
 		email: {
