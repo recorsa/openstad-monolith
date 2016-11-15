@@ -1,10 +1,17 @@
+var co     = require('co')
+  , moment = require('moment');
+
 module.exports = function( sequelize, DataTypes ) {
 	var model = sequelize.define('idea', {
 		meetingId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,
 		startDate: {
 			type         : DataTypes.DATE,
-			allowNull    : false
+			allowNull    : false,
+			// `startDate` must at least be the current server time.
+			set : function( date ) {
+				this.setDataValue('startDate', Math.max(Date.now(), date));
+			}
 		},
 		endDate: {
 			type         : DataTypes.DATE,
@@ -28,13 +35,28 @@ module.exports = function( sequelize, DataTypes ) {
 			allowNull    : false
 		},
 	}, {
+		hooks: {
+			beforeValidate: co.wrap(function*( idea, options ) {
+				// Automatically determine `endDate`, and the relevant meeting
+				// in which this idea might be discussed.
+				if( idea.changed('startDate') ) {
+					var endDate = moment(idea.startDate).add(2, 'weeks').toDate();
+					var meeting = yield sequelize.models.meeting.findOne({
+						where: {
+							date: {$gt: endDate}
+						},
+						order: 'date ASC'
+					});
+					
+					idea.endDate   = endDate
+					idea.meetingId = meeting.id;
+				}
+			})
+		},
 		validate: {
 			validDeadline: function() {
-				if( this.endDate - this.startDate < 86400000 ) {
+				if( this.endDate - this.startDate < 43200000 ) {
 					throw new Error('An idea must run at least 1 day');
-				}
-				if( Date.now() - this.startDate > 3600000 ) {
-					throw new Error('Ideas are for the present, not the past!')
 				}
 			}
 		},
@@ -42,6 +64,7 @@ module.exports = function( sequelize, DataTypes ) {
 			associate: function( models ) {
 				model.belongsTo(models.Meeting);
 				model.belongsTo(models.User);
+				model.hasMany(models.Vote);
 			}
 		}
 	});
