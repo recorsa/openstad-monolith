@@ -8,6 +8,7 @@ db.sequelize.sync({force: true}).then(function() {
 		db.sequelize.close();
 	});
 }).catch(function( e ) {
+	db.sequelize.close();
 	throw e;
 });
 

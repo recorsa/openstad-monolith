@@ -10,10 +10,7 @@ module.exports = function( sequelize, DataTypes ) {
 	}, {
 		classMethods: {
 			associate: function( models ) {
-				model.belongsTo(models.Idea, {
-					onUpdate: 'RESTRICT',
-					onDelete: 'CASCADE'
-				});
+				model.belongsTo(models.Idea);
 				model.belongsTo(models.User);
 			}
 		}
