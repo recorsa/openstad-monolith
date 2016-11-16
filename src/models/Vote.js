@@ -1,5 +1,5 @@
 module.exports = function( sequelize, DataTypes ) {
-	var model = sequelize.define('vote', {
+	var Vote = sequelize.define('vote', {
 		ideaId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,
 		opinion: {
@@ -10,11 +10,11 @@ module.exports = function( sequelize, DataTypes ) {
 	}, {
 		classMethods: {
 			associate: function( models ) {
-				model.belongsTo(models.Idea);
-				model.belongsTo(models.User);
+				Vote.belongsTo(models.Idea);
+				Vote.belongsTo(models.User);
 			}
 		}
 	});
 	
-	return model;
+	return Vote;
 };

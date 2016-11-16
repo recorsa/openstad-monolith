@@ -1,5 +1,5 @@
 module.exports = function( sequelize, DataTypes ) {
-	var model = sequelize.define('user', {
+	var User = sequelize.define('user', {
 		uuid: {
 			type         : DataTypes.UUID,
 			defaultValue : DataTypes.UUIDV4,
@@ -42,13 +42,13 @@ module.exports = function( sequelize, DataTypes ) {
 		
 		classMethods: {
 			associate: function( models ) {
-				model.hasMany(models.Idea);
-				model.hasMany(models.Vote);
-				model.hasMany(models.Argument);
-				model.hasMany(models.ThumbsUp);
+				User.hasMany(models.Idea);
+				User.hasMany(models.Vote);
+				User.hasMany(models.Argument);
+				User.hasMany(models.ThumbsUp);
 			}
 		}
 	});
 	
-	return model;
+	return User;
 };

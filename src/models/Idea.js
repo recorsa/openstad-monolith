@@ -2,14 +2,14 @@ var co     = require('co')
   , moment = require('moment');
 
 module.exports = function( sequelize, DataTypes ) {
-	var model = sequelize.define('idea', {
+	var Idea = sequelize.define('idea', {
 		meetingId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,
 		startDate: {
 			type         : DataTypes.DATE,
 			allowNull    : false,
 			// `startDate` must at least be the current server time.
-			set : function( date ) {
+			set          : function( date ) {
 				this.setDataValue('startDate', Math.max(Date.now(), date));
 			}
 		},
@@ -48,8 +48,8 @@ module.exports = function( sequelize, DataTypes ) {
 						order: 'date ASC'
 					});
 					
-					idea.endDate   = endDate
-					idea.meetingId = meeting.id;
+					idea.setDataValue('endDate', endDate);
+					idea.setDataValue('meetingId', meeting.id);
 				}
 			})
 		},
@@ -62,12 +62,12 @@ module.exports = function( sequelize, DataTypes ) {
 		},
 		classMethods: {
 			associate: function( models ) {
-				model.belongsTo(models.Meeting);
-				model.belongsTo(models.User);
-				model.hasMany(models.Vote);
+				Idea.belongsTo(models.Meeting);
+				Idea.belongsTo(models.User);
+				Idea.hasMany(models.Vote);
 			}
 		}
 	});
 	
-	return model;
+	return Idea;
 };

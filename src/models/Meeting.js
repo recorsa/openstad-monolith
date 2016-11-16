@@ -1,13 +1,13 @@
 module.exports = function( sequelize, DataTypes ) {
-	var model = sequelize.define('meeting', {
+	var Meeting = sequelize.define('meeting', {
 		date: DataTypes.DATE
 	}, {
 		classMethods: {
 			associate: function( models ) {
-				model.hasMany(models.Idea);
+				Meeting.hasMany(models.Idea);
 			}
 		}
 	});
 	
-	return model;
+	return Meeting;
 };

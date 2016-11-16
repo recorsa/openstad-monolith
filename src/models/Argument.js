@@ -1,5 +1,5 @@
 module.exports = function( sequelize, DataTypes ) {
-	var model = sequelize.define('argument', {
+	var Argument = sequelize.define('argument', {
 		ideaId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,
 		sentiment: {
@@ -11,14 +11,11 @@ module.exports = function( sequelize, DataTypes ) {
 	}, {
 		classMethods: {
 			associate: function( models ) {
-				model.belongsTo(models.Idea, {
-					onUpdate: 'RESTRICT',
-					onDelete: 'CASCADE'
-				});
-				model.belongsTo(models.User);
+				Argument.belongsTo(models.Idea);
+				Argument.belongsTo(models.User);
 			}
 		}
 	});
 	
-	return model;
+	return Argument;
 };
