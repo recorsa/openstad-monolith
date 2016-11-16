@@ -24,12 +24,12 @@ module.exports = function( sequelize, DataTypes ) {
 				}
 			},
 			set          : function( password ) {
+				var method = config.get('security.passwordHashing.currentMethod');
 				this.setDataValue('password', password);
-				if( !password ) return;
-				
-				var method     = config.get('security.passwordHashing.currentMethod');
-				var hashObject = Password[method].hash(password);
-				this.set('passwordHash', hashObject);
+				this.set('passwordHash', password ?
+				                         Password[method].hash(password) :
+				                         null
+				);
 			}
 		},
 		passwordHash: {
