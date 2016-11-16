@@ -13,5 +13,17 @@
 	},
 	"express": {
 		"port": 8082
+	},
+	
+	"security": {
+		"passwordHashing": {
+			"currentMethod": "bcrypt",
+			"methods": {
+				"bcrypt": {
+					"method" : "bcrypt",
+					"cost"   : 10
+				}
+			}
+		}
 	}
 }

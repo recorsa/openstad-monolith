@@ -1,17 +1,49 @@
+var config = require('config')
+  , bcrypt = require('bcrypt');
+
 module.exports = function( sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
 		uuid: {
 			type         : DataTypes.UUID,
 			defaultValue : DataTypes.UUIDV4,
-			allowNull    : false
+			allowNull    : false,
+			unique       : true
 		},
 		userName: {
 			type         : DataTypes.STRING(32),
-			allowNull    : true
+			allowNull    : true,
+			unique       : true
 		},
 		password: {
-			type         : DataTypes.STRING(255),
-			allowNull    : true
+			type         : DataTypes.VIRTUAL,
+			allowNull    : true,
+			validate     : {
+				len: {
+					args: [6,64],
+					msg: 'Password must be between 6 to 64 characters'
+				}
+			},
+			set          : function( password ) {
+				this.setDataValue('password', password);
+				if( !password ) return;
+				
+				var method     = config.get('security.passwordHashing.currentMethod');
+				var hashObject = Password[method].hash(password);
+				this.set('passwordHash', hashObject);
+			}
+		},
+		passwordHash: {
+			type         : DataTypes.TEXT,
+			allowNull    : true,
+			get          : function() {
+				var hashObject = this.getDataValue('passwordHash');
+				return hashObject ?
+				       JSON.parse(this.getDataValue('passwordHash')) :
+				       null;
+			},
+			set          : function( jsonText ) {
+				this.setDataValue('passwordHash', JSON.stringify(jsonText));
+			}
 		},
 		firstName: {
 			type         : DataTypes.STRING(64),
@@ -35,20 +67,50 @@ module.exports = function( sequelize, DataTypes ) {
 			allowNull    : true
 		}
 	}, {
-		indexes: [{
-			fields : ['uuid'],
-			unique : true
-		}],
-		
+		validate: {
+			loginCredentials: function() {
+				if( (this.userName === null) !== (this.passwordHash === null) ) {
+					throw new Error('Both userName and password must be set');
+				}
+			}
+		},
 		classMethods: {
 			associate: function( models ) {
 				User.hasMany(models.Idea);
 				User.hasMany(models.Vote);
 				User.hasMany(models.Argument);
 				User.hasMany(models.ThumbsUp);
+			},
+			findByUserName: function( userName ) {
+				return User.findOne({userName: userName});
+			}
+		},
+		instanceMethods: {
+			authenticate: function( password ) {
+				var method = config.get('security.passwordHashing.currentMethod');
+				return Password[method].compare(password, this.passwordHash);
 			}
 		}
 	});
 	
 	return User;
 };
+
+var Password = {
+	bcrypt: {
+		hash: function( password ) {
+			var cost = config.get('security.passwordHashing.methods.bcrypt.cost');
+			var salt = bcrypt.genSaltSync(cost);
+			var hash = bcrypt.hashSync(password, salt);
+			return {
+				method : 'bcrypt',
+				cost   : cost,
+				salt   : salt,
+				hash   : hash
+			};
+		},
+		compare: function( password, hashObject ) {
+			return bcrypt.compareSync(password, hashObject.hash);
+		}
+	}
+}
