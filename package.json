@@ -15,13 +15,16 @@
     "co": "^4.6.0",
     "compression": "^1.6.2",
     "config": "^1.21.0",
+    "connect-session-sequelize": "^4.1.0",
     "cors": "^2.8.1",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "fractal": "git+https://github.com/tjoekbezoer/Fractal.git",
     "jsdom": "^9.8.3",
     "lodash": "^4.16.4",
     "moment": "^2.16.0",
     "mysql": "^2.12.0",
-    "sequelize": "^3.25.0"
+    "sequelize": "^3.25.0",
+    "yargs": "^6.4.0"
   }
 }
