@@ -8,7 +8,7 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 	dialectOptions : {
 		multipleStatements: config.multipleStatements
 	},
-	timeZone       : '+00:00',
+	timeZone       : config.timeZone,
 	logging        : config.logging ? log : false,
 	
 	define: {

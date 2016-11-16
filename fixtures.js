@@ -3,6 +3,7 @@ var _      = require('lodash')
   , moment = require('moment')
 
 module.exports = co.wrap(function*( db ) {
+	console.log('Building test database...');
 	yield meetings.map(function( meetingData ) {
 		return db.Meeting.create(meetingData);
 	});
@@ -19,6 +20,7 @@ module.exports = co.wrap(function*( db ) {
 			}));
 		});
 	}));
+	console.log('Database complete');
 });
 
 var today = moment().startOf('day');
