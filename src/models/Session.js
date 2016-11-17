@@ -6,5 +6,7 @@ module.exports = function( sequelize, DataTypes ) {
 		},
 		expires: DataTypes.DATE,
 		data: DataTypes.TEXT
+	}, {
+		paranoid: false
 	});
 };

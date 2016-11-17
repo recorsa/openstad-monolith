@@ -1,4 +1,5 @@
 var _              = require('lodash')
+  , config         = require('config')
   , express        = require('express')
   , compression    = require('compression')
   , cors           = require('cors')
@@ -17,23 +18,23 @@ module.exports  = {
 		this.app = express();
 		this.app.use(compression());
 		// this.app.use(cors());
-		// this.app.use(bodyParser.json({
-		// 	type: ['text', 'json']
-		// }));
+		this.app.use(bodyParser.json());
+		this.app.use(bodyParser.urlencoded({extended: true}));
 		this.app.use(session({
 			name              : 'amsterdam.sid',
-			secret            : 'e56789!ouAr-/t8ewHDyer90_',
+			secret            : config.get('security.sessions.secret'),
 			proxy             : true, // Trust apache reverse proxy
 			resave            : false,
+			unset             : 'destroy',
 			saveUninitialized : false,
 			store: new SequelizeStore({
 				db    : db.sequelize,
 				table : 'session'
 			}),
 			cookie: {
-				httpOnly          : true,
-				secure            : false,
-				maxAge            : 31536000000 // 1 year
+				httpOnly : true,
+				secure   : false,
+				maxAge   : 31536000000 // 1 year
 			}
 		}));
 		

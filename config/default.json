@@ -25,6 +25,9 @@
 					"cost"   : 10
 				}
 			}
+		},
+		"sessions": {
+			"secret": "e56789!ouAr-/t8ewHDyer90_"
 		}
 	}
 }
