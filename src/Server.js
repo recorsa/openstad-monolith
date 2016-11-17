@@ -6,6 +6,7 @@ var _              = require('lodash')
   , bodyParser     = require('body-parser')
   , parseUrl       = require('url').parse
   , session        = require('express-session');
+var util           = require('./util');
 
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var db             = require('./db');
@@ -39,7 +40,7 @@ module.exports  = {
 		}));
 		
 		// Register middleware/routes, and start listening.
-		require('./routes/')(this.app);
+		require('./routes')(this.app);
 		this.app.listen(port, function() {
 		  console.log('Server listening on port %s', port);
 		});

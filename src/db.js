@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize');
 var _         = require('lodash');
+var util      = require('./util');
 
 var config    = require('config').get('database');
 var sequelize = new Sequelize(config.database, config.user, config.password, {
@@ -23,7 +24,8 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 	},
 });
 
-var models = require('./models')(sequelize);
+// Define models.
+var models = require('./models')(sequelize, Sequelize.DataTypes);
 module.exports = _.extend({}, models, {sequelize: sequelize});
 
 function log(query) {
