@@ -3,12 +3,6 @@ var config = require('config')
 
 module.exports = function( sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
-		uuid: {
-			type         : DataTypes.UUID,
-			defaultValue : DataTypes.UUIDV4,
-			allowNull    : false,
-			unique       : true
-		},
 		userName: {
 			type         : DataTypes.STRING(32),
 			allowNull    : true,
@@ -41,8 +35,8 @@ module.exports = function( sequelize, DataTypes ) {
 				       JSON.parse(this.getDataValue('passwordHash')) :
 				       null;
 			},
-			set          : function( jsonText ) {
-				this.setDataValue('passwordHash', JSON.stringify(jsonText));
+			set          : function( hashObject ) {
+				this.setDataValue('passwordHash', hashObject ? JSON.stringify(hashObject) : null);
 			}
 		},
 		firstName: {
