@@ -75,8 +75,15 @@ module.exports = function( sequelize, DataTypes ) {
 				User.hasMany(models.Argument);
 				User.hasMany(models.ThumbsUp);
 			},
-			findByUserName: function( userName ) {
-				return User.findOne({userName: userName});
+			findByCredentials: function( userName, password ) {
+				return User.findOne({userName: userName}).then(function( user ) {
+					if( !user.authenticate(password) ) {
+						// TODO: AuthenticationError
+						throw new Error('Login failed');
+					} else {
+						return user;
+					}
+				});
 			}
 		},
 		instanceMethods: {
