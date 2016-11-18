@@ -50,7 +50,15 @@ var users = [
 			description : 'Deze heb ik ook helemaal zelf bedacht.'
 		}
 	]},
-	{id : 2  , userName : 'margaret' , password : 'FPGkM9s'      , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null}            ,
+	{id : 2  , userName : 'margaret' , password : 'FPGkM9s'      , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
+		{
+			id          : 3,
+			startDate   : moment(today).add(6, 'days'),
+			title       : 'Markt uitbreiden',
+			summary     : 'Er moet plek zijn voor twee groentemannen!',
+			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.'
+		}
+	]},
 	{id : 3  , userName : null       , password : null           , firstName : null        , lastname : null        , gender : 'male'   , email : 'crice1@nsw.gov.au'          , zipCode : null}            ,
 	{id : 4  , userName : 'andrea'   , password : 'fuxQRmDzGC'   , firstName : 'Jane'      , lastname : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}            ,
 	{id : 5  , userName : 'david'    , password : 'vPb2ycQFKt8'  , firstName : 'Justin'    , lastname : 'Cole'      , gender : 'male'   , email : 'jcole3@skype.com'           , zipCode : null}            ,
@@ -106,5 +114,12 @@ var votes = {
 		{userId: 28 , opinion: 'no'},
 		{userId: 29 , opinion: 'yes'},
 		{userId: 30 , opinion: 'no'}
+	],
+	3: [
+		{userId: 15 , opinion: 'no'},
+		{userId: 7  , opinion: 'no'},
+		{userId: 19 , opinion: 'yes'},
+		{userId: 21 , opinion: 'yes'},
+		{userId: 2  , opinion: 'no'}
 	]
 }
