@@ -5,7 +5,8 @@ var _              = require('lodash')
   , cors           = require('cors')
   , bodyParser     = require('body-parser')
   , parseUrl       = require('url').parse
-  , session        = require('express-session');
+  , session        = require('express-session')
+  , auth           = require('authorized');
 var util           = require('./util');
 
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -39,8 +40,12 @@ module.exports  = {
 			}
 		}));
 		
+		// Initialize auth roles/entities
+		require('./auth')(auth);
 		// Register middleware/routes, and start listening.
 		require('./routes')(this.app);
+		require('./middleware/error_handling')(this.app);
+		
 		this.app.listen(port, function() {
 		  console.log('Server listening on port %s', port);
 		});
