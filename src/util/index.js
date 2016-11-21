@@ -3,15 +3,19 @@ var fs   = require('fs')
 
 var util = module.exports = {
 	invokeDir: function( dirName, fn, ctx ) {
+		dirName = util.relativePath(dirName);
+		return _invokeDir(dirName, {}, fn, ctx);
+	},
+	
+	relativePath: function( dirName ) {
 		// Is `dirName` relative?
 		if( path.normalize(dirName) !== path.resolve(dirName) ){
 			// make `dirName` relative to the caller.
-			var callerFilename = util.stack()[1].getFileName()
+			var callerFilename = util.stack()[2].getFileName()
 			  , callerPath     = path.dirname(callerFilename);
 			dirName = path.resolve(callerPath, dirName);
 		}
-		
-		return _invokeDir(dirName, {}, fn, ctx);
+		return dirName;
 	},
 	
 	stack: function _stackGrabber() {
