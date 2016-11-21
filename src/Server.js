@@ -7,6 +7,7 @@ var _              = require('lodash')
   , parseUrl       = require('url').parse
   , session        = require('express-session')
   , auth           = require('authorized');
+var nunjucks       = require('nunjucks');
 var util           = require('./util');
 
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -39,6 +40,11 @@ module.exports  = {
 				maxAge   : 31536000000 // 1 year
 			}
 		}));
+		
+		nunjucks.configure('html', {
+			watch   : config.get('debug'),
+			express : this.app
+		});
 		
 		// Initialize auth roles/entities
 		require('./auth')(auth);
