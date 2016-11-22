@@ -95,7 +95,7 @@ module.exports = function( sequelize, DataTypes ) {
 				User.hasMany(models.ThumbsUp);
 			},
 			findByCredentials: function( userName, password ) {
-				return User.findOne({userName: userName}).then(function( user ) {
+				return User.findOne({where: {userName: userName}}).then(function( user ) {
 					if( !user.authenticate(password) ) {
 						// TODO: AuthenticationError
 						throw new errors.UnauthorizedError('Login failed');
@@ -108,7 +108,12 @@ module.exports = function( sequelize, DataTypes ) {
 		instanceMethods: {
 			authenticate: function( password ) {
 				var method = config.get('security.passwordHashing.currentMethod');
-				return Password[method].compare(password, this.passwordHash);
+				if( !this.passwordHash ) {
+					return false;
+				} else {
+					var result = Password[method].compare(password, this.passwordHash);
+					return result;
+				}
 			}
 		}
 	});
