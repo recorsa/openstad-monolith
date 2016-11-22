@@ -7,11 +7,6 @@ var yargs = require('yargs')
 			alias       : 'r',
 			default     : false
 		},
-		'verbose': {
-			description : 'Visual logging verbosity',
-			alias       : 'v',
-			count       : true
-		},
 		'test': {
 			description : 'Run test suite',
 			alias       : 't'

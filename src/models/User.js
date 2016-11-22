@@ -1,5 +1,6 @@
 var config = require('config')
   , bcrypt = require('bcrypt');
+var errors = require('../errors');
 
 module.exports = function( sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
@@ -79,7 +80,7 @@ module.exports = function( sequelize, DataTypes ) {
 				return User.findOne({userName: userName}).then(function( user ) {
 					if( !user.authenticate(password) ) {
 						// TODO: AuthenticationError
-						throw new Error('Login failed');
+						throw new errors.UnauthorizedError('Login failed');
 					} else {
 						return user;
 					}

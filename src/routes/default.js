@@ -19,15 +19,15 @@ module.exports = function( app ) {
 			`);
 		}
 	});
-	app.post('/login', function( req, res ) {
+	app.post('/login', function( req, res, next ) {
 		var userName = req.body.userName
 		  , password = req.body.password;
 		
 		db.User.findByCredentials(userName, password).then(function( user ) {
 			req.session.userId = user.id;
 			res.send('<h1>Login succeeded</h1>');
-		}).catch(function() {
-			res.status(401).send('Login failed');
+		}).catch(function( error ) {
+			next(error);
 		});
 	});
 	
