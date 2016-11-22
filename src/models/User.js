@@ -4,18 +4,31 @@ var errors = require('../errors');
 
 module.exports = function( sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
+		role: {
+			type         : DataTypes.STRING(32),
+			allowNull    : false,
+			defaultValue : 'anonymous',
+			validate     : {
+				isIn: {
+					args : [['unknown', 'anonymous', 'member', 'admin', 'su']],
+					msg  : 'Unknown user role'
+				}
+			}
+		},
 		userName: {
 			type         : DataTypes.STRING(32),
 			allowNull    : true,
+			defaultValue : null,
 			unique       : true
 		},
 		password: {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
+			defaultValue : null,
 			validate     : {
 				len: {
-					args: [6,64],
-					msg: 'Password must be between 6 to 64 characters'
+					args : [6,64],
+					msg  : 'Password must be between 6 to 64 characters'
 				}
 			},
 			set          : function( password ) {
@@ -66,6 +79,11 @@ module.exports = function( sequelize, DataTypes ) {
 			loginCredentials: function() {
 				if( (this.userName === null) !== (this.passwordHash === null) ) {
 					throw new Error('Both userName and password must be set');
+				}
+			},
+			validUserRole: function() {
+				if( this.id != 1 && this.role == 'unknown' ) {
+					throw new Error('User role \'unknown\' is not allowed');
 				}
 			}
 		},
