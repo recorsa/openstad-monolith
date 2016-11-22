@@ -1,6 +1,6 @@
 {
 	"debug": false,
-	"logging": "connect:*,express:router,express-session,compression,app:*",
+	"logging": "app:*",
 	
 	"database": {
 		"dialect"            : "mysql",
