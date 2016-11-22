@@ -97,7 +97,7 @@ module.exports = function( sequelize, DataTypes ) {
 			},
 			findByCredentials: function( userName, password ) {
 				return User.findOne({where: {userName: userName}}).then(function( user ) {
-					if( !user.authenticate(password) ) {
+					if( !user || !user.authenticate(password) ) {
 						// TODO: AuthenticationError
 						throw new errors.UnauthorizedError('Login failed');
 					} else {
