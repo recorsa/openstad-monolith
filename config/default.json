@@ -1,6 +1,6 @@
 {
 	"debug": false,
-	"logging": "app:*,-app:db",
+	"logging": "app:*,-app:db:query",
 	
 	"database": {
 		"dialect"            : "mysql",

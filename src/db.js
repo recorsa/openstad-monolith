@@ -10,7 +10,7 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 		multipleStatements: config.multipleStatements
 	},
 	timeZone       : config.timeZone,
-	logging        : require('debug')('app:db'),
+	logging        : require('debug')('app:db:query'),
 	
 	define: {
 		underscored    : false, // preserve columName casing.
