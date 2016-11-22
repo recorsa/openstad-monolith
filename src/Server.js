@@ -18,7 +18,7 @@ module.exports  = {
 	app: undefined,
 	
 	start: function( port ) {
-		log('starting...');
+		log('initializing...');
 		this.app = express();
 		this.app.set('x-powered-by', false);
 		

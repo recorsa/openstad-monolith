@@ -1,17 +1,20 @@
 var _      = require('lodash')
   , co     = require('co')
   , moment = require('moment')
+var log    = require('debug')('app:db');
 
 module.exports = co.wrap(function*( db ) {
-	console.log('Building test database...');
+	log('generating meetings...');
 	yield meetings.map(function( meetingData ) {
 		return db.Meeting.create(meetingData);
 	});
+	log('generating users and ideas...');
 	yield users.map(function( userData ) {
 		return db.User.create(userData, {
 			include: [db.Idea]
 		});
 	});
+	log('generating votes...');
 	yield _.flatten(_.map(votes, function( votesForIdea, ideaId ) {
 		return db.Idea.findById(ideaId).then(function( idea ) {
 			return Promise.all(votesForIdea.map(function( vote ) {
@@ -20,7 +23,7 @@ module.exports = co.wrap(function*( db ) {
 			}));
 		});
 	}));
-	console.log('Database complete');
+	log('test database complete');
 });
 
 var today = moment().startOf('day');

@@ -1,5 +1,6 @@
 var config = require('config')
   , bcrypt = require('bcrypt');
+var log    = require('debug')('app:user');
 var errors = require('../errors');
 
 module.exports = function( sequelize, DataTypes ) {
@@ -109,9 +110,11 @@ module.exports = function( sequelize, DataTypes ) {
 			authenticate: function( password ) {
 				var method = config.get('security.passwordHashing.currentMethod');
 				if( !this.passwordHash ) {
+					log('user %d has no passwordHash', this.id);
 					return false;
 				} else {
 					var result = Password[method].compare(password, this.passwordHash);
+					log('authentication for user %d %s', this.id, result ? 'succeeded' : 'failed');
 					return result;
 				}
 			}

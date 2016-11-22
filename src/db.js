@@ -10,7 +10,7 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 		multipleStatements: config.multipleStatements
 	},
 	timeZone       : config.timeZone,
-	logging        : config.logging ? log : false,
+	logging        : config.logging ? require('debug')('app:db') : false,
 	
 	define: {
 		underscored    : false, // preserve columName casing.
@@ -27,7 +27,3 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 // Define models.
 var models = require('./models')(sequelize, Sequelize.DataTypes);
 module.exports = _.extend({}, models, {sequelize: sequelize});
-
-function log(query) {
-	console.log('DEBUG: ' + query + '\n');
-}
