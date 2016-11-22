@@ -1,7 +1,3 @@
-var config = require('config');
-var Server = require('./src/Server');
-var db     = require('./src/db');
-
 var yargs = require('yargs')
 	.usage('$0 [--reset]')
 	.help('h')
@@ -23,8 +19,15 @@ var yargs = require('yargs')
 	});
 var argv = yargs.argv;
 
-// Start HTTP server.
+var config = require('config');
+process.env.DEBUG = config.get('logging');
+
+// Start HTTP server
+// -----------------
+var Server  = require('./src/Server');
+var db      = require('./src/db');
 var resetDB = argv.reset && config.get('debug');
+
 db.sequelize.sync({force: resetDB}).then(function() {
 	var doReset = resetDB ?
 	              require('./fixtures')(db) :
