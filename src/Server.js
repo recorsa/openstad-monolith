@@ -52,6 +52,7 @@ module.exports  = {
 		// Initialize auth roles/entities
 		require('./auth')(auth);
 		// Register middleware/routes, and start listening.
+		require('./middleware/session_user')(this.app);
 		require('./routes')(this.app);
 		require('./middleware/error_handling')(this.app);
 		
