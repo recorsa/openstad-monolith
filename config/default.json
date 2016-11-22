@@ -1,6 +1,6 @@
 {
 	"debug": false,
-	"logging": "app:*",
+	"logging": "app:*,-app:db",
 	
 	"database": {
 		"dialect"            : "mysql",
@@ -10,7 +10,6 @@
 		"database"           : "",
 		
 		"multipleStatements" : true,
-		"logging"            : false,
 		"timeZone"           : "+00:00"
 	},
 	"express": {
