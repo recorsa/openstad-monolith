@@ -2,7 +2,7 @@ var errors = require('../errors');
 
 module.exports = function( app ) {
 	// Authorisation errors.
-	app.use(function( err, req, res, next ) {
+	app.use(function handleAppError( err, req, res, next ) {
 		if( err instanceof errors.UnauthorizedError ) {
 			res.status(401).send(err.message || 'Unauthorized');
 		} else if( err instanceof errors.NotFoundError ) {
