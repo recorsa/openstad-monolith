@@ -73,17 +73,31 @@ module.exports = function( sequelize, DataTypes ) {
 		},
 		zipCode: {
 			type         : DataTypes.STRING(10),
-			allowNull    : true
+			allowNull    : true,
+			validate     : {
+				is  : /^\d{4} ?\w{2}$/,
+				msg : 'Not a valid zipcode'
+			},
+			set          : function( zipCode ) {
+				zipCode = zipCode != null ?
+				          String(zipCode).trim() :
+				          null;
+				this.setDataValue('zipCode', zipCode);
+			}
 		}
 	}, {
 		validate: {
 			loginCredentials: function() {
-				if( (this.userName === null) !== (this.passwordHash === null) ) {
+				if( this.role === 'unknown' || this.role === 'anonymous' ) {
+					if( this.userName || this.passwordHash ) {
+						throw new Error('Anonymous profiles cannot have login credentials');
+					}
+				} else if(!this.userName || !this.passwordHash ) {
 					throw new Error('Both userName and password must be set');
 				}
 			},
-			validUserRole: function() {
-				if( this.id != 1 && this.role == 'unknown' ) {
+			userRole: function() {
+				if( this.id !== 1 && this.role === 'unknown' ) {
 					throw new Error('User role \'unknown\' is not allowed');
 				}
 			}
@@ -117,6 +131,9 @@ module.exports = function( sequelize, DataTypes ) {
 					log('authentication for user %d %s', this.id, result ? 'succeeded' : 'failed');
 					return result;
 				}
+			},
+			isLoggedIn: function() {
+				return this.id && this.id !== 1;
 			}
 		}
 	});
