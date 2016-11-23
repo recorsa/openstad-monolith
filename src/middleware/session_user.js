@@ -19,6 +19,8 @@ module.exports = function( app ) {
 			getUserInstance(req.session.userId || 1)
 			.then(function( user ) {
 				req.user = user;
+				// Pass user entity to template view.
+				res.locals.user = user;
 				next();
 			})
 			.catch(function( error ) {
