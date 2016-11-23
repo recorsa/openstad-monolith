@@ -1,5 +1,7 @@
+var RolePlay = require('./RolePlay');
+
 module.exports = {
-	UnauthorizedError : defineError(),
+	UnauthorizedError : RolePlay.UnauthorizedError,
 	NotFoundError     : defineError('NotFoundError')
 };
 
