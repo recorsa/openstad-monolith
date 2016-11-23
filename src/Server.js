@@ -6,7 +6,6 @@ var _              = require('lodash')
   , bodyParser     = require('body-parser')
   , parseUrl       = require('url').parse
   , session        = require('express-session')
-  , auth           = require('authorized')
   , nunjucks       = require('nunjucks');
 var util           = require('./util');
 var log            = require('debug')('app:http');
@@ -50,7 +49,7 @@ module.exports  = {
 		});
 		
 		// Initialize auth roles/entities
-		require('./auth')(auth);
+		// require('./auth')(auth);
 		// Register middleware/routes, and start listening.
 		require('./middleware/session_user')(this.app);
 		require('./routes')(this.app);

@@ -1,7 +1,5 @@
-var auth = require('authorized');
-
 module.exports = {
-	UnauthorizedError : auth.UnauthorizedError,
+	UnauthorizedError : defineError(),
 	NotFoundError     : defineError()
 };
 
