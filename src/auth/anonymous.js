@@ -1,7 +1,5 @@
 module.exports = function( role ) {
 	role.action({
-		'idea:vote': {
-			allow: true
-		}
+		'idea:vote': true
 	});
 };
