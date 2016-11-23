@@ -1,1 +1,13 @@
+{% extends './base.njk' %}
+
+{% block content %}
+<div>
+	<h1>Welkom</h1>
 	
+	{% if user.isLoggedIn() %}
+	U bent ingelogd.
+	{% else %}
+	U bent niet ingelogd.
+	{% endif %}
+</div>
+{% endblock %}
