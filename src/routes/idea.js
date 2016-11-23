@@ -1,5 +1,6 @@
 var express = require('express');
 var db      = require('../db');
+var errors  = require('../errors');
 
 module.exports = function( app ) {
 	var router = express.Router();

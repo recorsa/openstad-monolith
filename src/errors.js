@@ -1,19 +1,19 @@
 module.exports = {
 	UnauthorizedError : defineError(),
-	NotFoundError     : defineError()
+	NotFoundError     : defineError('NotFoundError')
 };
 
-function defineError( parentError ) {
-	var parent = parentError || Error;
-	
+function defineError( name ) {
 	function err( data ) {
-		var message = typeof data == 'string' ? data :
-		              typeof data == 'object' ? data.message :
-		                                        null;
-		parent.call(this, message);
-		this.data = typeof data == 'object' ? data : {};
-	}
-	err.prototype = Object.create(parent);
+		Error.captureStackTrace(this, this.constructor)
+		var message  = typeof data == 'string' ? data :
+		               typeof data == 'object' ? data.message :
+		                                         '';
+		this.name    = name;
+		this.message = message;
+		this.data    = typeof data == 'object' ? data : {};
+	};
+	err.prototype = Object.create(Error.prototype);
 	err.prototype.constructor = err;
 	return err;
 }
