@@ -6,7 +6,7 @@ var auth        = require('../auth');
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.get('/ideas', auth.can('ideas:view'), function( req, res, next ) {
+	app.get('/ideas', auth.can('ideas:list'), function( req, res, next ) {
 		db.Idea.getRunningIdeas()
 		.then(function( ideas ) {
 			res.format({
@@ -27,8 +27,8 @@ module.exports = function( app ) {
 	app.use('/idea', router);
 	
 	router.route('/:id(\\d+)')
-	.all(fetchIdea)
 	.all(auth.can('idea:view'))
+	.all(fetchIdea)
 	.get(function( req, res ) {
 		var idea = req.resource;
 		res.format({
