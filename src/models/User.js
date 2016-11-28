@@ -76,8 +76,10 @@ module.exports = function( sequelize, DataTypes ) {
 			type         : DataTypes.STRING(10),
 			allowNull    : true,
 			validate     : {
-				is  : /^\d{4} ?\w{2}$/,
-				msg : 'Not a valid zipcode'
+				is: {
+					args : [/^\d{4} ?\w{2}$/],
+					msg  : 'Not a valid zipcode'
+				}
 			},
 			set          : function( zipCode ) {
 				zipCode = zipCode != null ?
