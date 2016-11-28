@@ -134,7 +134,7 @@ module.exports = function( sequelize, DataTypes ) {
 				}
 			},
 			isLoggedIn: function() {
-				return this.id && this.id !== 1;
+				return this.id && this.id !== 1 && this.role != 'anonymous';
 			}
 		}
 	});
