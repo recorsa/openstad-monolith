@@ -21,6 +21,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "fractal": "git+https://github.com/tjoekbezoer/Fractal.git",
+    "http-errors": "^1.5.1",
     "jsdom": "^9.8.3",
     "lodash": "^4.16.4",
     "moment": "^2.16.0",

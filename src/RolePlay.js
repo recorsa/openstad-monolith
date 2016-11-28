@@ -1,7 +1,8 @@
-var ary      = require('lodash/ary');
-var defaults = require('lodash/defaults');
-var extend   = require('lodash/extend');
-var forOwn   = require('lodash/forOwn');
+var ary         = require('lodash/ary');
+var defaults    = require('lodash/defaults');
+var extend      = require('lodash/extend');
+var forOwn      = require('lodash/forOwn');
+var createError = require('http-errors');
 
 // options = {
 // 	defaultRoleName: string
@@ -15,16 +16,6 @@ var RolePlay = module.exports = function RolePlay( options ) {
 };
 RolePlay.Role = Role;
 RolePlay.Play = Play;
-RolePlay.UnauthorizedError = (function() {
-	var err = function UnauthorizedError( msg ) {
-		Error.captureStackTrace(this, this.constructor)
-		this.name    = 'UnauthorizedError';
-		this.message = msg;
-	};
-	err.prototype = Object.create(Error.prototype);
-	err.prototype.constructor = err;
-	return err;
-})();
 
 extend(RolePlay.prototype, {
 	defaultRole : undefined,
@@ -34,7 +25,7 @@ extend(RolePlay.prototype, {
 		var self = this;
 		return function( req, res, next ) {
 			if( !req.user ) {
-				return next(new self.constructor.UnauthorizedError('Roleplay: No user'));
+				return next(createError(403, 'Roleplay: No user'));
 			}
 			
 			var user = self.user(req.user);
@@ -53,7 +44,7 @@ extend(RolePlay.prototype, {
 				if( allowed ) {
 					next();
 				} else {
-					next(new self.constructor.UnauthorizedError('Not authorized'));
+					next(createError(403, 'Not authorized'));
 				}
 			})
 			.catch(next);

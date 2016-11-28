@@ -1,7 +1,7 @@
-var express = require('express');
-var db      = require('../db');
-var auth    = require('../auth');
-var errors  = require('../errors');
+var express     = require('express')
+  , createError = require('http-errors')
+var db          = require('../db');
+var auth        = require('../auth');
 
 module.exports = function( app ) {
 	// Idea index page
@@ -48,7 +48,7 @@ function fetchIdea( req, res, next ) {
 	
 	db.Idea.findById(ideaId).then(function( idea ) {
 		if( !idea ) {
-			next(new errors.NotFoundError());
+			next(createError(404, 'Idea not found'));
 		} else {
 			req.resource = idea;
 			next();

@@ -1,7 +1,8 @@
-var config = require('config')
-  , bcrypt = require('bcrypt');
-var log    = require('debug')('app:user');
-var errors = require('../errors');
+var _           = require('lodash')
+  , config      = require('config')
+  , bcrypt      = require('bcrypt')
+  , createError = require('http-errors')
+var log         = require('debug')('app:user');
 
 module.exports = function( sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
@@ -113,7 +114,7 @@ module.exports = function( sequelize, DataTypes ) {
 				return User.findOne({where: {userName: userName}}).then(function( user ) {
 					if( !user || !user.authenticate(password) ) {
 						// TODO: AuthenticationError
-						throw new errors.UnauthorizedError('Login failed');
+						throw createError(403, 'Login failed');
 					} else {
 						return user;
 					}
