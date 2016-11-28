@@ -40,6 +40,19 @@ module.exports = function( app ) {
 			}
 		});
 	});
+	
+	router.route('/new')
+	.all(auth.can('idea:create'))
+	.get(function( req, res, next ) {
+		res.format({
+			html: function() {
+				res.render('ideas/new', {csrfToken: req.csrfToken()});
+			},
+			json: function() {
+				next(createError(406));
+			}
+		})
+	});
 };
 
 function fetchIdea( req, res, next ) {
