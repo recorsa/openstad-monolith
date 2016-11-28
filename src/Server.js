@@ -6,6 +6,7 @@ var _              = require('lodash')
   , bodyParser     = require('body-parser')
   , parseUrl       = require('url').parse
   , session        = require('express-session')
+  , csurf          = require('csurf')
   , nunjucks       = require('nunjucks');
 var util           = require('./util');
 var log            = require('debug')('app:http');
@@ -43,17 +44,19 @@ module.exports  = {
 				maxAge   : 31536000000 // 1 year
 			}
 		}));
+		// `csurf` makes non-GET requests require a CSRF token. Use `req.csrfToken()`
+		// in form-rendering GET request in order to send the correct token.
+		this.app.use(csurf());
 		
 		nunjucks.configure('html', {
 			watch   : config.get('debug'),
 			express : this.app
 		});
 		
-		// Initialize auth roles/entities
-		// require('./auth')(auth);
 		// Register middleware/routes, and start listening.
 		require('./middleware/session_user')(this.app);
 		require('./routes')(this.app);
+		// Error handlers always last.
 		require('./middleware/error_handling')(this.app);
 		
 		this.app.listen(port, function() {

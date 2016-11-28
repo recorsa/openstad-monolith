@@ -2,17 +2,9 @@ var db = require('../db');
 
 module.exports = function( app ) {
 	app.get('/login', function loginForm( req, res ) {
-		if( req.session.userId ) {
-			res.send('<h1>Already logged in</h1>');
-		} else {
-			res.send(`
-				<form method="post">
-					Username: <input name="userName"><br>
-					Password: <input name="password" type="password"><br>
-					<input type="submit" value="Login">
-				</form>
-			`);
-		}
+		res.render('users/login', {
+			csrfToken: req.csrfToken()
+		});
 	});
 	app.post('/login', function tryLogin( req, res, next ) {
 		var userName = req.body.userName
@@ -21,7 +13,14 @@ module.exports = function( app ) {
 		db.User.findByCredentials(userName, password).then(function( user ) {
 			req.session.userId = user.id;
 			req.user           = user;
-			res.send('<h1>Login succeeded</h1>');
+			res.format({
+				html: function() {
+					res.redirect('/');
+				},
+				json: function() {
+					res.json(true);
+				}
+			});
 		}).catch(function( error ) {
 			next(error);
 		});
@@ -29,6 +28,13 @@ module.exports = function( app ) {
 	
 	app.get('/logout', function logout( req, res ) {
 		req.session.destroy();
-		res.send('<h1>Logged out</h1>');
+		res.format({
+			html: function() {
+				res.redirect('/');
+			},
+			json: function() {
+				res.json(true);
+			}
+		});
 	});
 }
