@@ -16,6 +16,24 @@
 		"port": 8082
 	},
 	
+	"mail": {
+		"from": "from@localhost",
+		"transport": {
+			"pool"       : false,
+			"direct"     : false,
+			
+			"port"       : 587,
+			"host"       : "smtp.host.name",
+			"requireTLS" : true,
+			
+			"name"       : "host.name",
+			"auth"       : {
+				"user": "user",
+				"pass": "pass"
+			}
+		}
+	},
+	
 	"security": {
 		"passwordHashing": {
 			"currentMethod": "bcrypt",
