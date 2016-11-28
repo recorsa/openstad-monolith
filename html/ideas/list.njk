@@ -1,0 +1,19 @@
+{% extends '../base.njk' %}
+
+{% set pageTitle = 'Ideeën' %}
+
+{% block content %}
+<div>
+	<h1>Ideeën</h1>
+	
+	{% for idea in ideas %}
+		<a href="/idea/{{idea.id}}">{{idea.title}}</a><br>
+	{% else %}
+		Nog geen ideeën!
+	{% endfor %}
+	
+	<hr>
+	
+	<a href="/idea/new">Nieuw idee</a>
+</div>
+{% endblock %}
