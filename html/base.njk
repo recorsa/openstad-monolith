@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>{{pageTitle or 'Gemeente Amsterdam'}}</title>
+	<title>{{pageTitle or 'Home'}} - Gemeente Amsterdam</title>
 	
 	{% block css %}
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	{% endblock %}
 </head>
 <body>
+	<ul id="menu">
+		<li><a href="/">Home</a></li>
+		<li><a href="/ideas">Ideeën</a></li>
+		<li><a href="/about">Over AB</a></li>
+		<li>
+			<a href="/{{'logout' if user.isLoggedIn() else 'login'}}">
+			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}
+			</a>
+		</li>
+	</ul>
+	
 	{% block content %}
 	Standaard pagina.
 	{% endblock %}
