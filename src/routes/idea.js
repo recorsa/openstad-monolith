@@ -26,12 +26,14 @@ module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/idea', router);
 	
-	router.all('/:ideaId', fetchIdea);
-	router.get('/:ideaId', auth.can('idea:view'), function( req, res ) {
+	router.route('/:id(\\d+)')
+	.all(fetchIdea)
+	.all(auth.can('idea:view'))
+	.get(function( req, res ) {
 		var idea = req.resource;
 		res.format({
 			html: function() {
-				res.render('ideas/idea.njk', idea.get());
+				res.render('ideas/idea', idea.get());
 			},
 			json: function() {
 				res.json(idea.get());
@@ -41,7 +43,7 @@ module.exports = function( app ) {
 };
 
 function fetchIdea( req, res, next ) {
-	var ideaId = req.params.ideaId;
+	var ideaId = req.params.id;
 	if( !ideaId ) {
 		return next();
 	}
