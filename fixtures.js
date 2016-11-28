@@ -11,7 +11,8 @@ module.exports = co.wrap(function*( db ) {
 	log('generating users and ideas...');
 	yield users.map(function( userData ) {
 		return db.User.create(userData, {
-			include: [db.Idea]
+			include  : [db.Idea],
+			validate : userData.id != 4 // User 4 is anonymous and has credentials
 		});
 	});
 	log('generating votes...');
@@ -63,8 +64,9 @@ var users = [
 			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.'
 		}
 	]},
-	{id : 4  , role: 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'male'   , email : 'crice1@nsw.gov.au'          , zipCode : '1051 RL'} ,
-	{id : 5  , role: 'member'    , userName : 'andrea'   , password : 'fuxQRmDzGC'   , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}      ,
+	// User 4 validation is skipped, see above.
+	{id : 4  , role: 'anonymous' , userName : 'anon'     , password : 'anon'         , firstName : null        , lastName : null        , gender : 'male'   , email : 'crice1@nsw.gov.au'          , zipCode : '1051 RL'} ,
+	{id : 5  , role: 'member'    , userName : 'member'   , password : 'member'       , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}      ,
 	{id : 6  , role: 'member'    , userName : 'david'    , password : 'vPb2ycQFKt8'  , firstName : 'Justin'    , lastName : 'Cole'      , gender : 'male'   , email : 'jcole3@skype.com'           , zipCode : null}      ,
 	{id : 7  , role: 'member'    , userName : 'thomas'   , password : 'ZrY7tsEhlv'   , firstName : 'Sean'      , lastName : 'Scott'     , gender : 'male'   , email : null                         , zipCode : null}      ,
 	{id : 8  , role: 'member'    , userName : 'beverly'  , password : 'ra4UILqrctwq' , firstName : 'Laura'     , lastName : 'Kim'       , gender : 'female' , email : null                         , zipCode : null}      ,
