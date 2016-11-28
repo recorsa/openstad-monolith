@@ -65,6 +65,18 @@ module.exports = function( sequelize, DataTypes ) {
 				Idea.belongsTo(models.Meeting);
 				Idea.belongsTo(models.User);
 				Idea.hasMany(models.Vote);
+			},
+			
+			getRunningIdeas: function() {
+				return Idea.scope('running').findAll();
+			}
+		},
+		
+		scopes: {
+			running: {
+				where: {
+					status: 'running'
+				}
 			}
 		}
 	});
