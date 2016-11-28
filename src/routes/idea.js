@@ -6,8 +6,19 @@ var errors  = require('../errors');
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.get('/ideas', auth.can('ideas:view'), function( req, res ) {
-		res.send('List ideas');
+	app.get('/ideas', auth.can('ideas:view'), function( req, res, next ) {
+		db.Idea.getRunningIdeas()
+		.then(function( ideas ) {
+			res.format({
+				html: function() {
+					res.render('ideas/list', {ideas: ideas});
+				},
+				json: function() {
+					res.json({ideas: ideas});
+				}
+			});
+		})
+		.catch(next);
 	});
 	
 	// Single idea
