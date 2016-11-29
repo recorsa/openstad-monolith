@@ -53,10 +53,13 @@ module.exports  = {
 			express : this.app
 		});
 		
-		// Register middleware/routes, and start listening.
+		// Register statics first, because they don't require middlerware...
+		this.app.use('/css', express.static('css'));
+		// ... then the middleware...
 		require('./middleware/session_user')(this.app);
+		// ... routes...
 		require('./routes')(this.app);
-		// Error handlers always last.
+		// ... and error handlers always last.
 		require('./middleware/error_handling')(this.app);
 		
 		this.app.listen(port, function() {
