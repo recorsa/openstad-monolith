@@ -1,5 +1,7 @@
 module.exports = function( role ) {
 	role.action({
+		'account:create': false,
+		
 		'idea:view': true,
 		'idea:create': true,
 		'idea:edit': {

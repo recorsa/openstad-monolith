@@ -17,6 +17,9 @@
 			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}
 			</a>
 		</li>
+		{% if not user.isLoggedIn() %}
+		<li><a href="/account/new">Registreren</a></li>
+		{% endif %}
 	</ul>
 	
 	<div id="content">

@@ -1,16 +1,17 @@
 var express = require('express');
 var db      = require('../db');
+var auth    = require('../auth');
 
 module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', router);
 	
-	router.get('/login', function loginForm( req, res ) {
+	router.get('/login', function( req, res ) {
 		res.out('account/login', true, {
 			csrfToken: req.csrfToken()
 		});
 	});
-	router.post('/login', function tryLogin( req, res, next ) {
+	router.post('/login', function( req, res, next ) {
 		var userName = req.body.userName
 		  , password = req.body.password;
 		
@@ -30,7 +31,7 @@ module.exports = function( app ) {
 		});
 	});
 	
-	router.get('/logout', function logout( req, res ) {
+	router.get('/logout', function( req, res ) {
 		req.session.destroy();
 		res.format({
 			html: function() {
@@ -41,4 +42,12 @@ module.exports = function( app ) {
 			}
 		});
 	});
+	
+	router.route('/new')
+	.all(auth.can('account:create'))
+	.get(function( req, res, next ) {
+		res.out('account/new', false, {
+			csrfToken: req.csrfToken()
+		});
+	})
 }

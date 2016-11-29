@@ -2,10 +2,10 @@ body {
   margin: 0;
 }
 ul#menu {
-  margin: 0px auto;
+  margin: 10px auto;
   overflow: hidden;
   padding: 0;
-  width: 400px;
+  width: 500px;
 }
 ul#menu li {
   float: left;
