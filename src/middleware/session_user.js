@@ -1,5 +1,7 @@
 var log       = require('debug')('app:http:session-user');
 var db        = require('../db');
+
+// TODO: Cache cleanup.
 var userCache = {};
 
 db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) {
@@ -23,9 +25,7 @@ module.exports = function( app ) {
 				res.locals.user = user;
 				next();
 			})
-			.catch(function( error ) {
-				next(error);
-			});
+			.catch(next);
 		}
 	});
 };
@@ -41,7 +41,6 @@ function getUserInstance( userId ) {
 				throw new Error('User not found');
 			}
 			log('found user {"id":%d,"role":"%s"} in database', user.id, user.role);
-			// TODO: Cache cleanup.
 			return userCache[userId] = user;
 		});
 	}
