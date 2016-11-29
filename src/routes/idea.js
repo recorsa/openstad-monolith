@@ -9,13 +9,8 @@ module.exports = function( app ) {
 	app.get('/ideas', auth.can('ideas:list'), function( req, res, next ) {
 		db.Idea.getRunningIdeas()
 		.then(function( ideas ) {
-			res.format({
-				html: function() {
-					res.render('ideas/list', {ideas: ideas});
-				},
-				json: function() {
-					res.json({ideas: ideas});
-				}
+			res.out('ideas/list', true, {
+				ideas: ideas
 			});
 		})
 		.catch(next);
@@ -31,27 +26,15 @@ module.exports = function( app ) {
 	.all(fetchIdea)
 	.get(function( req, res ) {
 		var idea = req.resource;
-		res.format({
-			html: function() {
-				res.render('ideas/idea', idea.get());
-			},
-			json: function() {
-				res.json(idea.get());
-			}
-		});
+		res.out('ideas/idea', true, idea.get());
 	});
 	
 	router.route('/new')
 	.all(auth.can('idea:create'))
 	.get(function( req, res, next ) {
-		res.format({
-			html: function() {
-				res.render('ideas/new', {csrfToken: req.csrfToken()});
-			},
-			json: function() {
-				next(createError(406));
-			}
-		})
+		res.out('ideas/new', false, {
+			csrfToken: req.csrfToken()
+		});
 	});
 };
 

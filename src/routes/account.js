@@ -2,7 +2,7 @@ var db = require('../db');
 
 module.exports = function( app ) {
 	app.get('/login', function loginForm( req, res ) {
-		res.render('users/login', {
+		res.out('account/login', true, {
 			csrfToken: req.csrfToken()
 		});
 	});

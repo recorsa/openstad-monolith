@@ -57,6 +57,7 @@ module.exports  = {
 		this.app.use('/css', express.static('css'));
 		// ... then the middleware...
 		require('./middleware/session_user')(this.app);
+		require('./middleware/out')(this.app);
 		// ... routes...
 		require('./routes')(this.app);
 		// ... and error handlers always last.
