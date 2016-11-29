@@ -3,17 +3,17 @@
 {% set pageTitle = 'Ideeën' %}
 
 {% block content %}
-<div>
-	<h1>Ideeën</h1>
-	
-	{% for idea in ideas %}
-		<a href="/idea/{{idea.id}}">{{idea.title}}</a><br>
-	{% else %}
-		Nog geen ideeën!
-	{% endfor %}
-	
-	<hr>
-	
-	<a href="/idea/new">Nieuw idee</a>
-</div>
+<h1>Ideeën</h1>
+
+<ul>
+{% for idea in ideas %}
+	<li><a href="/idea/{{idea.id}}">{{idea.title}}</a></li>
+{% else %}
+	Nog geen ideeën!
+{% endfor %}
+</ul>
+
+<hr>
+
+<a href="/idea/new">Nieuw idee</a>
 {% endblock %}

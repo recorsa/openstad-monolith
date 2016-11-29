@@ -3,19 +3,17 @@
 {% set pageTitle = 'Nieuw idee' %}
 
 {% block content %}
-<div>
-	<h1>Nieuw idee</h1>
+<h1>Nieuw idee</h1>
+
+<form method="post">
+	Titel: <input type="text" name="title"><br>
 	
-	<form>
-		Titel: <input type="text" name="title"><br>
-		
-		Samenvatting:<br>
-		<textarea name="summary"></textarea><br>
-		
-		Beschrijving:<br>
-		<textarea name="description"></textarea><br>
-		
-		<input type="submit" name="Opslaan">
-	</form>
-</div>
+	Samenvatting:<br>
+	<textarea name="summary"></textarea><br>
+	
+	Beschrijving:<br>
+	<textarea name="description"></textarea><br>
+	
+	<input type="submit" name="Opslaan">
+</form>
 {% endblock %}

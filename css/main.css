@@ -13,3 +13,7 @@ ul#menu li {
   text-align: center;
   width: 100px;
 }
+#content {
+  margin: auto;
+  width: 800px;
+}

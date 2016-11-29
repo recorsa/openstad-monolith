@@ -1,0 +1,17 @@
+{% extends '../base.njk' %}
+{% set pageTitle = 'Login' %}
+
+{% block content %}
+<h1>Login</h1>
+
+{% if user.isLoggedIn() %}
+	U bent al ingelogd.
+{% else %}
+	<form method="post">
+		Username: <input name="userName" tabindex="1"><br>
+		Password: <input name="password" tabindex="2" type="password"><br>
+		<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		<input type="submit" value="Login">
+	</form>
+{% endif %}
+{% endblock %}
