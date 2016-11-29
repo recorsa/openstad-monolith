@@ -1,12 +1,16 @@
-var db = require('../db');
+var express = require('express');
+var db      = require('../db');
 
 module.exports = function( app ) {
-	app.get('/login', function loginForm( req, res ) {
+	var router = express.Router();
+	app.use('/account', router);
+	
+	router.get('/login', function loginForm( req, res ) {
 		res.out('account/login', true, {
 			csrfToken: req.csrfToken()
 		});
 	});
-	app.post('/login', function tryLogin( req, res, next ) {
+	router.post('/login', function tryLogin( req, res, next ) {
 		var userName = req.body.userName
 		  , password = req.body.password;
 		
@@ -26,7 +30,7 @@ module.exports = function( app ) {
 		});
 	});
 	
-	app.get('/logout', function logout( req, res ) {
+	router.get('/logout', function logout( req, res ) {
 		req.session.destroy();
 		res.format({
 			html: function() {
