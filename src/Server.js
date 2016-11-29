@@ -49,8 +49,9 @@ module.exports  = {
 		this.app.use(csurf());
 		
 		nunjucks.configure('html', {
-			watch   : config.get('debug'),
-			express : this.app
+			autoescape : true,
+			watch      : false,
+			express    : this.app
 		});
 		
 		// Register statics first, because they don't require middlerware...
