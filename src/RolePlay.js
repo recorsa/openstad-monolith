@@ -2,6 +2,7 @@ var ary         = require('lodash/ary');
 var defaults    = require('lodash/defaults');
 var extend      = require('lodash/extend');
 var forOwn      = require('lodash/forOwn');
+var zipObject   = require('lodash/zipObject');
 var createError = require('http-errors');
 
 // options = {
@@ -21,27 +22,46 @@ extend(RolePlay.prototype, {
 	defaultRole : undefined,
 	roles       : undefined,
 	
-	can: function( actionName ) {
-		var self = this;
+	// Express middleware
+	// ------------------
+	// For permissions that require a resource, make sure `req.resource` is set
+	// before this middleware is called.
+	// 
+	// Adds `res.locals.can` as `function(actionName)` to check for the passed
+	// permissions in template views.
+	can: function( /* actionName [, actionName...] */ ) {
+		var self        = this;
+		var actionNames = Array.prototype.slice.call(arguments);
+		
 		return function( req, res, next ) {
 			if( !req.user ) {
-				return next(createError(403, 'Roleplay: No user'));
+				return next(createError(403, 'No authenticated user found'));
 			}
 			
-			var user = self.user(req.user);
-			var can  = user.can(actionName);
-			var isAllowed;
-			if( can.resource ) {
-				if( !req.resource ) {
-					return next(new Error('Action needs resource: '+actionName));
+			var user      = self.user(req.user);
+			var resource  = req.resource;
+			var isAllowed = actionNames.map(function( actionName ) {
+				if( !actionName ) {
+					throw new Error('Action name required');
 				}
-				isAllowed = can.resource(req.resource);
-			} else {
-				isAllowed = can;
-			}
+				return self._isAllowed(user, actionName, resource);
+			});
 			
-			isAllowed.then(function( allowed ) {
-				if( allowed ) {
+			Promise.all(isAllowed).then(function( allowed ) {
+				if( allowed[0] ) {
+					// Add `can(actionName)` function to locals, so the passed
+					// permission can be checked in the template as well.
+					var locals  = res.locals;
+					var actions = zipObject(actionNames, allowed);
+					if( locals.can ) {
+						extend(locals.can.actions, actions);
+					} else {
+						locals.can = function can( actionName ) {
+							return can.actions[actionName];
+						};
+						locals.can.actions = actions;
+					}
+					
 					next();
 				} else {
 					next(createError(403, 'Not authorized'));
@@ -90,6 +110,19 @@ extend(RolePlay.prototype, {
 			role = role.inherits;
 		}
 		return result;
+	},
+	
+	// Used by `can` to check permissions.
+	_isAllowed: function( user, actionName, resource ) {
+		var can = user.can(actionName);
+		if( can.resource ) {
+			if( !resource ) {
+				throw new Error('Action needs resource: '+actionName);
+			}
+			return can.resource(resource);
+		} else {
+			return can;
+		}
 	}
 });
 
@@ -136,7 +169,7 @@ extend(Role.prototype, {
 		}
 		
 		var resource, allow;
-		if( typeof def == 'object' ) {
+		if( def instanceof Object ) {
 			resource = def.resource;
 			allow    = def.allow;
 		} else {
@@ -185,7 +218,6 @@ extend(Play.prototype, {
 			return {
 				resource: function( mixed ) {
 					return Promise.resolve(action.resource(mixed)).then(function( resource ) {
-						self.resource = resource;
 						return action.allow(self.user, resource, actionName);
 					});
 				}
