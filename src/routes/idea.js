@@ -22,12 +22,13 @@ module.exports = function( app ) {
 	app.use('/idea', router);
 	
 	router.route('/:id(\\d+)')
-	.all(auth.can('idea:view'))
 	.all(fetchIdea)
+	.all(auth.can('idea:view', 'idea:edit', 'idea:delete'))
 	.get(function( req, res ) {
 		var idea = req.resource;
 		res.out('ideas/idea', true, {
-			idea: idea.get()
+			idea      : idea.get(),
+			csrfToken : req.csrfToken()
 		});
 	});
 	
@@ -63,6 +64,19 @@ module.exports = function( app ) {
 		req.user.updateIdea(req.resource, req.body)
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
+		})
+		.catch(next);
+	});
+	
+	// Delete idea
+	// -----------
+	router.route('/:id(\\d+)/delete')
+	.all(fetchIdea)
+	.all(auth.can('idea:delete'))
+	.delete(function( req, res, next ) {
+		req.resource.destroy()
+		.then(function() {
+			res.success('/ideas', true);
 		})
 		.catch(next);
 	});
