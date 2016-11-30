@@ -1,4 +1,4 @@
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var Vote = sequelize.define('vote', {
 		ideaId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,

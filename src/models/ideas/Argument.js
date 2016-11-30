@@ -1,4 +1,4 @@
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
 		ideaId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,

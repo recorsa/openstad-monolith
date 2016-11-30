@@ -1,4 +1,4 @@
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
 		date: DataTypes.DATE
 	}, {

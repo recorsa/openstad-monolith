@@ -25,5 +25,6 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 });
 
 // Define models.
-var models = require('./models')(sequelize, Sequelize.DataTypes);
-module.exports = _.extend({}, models, {sequelize: sequelize});
+var db     = {sequelize: sequelize};
+var models = require('./models')(db, sequelize, Sequelize.DataTypes);
+module.exports = _.extend(db, models);

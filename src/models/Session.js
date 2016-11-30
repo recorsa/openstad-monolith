@@ -1,4 +1,4 @@
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	return sequelize.define('session', {
 		sid: {
 			type       : DataTypes.STRING(32),

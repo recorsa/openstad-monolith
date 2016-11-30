@@ -1,7 +1,7 @@
 var co     = require('co')
   , moment = require('moment');
 
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,

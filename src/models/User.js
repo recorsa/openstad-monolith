@@ -4,7 +4,7 @@ var _           = require('lodash')
   , createError = require('http-errors')
 var log         = require('debug')('app:user');
 
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
 		role: {
 			type         : DataTypes.STRING(32),

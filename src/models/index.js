@@ -1,9 +1,9 @@
 var _    = require('lodash');
 var util = require('../util');
 
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var models = util.invokeDir('./', function( modelDef ) {
-		return modelDef(sequelize, DataTypes);
+		return modelDef(db, sequelize, DataTypes);
 	}, this);
 	
 	// Invoke associations on each of the models.

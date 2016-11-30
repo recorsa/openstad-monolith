@@ -1,4 +1,4 @@
-module.exports = function( sequelize, DataTypes ) {
+module.exports = function( db, sequelize, DataTypes ) {
 	var ThumbsUp = sequelize.define('thumbs_up', {
 		ideaId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER
