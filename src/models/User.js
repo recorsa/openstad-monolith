@@ -148,6 +148,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return db.Idea.create(data, {
 					fields: ['userId', 'title', 'summary', 'description']
 				});
+			},
+			updateIdea: function( idea, data ) {
+				return idea.update(data, {
+					fields : ['title', 'summary', 'description']
+				});
 			}
 		}
 	});

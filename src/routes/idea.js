@@ -16,8 +16,8 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
-	// Single idea
-	// -----------
+	// View idea
+	// ---------
 	var router = express.Router();
 	app.use('/idea', router);
 	
@@ -31,6 +31,8 @@ module.exports = function( app ) {
 		});
 	});
 	
+	// Create idea
+	// -----------
 	router.route('/new')
 	.all(auth.can('idea:create'))
 	.get(function( req, res ) {
@@ -44,6 +46,25 @@ module.exports = function( app ) {
 			res.success('/idea/'+idea.id, {idea: idea});
 		})
 		.catch(next)
+	});
+	
+	// Edit idea
+	// ---------
+	router.route('/:id(\\d+)/edit')
+	.all(fetchIdea)
+	.all(auth.can('idea:edit'))
+	.get(function( req, res, next ) {
+		res.out('ideas/form', false, {
+			idea      : req.resource,
+			csrfToken : req.csrfToken()
+		});
+	})
+	.put(function( req, res, next ) {
+		req.user.updateIdea(req.resource, req.body)
+		.then(function( idea ) {
+			res.success('/idea/'+idea.id, {idea: idea});
+		})
+		.catch(next);
 	});
 };
 
