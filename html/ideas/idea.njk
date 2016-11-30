@@ -1,9 +1,9 @@
 {% extends '../base.njk' %}
 
-{% set pageTitle = 'Idee: '+title %}
+{% set pageTitle = 'Idee: '+idea.title %}
 
 {% block content %}
-<h1>{{title}}</h1>
+<h1>{{idea.title}}</h1>
 
-{{description}}
+{{idea.description}}
 {% endblock %}

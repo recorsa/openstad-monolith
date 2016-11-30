@@ -26,7 +26,9 @@ module.exports = function( app ) {
 	.all(fetchIdea)
 	.get(function( req, res ) {
 		var idea = req.resource;
-		res.out('ideas/idea', true, idea.get());
+		res.out('ideas/idea', true, {
+			idea: idea.get()
+		});
 	});
 	
 	router.route('/new')
