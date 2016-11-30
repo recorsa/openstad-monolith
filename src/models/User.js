@@ -1,7 +1,8 @@
 var _           = require('lodash')
   , config      = require('config')
   , bcrypt      = require('bcrypt')
-  , createError = require('http-errors')
+  , createError = require('http-errors');
+var pick        = require('lodash/pick');
 var log         = require('debug')('app:user');
 
 module.exports = function( db, sequelize, DataTypes ) {
@@ -143,16 +144,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			createNewIdea: function( data ) {
-				data.userId    = this.id;
-				data.startDate = Date.now();
-				return db.Idea.create(data, {
-					fields: ['userId', 'title', 'summary', 'description']
-				});
+				var filtered = pick(data, ['title', 'summary', 'description']);
+				filtered.userId    = this.id;
+				filtered.startDate = Date.now();
+				return db.Idea.create(filtered);
 			},
 			updateIdea: function( idea, data ) {
-				return idea.update(data, {
-					fields : ['title', 'summary', 'description']
-				});
+				var filtered = pick(data, ['title', 'summary', 'description']);
+				return idea.update(filtered);
 			}
 		}
 	});
