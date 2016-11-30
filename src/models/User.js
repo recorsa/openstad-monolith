@@ -140,6 +140,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			isLoggedIn: function() {
 				return this.id && this.id !== 1 && !this.isAnonymous();
+			},
+			
+			createNewIdea: function( data ) {
+				data.userId    = this.id;
+				data.startDate = Date.now();
+				return db.Idea.create(data, {
+					fields: ['userId', 'title', 'summary', 'description']
+				});
 			}
 		}
 	});

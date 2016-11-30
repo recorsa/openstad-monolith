@@ -3,8 +3,14 @@ var co     = require('co')
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
-		meetingId: DataTypes.INTEGER,
-		userId: DataTypes.INTEGER,
+		meetingId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false
+		},
+		userId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false
+		},
 		startDate: {
 			type         : DataTypes.DATE,
 			allowNull    : false,
@@ -37,8 +43,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}, {
 		hooks: {
 			beforeValidate: co.wrap(function*( idea, options ) {
-				// Automatically determine `endDate`, and the relevant meeting
-				// in which this idea might be discussed.
+				// Automatically determine `endDate`, and `meetingId`.
 				if( idea.changed('startDate') ) {
 					var endDate = moment(idea.startDate).add(2, 'weeks').toDate();
 					var meeting = yield sequelize.models.meeting.findOne({
@@ -69,11 +74,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			getRunningIdeas: function() {
 				return Idea.scope('running').findAll();
-			},
-			
-			createNew: function( data ) {
-				data.startDate = Date.now();
-				return Idea.create(data);
 			}
 		},
 		

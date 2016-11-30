@@ -39,7 +39,7 @@ module.exports = function( app ) {
 		});
 	})
 	.post(function( req, res, next ) {
-		db.Idea.createNew(req.body)
+		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
 		})
