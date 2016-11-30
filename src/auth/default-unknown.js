@@ -1,5 +1,7 @@
 module.exports = function( role ) {
 	role.action({
+		'dev': false,
+		
 		'index:view': true,
 		
 		'account:create': true,
