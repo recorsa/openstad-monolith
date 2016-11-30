@@ -34,7 +34,7 @@ module.exports = function( app ) {
 	router.route('/new')
 	.all(auth.can('idea:create'))
 	.get(function( req, res ) {
-		res.out('ideas/new', false, {
+		res.out('ideas/form', false, {
 			csrfToken: req.csrfToken()
 		});
 	})
