@@ -135,8 +135,11 @@ module.exports = function( sequelize, DataTypes ) {
 					return result;
 				}
 			},
+			isAnonymous: function() {
+				return this.role === 'anonymous';
+			},
 			isLoggedIn: function() {
-				return this.id && this.id !== 1 && this.role != 'anonymous';
+				return this.id && this.id !== 1 && !this.isAnonymous();
 			}
 		}
 	});

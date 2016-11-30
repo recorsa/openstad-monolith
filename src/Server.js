@@ -46,6 +46,9 @@ module.exports  = {
 		}));
 		// `csurf` makes non-GET requests require a CSRF token. Use `req.csrfToken()`
 		// in form-rendering GET request in order to send the correct token.
+		// 
+		// TODO: Always sets a cookie for a user-specific token secret. Rewrite to use
+		//       in-memory store?
 		this.app.use(csurf());
 		
 		nunjucks.configure('html', {
