@@ -55,7 +55,7 @@ var users = [
 			description : 'Al die boomknuffelaars die vast willen houden aan het verleden. Tijd voor een frisse wind! Alle bomen de grond uit, en een hoge muur om alle parken heen, zodat vallende bladeren geen probleem meer zijn!'
 		}
 	]},
-	{id : 3  , role : 'member'   , userName : 'margaret' , password : 'FPGkM9s'      , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
+	{id : 3  , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
 		{
 			id          : 3,
 			startDate   : moment(today).add(6, 'days'),
@@ -66,7 +66,7 @@ var users = [
 	]},
 	// User 4 validation is skipped, see above.
 	{id : 4  , role: 'anonymous' , userName : 'anon'     , password : 'anon'         , firstName : null        , lastName : null        , gender : 'male'   , email : 'crice1@nsw.gov.au'          , zipCode : '1051 RL'} ,
-	{id : 5  , role: 'member'    , userName : 'member'   , password : 'member'       , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}      ,
+	{id : 5  , role: 'member'    , userName : 'jedwards' , password : 'QoPNQ8AddeD'  , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}      ,
 	{id : 6  , role: 'member'    , userName : 'david'    , password : 'vPb2ycQFKt8'  , firstName : 'Justin'    , lastName : 'Cole'      , gender : 'male'   , email : 'jcole3@skype.com'           , zipCode : null}      ,
 	{id : 7  , role: 'member'    , userName : 'thomas'   , password : 'ZrY7tsEhlv'   , firstName : 'Sean'      , lastName : 'Scott'     , gender : 'male'   , email : null                         , zipCode : null}      ,
 	{id : 8  , role: 'member'    , userName : 'beverly'  , password : 'ra4UILqrctwq' , firstName : 'Laura'     , lastName : 'Kim'       , gender : 'female' , email : null                         , zipCode : null}      ,
