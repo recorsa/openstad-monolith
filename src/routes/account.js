@@ -18,14 +18,7 @@ module.exports = function( app ) {
 		db.User.findByCredentials(userName, password).then(function( user ) {
 			req.session.userId = user.id;
 			req.user           = user;
-			res.format({
-				html: function() {
-					res.redirect('/');
-				},
-				json: function() {
-					res.json(true);
-				}
-			});
+			res.success('/', true);
 		}).catch(function( error ) {
 			next(error);
 		});
@@ -33,14 +26,7 @@ module.exports = function( app ) {
 	
 	router.get('/logout', function( req, res ) {
 		req.session.destroy();
-		res.format({
-			html: function() {
-				res.redirect('/');
-			},
-			json: function() {
-				res.json(true);
-			}
-		});
+		res.success('/', true);
 	});
 	
 	router.get('/csrf_token', function( req, res ) {

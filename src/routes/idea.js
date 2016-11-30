@@ -41,14 +41,7 @@ module.exports = function( app ) {
 	.post(function( req, res, next ) {
 		db.Idea.createNew(req.body)
 		.then(function( idea ) {
-			res.format({
-				html: function() {
-					res.redirect('/idea/'+idea.id);
-				},
-				json: function() {
-					res.json({idea: idea});
-				}
-			});
+			res.success('/idea/'+idea.id, {idea: idea});
 		})
 		.catch(next)
 	});
