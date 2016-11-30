@@ -4,7 +4,7 @@ var _              = require('lodash')
   , compression    = require('compression')
   , cors           = require('cors')
   , bodyParser     = require('body-parser')
-  , parseUrl       = require('url').parse
+  , methodOverride = require('method-override')
   , session        = require('express-session')
   , csurf          = require('csurf')
   , nunjucks       = require('nunjucks');
@@ -27,6 +27,21 @@ module.exports  = {
 		// this.app.use(cors());
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({extended: true}));
+		this.app.use(methodOverride(function( req, res ) {
+			var method;
+			if( req.body && req.body instanceof Object && '_method' in req.body ) {
+				method = req.body._method;
+				delete req.body._method;
+			} else {
+				method = req.get('X-HTTP-Method') ||
+				         req.get('X-HTTP-Method-Override') ||
+				         req.get('X-Method-Override');
+			}
+			if( method ) {
+				log('method override: '+method);
+			}
+			return method;
+		}));
 		this.app.use(session({
 			name              : 'amsterdam.sid',
 			secret            : config.get('security.sessions.secret'),
