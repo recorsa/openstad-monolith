@@ -18,8 +18,8 @@ module.exports = function( sequelize, DataTypes ) {
 			allowNull    : true
 		},
 		status: {
-			type         : DataTypes.ENUM('running','accepted','denied','busy','done'),
-			defaultValue : 'running',
+			type         : DataTypes.ENUM('RUNNING','ACCEPTED','DENIED','BUSY','DONE'),
+			defaultValue : 'RUNNING',
 			allowNull    : false
 		},
 		title: {
@@ -69,13 +69,18 @@ module.exports = function( sequelize, DataTypes ) {
 			
 			getRunningIdeas: function() {
 				return Idea.scope('running').findAll();
+			},
+			
+			createNew: function( data ) {
+				data.startDate = Date.now();
+				return Idea.create(data);
 			}
 		},
 		
 		scopes: {
 			running: {
 				where: {
-					status: 'running'
+					status: 'RUNNING'
 				}
 			}
 		}

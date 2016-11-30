@@ -33,10 +33,24 @@ module.exports = function( app ) {
 	
 	router.route('/new')
 	.all(auth.can('idea:create'))
-	.get(function( req, res, next ) {
+	.get(function( req, res ) {
 		res.out('ideas/new', false, {
 			csrfToken: req.csrfToken()
 		});
+	})
+	.post(function( req, res, next ) {
+		db.Idea.createNew(req.body)
+		.then(function( idea ) {
+			res.format({
+				html: function() {
+					res.redirect('/idea/'+idea.id);
+				},
+				json: function() {
+					res.json({idea: idea});
+				}
+			});
+		})
+		.catch(next)
 	});
 };
 
