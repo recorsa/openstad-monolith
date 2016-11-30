@@ -44,15 +44,15 @@ var users = [
 		{
 			id          : 1,
 			startDate   : moment(today).add(1, 'days'),
-			title       : 'Een idee',
-			summary     : 'Ik heb een idee',
-			description : 'Dit is het hele verhaal achter het test idee.'
+			title       : 'Metro naar stadsdeel West',
+			summary     : 'Een nieuwe metrobuis naar het Bos en Lommerplein',
+			description : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!'
 		}, {
 			id          : 2,
 			startDate   : moment(today).add(10, 'days'),
-			title       : 'Nog een idee',
-			summary     : 'Het houdt niet op',
-			description : 'Deze heb ik ook helemaal zelf bedacht.'
+			title       : 'Boomloze wijk',
+			summary     : 'Bomen geven troep en nemen licht weg. Uit de grond ermee!',
+			description : 'Al die boomknuffelaars die vast willen houden aan het verleden. Tijd voor een frisse wind! Alle bomen de grond uit, en een hoge muur om alle parken heen, zodat vallende bladeren geen probleem meer zijn!'
 		}
 	]},
 	{id : 3  , role : 'member'   , userName : 'margaret' , password : 'FPGkM9s'      , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
