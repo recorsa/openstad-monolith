@@ -43,6 +43,17 @@ module.exports = function( app ) {
 		});
 	});
 	
+	router.get('/csrf_token', function( req, res ) {
+		res.format({
+			html: function() {
+				next(createError(406))
+			},
+			json: function() {
+				res.json({token: req.csrfToken()});
+			}
+		})
+	});
+	
 	router.route('/new')
 	.all(auth.can('account:create'))
 	.get(function( req, res, next ) {
