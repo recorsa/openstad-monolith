@@ -6,7 +6,7 @@ var auth        = require('../auth');
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.get('/ideas', auth.can('ideas:list'), function( req, res, next ) {
+	app.get('/ideas', auth.can('ideas:list', 'idea:create'), function( req, res, next ) {
 		db.Idea.getRunningIdeas()
 		.then(function( ideas ) {
 			res.out('ideas/list', true, {

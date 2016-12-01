@@ -15,5 +15,9 @@
 
 <hr>
 
-<a href="/idea/new">Nieuw idee</a>
+{% if can('idea:create') %}
+	<form class="action" action="/idea/new">
+		<input type="submit" value="Nieuw idee">
+	</form>
+{% endif %}
 {% endblock %}

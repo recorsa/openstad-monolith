@@ -1,6 +1,9 @@
 body {
   margin: 0;
 }
+form.action {
+  display: inline;
+}
 ul#menu {
   margin: 10px auto;
   overflow: hidden;

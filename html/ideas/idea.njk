@@ -10,12 +10,15 @@
 <hr>
 
 {% if can('idea:edit') %}
-	<a href="/idea/{{idea.id}}/edit">Bewerk idee</a>
+<form class="action" action="/idea/{{idea.id}}/edit">
+	<input type="submit" value="Bewerk idee">
+</form>
 {% endif %}
 {% if can('idea:delete') %}
-	<form method="POST" action="/idea/{{idea.id}}/delete">
-	<input type="hidden" name="_method" value="DELETE">
-	<input type="hidden" name="_csrf" value="{{csrfToken}}">
-	<input type="submit" value="Verwijder idee">
+	<form class="action" method="POST" action="/idea/{{idea.id}}/delete">
+		<input type="hidden" name="_method" value="DELETE">
+		<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		<input type="submit" value="Verwijder idee">
+	</form>
 {% endif %}
 {% endblock %}
