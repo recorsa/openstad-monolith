@@ -36,6 +36,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : false
 		},
+		// Vote counts set in the default scope.
+		no: {
+			type         : DataTypes.VIRTUAL,
+			defaultValue : 0
+		},
+		yes: {
+			type         : DataTypes.VIRTUAL,
+			defaultValue : 0
+		},
+		abstain: {
+			type         : DataTypes.VIRTUAL,
+			defaultValue : 0
+		}
 	}, {
 		hooks: {
 			beforeValidate: co.wrap(function*( idea, options ) {
@@ -62,6 +75,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		classMethods: {
+			scopes: scopes,
+			
 			associate: function( models ) {
 				this.belongsTo(models.Meeting);
 				this.belongsTo(models.User);
@@ -72,15 +87,26 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.scope('defaultScope', 'running').findAll();
 			}
 		},
-		
-		scopes: {
+	});
+	
+	function scopes() {
+		return {
+			defaultScope: {
+				attributes: Object.keys(this.attributes).concat([
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.ideaId = idea.id AND v.opinion="no")'), 'no'],
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.ideaId = idea.id AND v.opinion="abstain")'), 'abstain']
+				])
+			},
+			
 			running: {
 				where: {
 					status: 'RUNNING'
-				}
+				},
+				order: 'endDate'
 			}
 		}
-	});
-	
+	}
+				
 	return Idea;
 };
