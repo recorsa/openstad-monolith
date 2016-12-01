@@ -34,6 +34,11 @@ _.forEach(models, function( model ) {
 	if( model.associate ) {
 		model.associate(models);
 	}
+	if( model.scopes ) {
+		_.forEach(model.scopes(), function( scope, name ) {
+			model.addScope(name, scope, {override: true});
+		});
+	}
 });
 
 module.exports = db;
