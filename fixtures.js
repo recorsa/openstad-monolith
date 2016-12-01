@@ -43,13 +43,13 @@ var users = [
 	{id : 2 , role : 'admin'     , userName : 'admin'  , password : 'password'        , firstName : 'Bastard-Operator' , lastName : 'from Hell' , gender : 'male' , ideas : [
 		{
 			id          : 1,
-			startDate   : moment(today).add(1, 'days'),
+			startDate   : moment(today).subtract(1, 'days'),
 			title       : 'Metro naar stadsdeel West',
 			summary     : 'Een nieuwe metrobuis naar het Bos en Lommerplein',
 			description : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!'
 		}, {
 			id          : 2,
-			startDate   : moment(today).add(10, 'days'),
+			startDate   : moment(today).subtract(10, 'days'),
 			title       : 'Boomloze wijk',
 			summary     : 'Bomen geven troep en nemen licht weg. Uit de grond ermee!',
 			description : 'Al die boomknuffelaars die vast willen houden aan het verleden. Tijd voor een frisse wind! Alle bomen de grond uit, en een hoge muur om alle parken heen, zodat vallende bladeren geen probleem meer zijn!'
@@ -58,7 +58,7 @@ var users = [
 	{id : 3  , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
 		{
 			id          : 3,
-			startDate   : moment(today).add(6, 'days'),
+			startDate   : moment(today).subtract(6, 'days'),
 			title       : 'Markt uitbreiden',
 			summary     : 'Er moet plek zijn voor twee groentemannen!',
 			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.'
@@ -102,6 +102,7 @@ var votes = {
 		{userId: 2  , opinion: 'no'},
 		{userId: 4  , opinion: 'yes'},
 		{userId: 10 , opinion: 'yes'},
+		{userId: 11 , opinion: 'abstain'},
 		{userId: 12 , opinion: 'no'},
 		{userId: 21 , opinion: 'yes'},
 		{userId: 6  , opinion: 'yes'},
@@ -112,11 +113,13 @@ var votes = {
 		{userId: 4  , opinion: 'no'},
 		{userId: 5  , opinion: 'no'},
 		{userId: 7  , opinion: 'no'},
+		{userId: 8  , opinion: 'abstain'},
 		{userId: 9  , opinion: 'yes'},
 		{userId: 11 , opinion: 'yes'},
 		{userId: 13 , opinion: 'no'},
 		{userId: 18 , opinion: 'no'},
 		{userId: 25 , opinion: 'yes'},
+		{userId: 26 , opinion: 'abstain'},
 		{userId: 28 , opinion: 'no'},
 		{userId: 29 , opinion: 'yes'},
 		{userId: 30 , opinion: 'no'}
@@ -126,6 +129,8 @@ var votes = {
 		{userId: 7  , opinion: 'no'},
 		{userId: 19 , opinion: 'yes'},
 		{userId: 21 , opinion: 'yes'},
+		{userId: 5  , opinion: 'abstain'},
+		{userId: 8  , opinion: 'abstain'},
 		{userId: 2  , opinion: 'no'}
 	]
 }

@@ -13,11 +13,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		startDate: {
 			type         : DataTypes.DATE,
-			allowNull    : false,
-			// `startDate` must at least be the current server time.
-			set          : function( date ) {
-				this.setDataValue('startDate', Math.max(Date.now(), date));
-			}
+			allowNull    : false
 		},
 		endDate: {
 			type         : DataTypes.DATE,
