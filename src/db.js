@@ -27,4 +27,13 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 // Define models.
 var db     = {sequelize: sequelize};
 var models = require('./models')(db, sequelize, Sequelize.DataTypes);
-module.exports = _.extend(db, models);
+_.extend(db, models);
+
+// Invoke associations on each of the models.
+_.forEach(models, function( model ) {
+	if( model.associate ) {
+		model.associate(models);
+	}
+});
+
+module.exports = db;
