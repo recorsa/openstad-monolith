@@ -1,13 +1,19 @@
 {% extends '../base.njk' %}
 
 {% set pageTitle = 'Ideeën' %}
+{% set contentClass = 'ideasList' %}
 
 {% block content %}
 <h1>Ideeën</h1>
 
 <ul>
 {% for idea in ideas %}
-	<li><a href="/idea/{{idea.id}}">{{idea.title}}</a></li>
+	<li>
+		<a href="/idea/{{idea.id}}">{{idea.title}}</a>
+		<span class="yes">{{idea.yes}}+</span>
+		<span class="no">{{idea.no}}-</span>
+		<span class="abstain">{{idea.abstain}}~</span>
+	</li>
 {% else %}
 	Nog geen ideeën!
 {% endfor %}

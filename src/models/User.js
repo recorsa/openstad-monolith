@@ -152,6 +152,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			updateIdea: function( idea, data ) {
 				var filtered = pick(data, ['title', 'summary', 'description']);
 				return idea.update(filtered);
+			},
+			
+			vote: function( idea, opinion ) {
+				return idea.addUserVote(this, opinion)
+				.catch(function( e ) {
+					throw e;
+				});
 			}
 		}
 	});

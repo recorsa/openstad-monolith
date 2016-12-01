@@ -4,6 +4,9 @@ body {
 form.action {
   display: inline;
 }
+form.vote {
+  float: right;
+}
 ul#menu {
   margin: 10px auto;
   overflow: hidden;
@@ -19,4 +22,13 @@ ul#menu li {
 #content {
   margin: auto;
   width: 800px;
+}
+#content.ideasList span.yes {
+  color: #61ae24;
+}
+#content.ideasList span.no {
+  color: #da421a;
+}
+#content.ideasList span.abstain {
+  color: #a3a3a3;
 }

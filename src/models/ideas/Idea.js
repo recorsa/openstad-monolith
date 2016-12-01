@@ -87,6 +87,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.scope('defaultScope', 'running').findAll();
 			}
 		},
+		instanceMethods: {
+			addUserVote: function( user, opinion ) {
+				return db.Vote.upsert({
+					ideaId  : this.id,
+					userId  : user.id,
+					opinion : opinion
+				});
+			}
+		}
 	});
 	
 	function scopes() {
