@@ -63,13 +63,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		classMethods: {
 			associate: function( models ) {
-				Idea.belongsTo(models.Meeting);
-				Idea.belongsTo(models.User);
-				Idea.hasMany(models.Vote);
+				this.belongsTo(models.Meeting);
+				this.belongsTo(models.User);
+				this.hasMany(models.Vote);
 			},
 			
 			getRunningIdeas: function() {
-				return Idea.scope('running').findAll();
+				return this.scope('defaultScope', 'running').findAll();
 			}
 		},
 		
