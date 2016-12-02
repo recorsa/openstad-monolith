@@ -1,3 +1,5 @@
+'use strict';
+
 var ary         = require('lodash/ary');
 var defaults    = require('lodash/defaults');
 var extend      = require('lodash/extend');
@@ -36,12 +38,13 @@ extend(RolePlay.prototype, {
 	// Adds `res.locals.can` as `function(actionName)` to check for the passed
 	// permissions in template views.
 	can: function( /* actionName [, actionName...] [, allOptional] */ ) {
-		var self        = this;
-		var actionNames = Array.from(arguments);
-		var lastArg     = actionNames[actionNames.length-1];
-		var allOptional = typeof lastArg === 'boolean' ?
-		                  actionNames.pop() :
-		                  false;
+		var self            = this;
+		var actionNames_raw = Array.from(arguments);
+		var lastArg         = actionNames_raw[actionNames_raw.length-1];
+		var allOptional     = typeof lastArg === 'boolean' ?
+		                      actionNames_raw.pop() :
+		                      false;
+		var actionNames     = this._getCanonicalActionNames(actionNames_raw);
 		
 		return function( req, res, next ) {
 			if( !req.user ) {
@@ -126,6 +129,34 @@ extend(RolePlay.prototype, {
 		return result;
 	},
 	
+	// Used by `can` to expand action names like `entity:*` to a list of fully
+	// qualified action names (e.g.: `entity:edit`, `entity:create` etc);
+	_getCanonicalActionNames: function( actionNames ) {
+		var role = this.defaultRole;
+		var canonical = new Set;
+		for( let actionName of actionNames ) {
+			if( ~String(actionName).indexOf('*') ) {
+				let sourceName = actionName.split(':');
+				for( let actionName of Object.keys(role.actions) ) {
+					let targetName = actionName.split(':');
+					let i = 0, part;
+					while( part = targetName.shift() ) {
+						if( sourceName[i] != '*' && sourceName[i] != part ) {
+							break;
+						}
+						i++;
+					}
+					if( i == sourceName.length ) {
+						canonical.add(actionName);
+					}
+				}
+			} else {
+				canonical.add(actionName);
+			}
+		}
+		
+		return Array.from(canonical);
+	},
 	// Used by `can` to check permissions.
 	_isAllowed: function( user, actionName, resource ) {
 		var can = user.can(actionName);
