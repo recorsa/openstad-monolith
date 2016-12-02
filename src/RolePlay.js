@@ -64,6 +64,9 @@ extend(RolePlay.prototype, {
 						extend(locals.can.actions, actions);
 					} else {
 						locals.can = function can( actionName ) {
+							if( !(actionName in can.actions) ) {
+								throw new Error('RolePlay action not available for this route: '+actionName);
+							}
 							return can.actions[actionName];
 						};
 						locals.can.actions = actions;
@@ -93,6 +96,8 @@ extend(RolePlay.prototype, {
 		} else {
 			if( !role ) {
 				role = this.defaultRole.role(roleName);
+			} else if( role.mgr != this ) {
+				throw new Error('Role already in use');
 			}
 			return this.roles[roleName] = role;
 		}
@@ -108,6 +113,8 @@ extend(RolePlay.prototype, {
 		var action;
 		if( !role ) {
 			throw new Error('Role not found: '+roleName);
+		} else if( !this.defaultRole.action(actionName) ) {
+			throw new Error('Action not defined on default role: '+actionName);
 		}
 		
 		while( role ) {
@@ -164,6 +171,9 @@ extend(Role.prototype, {
 				return this;
 			} else {
 				// Get action.
+				if( typeof actionName != 'string' ) {
+					throw new Error('Incorrect action name: '+actionName);
+				}
 				var action = this.actions[actionName];
 				if( !action ) {
 					var parts = actionName.split(':');
