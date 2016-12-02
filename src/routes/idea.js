@@ -6,11 +6,18 @@ var auth        = require('../auth');
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.get('/ideas', auth.can('ideas:list', 'idea:create'), function( req, res, next ) {
-		db.Idea.getRunningIdeas()
-		.then(function( ideas ) {
+	app.route('/ideas')
+	.all(auth.can('ideas:list', 'idea:create', 'idea:admin'))
+	.get(function( req, res, next ) {
+		var queries = [db.Idea.getRunningIdeas()];
+		if( req.can('idea:admin') ) {
+			queries.push(db.Idea.getHistoricIdeas());
+		}
+		
+		Promise.all(queries).then(function( queries ) {
 			res.out('ideas/list', true, {
-				ideas: ideas
+				runningIdeas  : queries[0],
+				historicIdeas : queries[1]
 			});
 		})
 		.catch(next);

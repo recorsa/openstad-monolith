@@ -85,6 +85,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			getRunningIdeas: function() {
 				return this.scope('defaultScope', 'running').findAll();
+			},
+			getHistoricIdeas: function() {
+				return this.scope('defaultScope', 'historic').findAll();
 			}
 		},
 		instanceMethods: {
@@ -130,6 +133,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 					status: 'RUNNING'
 				},
 				order: 'endDate'
+			},
+			historic: {
+				where: {
+					status: {$not: 'RUNNING'}
+				},
+				order: 'endDate DESC'
 			}
 		}
 	}

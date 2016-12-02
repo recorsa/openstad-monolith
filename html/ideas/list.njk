@@ -7,7 +7,7 @@
 <h1>Ideeën</h1>
 
 <ul>
-{% for idea in ideas %}
+{% for idea in runningIdeas %}
 	<li>
 		<a href="/idea/{{idea.id}}">{{idea.title}}</a>
 		<span class="yes">{{idea.yes}}+</span>
@@ -15,9 +15,25 @@
 		<span class="abstain">{{idea.abstain}}~</span>
 	</li>
 {% else %}
-	Nog geen ideeën!
+	<i>Nog geen ideeën!</i>
 {% endfor %}
 </ul>
+
+{% if can('idea:admin') %}
+	<h1>Voorgaande ideeën</h1>
+	<ul>
+	{% for idea in historicIdeas %}
+		<li>
+			<a href="/idea/{{idea.id}}">{{idea.title}}</a>
+			<span class="yes">{{idea.yes}}+</span>
+			<span class="no">{{idea.no}}-</span>
+			<span class="abstain">{{idea.abstain}}~</span>
+		</li>
+	{% else %}
+		<i>Geen historie</i>
+	{% endfor %}
+	</ul>
+{% endif %}
 
 <hr>
 
