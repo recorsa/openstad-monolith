@@ -7,6 +7,7 @@ module.exports = function( role ) {
 		'account:create' : true,
 		
 		'ideas:list'     : true,
+		'idea:admin'     : false,
 		'idea:view'      : true,
 		'idea:create'    : false,
 		'idea:vote'      : false,

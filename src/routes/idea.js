@@ -105,6 +105,20 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+	
+	// Admin idea
+	// ----------
+	router.route('/:id(\\d+)/status')
+	.all(fetchIdea)
+	.all(auth.can('idea:admin'))
+	.put(function( req, res, next ) {
+		var idea = req.resource;
+		idea.setStatus(req.body.status)
+		.then(function() {
+			res.success('/idea/'+idea.id, true);
+		})
+		.catch(next);
+	});
 };
 
 function fetchIdea( req, res, next ) {

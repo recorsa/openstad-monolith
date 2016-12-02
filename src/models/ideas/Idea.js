@@ -107,6 +107,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						return db.Vote.upsert(data);
 					}
 				});
+			},
+			
+			setStatus: function( status ) {
+				return this.update({status: status});
 			}
 		}
 	});

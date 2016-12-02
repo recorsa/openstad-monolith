@@ -31,4 +31,21 @@
 			<input type="submit" name="abstain" value="~ ({{idea.abstain}})">
 		</form>
 	{% endif %}
+	
+	{% if can('idea:admin') %}
+		<hr>
+		
+		<form method="POST" action="/idea/{{idea.id}}/status">
+			<select name="status">
+				<option {{'selected' if idea.status=='RUNNING'}}  value="RUNNING">Open</option>
+				<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Geaccepteerd</option>
+				<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">Afgewezen</option>
+				<option {{'selected' if idea.status=='BUSY'}}     value="BUSY">In behandeling</option>
+				<option {{'selected' if idea.status=='DONE'}}     value="DONE">Afgerond</option>
+			</select>
+			<input type="hidden" name="_method" value="PUT">
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="submit" value="Pas aan">
+		</form>
+	{% endif %}
 {% endblock %}
