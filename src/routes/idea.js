@@ -23,7 +23,7 @@ module.exports = function( app ) {
 	
 	router.route('/:id(\\d+)')
 	.all(fetchIdea)
-	.all(auth.can('idea:view', 'idea:edit', 'idea:delete', 'idea:vote'))
+	.all(auth.can('idea:view', 'idea:*'))
 	.get(function( req, res ) {
 		var idea = req.resource;
 		res.out('ideas/idea', true, {
@@ -109,10 +109,6 @@ module.exports = function( app ) {
 
 function fetchIdea( req, res, next ) {
 	var ideaId = req.params.id;
-	if( !ideaId ) {
-		return next();
-	}
-	
 	db.Idea.findById(ideaId).then(function( idea ) {
 		if( !idea ) {
 			next(createError(404, 'Idea not found'));
@@ -120,5 +116,6 @@ function fetchIdea( req, res, next ) {
 			req.resource = idea;
 			next();
 		}
-	});
+	})
+	.catch(next);
 }
