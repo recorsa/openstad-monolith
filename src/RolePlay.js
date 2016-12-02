@@ -66,7 +66,7 @@ extend(RolePlay.prototype, {
 					if( locals.can ) {
 						extend(locals.can.actions, actions);
 					} else {
-						locals.can = function can( actionName ) {
+						req.can = locals.can = function can( actionName ) {
 							if( !(actionName in can.actions) ) {
 								throw new Error('RolePlay action not available for this route: '+actionName);
 							}
