@@ -5,14 +5,17 @@ module.exports = function( role ) {
 		'idea:view': true,
 		'idea:create': true,
 		'idea:edit': {
-			allow: isIdeaOwner
+			allow: mayMutateIdea
 		},
 		'idea:delete': {
-			allow: isIdeaOwner
+			allow: mayMutateIdea
 		}
 	});
 };
 
-function isIdeaOwner( user, idea ) {
-	return user.id === idea.userId;
+function mayMutateIdea( user, idea ) {
+	// TODO: Time sensitivity?
+	var isOwner   = user.id === idea.userId;
+	var voteCount = idea.no + idea.yes + idea.abstain;
+	return isOwner && !voteCount;
 }
