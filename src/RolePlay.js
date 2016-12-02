@@ -24,14 +24,24 @@ extend(RolePlay.prototype, {
 	
 	// Express middleware
 	// ------------------
-	// For permissions that require a resource, make sure `req.resource` is set
-	// before this middleware is called.
+	// Checks permission for the current user, and produces a 403 error when
+	// access is denied. Passing multiple action is possible; by default only
+	// the first action is required to be allowed for the request to succeed.
+	// All consecutive actions are optional. Passing `true` as the last argument
+	// makes all actions optional.
+	// 
+	// `req.user` must be set before this middleware runs. For permissions that
+	// require a resource, `req.resource` must be set as well.
 	// 
 	// Adds `res.locals.can` as `function(actionName)` to check for the passed
 	// permissions in template views.
-	can: function( /* actionName [, actionName...] */ ) {
+	can: function( /* actionName [, actionName...] [, allOptional] */ ) {
 		var self        = this;
-		var actionNames = Array.prototype.slice.call(arguments);
+		var actionNames = Array.from(arguments);
+		var lastArg     = actionNames[actionNames.length-1];
+		var allOptional = typeof lastArg === 'boolean' ?
+		                  actionNames.pop() :
+		                  false;
 		
 		return function( req, res, next ) {
 			if( !req.user ) {
@@ -41,14 +51,11 @@ extend(RolePlay.prototype, {
 			var user      = self.user(req.user);
 			var resource  = req.resource;
 			var isAllowed = actionNames.map(function( actionName ) {
-				if( !actionName ) {
-					throw new Error('Action name required');
-				}
 				return self._isAllowed(user, actionName, resource);
 			});
 			
 			Promise.all(isAllowed).then(function( allowed ) {
-				if( allowed[0] ) {
+				if( allOptional || allowed[0] ) {
 					// Add `can(actionName)` function to locals, so the passed
 					// permission can be checked in the template as well.
 					var locals  = res.locals;
