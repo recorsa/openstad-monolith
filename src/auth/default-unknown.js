@@ -1,20 +1,20 @@
 module.exports = function( role ) {
 	role.action({
-		'dev': false,
+		'dev'            : false,
 		
-		'index:view': true,
+		'index:view'     : true,
 		
-		'account:create': true,
+		'account:create' : true,
 		
-		'ideas:list': true,
-		'idea:view' : true,
-		'idea:create': false,
-		'idea:vote': false,
-		'idea:edit': {
+		'ideas:list'     : true,
+		'idea:view'      : true,
+		'idea:create'    : false,
+		'idea:vote'      : false,
+		'idea:edit'      : {
 			allow    : false,
 			resource : 'idea'
 		},
-		'idea:delete': {
+		'idea:delete'    : {
 			allow    : false,
 			resource : 'idea'
 		}

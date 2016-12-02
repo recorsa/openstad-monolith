@@ -14,8 +14,8 @@
 		<li><a href="/about">Over AB</a></li>
 		<li>
 			<a href="/account/{{'logout' if user.isLoggedIn() else 'login'}}">
-			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}
-			</a>
+			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}</a>
+			{{'('+user.userName+')' if user.isLoggedIn()}}
 		</li>
 		{% if not user.isLoggedIn() %}
 		<li><a href="/account/new">Registreren</a></li>

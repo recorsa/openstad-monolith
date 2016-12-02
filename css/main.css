@@ -8,16 +8,16 @@ form.vote {
   float: right;
 }
 ul#menu {
-  margin: 10px auto;
+  margin: 10px 0px;
   overflow: hidden;
   padding: 0;
-  width: 500px;
+  text-align: center;
 }
 ul#menu li {
-  float: left;
+  display: inline;
   list-style: none;
   text-align: center;
-  width: 100px;
+  margin: 0px 10px;
 }
 #content {
   margin: auto;
