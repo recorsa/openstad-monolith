@@ -89,10 +89,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		instanceMethods: {
 			addUserVote: function( user, opinion ) {
-				return db.Vote.upsert({
+				var data = {
 					ideaId  : this.id,
 					userId  : user.id,
 					opinion : opinion
+				};
+				
+				return db.Vote.findOne({where: data})
+				.then(function( vote ) {
+					if( vote ) {
+						return vote.destroy();
+					} else {
+						// HACK: `upsert` on paranoid deleted row doesn't unset
+						//        `deletedAt`.
+						// TODO: Pull request?
+						data.deletedAt = null;
+						return db.Vote.upsert(data);
+					}
 				});
 			}
 		}
@@ -102,9 +115,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			defaultScope: {
 				attributes: Object.keys(this.attributes).concat([
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.ideaId = idea.id AND v.opinion="no")'), 'no'],
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.ideaId = idea.id AND v.opinion="abstain")'), 'abstain']
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="no")'), 'no'],
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="abstain")'), 'abstain']
 				])
 			},
 			
