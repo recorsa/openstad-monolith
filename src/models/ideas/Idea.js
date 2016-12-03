@@ -81,6 +81,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.belongsTo(models.Meeting);
 				this.belongsTo(models.User);
 				this.hasMany(models.Vote);
+				this.hasMany(models.Argument, {as: 'argumentsAgainst'});
+				this.hasMany(models.Argument, {as: 'argumentsFor'});
 			},
 			
 			getRunningIdeas: function() {
@@ -139,6 +141,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 					status: {$not: 'RUNNING'}
 				},
 				order: 'endDate DESC'
+			},
+			
+			withArguments: {
+				include: [{
+					model    : db.Argument,
+					as       : 'argumentsAgainst',
+					required : false,
+					where    : {
+						sentiment: 'against'
+					}
+				}, {
+					model    : db.Argument,
+					as       : 'argumentsFor',
+					required : false,
+					where    : {
+						sentiment: 'for'
+					}
+				}]
 			}
 		}
 	}

@@ -32,3 +32,16 @@ ul#menu li {
 #content.ideasList span.abstain {
   color: #a3a3a3;
 }
+#content.idea #arguments {
+  overflow: hidden;
+}
+#content.idea #arguments div.argList {
+  float: left;
+  width: 50%;
+}
+#content.idea #arguments div.argList div.argument {
+  margin-bottom: 20px;
+}
+#content.idea #arguments div.argList div.argument div.user {
+  font-style: italic;
+}

@@ -1,6 +1,7 @@
 {% extends '../base.njk' %}
 
 {% set pageTitle = 'Idee: '+idea.title %}
+{% set contentClass = 'idea' %}
 
 {% block content %}
 	<h1>{{idea.title}}</h1>
@@ -48,4 +49,28 @@
 			<input type="submit" value="Pas aan">
 		</form>
 	{% endif %}
+	
+	{% macro argList( arguments ) %}
+		{% for arg in arguments %}
+			<div class="argument">
+				<div class="user">{{arg.user.firstName}} {{arg.user.lastName}}</div>
+				{{ arg.description }}
+			</div>
+		{% else %}
+			<i>Geen argumenten.</i>
+		{% endfor %}
+	{% endmacro %}
+	
+	<hr>
+	
+	<div id="arguments">
+		<div class="argList for">
+			<h3>Argumenten voor</h3>
+			{{ argList(idea.argumentsFor) }}
+		</div>
+		<div class="argList against">
+			<h3>Argumenten tegen</h3>
+			{{ argList(idea.argumentsAgainst) }}
+		</div>
+	</div>
 {% endblock %}

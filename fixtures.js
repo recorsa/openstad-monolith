@@ -11,7 +11,16 @@ module.exports = co.wrap(function*( db ) {
 	log('generating users and ideas...');
 	yield users.map(function( userData ) {
 		return db.User.create(userData, {
-			include  : [db.Idea],
+			include  : [{
+				model: db.Idea,
+				include: [{
+					model : db.Argument,
+					as    : 'argumentsAgainst'
+				}, {
+					model : db.Argument,
+					as    : 'argumentsFor'
+				}]
+			}],
 			validate : userData.id != 4 // User 4 is anonymous and has credentials
 		});
 	});
@@ -42,11 +51,18 @@ var users = [
 	{id : 1 , role : 'unknown'},
 	{id : 2 , role : 'admin'     , userName : 'admin'  , password : 'password'        , firstName : 'Bastard-Operator' , lastName : 'from Hell' , gender : 'male' , ideas : [
 		{
-			id          : 1,
-			startDate   : moment(today).subtract(1, 'days'),
-			title       : 'Metro naar stadsdeel West',
-			summary     : 'Een nieuwe metrobuis naar het Bos en Lommerplein',
-			description : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!'
+			id               : 1,
+			startDate        : moment(today).subtract(1, 'days'),
+			title            : 'Metro naar stadsdeel West',
+			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein',
+			description      : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!',
+			argumentsAgainst : [
+				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn.'}
+			],
+			argumentsFor     : [
+				{userId: 7  , sentiment: 'for'    , description: 'De metro is cool.'},
+				{userId: 12 , sentiment: 'for'    , description: 'Fietsen is verschrikkelijk als het regent.'}
+			]
 		}, {
 			id          : 2,
 			startDate   : moment(today).subtract(10, 'days'),

@@ -1,21 +1,42 @@
 module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
-		ideaId: DataTypes.INTEGER,
-		userId: DataTypes.INTEGER,
-		sentiment: {
-			type         : DataTypes.ENUM('negative', 'positive'),
-			defaultValue : 'positive',
+		ideaId: {
+			type         : DataTypes.INTEGER,
 			allowNull    : false
 		},
-		content: DataTypes.TEXT
+		userId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false
+		},
+		sentiment: {
+			type         : DataTypes.ENUM('against', 'for'),
+			defaultValue : 'for',
+			allowNull    : false
+		},
+		description: {
+			type         : DataTypes.TEXT,
+			allowNull    : false
+		}
 	}, {
 		classMethods: {
+			scopes: scopes,
 			associate: function( models ) {
-				Argument.belongsTo(models.Idea);
-				Argument.belongsTo(models.User);
+				this.belongsTo(models.Idea);
+				this.belongsTo(models.User);
 			}
 		}
 	});
+	
+	function scopes() {
+		return {
+			defaultScope: {
+				include: [{
+					model      : db.User,
+					attributes : ['firstName', 'lastName']
+				}]
+			}
+		};
+	}
 	
 	return Argument;
 };
