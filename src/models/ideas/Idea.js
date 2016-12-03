@@ -84,10 +84,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			getRunningIdeas: function() {
-				return this.scope('defaultScope', 'running').findAll();
+				return this.scope('withVotes', 'running').findAll();
 			},
 			getHistoricIdeas: function() {
-				return this.scope('defaultScope', 'historic').findAll();
+				return this.scope('withVotes', 'historic').findAll();
 			}
 		},
 		instanceMethods: {
@@ -120,7 +120,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	
 	function scopes() {
 		return {
-			defaultScope: {
+			withVotes: {
 				attributes: Object.keys(this.attributes).concat([
 					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="no")'), 'no'],
 					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],

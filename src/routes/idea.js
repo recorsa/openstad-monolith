@@ -29,7 +29,7 @@ module.exports = function( app ) {
 	app.use('/idea', router);
 	
 	router.route('/:id(\\d+)')
-	.all(fetchIdea)
+	.all(fetchIdea('withVotes', 'withArguments'))
 	.all(auth.can('idea:view', 'idea:*'))
 	.get(function( req, res ) {
 		var idea = req.resource;
@@ -59,7 +59,7 @@ module.exports = function( app ) {
 	// Edit idea
 	// ---------
 	router.route('/:id(\\d+)/edit')
-	.all(fetchIdea)
+	.all(fetchIdea())
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
@@ -78,7 +78,7 @@ module.exports = function( app ) {
 	// Delete idea
 	// -----------
 	router.route('/:id(\\d+)/delete')
-	.all(fetchIdea)
+	.all(fetchIdea())
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
 		var idea = req.resource;
@@ -92,7 +92,7 @@ module.exports = function( app ) {
 	// Vote for idea
 	// -------------
 	router.route('/:id(\\d+)/vote')
-	.all(fetchIdea)
+	.all(fetchIdea())
 	.all(auth.can('idea:vote'))
 	.post(function( req, res, next ) {
 		var idea    = req.resource;
@@ -116,7 +116,7 @@ module.exports = function( app ) {
 	// Admin idea
 	// ----------
 	router.route('/:id(\\d+)/status')
-	.all(fetchIdea)
+	.all(fetchIdea())
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
 		var idea = req.resource;
@@ -128,15 +128,19 @@ module.exports = function( app ) {
 	});
 };
 
-function fetchIdea( req, res, next ) {
-	var ideaId = req.params.id;
-	db.Idea.findById(ideaId).then(function( idea ) {
-		if( !idea ) {
-			next(createError(404, 'Idea not found'));
-		} else {
-			req.resource = idea;
-			next();
-		}
-	})
-	.catch(next);
+function fetchIdea( /* [scopes] */ ) {
+	var scopes = Array.from(arguments);
+	
+	return function( req, res, next ) {
+		var ideaId = req.params.id;
+		db.Idea.scope(scopes).findById(ideaId).then(function( idea ) {
+			if( !idea ) {
+				next(createError(404, 'Idea not found'));
+			} else {
+				req.resource = idea;
+				next();
+			}
+		})
+		.catch(next);
+	}
 }
