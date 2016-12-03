@@ -28,7 +28,12 @@ db.sequelize.sync({force: resetDB}).then(function() {
 	              require('./fixtures')(db) :
 	              null;
 	return Promise.resolve(doReset).then(function() {
-		Server.start(config.get('express.port'));
+		if( !resetDB ) {
+			Server.start(config.get('express.port'));
+		} else {
+			require('debug')('app:db')('sync done');
+			db.sequelize.close();
+		}
 	});
 }).catch(function( e ) {
 	db.sequelize.close();
