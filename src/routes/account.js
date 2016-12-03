@@ -15,10 +15,16 @@ module.exports = function( app ) {
 		var userName = req.body.userName
 		  , password = req.body.password;
 		
-		db.User.findByCredentials(userName, password).then(function( user ) {
+		var start = Date.now();
+		db.User.findByCredentials(userName, password)
+		.then(function( user ) {
 			req.session.userId = user.id;
 			req.user           = user;
-			res.success('/', true);
+			// Delay the response so that it's always a minimum of 200ms.
+			var delay = Math.max(0, 200 - (Date.now() - start));
+			setTimeout(function() {
+				res.success('/', true);
+			}, delay);
 		}).catch(function( error ) {
 			next(error);
 		});
