@@ -31,7 +31,6 @@ db.sequelize.sync({force: resetDB}).then(function() {
 		if( !resetDB ) {
 			Server.start(config.get('express.port'));
 		} else {
-			require('debug')('app:db')('sync done');
 			db.sequelize.close();
 		}
 	});

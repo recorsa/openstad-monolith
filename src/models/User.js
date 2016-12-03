@@ -46,12 +46,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 		passwordHash: {
 			type         : DataTypes.TEXT,
 			allowNull    : true,
-			get          : function() {
-				var hashObject = this.getDataValue('passwordHash');
-				return hashObject ?
-				       JSON.parse(this.getDataValue('passwordHash')) :
-				       null;
-			},
 			set          : function( hashObject ) {
 				this.setDataValue('passwordHash', hashObject ? JSON.stringify(hashObject) : null);
 			}
@@ -131,7 +125,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					log('user %d has no passwordHash', this.id);
 					return false;
 				} else {
-					var result = Password[method].compare(password, this.passwordHash);
+					var hash   = JSON.parse(this.passwordHash);
+					var result = Password[method].compare(password, hash);
 					log('authentication for user %d %s', this.id, result ? 'succeeded' : 'failed');
 					return result;
 				}
