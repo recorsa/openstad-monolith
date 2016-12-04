@@ -54,7 +54,7 @@ extend(RolePlay.prototype, {
 			
 			var user    = self.user(req.user);
 			var allowed = actionNames.map(function( actionName ) {
-				return self._isAllowed(user, actionName, req);
+				return user.can(actionName, req);
 			});
 			
 			if( allOptional || allowed[0] ) {
@@ -156,13 +156,6 @@ extend(RolePlay.prototype, {
 		}
 		
 		return Array.from(canonical);
-	},
-	// Used by `can` to check permissions.
-	_isAllowed: function( user, actionName, req ) {
-		var can = user.can(actionName);
-		return can.resource ?
-		       can.resource(req) :
-		       can;
 	}
 });
 
@@ -267,20 +260,16 @@ extend(Play.prototype, {
 	role     : undefined,
 	resource : undefined,
 	
-	can: function( actionName ) {
+	can: function( actionName, mixed ) {
 		var action = this.mgr.gatherAction(actionName, this.role);
+		var resource;
 		if( !action ) {
 			throw new Error('Action not found: '+actionName);
 		}
 		
 		if( action.resource ) {
-			var self = this;
-			return {
-				resource: function( mixed ) {
-					var resource = action.resource(mixed);
-					return action.allow(self.user, resource, actionName);
-				}
-			};
+			resource = action.resource(mixed);
+			return action.allow(this.user, resource, actionName);
 		} else {
 			return action.allow(this.user, actionName);
 		}
