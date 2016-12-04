@@ -4,6 +4,7 @@ var _           = require('lodash')
   , createError = require('http-errors');
 var pick        = require('lodash/pick');
 var log         = require('debug')('app:user');
+var auth        = require('../auth');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
@@ -136,6 +137,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			isLoggedIn: function() {
 				return this.id && this.id !== 1 && !this.isAnonymous();
+			},
+			can: function( actionName, resource ) {
+				return auth.user(this).can(actionName, resource);
 			},
 			
 			createNewIdea: function( data ) {
