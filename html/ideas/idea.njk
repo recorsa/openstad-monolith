@@ -54,11 +54,25 @@
 		</form>
 	{% endif %}
 	
-	{% macro argList( arguments ) %}
+	{% macro argList( sentiment, arguments ) %}
+		{% if can('arg:add') %}
+			<form method="POST" action="/idea/{{idea.id}}/arg">
+				<textarea name="description"></textarea>
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<input type="hidden" name="sentiment" value="{{sentiment}}">
+				<input type="submit" value="Toevoegen">
+			</form>
+		{% endif %}
+		
 		{% for arg in arguments %}
 			<div class="argument">
-				<div class="user">{{arg.user.firstName}} {{arg.user.lastName}}</div>
-				{{ arg.description }}
+				<div class="user">
+					{{arg.user.firstName}} {{arg.user.lastName}}
+					{% if user.can('arg:edit', arg) %}
+					[<a href="idea/{{idea.id}}/arg/{{arg.id}}/edit">bewerk</a>]
+					{% endif %}
+				</div>
+				{{arg.description}}
 			</div>
 		{% else %}
 			<i>Geen argumenten.</i>
@@ -70,11 +84,11 @@
 	<div id="arguments">
 		<div class="argList for">
 			<h3>Argumenten voor</h3>
-			{{ argList(idea.argumentsFor) }}
+			{{argList('for', idea.argumentsFor)}}
 		</div>
 		<div class="argList against">
 			<h3>Argumenten tegen</h3>
-			{{ argList(idea.argumentsAgainst) }}
+			{{argList('against', idea.argumentsAgainst)}}
 		</div>
 	</div>
 {% endblock %}

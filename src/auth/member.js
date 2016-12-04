@@ -1,9 +1,13 @@
 module.exports = function( role ) {
 	role.action({
-		'account:create': false,
+		'account:create' : false,
 		
-		'idea:view': true,
-		'idea:create': true,
+		'idea:view'      : true,
+		'idea:create'    : true,
+		'arg:add'        : true,
+		'arg:edit'       : {
+			allow: mayMutateArgument
+		},
 		'idea:edit': {
 			allow: mayMutateIdea
 		},
@@ -12,6 +16,10 @@ module.exports = function( role ) {
 		}
 	});
 };
+
+function mayMutateArgument( user, argument ) {
+	return user.id === argument.userId;
+}
 
 function mayMutateIdea( user, idea ) {
 	// TODO: Time sensitivity?

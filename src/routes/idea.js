@@ -30,7 +30,7 @@ module.exports = function( app ) {
 	
 	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withVotes', 'withArguments'))
-	.all(auth.can('idea:view', 'idea:*'))
+	.all(auth.can('idea:view', 'idea:*', 'arg:add'))
 	.get(function( req, res ) {
 		var idea = req.idea;
 		res.out('ideas/idea', true, {
@@ -113,6 +113,32 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
+	// Argumentation
+	// -------------
+	router.route('/:ideaId/arg')
+	.all(fetchIdea())
+	.all(auth.can('arg:add'))
+	.post(function( req, res, next ) {
+		next();
+	});
+	
+	router.route('/:ideaId/arg/:argId/edit')
+	.all(fetchArgument)
+	.all(auth.can('arg:edit'))
+	.get(function( req, res, next ) {
+		res.format({
+			html: function() {
+				res.out('ideas/form_arg.njk', {argument: req.argument});
+			},
+			json: function() {
+				next(createError(406));
+			}
+		})
+	})
+	.put(function( req, res, next ) {
+		next();
+	});
+	
 	// Admin idea
 	// ----------
 	router.route('/:ideaId/status')
@@ -144,4 +170,17 @@ function fetchIdea( /* [scopes] */ ) {
 		})
 		.catch(next);
 	}
+}
+function fetchArgument( req, res, next ) {
+	var argId = req.params.argId;
+	db.Argument.findById(argId)
+	.then(function( argument ) {
+		if( !argument ) {
+			next(createError(404, 'Argument not found'));
+		} else {
+			req.argument = argument;
+			next();
+		}
+	})
+	.catch(next);
 }

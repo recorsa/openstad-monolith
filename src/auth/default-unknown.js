@@ -11,6 +11,11 @@ module.exports = function( role ) {
 		'idea:view'      : true,
 		'idea:create'    : false,
 		'idea:vote'      : false,
+		'arg:add'        : false,
+		'arg:edit'       : {
+			allow    : false,
+			resource : 'argument'
+		},
 		'idea:edit'      : {
 			allow    : false,
 			resource : 'idea'
