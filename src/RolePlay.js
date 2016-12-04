@@ -61,20 +61,8 @@ extend(RolePlay.prototype, {
 				if( allOptional || allowed[0] ) {
 					// Add `can(actionName)` function to locals, so the passed
 					// permission can be checked in the template as well.
-					var locals  = res.locals;
 					var actions = zipObject(actionNames, allowed);
-					if( locals.can ) {
-						extend(locals.can.actions, actions);
-					} else {
-						req.can = locals.can = function can( actionName ) {
-							if( !(actionName in can.actions) ) {
-								throw new Error('RolePlay action not available for this route: '+actionName);
-							}
-							return can.actions[actionName];
-						};
-						locals.can.actions = actions;
-					}
-					
+					self._addHelperFunction(req, res, actions);
 					next();
 				} else {
 					next(createError(403, 'Not authorized'));
@@ -129,6 +117,21 @@ extend(RolePlay.prototype, {
 		return result;
 	},
 	
+	// Used by `can` to assign a helper function to `req.can` and `res.locals.can`.
+	_addHelperFunction: function( req, res, actions ) {
+		var locals = res.locals;
+		if( locals.can ) {
+			extend(locals.can.actions, actions);
+		} else {
+			req.can = locals.can = function can( actionName ) {
+				if( !(actionName in can.actions) ) {
+					throw new Error('RolePlay action not available for this route: '+actionName);
+				}
+				return can.actions[actionName];
+			};
+			locals.can.actions = actions;
+		}
+	},
 	// Used by `can` to expand action names like `entity:*` to a list of fully
 	// qualified action names (e.g.: `entity:edit`, `entity:create` etc);
 	_getCanonicalActionNames: function( actionNames ) {
