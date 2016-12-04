@@ -243,7 +243,7 @@ extend(Role.prototype, {
 				}
 				return resource;
 			} else {
-				return resourceValue;
+				return req;
 			}
 		};
 	}
