@@ -32,7 +32,7 @@ module.exports = function( app ) {
 	.all(fetchIdea('withVotes', 'withArguments'))
 	.all(auth.can('idea:view', 'idea:*'))
 	.get(function( req, res ) {
-		var idea = req.resource;
+		var idea = req.idea;
 		res.out('ideas/idea', true, {
 			idea      : idea.get(),
 			csrfToken : req.csrfToken()
@@ -63,12 +63,12 @@ module.exports = function( app ) {
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
-			idea      : req.resource,
+			idea      : req.idea,
 			csrfToken : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {
-		req.user.updateIdea(req.resource, req.body)
+		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
 		})
@@ -81,7 +81,7 @@ module.exports = function( app ) {
 	.all(fetchIdea())
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
-		var idea = req.resource;
+		var idea = req.idea;
 		idea.destroy()
 		.then(function() {
 			res.success('/ideas', true);
@@ -95,7 +95,7 @@ module.exports = function( app ) {
 	.all(fetchIdea())
 	.all(auth.can('idea:vote'))
 	.post(function( req, res, next ) {
-		var idea    = req.resource;
+		var idea    = req.idea;
 		var opinion = req.body.opinion;
 		// Fallback to support mutiple submit buttons with the opinion's value as name.
 		// e.g.: `<input type="submit" name="abstain" value="Blanco">`.
@@ -119,7 +119,7 @@ module.exports = function( app ) {
 	.all(fetchIdea())
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
-		var idea = req.resource;
+		var idea = req.idea;
 		idea.setStatus(req.body.status)
 		.then(function() {
 			res.success('/idea/'+idea.id, true);
@@ -138,7 +138,7 @@ function fetchIdea( /* [scopes] */ ) {
 			if( !idea ) {
 				next(createError(404, 'Idea not found'));
 			} else {
-				req.resource = idea;
+				req.idea = idea;
 				next();
 			}
 		})
