@@ -54,7 +54,7 @@ var users = [
 			],
 			argumentsFor     : [
 				{userId: 7  , sentiment: 'for'    , description: 'De metro is cool.'},
-				{userId: 12 , sentiment: 'for'    , description: 'Fietsen is verschrikkelijk als het regent.'}
+				{userId: 3  , sentiment: 'for'    , description: 'Fietsen is verschrikkelijk als het regent.'}
 			],
 			votes: [
 				{userId: 3  , opinion: 'yes'},
@@ -95,7 +95,7 @@ var users = [
 			]
 		}
 	]},
-	{id : 3  , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
+	{id : 3  , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
 		{
 			id          : 3,
 			startDate   : moment(today).subtract(6, 'days'),
