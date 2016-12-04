@@ -1,5 +1,6 @@
 'use strict';
 
+var http        = require('http');
 var ary         = require('lodash/ary');
 var defaults    = require('lodash/defaults');
 var extend      = require('lodash/extend');
@@ -52,9 +53,8 @@ extend(RolePlay.prototype, {
 			}
 			
 			var user      = self.user(req.user);
-			var resource  = req.resource;
 			var isAllowed = actionNames.map(function( actionName ) {
-				return self._isAllowed(user, actionName, resource);
+				return self._isAllowed(user, actionName, req);
 			});
 			
 			Promise.all(isAllowed).then(function( allowed ) {
@@ -161,16 +161,11 @@ extend(RolePlay.prototype, {
 		return Array.from(canonical);
 	},
 	// Used by `can` to check permissions.
-	_isAllowed: function( user, actionName, resource ) {
+	_isAllowed: function( user, actionName, req ) {
 		var can = user.can(actionName);
-		if( can.resource ) {
-			if( !resource ) {
-				throw new Error('Action needs resource: '+actionName);
-			}
-			return can.resource(resource);
-		} else {
-			return can;
-		}
+		return can.resource ?
+		       can.resource(req) :
+		       can;
 	}
 });
 
@@ -231,11 +226,10 @@ extend(Role.prototype, {
 			throw new Error('Action already defined: '+actionName);
 		}
 		if( typeof allow != 'function' ) {
-			var returnValue = !!allow;
-			allow = function() { return returnValue };
+			allow = this._createAllowFunction(allow);
 		}
 		if( resource && typeof resource != 'function' ) {
-			resource = function( model ) { return model };
+			resource = this._createResourceFunction(resource);
 		}
 		
 		this.actions[actionName] = {
@@ -244,6 +238,24 @@ extend(Role.prototype, {
 			allow          : allow
 		};
 		return this;
+	},
+	
+	_createAllowFunction: function( allowValue ) {
+		return function() { return !!allowValue };
+	},
+	_createResourceFunction: function( resourceValue ) {
+		// return function( model ) { return model };
+		return function( req ) {
+			if( req && req.app && req instanceof http.IncomingMessage ) {
+				var resource = req[resourceValue];
+				if( !resource ) {
+					throw new Error('Action \''+this.name+'\' requires resource req.'+resourceValue);
+				}
+				return resource;
+			} else {
+				return resourceValue;
+			}
+		};
 	}
 });
 
