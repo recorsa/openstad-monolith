@@ -19,20 +19,13 @@ module.exports = co.wrap(function*( db ) {
 				}, {
 					model : db.Argument,
 					as    : 'argumentsFor'
+				}, {
+					model: db.Vote
 				}]
 			}],
 			validate : userData.id != 4 // User 4 is anonymous and has credentials
 		});
 	});
-	log('generating votes...');
-	yield _.flatten(_.map(votes, function( votesForIdea, ideaId ) {
-		return db.Idea.findById(ideaId).then(function( idea ) {
-			return Promise.all(votesForIdea.map(function( vote ) {
-				// console.log(idea.constructor.prototype);
-				return idea.createVote(vote);
-			}));
-		});
-	}));
 	log('test database complete');
 });
 
@@ -57,18 +50,49 @@ var users = [
 			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein',
 			description      : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!',
 			argumentsAgainst : [
-				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn.'}
+				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn. Daarnaast zal dit project ook weer enorm uit de hand lopen waarschijnlijk.'}
 			],
 			argumentsFor     : [
 				{userId: 7  , sentiment: 'for'    , description: 'De metro is cool.'},
 				{userId: 12 , sentiment: 'for'    , description: 'Fietsen is verschrikkelijk als het regent.'}
+			],
+			votes: [
+				{userId: 3  , opinion: 'yes'},
+				{userId: 2  , opinion: 'no'},
+				{userId: 4  , opinion: 'yes'},
+				{userId: 10 , opinion: 'yes'},
+				{userId: 11 , opinion: 'abstain'},
+				{userId: 12 , opinion: 'no'},
+				{userId: 21 , opinion: 'yes'},
+				{userId: 6  , opinion: 'yes'},
+				{userId: 8  , opinion: 'no'}
 			]
 		}, {
-			id          : 2,
-			startDate   : moment(today).subtract(10, 'days'),
-			title       : 'Boomloze wijk',
-			summary     : 'Bomen geven troep en nemen licht weg. Uit de grond ermee!',
-			description : 'Al die boomknuffelaars die vast willen houden aan het verleden. Tijd voor een frisse wind! Alle bomen de grond uit, en een hoge muur om alle parken heen, zodat vallende bladeren geen probleem meer zijn!'
+			id               : 2,
+			startDate        : moment(today).subtract(10, 'days'),
+			title            : 'Boomloze wijk',
+			summary          : 'Bomen geven troep en nemen licht weg. Uit de grond ermee!',
+			description      : 'Al die boomknuffelaars die vast willen houden aan het verleden. Tijd voor een frisse wind! Alle bomen de grond uit, en een hoge muur om alle parken heen, zodat vallende bladeren geen probleem meer zijn!',
+			argumentsAgainst : [
+				{userId: 19, sentiment: 'against' , description: 'Bomen zijn goed voor mensen, en zuiveren de lucht.'},
+				{userId: 30, sentiment: 'against' , description: 'Dit is een hellend vlak. Wat gaat dit betekenen voor de struiken?'}
+			],
+			votes            : [
+				{userId: 2  , opinion: 'yes'},
+				{userId: 4  , opinion: 'no'},
+				{userId: 5  , opinion: 'no'},
+				{userId: 7  , opinion: 'no'},
+				{userId: 8  , opinion: 'abstain'},
+				{userId: 9  , opinion: 'yes'},
+				{userId: 11 , opinion: 'yes'},
+				{userId: 13 , opinion: 'no'},
+				{userId: 18 , opinion: 'no'},
+				{userId: 25 , opinion: 'yes'},
+				{userId: 26 , opinion: 'abstain'},
+				{userId: 28 , opinion: 'no'},
+				{userId: 29 , opinion: 'yes'},
+				{userId: 30 , opinion: 'no'}
+			]
 		}
 	]},
 	{id : 3  , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastname : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
@@ -77,7 +101,16 @@ var users = [
 			startDate   : moment(today).subtract(6, 'days'),
 			title       : 'Markt uitbreiden',
 			summary     : 'Er moet plek zijn voor twee groentemannen!',
-			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.'
+			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.',
+			votes: [
+				{userId: 15 , opinion: 'no'},
+				{userId: 7  , opinion: 'no'},
+				{userId: 19 , opinion: 'yes'},
+				{userId: 21 , opinion: 'yes'},
+				{userId: 5  , opinion: 'abstain'},
+				{userId: 8  , opinion: 'abstain'},
+				{userId: 2  , opinion: 'no'}
+			]
 		}
 	]},
 	// User 4 validation is skipped, see above.
@@ -110,43 +143,3 @@ var users = [
 	{id : 30 , role: 'member'    , userName : 'theresa'  , password : '9erzgsH'      , firstName : 'Judy'      , lastName : 'Hill'      , gender : 'Female' , email : 'jhill1c@4shared.com'        , zipCode : null}      ,
 	{id : 31 , role: 'member'    , userName : 'ryan'     , password : '8Vh1vixS'     , firstName : 'Earl'      , lastName : 'Stone'     , gender : 'Male'   , email : 'estone1d@baidu.com'         , zipCode : null}
 ];
-// Votes per idea
-// --------------
-var votes = {
-	1: [
-		{userId: 3  , opinion: 'yes'},
-		{userId: 2  , opinion: 'no'},
-		{userId: 4  , opinion: 'yes'},
-		{userId: 10 , opinion: 'yes'},
-		{userId: 11 , opinion: 'abstain'},
-		{userId: 12 , opinion: 'no'},
-		{userId: 21 , opinion: 'yes'},
-		{userId: 6  , opinion: 'yes'},
-		{userId: 8  , opinion: 'no'}
-	],
-	2: [
-		{userId: 2  , opinion: 'yes'},
-		{userId: 4  , opinion: 'no'},
-		{userId: 5  , opinion: 'no'},
-		{userId: 7  , opinion: 'no'},
-		{userId: 8  , opinion: 'abstain'},
-		{userId: 9  , opinion: 'yes'},
-		{userId: 11 , opinion: 'yes'},
-		{userId: 13 , opinion: 'no'},
-		{userId: 18 , opinion: 'no'},
-		{userId: 25 , opinion: 'yes'},
-		{userId: 26 , opinion: 'abstain'},
-		{userId: 28 , opinion: 'no'},
-		{userId: 29 , opinion: 'yes'},
-		{userId: 30 , opinion: 'no'}
-	],
-	3: [
-		{userId: 15 , opinion: 'no'},
-		{userId: 7  , opinion: 'no'},
-		{userId: 19 , opinion: 'yes'},
-		{userId: 21 , opinion: 'yes'},
-		{userId: 5  , opinion: 'abstain'},
-		{userId: 8  , opinion: 'abstain'},
-		{userId: 2  , opinion: 'no'}
-	]
-}

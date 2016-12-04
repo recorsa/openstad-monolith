@@ -58,7 +58,7 @@ module.exports = function( app ) {
 	
 	// Edit idea
 	// ---------
-	router.route('/:id(\\d+)/edit')
+	router.route('/:id/edit')
 	.all(fetchIdea())
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
@@ -77,7 +77,7 @@ module.exports = function( app ) {
 	
 	// Delete idea
 	// -----------
-	router.route('/:id(\\d+)/delete')
+	router.route('/:id/delete')
 	.all(fetchIdea())
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
@@ -91,7 +91,7 @@ module.exports = function( app ) {
 	
 	// Vote for idea
 	// -------------
-	router.route('/:id(\\d+)/vote')
+	router.route('/:id/vote')
 	.all(fetchIdea())
 	.all(auth.can('idea:vote'))
 	.post(function( req, res, next ) {
@@ -115,7 +115,7 @@ module.exports = function( app ) {
 	
 	// Admin idea
 	// ----------
-	router.route('/:id(\\d+)/status')
+	router.route('/:id/status')
 	.all(fetchIdea())
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
@@ -133,7 +133,8 @@ function fetchIdea( /* [scopes] */ ) {
 	
 	return function( req, res, next ) {
 		var ideaId = req.params.id;
-		db.Idea.scope(scopes).findById(ideaId).then(function( idea ) {
+		db.Idea.scope(scopes).findById(ideaId)
+		.then(function( idea ) {
 			if( !idea ) {
 				next(createError(404, 'Idea not found'));
 			} else {
