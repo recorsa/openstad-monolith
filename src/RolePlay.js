@@ -52,23 +52,20 @@ extend(RolePlay.prototype, {
 				return next(createError(403, 'No authenticated user found'));
 			}
 			
-			var user      = self.user(req.user);
-			var isAllowed = actionNames.map(function( actionName ) {
+			var user    = self.user(req.user);
+			var allowed = actionNames.map(function( actionName ) {
 				return self._isAllowed(user, actionName, req);
 			});
 			
-			Promise.all(isAllowed).then(function( allowed ) {
-				if( allOptional || allowed[0] ) {
-					// Add `can(actionName)` function to locals, so the passed
-					// permission can be checked in the template as well.
-					var actions = zipObject(actionNames, allowed);
-					self._addHelperFunction(req, res, actions);
-					next();
-				} else {
-					next(createError(403, 'Not authorized'));
-				}
-			})
-			.catch(next);
+			if( allOptional || allowed[0] ) {
+				// Add `can(actionName)` function to locals, so the passed
+				// permission can be checked in the template as well.
+				var actions = zipObject(actionNames, allowed);
+				self._addHelperFunction(req, res, actions);
+				next();
+			} else {
+				next(createError(403, 'Not authorized'));
+			}
 		}
 	},
 	
@@ -280,13 +277,12 @@ extend(Play.prototype, {
 			var self = this;
 			return {
 				resource: function( mixed ) {
-					return Promise.resolve(action.resource(mixed)).then(function( resource ) {
-						return action.allow(self.user, resource, actionName);
-					});
+					var resource = action.resource(mixed);
+					return action.allow(self.user, resource, actionName);
 				}
 			};
 		} else {
-			return Promise.resolve(action.allow(this.user, actionName));
+			return action.allow(this.user, actionName);
 		}
 	},
 	
