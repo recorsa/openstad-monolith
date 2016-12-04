@@ -1,12 +1,6 @@
 body {
   margin: 0;
 }
-form.action {
-  display: inline;
-}
-form.vote {
-  float: right;
-}
 ul#menu {
   margin: 10px 0px;
   overflow: hidden;
@@ -31,6 +25,15 @@ ul#menu li {
 }
 #content.ideasList span.abstain {
   color: #a3a3a3;
+}
+#content.idea .buttons {
+  overflow: hidden;
+}
+#content.idea .buttons form.action {
+  display: inline;
+}
+#content.idea .buttons form.vote {
+  float: right;
 }
 #content.idea #arguments {
   overflow: hidden;
