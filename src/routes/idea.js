@@ -28,7 +28,7 @@ module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/idea', router);
 	
-	router.route('/:id(\\d+)')
+	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withVotes', 'withArguments'))
 	.all(auth.can('idea:view', 'idea:*'))
 	.get(function( req, res ) {
@@ -58,7 +58,7 @@ module.exports = function( app ) {
 	
 	// Edit idea
 	// ---------
-	router.route('/:id/edit')
+	router.route('/:ideaId/edit')
 	.all(fetchIdea())
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
@@ -77,7 +77,7 @@ module.exports = function( app ) {
 	
 	// Delete idea
 	// -----------
-	router.route('/:id/delete')
+	router.route('/:ideaId/delete')
 	.all(fetchIdea())
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
@@ -91,7 +91,7 @@ module.exports = function( app ) {
 	
 	// Vote for idea
 	// -------------
-	router.route('/:id/vote')
+	router.route('/:ideaId/vote')
 	.all(fetchIdea())
 	.all(auth.can('idea:vote'))
 	.post(function( req, res, next ) {
@@ -115,7 +115,7 @@ module.exports = function( app ) {
 	
 	// Admin idea
 	// ----------
-	router.route('/:id/status')
+	router.route('/:ideaId/status')
 	.all(fetchIdea())
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
@@ -132,7 +132,7 @@ function fetchIdea( /* [scopes] */ ) {
 	var scopes = Array.from(arguments);
 	
 	return function( req, res, next ) {
-		var ideaId = req.params.id;
+		var ideaId = req.params.ideaId;
 		db.Idea.scope(scopes).findById(ideaId)
 		.then(function( idea ) {
 			if( !idea ) {
