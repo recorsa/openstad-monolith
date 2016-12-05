@@ -115,11 +115,16 @@ module.exports = function( app ) {
 	
 	// Argumentation
 	// -------------
-	router.route('/:ideaId/arg')
+	router.route('/:ideaId/arg/new')
 	.all(fetchIdea())
 	.all(auth.can('arg:add'))
 	.post(function( req, res, next ) {
-		next();
+		var idea = req.idea;
+		idea.addUserArgument(req.user, req.body)
+		.then(function( argument ) {
+			res.success('/idea/'+idea.id, {argument: argument.toJSON()});
+		})
+		.catch(next);
 	});
 	
 	router.route('/:ideaId/arg/:argId/edit')

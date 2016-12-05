@@ -1,5 +1,6 @@
 var co     = require('co')
   , moment = require('moment');
+var pick   = require('lodash/pick');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
@@ -112,6 +113,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 						return db.Vote.upsert(data);
 					}
 				});
+			},
+			addUserArgument: function( user, data ) {
+				var filtered = pick(data, ['sentiment', 'description']);
+				filtered.ideaId = this.id;
+				filtered.userId = user.id;
+				return db.Argument.create(filtered);
 			},
 			
 			setStatus: function( status ) {
