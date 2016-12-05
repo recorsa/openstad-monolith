@@ -129,14 +129,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 	
 	function scopes() {
 		return {
-			withVotes: {
-				attributes: Object.keys(this.attributes).concat([
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="no")'), 'no'],
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="abstain")'), 'abstain']
-				])
-			},
-			
 			running: {
 				where: {
 					status: 'RUNNING'
@@ -150,6 +142,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 				order: 'endDate DESC'
 			},
 			
+			withUser: {
+				include: [{
+					model      : db.User,
+					attributes : ['firstName', 'lastName']
+				}]
+			},
+			withVotes: {
+				attributes: Object.keys(this.attributes).concat([
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="no")'), 'no'],
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],
+					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="abstain")'), 'abstain']
+				])
+			},
 			withArguments: {
 				include: [{
 					model    : db.Argument,

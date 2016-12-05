@@ -8,6 +8,8 @@
 
 	{{idea.description}}
 	
+	<div id="author">Door: {{idea.user.firstName}} {{idea.user.lastName}}</div>
+	
 	{% if can('idea:vote') %}
 		<hr>
 	{% endif %}

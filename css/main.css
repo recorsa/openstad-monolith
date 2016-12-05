@@ -32,6 +32,10 @@ ul#menu li {
 #content.ideasList span.abstain {
   color: #a3a3a3;
 }
+#content.idea #author {
+  font-style: italic;
+  margin-top: 20px;
+}
 #content.idea .buttons {
   overflow: hidden;
 }
