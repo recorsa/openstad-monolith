@@ -2,6 +2,10 @@ body {
 	margin: 0;
 }
 
+form {
+	overflow: hidden;
+}
+
 ul#menu {
 	margin: 10px 0px;
 	overflow: hidden;
@@ -47,7 +51,6 @@ ul#menu {
 			form {
 				margin-bottom: 10px;
 				margin-right: 10px;
-				overflow: hidden;
 			}
 			textarea {
 				box-sizing: border-box;
@@ -65,5 +68,15 @@ ul#menu {
 				}
 			}
 		}
+	}
+}
+#content.argument {
+	textarea {
+		box-sizing: border-box;
+		height: 100px;
+		width: 100%;
+	}
+	input[type="submit"] {
+		float: right;
 	}
 }

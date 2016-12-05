@@ -133,7 +133,10 @@ module.exports = function( app ) {
 	.get(function( req, res, next ) {
 		res.format({
 			html: function() {
-				res.out('ideas/form_arg.njk', {argument: req.argument});
+				res.out('ideas/form_arg.njk', true, {
+					argument  : req.argument.toJSON(),
+					csrfToken : req.csrfToken()
+				});
 			},
 			json: function() {
 				next(createError(406));
@@ -141,7 +144,14 @@ module.exports = function( app ) {
 		})
 	})
 	.put(function( req, res, next ) {
-		next();
+		var argument = req.argument;
+		argument.update({
+			description: req.body.description
+		})
+		.then(function() {
+			res.success('/idea/'+argument.ideaId, {argument: argument.toJSON()});
+		})
+		.catch(next);
 	});
 	
 	// Admin idea

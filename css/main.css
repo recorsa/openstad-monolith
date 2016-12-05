@@ -1,6 +1,9 @@
 body {
   margin: 0;
 }
+form {
+  overflow: hidden;
+}
 ul#menu {
   margin: 10px 0px;
   overflow: hidden;
@@ -45,7 +48,6 @@ ul#menu li {
 #content.idea #arguments div.argList form {
   margin-bottom: 10px;
   margin-right: 10px;
-  overflow: hidden;
 }
 #content.idea #arguments div.argList textarea {
   box-sizing: border-box;
@@ -60,4 +62,12 @@ ul#menu li {
 }
 #content.idea #arguments div.argList div.argument div.user {
   font-style: italic;
+}
+#content.argument textarea {
+  box-sizing: border-box;
+  height: 100px;
+  width: 100%;
+}
+#content.argument input[type="submit"] {
+  float: right;
 }
