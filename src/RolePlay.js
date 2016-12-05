@@ -5,6 +5,7 @@ var ary         = require('lodash/ary');
 var defaults    = require('lodash/defaults');
 var extend      = require('lodash/extend');
 var forOwn      = require('lodash/forOwn');
+var result      = require('lodash/result');
 var zipObject   = require('lodash/zipObject');
 var createError = require('http-errors');
 
@@ -64,7 +65,9 @@ extend(RolePlay.prototype, {
 				self._addHelperFunction(req, res, actions);
 				next();
 			} else {
-				next(createError(403, 'Not authorized'));
+				var action       = user.get(actionNames[0]);
+				var errorMessage = result(action, 'message') || 'Not authorized';
+				next(createError(403, errorMessage));
 			}
 		}
 	},
@@ -177,10 +180,12 @@ extend(Role.prototype, {
 	},
 	
 	// def = boolean || {
-	// 	[resource: function( mixed ) { return model || promise },]
-	// 	allow: boolean || function(userModel[, resourceModel], actionName) { return boolean || promise }
+	// 	allow    : boolean || function(user[, resource], actionName) { return boolean },
+	// 	resource : [function( mixed ) { return resource }],
+	// 	message  : [string]
 	// }
 	action: function( actionName, def ) {
+		var action;
 		// This call is a getter, or it's an object of action definitions.
 		if( arguments.length === 1 ) {
 			if( typeof actionName == 'object' ) {
@@ -193,7 +198,7 @@ extend(Role.prototype, {
 				if( typeof actionName != 'string' ) {
 					throw new Error('Incorrect action name: '+actionName);
 				}
-				var action = this.actions[actionName];
+				action = this.actions[actionName];
 				if( !action ) {
 					var parts = actionName.split(':');
 					while( !action && parts.pop() ) {
@@ -204,10 +209,11 @@ extend(Role.prototype, {
 			}
 		}
 		
-		var resource, allow;
+		var resource, allow, message;
 		if( def instanceof Object ) {
 			resource = def.resource;
 			allow    = def.allow;
+			message  = def.message;
 		} else {
 			allow    = !!def;
 		}
@@ -222,10 +228,11 @@ extend(Role.prototype, {
 			resource = this._createResourceFunction(resource);
 		}
 		
-		this.actions[actionName] = {
+		action = this.actions[actionName] = {
 			name           : actionName,
 			resource       : resource,
-			allow          : allow
+			allow          : allow,
+			message        : message
 		};
 		return this;
 	},
@@ -261,18 +268,20 @@ extend(Play.prototype, {
 	resource : undefined,
 	
 	can: function( actionName, mixed ) {
-		var action = this.mgr.gatherAction(actionName, this.role);
-		var resource;
+		var action = this.get(actionName);
 		if( !action ) {
 			throw new Error('Action not found: '+actionName);
 		}
 		
 		if( action.resource ) {
-			resource = action.resource(mixed);
+			var resource = action.resource(mixed);
 			return action.allow(this.user, resource, actionName);
 		} else {
 			return action.allow(this.user, actionName);
 		}
+	},
+	get: function( actionName ) {
+		return this.mgr.gatherAction(actionName, this.role);
 	},
 	
 	_getUserRole: function( user ) {
