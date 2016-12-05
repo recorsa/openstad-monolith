@@ -11,6 +11,15 @@ module.exports = function( role ) {
 		'idea:view'      : true,
 		'idea:create'    : false,
 		'idea:vote'      : false,
+		'idea:edit'      : {
+			allow    : false,
+			resource : 'idea'
+		},
+		'idea:delete'    : {
+			allow    : false,
+			resource : 'idea'
+		},
+		
 		'arg:add'        : {
 			allow    : false,
 			resource : 'idea',
@@ -19,14 +28,6 @@ module.exports = function( role ) {
 		'arg:edit'       : {
 			allow    : false,
 			resource : 'argument'
-		},
-		'idea:edit'      : {
-			allow    : false,
-			resource : 'idea'
-		},
-		'idea:delete'    : {
-			allow    : false,
-			resource : 'idea'
 		}
 	});
 };

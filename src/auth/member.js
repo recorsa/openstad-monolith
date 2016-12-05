@@ -4,18 +4,19 @@ module.exports = function( role ) {
 		
 		'idea:view'      : true,
 		'idea:create'    : true,
+		'idea:edit'      : {
+			allow   : mayMutateIdea
+		},
+		'idea:delete'    : {
+			allow   : mayMutateIdea
+		},
+		
 		'arg:add'        : {
 			allow   : mayAddArgument,
 			message : 'U kunt geen argument aan uw eigen idee toevoegen'
 		},
 		'arg:edit'       : {
 			allow   : mayMutateArgument
-		},
-		'idea:edit'      : {
-			allow   : mayMutateIdea
-		},
-		'idea:delete'    : {
-			allow   : mayMutateIdea
 		}
 	});
 };
