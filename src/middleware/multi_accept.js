@@ -7,6 +7,10 @@ module.exports = function( app ) {
 };
 
 function out( viewPath, allowJSON, data ) {
+	if( typeof allowJSON !== 'boolean' ) {
+		throw new Error('req.out: allowJSON argument must be boolean');
+	}
+	
 	var res = this;
 	res.format({
 		html: function() {
