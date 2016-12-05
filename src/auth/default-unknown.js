@@ -11,7 +11,11 @@ module.exports = function( role ) {
 		'idea:view'      : true,
 		'idea:create'    : false,
 		'idea:vote'      : false,
-		'arg:add'        : false,
+		'arg:add'        : {
+			allow    : false,
+			resource : 'idea',
+			message  : 'Argumenten toevoegen niet toegestaan'
+		},
 		'arg:edit'       : {
 			allow    : false,
 			resource : 'argument'
