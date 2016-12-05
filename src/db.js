@@ -11,6 +11,7 @@ var sequelize = new Sequelize(config.database, config.user, config.password, {
 	},
 	timeZone       : config.timeZone,
 	logging        : require('debug')('app:db:query'),
+	typeValidation : true,
 	
 	define: {
 		underscored    : false, // preserve columName casing.
