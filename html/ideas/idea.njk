@@ -69,7 +69,7 @@
 				<div class="user">
 					{{arg.user.firstName}} {{arg.user.lastName}}
 					{% if user.can('arg:edit', arg) %}
-					[<a href="idea/{{idea.id}}/arg/{{arg.id}}/edit">bewerk</a>]
+					[<a href="/idea/{{idea.id}}/arg/{{arg.id}}/edit">bewerk</a>]
 					{% endif %}
 				</div>
 				{{arg.description}}

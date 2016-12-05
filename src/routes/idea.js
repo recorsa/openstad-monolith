@@ -51,7 +51,7 @@ module.exports = function( app ) {
 	.post(function( req, res, next ) {
 		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
-			res.success('/idea/'+idea.id, {idea: idea});
+			res.success('/idea/'+idea.id, {idea: idea.toJSON()});
 		})
 		.catch(next)
 	});
@@ -70,7 +70,7 @@ module.exports = function( app ) {
 	.put(function( req, res, next ) {
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
-			res.success('/idea/'+idea.id, {idea: idea});
+			res.success('/idea/'+idea.id, {idea: idea.toJSON()});
 		})
 		.catch(next);
 	});
@@ -106,7 +106,7 @@ module.exports = function( app ) {
 			                                  undefined;
 		}
 		
-		req.user.vote(idea, opinion)
+		idea.addUserVote(req.user, opinion)
 		.then(function() {
 			res.success('/idea/'+idea.id, true);
 		})
@@ -148,7 +148,7 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.setStatus(req.body.status)
 		.then(function() {
-			res.success('/idea/'+idea.id, true);
+			res.success('/idea/'+idea.id, {idea: idea.toJSON()});
 		})
 		.catch(next);
 	});
