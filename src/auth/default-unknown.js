@@ -28,6 +28,10 @@ module.exports = function( role ) {
 		'arg:edit'       : {
 			allow    : false,
 			resource : 'argument'
+		},
+		'arg:delete'     : {
+			allow    : false,
+			message  : 'Argumenten verwijderen niet toegestaan'
 		}
 	});
 };

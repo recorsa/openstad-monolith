@@ -4,6 +4,9 @@ body {
 form {
   overflow: hidden;
 }
+form.action {
+  display: inline;
+}
 ul#menu {
   margin: 10px 0px;
   overflow: hidden;
@@ -32,9 +35,6 @@ ul#menu li {
 #content.idea .buttons {
   overflow: hidden;
 }
-#content.idea .buttons form.action {
-  display: inline;
-}
 #content.idea .buttons form.vote {
   float: right;
 }
@@ -59,6 +59,7 @@ ul#menu li {
 }
 #content.idea #arguments div.argList div.argument {
   margin-bottom: 20px;
+  margin-right: 10px;
 }
 #content.idea #arguments div.argList div.argument div.user {
   font-style: italic;

@@ -154,6 +154,19 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
+	router.route('/:ideaId/arg/:argId/delete')
+	.all(fetchArgument)
+	.all(auth.can('arg:delete'))
+	.delete(function( req, res, next ) {
+		var argument = req.argument;
+		var ideaId   = argument.ideaId;
+		argument.destroy()
+		.then(function() {
+			res.success('/idea/'+ideaId, true);
+		})
+		.catch(next);
+	});
+	
 	// Admin idea
 	// ----------
 	router.route('/:ideaId/status')

@@ -68,8 +68,18 @@
 			<div class="argument">
 				<div class="user">
 					{{arg.user.firstName}} {{arg.user.lastName}}
+					
+					{% if user.can('arg:delete') %}
+						<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="submit" value="verwijderen">
+						</form>
+					{% endif %}
 					{% if user.can('arg:edit', arg) %}
-					[<a href="/idea/{{idea.id}}/arg/{{arg.id}}/edit">bewerk</a>]
+						<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
+							<input type="submit" value="bewerk">
+						</form>
 					{% endif %}
 				</div>
 				{{arg.description}}
