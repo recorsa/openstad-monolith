@@ -30,5 +30,6 @@ function mayMutateIdea( user, idea ) {
 	// TODO: Time sensitivity?
 	var isOwner   = user.id === idea.userId;
 	var voteCount = idea.no + idea.yes + idea.abstain;
-	return isOwner && !voteCount;
+	var argCount  = idea.argumentsFor.length + idea.argumentsAgainst.length;
+	return isOwner && !voteCount && !argCount;
 }
