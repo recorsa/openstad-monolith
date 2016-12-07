@@ -59,7 +59,7 @@ module.exports = function( app ) {
 	// Edit idea
 	// ---------
 	router.route('/:ideaId/edit')
-	.all(fetchIdea())
+	.all(fetchIdea('withVotes', 'withArguments'))
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
@@ -78,7 +78,7 @@ module.exports = function( app ) {
 	// Delete idea
 	// -----------
 	router.route('/:ideaId/delete')
-	.all(fetchIdea())
+	.all(fetchIdea('withVotes', 'withArguments'))
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
 		var idea = req.idea;
