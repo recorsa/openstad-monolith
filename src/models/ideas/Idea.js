@@ -1,6 +1,7 @@
-var co     = require('co')
-  , moment = require('moment');
-var pick   = require('lodash/pick');
+var co       = require('co')
+  , moment   = require('moment')
+  , pick     = require('lodash/pick');
+var sanitize = require('../../util/sanitize');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
@@ -27,15 +28,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		title: {
 			type         : DataTypes.STRING(255),
-			allowNull    : false
+			allowNull    : false,
+			set          : function( text ) {
+				this.setDataValue('title', sanitize.title(text));
+			}
 		},
 		summary: {
 			type         : DataTypes.TEXT,
-			allowNull    : false
+			allowNull    : false,
+			set          : function( text ) {
+				this.setDataValue('summary', sanitize.summary(text));
+			}
 		},
 		description: {
 			type         : DataTypes.TEXT,
-			allowNull    : false
+			allowNull    : false,
+			set          : function( text ) {
+				this.setDataValue('description', sanitize.content(text));
+			}
 		},
 		// Vote counts set in the default scope.
 		no: {
