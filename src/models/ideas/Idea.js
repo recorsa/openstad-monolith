@@ -84,6 +84,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Vote);
 				this.hasMany(models.Argument, {as: 'argumentsAgainst'});
 				this.hasMany(models.Argument, {as: 'argumentsFor'});
+				this.hasMany(models.Image);
 			},
 			
 			getRunningIdeas: function() {
@@ -123,6 +124,29 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			setStatus: function( status ) {
 				return this.update({status: status});
+			},
+			
+			updateImages: function( imageKeys ) {
+				var self = this;
+				if( !imageKeys || !imageKeys.length ) {
+					imageKeys = [''];
+				}
+				
+				return Promise.all([
+					db.Image.update({ideaId: this.id}, {
+						where: {
+							key    : {$in: imageKeys}
+						}
+					}),
+					db.Image.destroy({
+						where: {
+							ideaId : this.id,
+							key    : {$notIn  : imageKeys}
+						}
+					})
+				]).then(function() {
+					return self;
+				});
 			}
 		}
 	});

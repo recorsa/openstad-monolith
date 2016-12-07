@@ -2,17 +2,23 @@
 
 {% set pageTitle = 'Nieuw idee' %}
 
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="/lib/trix/dist/trix.css">
+{% endblock %}
+
 {% block content %}
 <h1>Nieuw idee</h1>
 
-<form method="post">
+<form method="post" id="js-form">
 	Titel: <input type="text" name="title" value="{{idea.title}}"><br>
 	
 	Samenvatting:<br>
 	<textarea name="summary">{{idea.summary}}</textarea><br>
 	
 	Beschrijving:<br>
-	<textarea name="description">{{idea.description}}</textarea><br>
+	<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
+	<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
 	
 	{% if idea %}
 	<input type="hidden" name="id" value="{{idea.id}}">
@@ -20,6 +26,17 @@
 	{% endif %}
 	<input type="hidden" name="_csrf" value="{{csrfToken}}">
 	
-	<input type="submit" name="Opslaan">
+	<input type="submit" value="Opslaan">
 </form>
+{% endblock %}
+
+{% block footer %}
+	<script src="/lib/trix/dist/trix.js"></script>
+	<script src="/js/editor.js"></script>
+	<script>
+		initAttachmentManager(
+			document.getElementById('js-form'),
+			document.getElementById('js-editor').editor
+		);
+	</script>
 {% endblock %}

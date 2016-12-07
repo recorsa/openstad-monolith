@@ -33,6 +33,9 @@ module.exports  = {
 		this._initBasicMiddleware();
 		this._initSessionMiddleware();
 		this._initRenderMiddleware();
+		// ... then the image functionality (not compatible with security)...
+		require('./routes/image')(this.app);
+		// ... security middleware (CSRF)...
 		this._initSecurityMiddleware();
 		// ... little helper middlewares...
 		require('./middleware/multi_accept')(this.app);

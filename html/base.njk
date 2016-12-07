@@ -3,7 +3,7 @@
 <head>
 	<title>{{pageTitle or 'Home'}} - Gemeente Amsterdam</title>
 	
-	{% block css %}
+	{% block head %}
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	{% endblock %}
 </head>
@@ -27,5 +27,8 @@
 		Standaard pagina.
 		{% endblock %}
 	</div>
+	
+	{% block footer %}
+	{% endblock %}
 </body>
 </html>

@@ -143,14 +143,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			createNewIdea: function( data ) {
-				var filtered = pick(data, ['title', 'summary', 'description']);
+				var imageKeys = data.images;
+				var filtered  = pick(data, ['title', 'summary', 'description']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
-				return db.Idea.create(filtered);
+				
+				return db.Idea.create(filtered)
+				.then(function( idea ) {
+					return idea.updateImages(imageKeys);
+				});
 			},
 			updateIdea: function( idea, data ) {
-				var filtered = pick(data, ['title', 'summary', 'description']);
-				return idea.update(filtered);
+				var imageKeys = data.images;
+				var filtered  = pick(data, ['title', 'summary', 'description']);
+				
+				return idea.update(filtered)
+				.then(function() {
+					return idea.updateImages(imageKeys);
+				});
 			}
 		}
 	});

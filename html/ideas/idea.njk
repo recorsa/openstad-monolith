@@ -6,7 +6,9 @@
 {% block content %}
 	<h1>{{idea.title}}</h1>
 
-	{{idea.description}}
+	<div class="userContent">
+		{{idea.description | safe}}
+	</div>
 	
 	<div id="author">Door: {{idea.user.firstName}} {{idea.user.lastName}}</div>
 	
