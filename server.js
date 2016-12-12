@@ -20,6 +20,7 @@ process.env.DEBUG = config.get('logging');
 // Start HTTP server
 // -----------------
 var Server  = require('./src/Server');
+var Cron    = require('./src/Cron');
 var db      = require('./src/db');
 var resetDB = argv.reset && config.get('debug');
 
@@ -30,6 +31,7 @@ db.sequelize.sync({force: resetDB}).then(function() {
 	return Promise.resolve(doReset).then(function() {
 		if( !resetDB ) {
 			Server.start(config.get('express.port'));
+			Cron.start();
 		} else {
 			db.sequelize.close();
 		}
