@@ -10,7 +10,10 @@
 		{{idea.description | safe}}
 	</div>
 	
-	<div id="author">Door: {{idea.user.firstName}} {{idea.user.lastName}}</div>
+	<div id="author">
+		Door: {{idea.user.firstName}} {{idea.user.lastName}}<br>
+		Op: {{idea.startDate | date}}
+	</div>
 	
 	{% if can('idea:vote') %}
 		<hr>
