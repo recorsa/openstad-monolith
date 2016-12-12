@@ -4,7 +4,7 @@ var fs   = require('fs')
 var util = module.exports = {
 	invokeDir: function( dirName, fn, ctx ) {
 		dirName = util.relativePath(dirName);
-		return _invokeDir(dirName, {}, fn, ctx);
+		_invokeDir(dirName, new Set, fn, ctx);
 	},
 	
 	relativePath: function( dirName ) {
@@ -29,30 +29,27 @@ var util = module.exports = {
 	}
 };
 
-function _invokeDir( dirName, result, fn, ctx ) {
-	require('fs').readdirSync(dirName).forEach(function( fileName ) {
+function _invokeDir( dirName, fileNames, fn, ctx ) {
+	var dir = fs.readdirSync(dirName);
+	for( let fileName of dir ) {
 		var fullPath = path.join(dirName, fileName)
-			, isDir    = fs.lstatSync(fullPath).isDirectory()
-			, name, file, fileResult;
+			, isDir    = fs.lstatSync(fullPath).isDirectory();
 		
 		if( isDir ) {
-			_invokeDir(fullPath, result, fn, ctx);
+			_invokeDir(fullPath, fileNames, fn, ctx);
 		} else if(
 			fileName !== 'index.js' &&
 			fileName.match(/\.js$/) !== null
 		) {
-			name = fileName.replace(/\.js$/, '');
-			if( name in result ) {
+			var name = fileName.replace(/\.js$/, '');
+			if( fileNames.has(name) ) {
 				throw new Error('util.invokeDir panics on duplicate file names! ('+fullPath+')');
+			} else {
+				fileNames.add(name);
 			}
 			
-			file       = require(fullPath);
-			fileResult = fn.call(ctx || file, file, name, fullPath);
-			if( fileResult !== undefined ) {
-				result[name] = fileResult;
-			}
+			var file = require(fullPath);
+			fn.call(ctx || file, file, name, fullPath);
 		}
-	});
-	
-	return result;
+	}
 }
