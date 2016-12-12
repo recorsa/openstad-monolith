@@ -1,6 +1,7 @@
 {
-	"debug": false,
-	"logging": "app:*,-app:db:query",
+	"debug"    : false,
+	"logging"  : "app:*,-app:db:query",
+	"timeZone" : "Europe/Amsterdam",
 	
 	"database": {
 		"dialect"            : "mysql",
@@ -8,9 +9,7 @@
 		"user"               : "",
 		"password"           : "",
 		"database"           : "",
-		
-		"multipleStatements" : true,
-		"timeZone"           : "+00:00"
+		"multipleStatements" : true
 	},
 	"express": {
 		"port": 8082

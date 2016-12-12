@@ -2,12 +2,13 @@ var Sequelize = require('sequelize');
 var _         = require('lodash');
 var util      = require('./util');
 
-var config    = require('config').get('database');
-var sequelize = new Sequelize(config.database, config.user, config.password, {
-	dialect        : config.dialect,
-	host           : config.host,
+var config    = require('config');
+var dbConfig  = config.get('database');
+var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
+	dialect        : dbConfig.dialect,
+	host           : dbConfig.host,
 	dialectOptions : {
-		multipleStatements: config.multipleStatements
+		multipleStatements: dbConfig.multipleStatements
 	},
 	timeZone       : config.timeZone,
 	logging        : require('debug')('app:db:query'),
