@@ -7,7 +7,8 @@ var _              = require('lodash')
   , methodOverride = require('method-override')
   , session        = require('express-session')
   , csurf          = require('csurf')
-  , nunjucks       = require('nunjucks');
+  , nunjucks       = require('nunjucks')
+  , dateFilter     = require('nunjucks-date-filter');
 var util           = require('./util');
 var log            = require('debug')('app:http');
 
@@ -104,10 +105,13 @@ module.exports  = {
 		// });
 	},
 	_initRenderMiddleware: function() {
-		nunjucks.configure('html', {
+		var env = nunjucks.configure('html', {
 			autoescape : true,
 			watch      : false,
 			express    : this.app
 		});
+		
+		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
+		env.addFilter('date', dateFilter);
 	}
 };
