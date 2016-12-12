@@ -21,7 +21,6 @@
     "debug": "^2.3.3",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
-    "fractal": "git+https://github.com/tjoekbezoer/Fractal.git",
     "http-errors": "^1.5.1",
     "jsdom": "^9.8.3",
     "lodash": "^4.16.4",
@@ -32,7 +31,7 @@
     "nodemailer": "^2.6.4",
     "nunjucks": "^3.0.0",
     "sanitize-html": "^1.13.0",
-    "sequelize": "^3.25.0",
+    "sequelize": "^3.27.0",
     "yargs": "^6.4.0"
   }
 }
