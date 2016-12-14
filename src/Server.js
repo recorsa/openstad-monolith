@@ -30,14 +30,19 @@ module.exports  = {
 		this.app.use('/css', express.static('css'));
 		this.app.use('/js',  express.static('js'));
 		this.app.use('/lib',  express.static('lib'));
+		require('./routes/media_get')(this.app);
+		
 		// ... then middleware everyone needs...
 		this._initBasicMiddleware();
 		this._initSessionMiddleware();
 		this._initRenderMiddleware();
-		// ... then the image functionality (not compatible with CSRF)...
-		require('./routes/image')(this.app);
+		
+		// ... then the upload functionality (not compatible with CSRF)...
+		require('./routes/media_upload')(this.app);
+		
 		// ... security middleware (CSRF)...
 		this._initSecurityMiddleware();
+		
 		// ... little helper middlewares...
 		require('./middleware/multi_accept')(this.app);
 		// ... routes...

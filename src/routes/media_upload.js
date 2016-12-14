@@ -30,15 +30,4 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
-	app.get('/image/:key', function( req, res, next ) {
-		db.Image.findOne({
-			where: {key: req.params.key}
-		})
-		.then(function( image ) {
-			res.type(image.mimeType);
-			res.send(image.data);
-		})
-		.catch(next);
-	});
 };
