@@ -1,7 +1,9 @@
-var log       = require('debug')('app:http:session-user');
+var config    = require('config');
 var db        = require('../db');
+var log       = require('debug')('app:http:session-user');
 
-// TODO: Cache cleanup.
+// TODO: Cache cleanup — node-cache.
+var uidProperty = config.get('security.sessions.uidProperty');
 var userCache = {};
 
 db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) {
@@ -18,7 +20,7 @@ module.exports = function( app ) {
 		if( !req.session ) {
 			next(new Error('express-session middleware not loaded?'));
 		} else {
-			getUserInstance(req.session.userId || 1)
+			getUserInstance(req.session[uidProperty] || 1)
 			.then(function( user ) {
 				req.user = user;
 				// Pass user entity to template view.

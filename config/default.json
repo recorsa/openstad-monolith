@@ -44,7 +44,10 @@
 			}
 		},
 		"sessions": {
-			"secret": "e56789!ouAr-/t8ewHDyer90_"
+			"secret"      : "e56789!ouAr-/t8ewHDyer90_",
+			// Property name to store user ID in `req.session`.
+			// Used in authentication both with and without password.
+			"uidProperty" : "userId"
 		}
 	}
 }

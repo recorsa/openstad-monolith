@@ -1,8 +1,11 @@
-var config      = require('config');
-var express     = require('express');
-var createError = require('http-errors')
-var db          = require('../db');
-var auth        = require('../auth');
+var config       = require('config');
+var express      = require('express');
+var createError  = require('http-errors')
+
+var auth         = require('../auth');
+var db           = require('../db');
+
+var uidProperty  = config.get('security.sessions.uidProperty');
 
 module.exports = function( app ) {
 	var router = express.Router();
@@ -20,8 +23,7 @@ module.exports = function( app ) {
 		var start = Date.now();
 		db.User.findByCredentials(userName, password)
 		.then(function( user ) {
-			req.session.userId = user.id;
-			req.user           = user;
+			req.session[uidProperty] = user.id;
 			// Delay the response so that it's always a minimum of 200ms.
 			var delay = Math.max(0, 200 - (Date.now() - start));
 			setTimeout(function() {
