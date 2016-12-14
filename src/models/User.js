@@ -19,6 +19,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			}
 		},
+		// For unknown/anon: Always `false`.
+		// For members: `true` when the user profile is complete. This is set
+		//              to `false` by default, and should be set to `true`
+		//              after the user has completed the registration. Until
+		//              then, the 'complete registration' form should be displayed
+		//              instead of any other content.
+		complete: {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : false,
+			defaultValue : false
+		},
+		
+		email: {
+			type         : DataTypes.STRING(255),
+			allowNull    : true,
+			validate     : {isEmail: true}
+		},
 		userName: {
 			type         : DataTypes.STRING(32),
 			allowNull    : true,
@@ -51,6 +68,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('passwordHash', hashObject ? JSON.stringify(hashObject) : null);
 			}
 		},
+		
 		firstName: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true
@@ -62,11 +80,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 		gender: {
 			type         : DataTypes.ENUM('male', 'female'),
 			allowNull    : true
-		},
-		email: {
-			type         : DataTypes.STRING(255),
-			allowNull    : true,
-			validate     : {isEmail: true}
 		},
 		zipCode: {
 			type         : DataTypes.STRING(10),
@@ -86,18 +99,30 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 	}, {
 		validate: {
-			loginCredentials: function() {
+			hasValidUserRole: function() {
+				if( this.id !== 1 && this.role === 'unknown' ) {
+					throw new Error('User role \'unknown\' is not allowed');
+				}
+			},
+			isValidAnon: function() {
+				if( this.role == 'unknown' || this.role == 'anonymous' ) {
+					if( this.complete || this.email ) {
+						throw new Error('Anonymous users cannot be complete profiles or have a mail address');
+					}
+				}
+			},
+			isValidMember: function() {
+				if( this.role != 'unknown' && this.role != 'anonymous' ) {
+					if( !this.email ) {
+						throw new Error('Email address is required for members');
+					}
+				}
+			},
+			onlyMembersCanLogin: function() {
 				if( this.role === 'unknown' || this.role === 'anonymous' ) {
 					if( this.userName || this.passwordHash ) {
 						throw new Error('Anonymous profiles cannot have login credentials');
 					}
-				} else if( !this.userName || !this.passwordHash ) {
-					throw new Error('Both userName and password must be set');
-				}
-			},
-			userRole: function() {
-				if( this.id !== 1 && this.role === 'unknown' ) {
-					throw new Error('User role \'unknown\' is not allowed');
 				}
 			}
 		},

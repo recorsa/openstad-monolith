@@ -41,8 +41,8 @@ var meetings = [
 // Users including their ideas
 // ---------------------------
 var users = [
-	{id : 1 , role : 'unknown'},
-	{id : 2 , role : 'admin'     , userName : 'admin'  , password : 'password'        , firstName : 'Bastard Operator' , lastName : 'from Hell' , gender : 'male' , email: 'tjoekbezoer@gmail.com' , ideas : [
+	{id : 1 , complete : 0 , role : 'unknown'},
+	{id : 2 , complete : 1 , role : 'admin'     , userName : 'admin'  , password : 'password'        , firstName : 'Bastard Operator' , lastName : 'from Hell' , gender : 'male' , email: 'tjoekbezoer@gmail.com' , ideas : [
 		{
 			id               : 1,
 			startDate        : moment(today).subtract(1, 'days'),
@@ -95,7 +95,7 @@ var users = [
 			]
 		}
 	]},
-	{id : 3  , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
+	{id : 3  , complete : 1 , role : 'member'   , userName : 'member'   , password : 'member'       , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' , email : 'jalexander0@va.gov'         , zipCode : null, ideas :[
 		{
 			id          : 3,
 			startDate   : moment(today).subtract(6, 'days'),
@@ -114,32 +114,32 @@ var users = [
 		}
 	]},
 	// User 4 validation is skipped, see above.
-	{id : 4  , role: 'anonymous' , userName : 'anon'     , password : 'anon'         , firstName : null        , lastName : null        , gender : 'male'   , email : 'crice1@nsw.gov.au'          , zipCode : '1051 RL'} ,
-	{id : 5  , role: 'member'    , userName : 'jedwards' , password : 'QoPNQ8AddeD'  , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}      ,
-	{id : 6  , role: 'member'    , userName : 'david'    , password : 'vPb2ycQFKt8'  , firstName : 'Justin'    , lastName : 'Cole'      , gender : 'male'   , email : 'jcole3@skype.com'           , zipCode : null}      ,
-	{id : 7  , role: 'member'    , userName : 'thomas'   , password : 'ZrY7tsEhlv'   , firstName : 'Sean'      , lastName : 'Scott'     , gender : 'male'   , email : null                         , zipCode : null}      ,
-	{id : 8  , role: 'member'    , userName : 'beverly'  , password : 'ra4UILqrctwq' , firstName : 'Laura'     , lastName : 'Kim'       , gender : 'female' , email : null                         , zipCode : null}      ,
-	{id : 9  , role: 'member'    , userName : 'brandon'  , password : 'fJvrKcEKn'    , firstName : 'Donald'    , lastName : 'Rose'      , gender : 'male'   , email : 'drose6@netscape.com'        , zipCode : '1050 GH'} ,
-	{id : 10 , role: 'member'    , userName : 'gregory'  , password : 'ItNPABxwyj6'  , firstName : 'Joe'       , lastName : 'Greene'    , gender : 'male'   , email : 'jgreene7@uol.com.br'        , zipCode : null}      ,
-	{id : 11 , role: 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'female' , email : 'pperkins8@springer.com'     , zipCode : '1053 BM'} ,
-	{id : 12 , role: 'member'    , userName : 'william'  , password : 'tHZn7Q'       , firstName : 'Albert'    , lastName : 'Miller'    , gender : 'male'   , email : 'amilleru@jugem.jp'          , zipCode : null}      ,
-	{id : 13 , role: 'member'    , userName : 'michelle' , password : '7HMeZ7DGGksV' , firstName : 'Christine' , lastName : 'Fowler'    , gender : 'female' , email : 'cfowlerv@deliciousdays.com' , zipCode : null}      ,
-	{id : 14 , role: 'member'    , userName : 'fitz'     , password : 'a69GBf7GsE4'  , firstName : 'Jimmy'     , lastName : 'Hughes'    , gender : 'male'   , email : 'jhughesw@netlog.com'        , zipCode : '1050 JK'} ,
-	{id : 15 , role: 'member'    , userName : 'albert'   , password : 'I8ireC3iOP'   , firstName : 'Carlos'    , lastName : 'Carr'      , gender : 'male'   , email : 'ccarrx@moonfruit.com'       , zipCode : '1054 WK'} ,
-	{id : 16 , role: 'member'    , userName : 'maria'    , password : 'kb1KeoZc8'    , firstName : 'Jessica'   , lastName : 'Foster'    , gender : 'female' , email : 'jfostery@harvard.edu'       , zipCode : '1050 ER'} ,
-	{id : 17 , role: 'member'    , userName : 'eric'     , password : 'vWSqV8nB'     , firstName : 'Steven'    , lastName : 'Hawkins'   , gender : 'male'   , email : 'shawkinsz@google.com.au'    , zipCode : '1051 AB'} ,
-	{id : 18 , role: 'member'    , userName : 'bonzi'    , password : '63uCZrurs'    , firstName : 'Michelle'  , lastName : 'Jacobs'    , gender : 'female' , email : 'mjacobs10@chronoengine.com' , zipCode : null}      ,
-	{id : 19 , role: 'member'    , userName : 'brenda'   , password : 'rEY06Uly4X'   , firstName : 'Maria'     , lastName : 'Parker'    , gender : 'female' , email : null                         , zipCode : null}      ,
-	{id : 20 , role: 'member'    , userName : 'susan'    , password : 'ybfDLt36NMM'  , firstName : 'Beverly'   , lastName : 'Black'     , gender : 'female' , email : null                         , zipCode : null}      ,
-	{id : 21 , role: 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'female' , email : null                         , zipCode : '1050 FG'} ,
-	{id : 22 , role: 'member'    , userName : 'kathy'    , password : 'PJxXmeA5XAd'  , firstName : 'Janet'     , lastName : 'Jones'     , gender : 'female' , email : 'jjones14@hp.com'            , zipCode : null}      ,
-	{id : 23 , role: 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'female' , email : null                         , zipCode : '1051 TH'} ,
-	{id : 24 , role: 'member'    , userName : 'tina'     , password : 'X6aD06u'      , firstName : 'Janet'     , lastName : 'Smith'     , gender : 'female' , email : 'jsmith16@cnbc.com'          , zipCode : null}      ,
-	{id : 25 , role: 'member'    , userName : 'jessica'  , password : 'WSeqnH'       , firstName : 'Frances'   , lastName : 'Watson'    , gender : 'female' , email : 'fwatson17@alibaba.com'      , zipCode : null}      ,
-	{id : 26 , role: 'member'    , userName : 'jimmy'    , password : 'mRHoBGu1yrKm' , firstName : 'Clarence'  , lastName : 'Jordan'    , gender : 'male'   , email : 'cjordan18@lulu.com'         , zipCode : null}      ,
-	{id : 27 , role: 'member'    , userName : 'anna'     , password : 'E1amNfG'      , firstName : 'Debra'     , lastName : 'Ferguson'  , gender : 'female' , email : null                         , zipCode : null}      ,
-	{id : 28 , role: 'member'    , userName : 'jennifer' , password : 'ruj44zW9Hgn'  , firstName : 'Lois'      , lastName : 'Hughes'    , gender : 'female' , email : 'lhughes1a@marriott.com'     , zipCode : null}      ,
-	{id : 29 , role: 'member'    , userName : 'lola'     , password : '3esoK36QCnf8' , firstName : 'Jennifer'  , lastName : 'West'      , gender : 'female' , email : 'jwest1b@hugedomains.com'    , zipCode : null}      ,
-	{id : 30 , role: 'member'    , userName : 'theresa'  , password : '9erzgsH'      , firstName : 'Judy'      , lastName : 'Hill'      , gender : 'female' , email : 'jhill1c@4shared.com'        , zipCode : null}      ,
-	{id : 31 , role: 'member'    , userName : 'ryan'     , password : '8Vh1vixS'     , firstName : 'Earl'      , lastName : 'Stone'     , gender : 'male'   , email : 'estone1d@baidu.com'         , zipCode : null}
+	{id : 4  , complete : 0 , role : 'anonymous' , userName : 'anon'     , password : 'anon'         , firstName : null        , lastName : null        , gender : 'male'   , email : null                         , zipCode : '1051 RL'} ,
+	{id : 5  , complete : 1 , role : 'member'    , userName : 'jedwards' , password : 'QoPNQ8AddeD'  , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , email : 'jedwards2@statcounter.com'  , zipCode : null}      ,
+	{id : 6  , complete : 1 , role : 'member'    , userName : 'david'    , password : 'vPb2ycQFKt8'  , firstName : 'Justin'    , lastName : 'Cole'      , gender : 'male'   , email : 'jcole3@skype.com'           , zipCode : null}      ,
+	{id : 7  , complete : 1 , role : 'member'    , userName : 'thomas'   , password : 'ZrY7tsEhlv'   , firstName : 'Sean'      , lastName : 'Scott'     , gender : 'male'   , email : 'crice1@nsw.gov.au'          , zipCode : null}      ,
+	{id : 8  , complete : 1 , role : 'member'    , userName : 'beverly'  , password : 'ra4UILqrctwq' , firstName : 'Laura'     , lastName : 'Kim'       , gender : 'female' , email : 'pperkins8@springer.com'     , zipCode : null}      ,
+	{id : 9  , complete : 1 , role : 'member'    , userName : 'brandon'  , password : 'fJvrKcEKn'    , firstName : 'Donald'    , lastName : 'Rose'      , gender : 'male'   , email : 'drose6@netscape.com'        , zipCode : '1050 GH'} ,
+	{id : 10 , complete : 1 , role : 'member'    , userName : 'gregory'  , password : 'ItNPABxwyj6'  , firstName : 'Joe'       , lastName : 'Greene'    , gender : 'male'   , email : 'jgreene7@uol.com.br'        , zipCode : null}      ,
+	{id : 11 , complete : 0 , role : 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'female' , email : null                         , zipCode : '1053 BM'} ,
+	{id : 12 , complete : 1 , role : 'member'    , userName : 'william'  , password : 'tHZn7Q'       , firstName : 'Albert'    , lastName : 'Miller'    , gender : 'male'   , email : 'amilleru@jugem.jp'          , zipCode : null}      ,
+	{id : 13 , complete : 1 , role : 'member'    , userName : 'michelle' , password : '7HMeZ7DGGksV' , firstName : 'Christine' , lastName : 'Fowler'    , gender : 'female' , email : 'cfowlerv@deliciousdays.com' , zipCode : null}      ,
+	{id : 14 , complete : 1 , role : 'member'    , userName : 'fitz'     , password : 'a69GBf7GsE4'  , firstName : 'Jimmy'     , lastName : 'Hughes'    , gender : 'male'   , email : 'jhughesw@netlog.com'        , zipCode : '1050 JK'} ,
+	{id : 15 , complete : 1 , role : 'member'    , userName : 'albert'   , password : 'I8ireC3iOP'   , firstName : 'Carlos'    , lastName : 'Carr'      , gender : 'male'   , email : 'ccarrx@moonfruit.com'       , zipCode : '1054 WK'} ,
+	{id : 16 , complete : 1 , role : 'member'    , userName : 'maria'    , password : 'kb1KeoZc8'    , firstName : 'Jessica'   , lastName : 'Foster'    , gender : 'female' , email : 'jfostery@harvard.edu'       , zipCode : '1050 ER'} ,
+	{id : 17 , complete : 1 , role : 'member'    , userName : 'eric'     , password : 'vWSqV8nB'     , firstName : 'Steven'    , lastName : 'Hawkins'   , gender : 'male'   , email : 'shawkinsz@google.com.au'    , zipCode : '1051 AB'} ,
+	{id : 18 , complete : 1 , role : 'member'    , userName : 'bonzi'    , password : '63uCZrurs'    , firstName : 'Michelle'  , lastName : 'Jacobs'    , gender : 'female' , email : 'mjacobs10@chronoengine.com' , zipCode : null}      ,
+	{id : 19 , complete : 1 , role : 'member'    , userName : 'brenda'   , password : 'rEY06Uly4X'   , firstName : 'Maria'     , lastName : 'Parker'    , gender : 'female' , email : 'leader@nasa.gov.us'         , zipCode : null}      ,
+	{id : 20 , complete : 1 , role : 'member'    , userName : 'susan'    , password : 'ybfDLt36NMM'  , firstName : 'Beverly'   , lastName : 'Black'     , gender : 'female' , email : 'madeup@somewhere.com'       , zipCode : null}      ,
+	{id : 21 , complete : 0 , role : 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'female' , email : null                         , zipCode : '1050 FG'} ,
+	{id : 22 , complete : 1 , role : 'member'    , userName : 'kathy'    , password : 'PJxXmeA5XAd'  , firstName : 'Janet'     , lastName : 'Jones'     , gender : 'female' , email : 'jjones14@hp.com'            , zipCode : null}      ,
+	{id : 23 , complete : 0 , role : 'anonymous' , userName : null       , password : null           , firstName : null        , lastName : null        , gender : 'female' , email : null                         , zipCode : '1051 TH'} ,
+	{id : 24 , complete : 1 , role : 'member'    , userName : 'tina'     , password : 'X6aD06u'      , firstName : 'Janet'     , lastName : 'Smith'     , gender : 'female' , email : 'jsmith16@cnbc.com'          , zipCode : null}      ,
+	{id : 25 , complete : 1 , role : 'member'    , userName : 'jessica'  , password : 'WSeqnH'       , firstName : 'Frances'   , lastName : 'Watson'    , gender : 'female' , email : 'fwatson17@alibaba.com'      , zipCode : null}      ,
+	{id : 26 , complete : 1 , role : 'member'    , userName : 'jimmy'    , password : 'mRHoBGu1yrKm' , firstName : 'Clarence'  , lastName : 'Jordan'    , gender : 'male'   , email : 'cjordan18@lulu.com'         , zipCode : null}      ,
+	{id : 27 , complete : 1 , role : 'member'    , userName : 'anna'     , password : 'E1amNfG'      , firstName : 'Debra'     , lastName : 'Ferguson'  , gender : 'female' , email : 'resistance@underground.fr'  , zipCode : null}      ,
+	{id : 28 , complete : 1 , role : 'member'    , userName : 'jennifer' , password : 'ruj44zW9Hgn'  , firstName : 'Lois'      , lastName : 'Hughes'    , gender : 'female' , email : 'lhughes1a@marriott.com'     , zipCode : null}      ,
+	{id : 29 , complete : 1 , role : 'member'    , userName : 'lola'     , password : '3esoK36QCnf8' , firstName : 'Jennifer'  , lastName : 'West'      , gender : 'female' , email : 'jwest1b@hugedomains.com'    , zipCode : null}      ,
+	{id : 30 , complete : 1 , role : 'member'    , userName : 'theresa'  , password : '9erzgsH'      , firstName : 'Judy'      , lastName : 'Hill'      , gender : 'female' , email : 'jhill1c@4shared.com'        , zipCode : null}      ,
+	{id : 31 , complete : 1 , role : 'member'    , userName : 'ryan'     , password : '8Vh1vixS'     , firstName : 'Earl'      , lastName : 'Stone'     , gender : 'male'   , email : 'estone1d@baidu.com'         , zipCode : null}
 ];
