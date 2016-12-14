@@ -42,7 +42,7 @@ var meetings = [
 // ---------------------------
 var users = [
 	{id : 1 , role : 'unknown'},
-	{id : 2 , role : 'admin'     , userName : 'admin'  , password : 'password'        , firstName : 'Bastard Operator' , lastName : 'from Hell' , gender : 'male' , ideas : [
+	{id : 2 , role : 'admin'     , userName : 'admin'  , password : 'password'        , firstName : 'Bastard Operator' , lastName : 'from Hell' , gender : 'male' , email: 'tjoekbezoer@gmail.com' , ideas : [
 		{
 			id               : 1,
 			startDate        : moment(today).subtract(1, 'days'),
