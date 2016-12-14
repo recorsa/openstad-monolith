@@ -1,6 +1,6 @@
 var RolePlay = require('../RolePlay');
 
-var auth = module.exports = new RolePlay({
+var auth = new RolePlay({
 	defaultRoleName: 'unknown'
 });
 
@@ -9,7 +9,9 @@ var anonymous = unknown.role('anonymous');
 var member    = anonymous.role('member');
 var admin     = member.role('admin');
 
-require('./default-unknown')(unknown);
-require('./anonymous')(anonymous);
-require('./member')(member);
-require('./admin')(admin);
+require('./roles/default-unknown')(unknown);
+require('./roles/anonymous')(anonymous);
+require('./roles/member')(member);
+require('./roles/admin')(admin);
+
+module.exports = auth;

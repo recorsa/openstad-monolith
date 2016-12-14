@@ -1,14 +1,10 @@
 var sanitize = require('sanitize-html');
 
-var titleOptions = {
+var noTags = {
 	allowedTags       : [],
 	allowedAttributes : []
 };
-var summaryOptions = {
-	allowedTags       : [],
-	allowedAttributes : []
-};
-var contentOptions = {
+var allSafeTags = {
 	allowedTags: [
 		// Content sectioning
 		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'nav', 'section',
@@ -32,6 +28,9 @@ var contentOptions = {
 		a   : ['href', 'name', 'rel', 'target'],
 		img : ['height', 'src', 'width']
 	},
+	// allowedClasses: {
+	// 	'p': [ 'fancy', 'simple' ]
+	// },
 	allowedSchemes: ['http', 'https', 'ftp', 'mailto'],
 	transformTags: {
 		a: function( tagName, attrs ) {
@@ -44,12 +43,12 @@ var contentOptions = {
 
 module.exports = {
 	title: function( text ) {
-		return sanitize(text, titleOptions);
+		return sanitize(text, noTags);
 	},
 	summary: function( text ) {
-		return sanitize(text, summaryOptions);
+		return sanitize(text, noTags);
 	},
 	content: function( text ) {
-		return sanitize(text, contentOptions);
+		return sanitize(text, allSafeTags);
 	}
 };

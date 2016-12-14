@@ -61,41 +61,6 @@
 		</form>
 	{% endif %}
 	
-	{% macro argList( sentiment, arguments ) %}
-		{% if can('arg:add') %}
-			<form method="POST" action="/idea/{{idea.id}}/arg/new">
-				<textarea name="description"></textarea>
-				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<input type="hidden" name="sentiment" value="{{sentiment}}">
-				<input type="submit" value="Toevoegen">
-			</form>
-		{% endif %}
-		
-		{% for arg in arguments %}
-			<div class="argument">
-				<div class="user">
-					{{arg.user.firstName}} {{arg.user.lastName}}
-					
-					{% if user.can('arg:delete') %}
-						<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
-							<input type="hidden" name="_method" value="DELETE">
-							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-							<input type="submit" value="verwijderen">
-						</form>
-					{% endif %}
-					{% if user.can('arg:edit', arg) %}
-						<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
-							<input type="submit" value="bewerk">
-						</form>
-					{% endif %}
-				</div>
-				{{arg.description}}
-			</div>
-		{% else %}
-			<i>Geen argumenten.</i>
-		{% endfor %}
-	{% endmacro %}
-	
 	<hr>
 	
 	<div id="arguments">
@@ -109,3 +74,38 @@
 		</div>
 	</div>
 {% endblock %}
+
+{% macro argList( sentiment, arguments ) %}
+	{% if can('arg:add') %}
+		<form method="POST" action="/idea/{{idea.id}}/arg/new">
+			<textarea name="description"></textarea>
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="hidden" name="sentiment" value="{{sentiment}}">
+			<input type="submit" value="Toevoegen">
+		</form>
+	{% endif %}
+	
+	{% for arg in arguments %}
+		<div class="argument">
+			<div class="user">
+				{{arg.user.firstName}} {{arg.user.lastName}}
+				
+				{% if user.can('arg:delete') %}
+					<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_csrf" value="{{csrfToken}}">
+						<input type="submit" value="verwijderen">
+					</form>
+				{% endif %}
+				{% if user.can('arg:edit', arg) %}
+					<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
+						<input type="submit" value="bewerk">
+					</form>
+				{% endif %}
+			</div>
+			{{arg.description}}
+		</div>
+	{% else %}
+		<i>Geen argumenten.</i>
+	{% endfor %}
+{% endmacro %}
