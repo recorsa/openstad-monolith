@@ -1,19 +1,12 @@
-var _              = require('lodash')
-  , config         = require('config')
-  , express        = require('express')
-  , compression    = require('compression')
-  , cors           = require('cors')
-  , bodyParser     = require('body-parser')
-  , methodOverride = require('method-override')
-  , session        = require('express-session')
-  , csurf          = require('csurf')
-  , nunjucks       = require('nunjucks')
-  , dateFilter     = require('nunjucks-date-filter');
-var util           = require('./util');
-var log            = require('debug')('app:http');
+var _                  = require('lodash')
+  , compression        = require('compression')
+  , config             = require('config')
+  , cors               = require('cors')
+  , express            = require('express')
 
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
-var db             = require('./db');
+// Misc
+var util               = require('./util');
+var log                = require('debug')('app:http');
 
 module.exports  = {
 	app: undefined,
@@ -34,7 +27,7 @@ module.exports  = {
 		
 		// ... then middleware everyone needs...
 		this._initBasicMiddleware();
-		this._initSessionMiddleware();
+		this._initAuthMiddleware();
 		this._initRenderMiddleware();
 		
 		// ... then the upload functionality (not compatible with CSRF)...
@@ -59,6 +52,9 @@ module.exports  = {
 	},
 	
 	_initBasicMiddleware: function() {
+		var bodyParser         = require('body-parser')
+		var methodOverride     = require('method-override')
+		
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({extended: true}));
 		this.app.use(methodOverride(function( req, res ) {
@@ -77,7 +73,14 @@ module.exports  = {
 			return method;
 		}));
 	},
-	_initSessionMiddleware: function() {
+	// Authentication and authorization.
+	_initAuthMiddleware: function() {
+		var session            = require('express-session');
+		// For session store.
+		var SequelizeStore     = require('connect-session-sequelize')(session.Store);
+		var db                 = require('./db');
+		
+		// Session management.
 		this.app.use(session({
 			name              : 'amsterdam.sid',
 			secret            : config.get('security.sessions.secret'),
@@ -95,9 +98,11 @@ module.exports  = {
 				maxAge   : 31536000000 // 1 year
 			}
 		}));
+		// Middleware to fill `req.user` with a `User` instance.
 		require('./middleware/session_user')(this.app);
 	},
 	_initSecurityMiddleware: function() {
+		var csurf = require('csurf');
 		// `csurf` makes non-GET requests require a CSRF token. Use `req.csrfToken()`
 		// in form-rendering GET request in order to send the correct token.
 		// 
@@ -110,6 +115,9 @@ module.exports  = {
 		// });
 	},
 	_initRenderMiddleware: function() {
+		var dateFilter = require('nunjucks-date-filter');
+		var nunjucks   = require('nunjucks');
+		
 		var env = nunjucks.configure('html', {
 			autoescape : true,
 			watch      : false,

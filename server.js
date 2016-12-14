@@ -30,8 +30,8 @@ db.sequelize.sync({force: resetDB}).then(function() {
 	              null;
 	return Promise.resolve(doReset).then(function() {
 		if( !resetDB ) {
-			Server.start(config.get('express.port'));
 			Cron.start();
+			Server.start(config.get('express.port'));
 		} else {
 			db.sequelize.close();
 		}
