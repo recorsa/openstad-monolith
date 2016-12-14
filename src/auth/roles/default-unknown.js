@@ -5,6 +5,7 @@ module.exports = function( role ) {
 		'index:view'     : true,
 		
 		'account:create' : true,
+		'account:token'  : true,
 		
 		'ideas:list'     : true,
 		'idea:admin'     : false,

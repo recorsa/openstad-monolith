@@ -91,7 +91,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					if( this.userName || this.passwordHash ) {
 						throw new Error('Anonymous profiles cannot have login credentials');
 					}
-				} else if(!this.userName || !this.passwordHash ) {
+				} else if( !this.userName || !this.passwordHash ) {
 					throw new Error('Both userName and password must be set');
 				}
 			},

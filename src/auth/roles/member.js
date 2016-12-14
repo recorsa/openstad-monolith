@@ -1,6 +1,7 @@
 module.exports = function( role ) {
 	role.action({
 		'account:create' : false,
+		'account:token'  : false,
 		
 		'idea:view'      : true,
 		'idea:create'    : true,
