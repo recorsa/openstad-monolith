@@ -215,7 +215,7 @@ extend(Role.prototype, {
 			allow    = def.allow;
 			message  = def.message;
 		} else {
-			allow    = !!def;
+			allow    = def;
 		}
 		
 		if( this.actions[actionName] ) {
