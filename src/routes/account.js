@@ -67,11 +67,19 @@ module.exports = function( app ) {
 		}
 	});
 	
-	router.get('/login_token', auth.can('account:token'), function( req, res, next ) {
-		var token = req.query.token;
-		var uid   = req.query.uid;
-		
+	router.route('/login_token')
+	.get(function( req, res, next ) {
+		res.out('account/login_token', false, {
+			csrfToken : req.csrfToken(),
+			token     : req.query.token,
+			uid       : req.query.uid
+		});
+	})
+	.post(function( req, res, next ) {
+		var token = req.body.token;
+		var uid   = req.body.uid;
 		var start = Date.now();
+		
 		passwordless.useToken(token, uid).then(function( valid ) {
 			if( !valid ) {
 				return next(createError(401, 'Invalid token'));
