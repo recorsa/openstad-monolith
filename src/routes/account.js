@@ -74,24 +74,10 @@ module.exports = function( app ) {
 		});
 	})
 	.post(function( req, res, next ) {
-		var actualUser;
-		req.user.upgradeToMember(req.body.email)
+		sendAuthToken(req.user, req.body.email)
 		.then(function( user ) {
-			// `req.user` can be the default unknown user account, in which
-			// case the `upgradeToMember` promise will resolve with a new user.
-			actualUser = user;
-			return passwordless.generateToken(user.id)
-		})
-		.then(function( token ) {
-			mail.sendMail({
-				to      : actualUser.email,
-				subject : 'AB tool: Login link',
-				// html    : 'Dit is een <b>testbericht</b>',
-				text    : 'token: http://localhost:8082/account/login_token'+
-				          '?token='+token+'&uid='+actualUser.id
-			});
 			res.out('account/token_sent', true, {
-				isNew: !actualUser.complete
+				isNew: !user.complete
 			});
 		})
 		.catch(next);
@@ -112,5 +98,27 @@ module.exports = function( app ) {
 			res.success('/', true);
 		})
 		.catch(next);
+	});
+}
+
+function sendAuthToken( user, email ) {
+	// `user` can be the default unknown user account. That's why we
+	// we assign the user returned by `upgradeToMember` to `actualUser`
+	// and use that object.
+	var actualUser;
+	return user.upgradeToMember(email)
+	.then(function( user ) {
+		actualUser = user;
+		return passwordless.generateToken(user.id)
+	})
+	.then(function( token ) {
+		mail.sendMail({
+			to      : actualUser.email,
+			subject : 'AB tool: Login link',
+			// html    : 'Dit is een <b>testbericht</b>',
+			text    : 'token: http://localhost:8082/account/login_token'+
+			          '?token='+token+'&uid='+actualUser.id
+		});
+		return actualUser;
 	});
 }
