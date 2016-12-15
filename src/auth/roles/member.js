@@ -1,7 +1,12 @@
 module.exports = function( role ) {
 	role.action({
 		'account:create' : false,
-		'account:token'  : false,
+		'account:complete' : {
+			allow: needsToCompleteRegistration
+		},
+		'account:token'  : {
+			allow: needsToCompleteRegistration
+		},
 		
 		'idea:view'      : true,
 		'idea:create'    : true,
@@ -22,6 +27,9 @@ module.exports = function( role ) {
 	});
 };
 
+function needsToCompleteRegistration( user ) {
+	return !user.complete;
+}
 function mayAddArgument( user, idea ) {
 	return user.id !== idea.userId;
 }

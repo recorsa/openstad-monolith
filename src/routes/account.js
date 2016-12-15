@@ -4,7 +4,8 @@ var createError  = require('http-errors')
 
 var auth         = require('../auth');
 var db           = require('../db');
-var passwordless = require('../auth/Passwordless');
+var mail         = require('../mail');
+var passwordless = require('../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
 
@@ -12,8 +13,8 @@ module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', router);
 	
-	// Logging in/out
-	// --------------
+	// Logging in
+	// ----------
 	router.get('/login', function( req, res ) {
 		res.out('account/login', true, {
 			csrfToken: req.csrfToken()
@@ -39,7 +40,7 @@ module.exports = function( app ) {
 		var uid   = req.query.uid;
 		
 		var start = Date.now();
-		passwordless.useTokenAsync(token, uid).then(function( valid ) {
+		passwordless.useToken(token, uid).then(function( valid ) {
 			if( !valid ) {
 				return next(createError(401, 'Invalid token'));
 			}
@@ -53,13 +54,16 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+	
+	// Logging out
+	// -----------
 	router.get('/logout', function( req, res ) {
 		req.session.destroy();
 		res.success('/', true);
 	});
 	
-	// Requesting login token
-	// ----------------------
+	// Requesting token
+	// ----------------
 	router.route('/token')
 	.all(auth.can('account:token'))
 	.get(function( req, res, next ) {
@@ -67,31 +71,44 @@ module.exports = function( app ) {
 			csrfToken: req.csrfToken()
 		});
 	})
-	.post(
-		passwordless.requestToken(function( email, delivery, callback, req ) {
-			db.User.findOne({where: {email: email}})
-			.then(function( user ) {
-				callback(null, user ? user.id : null);
-			})
-			.catch(callback);
-		}, {
-			userField: 'email'
-		}),
-		function( req, res ) {
-			res.success('/account/token_sent', true);
-		}
-	);
-	router.get('/token_sent', function( req, res ) {
-		res.out('account/token_sent', false);
+	.post(function( req, res, next ) {
+		var actualUser;
+		req.user.upgradeToMember(req.body.email)
+		.then(function( user ) {
+			// `req.user` can be the default unknown user account, in which
+			// case the `upgradeToMember` promise will resolve with a new user.
+			actualUser = user;
+			return passwordless.generateToken(user.id)
+		})
+		.then(function( token ) {
+			mail.sendMail({
+				to      : actualUser.email,
+				subject : 'AB tool: Login link',
+				// html    : 'Dit is een <b>testbericht</b>',
+				text    : 'token: http://localhost:8082/account/login_token'+
+				          '?token='+token+'&uid='+actualUser.id
+			});
+			res.out('account/token_sent', true, {
+				isNew: !actualUser.complete
+			});
+		})
+		.catch(next);
 	});
 	
-	// Create new account
-	// ------------------
-	router.route('/new')
-	.all(auth.can('account:create'))
+	// Complete registration
+	// ---------------------
+	app.route('/complete')
+	.all(auth.can('account:complete'))
 	.get(function( req, res, next ) {
-		res.out('account/new', false, {
+		res.out('account/complete', false, {
 			csrfToken: req.csrfToken()
 		});
+	})
+	.put(function( req, res, next ) {
+		req.user.completeRegistration(req.body)
+		.then(function() {
+			res.success('/', true);
+		})
+		.catch(next);
 	});
 }

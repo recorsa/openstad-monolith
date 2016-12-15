@@ -13,6 +13,7 @@
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "bs58": "^3.1.0",
     "co": "^4.6.0",
     "compression": "^1.6.2",
     "config": "^1.21.0",
@@ -34,7 +35,6 @@
     "nodemailer": "^2.6.4",
     "nunjucks": "^3.0.0",
     "nunjucks-date-filter": "^0.1.1",
-    "passwordless": "^1.1.2",
     "sanitize-html": "^1.13.0",
     "sequelize": "^3.27.0",
     "yargs": "^6.4.0"

@@ -1,12 +1,11 @@
 // Passwordless token store based on node-cache.
 // 
 // Original: https://github.com/andreafalzetti/passwordless-nodecache
-// Modified to use node's built-in `bcrypt` instead of `bcryptjs`.
+// Modified to clean up, and to use `bcrypt` instead of `bcryptjs`.
 
 var bcrypt       = require('bcrypt');
 var extend       = require('lodash/extend');
 var NodeCache    = require('node-cache');
-var Promise      = require('bluebird');
 var TokenStore   = require('passwordless-tokenstore');
 var util         = require('util');
 
@@ -121,5 +120,4 @@ extend(NodeCacheStore.prototype, {
 	}
 });
 
-Promise.promisifyAll(NodeCacheStore);
 module.exports = NodeCacheStore;

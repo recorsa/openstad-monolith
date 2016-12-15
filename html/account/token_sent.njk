@@ -5,7 +5,14 @@
 {% block content %}
 <h1>E-mail verzonden</h1>
 
-U ontvangt in enkele momenten een e-mail met een link. Hiermee krijgt u toegang tot de verdere functionaliteit van deze site.
+We hebben u een e-mail gestuurd met een link
+
+{% if isNew %}
+	waarmee u uw registratie kunt voltooien. Hierna bent u gelijk ingelogd.
+{% else %}
+	waarmee u eenmalig kunt inloggen.
+{% endif %}
+
 <p>
-De geldigheid van deze link is 1 uur.
+De link is 1 uur geldig.
 {% endblock %}

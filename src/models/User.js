@@ -1,8 +1,8 @@
-var _           = require('lodash')
-  , config      = require('config')
+var config      = require('config')
   , bcrypt      = require('bcrypt')
   , createError = require('http-errors');
-var pick        = require('lodash/pick');
+var extend      = require('lodash/extend')
+  , pick        = require('lodash/pick');
 var log         = require('debug')('app:user');
 var auth        = require('../auth');
 
@@ -142,9 +142,47 @@ module.exports = function( db, sequelize, DataTypes ) {
 						return user;
 					}
 				});
+			},
+			
+			registerMember: function( user, data ) {
+				var filtered  = pick(data, [
+					'email', 'userName', 'password',
+					'firstName', 'lastName', 'gender',
+					'zipCode'
+				]);
+				extend(filtered, {
+					role: 'member'
+				});
+				
+				if( !user.isUnknown() ) {
+					return user.update(data);
+				} else {
+					return this.findOrCreate({
+						where    : {email : filtered.email},
+						defaults : filtered
+					}).spread(function( user ) {
+						return user;
+					});
+				}
 			}
 		},
 		instanceMethods: {
+			upgradeToMember: function( email ) {
+				if( !this.isMember() ) {
+					return User.registerMember(this, {email: email});
+				} else {
+					return Promise.reject(Error('User is already a member'));
+				}      
+			},
+			completeRegistration: function( data ) {
+				var filtered = pick(data, [
+					'firstName', 'lastName', 'zipCode', 'gender',
+					'userName', 'password'
+				]);
+				filtered.complete = true;
+				return this.update(filtered);
+			},
+			
 			authenticate: function( password ) {
 				var method = config.get('security.passwordHashing.currentMethod');
 				if( !this.passwordHash ) {
@@ -157,8 +195,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return result;
 				}
 			},
+			hasCompletedRegistration: function() {
+				return this.isLoggedIn() && this.complete;
+			},
+			isUnknown: function() {
+				return this.role === 'unknown';
+			},
 			isAnonymous: function() {
 				return this.role === 'anonymous';
+			},
+			isMember: function() {
+				return this.role !== 'unknown' && this.role !== 'anonymous';
 			},
 			isLoggedIn: function() {
 				return this.id && this.id !== 1 && !this.isAnonymous();

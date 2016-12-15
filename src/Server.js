@@ -38,6 +38,7 @@ module.exports  = {
 		
 		// ... little helper middlewares...
 		require('./middleware/multi_accept')(this.app);
+		require('./middleware/force_registration')(this.app);
 		// ... routes...
 		require('./routes/default')(this.app);
 		require('./routes/account')(this.app);
@@ -73,28 +74,7 @@ module.exports  = {
 			return method;
 		}));
 	},
-	// Authentication and authorization.
 	_initAuthMiddleware: function() {
-		// Passwordless authentication
-		// ---------------------------
-		var mail         = require('./mail');
-		var passwordless = require('./auth/Passwordless');
-		var TokenStore   = require('./auth/PasswordlessTokenStore');
-		passwordless.init(new TokenStore(), {
-			userProperty         : config.get('security.sessions.uidProperty'),
-			skipForceSessionSave : true
-		});
-		passwordless.addDelivery(function(tokenToSend, uidToSend, recipient, callback, req) {
-			mail.sendMail({
-				to      : recipient,
-				subject : 'AB tool: Login link',
-				// html    : 'Dit is een <b>testbericht</b>',
-				text    : 'token: http://localhost:8082/account/login_token'+
-				          '?token='+tokenToSend+'&uid='+uidToSend
-			});
-			callback();
-		});
-		
 		// Session management
 		// ------------------
 		var session            = require('express-session');

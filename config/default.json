@@ -45,8 +45,9 @@
 		},
 		"sessions": {
 			"secret"      : "e56789!ouAr-/t8ewHDyer90_",
+			// Login token TTL in ms.
+			"tokenTTL"    : 3600000,
 			// Property name to store user ID in `req.session`.
-			// Used in authentication both with and without password.
 			"uidProperty" : "userId"
 		}
 	}

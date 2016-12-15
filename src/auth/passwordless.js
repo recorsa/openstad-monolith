@@ -1,24 +1,32 @@
+var base58       = require('bs58');
 var co           = require('co');
+var config       = require('config');
+var crypto       = require('crypto');
+var extend       = require('lodash/extend');
 var util         = require('util');
-var Passwordless = require('passwordless/lib/passwordless/passwordless');
+var Promise      = require('bluebird');
 
-function CustomPasswordless() {
-	Passwordless.call(this);
-}
-util.inherits(CustomPasswordless, Passwordless);
+var TokenStore   = require('./PasswordlessTokenStore');
+var _store       = Promise.promisifyAll(new TokenStore());
 
-CustomPasswordless.prototype.useTokenAsync = co.wrap(function*( token, uid ) {
-	if( !token || !uid ) {
-		throw new Error('Missing token or user ID');
-	}
+module.exports = {
+	generateToken: co.wrap(function*( uid ) {
+		var token = base58.encode(crypto.randomBytes(16));
+		var ttl   = config.get('security.sessions.tokenTTL');
+
+		yield _store.storeOrUpdateAsync(token, uid.toString(), ttl, null);
+		return token;
+	}),
 	
-	var store = this._tokenStore;
-	var valid = yield store.authenticateAsync(token, uid.toString());
-	
-	if( valid && !this._allowTokenReuse ) {
-		yield store.invalidateUserAsync(uid);
-	}
-	return valid;
-});
-
-module.exports = new CustomPasswordless();
+	useToken: co.wrap(function*( token, uid ) {
+		if( !token || !uid ) {
+			throw new Error('Missing token or user ID');
+		}
+		
+		var valid = yield _store.authenticateAsync(token, uid.toString());
+		if( valid ) {
+			yield _store.invalidateUserAsync(uid);
+		}
+		return valid;
+	})
+};

@@ -18,7 +18,7 @@
 			{{'('+user.userName+')' if user.isLoggedIn()}}
 		</li>
 		{% if not user.isLoggedIn() and user.can('account:create') %}
-		<li><a href="/account/new">Registreren</a></li>
+		<li><a href="/account/token">Registreren</a></li>
 		{% endif %}
 	</ul>
 	
