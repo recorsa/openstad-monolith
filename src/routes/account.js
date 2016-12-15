@@ -26,7 +26,7 @@ module.exports = function( app ) {
 		var start      = Date.now();
 		var email      = req.body.email
 		  , password   = req.body.password
-		  , forceToken = !!Number(req.body.forceToken);
+		  , forceToken = !!req.body.forceToken;
 		
 		if( email && password ) {
 			// Login with email/password.
