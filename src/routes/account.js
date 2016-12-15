@@ -17,7 +17,7 @@ module.exports = function( app ) {
 	// ----------
 	router.route('/login_email')
 	.get(function( req, res ) {
-		res.out('account/login', true, {
+		res.out('account/login_email', true, {
 			csrfToken : req.csrfToken(),
 			step      : 0
 		});
@@ -56,7 +56,7 @@ module.exports = function( app ) {
 						isNew  : !user.complete
 					});
 				} else {
-					res.out('account/login', true, {
+					res.out('account/login_email', true, {
 						csrfToken : req.csrfToken(),
 						method    : 'password',
 						email     : email

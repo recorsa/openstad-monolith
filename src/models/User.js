@@ -89,7 +89,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			validate     : {
 				is: {
 					args : [/^\d{4} ?\w{2}$/],
-					msg  : 'Not a valid zipcode'
+					msg  : 'Invalid zipcode'
 				}
 			},
 			set          : function( zipCode ) {
@@ -228,7 +228,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.role !== 'unknown' && this.role !== 'anonymous';
 			},
 			isLoggedIn: function() {
-				return this.id && this.id !== 1 && !this.isAnonymous();
+				return this.id && this.id !== 1 && this.isMember();
 			},
 			can: function( actionName, resource ) {
 				return auth.user(this).can(actionName, resource);

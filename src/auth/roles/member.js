@@ -18,7 +18,7 @@ module.exports = function( role ) {
 };
 
 function needsToCompleteRegistration( user ) {
-	return !user.complete;
+	return !user.hasCompletedRegistration();
 }
 function mayAddArgument( user, idea ) {
 	return user.id !== idea.userId;
