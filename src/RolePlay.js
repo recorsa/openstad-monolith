@@ -210,7 +210,7 @@ extend(Role.prototype, {
 		}
 		
 		var resource, allow, message;
-		if( def instanceof Object ) {
+		if( typeof def === 'object' && def.constructor === Object ) {
 			resource = def.resource;
 			allow    = def.allow;
 			message  = def.message;
