@@ -1,19 +1,19 @@
 module.exports = function( role ) {
 	role.action({
-		'account:create' : false,
+		'account:create'   : false,
 		'account:complete' : needsToCompleteRegistration,
-		'account:token'  : needsToCompleteRegistration,
+		'account:token'    : needsToCompleteRegistration,
 		
-		'idea:view'      : true,
-		'idea:create'    : true,
-		'idea:edit'      : mayMutateIdea,
-		'idea:delete'    : mayMutateIdea,
+		'idea:view'        : true,
+		'idea:create'      : true,
+		'idea:edit'        : mayMutateIdea,
+		'idea:delete'      : mayMutateIdea,
 		
-		'arg:add'        : {
+		'arg:add'          : {
 			allow   : mayAddArgument,
 			message : 'U kunt geen argument aan uw eigen idee toevoegen'
 		},
-		'arg:edit'       : mayMutateArgument
+		'arg:edit'         : mayMutateArgument
 	});
 };
 

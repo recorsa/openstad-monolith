@@ -20,6 +20,7 @@ module.exports = function( app ) {
 			csrfToken: req.csrfToken()
 		});
 	});
+	
 	router.post('/login', function( req, res, next ) {
 		var userName = req.body.userName
 		  , password = req.body.password;
@@ -35,6 +36,7 @@ module.exports = function( app ) {
 			}, delay);
 		}).catch(next);
 	});
+	
 	router.get('/login_token', auth.can('account:token'), function( req, res, next ) {
 		var token = req.query.token;
 		var uid   = req.query.uid;

@@ -1,37 +1,37 @@
 module.exports = function( role ) {
 	role.action({
-		'dev'            : false,
+		'dev'              : false,
 		
-		'index:view'     : true,
+		'index:view'       : true,
 		
-		'account:create' : true,
+		'account:create'   : true,
 		'account:complete' : false,
-		'account:token'  : true,
+		'account:token'    : true,
 		
-		'ideas:list'     : true,
-		'idea:admin'     : false,
-		'idea:view'      : true,
-		'idea:create'    : false,
-		'idea:vote'      : false,
-		'idea:edit'      : {
+		'ideas:list'       : true,
+		'idea:admin'       : false,
+		'idea:view'        : true,
+		'idea:create'      : false,
+		'idea:vote'        : false,
+		'idea:edit'        : {
 			allow    : false,
 			resource : 'idea'
 		},
-		'idea:delete'    : {
+		'idea:delete'      : {
 			allow    : false,
 			resource : 'idea'
 		},
 		
-		'arg:add'        : {
+		'arg:add'          : {
 			allow    : false,
 			resource : 'idea',
 			message  : 'Argumenten toevoegen niet toegestaan'
 		},
-		'arg:edit'       : {
+		'arg:edit'         : {
 			allow    : false,
 			resource : 'argument'
 		},
-		'arg:delete'     : {
+		'arg:delete'       : {
 			allow    : false,
 			message  : 'Argumenten verwijderen niet toegestaan'
 		}
