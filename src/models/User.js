@@ -105,14 +105,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			isValidAnon: function() {
-				if( this.role == 'unknown' || this.role == 'anonymous' ) {
+				if( this.role === 'unknown' || this.role === 'anonymous' ) {
 					if( this.complete || this.email ) {
 						throw new Error('Anonymous users cannot be complete profiles or have a mail address');
 					}
 				}
 			},
 			isValidMember: function() {
-				if( this.role != 'unknown' && this.role != 'anonymous' ) {
+				if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
 					if( !this.email ) {
 						throw new Error('Email address is required for members');
 					}
@@ -128,13 +128,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		classMethods: {
 			associate: function( models ) {
-				User.hasMany(models.Idea);
-				User.hasMany(models.Vote);
-				User.hasMany(models.Argument);
-				User.hasMany(models.ThumbsUp);
+				this.hasMany(models.Idea);
+				this.hasMany(models.Vote);
+				this.hasMany(models.Argument);
+				this.hasMany(models.ThumbsUp);
 			},
 			findByCredentials: function( userName, password ) {
-				return User.findOne({where: {userName: userName}}).then(function( user ) {
+				return this.findOne({where: {userName: userName}}).then(function( user ) {
 					if( !user || !user.authenticate(password) ) {
 						// TODO: AuthenticationError
 						throw createError(403, 'Login failed');

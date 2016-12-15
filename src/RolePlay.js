@@ -188,14 +188,14 @@ extend(Role.prototype, {
 		var action;
 		// This call is a getter, or it's an object of action definitions.
 		if( arguments.length === 1 ) {
-			if( typeof actionName == 'object' ) {
+			if( typeof actionName === 'object' ) {
 				forOwn(actionName, function( def, actionName ) {
 					this.action(actionName, def);
 				}.bind(this));
 				return this;
 			} else {
 				// Get action.
-				if( typeof actionName != 'string' ) {
+				if( typeof actionName !== 'string' ) {
 					throw new Error('Incorrect action name: '+actionName);
 				}
 				action = this.actions[actionName];
@@ -221,10 +221,10 @@ extend(Role.prototype, {
 		if( this.actions[actionName] ) {
 			throw new Error('Action already defined: '+actionName);
 		}
-		if( typeof allow != 'function' ) {
+		if( typeof allow !== 'function' ) {
 			allow = this._createAllowFunction(allow);
 		}
-		if( resource && typeof resource != 'function' ) {
+		if( resource && typeof resource !== 'function' ) {
 			resource = this._createResourceFunction(resource);
 		}
 		
