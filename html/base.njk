@@ -15,7 +15,7 @@
 		<li>
 			<a href="/account/{{'logout' if user.isLoggedIn() else 'login'}}">
 			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}</a>
-			{{'('+user.userName+')' if user.isLoggedIn()}}
+			{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
 		</li>
 		{% if not user.isLoggedIn() and user.can('account:create') %}
 		<li><a href="/account/token">Registreren</a></li>

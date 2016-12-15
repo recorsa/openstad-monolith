@@ -65,7 +65,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : true,
 			set          : function( hashObject ) {
-				this.setDataValue('passwordHash', hashObject ? JSON.stringify(hashObject) : null);
+				var hash = hashObject ? JSON.stringify(hashObject) : null;
+				this.setDataValue('passwordHash', hash);
 			}
 		},
 		
@@ -76,6 +77,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		lastName: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true
+		},
+		fullName: {
+			type         : DataTypes.VIRTUAL,
+			allowNull    : true,
+			get          : function() {
+				return this.getDataValue('firstName')+' '+this.getDataValue('lastName');
+			}
 		},
 		gender: {
 			type         : DataTypes.ENUM('male', 'female'),
@@ -115,6 +123,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
 					if( !this.email ) {
 						throw new Error('Email address is required for members');
+					} else if( !this.firstName || !this.lastName ) {
+						throw new Error('First- and last name are required for members');
 					}
 				}
 			},
