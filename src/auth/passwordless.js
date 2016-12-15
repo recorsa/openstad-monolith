@@ -1,6 +1,7 @@
 var base58       = require('bs58');
 var co           = require('co');
 var config       = require('config');
+var createError  = require('http-errors');
 var crypto       = require('crypto');
 var extend       = require('lodash/extend');
 var util         = require('util');
@@ -20,7 +21,7 @@ module.exports = {
 	
 	useToken: co.wrap(function*( token, uid ) {
 		if( !token || !uid ) {
-			throw new Error('Missing token or user ID');
+			throw createError(400, 'Missing token or user ID');
 		}
 		
 		var valid = yield _store.authenticateAsync(token, uid.toString());
