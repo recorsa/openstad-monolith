@@ -94,19 +94,4 @@ module.exports = function( app ) {
 			csrfToken: req.csrfToken()
 		});
 	});
-	
-	router.get('/csrf_token', function( req, res, next ) {
-		if( config.get('debug') ) {
-			res.format({
-				html: function() {
-					next(createError(406))
-				},
-				json: function() {
-					res.json({token: req.csrfToken()});
-				}
-			});
-		} else {
-			next(createError(410));
-		}
-	});
 }
