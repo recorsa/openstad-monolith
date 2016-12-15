@@ -15,26 +15,56 @@ module.exports = function( app ) {
 	
 	// Logging in
 	// ----------
-	router.get('/login', function( req, res ) {
+	router.route('/login_email')
+	.get(function( req, res ) {
 		res.out('account/login', true, {
-			csrfToken: req.csrfToken()
+			csrfToken : req.csrfToken(),
+			step      : 0
 		});
-	});
-	
-	router.post('/login', function( req, res, next ) {
-		var userName = req.body.userName
-		  , password = req.body.password;
+	})
+	.post(function( req, res, next ) {
+		var start      = Date.now();
+		var email      = req.body.email
+		  , password   = req.body.password
+		  , forceToken = !!Number(req.body.forceToken);
 		
-		var start = Date.now();
-		db.User.findByCredentials(userName, password)
-		.then(function( user ) {
-			req.session[uidProperty] = user.id;
-			// Delay the response so that it's always a minimum of 200ms.
-			var delay = Math.max(0, 200 - (Date.now() - start));
-			setTimeout(function() {
-				res.success('/', true);
-			}, delay);
-		}).catch(next);
+		if( email && password ) {
+			// Login with email/password.
+			db.User.findByCredentials(email, password)
+			.then(function( user ) {
+				req.session[uidProperty] = user.id;
+				// Delay the response so that it's always a minimum of 200ms.
+				var delay = Math.max(0, 200 - (Date.now() - start));
+				setTimeout(function() {
+					res.success('/', true);
+				}, delay);
+			})
+			.catch(next);
+		} else {
+			db.User.findByEmail(email)
+			.then(function( user ) {
+				// If this user has a password, display the password field.
+				// Otherwise, send a login link to the user's email address.
+				return !user.passwordHash || forceToken ?
+				       sendAuthToken(req.user, email) :
+				       null;
+			})
+			.then(function( user ) {
+				if( user ) {
+					res.out('account/token_sent', true, {
+						method : 'token',
+						isNew  : !user.complete
+					});
+				} else {
+					res.out('account/login', true, {
+						csrfToken : req.csrfToken(),
+						method    : 'password',
+						email     : email
+					});
+				}
+			})
+			.catch(next);
+		}
 	});
 	
 	router.get('/login_token', auth.can('account:token'), function( req, res, next ) {

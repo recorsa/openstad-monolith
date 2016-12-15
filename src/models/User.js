@@ -36,12 +36,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : true,
 			validate     : {isEmail: true}
 		},
-		userName: {
-			type         : DataTypes.STRING(32),
-			allowNull    : true,
-			defaultValue : null,
-			unique       : true
-		},
 		password: {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
@@ -130,7 +124,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			onlyMembersCanLogin: function() {
 				if( this.role === 'unknown' || this.role === 'anonymous' ) {
-					if( this.userName || this.passwordHash ) {
+					if( this.passwordHash ) {
 						throw new Error('Anonymous profiles cannot have login credentials');
 					}
 				}
@@ -143,8 +137,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Argument);
 				this.hasMany(models.ThumbsUp);
 			},
-			findByCredentials: function( userName, password ) {
-				return this.findOne({where: {userName: userName}}).then(function( user ) {
+			findByCredentials: function( email, password ) {
+				if( !email || !password ) {
+					return Promise.reject(createError(400, 'Incomplete credentials'));
+				}
+				
+				return this.findOne({where: {email: email}}).then(function( user ) {
 					if( !user || !user.authenticate(password) ) {
 						// TODO: AuthenticationError
 						throw createError(403, 'Login failed');
@@ -153,10 +151,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				});
 			},
+			findByEmail: function( email ) {
+				if( !email ) {
+					return Promise.reject(createError(400, 'No email address'));
+				}
+				
+				return this.findOne({where: {email: email}})
+				.then(function( user ) {
+					if( !user ) {
+						throw createError(404, 'No user with that e-mail address');
+					}
+					return user;
+				});
+			},
 			
 			registerMember: function( user, data ) {
 				var filtered  = pick(data, [
-					'email', 'userName', 'password',
+					'email', 'password',
 					'firstName', 'lastName', 'gender',
 					'zipCode'
 				]);
@@ -186,8 +197,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			completeRegistration: function( data ) {
 				var filtered = pick(data, [
-					'firstName', 'lastName', 'zipCode', 'gender',
-					'userName', 'password'
+					'firstName', 'lastName', 'zipCode', 'gender', 'password'
 				]);
 				filtered.complete = true;
 				return this.update(filtered);

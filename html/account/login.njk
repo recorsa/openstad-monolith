@@ -2,16 +2,23 @@
 {% set pageTitle = 'Login' %}
 
 {% block content %}
-<h1>Login</h1>
+<h1>Inloggen</h1>
 
 {% if user.isLoggedIn() %}
 	U bent al ingelogd.
 {% else %}
 	<form method="post">
-		Username: <input name="userName" tabindex="1" autofocus><br>
-		Password: <input name="password" tabindex="2" type="password"><br>
 		<input type="hidden" name="_csrf" value="{{csrfToken}}">
-		<input type="submit" value="Login">
+		
+		{% if not email %}
+			Email: <input name="email" tabindex="1" autofocus>
+			<input type="submit" value="Verder &gt;">
+		{% else %}
+			Wachtwoord: <input type="password" name="password" autofocus>
+			<input type="hidden" name="email" value="{{email}}">
+			<input type="submit" value="Inloggen &gt;">
+		{% endif %}
+		
 	</form>
 {% endif %}
 {% endblock %}
