@@ -5,13 +5,14 @@ var createError  = require('http-errors')
 var auth         = require('../auth');
 var db           = require('../db');
 var mail         = require('../mail');
+var noCache      = require('../middleware/nocache');
 var passwordless = require('../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
 
 module.exports = function( app ) {
 	var router = express.Router();
-	app.use('/account', router);
+	app.use('/account', noCache, router);
 	
 	// Logging in
 	// ----------
