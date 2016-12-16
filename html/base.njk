@@ -17,8 +17,8 @@
 			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}</a>
 			{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
 		</li>
-		{% if not user.isLoggedIn() and user.can('account:create') %}
-		<li><a href="/account/token">Registreren</a></li>
+		{% if not user.isLoggedIn() and user.can('account:register') %}
+		<li><a href="/account/register">Registreren</a></li>
 		{% endif %}
 	</ul>
 	

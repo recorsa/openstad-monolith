@@ -4,9 +4,8 @@ module.exports = function( role ) {
 		
 		'index:view'       : true,
 		
-		'account:create'   : true,
+		'account:register' : true,
 		'account:complete' : false,
-		'account:token'    : true,
 		
 		'ideas:list'       : true,
 		'idea:admin'       : false,

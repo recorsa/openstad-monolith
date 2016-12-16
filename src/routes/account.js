@@ -41,12 +41,15 @@ module.exports = function( app ) {
 			})
 			.catch(next);
 		} else {
-			db.User.findByEmail(email)
+			db.User.findMember(email)
 			.then(function( user ) {
+				if( !user ) {
+					throw createError(404, 'No user with that e-mail address');
+				}
 				// If this user has a password, display the password field.
 				// Otherwise, send a login link to the user's email address.
 				return !user.passwordHash || forceToken ?
-				       sendAuthToken(req.user, email) :
+				       sendAuthToken(user, email) :
 				       null;
 			})
 			.then(function( user ) {
@@ -102,17 +105,18 @@ module.exports = function( app ) {
 		res.success('/', true);
 	});
 	
-	// Requesting token
-	// ----------------
-	router.route('/token')
-	.all(auth.can('account:token'))
+	// Register new member
+	// -------------------
+	router.route('/register')
+	.all(auth.can('account:register'))
 	.get(function( req, res, next ) {
-		res.out('account/token', false, {
+		res.out('account/register', false, {
 			csrfToken: req.csrfToken()
 		});
 	})
 	.post(function( req, res, next ) {
-		sendAuthToken(req.user, req.body.email)
+		db.User.registerMember(req.user, req.body.email)
+		.then(sendAuthToken)
 		.then(function( user ) {
 			res.out('account/token_sent', true, {
 				isNew: !user.complete
@@ -123,7 +127,7 @@ module.exports = function( app ) {
 	
 	// Complete registration
 	// ---------------------
-	app.route('/complete')
+	router.route('/complete')
 	.all(auth.can('account:complete'))
 	.get(function( req, res, next ) {
 		res.out('account/complete', false, {
@@ -139,24 +143,20 @@ module.exports = function( app ) {
 	});
 }
 
-function sendAuthToken( user, email ) {
-	// `user` can be the default unknown user account. That's why we
-	// we assign the user returned by `upgradeToMember` to `actualUser`
-	// and use that object.
-	var actualUser;
-	return user.upgradeToMember(email)
-	.then(function( user ) {
-		actualUser = user;
-		return passwordless.generateToken(user.id)
-	})
+function sendAuthToken( user ) {
+	if( !user.isMember() ) {
+		throw createError(400, 'User is not a member');
+	}
+	
+	return passwordless.generateToken(user.id)
 	.then(function( token ) {
 		mail.sendMail({
-			to      : actualUser.email,
+			to      : user.email,
 			subject : 'AB tool: Login link',
 			// html    : 'Dit is een <b>testbericht</b>',
 			text    : 'token: http://localhost:8082/account/login_token'+
-			          '?token='+token+'&uid='+actualUser.id
+			          '?token='+token+'&uid='+user.id
 		});
-		return actualUser;
+		return user;
 	});
 }

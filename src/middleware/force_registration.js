@@ -7,7 +7,8 @@ module.exports = function( app ) {
 			!req.user ||
 			!req.user.isMember() ||
 			req.user.hasCompletedRegistration() ||
-			req.path === '/account/complete'
+			req.path === '/account/complete' ||
+			req.path === '/account/logout'
 		) {
 			return next();
 		}

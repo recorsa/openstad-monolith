@@ -34,6 +34,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		email: {
 			type         : DataTypes.STRING(255),
 			allowNull    : true,
+			unique       : true,
 			validate     : {isEmail: true}
 		},
 		password: {
@@ -117,7 +118,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
 					if( !this.email ) {
 						throw new Error('Email address is required for members');
-					} else if( !this.firstName || !this.lastName ) {
+					} else if( this.complete && (!this.firstName || !this.lastName) ) {
 						throw new Error('First- and last name are required for members');
 					}
 				}
@@ -151,50 +152,52 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				});
 			},
-			findByEmail: function( email ) {
+			findMember: function( email ) {
 				if( !email ) {
 					return Promise.reject(createError(400, 'No email address'));
 				}
 				
-				return this.findOne({where: {email: email}})
-				.then(function( user ) {
-					if( !user ) {
-						throw createError(404, 'No user with that e-mail address');
-					}
-					return user;
-				});
+				return this.findOne({where: {email: email}});
 			},
 			
-			registerMember: function( user, data ) {
-				var filtered  = pick(data, [
-					'email', 'password',
-					'firstName', 'lastName', 'gender',
-					'zipCode'
-				]);
-				extend(filtered, {
-					role: 'member'
+			upgradeToMember: function( user, email ) {
+				if( !user.isMember() ) {
+					
+				} else {
+					
+				}      
+			},
+			
+			registerAnonymous: function( zipCode ) {
+				return this.create({
+					role    : 'anonymous',
+					zipCode : zipCode
 				});
+			},
+			registerMember: function( user, email ) {
+				var data = {
+					role  : 'member',
+					email : email
+				};
 				
-				if( !user.isUnknown() ) {
+				if( user.isAnonymous() ) {
 					return user.update(data);
 				} else {
-					return this.findOrCreate({
-						where    : {email : filtered.email},
-						defaults : filtered
-					}).spread(function( user ) {
-						return user;
+					return User.findOrCreate({
+						where    : {email: data.email},
+						defaults : data
+					})
+					.spread(function( actualUser ) {
+						if( actualUser.hasCompletedRegistration() ) {
+							throw createError(400, 'E-mail address is already in use');
+						} else {
+							return actualUser;
+						}
 					});
 				}
 			}
 		},
 		instanceMethods: {
-			upgradeToMember: function( email ) {
-				if( !this.isMember() ) {
-					return User.registerMember(this, {email: email});
-				} else {
-					return Promise.reject(Error('User is already a member'));
-				}      
-			},
 			completeRegistration: function( data ) {
 				var filtered = pick(data, [
 					'firstName', 'lastName', 'zipCode', 'gender', 'password'
@@ -216,7 +219,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			hasCompletedRegistration: function() {
-				return this.isLoggedIn() && this.complete;
+				return this.complete;
 			},
 			isUnknown: function() {
 				return this.role === 'unknown';
