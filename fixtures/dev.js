@@ -95,7 +95,7 @@ var users = [
 			]
 		}
 	]},
-	{id : 3  , complete : 1 , role : 'member'   , email : 'tjoekbezoer+member@gmail.com' , password : null           , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' ,  zipCode : null, ideas :[
+	{id : 3  , complete : 1 , role : 'member'   , email : 'tjoekbezoer+member@gmail.com' , password : 'member'       , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' ,  zipCode : null, ideas :[
 		{
 			id          : 3,
 			startDate   : moment(today).subtract(6, 'days'),
