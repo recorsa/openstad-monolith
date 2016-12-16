@@ -34,14 +34,12 @@
 			</form>
 		{% endif %}
 
-		{% if can('idea:vote') %}
-			<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
-				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<input type="submit" name="yes" value="+ ({{idea.yes}})">
-				<input type="submit" name="no" value="- ({{idea.no}})">
-				<input type="submit" name="abstain" value="~ ({{idea.abstain}})">
-			</form>
-		{% endif %}
+		<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="submit" name="yes" value="+ ({{idea.yes}})">
+			<input type="submit" name="no" value="- ({{idea.no}})">
+			<input type="submit" name="abstain" value="~ ({{idea.abstain}})">
+		</form>
 	</div>
 	
 	{% if can('idea:admin') %}

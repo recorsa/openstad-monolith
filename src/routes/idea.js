@@ -1,5 +1,7 @@
-var express     = require('express')
+var config      = require('config')
   , createError = require('http-errors')
+  , express     = require('express')
+  , Promise     = require('bluebird');
 var db          = require('../db');
 var auth        = require('../auth');
 
@@ -93,12 +95,13 @@ module.exports = function( app ) {
 	// -------------
 	router.route('/:ideaId/vote')
 	.all(fetchIdea())
-	.all(auth.can('idea:vote'))
 	.post(function( req, res, next ) {
 		var idea    = req.idea;
 		var opinion = req.body.opinion;
-		// Fallback to support mutiple submit buttons with the opinion's value as name.
-		// e.g.: `<input type="submit" name="abstain" value="Blanco">`.
+		var zipCode = req.body.zipCode;
+		// Fallback to support mutiple submit buttons with the opinion's
+		// value as name.
+		// e.g.: `<input type="submit" name="abstain" value="Neutral">`.
 		if( !opinion ) {
 			opinion = 'no'      in req.body ? 'no' :
 			          'yes'     in req.body ? 'yes' :
@@ -106,9 +109,41 @@ module.exports = function( app ) {
 			                                  undefined;
 		}
 		
-		idea.addUserVote(req.user, opinion)
-		.then(function() {
-			res.success('/idea/'+idea.id, true);
+		Promise.resolve(zipCode)
+		.then(function findOrCreateUser( zipCode ) {
+			if( req.user.isLoggedIn() || !zipCode ) {
+				return req.user;
+			} else {
+				var uidProperty = config.get('security.sessions.uidProperty');
+				return db.User.registerAnonymous(zipCode)
+				.then(function( newUser ) {
+					req.session[uidProperty] = newUser.id;
+					return newUser;
+				});
+			}
+		})
+		.then(function checkPermissions( user ) {
+			return [user, auth.user(user).can('idea:vote', idea)];
+		})
+		.spread(function voteOrRegister( user, mayVote ) {
+			if( mayVote ) {
+				return idea.addUserVote(user, opinion)
+				.then(function() {
+					res.success('/idea/'+idea.id, true);
+				});
+			} else {
+				res.format({
+					html: function() {
+						res.render('ideas/enter_zipcode', {
+							csrfToken : req.csrfToken(),
+							opinion   : opinion
+						});
+					},
+					json: function() {
+						throw createError(403);
+					}
+				});
+			}
 		})
 		.catch(next);
 	});
