@@ -2,6 +2,7 @@
 
 var http        = require('http');
 var ary         = require('lodash/ary');
+var castArray   = require('lodash/castArray');
 var defaults    = require('lodash/defaults');
 var extend      = require('lodash/extend');
 var forOwn      = require('lodash/forOwn');
@@ -179,11 +180,15 @@ extend(Role.prototype, {
 		return this.mgr.role(role);
 	},
 	
-	// def = boolean || {
-	// 	allow    : boolean || function(user[, resource], actionName) { return boolean },
-	// 	resource : [function( mixed ) { return resource }],
-	// 	message  : [string]
+	// def = boolean || allowFunction || {
+	// 	allow     : boolean || function(user[, resource], actionName) { return boolean },
+	// 	[resource : name || [name, ...] || function( mixed ) { return resource }],
+	// 	[message  : string]
 	// }
+	// 
+	// If `resource` is an array of strings, the `allow` function will receive
+	// a resource object where the string values from the array are properties
+	// on the object with the corresponding resource as value.
 	action: function( actionName, def ) {
 		var action;
 		// This call is a getter, or it's an object of action definitions.
@@ -240,17 +245,38 @@ extend(Role.prototype, {
 	_createAllowFunction: function( allowValue ) {
 		return function() { return !!allowValue };
 	},
-	_createResourceFunction: function( resourceValue ) {
-		// return function( model ) { return model };
-		return function( req ) {
-			if( req && req.app && req instanceof http.IncomingMessage ) {
-				var resource = req[resourceValue];
-				if( !resource ) {
-					throw new Error('Action \''+this.name+'\' requires resource req.'+resourceValue);
+	_createResourceFunction: function( resourceDef ) {
+		function get( input, resourceName ) {
+			var resource = arguments.length > 1 ?
+			               input && input[resourceName] :
+			               input;
+			if( resource == undefined ) {
+				resourceName = resourceName ? '\''+resourceName+'\'' : '';
+				throw Error('Action \''+this.name+'\' missing resource '+resourceName);
+			}
+			return resource;
+		}
+		
+		return function( input /* [, input...] */ ) {
+			var len       = arguments.length;
+			var getSimple = get.bind(this);
+			
+			if( len > 1 ) {
+				if( !Array.isArray(resourceDef) || len != resourceDef.length ) {
+					throw Error('Action \''+this.name+'\' missing resource');
 				}
-				return resource;
+				var resources = [];
+				for( let i=0; i<len; i++ ) {
+					resources.push(arguments[i]);
+				}
+				return resources;
+			} else if(
+				input instanceof http.IncomingMessage ||
+				Array.isArray(resourceDef)
+			) {
+				return castArray(resourceDef).map(get.bind(this, input));
 			} else {
-				return req;
+				return [get.bind(this, input)];
 			}
 		};
 	}
@@ -267,15 +293,17 @@ extend(Play.prototype, {
 	role     : undefined,
 	resource : undefined,
 	
-	can: function( actionName, mixed ) {
+	can: function( actionName /* [, resource...] */ ) {
 		var action = this.get(actionName);
 		if( !action ) {
 			throw new Error('Action not found: '+actionName);
 		}
 		
 		if( action.resource ) {
-			var resource = action.resource(mixed);
-			return action.allow(this.user, resource, actionName);
+			var resourceArgs = Array.prototype.slice.call(arguments, 1);
+			var resources    = action.resource.apply(action, resourceArgs);
+			var allowArgs    = [this.user].concat(resources, actionName);
+			return action.allow.apply(action, allowArgs);
 		} else {
 			return action.allow(this.user, actionName);
 		}
