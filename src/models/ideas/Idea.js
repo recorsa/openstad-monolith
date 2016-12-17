@@ -22,8 +22,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : true
 		},
 		status: {
-			type         : DataTypes.ENUM('RUNNING','ACCEPTED','DENIED','BUSY','DONE'),
-			defaultValue : 'RUNNING',
+			type         : DataTypes.ENUM('OPEN','CLOSED','ACCEPTED','DENIED','BUSY','DONE'),
+			defaultValue : 'OPEN',
 			allowNull    : false
 		},
 		title: {
@@ -105,6 +105,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		instanceMethods: {
+			isOpen: function() {
+				return this.status === 'OPEN';
+			},
+			
 			addUserVote: function( user, opinion ) {
 				var data = {
 					ideaId  : this.id,
@@ -165,13 +169,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			running: {
 				where: {
-					status: 'RUNNING'
+					status: {$in: ['OPEN', 'CLOSED']}
 				},
 				order: 'endDate'
 			},
 			historic: {
 				where: {
-					status: {$not: 'RUNNING'}
+					status: {$notIn: ['OPEN', 'CLOSED']}
 				},
 				order: 'endDate DESC'
 			},

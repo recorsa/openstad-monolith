@@ -24,13 +24,16 @@ ul#menu li {
   margin: auto;
   width: 800px;
 }
-#content.ideasList span.yes {
+#content.ideasList li.idea.CLOSED {
+  opacity: 0.5;
+}
+#content.ideasList li.idea span.yes {
   color: #61ae24;
 }
-#content.ideasList span.no {
+#content.ideasList li.idea span.no {
   color: #da421a;
 }
-#content.ideasList span.abstain {
+#content.ideasList li.idea span.abstain {
   color: #a3a3a3;
 }
 #content.idea #author {
