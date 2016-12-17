@@ -233,8 +233,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			isLoggedIn: function() {
 				return this.id && this.id !== 1 && this.isMember();
 			},
-			can: function( actionName, resource ) {
-				return auth.user(this).can(actionName, resource);
+			can: function( actionName /* [, resource...] */ ) {
+				var user = auth.user(this);
+				if( arguments.length > 1 ) {
+					var resources = Array.from(arguments).slice(1);
+					var args      = [actionName].concat(resources);
+					return user.can.apply(user, args);
+				} else {
+					return user.can(actionName);
+				}
 			},
 			
 			createNewIdea: function( data ) {
