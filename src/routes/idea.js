@@ -163,7 +163,7 @@ module.exports = function( app ) {
 	});
 	
 	router.route('/:ideaId/arg/:argId/edit')
-	.all(fetchArgument)
+	.all(fetchIdea(), fetchArgument)
 	.all(auth.can('arg:edit'))
 	.get(function( req, res, next ) {
 		res.format({

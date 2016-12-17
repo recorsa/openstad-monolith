@@ -28,7 +28,7 @@ module.exports = function( role ) {
 		},
 		'arg:edit'         : {
 			allow    : false,
-			resource : 'argument'
+			resource : ['idea', 'argument']
 		},
 		'arg:delete'       : {
 			allow    : false,

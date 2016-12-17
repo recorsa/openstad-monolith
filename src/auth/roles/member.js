@@ -23,8 +23,9 @@ function mayAddArgument( user, idea ) {
 	return user.id !== idea.userId &&
 	       idea.isOpen();
 }
-function mayMutateArgument( user, argument ) {
-	return user.id === argument.userId;
+function mayMutateArgument( user, idea, argument ) {
+	return user.id === argument.userId &&
+	       idea.isOpen();
 }
 function mayMutateIdea( user, idea ) {
 	if( !idea.isOpen() ) {

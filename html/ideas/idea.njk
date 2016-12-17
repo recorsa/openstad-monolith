@@ -95,7 +95,7 @@
 						<input type="submit" value="verwijderen">
 					</form>
 				{% endif %}
-				{% if user.can('arg:edit', arg) %}
+				{% if user.can('arg:edit', idea, arg) %}
 					<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
 						<input type="submit" value="bewerk">
 					</form>
