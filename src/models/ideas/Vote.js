@@ -10,7 +10,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		opinion: {
 			type         : DataTypes.ENUM('no','yes','abstain'),
-			defaultValue : 'abstain',
 			allowNull    : false
 		}
 	}, {
