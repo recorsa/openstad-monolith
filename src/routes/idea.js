@@ -93,57 +93,61 @@ module.exports = function( app ) {
 	
 	// Vote for idea
 	// -------------
+	// Also functions as anonymous registration by zipcode. When a user
+	// is not authorized to vote, a zipcode registration form is shown
+	// via the POST error handler. After the user submits his zipcode,
+	// a new anonymous member is created, and the normal POST handler
+	// is called.
 	router.route('/:ideaId/vote')
 	.all(fetchIdea())
-	.post(function( req, res, next ) {
-		var idea    = req.idea;
-		var opinion = req.body.opinion;
-		var zipCode = req.body.zipCode;
-		// Fallback to support mutiple submit buttons with the opinion's
-		// value as name.
-		// e.g.: `<input type="submit" name="abstain" value="Neutral">`.
-		if( !opinion ) {
-			opinion = 'no'      in req.body ? 'no' :
-			          'yes'     in req.body ? 'yes' :
-			          'abstain' in req.body ? 'abstain' :
-			                                  undefined;
+	.all(auth.can('idea:vote'))
+	.post(function( err, req, res, next ) {
+		if( err.status != 403 || !req.idea.isOpen() ) {
+			return next(err);
 		}
 		
-		Promise.resolve(zipCode)
-		.then(function findOrCreateUser( zipCode ) {
-			if( req.user.isLoggedIn() || !zipCode ) {
-				return req.user;
-			} else {
-				var uidProperty = config.get('security.sessions.uidProperty');
-				return db.User.registerAnonymous(zipCode)
-				.then(function( newUser ) {
-					req.session[uidProperty] = newUser.id;
-					return newUser;
-				});
-			}
-		})
-		.then(function checkPermissions( user ) {
-			return [user, auth.user(user).can('idea:vote', idea)];
-		})
-		.spread(function voteOrRegister( user, mayVote ) {
-			if( mayVote ) {
-				return idea.addUserVote(user, opinion)
-				.then(function() {
-					res.success('/idea/'+idea.id, true);
-				});
-			} else {
-				res.format({
-					html: function() {
-						res.render('ideas/enter_zipcode', {
-							csrfToken : req.csrfToken(),
-							opinion   : opinion
-						});
-					},
-					json: function() {
-						throw createError(403);
-					}
-				});
-			}
+		var zipCode = req.body.zipCode;
+		if( !zipCode ) {
+			res.format({
+				html: function() {
+					res.render('ideas/enter_zipcode', {
+						csrfToken : req.csrfToken(),
+						opinion   : getOpinion(req)
+					});
+				},
+				json: function() {
+					next(err);
+				}
+			});
+		} else {
+			// Register a new anonymous member and continue with the normal request.
+			var uidProperty = config.get('security.sessions.uidProperty');
+			db.User.registerAnonymous(zipCode)
+			.then(function( newUser ) {
+				req.session[uidProperty] = newUser.id;
+				req.user = newUser;
+				next();
+			});
+		}
+	})
+	.post(function( req, res, next ) {
+		var user    = req.user;
+		var idea    = req.idea;
+		var opinion = getOpinion(req);
+		
+		idea.addUserVote(user, opinion)
+		.then(function() {
+			res.format({
+				html: function() {
+					res.redirect('/idea/'+idea.id);
+				},
+				json: function() {
+					db.Idea.scope('withVotes').findById(idea.id)
+					.then(function( idea ) {
+						res.json(idea);
+					});
+				}
+			});
 		})
 		.catch(next);
 	});
@@ -246,4 +250,18 @@ function fetchArgument( req, res, next ) {
 		}
 	})
 	.catch(next);
+}
+
+function getOpinion( req ) {
+	var opinion = req.body.opinion;
+	// Fallback to support mutiple submit buttons with the opinion's
+	// value as name.
+	// e.g.: `<input type="submit" name="abstain" value="Neutral">`.
+	if( !opinion ) {
+		opinion = 'no'      in req.body ? 'no' :
+		          'yes'     in req.body ? 'yes' :
+		          'abstain' in req.body ? 'abstain' :
+		                                  undefined;
+	}
+	return opinion;
 }

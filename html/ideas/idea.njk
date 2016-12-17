@@ -15,9 +15,7 @@
 		Op: {{idea.startDate | date}}
 	</div>
 	
-	{% if can('idea:vote') %}
-		<hr>
-	{% endif %}
+	<hr>
 	
 	<div class="buttons">
 		{% if can('idea:edit') %}
@@ -33,12 +31,14 @@
 				<input type="submit" value="Verwijder idee">
 			</form>
 		{% endif %}
-
-		<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
-			<input type="hidden" name="_csrf" value="{{csrfToken}}">
-			<input type="submit" name="yes" value="+ ({{idea.yes}})">
-			<input type="submit" name="no" value="- ({{idea.no}})">
-		</form>
+		
+		{% if idea.isOpen() %}
+			<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<input type="submit" name="yes" value="+ ({{idea.yes}})">
+				<input type="submit" name="no" value="- ({{idea.no}})">
+			</form>
+		{% endif %}
 	</div>
 	
 	{% if can('idea:admin') %}
