@@ -1,7 +1,6 @@
 'use strict';
 
 var http        = require('http');
-var ary         = require('lodash/ary');
 var castArray   = require('lodash/castArray');
 var defaults    = require('lodash/defaults');
 var extend      = require('lodash/extend');
@@ -14,10 +13,12 @@ var createError = require('http-errors');
 // 	defaultRoleName: string
 // }
 var RolePlay = module.exports = function RolePlay( options ) {
-	options = defaults(options, {});
+	options = defaults(options, {
+		defaultRoleName: 'default'
+	});
 	
 	this.roles       = {};
-	this.defaultRole = new this.constructor.Role(this, options.defaultRoleName || 'default');
+	this.defaultRole = new this.constructor.Role(this, options.defaultRoleName);
 	this.roles[this.defaultRole.name] = this.defaultRole;
 };
 RolePlay.Role = Role;
