@@ -78,6 +78,7 @@ module.exports  = {
 	_initSessionMiddleware: function() {
 		// Session management
 		// ------------------
+		var flash          = require('connect-flash');
 		var session        = require('express-session');
 		var SequelizeStore = require('connect-session-sequelize')(session.Store);
 		var db             = require('./db');
@@ -100,6 +101,8 @@ module.exports  = {
 		}));
 		// Middleware to fill `req.user` with a `User` instance.
 		require('./middleware/session_user')(this.app);
+		// Support for flash messages.
+		this.app.use(flash());
 	},
 	_initSecurityMiddleware: function() {
 		var csurf = require('csurf');

@@ -24,6 +24,25 @@ ul#menu li {
   margin: auto;
   width: 800px;
 }
+#content div.flashMessage {
+  border: 2px solid #B1B1B1;
+  margin: 10px 0px;
+  padding: 10px 20px;
+  position: relative;
+  text-align: center;
+}
+#content div.flashMessage.success {
+  border-color: #798DE8;
+}
+#content div.flashMessage div {
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 20px;
+  line-height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+}
 #content.ideasList li.idea.CLOSED {
   opacity: 0.5;
 }

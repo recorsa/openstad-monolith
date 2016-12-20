@@ -23,6 +23,15 @@
 	</ul>
 	
 	<div id="content" class="{{contentClass}}">
+		{% for type,list in messages %}
+			{% for message in list %}
+				<div class="flashMessage {{type}}">
+					{{message}}
+					<div onclick="location.reload()">x</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+		
 		{% block content %}
 			Standaard pagina.
 		{% endblock %}

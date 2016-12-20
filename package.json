@@ -17,6 +17,7 @@
     "co": "^4.6.0",
     "compression": "^1.6.2",
     "config": "^1.21.0",
+    "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^4.1.0",
     "cors": "^2.8.1",
     "cron": "^1.1.1",

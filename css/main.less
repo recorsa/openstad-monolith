@@ -27,6 +27,27 @@ ul#menu {
 #content {
 	margin: auto;
 	width: 800px;
+	
+	div.flashMessage {
+		border: 2px solid #B1B1B1;
+		margin: 10px 0px;
+		padding: 10px 20px;
+		position: relative;
+		text-align: center;
+		
+		&.success {
+			border-color: #798DE8;
+		}
+		div {
+			cursor: pointer;
+			font-family: monospace;
+			font-size: 20px;
+			line-height: 20px;
+			position: absolute;
+			right: 10px;
+			top: 0px;
+		}
+	}
 }
 #content.ideasList {
 	li.idea {
