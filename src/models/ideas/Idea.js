@@ -169,7 +169,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( this.yes === undefined ) {
 					throw Error('Idea.setStatus needs scope `withVotes`');
 				}
-				if( status === 'CLOSED' && this.yes < 5 ) {
+				if( status === 'CLOSED' && this.yes < 50 ) {
 					status = 'DENIED';
 				}
 				return this.update({status: status});
