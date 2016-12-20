@@ -139,7 +139,6 @@ module.exports = function( app ) {
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
 			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
-			
 			res.format({
 				html: function() {
 					res.redirect('/idea/'+idea.id);
@@ -167,7 +166,13 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.addUserArgument(req.user, req.body)
 		.then(function( argument ) {
-			res.success('/idea/'+idea.id, {argument: argument.toJSON()});
+			req.flash('success', 'Argument toegevoegd');
+			res.success('/idea/'+idea.id, function json() {
+				return {
+					messages : req.flash(),
+					argument : argument.toJSON()
+				};
+			});
 		})
 		.catch(next);
 	});
@@ -194,7 +199,13 @@ module.exports = function( app ) {
 			description: req.body.description
 		})
 		.then(function() {
-			res.success('/idea/'+argument.ideaId, {argument: argument.toJSON()});
+			req.flash('success', 'Argument aangepast');
+			res.success('/idea/'+argument.ideaId, function json() {
+				return {
+					messages : req.flash(),
+					argument : argument.toJSON()
+				};
+			});
 		})
 		.catch(next);
 	});
@@ -207,7 +218,12 @@ module.exports = function( app ) {
 		var ideaId   = argument.ideaId;
 		argument.destroy()
 		.then(function() {
-			res.success('/idea/'+ideaId, true);
+			req.flash('success', 'Argument verwijderd');
+			res.success('/idea/'+ideaId, function json() {
+				return {
+					messages: req.flash()
+				};
+			});
 		})
 		.catch(next);
 	});
