@@ -98,11 +98,32 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			getRunningIdeas: function() {
+				// What we want to achieve:
+				// 
+				// ```sql
+				// SELECT FROM ideas i
+				// INNER JOIN meetings m ON
+				// 	m.id = i.meetingId
+				// WHERE
+				// 	i.status IN ('OPEN', 'CLOSED') OR (
+				// 		i.status = 'DENIED' AND
+				// 		m.date >= UTC_TIMESTAMP()
+				// 	)
+				// ```
 				return this.scope('withVotes').findAll({
 					where: {
-						status: {$in: ['OPEN', 'CLOSED']}
+						$or: [
+							{status: {$in: ['OPEN', 'CLOSED']}},
+							{
+								$and: [
+									{status: 'DENIED'},
+									sequelize.where(db.Meeting.rawAttributes.date, '>=', new Date())
+								]
+							}
+						]
 					},
-					order: 'endDate'
+					order: 'endDate',
+					include: [db.Meeting]
 				});
 			},
 			getHistoricIdeas: function() {
@@ -110,7 +131,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					where: {
 						status: {$notIn: ['OPEN', 'CLOSED']}
 					},
-					order: 'endDate DESC'
+					order: 'updatedAt DESC'
 				});
 			}
 		},
