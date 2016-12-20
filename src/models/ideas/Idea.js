@@ -98,10 +98,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			getRunningIdeas: function() {
-				return this.scope('withVotes', 'running').findAll();
+				return this.scope('withVotes').findAll({
+					where: {
+						status: {$in: ['OPEN', 'CLOSED']}
+					},
+					order: 'endDate'
+				});
 			},
 			getHistoricIdeas: function() {
-				return this.scope('withVotes', 'historic').findAll();
+				return this.scope('withVotes').findAll({
+					where: {
+						status: {$notIn: ['OPEN', 'CLOSED']}
+					},
+					order: 'endDate DESC'
+				});
 			}
 		},
 		instanceMethods: {
@@ -185,19 +195,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 		
 		return {
-			running: {
-				where: {
-					status: {$in: ['OPEN', 'CLOSED']}
-				},
-				order: 'endDate'
-			},
-			historic: {
-				where: {
-					status: {$notIn: ['OPEN', 'CLOSED']}
-				},
-				order: 'endDate DESC'
-			},
-			
 			withUser: {
 				include: [{
 					model      : db.User,

@@ -209,7 +209,7 @@ module.exports = function( app ) {
 	// Admin idea
 	// ----------
 	router.route('/:ideaId/status')
-	.all(fetchIdea())
+	.all(fetchIdea('withVotes'))
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
 		var idea = req.idea;
