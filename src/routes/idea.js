@@ -36,6 +36,7 @@ module.exports = function( app ) {
 	.get(function( req, res ) {
 		var idea = req.idea;
 		res.out('ideas/idea', true, {
+			messages  : req.flash(),
 			idea      : idea,
 			csrfToken : req.csrfToken()
 		});
@@ -136,7 +137,9 @@ module.exports = function( app ) {
 		var opinion = getOpinion(req);
 		
 		idea.addUserVote(user, opinion, req.ip)
-		.then(function() {
+		.then(function( voteRemoved ) {
+			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
+			
 			res.format({
 				html: function() {
 					res.redirect('/idea/'+idea.id);
@@ -144,7 +147,10 @@ module.exports = function( app ) {
 				json: function() {
 					db.Idea.scope('withVotes').findById(idea.id)
 					.then(function( idea ) {
-						res.json(idea);
+						res.json({
+							messages : req.flash(),
+							idea     : idea
+						});
 					});
 				}
 			});

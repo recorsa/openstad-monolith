@@ -163,6 +163,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 						data.deletedAt = null;
 						return db.Vote.upsert(data);
 					}
+				})
+				.then(function( result ) {
+					// When the user double-voted with the same opinion, the vote
+					// is removed: return `true`. Otherwise return `false`.
+					// 
+					// `vote.destroy` returns model when `paranoid` is `true`.
+					return result && !!result.deletedAt;
 				});
 			},
 			addUserArgument: function( user, data ) {
