@@ -172,8 +172,8 @@ module.exports = function( app ) {
 	.get(function( req, res, next ) {
 		res.format({
 			html: function() {
-				res.out('ideas/form_arg.njk', true, {
-					argument  : req.argument.toJSON(),
+				res.out('ideas/form_arg', true, {
+					argument  : req.argument,
 					csrfToken : req.csrfToken()
 				});
 			},
@@ -215,7 +215,7 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.setStatus(req.body.status)
 		.then(function() {
-			res.success('/idea/'+idea.id, {idea: idea.toJSON()});
+			res.success('/idea/'+idea.id, {idea: idea});
 		})
 		.catch(next);
 	});

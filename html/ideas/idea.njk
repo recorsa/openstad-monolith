@@ -44,7 +44,7 @@
 	{% if can('idea:admin') %}
 		<hr>
 		
-		<form method="POST" action="/idea/{{idea.id}}/status">
+		<form class="action" method="POST" action="/idea/{{idea.id}}/status">
 			<select name="status">
 				<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">Open</option>
 				<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">Gesloten</option>
@@ -55,7 +55,7 @@
 			</select>
 			<input type="hidden" name="_method" value="PUT">
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
-			<input type="submit" value="Pas aan">
+			<input type="submit" value="Update status">
 		</form>
 	{% endif %}
 	

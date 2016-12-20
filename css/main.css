@@ -28,6 +28,7 @@ ul#menu li {
   opacity: 0.5;
 }
 #content.ideasList li.idea.DENIED {
+  opacity: 0.5;
   text-decoration: line-through;
 }
 #content.ideasList li.idea span.yes {

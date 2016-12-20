@@ -119,7 +119,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							}
 						]
 					},
-					order: 'endDate',
+					order: 'endDate DESC',
 					include: [db.Meeting]
 				});
 			},

@@ -28,7 +28,7 @@ module.exports  = {
 		
 		// ... then middleware everyone needs...
 		this._initBasicMiddleware();
-		this._initAuthMiddleware();
+		this._initSessionMiddleware();
 		this._initRenderMiddleware();
 		
 		// ... then the upload functionality (not compatible with CSRF)...
@@ -75,12 +75,12 @@ module.exports  = {
 			return method;
 		}));
 	},
-	_initAuthMiddleware: function() {
+	_initSessionMiddleware: function() {
 		// Session management
 		// ------------------
-		var session            = require('express-session');
-		var SequelizeStore     = require('connect-session-sequelize')(session.Store);
-		var db                 = require('./db');
+		var session        = require('express-session');
+		var SequelizeStore = require('connect-session-sequelize')(session.Store);
+		var db             = require('./db');
 		this.app.use(session({
 			name              : 'amsterdam.sid',
 			secret            : config.get('security.sessions.secret'),
