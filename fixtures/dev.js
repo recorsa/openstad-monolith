@@ -1,6 +1,6 @@
 var _      = require('lodash')
   , co     = require('co')
-  , moment = require('moment')
+  , moment = require('moment-timezone')
 var log    = require('debug')('app:db');
 
 module.exports = co.wrap(function*( db ) {
@@ -22,8 +22,7 @@ module.exports = co.wrap(function*( db ) {
 				}, {
 					model: db.Vote
 				}]
-			}],
-			validate : userData.id != 4 // User 4 is anonymous and has credentials
+			}]
 		});
 	});
 	log('test database complete');
@@ -34,9 +33,10 @@ var today = moment().startOf('day');
 // Meetings
 // --------
 var meetings = [
-	{id: 1, date: moment(today).day(5).toDate()},
-	{id: 2, date: moment(today).day(5).add(2, 'weeks').toDate()},
-	{id: 3, date: moment(today).day(5).add(4, 'weeks').toDate()}
+	{id: 1, date: moment(today).day(5).subtract(2, 'weeks').toDate()},
+	{id: 2, date: moment(today).day(5).toDate()},
+	{id: 3, date: moment(today).day(5).add(2, 'weeks').toDate()},
+	{id: 4, date: moment(today).day(5).add(4, 'weeks').toDate()}
 ];
 // Users including their ideas
 // ---------------------------
@@ -111,10 +111,16 @@ var users = [
 				{userId: 8  , opinion: 'abstain'},
 				{userId: 2  , opinion: 'no'}
 			]
+		}, {
+			id          : 4,
+			startDate   : moment(today).subtract(16, 'days'),
+			title       : 'McDonalds in de bibliotheek',
+			summary     : 'Boeken lezen maakt hongerig.',
+			description : 'Nu moet ik elke keer als ik een dagje ga zitten lezen mijn eigen boterhammetjes meenemen. Ik wil ook wel eens een lekkere burger onder het genot van Tolstojs luchtige schrijfsels.'
 		}
 	]},
 	// User 4 validation is skipped, see above.
-	{id : 4  , complete : 0 , role : 'anonymous' , email : null                          , password : 'anon'         , firstName : null        , lastName : null        , gender : 'male'   , zipCode : '1051 RL'} ,
+	{id : 4  , complete : 0 , role : 'anonymous' , email : null                          , password : null           , firstName : null        , lastName : null        , gender : null     , zipCode : '1051 RL'} ,
 	{id : 5  , complete : 1 , role : 'member'    , email : 'jedwards2@statcounter.com'   , password : 'QoPNQ8AddeD'  , firstName : 'Jane'      , lastName : 'Edwards'   , gender : 'female' , zipCode : null}      ,
 	{id : 6  , complete : 1 , role : 'member'    , email : 'jcole3@skype.com'            , password : 'vPb2ycQFKt8'  , firstName : 'Justin'    , lastName : 'Cole'      , gender : 'male'   , zipCode : null}      ,
 	{id : 7  , complete : 1 , role : 'member'    , email : 'crice1@nsw.gov.au'           , password : 'ZrY7tsEhlv'   , firstName : 'Sean'      , lastName : 'Scott'     , gender : 'male'   , zipCode : null}      ,
