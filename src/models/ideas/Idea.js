@@ -47,18 +47,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.content(text));
 			}
 		},
-		// Vote counts set in the default scope.
+		// Vote counts set in `withVotes` scope.
 		no: {
-			type         : DataTypes.VIRTUAL,
-			defaultValue : 0
+			type         : DataTypes.VIRTUAL
 		},
 		yes: {
-			type         : DataTypes.VIRTUAL,
-			defaultValue : 0
+			type         : DataTypes.VIRTUAL
 		},
 		abstain: {
-			type         : DataTypes.VIRTUAL,
-			defaultValue : 0
+			type         : DataTypes.VIRTUAL
 		}
 	}, {
 		hooks: {
@@ -169,6 +166,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			setStatus: function( status ) {
+				if( this.yes === undefined ) {
+					throw Error('Idea.setStatus needs scope `withVotes`');
+				}
+				if( status === 'CLOSED' && this.yes < 5 ) {
+					status = 'DENIED';
+				}
 				return this.update({status: status});
 			},
 			
@@ -225,8 +228,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			withVotes: {
 				attributes: Object.keys(this.attributes).concat([
 					voteCount('yes'),
-					voteCount('no'),
-					voteCount('abstain')
+					voteCount('no')
 				])
 			},
 			withArguments: {
