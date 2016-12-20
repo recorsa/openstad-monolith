@@ -109,11 +109,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.status === 'OPEN';
 			},
 			
-			addUserVote: function( user, opinion ) {
+			addUserVote: function( user, opinion, ip ) {
 				var data = {
 					ideaId  : this.id,
 					userId  : user.id,
-					opinion : opinion
+					opinion : opinion,
+					ip      : ip
 				};
 				
 				return db.Vote.findOne({where: data})
@@ -166,6 +167,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 	
 	function scopes() {
+		// Helper function used in `withVotes` scope.
+		function voteCount( opinion ) {
+			return [sequelize.literal(`
+				(SELECT
+					COUNT(*)
+				FROM
+					votes v
+				WHERE
+					v.deletedAt IS NULL AND (
+						v.checked IS NULL OR
+						v.checked  = 1
+					) AND
+					v.ideaId     = idea.id AND
+					v.opinion    = "${opinion}")
+			`), opinion];
+		}
+		
 		return {
 			running: {
 				where: {
@@ -188,9 +206,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			withVotes: {
 				attributes: Object.keys(this.attributes).concat([
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="no")'), 'no'],
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="yes")'), 'yes'],
-					[sequelize.literal('(SELECT COUNT(*) FROM votes v WHERE v.deletedAt IS NULL AND v.ideaId = idea.id AND v.opinion="abstain")'), 'abstain']
+					voteCount('yes'),
+					voteCount('no'),
+					voteCount('abstain')
 				])
 			},
 			withArguments: {

@@ -8,9 +8,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.INTEGER,
 			allowNull    : false
 		},
+		ip: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			validate     : {
+				isIP: true
+			}
+		},
 		opinion: {
 			type         : DataTypes.ENUM('no','yes','abstain'),
 			allowNull    : false
+		},
+		// This will be true if the vote validation CRON determined this
+		// vote is valid.
+		checked : {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : true
 		}
 	}, {
 		indexes: [{

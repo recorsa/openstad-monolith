@@ -135,7 +135,7 @@ module.exports = function( app ) {
 		var idea    = req.idea;
 		var opinion = getOpinion(req);
 		
-		idea.addUserVote(user, opinion)
+		idea.addUserVote(user, opinion, req.ip)
 		.then(function() {
 			res.format({
 				html: function() {

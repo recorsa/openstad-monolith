@@ -15,6 +15,7 @@ module.exports  = {
 		log('initializing...');
 		this.app = express();
 		this.app.disable('x-powered-by');
+		this.app.set('trust proxy', true);
 		this.app.set('view engine', 'njk');
 		this.app.use(compression());
 		// this.app.use(cors());
