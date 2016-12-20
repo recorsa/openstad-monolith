@@ -36,7 +36,8 @@ function success( url, data ) {
 			res.redirect(url);
 		},
 		json: function() {
-			res.json(data);
+			var result = data instanceof Function ? data() : data;
+			res.json(result);
 		},
 		default: function() {
 			res.status(406).send('Not Acceptable');
