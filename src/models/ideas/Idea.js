@@ -47,6 +47,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.content(text));
 			}
 		},
+		modBreak: {
+			type         : DataTypes.TEXT,
+			allowNull    : true,
+			set          : function( text ) {
+				this.setDataValue('modBreak', sanitize.content(text));
+			}
+		},
 		// Vote counts set in `withVotes` scope.
 		no: {
 			type         : DataTypes.VIRTUAL
@@ -165,6 +172,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return db.Argument.create(filtered);
 			},
 			
+			setModBreak: function( modBreak ) {
+				return this.update({modBreak: modBreak});
+			},
 			setStatus: function( status ) {
 				if( this.yes === undefined ) {
 					throw Error('Idea.setStatus needs scope `withVotes`');

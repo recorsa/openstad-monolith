@@ -1,0 +1,19 @@
+{% extends '../base.njk' %}
+
+{% set pageTitle = 'Bewerk modbreak' %}
+{% set contentClass = 'modBreak' %}
+
+{% block content %}
+<h1>Bewerk modbreak</h1>
+
+<form method="post" action="/idea/{{idea.id}}/mod_break">
+	Beschrijving:<br>
+	<textarea name="modBreak">{{idea.modBreak}}</textarea><br>
+	
+	<input type="hidden" name="id" value="{{idea.id}}">
+	<input type="hidden" name="_method" value="PUT">
+	<input type="hidden" name="_csrf" value="{{csrfToken}}">
+	
+	<input type="submit" name="Opslaan">
+</form>
+{% endblock %}

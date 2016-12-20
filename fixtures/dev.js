@@ -102,6 +102,7 @@ var users = [
 			title       : 'Markt uitbreiden',
 			summary     : 'Er moet plek zijn voor twee groentemannen!',
 			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.',
+			modBreak    : 'Goedkoper is niet altijd beter, Jennifer.',
 			votes: [
 				{userId: 15 , opinion: 'no'},
 				{userId: 7  , opinion: 'no'},

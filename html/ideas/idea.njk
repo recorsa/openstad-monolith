@@ -10,6 +10,12 @@
 		{{idea.description | safe}}
 	</div>
 	
+	{% if idea.modBreak %}
+	<div id="modBreak">
+		{{idea.modBreak | safe | nl2br}}
+	</div>
+	{% endif %}
+	
 	<div id="author">
 		Door: {{idea.user.firstName}} {{idea.user.lastName}}<br>
 		Op: {{idea.startDate | date}}
@@ -56,6 +62,10 @@
 			<input type="hidden" name="_method" value="PUT">
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="submit" value="Update status">
+		</form>
+		
+		<form class="action" method="GET" action="/idea/{{idea.id}}/mod_break">
+			<input type="submit" value="Mod break">
 		</form>
 	{% endif %}
 	

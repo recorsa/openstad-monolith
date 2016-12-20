@@ -219,6 +219,23 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+	router.route('/:ideaId/mod_break')
+	.all(fetchIdea())
+	.all(auth.can('idea:admin'))
+	.get(function( req, res, next ) {
+		res.out('ideas/form_mod_break', true, {
+			idea      : req.idea,
+			csrfToken : req.csrfToken()
+		});
+	})
+	.put(function( req, res, next ) {
+		var idea = req.idea;
+		idea.setModBreak(req.body.modBreak)
+		.then(function() {
+			res.success('/idea/'+idea.id, {idea: idea});
+		})
+		.catch(next);
+	});
 };
 
 function fetchIdea( /* [scopes] */ ) {

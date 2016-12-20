@@ -40,6 +40,20 @@ ul#menu li {
 #content.ideasList li.idea span.abstain {
   color: #a3a3a3;
 }
+#content.idea #modBreak {
+  border: 4px solid #E9C71A;
+  margin: 35px 0px;
+  padding: 10px 20px;
+  position: relative;
+}
+#content.idea #modBreak:before {
+  content: 'Bericht van de beheerder:';
+  display: block;
+  font-style: italic;
+  left: 0px;
+  position: absolute;
+  top: -25px;
+}
 #content.idea #author {
   font-style: italic;
   margin-top: 20px;
