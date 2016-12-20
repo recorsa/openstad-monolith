@@ -27,6 +27,9 @@ ul#menu li {
 #content.ideasList li.idea.CLOSED {
   opacity: 0.5;
 }
+#content.ideasList li.idea.DENIED {
+  text-decoration: line-through;
+}
 #content.ideasList li.idea span.yes {
   color: #61ae24;
 }

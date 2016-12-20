@@ -19,10 +19,10 @@
 </ul>
 
 {% if can('idea:admin') %}
-	<h1>Voorgaande ideeën</h1>
+	<h1>Inactieve ideeën</h1>
 	<ul>
 	{% for idea in historicIdeas %}
-		<li>
+		<li class="idea {{idea.status}}">
 			<a href="/idea/{{idea.id}}">{{idea.title}}</a>
 			<span class="yes">{{idea.yes}}+</span>
 			<span class="no">{{idea.no}}-</span>
