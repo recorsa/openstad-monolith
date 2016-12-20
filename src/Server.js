@@ -115,8 +115,8 @@ module.exports  = {
 		// });
 	},
 	_initRenderMiddleware: function() {
-		var dateFilter = require('nunjucks-date-filter');
 		var nunjucks   = require('nunjucks');
+		var dateFilter = require('./nunjucks/dateFilter');
 		
 		var env = nunjucks.configure('html', {
 			autoescape : true,

@@ -1,5 +1,5 @@
 var co       = require('co')
-  , moment   = require('moment')
+  , moment   = require('moment-timezone')
   , pick     = require('lodash/pick');
 var sanitize = require('../../util/sanitize');
 
