@@ -1,44 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
 	<title>{{pageTitle or 'Home'}} - Gemeente Amsterdam</title>
 	
 	{% block head %}
+	<link rel="stylesheet" type="text/css" href="/css/fonts.css">
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/ideas.css">
 	{% endblock %}
 </head>
 <body>
-	<ul id="menu">
-		<li><a href="/">Home</a></li>
-		<li><a href="/ideas">Ideeën</a></li>
-		<li><a href="/about">Over AB</a></li>
-		<li>
-			<a href="/account/{{'logout' if user.isLoggedIn() else 'login_email'}}">
-			{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}</a>
-			{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
-		</li>
-		{% if not user.isLoggedIn() and user.can('account:register') %}
-		<li><a href="/account/register">Registreren</a></li>
-		{% endif %}
-	</ul>
-	
-	<div id="content" class="{{contentClass}}">
-		{% for type,list in messages %}
-			{% for message in list %}
-				<div class="flashMessage {{type}}">
-					{{message}}
-					<div onclick="location.reload()">x</div>
-				</div>
-			{% endfor %}
-		{% endfor %}
+	<div id="page">
+		<!--<ul id="menu">
+			<li><a href="/">Home</a></li>
+			<li><a href="/ideas">Ideeën</a></li>
+			<li><a href="/about">Over AB</a></li>
+			<li>
+				<a href="/account/{{'logout' if user.isLoggedIn() else 'login_email'}}">
+				{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}</a>
+				{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
+			</li>
+			{% if not user.isLoggedIn() and user.can('account:register') %}
+			<li><a href="/account/register">Registreren</a></li>
+			{% endif %}
+		</ul>-->
+		<header>
+			<figure>
+				<img src="/img/andreas.svg" alt=""/>
+				<figcaption>
+					Gemeente<br>
+					Amsterdam
+				</figcaption>
+			</figure>
+			
+			<nav id="mainMenu">
+			
+			</nav>
+			
+			<nav class="bar">
+				
+			</nav>
+		</header>
 		
-		{% block content %}
-			Standaard pagina.
+		
+		
+		<div id="content" class="{{contentClass}}">
+			{% for type,list in messages %}
+				{% for message in list %}
+					<div class="flashMessage {{type}}">
+						{{message}}
+						<div onclick="location.reload()">x</div>
+					</div>
+				{% endfor %}
+			{% endfor %}
+			
+			{% block content %}
+				Standaard pagina.
+			{% endblock %}
+		</div>
+		
+		{% block footer %}
+		<footer>
+			<nav class="bar"></nav>
+			
+			<div class="col"></div>
+			<div class="col"></div>
+			<div class="col"></div>
+			<div class="col"></div>
+		</footer>
 		{% endblock %}
 	</div>
-	
-	{% block footer %}
-	{% endblock %}
 </body>
 </html>

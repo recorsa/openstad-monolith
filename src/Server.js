@@ -22,6 +22,12 @@ module.exports  = {
 		
 		// Register statics first...
 		this.app.use('/css', express.static('css'));
+		this.app.use('/fonts', express.static('fonts', {
+			setHeaders: function( res ) {
+				res.type('application/font-woff');
+			}
+		}));
+		this.app.use('/img', express.static('img'));
 		this.app.use('/js',  express.static('js'));
 		this.app.use('/lib',  express.static('lib'));
 		require('./routes/media_get')(this.app);

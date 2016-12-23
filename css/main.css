@@ -1,12 +1,94 @@
 body {
+  background-color: #E5E5E5;
   margin: 0;
-  margin-bottom: 20px;
+  padding: 0;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1em;
+}
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1em;
 }
 form {
   overflow: hidden;
 }
 form.action {
   display: inline;
+}
+#page {
+  background-color: #FFF;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0 80px 30px;
+  max-width: 940px;
+}
+@media only screen and (min-width: 550px) and (max-width: 768px) {
+  #page {
+    padding: 0 45px 30px;
+  }
+}
+@media only screen and (max-width: 549px) {
+  #page {
+    padding: 0 41px 30px;
+    width: auto;
+  }
+}
+header {
+  position: relative;
+}
+header figure {
+  left: -32px;
+  margin: 0;
+  position: absolute;
+  top: 15px;
+}
+@media only screen and (max-width: 549px) {
+  header figure {
+    left: 0px;
+  }
+}
+header figure img {
+  border: 0;
+  height: auto;
+  width: 24px;
+}
+header figure figcaption {
+  color: #F00;
+  font-size: 29.5px;
+  font-weight: 600;
+  left: 32px;
+  line-height: 29px;
+  position: absolute;
+  top: -2px;
+}
+header #mainMenu {
+  height: 135px;
+}
+footer {
+  background-color: #666;
+  color: #FFF;
+  margin: 0 -20px;
+}
+footer div.col4 {
+  width: 100px;
+}
+@media only screen and (max-width: 549px) {
+  header,
+  footer {
+    margin: 0 -30px;
+  }
+}
+nav.bar {
+  background-color: #333;
+  color: #FFF;
+  height: 38px;
 }
 ul#menu {
   margin: 10px 0px;
@@ -21,8 +103,7 @@ ul#menu li {
   margin: 0px 10px;
 }
 #content {
-  margin: auto;
-  width: 800px;
+  margin: 18px 0 20px 0;
 }
 #content div.flashMessage {
   border: 2px solid #B1B1B1;
