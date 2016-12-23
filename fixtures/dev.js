@@ -28,7 +28,7 @@ module.exports = co.wrap(function*( db ) {
 	log('test database complete');
 });
 
-var today = moment().startOf('day');
+var today = moment().endOf('day');
 
 // Meetings
 // --------
