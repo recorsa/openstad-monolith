@@ -1,13 +1,33 @@
 {% extends './base.njk' %}
 
 {% block content %}
-	<h1>Welkom</h1>
-
-	Dit is de startpagina. Hier lichten we interessante ideeën voor u uit. Daarnaast informeren we
-	u over de aankomende vergaderingen en wat daar besproken gaat worden. Tot slot dient deze pagina
-	als startpunt om beter bekend te worden met het algemeen bestuur van stadsdeel West.
+	<div id="banner">
+		<div class="image"></div>
+		<div class="text">
+			<h2>Heb jij plannen of ideeën voor jouw buurt in Amsterdam West?</h2>
+			Welkom op De Stem van West! Dit is jouw online meeting point voor het inzenden
+			en delen van plannen en ideeën voor jouw buurt. Probeer stemmen te krijgen
+			voor je plan en maak kennis met jouw aanspreekpunt van het Algemeen Bestuur.
+			Door samen te werken kun je jouw buurt nóg beter en leuker maken.
+		</div>
+	</div>
 	
-	<h2>En verder...</h2>
+	<div class="primary">
+		{% for article in articles %}
+		<div class="tile">
+			<div class="image"></div>
+			<h3>{{article.title}}</h3>
+			{{article.summary}}
+		</div>
+		{% endfor %}
+	</div>
 	
-	Nog helemaal niks. Deze tekst is niet belangrijk.
+	<div class="secondary">
+		<h2>Campagnes</h2>
+		<ul>
+			<li>Westloop; hardloop wedstrijd voor West</li>
+			<li>Oplossing voor overlast Airbnb in de Baarsjes</li>
+			<li>Groen voor voetgangers is rood voor afslaande auto's</li>
+		</ul>
+	</div>
 {% endblock %}
