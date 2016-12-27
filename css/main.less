@@ -1,6 +1,11 @@
 // @landscape: ~'only screen and (min-width: 768px) and (max-width: 1100px)';
-@portrait:  ~'only screen and (min-width: 550px) and (max-width: 768px)';
-@phone:     ~'only screen and (max-width: 549px)';
+@portrait  : ~'only screen and (max-width: 768px)';
+@phone     : ~'only screen and (max-width: 549px)';
+
+@footer50  : ~'only screen and (max-width: 900px)';
+@footer100 : @phone;
+
+@navBarHeight : 38px;
 
 body {
 	background-color: #E5E5E5;
@@ -10,24 +15,6 @@ body {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	font-size: 1rem;
 	line-height: 1.5rem;
-}
-
-h1 {
-	font-size: 2rem;
-	font-weight: 600;
-	line-height: 1em;
-}
-h2 {
-	font-size: 1.5rem;
-	font-weight: 600;
-	line-height: 1em;
-}
-
-form {
-	overflow: hidden;
-}
-form.action {
-	display: inline;
 }
 
 #page {
@@ -43,6 +30,60 @@ form.action {
 	@media @phone {
 		padding: 0 41px 30px;
 		width: auto;
+	}
+}
+
+h1 {
+	font-size: 1.875rem;
+	font-weight: 600;
+	line-height: 1em;
+}
+h2 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	line-height: 1em;
+}
+
+form {
+	overflow: hidden;
+}
+form.action {
+	display: inline;
+}
+
+// Black <nav> bar in <header> and <footer>
+nav.menuBar {
+	background-color: #333;
+	color: #FFF;
+	height: @navBarHeight;
+	
+	ul {
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+		
+		li {
+			box-sizing: border-box;
+			display: inline-block;
+			height: @navBarHeight;
+			list-style: none;
+			text-align: center;
+			vertical-align: center;
+			
+			&.active {
+				border-bottom: 4px solid #FFE115;
+			}
+			
+			a {
+				color: #FFF;
+				line-height: @navBarHeight;
+				padding: 0px 20px;
+				text-decoration: none;
+			}
+			&:nth-child(n+2) a {
+				border-left: 1px solid gray;
+			}
+		}
 	}
 }
 
@@ -65,7 +106,7 @@ header {
 		}
 		figcaption {
 			color: #F00;
-			font-size: 29.5px;
+			font-size: 1.875rem;
 			font-weight: 600;
 			left: 32px;
 			line-height: 29px;
@@ -74,17 +115,63 @@ header {
 		}
 	}
 	
+	h1 {
+		position: absolute;
+		margin: 0;
+		top: 100px;
+		left: 0px;
+	}
+	
 	#mainMenu {
 		height: 135px;
+	}
+	
+	#quick {
+		display: block;
+		height: @navBarHeight;
+		line-height: @navBarHeight;
+		position: relative;
+		
+		#auth {
+			font-weight: 600;
+			position: absolute;
+			right: 0px;
+			
+			a {
+				color: #000;
+				text-decoration: none;
+			}
+		}
 	}
 }
 footer {
 	background-color: #666;
 	color: #FFF;
 	margin: 0 -20px;
+	// overflow: hidden;
 	
-	div.col4 {
-		width: 100px;
+	>div {
+		margin: 0 20px;
+		
+		>div {
+			box-sizing: border-box;
+			display: inline-block;
+			vertical-align: top;
+			// float: left;
+			width: 25%;
+			
+			&:nth-last-child(n+2) {
+				padding-right: 10px;
+			}
+			
+			@media @footer50 {
+				width: 50%;
+			}
+			@media @footer100 {
+				width: 100%;
+				padding-right: 0px !important;
+			}
+		}
 	}
 }
 header, footer {
@@ -92,29 +179,13 @@ header, footer {
 		margin: 0 -30px;
 	}
 }
-// Black <nav> bar in <header> and <footer>
-nav.bar {
-	background-color: #333;
-	color: #FFF;
-	height: 38px;
-}
-
-ul#menu {
-	margin: 10px 0px;
-	overflow: hidden;
-	padding: 0;
-	text-align: center;
-	
-	li {
-		display: inline;
-		list-style: none;
-		text-align: center;
-		margin: 0px 10px;
-	}
-}
 
 #content {
-	margin: 18px 0 20px 0;
+	margin-bottom: 20px;
+	
+	h1 {
+		margin-top: 0;
+	}
 	
 	div.flashMessage {
 		border: 2px solid #B1B1B1;

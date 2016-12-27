@@ -12,13 +12,9 @@
 <body>
 	<div id="page">
 		<!--<ul id="menu">
-			<li><a href="/">Home</a></li>
-			<li><a href="/ideas">Ideeën</a></li>
-			<li><a href="/about">Over AB</a></li>
+			
 			<li>
-				<a href="/account/{{'logout' if user.isLoggedIn() else 'login_email'}}">
-				{{'Uitloggen' if user.isLoggedIn() else 'Inloggen'}}</a>
-				{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
+				
 			</li>
 			{% if not user.isLoggedIn() and user.can('account:register') %}
 			<li><a href="/account/register">Registreren</a></li>
@@ -33,16 +29,32 @@
 				</figcaption>
 			</figure>
 			
+			<h1>Algemeen Bestuur West</h1>
+			
 			<nav id="mainMenu">
 			
 			</nav>
 			
-			<nav class="bar">
-				
+			<nav role="navigation" class="menuBar">
+				<ul>
+					<li  class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li
+					><li class="{{'active' if activeMenu == 'about'}}"><a href="/about">Het AB</a></li
+					><li class="{{'active' if activeMenu == 'ideas'}}"><a href="/ideas">Mijn plan</a></li>
+				</ul>
+			</nav>
+			
+			<nav id="quick">
+				<div id="auth">
+				&gt;
+				{% if user.isLoggedIn() %}
+					<a href="/account/logout">Uitloggen</a>
+					{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
+				{% else %}
+					<a href="/account/login_email">Inloggen</a>
+				{% endif %}
+				</div>
 			</nav>
 		</header>
-		
-		
 		
 		<div id="content" class="{{contentClass}}">
 			{% for type,list in messages %}
@@ -61,12 +73,34 @@
 		
 		{% block footer %}
 		<footer>
-			<nav class="bar"></nav>
+			<nav class="menuBar"></nav>
 			
-			<div class="col"></div>
-			<div class="col"></div>
-			<div class="col"></div>
-			<div class="col"></div>
+			<div>
+				<div>
+					<h2>Contact</h2>
+					<ul>
+						<li>Email bestuurscommissie</li>
+						<li>Email ondersteuning dagelijks bestuur</li>
+					</ul>
+				</div
+				><div>
+					<h2>Privacy</h2>
+					<ul>
+						<li>Privacy statement</li>
+						<li>Cookies</li>
+					</ul>
+				</div
+				><div>
+					<h2>Over deze site</h2>
+					<ul>
+						<li>Veelgestelde vragen</li>
+						<li>Proclaimer</li>
+					</ul>
+				</div
+				><div>
+					
+				</div>
+			</div>
 		</footer>
 		{% endblock %}
 	</div>
