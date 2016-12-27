@@ -3,6 +3,7 @@
 <head>
 	<title>{{pageTitle or 'Home'}} - Gemeente Amsterdam</title>
 	
+	<meta name="viewport" content="initial-scale=1">
 	{% block head %}
 	<link rel="stylesheet" type="text/css" href="/css/fonts.css">
 	<link rel="stylesheet" type="text/css" href="/css/all.css">
@@ -10,15 +11,6 @@
 </head>
 <body>
 	<div id="page">
-		<!--<ul id="menu">
-			
-			<li>
-				
-			</li>
-			{% if not user.isLoggedIn() and user.can('account:register') %}
-			<li><a href="/account/register">Registreren</a></li>
-			{% endif %}
-		</ul>-->
 		<header>
 			<figure>
 				<img src="/img/andreas.svg" width="24" alt=""/>
@@ -28,7 +20,7 @@
 				</figcaption>
 			</figure>
 			
-			<h1>Algemeen Bestuur West</h1>
+			<h1>De Stem van West</h1>
 			
 			<nav id="mainMenu">
 			
@@ -44,6 +36,10 @@
 			
 			<nav id="quick">
 				<div id="auth">
+				{% if not user.isLoggedIn() and user.can('account:register') %}
+				&gt; <a href="/account/register">Registreren</a>
+				{% endif %}
+				
 				&gt;
 				{% if user.isLoggedIn() %}
 					<a href="/account/logout">Uitloggen</a>
