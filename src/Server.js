@@ -21,16 +21,7 @@ module.exports  = {
 		// this.app.use(cors());
 		
 		// Register statics first...
-		this.app.use('/css', express.static('css'));
-		this.app.use('/fonts', express.static('fonts', {
-			setHeaders: function( res ) {
-				res.type('application/font-woff');
-			}
-		}));
-		this.app.use('/img', express.static('img'));
-		this.app.use('/js',  express.static('js'));
-		this.app.use('/lib',  express.static('lib'));
-		require('./routes/media_get')(this.app);
+		this._initStatics();
 		
 		// ... then middleware everyone needs...
 		this._initBasicMiddleware();
@@ -59,6 +50,29 @@ module.exports  = {
 		});
 	},
 	
+	_initStatics: function() {
+		var less = require('less-middleware');
+		
+		// Requires custom change to less:
+		// https://github.com/less/less.js/pull/2866/files
+		// 
+		// Current release is 2.7.1, newer release should have a fix for
+		// the 'octals in strict mode' problem.
+		this.app.use('/css', less('css'));
+		this.app.use('/css', express.static('css'));
+		
+		this.app.use('/fonts', express.static('fonts', {
+			setHeaders: function( res ) {
+				res.type('application/font-woff');
+			}
+		}));
+		
+		this.app.use('/img', express.static('img'));
+		this.app.use('/js',  express.static('js'));
+		this.app.use('/lib',  express.static('lib'));
+		
+		require('./routes/media_get')(this.app);
+	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser')
 		var methodOverride     = require('method-override')
