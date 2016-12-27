@@ -4,8 +4,8 @@ body {
 	padding: 0;
 	
 	font-family: Avenir, Helvetica, Arial, sans-serif;
-	font-size: 1rem;
-	line-height: 1.5rem;
+	font-size: 0.875rem;
+	line-height: 1.5em;
 }
 
 #page {
@@ -25,12 +25,12 @@ body {
 }
 
 h1 {
-	font-size: 1.875rem;
+	font-size: 1.875em;
 	font-weight: 600;
 	line-height: 1em;
 }
 h2 {
-	font-size: 1.25rem;
+	font-size: 1.5em;
 	font-weight: 600;
 	line-height: 1em;
 }
@@ -115,8 +115,13 @@ header {
 	h1 {
 		position: absolute;
 		margin: 0;
-		top: 100px;
+		white-space: nowrap;
+		top: 105px;
 		left: 0px;
+		
+		@media @phone {
+			left: 32px;
+		}
 	}
 	
 	#mainMenu {
@@ -130,6 +135,7 @@ header {
 		position: relative;
 		
 		#auth {
+			font-size: 1rem;
 			font-weight: 600;
 			position: absolute;
 			right: 0px;
