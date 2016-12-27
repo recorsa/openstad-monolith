@@ -55,32 +55,38 @@ form.action {
 nav.menuBar {
 	background-color: #333;
 	color: #FFF;
+	font-size: 1rem;
 	height: @navBarHeight;
 	
 	ul {
 		margin: 0;
+		max-width: 100%;
 		overflow: hidden;
 		padding: 0;
+		white-space: nowrap;
 		
 		li {
 			box-sizing: border-box;
 			display: inline-block;
 			height: @navBarHeight;
 			list-style: none;
+			max-width: 120px;
 			text-align: center;
 			vertical-align: center;
+			width: 33.33%;
 			
 			&.active {
-				border-bottom: 4px solid #FFE115;
+				border-bottom: 5px solid #FFE115;
 			}
 			
 			a {
 				color: #FFF;
+				display: inline-block;
 				line-height: @navBarHeight;
-				padding: 0px 20px;
+				width: 100%;
 				text-decoration: none;
 			}
-			&:nth-child(n+2) a {
+			& + li a {
 				border-left: 1px solid gray;
 			}
 		}
