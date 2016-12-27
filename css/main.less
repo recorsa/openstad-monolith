@@ -1,12 +1,3 @@
-// @landscape: ~'only screen and (min-width: 768px) and (max-width: 1100px)';
-@portrait  : ~'only screen and (max-width: 768px)';
-@phone     : ~'only screen and (max-width: 549px)';
-
-@footer50  : ~'only screen and (max-width: 900px)';
-@footer100 : @phone;
-
-@navBarHeight : 38px;
-
 body {
 	background-color: #E5E5E5;
 	margin: 0;
@@ -170,10 +161,10 @@ footer {
 				padding-right: 10px;
 			}
 			
-			@media @footer50 {
+			@media @grid50 {
 				width: 50%;
 			}
-			@media @footer100 {
+			@media @grid100 {
 				width: 100%;
 				padding-right: 0px !important;
 			}
@@ -183,34 +174,5 @@ footer {
 header, footer {
 	@media @phone {
 		margin: 0 -30px;
-	}
-}
-
-#content {
-	margin-bottom: 20px;
-	
-	h1 {
-		margin-top: 0;
-	}
-	
-	div.flashMessage {
-		border: 2px solid #B1B1B1;
-		margin: 10px 0px;
-		padding: 10px 20px;
-		position: relative;
-		text-align: center;
-		
-		&.success {
-			border-color: #798DE8;
-		}
-		div {
-			cursor: pointer;
-			font-family: monospace;
-			font-size: 20px;
-			line-height: 20px;
-			position: absolute;
-			right: 10px;
-			top: 0px;
-		}
 	}
 }

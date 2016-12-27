@@ -1,0 +1,37 @@
+#content {
+	margin-bottom: 20px;
+	overflow: hidden;
+	position: relative;
+	
+	// Visible again, because `#banner` has a negative margin to better
+	// line of with the top `nav.bar` that just got wider. A hidden over-
+	// flow hides this negative margin and thus the red background.
+	@media @phone {
+		overflow: visible;
+	}
+	
+	h1 {
+		margin-top: 0;
+	}
+	
+	div.flashMessage {
+		border: 2px solid #B1B1B1;
+		margin: 10px 0px;
+		padding: 10px 20px;
+		position: relative;
+		text-align: center;
+		
+		&.success {
+			border-color: #798DE8;
+		}
+		div {
+			cursor: pointer;
+			font-family: monospace;
+			font-size: 20px;
+			line-height: 20px;
+			position: absolute;
+			right: 10px;
+			top: 0px;
+		}
+	}
+}
