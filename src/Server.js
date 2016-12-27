@@ -58,7 +58,12 @@ module.exports  = {
 		// 
 		// Current release is 2.7.1, newer release should have a fix for
 		// the 'octals in strict mode' problem.
-		this.app.use('/css', less('css'));
+		this.app.use('/css', less('css', {
+			render: {
+				compress   : !config.get('debug'),
+				strictMath : true
+			}
+		}));
 		this.app.use('/css', express.static('css'));
 		
 		this.app.use('/fonts', express.static('fonts', {
