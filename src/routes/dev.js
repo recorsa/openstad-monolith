@@ -1,5 +1,6 @@
 var express = require('express');
 var config  = require('config');
+var log     = require('debug')('app:http')
 var db      = require('../db');
 var auth    = require('../auth');
 
@@ -7,6 +8,7 @@ module.exports = function( app ) {
 	if( !config.get('debug') ) {
 		return;
 	}
+	log('initiating dev routes');
 	
 	var router = express.Router();
 	app.use('/dev', router);
