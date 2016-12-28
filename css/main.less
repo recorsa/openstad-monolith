@@ -87,28 +87,30 @@ nav.menuBar {
 header {
 	position: relative;
 	
-	figure {
+	img {
+		border: 0;
+		height: auto;
 		left: -32px;
 		margin: 0;
 		position: absolute;
 		top: 15px;
+		width: 24px;
 		
 		@media @phone {
 			left: 0px;
 		}
-		img {
-			border: 0;
-			height: auto;
-			width: 24px;
-		}
-		figcaption {
-			color: #F00;
-			font-size: 1.875rem;
-			font-weight: 600;
+	}
+	#amsterdam {
+		color: #F00;
+		font-size: 1.875rem;
+		font-weight: 600;
+		left: 0px;
+		line-height: 29px;
+		position: absolute;
+		top: 15px;
+		
+		@media @phone {
 			left: 32px;
-			line-height: 29px;
-			position: absolute;
-			top: -2px;
 		}
 	}
 	
