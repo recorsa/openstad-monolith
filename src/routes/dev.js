@@ -29,4 +29,8 @@ module.exports = function( app ) {
 			}
 		});
 	});
+	
+	router.get('/fonts', function( req, res, next ) {
+		res.out('test/fonts', false);
+	});
 }
