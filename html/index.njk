@@ -50,5 +50,18 @@
 			{% endfor %}
 			</ul>
 		</div>
+		
+		<div id="agenda">
+			<h2>Agenda</h2>
+			Het Algemeen Bestuur vergadert elke 2 weken. In elke vergadering wordt
+			het bewonersidee besproken dat in 4 weken tijd de meeste stemmen heeft
+			gekregen.
+			
+			<div class="timeLine">
+			{% for meeting in meetings %}
+				<div class="point"></div><div class="date">{{meeting.date | date('D MMMM')}} <strong>{{meeting.date | date('YYYY')}}</strong></div>
+			{% endfor %}
+			</div>
+		</div>
 	</div>
 {% endblock %}

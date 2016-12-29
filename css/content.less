@@ -183,6 +183,19 @@
 		// Highlighted ideas
 		// -----------------
 		#highlightedIdeas {
+			@media @primary100 {
+				float: right;
+				margin-left: @hMargin;
+				margin-top: 0 !important;
+				vertical-align: top;
+				width: calc(50% - (@hMargin/2));
+			}
+			@media @phone {
+				float: none;
+				width: 100%;
+				margin: 0;
+			}
+			
 			h2 {
 				margin-top: 0;
 			}
@@ -237,6 +250,78 @@
 						background-position: left 5px;
 						background-size: auto 20px;
 						background-image: url('/img/argument.svg');
+					}
+				}
+			}
+		}
+		
+		#agenda {
+			@media @primary100 {
+				float: left;
+				margin-top: 0;
+				vertical-align: top;
+				width: calc(50% - (@hMargin/2));
+			}
+			@media @phone {
+				float: none;
+				width: 100%;
+				margin-top: 15px;
+			}
+			
+			margin-top: 15px;
+			
+			h2 {
+				margin-top: 0;
+			}
+			.timeLine {
+				background-color: whitesmoke;
+				margin-top: 10px;
+				padding: 5px;
+				// Create new stacking context for the negative
+				// z-index in `>div.point`.
+				// See: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+				position: relative;
+				z-index: 1;
+				
+				>div {
+					box-sizing: border-box;
+					display: inline-block;
+					font-size: 1rem;
+					font-weight: bold;
+					line-height: 30px;
+					vertical-align: top;
+					width: calc(100% - 40px);
+					
+					&:nth-last-child(n+3) {
+						margin-bottom: 30px;
+					}
+				}
+				>div.point {
+					background-color: #FFF;
+					border: 5px solid #F00;
+					border-radius: 15px;
+					height: 30px;
+					position: relative;
+					width: 30px;
+					
+					&:nth-last-child(n+3)::before {
+						background-color: #323333;
+						content: ' ';
+						height: 40px;
+						left: 50%;
+						margin-left: -8px;
+						position: absolute;
+						top: 20px;
+						width: 16px;
+						z-index: -1;
+					}
+				}
+				>div.date {
+					padding-left: 10px;
+					white-space: nowrap;
+					
+					strong {
+						color: #F00;
 					}
 				}
 			}
