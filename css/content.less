@@ -38,7 +38,7 @@
 	@hMargin: 21px;
 	@vMargin: 20px;
 	
-	div.primary {
+	#primary {
 		box-sizing: border-box;
 		float: left;
 		font-size: 0;
@@ -107,7 +107,7 @@
 		}
 	}
 	
-	div.secondary {
+	#secondary {
 		box-sizing: border-box;
 		float: right;
 		overflow: hidden;
@@ -121,20 +121,39 @@
 			width: 100%;
 		}
 		
-		h2 {
-			margin-top: 0;
 		}
-		ul {
-			list-style-image: url('');
-			list-style-position: inside;
-			list-style-type: none;
-			padding: 0;
-		}
-		li {
-			background-color: #F00;
-			color: #FFF;
-			margin-bottom: 5px;
-			padding: 10px 10px;
+		
+		// Highlighted ideas
+		// -----------------
+		#highlightedIdeas {
+			h2 {
+				margin-top: 0;
+			}
+			ul {
+				list-style-image: url('');
+				list-style-position: inside;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			li {
+				background-color: #F00;
+				color: #FFF;
+				padding: 10px 10px;
+				
+				&:nth-last-of-type(n+2) {
+					margin-bottom: 15px;
+				}
+				a {
+					color: #FFF;
+					text-decoration: none;
+				}
+				>div {
+					margin: 5px -10px 0;
+					text-align: center;
+					white-space: nowrap;
+				}
+			}
 		}
 	}
 }

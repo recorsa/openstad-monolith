@@ -12,7 +12,7 @@
 		</div>
 	</div>
 	
-	<div class="primary">
+	<div id="primary">
 		{% for article in articles %}
 		<div class="tile">
 			<div class="image"></div>
@@ -24,12 +24,16 @@
 		{% endfor %}
 	</div>
 	
-	<div class="secondary">
-		<h2>Campagnes</h2>
-		<ul>
-			<li>Westloop; hardloop wedstrijd voor West</li>
-			<li>Oplossing voor overlast Airbnb in de Baarsjes</li>
-			<li>Groen voor voetgangers is rood voor afslaande auto's</li>
-		</ul>
+	<div id="secondary">
+		<div id="highlightedIdeas">
+			<h2>Campagnes</h2>
+			<ul>
+			{% for idea in ideas %}
+				<li>
+					<a href="/idea/{{idea.id}}">{{idea.title}}</a>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock %}
