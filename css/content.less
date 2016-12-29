@@ -42,10 +42,10 @@
 		box-sizing: border-box;
 		float: left;
 		font-size: 0;
-		width: calc(75% + @hMargin);
+		width: calc(75% + (@hMargin*3/4));
 		
 		@media @grid50 {
-			width: calc(70% + @hMargin);
+			width: calc(66.66% + (@hMargin*2/3));
 		}
 		@media @primary100 {
 			float: none;
@@ -57,12 +57,10 @@
 			display: inline-block;
 			font-size: 0.875rem;
 			margin-bottom: @vMargin;
+			margin-right: @hMargin;
 			vertical-align: top;
 			width: calc(33.33% - @hMargin);
 			
-			&:nth-last-child(n+2) {
-				margin-right: @hMargin;
-			}
 			@media @grid50 {
 				width: calc(50% - @hMargin);
 			}
@@ -112,10 +110,11 @@
 	div.secondary {
 		box-sizing: border-box;
 		float: right;
-		width: calc(25% - @hMargin);
+		overflow: hidden;
+		width: calc(25% - (@hMargin*3/4));
 		
 		@media @grid50 {
-			width: calc(30% - @hMargin);
+			width: calc(33.33% - (@hMargin*2/3));
 		}
 		@media @primary100 {
 			float: none;
