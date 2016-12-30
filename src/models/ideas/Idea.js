@@ -59,14 +59,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('modBreak', sanitize.content(text));
 			}
 		},
-		// Vote counts set in `withVotes` scope.
+		// Counts set in `summary`/`withVotes` scope.
 		no: {
 			type         : DataTypes.VIRTUAL
 		},
 		yes: {
 			type         : DataTypes.VIRTUAL
 		},
-		abstain: {
+		argCount: {
 			type         : DataTypes.VIRTUAL
 		}
 	}, {
@@ -119,7 +119,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// 		m.date >= UTC_TIMESTAMP()
 				// 	)
 				// ```
-				return this.scope('withVotes').findAll({
+				return this.scope('summary').findAll({
 					where: {
 						$or: [
 							{status: {$in: ['OPEN', 'CLOSED']}},
@@ -140,7 +140,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			getHistoricIdeas: function() {
-				return this.scope('withVotes').findAll({
+				return this.scope('summary').findAll({
 					where: {
 						status: {$notIn: ['OPEN', 'CLOSED']}
 					},
@@ -243,8 +243,29 @@ module.exports = function( db, sequelize, DataTypes ) {
 					v.opinion    = "${opinion}")
 			`), opinion];
 		}
+		function argCount( fieldName ) {
+			return [sequelize.literal(`
+				(SELECT
+					COUNT(*)
+				FROM
+					arguments a
+				WHERE
+					a.deletedAt IS NULL AND
+					a.ideaId     = idea.id)
+			`), fieldName];
+		}
 		
 		return {
+			summary: {
+				attributes: {
+					include: [
+						voteCount('yes'),
+						voteCount('no'),
+						argCount('argCount')
+					],
+					exclude: ['description', 'modBreak']
+				}
+			},
 			withUser: {
 				include: [{
 					model      : db.User,
