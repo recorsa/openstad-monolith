@@ -106,7 +106,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Image);
 			},
 			
-			getRunningIdeas: function( limit ) {
+			getHighlighted: function() {
+				return this.scope('summary').findAll({
+					where : {status: 'OPEN'},
+					order : 'sort, endDate DESC',
+					limit : 3
+				});
+			},
+			getRunning: function( limit ) {
 				// What we want to achieve:
 				// 
 				// ```sql
@@ -139,7 +146,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					limit   : limit
 				});
 			},
-			getHistoricIdeas: function() {
+			getHistoric: function() {
 				return this.scope('summary').findAll({
 					where: {
 						status: {$notIn: ['OPEN', 'CLOSED']}

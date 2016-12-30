@@ -11,16 +11,17 @@ module.exports = function( app ) {
 	app.route('/ideas')
 	.all(auth.can('ideas:list', 'idea:create', 'idea:admin'))
 	.get(function( req, res, next ) {
-		var queries = [db.Idea.getRunningIdeas()];
+		var queries = {
+			runningIdeas     : db.Idea.getRunning(),
+			highlightedIdeas : db.Idea.getHighlighted(),
+			upcomingMeetings : db.Meeting.getUpcoming(3)
+		};
 		if( req.can('idea:admin') ) {
-			queries.push(db.Idea.getHistoricIdeas());
+			queries['historicIdeas'] = db.Idea.getHistoric();
 		}
 		
-		Promise.all(queries).then(function( queries ) {
-			res.out('ideas/list', true, {
-				runningIdeas  : queries[0],
-				historicIdeas : queries[1]
-			});
+		Promise.props(queries).then(function( result ) {
+			res.out('ideas/list', true, result);
 		})
 		.catch(next);
 	});

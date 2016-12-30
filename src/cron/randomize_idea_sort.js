@@ -10,7 +10,7 @@ module.exports = {
 	cronTime: '0 0 0 * * *',
 	runOnInit: true,
 	onTick: function() {
-		db.Idea.getRunningIdeas()
+		db.Idea.getRunning()
 		.then(function( ideas ) {
 			var sort = sequence(1, ideas.length);
 			ideas.forEach(function( idea, i ) {
