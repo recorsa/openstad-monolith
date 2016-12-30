@@ -1,11 +1,12 @@
+var co      = require('co');
 var moment  = require('moment-timezone');
 var db      = require('../db');
 var noCache = require('../middleware/nocache');
 
 module.exports = function( app ) {
-	app.get('/', noCache, function welcome( req, res ) {
-		res.render('index', {
-			articles: [{
+	app.get('/', noCache, co.wrap(function*( req, res ) {
+		var data = yield {
+			articles: Promise.resolve([{
 				title   : 'Hugo de Grootkade omgetoverd tot leefstraat door idee Mischa',
 				summary : `Bewoner Mischa pitchte zijn idee voor leefstraten
 				           bij het Algemeen Bestuur. Zij waren zo enthousiast
@@ -44,33 +45,11 @@ module.exports = function( app ) {
 				title   : 'Algemeen Bestuur komt naar u toe',
 				summary : `Bewoners kunnen het AB vragen om in hun buurt op locatie
 				           te komen om een dringende vraag of probleem te bespreken.`
-			}],
-			ideas: [{
-				id        : 1,
-				title     : 'Westloop; hardloop wedstrijd voor West',
-				yes       : 666,
-				no        : 666,
-				arguments : 666
-			}, {
-				id        : 2,
-				title     : 'Oplossing voor overlast Airbnb in de Baarsjes',
-				yes       : 122,
-				no        : 7,
-				arguments : 8
-			}, {
-				id        : 3,
-				title     : 'Groen voor voetgangers is rood voor afslaande auto\'s',
-				yes       : 101,
-				no        : 7,
-				arguments : 23
-			}],
-			meetings: [{
-				date: moment().day(5).add(2, 'week')
-			}, {
-				date: moment().day(5).add(4, 'week')
-			}, {
-				date: moment().day(5).add(6, 'week')
-			}]
-		});
-	});
+			}]),
+			ideas    : db.Idea.getRunningIdeas(3),
+			meetings : db.Meeting.getUpcoming(3)
+		};
+		
+		res.out('index', true, data);
+	}));
 }
