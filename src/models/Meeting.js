@@ -5,6 +5,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 		classMethods: {
 			associate: function( models ) {
 				Meeting.hasMany(models.Idea);
+			},
+			
+			getUpcoming: function( limit ) {
+				return this.findAll({
+					where: {
+						date: {$gte: new Date()}
+					},
+					limit: limit
+				})
 			}
 		}
 	});
