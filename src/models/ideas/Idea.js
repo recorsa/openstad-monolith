@@ -21,6 +21,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.DATE,
 			allowNull    : true
 		},
+		sort: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false,
+			defaultValue : 1
+		},
 		status: {
 			type         : DataTypes.ENUM('OPEN','CLOSED','ACCEPTED','DENIED','BUSY','DONE'),
 			defaultValue : 'OPEN',
@@ -101,7 +106,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Image);
 			},
 			
-			getRunningIdeas: function() {
+			getRunningIdeas: function( limit ) {
 				// What we want to achieve:
 				// 
 				// ```sql
@@ -126,8 +131,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 							}
 						]
 					},
-					order: 'endDate DESC',
-					include: [db.Meeting]
+					order   : 'sort, endDate DESC',
+					include : [{
+						model: db.Meeting,
+						attributes: []
+					}],
+					limit   : limit
 				});
 			},
 			getHistoricIdeas: function() {
