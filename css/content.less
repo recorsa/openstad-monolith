@@ -66,6 +66,45 @@
 		}
 	}
 	
+	// Idea stats
+	// ----------
+	// Used in #primary tiles on the ideas list page, and in #secondary
+	// on several pages.
+	.ideaStats {
+		text-align: center;
+		white-space: nowrap;
+		
+		div.count {
+			box-sizing: border-box;
+			display: inline-block;
+			font-size: 0.75rem;
+			font-weight: 100;
+			height: 25px;
+			padding-left: 30px;
+			padding-top: 4px;
+			background-position: left top;
+			background-repeat: no-repeat;
+				
+			&:nth-child(n+2) {
+				margin-left: 5px;
+			}
+			&.yes {
+				background-size: auto 20px;
+				background-image: url('/img/thumbsup_white.svg');
+			}
+			&.no {
+				background-position: left 5px;
+				background-size: auto 20px;
+				background-image: url('/img/thumbsdown_white.svg');
+			}
+			&.arguments {
+				background-position: left 5px;
+				background-size: auto 20px;
+				background-image: url('/img/argument_white.svg');
+			}
+		}
+	}
+	
 	// #primary and #secondary columns
 	// -------------------------------
 	@hMargin: 21px;
@@ -219,39 +258,8 @@
 					color: #FFF;
 					text-decoration: none;
 				}
-				>div {
+				.ideaStats {
 					margin: 5px -10px 0;
-					text-align: center;
-					white-space: nowrap;
-				}
-				div.count {
-					box-sizing: border-box;
-					display: inline-block;
-					font-size: 0.75rem;
-					font-weight: 100;
-					height: 25px;
-					padding-left: 30px;
-					padding-top: 4px;
-					background-position: left top;
-					background-repeat: no-repeat;
-						
-					&:nth-child(n+2) {
-						margin-left: 5px;
-					}
-					&.yes {
-						background-size: auto 20px;
-						background-image: url('/img/thumbsup.svg');
-					}
-					&.no {
-						background-position: left 5px;
-						background-size: auto 20px;
-						background-image: url('/img/thumbsdown.svg');
-					}
-					&.arguments {
-						background-position: left 5px;
-						background-size: auto 20px;
-						background-image: url('/img/argument.svg');
-					}
 				}
 			}
 		}

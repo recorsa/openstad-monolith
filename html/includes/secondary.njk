@@ -18,7 +18,7 @@
 		{% for idea in ideas %}
 			<li>
 				<a href="/idea/{{idea.id}}">{{idea.title}}</a>
-				<div>
+				<div class="ideaStats">
 					<div class="count yes">{{idea.yes}}</div>
 					<div class="count no">{{idea.no}}</div>
 					<div class="count arguments">{{idea.argCount}}</div>
