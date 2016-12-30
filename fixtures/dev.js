@@ -47,7 +47,7 @@ var users = [
 			id               : 1,
 			startDate        : moment(today).subtract(1, 'days'),
 			title            : 'Metro naar stadsdeel West',
-			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein',
+			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein om sneller thuis te zijn.',
 			description      : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!',
 			argumentsAgainst : [
 				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn. Daarnaast zal dit project ook weer enorm uit de hand lopen waarschijnlijk.'}

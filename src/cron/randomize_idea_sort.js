@@ -8,7 +8,7 @@ var db  = require('../db');
 // Runs every day at midnight.
 module.exports = {
 	cronTime: '0 0 0 * * *',
-	runOnInit: true,
+	// runOnInit: true,
 	onTick: function() {
 		db.Idea.getRunning()
 		.then(function( ideas ) {
