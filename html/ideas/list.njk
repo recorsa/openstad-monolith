@@ -1,42 +1,52 @@
 {% extends '../ideas.njk' %}
+{% import '../includes/secondary.njk' as sec %}
+
 {% set pageTitle    = 'Ideeën' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
-<h1>Ideeën</h1>
-
-<ul>
-{% for idea in runningIdeas %}
-	<li class="idea {{idea.status}}">
-		<a href="/idea/{{idea.id}}">{{idea.title}}</a>
-		<span class="yes">{{idea.yes}}+</span>
-		<span class="no">{{idea.no}}-</span>
-	</li>
-{% else %}
-	<i>Nog geen ideeën!</i>
-{% endfor %}
-</ul>
-
-{% if can('idea:admin') %}
-	<h1>Inactieve ideeën</h1>
-	<ul>
-	{% for idea in historicIdeas %}
-		<li class="idea {{idea.status}}">
-			<a href="/idea/{{idea.id}}">{{idea.title}}</a>
-			<span class="yes">{{idea.yes}}+</span>
-			<span class="no">{{idea.no}}-</span>
-		</li>
-	{% else %}
-		<i>Geen historie</i>
-	{% endfor %}
-	</ul>
-{% endif %}
-
-<hr>
-
-{% if can('idea:create') %}
-	<form class="action" action="/idea/new">
-		<input type="submit" value="Nieuw idee">
-	</form>
-{% endif %}
+	<div id="map">
+		<div class="image"></div>
+	</div>
+	
+	<div id="primary">
+		{{sec.speechBubble()}}
+	
+		{% for idea in runningIdeas %}
+			<div class="tile {{idea.status}}">
+				<div class="image"></div>
+				<h3>{{idea.title}}</h3>
+				{{idea.summary}}
+				
+				<div class="ideaStats">
+					<div class="count yes">{{idea.yes}}</div>
+					<div class="count no">{{idea.no}}</div>
+					<div class="count arguments">{{idea.argCount}}</div>
+				</div>
+			</div>
+		{% else %}
+			<i>Nog geen ideeën!</i>
+		{% endfor %}
+		
+		{% if can('idea:admin') %}
+			<h1>Inactieve ideeën</h1>
+			{% for idea in historicIdeas %}
+				<li class="idea {{idea.status}}">
+					<a href="/idea/{{idea.id}}">{{idea.title}}</a>
+					<span class="yes">{{idea.yes}}+</span>
+					<span class="no">{{idea.no}}-</span>
+				</li>
+			{% else %}
+				<i>Geen historie</i>
+			{% endfor %}
+		{% endif %}
+	</div>
+	
+	<div id="secondary">
+		{{sec.speechBubble()}}
+		
+		{{sec.highlightedIdeas(highlightedIdeas)}}
+		
+		{{sec.agenda(upcomingMeetings)}}
+	</div>
 {% endblock %}

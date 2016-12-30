@@ -1,0 +1,57 @@
+#map {
+	background-image: url('http://placehold.it/2200x720?text=Google+Maps');
+	background-position: center;
+	background-size: cover;
+	height: 360px;
+	margin: 0 0 20px;
+	position: relative;
+	
+	@media @primary100 {
+		height: 250px;
+		margin: 0 -30px 20px;
+	}
+}
+
+#content.ideasList {
+	#primary {
+		.tile {
+			background-color: whitesmoke;
+			padding: 0px 10px 10px;
+			
+			.image {
+				margin-left: -10px;
+				width: calc(100% + 20px);
+			}
+			.ideaStats {
+				margin: 5px 0 0;
+				
+				// Override white icons defined in `content.less`.
+				div.count {
+					&.yes {
+						background-image: url('/img/thumbsup_gray.svg');
+					}
+					&.no {
+						background-image: url('/img/thumbsdown_gray.svg');
+					}
+					&.arguments {
+						background-image: url('/img/argument_gray.svg');
+					}
+				}
+			}
+		}
+	}
+	
+	li.idea {
+		&.CLOSED {
+			opacity: 0.5;
+		}
+		&.DENIED {
+			opacity: 0.5;
+			text-decoration: line-through;
+		}
+		
+		span.yes { color: #61AE24 }
+		span.no { color: #DA421A }
+		span.abstain { color: #A3A3A3 }
+	}
+}
