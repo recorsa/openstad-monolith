@@ -3,72 +3,100 @@
 {% set contentClass = 'idea' %}
 
 {% block content %}
-	<h1>{{idea.title}}</h1>
+	<div id="title">
+		<div>
+			<div class="primary">
+				<div class="image"></div>
+			</div>
+			
+			<div class="secondary">
+				<div>
+					<h2>Stemmen</h2>
+					<ul>
+						<li>Voor
+						<li>Tegen
+					</ul>
+					
+					<div class="progress">
+						<div class="bar" style="width: {{idea.progress}}%;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="primary">
+		<h1>{{idea.title}}</h1>
 
-	<div class="userContent">
-		{{idea.description | safe}}
-	</div>
-	
-	{% if idea.modBreak %}
-	<div id="modBreak">
-		{{idea.modBreak | safe | nl2br}}
-	</div>
-	{% endif %}
-	
-	<div id="author">
-		Door: {{idea.user.firstName}} {{idea.user.lastName}}<br>
-		Op: {{idea.startDate | date}}
-	</div>
-	
-	<hr>
-	
-	<div class="buttons">
-		{% if can('idea:edit') %}
-			<form class="action" action="/idea/{{idea.id}}/edit">
-				<input type="submit" value="Bewerk idee">
-			</form>
+		<div class="userContent">
+			{{idea.description | safe}}
+		</div>
+		
+		{% if idea.modBreak %}
+		<div id="modBreak">
+			{{idea.modBreak | safe | nl2br}}
+		</div>
 		{% endif %}
 		
-		{% if can('idea:delete') %}
-			<form class="action" method="POST" action="/idea/{{idea.id}}/delete">
-				<input type="hidden" name="_method" value="DELETE">
-				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<input type="submit" value="Verwijder idee">
-			</form>
-		{% endif %}
+		<div id="author">
+			Door: {{idea.user.firstName}} {{idea.user.lastName}}<br>
+			Op: {{idea.startDate | date}}
+		</div>
 		
-		{% if idea.isOpen() %}
-			<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
-				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<input type="submit" name="yes" value="+ ({{idea.yes}})">
-				<input type="submit" name="no" value="- ({{idea.no}})">
-			</form>
-		{% endif %}
-	</div>
-	
-	{% if can('idea:admin') %}
 		<hr>
 		
-		<form class="action" method="POST" action="/idea/{{idea.id}}/status">
-			<select name="status">
-				<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">Open</option>
-				<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">Gesloten</option>
-				<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Geaccepteerd</option>
-				<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">Afgewezen</option>
-				<option {{'selected' if idea.status=='BUSY'}}     value="BUSY">In behandeling</option>
-				<option {{'selected' if idea.status=='DONE'}}     value="DONE">Afgerond</option>
-			</select>
-			<input type="hidden" name="_method" value="PUT">
-			<input type="hidden" name="_csrf" value="{{csrfToken}}">
-			<input type="submit" value="Update status">
-		</form>
+		<div class="buttons">
+			{% if can('idea:edit') %}
+				<form class="action" action="/idea/{{idea.id}}/edit">
+					<input type="submit" value="Bewerk idee">
+				</form>
+			{% endif %}
+			
+			{% if can('idea:delete') %}
+				<form class="action" method="POST" action="/idea/{{idea.id}}/delete">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<input type="submit" value="Verwijder idee">
+				</form>
+			{% endif %}
+			
+			{% if idea.isOpen() %}
+				<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<input type="submit" name="yes" value="+ ({{idea.yes}})">
+					<input type="submit" name="no" value="- ({{idea.no}})">
+				</form>
+			{% endif %}
+		</div>
 		
-		<form class="action" method="GET" action="/idea/{{idea.id}}/mod_break">
-			<input type="submit" value="Mod break">
-		</form>
-	{% endif %}
+		{% if can('idea:admin') %}
+			<hr>
+			
+			<form class="action" method="POST" action="/idea/{{idea.id}}/status">
+				<select name="status">
+					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">Open</option>
+					<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">Gesloten</option>
+					<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Geaccepteerd</option>
+					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">Afgewezen</option>
+					<option {{'selected' if idea.status=='BUSY'}}     value="BUSY">In behandeling</option>
+					<option {{'selected' if idea.status=='DONE'}}     value="DONE">Afgerond</option>
+				</select>
+				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<input type="submit" value="Update status">
+			</form>
+			
+			<form class="action" method="GET" action="/idea/{{idea.id}}/mod_break">
+				<input type="submit" value="Mod break">
+			</form>
+		{% endif %}
+	</div> <!-- #primary -->
 	
-	<hr>
+	<div class="secondary">
+		<div style="border: 1px solid black;">Actieknop</div>
+	</div>
+	
+	{# <hr> #}
 	
 	<div id="arguments">
 		<div class="argList for">
