@@ -16,15 +16,15 @@
 	<div class="primary">
 		{{sec.speechBubble()}}
 		
-		{% for article in articles %}
-		<div class="tile">
+		{% for article in articles
+		%}<div class="tile">
 			<div class="image"></div>
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
 			
 			<a href="" class="readMore">Lees meer</a>
-		</div>
-		{% endfor %}
+		</div>{%
+		endfor %}
 	</div>
 	
 	<div class="secondary">
