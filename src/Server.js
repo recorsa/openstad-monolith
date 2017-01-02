@@ -146,6 +146,7 @@ module.exports  = {
 		var moment     = require('moment-timezone');
 		var nunjucks   = require('nunjucks');
 		var dateFilter = require('./nunjucks/dateFilter');
+		var duration   = require('./nunjucks/duration');
 		
 		var env = nunjucks.configure('html', {
 			autoescape : true,
@@ -155,5 +156,6 @@ module.exports  = {
 		
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);
+		env.addFilter('duration', duration);
 	}
 };
