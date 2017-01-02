@@ -32,6 +32,14 @@ module.exports = function( app ) {
 		});
 	});
 	
+	router.get('/randomize_idea_sort', function( req, res, next ) {
+		var cron = require('../cron/randomize_idea_sort');
+		cron.onTick().then(function() {
+			res.send()
+		})
+		.catch(next);
+	});
+	
 	router.get('/fonts', function( req, res, next ) {
 		res.out('test/fonts', false);
 	});
