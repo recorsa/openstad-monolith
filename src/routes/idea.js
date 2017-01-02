@@ -9,16 +9,13 @@ module.exports = function( app ) {
 	// Idea index page
 	// ---------------
 	app.route('/ideas')
-	.all(auth.can('ideas:list', 'idea:create', 'idea:admin'))
+	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
 		var queries = {
 			runningIdeas     : db.Idea.getRunning(),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			upcomingMeetings : db.Meeting.getUpcoming(3)
 		};
-		if( req.can('idea:admin') ) {
-			queries['historicIdeas'] = db.Idea.getHistoric();
-		}
 		
 		Promise.props(queries)
 		.then(function( result ) {

@@ -48,17 +48,8 @@
 			<i>Nog geen ideeën!</i>
 		{% endfor %}
 		
-		{% if can('idea:admin') %}
-			<h1>Inactieve ideeën</h1>
-			{% for idea in historicIdeas %}
-				<li class="idea {{idea.status}}">
-					<a href="/idea/{{idea.id}}">{{idea.title}}</a>
-					<span class="yes">{{idea.yes}}+</span>
-					<span class="no">{{idea.no}}-</span>
-				</li>
-			{% else %}
-				<i>Geen historie</i>
-			{% endfor %}
+		{% if can('ideas:archive') %}
+		<a href="/ideas/archive" id="viewArchive">Bekijk het archief</a>
 		{% endif %}
 	</div>
 	

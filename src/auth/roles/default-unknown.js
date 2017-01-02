@@ -8,6 +8,7 @@ module.exports = function( role ) {
 		'account:complete' : false,
 		
 		'ideas:list'       : true,
+		'ideas:archive'    : true,
 		'idea:admin'       : false,
 		'idea:view'        : true,
 		'idea:create'      : false,
