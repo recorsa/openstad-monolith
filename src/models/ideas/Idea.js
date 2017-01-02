@@ -1,4 +1,5 @@
 var co       = require('co')
+  , config   = require('config')
   , moment   = require('moment-timezone')
   , pick     = require('lodash/pick');
 var sanitize = require('../../util/sanitize');
@@ -199,10 +200,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.update({modBreak: modBreak});
 			},
 			setStatus: function( status ) {
+				var minimumYesVotes = config.get('ideas.minimumYesVotes');
 				if( this.yes === undefined ) {
 					throw Error('Idea.setStatus needs scope `withVotes`');
 				}
-				if( status === 'CLOSED' && this.yes < 50 ) {
+				if( status === 'CLOSED' && this.yes < minimumYesVotes ) {
 					status = 'DENIED';
 				}
 				return this.update({status: status});

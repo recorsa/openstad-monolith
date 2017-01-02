@@ -50,5 +50,11 @@
 			// Property name to store user ID in `req.session`.
 			"uidProperty" : "userId"
 		}
+	},
+	
+	"ideas": {
+		// When an idea is closed, this threshold must be met or the idea
+		// will be automatically denied.
+		"minimumYesVotes": 100
 	}
 }
