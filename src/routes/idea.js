@@ -20,7 +20,8 @@ module.exports = function( app ) {
 			queries['historicIdeas'] = db.Idea.getHistoric();
 		}
 		
-		Promise.props(queries).then(function( result ) {
+		Promise.props(queries)
+		.then(function( result ) {
 			res.out('ideas/list', true, result);
 		})
 		.catch(next);
@@ -37,7 +38,6 @@ module.exports = function( app ) {
 	.get(function( req, res ) {
 		var idea = req.idea;
 		res.out('ideas/idea', true, {
-			messages  : req.flash(),
 			idea      : idea,
 			csrfToken : req.csrfToken()
 		});
@@ -140,19 +140,11 @@ module.exports = function( app ) {
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
 			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
-			res.format({
-				html: function() {
-					res.redirect('/idea/'+idea.id);
-				},
-				json: function() {
-					db.Idea.scope('withVotes').findById(idea.id)
-					.then(function( idea ) {
-						res.json({
-							messages : req.flash(),
-							idea     : idea
-						});
-					});
-				}
+			res.success('/idea/'+idea.id, function json() {
+				return db.Idea.scope('withVotes').findById(idea.id)
+				.then(function( idea ) {
+					return {idea: idea};
+				});
 			});
 		})
 		.catch(next);
@@ -170,7 +162,6 @@ module.exports = function( app ) {
 			req.flash('success', 'Argument toegevoegd');
 			res.success('/idea/'+idea.id, function json() {
 				return {
-					messages : req.flash(),
 					argument : argument.toJSON()
 				};
 			});
@@ -203,7 +194,6 @@ module.exports = function( app ) {
 			req.flash('success', 'Argument aangepast');
 			res.success('/idea/'+argument.ideaId, function json() {
 				return {
-					messages : req.flash(),
 					argument : argument.toJSON()
 				};
 			});
@@ -220,11 +210,7 @@ module.exports = function( app ) {
 		argument.destroy()
 		.then(function() {
 			req.flash('success', 'Argument verwijderd');
-			res.success('/idea/'+ideaId, function json() {
-				return {
-					messages: req.flash()
-				};
-			});
+			res.success('/idea/'+ideaId);
 		})
 		.catch(next);
 	});
