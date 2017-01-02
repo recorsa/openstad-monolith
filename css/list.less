@@ -3,17 +3,40 @@
 	background-position: center;
 	background-size: cover;
 	height: 360px;
-	margin: 0 0 20px;
+	margin: 0 0 10px;
 	position: relative;
 	
 	@media @primary100 {
 		height: 250px;
+	}
+	@media @phone {
 		margin: 0 -30px 20px;
 	}
 }
 
 #content.ideasList {
 	#primary {
+		#howDoesItWork {
+			background-color: #F00;
+			border-radius: 4px;
+			color: #FFF;
+			display: block;
+			font-size: 1rem;
+			font-weight: 300;
+			line-height: 2.5em;
+			margin-bottom: 20px;
+			margin-right: 21px;
+			text-align: center;
+			text-decoration: none;
+			
+			@media @primary100 {
+				margin-right: 0;
+			}
+			@media @phone {
+				margin: 0 -30px 20px;
+			}
+		}
+		
 		.tile {
 			background-color: whitesmoke;
 			padding: 0px 10px 10px;

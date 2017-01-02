@@ -11,9 +11,14 @@
 	
 	<div id="primary">
 		{{sec.speechBubble()}}
-	
-		{% for idea in runningIdeas %}
-			<div class="tile {{idea.status}}">
+		
+		<a href="/hoe-werkt-het" id="howDoesItWork">Hoe werkt het?</a>
+		
+		<h2>Bewonersideeën voor West</h2>
+		
+		{# Weird formatting because of `display: inline-block` #}
+		{% for idea in runningIdeas
+		%}<div class="tile {{idea.status}}">
 				<a href="/idea/{{idea.id}}">
 				<div class="duration">
 				{% if idea.duration > 0 %}
@@ -38,8 +43,8 @@
 					<div class="count arguments">{{idea.argCount}}</div>
 				</div>
 				</a>
-			</div>
-		{% else %}
+			</div>{%
+		else %}
 			<i>Nog geen ideeën!</i>
 		{% endfor %}
 		

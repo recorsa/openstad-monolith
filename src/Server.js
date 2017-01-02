@@ -149,9 +149,9 @@ module.exports  = {
 		var duration   = require('./nunjucks/duration');
 		
 		var env = nunjucks.configure('html', {
-			autoescape : true,
+			express    : this.app,
 			watch      : false,
-			express    : this.app
+			autoescape : true
 		});
 		
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
