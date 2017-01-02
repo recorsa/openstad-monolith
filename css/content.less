@@ -108,12 +108,9 @@
 		}
 	}
 	
-	// #primary and #secondary columns
+	// .primary and .secondary columns
 	// -------------------------------
-	@hMargin: 21px;
-	@vMargin: 20px;
-	
-	#primary {
+	.primary {
 		box-sizing: border-box;
 		float: left;
 		width: calc(75% + (@hMargin*3/4));
@@ -203,7 +200,7 @@
 		}
 	}
 	
-	#secondary {
+	.secondary {
 		box-sizing: border-box;
 		float: right;
 		overflow: hidden;
@@ -227,120 +224,120 @@
 				display: none;
 			}
 		}
-		
-		// Highlighted ideas
-		// -----------------
-		#highlightedIdeas {
-			@media @primary100 {
-				float: right;
-				margin-left: @hMargin;
-				margin-top: 0 !important;
-				vertical-align: top;
-				width: calc(50% - (@hMargin/2));
-			}
-			@media @phone {
-				float: none;
-				width: 100%;
-				margin: 0;
-			}
-			
-			h2 {
-				margin-top: 0;
-			}
-			ul {
-				list-style-image: url('');
-				list-style-position: inside;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			li {
-				background-color: #F00;
-				color: #FFF;
-				padding: 10px 10px;
-				
-				&:nth-last-of-type(n+2) {
-					margin-bottom: 15px;
-				}
-				a {
-					color: #FFF;
-					text-decoration: none;
-				}
-				.ideaStats {
-					margin: 5px -10px 0;
-				}
-			}
+	}
+	
+	// Highlighted ideas
+	// -----------------
+	#highlightedIdeas {
+		@media @primary100 {
+			float: right;
+			margin-left: @hMargin;
+			margin-top: 0 !important;
+			vertical-align: top;
+			width: calc(50% - (@hMargin/2));
+		}
+		@media @phone {
+			float: none;
+			width: 100%;
+			margin: 0;
 		}
 		
-		// Upcoming meetings
-		// -----------------
-		#agenda {
-			@media @primary100 {
-				float: left;
-				margin-top: 0;
-				vertical-align: top;
-				width: calc(50% - (@hMargin/2));
-			}
-			@media @phone {
-				float: none;
-				width: 100%;
-				margin-top: 15px;
-			}
+		h2 {
+			margin-top: 0;
+		}
+		ul {
+			list-style-image: url('');
+			list-style-position: inside;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			background-color: #F00;
+			color: #FFF;
+			padding: 10px 10px;
 			
+			&:nth-last-of-type(n+2) {
+				margin-bottom: 15px;
+			}
+			a {
+				color: #FFF;
+				text-decoration: none;
+			}
+			.ideaStats {
+				margin: 5px -10px 0;
+			}
+		}
+	}
+	
+	// Upcoming meetings
+	// -----------------
+	#agenda {
+		@media @primary100 {
+			float: left;
+			margin-top: 0;
+			vertical-align: top;
+			width: calc(50% - (@hMargin/2));
+		}
+		@media @phone {
+			float: none;
+			width: 100%;
 			margin-top: 15px;
+		}
+		
+		margin-top: 15px;
+		
+		h2 {
+			margin-top: 0;
+		}
+		.timeline {
+			background-color: whitesmoke;
+			margin-top: 10px;
+			padding: 5px;
+			// Create new stacking context for the negative z-index in `>div.point`.
+			// See: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+			position: relative;
+			z-index: 1;
 			
-			h2 {
-				margin-top: 0;
-			}
-			.timeline {
-				background-color: whitesmoke;
-				margin-top: 10px;
-				padding: 5px;
-				// Create new stacking context for the negative z-index in `>div.point`.
-				// See: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
-				position: relative;
-				z-index: 1;
+			>div {
+				box-sizing: border-box;
+				display: inline-block;
+				font-size: 1rem;
+				font-weight: bold;
+				line-height: 30px;
+				vertical-align: top;
+				width: calc(100% - 40px);
 				
-				>div {
-					box-sizing: border-box;
-					display: inline-block;
-					font-size: 1rem;
-					font-weight: bold;
-					line-height: 30px;
-					vertical-align: top;
-					width: calc(100% - 40px);
-					
-					&:nth-last-child(n+3) {
-						margin-bottom: 30px;
-					}
+				&:nth-last-child(n+3) {
+					margin-bottom: 30px;
 				}
-				>div.point {
-					background-color: #FFF;
-					border: 5px solid #F00;
-					border-radius: 15px;
-					height: 30px;
-					position: relative;
-					width: 30px;
-					
-					&:nth-last-child(n+3)::before {
-						background-color: #333;
-						content: ' ';
-						height: 40px;
-						left: 50%;
-						margin-left: -7px;
-						position: absolute;
-						top: 20px;
-						width: 14px;
-						z-index: -1;
-					}
+			}
+			>div.point {
+				background-color: #FFF;
+				border: 5px solid #F00;
+				border-radius: 15px;
+				height: 30px;
+				position: relative;
+				width: 30px;
+				
+				&:nth-last-child(n+3)::before {
+					background-color: #333;
+					content: ' ';
+					height: 40px;
+					left: 50%;
+					margin-left: -7px;
+					position: absolute;
+					top: 20px;
+					width: 14px;
+					z-index: -1;
 				}
-				>div.date {
-					padding-left: 10px;
-					white-space: nowrap;
-					
-					strong {
-						color: #F00;
-					}
+			}
+			>div.date {
+				padding-left: 10px;
+				white-space: nowrap;
+				
+				strong {
+					color: #F00;
 				}
 			}
 		}
