@@ -1,5 +1,6 @@
 {
 	"debug"    : false,
+	"locale"   : "nl",
 	"logging"  : "app:*,-app:db:query",
 	"timeZone" : "Europe/Amsterdam",
 	

@@ -153,9 +153,6 @@ module.exports  = {
 			express    : this.app
 		});
 		
-		// TODO: Set this per request based on accept-language header or
-		//       logged in user preference?
-		moment.locale('nl');
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);
 	}

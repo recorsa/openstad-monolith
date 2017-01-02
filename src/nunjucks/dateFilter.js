@@ -1,10 +1,8 @@
-var config   = require('config');
-var moment   = require('moment-timezone');
-var nunjucks = require('nunjucks');
-var nlib     = require('nunjucks/src/lib');
-var slice    = Array.prototype.slice;
+var moment = require('moment-timezone');
+var nlib   = require('nunjucks/src/lib');
+var slice  = Array.prototype.slice;
 
-var timeZone      = config.get('timeZone');
+// Is set via `setDefaultFormat`.
 var defaultFormat = null;
 
 // Examples:
@@ -13,12 +11,13 @@ var defaultFormat = null;
 // {{ var | date('add', 1, 'week') }}
 function dateFilter( date, format ) {
 	try {
-		var mom = moment.tz(date, timeZone);
+		// Timezone is set in `config/moment.js`.
+		var mom = moment(date);
 		return nlib.isFunction(mom[format]) ?
 		       mom[format].apply(mom, slice.call(arguments, 2)) :
 		       mom.format(format || defaultFormat);
 	} catch( error ) {
-		return (error.message || message || 'dateFilter error').toString()
+		return (error.message || 'dateFilter error').toString()
 	}
 }
 
