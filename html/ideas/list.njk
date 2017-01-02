@@ -18,7 +18,7 @@
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
-		%}<div class="tile {{idea.status}}">
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}">
 				<a href="/idea/{{idea.id}}">
 				<div class="duration">
 				{% if idea.duration > 0 %}
