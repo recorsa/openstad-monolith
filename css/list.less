@@ -18,12 +18,41 @@
 			background-color: whitesmoke;
 			padding: 0px 10px 10px;
 			
+			&.DENIED {
+				opacity: 0.5;
+			}
+			
+			a {
+				color: #000;
+				text-decoration: none;
+			}
+			.duration {
+				background-color: #F00;
+				color: #FFF;
+				font-size: 0.75rem;
+				left: 0;
+				padding: 0 5px;
+				position: absolute;
+				top: 6px;
+			}
 			.image {
 				margin-left: -10px;
 				width: calc(100% + 20px);
 			}
+			.progress {
+				border: 1px solid #666767;
+				border-radius: 10px;
+				margin-top: 5px;
+				overflow: hidden;
+				
+				.bar {
+					background-color: #F00;
+					float: left;
+					height: 12px;
+				}
+			}
 			.ideaStats {
-				margin: 5px 0 0;
+				margin-top: 10px;
 				
 				// Override white icons defined in `content.less`.
 				div.count {

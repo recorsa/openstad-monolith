@@ -14,15 +14,30 @@
 	
 		{% for idea in runningIdeas %}
 			<div class="tile {{idea.status}}">
+				<a href="/idea/{{idea.id}}">
+				<div class="duration">
+				{% if idea.duration > 0 %}
+					Nog {{idea.duration | duration}}
+				{% else %}
+					Afgelopen
+				{% endif %}
+					
+				</div>
+				
 				<div class="image"></div>
 				<h3>{{idea.title}}</h3>
 				{{idea.summary}}
+				
+				<div class="progress">
+					<div class="bar" style="width: {{idea.progress}}%"></div>
+				</div>
 				
 				<div class="ideaStats">
 					<div class="count yes">{{idea.yes}}</div>
 					<div class="count no">{{idea.no}}</div>
 					<div class="count arguments">{{idea.argCount}}</div>
 				</div>
+				</a>
 			</div>
 		{% else %}
 			<i>Nog geen ideeën!</i>

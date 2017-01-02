@@ -22,6 +22,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.DATE,
 			allowNull    : true
 		},
+		duration: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				if( this.getDataValue('status') != 'OPEN' ) {
+					return 0;
+				}
+				
+				var now     = moment();
+				var endDate = this.getDataValue('endDate');
+				return Math.max(0, moment(endDate).diff(Date.now()));
+			}
+		},
 		sort: {
 			type         : DataTypes.INTEGER,
 			allowNull    : false,
@@ -66,6 +78,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		yes: {
 			type         : DataTypes.VIRTUAL
+		},
+		progress: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var minimumYesVotes = config.get('ideas.minimumYesVotes');
+				var yes             = this.getDataValue('yes');
+				
+				if( yes === undefined ) {
+					throw Error('idea.progress needs scope `withVotes`');
+				}
+				return Number((Math.min(1, (yes / minimumYesVotes)) * 100).toFixed(2));
+			}
 		},
 		argCount: {
 			type         : DataTypes.VIRTUAL
