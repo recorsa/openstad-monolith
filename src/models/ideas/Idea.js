@@ -72,6 +72,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('modBreak', sanitize.content(text));
 			}
 		},
+		modBreakUserId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : true
+		},
+		modBreakDate: {
+			type         : DataTypes.DATE,
+			allowNull    : true
+		},
 		// Counts set in `summary`/`withVotes` scope.
 		no: {
 			type         : DataTypes.VIRTUAL
@@ -115,7 +123,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		validate: {
 			validDeadline: function() {
 				if( this.endDate - this.startDate < 43200000 ) {
-					throw new Error('An idea must run at least 1 day');
+					throw Error('An idea must run at least 1 day');
+				}
+			},
+			validModBreak: function() {
+				if( this.modBreak && (!this.modBreakUserId || !this.modBreakDate) ) {
+					throw Error('Incomplete mod break');
 				}
 			}
 		},
@@ -220,8 +233,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return db.Argument.create(filtered);
 			},
 			
-			setModBreak: function( modBreak ) {
-				return this.update({modBreak: modBreak});
+			setModBreak: function( user, modBreak ) {
+				return this.update({
+					modBreak       : modBreak,
+					modBreakUserId : user.id,
+					modBreakDate   : new Date()
+				});
 			},
 			setStatus: function( status ) {
 				var minimumYesVotes = config.get('ideas.minimumYesVotes');

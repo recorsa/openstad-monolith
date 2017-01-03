@@ -34,7 +34,10 @@
 		
 		{% if idea.modBreak %}
 		<div id="modBreak">
+			<b>Bericht van het bestuur</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+			<p>
 			{{idea.modBreak | safe | nl2br}}
+			</p>
 		</div>
 		{% endif %}
 		

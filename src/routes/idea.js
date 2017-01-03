@@ -236,7 +236,7 @@ module.exports = function( app ) {
 	})
 	.put(function( req, res, next ) {
 		var idea = req.idea;
-		idea.setModBreak(req.body.modBreak)
+		idea.setModBreak(req.user, req.body.modBreak)
 		.then(function() {
 			res.success('/idea/'+idea.id, {idea: idea});
 		})

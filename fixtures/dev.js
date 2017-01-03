@@ -97,12 +97,14 @@ var users = [
 	]},
 	{id : 3  , complete : 1 , role : 'member'   , email : 'tjoekbezoer+member@gmail.com' , password : 'member'       , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' ,  zipCode : null, ideas :[
 		{
-			id          : 3,
-			startDate   : moment(today).subtract(6, 'days'),
-			title       : 'Markt uitbreiden',
-			summary     : 'Er moet plek zijn voor twee groentemannen!',
-			description : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.',
-			modBreak    : 'Goedkoper is niet altijd beter, Jennifer.',
+			id             : 3,
+			startDate      : moment(today).subtract(6, 'days'),
+			title          : 'Markt uitbreiden',
+			summary        : 'Er moet plek zijn voor twee groentemannen!',
+			description    : 'De groenteman die er nu staat is veel te duur. Ik wil goedkopere appels, dus er moet concurrentie komen.',
+			modBreak       : 'Goedkoper is niet altijd beter, Jennifer.',
+			modBreakUserId : 1,
+			modBreakDate   : moment(today).subtract(5, 'days'),
 			votes: [
 				{userId: 15 , opinion: 'no'},
 				{userId: 7  , opinion: 'no'},

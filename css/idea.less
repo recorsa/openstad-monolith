@@ -172,29 +172,35 @@
 	// ---------
 	// Always displayed below the user content.
 	#modBreak {
-		border: 4px solid #E9C71A;
+		border: 3px solid #B6B7BA;
 		margin: 35px 0px;
 		padding: 10px 20px;
 		position: relative;
 		
-		&:before {
-			content: 'Bericht van de beheerder:';
-			display: block;
-			font-style: italic;
-			left: 0px;
+		&::before,
+		&::after {
+			border-left: 30px solid #B6B7BA;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			border-right: 0;
+			content: '';
 			position: absolute;
-			top: -25px;
+			width: 0;
+			height: 0;
+			left: -4px;
+			bottom: -32px;
 		}
-	}
-	
-	// Action buttons
-	// --------------
-	// TODO: Split up in user and admin.
-	.buttons {
-		overflow: hidden;
+		&::after {
+			border-left: 30px solid #FFF;
+			bottom: -24px;
+			left: 0;
+		}
 		
-		form.vote {
-			float: right;
+		b {
+			color: #F00;
+		}
+		p {
+			margin: 0.5em 0 0;
 		}
 	}
 }
