@@ -10,10 +10,6 @@
 		overflow: visible;
 	}
 	
-	h1 {
-		margin-top: 0;
-	}
-	
 	// Flash message for errors
 	// ------------------------
 	// 
@@ -130,6 +126,21 @@
 		}
 	}
 	
+	// Red arrow links
+	// ---------------
+	a.readMore {
+		background-image: url('/img/arrow_right_red.svg');
+		background-repeat: no-repeat;
+		background-size: contain;
+		color: #000;
+		font-weight: 600;
+		line-height: 16px;
+		margin-top: 1em;
+		text-decoration: none;
+		display: block;
+		padding-left: 16px;
+	}
+	
 	// .primary and .secondary columns
 	// -------------------------------
 	.primary {
@@ -143,6 +154,10 @@
 		@media @primary100 {
 			float: none;
 			width: 100%;
+		}
+		
+		h1:first-of-type {
+			margin-top: 0;
 		}
 		
 		// Speech bubble
@@ -206,18 +221,6 @@
 			h3 {
 				font-size: 1.125em;
 				margin: 1em 0 0.5em;
-			}
-			a.readMore {
-				background-image: url('/img/arrow_right_red.svg');
-				background-repeat: no-repeat;
-				background-size: contain;
-				color: #000;
-				font-weight: 600;
-				line-height: 16px;
-				margin-top: 1em;
-				text-decoration: none;
-				display: block;
-				padding-left: 16px;
 			}
 		}
 	}
