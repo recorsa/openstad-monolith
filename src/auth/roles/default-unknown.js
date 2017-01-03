@@ -34,8 +34,13 @@ module.exports = function( role ) {
 			allow    : false,
 			resource : ['idea', 'argument']
 		},
+		'arg:reply'        : {
+			allow    : false,
+			resource : 'argument'
+		},
 		'arg:delete'       : {
 			allow    : false,
+			resource : 'argument',
 			message  : 'Argumenten verwijderen niet toegestaan'
 		}
 	});
