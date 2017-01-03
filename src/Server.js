@@ -157,5 +157,12 @@ module.exports  = {
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);
 		env.addFilter('duration', duration);
+		
+		this.app.use(function( req, res, next ) {
+			res.locals.url = req.protocol + '://' +
+			                 req.get('host') +
+			                 req.originalUrl;
+			next();
+		});
 	}
 };
