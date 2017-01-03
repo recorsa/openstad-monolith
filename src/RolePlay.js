@@ -125,11 +125,16 @@ extend(RolePlay.prototype, {
 		if( locals.can ) {
 			extend(locals.can.actions, actions);
 		} else {
-			req.can = locals.can = function can( actionName ) {
+			// Passing multiple action names means `OR`.
+			req.can = locals.can = function can( actionName /* [, actionName...] */ ) {
 				if( !(actionName in can.actions) ) {
 					throw new Error('RolePlay action not available for this route: '+actionName);
 				}
-				return can.actions[actionName];
+				var len = arguments.length;
+				for( var i=0; i<len; i++ ) {
+					if( can.actions[arguments[i]] ) return true;
+				}
+				return false;
 			};
 			locals.can.actions = actions;
 		}
