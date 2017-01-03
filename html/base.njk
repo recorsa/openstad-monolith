@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/all.css">
 	{% endblock %}
 </head>
-<body>
+<body class="preload">
 	<div id="page">
 		<header>
 			<img src="/img/andreas.svg" width="24" alt=""/>
@@ -97,5 +97,10 @@
 		</footer>
 		{% endblock %}
 	</div>
+	
+	<script type="text/javascript">
+		// Preload class is defined in `all.less` to disable all animations.
+		document.body.className = '';
+	</script>
 </body>
 </html>
