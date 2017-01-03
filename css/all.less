@@ -22,6 +22,12 @@
 @hMargin      : 21px;
 @vMargin      : 20px;
 
+.appearance( @value ) {
+	-webkit-appearance: @value;
+	-moz-appearance:    @value;
+	appearance:         @value;
+}
+
 @import 'main';
 @import 'content';
 @import 'index';

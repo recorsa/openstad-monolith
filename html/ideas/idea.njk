@@ -12,14 +12,27 @@
 			<div class="secondary">
 				<div>
 					<h2>Stemmen</h2>
-					<ul>
-						<li>Voor
-						<li>Tegen
-					</ul>
+					
+					{% if idea.isOpen() %}
+						<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="submit" name="yes" value="+ ({{idea.yes}})">
+							<input type="submit" name="no" value="- ({{idea.no}})">
+						</form>
+					{% endif %}
 					
 					<div class="ideaProgress">
 						<div class="bar" style="width: {{idea.progress}}%;"></div>
 					</div>
+					
+					<p>Nog {{idea.duration | duration}} om te stemmen.</p>
+					
+					<h2>Delen</h2>
+					<ul>
+						<li><a href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a>
+						<li><a href="https://twitter.com/home?status={{url}}">Twitter</a>
+						<li><a href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{url | urlencode}}">Email</a>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -27,7 +40,12 @@
 	
 	<div class="primary">
 		<h1>{{idea.title}}</h1>
-
+		
+		<div id="author">
+			Door <b>{{idea.user.firstName}} {{idea.user.lastName}}</b><br>
+			{{idea.startDate | date('LL')}}
+		</div>
+		
 		<div class="userContent">
 			{{idea.description | safe}}
 		</div>
@@ -40,110 +58,112 @@
 			</p>
 		</div>
 		{% endif %}
+	</div> <!-- #primary -->
+	
+	<div class="secondary">
+		<h2>Volgen</h2>
 		
-		<div id="author">
-			Door: {{idea.user.firstName}} {{idea.user.lastName}}<br>
-			Op: {{idea.startDate | date}}
-		</div>
+		<form action="/idea/{{idea.id}}/notify">
+			<input type="submit" value="Mail updates">
+		</form>
 		
-		<hr>
-		
-		<div class="buttons">
+		{% if can('idea:edit', 'idea:delete') %}
+			<h2>Bewerken</h2>
+			
 			{% if can('idea:edit') %}
-				<form class="action" action="/idea/{{idea.id}}/edit">
+				<form action="/idea/{{idea.id}}/edit">
 					<input type="submit" value="Bewerk idee">
 				</form>
 			{% endif %}
 			
 			{% if can('idea:delete') %}
-				<form class="action" method="POST" action="/idea/{{idea.id}}/delete">
+				<form method="POST" action="/idea/{{idea.id}}/delete">
 					<input type="hidden" name="_method" value="DELETE">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
 					<input type="submit" value="Verwijder idee">
 				</form>
 			{% endif %}
-			
-			{% if idea.isOpen() %}
-				<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
-					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<input type="submit" name="yes" value="+ ({{idea.yes}})">
-					<input type="submit" name="no" value="- ({{idea.no}})">
-				</form>
-			{% endif %}
-		</div>
+		{% endif %}
 		
 		{% if can('idea:admin') %}
-			<hr>
+			<h2>Beheren</h2>
 			
-			<form class="action" method="POST" action="/idea/{{idea.id}}/status">
-				<select name="status">
-					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">Open</option>
-					<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">Gesloten</option>
-					<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Geaccepteerd</option>
-					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">Afgewezen</option>
-					<option {{'selected' if idea.status=='BUSY'}}     value="BUSY">In behandeling</option>
-					<option {{'selected' if idea.status=='DONE'}}     value="DONE">Afgerond</option>
+			<form method="POST" action="/idea/{{idea.id}}/status">
+				<select name="status" onchange="this.form.submit();">
+					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+					<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
+					<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Status: Geaccepteerd</option>
+					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+					<option {{'selected' if idea.status=='BUSY'}}     value="BUSY">    Status: In behandeling</option>
+					<option {{'selected' if idea.status=='DONE'}}     value="DONE">    Status: Afgerond</option>
 				</select>
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<input type="submit" value="Update status">
 			</form>
 			
-			<form class="action" method="GET" action="/idea/{{idea.id}}/mod_break">
+			<form method="GET" action="/idea/{{idea.id}}/mod_break">
 				<input type="submit" value="Mod break">
 			</form>
 		{% endif %}
-	</div> <!-- #primary -->
-	
-	<div class="secondary">
-		<div style="border: 1px solid black;">Actieknop</div>
 	</div>
 	
-	{# <hr> #}
-	
 	<div id="arguments">
-		<div class="argList for">
-			<h3>Argumenten voor</h3>
-			{{argList('for', idea.argumentsFor)}}
-		</div>
-		<div class="argList against">
-			<h3>Argumenten tegen</h3>
-			{{argList('against', idea.argumentsAgainst)}}
-		</div>
+		<h1>Argumenten</h1>
+		
+		{{argList('for', idea.argumentsFor)}}
+		{{argList('against', idea.argumentsAgainst)}}
 	</div>
 {% endblock %}
 
 {% macro argList( sentiment, arguments ) %}
+	<div class="argList {{sentiment}}">
 	{% if can('arg:add') %}
-		<form method="POST" action="/idea/{{idea.id}}/arg/new">
-			<textarea name="description"></textarea>
+		<form method="POST" action="/idea/{{idea.id}}/arg/new" class="newArgument">
+			<textarea
+				name="description"
+				placeholder="{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}"
+			></textarea>
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="hidden" name="sentiment" value="{{sentiment}}">
-			<input type="submit" value="Toevoegen">
+			<input type="submit" value="Verzenden">
 		</form>
 	{% endif %}
 	
 	{% for arg in arguments %}
 		<div class="argument">
 			<div class="user">
-				{{arg.user.firstName}} {{arg.user.lastName}}
+				<strong>{{arg.user.firstName}} {{arg.user.lastName}}</strong> &nbsp;&nbsp;|&nbsp;&nbsp;
+				{{arg.date | date('LLL')}}
 				
 				{% if user.can('arg:delete', arg) %}
 					<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="hidden" name="_csrf" value="{{csrfToken}}">
-						<input type="submit" value="verwijderen">
+						<input type="submit" value="D">
 					</form>
 				{% endif %}
 				{% if user.can('arg:edit', idea, arg) %}
 					<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
-						<input type="submit" value="bewerk">
+						<input type="submit" value="E">
 					</form>
 				{% endif %}
 			</div>
-			{{arg.description}}
+			
+			<p>{{arg.description}}</p>
+			
+			{% if user.can('arg:reply', arg) %}
+				<a href="/idea/{{idea.id}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
+			{% endif %}
 		</div>
 	{% else %}
-		<i>Geen argumenten.</i>
+		<div class="noArguments">
+		{% if can('arg:add') %}
+			Heb je een goed argument {{'voor' if sentiment == 'for' else 'tegen'}}?
+			Laat je stem horen!
+		{% else %}
+			Nog geen argumenten {{'voor' if sentiment == 'for' else 'tegen'}}.
+		{% endif %}
+		</div>
 	{% endfor %}
+	</div>
 {% endmacro %}

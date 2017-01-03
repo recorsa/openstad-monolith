@@ -58,9 +58,10 @@
 	}
 }
 
-#content.idea >.secondary {
-	margin-top: 10px;
-}
+// Primary content
+// ---------------
+// - Poster image in #title.
+// - Idea content.
 #content.idea >.primary {
 	margin-top: 10px;
 	padding-right: @hMargin;
@@ -73,7 +74,7 @@
 	// ------------------
 	#author {
 		font-style: italic;
-		margin-top: 20px;
+		margin-bottom: 20px;
 	}
 	
 	// User content
@@ -204,6 +205,35 @@
 	}
 }
 
+// Secondary content
+// -----------------
+// - Action buttons
+#content.idea >.secondary {
+	margin-top: 10px;
+	
+	h2:first-of-type {
+		margin-top: 0;
+	}
+	input[type="submit"],
+	select {
+		.appearance(none);
+		
+		background-color: whitesmoke;
+		border: 0;
+		border-left: 50px solid #333;
+		border-right: 4px solid #333;
+		border-radius: 0;
+		color: #333;
+		font-size: inherit;
+		font-weight: bold;
+		height: 3rem;
+		margin-bottom: 5px;
+		padding: 0 6px;
+		text-align: left;
+		width: 100%;
+	}
+}
+
 // Arguments
 // ---------
 #arguments {
@@ -212,30 +242,100 @@
 	overflow: hidden;
 	
 	div.argList {
+		box-sizing: border-box;
 		float: left;
 		width: 50%;
 		
-		form {
-			margin-bottom: 10px;
-			margin-right: 10px;
+		&:nth-of-type(odd) {
+			padding-right: 15px;
 		}
-		textarea {
-			box-sizing: border-box;
-			height: 3.6em;
+		&:nth-of-type(even) {
+			padding-left: 15px;
+		}
+		
+		@media @primary100 {
+			float: none;
+			margin-top: 20px;
+			padding: 0 !important;
 			width: 100%;
 		}
-		input[type="submit"] {
-			float: right;
-		}
-		.argument {
-			margin-bottom: 20px;
-			margin-right: 10px;
+		
+		form.newArgument {
+			margin-bottom: 10px;
+			overflow: visible;
+			text-align: right;
 			
-			.user {
-				font-style: italic;
+			textarea {
+				.appearance(none);
+				
+				border: 1px solid #B6B7BA;
+				border-radius: 0;
+				box-sizing: border-box;
+				color: #B6B7BA;
+				font-family: inherit;
+				font-size: 1.5rem;
+				font-weight: bold;
+				height: 55px;
+				outline: none;
+				padding: 10px;
+				resize: none;
+				width: 100%;
+				transition: color 0.2s, font-size 0.2s, height 0.2s 0.2s;
+				
+				&:focus {
+					color: #000;
+					font-size: 0.875rem;
+					font-weight: normal;
+					height: 100px;
+				}
+			}
+			input[type="submit"] {
+				.appearance(none);
+				
+				background-color: transparent;
+				background-image: url('/img/arrow_right_whiteonred.svg');
+				background-position: center right;
+				background-repeat: no-repeat;
+				background-size: contain;
+				border: 0;
+				color: #000;
+				cursor: pointer;
+				font-size: inherit;
+				font-weight: bold;
+				line-height: 32px;
+				// outline: none;
+				padding: 0 40px 0 0;
 			}
 		}
-	}
+		
+		.argument {
+			background-color: #F6F6F6;
+			border-left: 5px solid #666;
+			color: #666;
+			margin-bottom: 20px;
+			overflow: hidden;
+			padding: 5px 10px;
+			
+			.user {
+				overflow: hidden;
+				
+				form {
+					float: right;
+				}
+			}
+			a.reply {
+				float: right;
+				margin-top: 0px;
+			}
+		}
+		
+		.noArguments {
+			background-color: #F6F6F6;
+			font-style: italic;
+			padding: 20px 10px;
+			text-align: center;
+		}
+	} // .argList
 }
 
 // Add/edit argument
