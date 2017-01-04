@@ -6,7 +6,11 @@
 	<div id="title">
 		<div>
 			<div class="primary">
-				<div class="image"></div>
+				{% if idea.posterImage %}
+					<div class="image" style="background-image: url(/image/{{idea.posterImage.key}});"></div>
+				{% else %}
+					<div class="image"></div>
+				{% endif %}
 			</div>
 			
 			<div class="secondary">
@@ -114,6 +118,20 @@
 		{{argList('against', idea.argumentsAgainst)}}
 	</div>
 {% endblock %}
+
+{% block footer %}
+	<script type="text/javascript">
+		var figures = document.querySelectorAll('.userContent figure:first-child');
+		if( figures[0] ) {
+			var figure = figures[0];
+			var parent = figure.parentNode;
+			if( parent.firstChild === figure ) {
+				parent.removeChild(figure);
+			}
+		}
+	</script>
+{% endblock %}
+
 
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">

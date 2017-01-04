@@ -21,6 +21,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type      : DataTypes.STRING(32),
 			allowNull : false
 		},
+		sort: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false,
+			defaultValue : 0
+		},
 		data: {
 			type      : DataTypes.BLOB('long'),
 			allowNull : false

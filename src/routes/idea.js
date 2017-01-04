@@ -31,7 +31,7 @@ module.exports = function( app ) {
 	app.use('/idea', router);
 	
 	router.route('/:ideaId(\\d+)')
-	.all(fetchIdea('withUser', 'withVotes', 'withArguments'))
+	.all(fetchIdea('withUser', 'withVotes', 'withPosterImage', 'withArguments'))
 	.all(auth.can('idea:view', 'idea:*', 'arg:add'))
 	.get(function( req, res ) {
 		var idea = req.idea;

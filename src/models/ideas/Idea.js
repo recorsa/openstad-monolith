@@ -142,6 +142,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Argument, {as: 'argumentsAgainst'});
 				this.hasMany(models.Argument, {as: 'argumentsFor'});
 				this.hasMany(models.Image);
+				this.hasOne(models.Image, {as: 'posterImage'});
 			},
 			
 			getHighlighted: function() {
@@ -164,7 +165,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// 		m.date >= UTC_TIMESTAMP()
 				// 	)
 				// ```
-				return this.scope('summary').findAll({
+				return this.scope('summary', 'withPosterImage').findAll({
 					where: {
 						$or: [
 							{status: {$in: ['OPEN', 'CLOSED']}},
@@ -257,19 +258,26 @@ module.exports = function( db, sequelize, DataTypes ) {
 					imageKeys = [''];
 				}
 				
-				return Promise.all([
-					db.Image.update({ideaId: this.id}, {
-						where: {
-							key    : {$in: imageKeys}
-						}
-					}),
+				var ideaId  = this.id;
+				var queries = [
 					db.Image.destroy({
 						where: {
-							ideaId : this.id,
-							key    : {$notIn  : imageKeys}
+							ideaId : ideaId,
+							key    : {$notIn: imageKeys}
 						}
 					})
-				]).then(function() {
+				].concat(
+					imageKeys.map(function( imageKey, sort ) {
+						return db.Image.update({
+							ideaId : ideaId,
+							sort   : sort
+						}, {
+							where: {key: imageKey}
+						});
+					})
+				);
+				
+				return Promise.all(queries).then(function() {
 					return self;
 				});
 			}
@@ -327,6 +335,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 					voteCount('yes'),
 					voteCount('no')
 				])
+			},
+			withPosterImage: {
+				include: [{
+					model      : db.Image,
+					as         : 'posterImage',
+					attributes : ['key'],
+					required   : false,
+					where      : {
+						sort: 0
+					}
+				}]
 			},
 			withArguments: {
 				include: [{
