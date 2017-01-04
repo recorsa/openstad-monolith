@@ -2,8 +2,9 @@ var config      = require('config')
   , createError = require('http-errors')
   , express     = require('express')
   , Promise     = require('bluebird');
-var db          = require('../db');
-var auth        = require('../auth');
+var util        = require('../util')
+  , db          = require('../db')
+  , auth        = require('../auth');
 
 module.exports = function( app ) {
 	// Idea index page
@@ -46,7 +47,8 @@ module.exports = function( app ) {
 	.all(auth.can('idea:create'))
 	.get(function( req, res ) {
 		res.out('ideas/form', false, {
-			csrfToken: req.csrfToken()
+			csrfToken       : req.csrfToken(),
+			useModernEditor : isModernBrowser(req)
 		});
 	})
 	.post(function( req, res, next ) {
@@ -64,8 +66,9 @@ module.exports = function( app ) {
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
-			idea      : req.idea,
-			csrfToken : req.csrfToken()
+			csrfToken       : req.csrfToken(),
+			idea            : req.idea,
+			useModernEditor : isModernBrowser(req)
 		});
 	})
 	.put(function( req, res, next ) {
@@ -287,4 +290,36 @@ function getOpinion( req ) {
 		                                  undefined;
 	}
 	return opinion;
+}
+
+// Used to check if Trix editor is supported.
+// - Android >= 4.4
+// - Firefox >= 48
+// - Chrome >= 53
+// - IE >= 11
+// - Edge
+// - Safari >= 8
+// - iPhone >= 8.4
+function isModernBrowser( req ) {
+	var agent = util.userAgent(req.get('user-agent'));
+	
+	// console.log(agent);
+	switch( agent.family.toLowerCase() ) {
+		case 'android':
+			return agent.satisfies('>= 4.4');
+		case 'firefox':
+			return agent.satisfies('>= 48');
+		case 'chrome':
+			return agent.satisfies('>= 53');
+		case 'ie':
+			return agent.satisfies('>= 11');
+		case 'edge':
+			return true;
+		case 'safari':
+			return agent.satisfies('>= 8');
+		case 'mobile safari':
+			return agent.satisfies('>= 8.4');
+		default:
+			return false;
+	}
 }

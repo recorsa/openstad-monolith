@@ -4,6 +4,22 @@
 {% block head %}
 	{{ super() }}
 	<link rel="stylesheet" type="text/css" href="/lib/trix/dist/trix.css">
+	<style type="text/css">
+		textarea {
+			border: 1px solid #C0C0C0;
+			border-radius: 4px;
+			box-sizing: border-box;
+			font: inherit;
+			padding: 0.4em 0.6em;
+			width: 100%;
+		}
+		textarea[name="summary"] {
+			height: 100px;
+		}
+		textarea[name="description"] {
+			height: 300px;
+		}
+	</style>
 {% endblock %}
 
 {% block content %}
@@ -16,8 +32,12 @@
 	<textarea name="summary">{{idea.summary}}</textarea><br>
 	
 	Beschrijving:<br>
-	<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
-	<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
+	{% if useModernEditor %}
+		<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
+		<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
+	{% else %}
+		<textarea name="description">{{idea.description}}</textarea>
+	{% endif %}
 	
 	{% if idea %}
 	<input type="hidden" name="id" value="{{idea.id}}">

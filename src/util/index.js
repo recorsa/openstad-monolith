@@ -1,5 +1,9 @@
-var fs   = require('fs')
-	, path = require('path');
+var fs        = require('fs')
+	, path      = require('path');
+var useragent = require('useragent');
+
+// To get `satisfies` method for `useragent` module.
+require('useragent/features');
 
 var util = module.exports = {
 	invokeDir: function( dirName, fn, ctx ) {
@@ -26,6 +30,10 @@ var util = module.exports = {
 		var errStack = err.stack;
 		Error.prepareStackTrace = orig;
 		return errStack;
+	},
+	
+	userAgent: function( ua ) {
+		return useragent.parse(ua);
 	}
 };
 
