@@ -1,14 +1,18 @@
+// Title container
+// ---------------
+// Holds the idea's poster image and vote/share controls.
 #title {
 	overflow: hidden;
 	
 	@media @phone {
 		margin: 0 -30px;
-		// padding: 0 30px;
 	}
 	
+	// Idea poster image
+	// -----------------
 	.primary {
 		height: 100%;
-		height: 300px;
+		height: 345px;
 		position: relative;
 		
 		@media @primary100 {
@@ -31,37 +35,106 @@
 			}
 		}
 	}
+	// Vote/share controls
+	// -------------------
 	.secondary {
+		height: 345px;
 		margin-top: 0 !important;
 		overflow: visible;
 		
-		>div {
+		@media @primary100 {
+			height: auto;
+		}
+		
+		.controls {
 			border: 1px solid #F00;
 			border-left-width: 0;
 			box-sizing: border-box;
-			height: 300px;
+			height: 100%;
 			margin-left: -@hMargin;
 			padding: 20px 10px 20px @hMargin;
 			
 			@media @primary100 {
-				height: auto;
 				margin-left: 0;
 				padding-left: 10px;
 				border-left-width: 1px;
 				border-top-width: 0;
 			}
 			
-			h2 {
+			h2:first-of-type {
 				margin-top: 0;
+			}
+			
+			.vote {
+				button {
+					.appearance(none);
+					
+					background: 0;
+					background-color: #F00;
+					border: 0;
+					box-sizing: border-box;
+					color: #FFF;
+					display: block;
+					font-size: 1rem;
+					font-weight: bold;
+					height: 42px;
+					line-height: 42px;
+					margin: 0 0 10px 46px;
+					overflow: visible;
+					padding: 0 0 0 42px;
+					cursor: pointer;
+					position: relative;
+					text-align: center;
+					width: calc(100% - 46px);
+					
+					&::before {
+						border: 1px solid #F00;
+						box-sizing: border-box;
+						color: #F00;
+						content: attr(data-count);
+						height: 42px;
+						left: -46px;
+						position: absolute;
+						top: 0;
+						width: 42px;
+					}
+				}
+			}
+			p.duration {
+				font-weight: bold;
+				margin-bottom: 20px;
+			}
+			ul.share {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				
+				li {
+					display: inline;
+					margin: 0;
+					padding: 0;
+					
+					a {
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: contain;
+						display: inline-block;
+						font-size: 0;
+						height: 42px;
+						width: 42px;
+						
+						&.facebook { background-image: url('/img/share_facebook.svg'); }
+						&.twitter  { background-image: url('/img/share_twitter.svg'); }
+						&.email    { background-image: url('/img/share_email.svg'); }
+					}
+				}
 			}
 		}
 	}
 }
 
-// Primary content
+// Idea content
 // ---------------
-// - Poster image in #title.
-// - Idea content.
 #content.idea >.primary {
 	margin-top: 10px;
 	padding-right: @hMargin;
@@ -205,9 +278,9 @@
 	}
 }
 
-// Secondary content
-// -----------------
-// - Action buttons
+// Action buttons
+// --------------
+// All idea mutation buttons on the right side of the idea's content.
 #content.idea >.secondary {
 	margin-top: 10px;
 	
@@ -236,6 +309,7 @@
 
 // Arguments
 // ---------
+// Spans the full width below the idea's content.
 #arguments {
 	clear: both;
 	display: block;

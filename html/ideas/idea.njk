@@ -10,14 +10,14 @@
 			</div>
 			
 			<div class="secondary">
-				<div>
+				<div class="controls">
 					<h2>Stemmen</h2>
 					
 					{% if idea.isOpen() %}
-						<form class="action vote" method="POST" action="/idea/{{idea.id}}/vote">
+						<form class="vote" method="POST" action="/idea/{{idea.id}}/vote">
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-							<input type="submit" name="yes" value="+ ({{idea.yes}})">
-							<input type="submit" name="no" value="- ({{idea.no}})">
+							<button type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">voor</button>
+							<button type="submit" name="opinion" value="no" data-count="{{idea.no}}">tegen</button>
 						</form>
 					{% endif %}
 					
@@ -25,13 +25,13 @@
 						<div class="bar" style="width: {{idea.progress}}%;"></div>
 					</div>
 					
-					<p>Nog {{idea.duration | duration}} om te stemmen.</p>
+					<p class="duration">Nog {{idea.duration | duration}} om te stemmen.</p>
 					
 					<h2>Delen</h2>
-					<ul>
-						<li><a href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a>
-						<li><a href="https://twitter.com/home?status={{url}}">Twitter</a>
-						<li><a href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{url | urlencode}}">Email</a>
+					<ul class="share">
+						<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a>
+						<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a>
+						<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{url | urlencode}}">Email</a>
 					</ul>
 				</div>
 			</div>
