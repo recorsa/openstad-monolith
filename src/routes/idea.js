@@ -54,7 +54,7 @@ module.exports = function( app ) {
 	.post(function( req, res, next ) {
 		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
-			res.success('/idea/'+idea.id, {idea: idea.toJSON()});
+			res.success('/idea/'+idea.id, {idea: idea});
 		})
 		.catch(next)
 	});
@@ -74,7 +74,7 @@ module.exports = function( app ) {
 	.put(function( req, res, next ) {
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
-			res.success('/idea/'+idea.id, {idea: idea.toJSON()});
+			res.success('/idea/'+idea.id, {idea: idea});
 		})
 		.catch(next);
 	});
@@ -160,11 +160,7 @@ module.exports = function( app ) {
 		idea.addUserArgument(req.user, req.body)
 		.then(function( argument ) {
 			req.flash('success', 'Argument toegevoegd');
-			res.success('/idea/'+idea.id, function json() {
-				return {
-					argument : argument.toJSON()
-				};
-			});
+			res.success('/idea/'+idea.id, {argument: argument});
 		})
 		.catch(next);
 	});
@@ -192,11 +188,7 @@ module.exports = function( app ) {
 		})
 		.then(function() {
 			req.flash('success', 'Argument aangepast');
-			res.success('/idea/'+argument.ideaId, function json() {
-				return {
-					argument : argument.toJSON()
-				};
-			});
+			res.success('/idea/'+argument.ideaId, {argument: argument});
 		})
 		.catch(next);
 	});
