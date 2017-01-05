@@ -25,7 +25,7 @@ module.exports = function( app ) {
 	})
 	.post(function( req, res, next ) {
 		var start      = Date.now();
-		var domain     = req.protocol + '://' + req.get('host')
+		var domain     = req.protocol + '://' + (req.get('x-forwarded-host') || req.get('host'))
 		  , email      = req.body.email
 		  , password   = req.body.password
 		  , forceToken = !!req.body.forceToken;
