@@ -25,7 +25,8 @@ module.exports = function( app ) {
 	})
 	.post(function( req, res, next ) {
 		var start      = Date.now();
-		var email      = req.body.email
+		var domain     = req.protocol + '://' + req.get('host')
+		  , email      = req.body.email
 		  , password   = req.body.password
 		  , forceToken = !!req.body.forceToken;
 		
@@ -50,7 +51,7 @@ module.exports = function( app ) {
 				// If this user has a password, display the password field.
 				// Otherwise, send a login link to the user's email address.
 				return !user.passwordHash || forceToken ?
-				       sendAuthToken(user, email) :
+				       sendAuthToken(user, domain) :
 				       null;
 			})
 			.then(function( user ) {
@@ -144,7 +145,7 @@ module.exports = function( app ) {
 	});
 }
 
-function sendAuthToken( user ) {
+function sendAuthToken( user, domain ) {
 	if( !user.isMember() ) {
 		throw createError(400, 'User is not a member');
 	}
@@ -155,7 +156,7 @@ function sendAuthToken( user ) {
 			to      : user.email,
 			subject : 'AB tool: Login link',
 			// html    : 'Dit is een <b>testbericht</b>',
-			text    : 'token: http://localhost:8082/account/login_token'+
+			text    : 'token: '+domain+'/account/login_token'+
 			          '?token='+token+'&uid='+user.id
 		});
 		return user;
