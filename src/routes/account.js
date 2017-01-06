@@ -25,9 +25,7 @@ module.exports = function( app ) {
 	})
 	.post(function( req, res, next ) {
 		var start      = Date.now();
-		var domain     = (req.get('x-forwarded-proto') || req.protocol) + '://' +
-		                 (req.get('x-forwarded-host') || req.get('host'))
-		  , email      = req.body.email
+		var email      = req.body.email
 		  , password   = req.body.password
 		  , forceToken = !!req.body.forceToken;
 		
@@ -52,7 +50,7 @@ module.exports = function( app ) {
 				// If this user has a password, display the password field.
 				// Otherwise, send a login link to the user's email address.
 				return !user.passwordHash || forceToken ?
-				       sendAuthToken(user, domain) :
+				       sendAuthToken(user, req) :
 				       null;
 			})
 			.then(function( user ) {
@@ -119,7 +117,9 @@ module.exports = function( app ) {
 	})
 	.post(function( req, res, next ) {
 		db.User.registerMember(req.user, req.body.email)
-		.then(sendAuthToken)
+		.then(function( user ) {
+			return sendAuthToken(user, req);
+		})
 		.then(function( user ) {
 			res.out('account/token_sent', true, {
 				isNew: !user.complete
@@ -146,10 +146,13 @@ module.exports = function( app ) {
 	});
 }
 
-function sendAuthToken( user, domain ) {
+function sendAuthToken( user, req ) {
 	if( !user.isMember() ) {
 		throw createError(400, 'User is not a member');
 	}
+	
+	var domain = (req.get('x-forwarded-proto') || req.protocol) + '://' +
+			         (req.get('x-forwarded-host')  || req.get('host'));
 	
 	return passwordless.generateToken(user.id)
 	.then(function( token ) {
