@@ -36,7 +36,9 @@ var meetings = [
 	{id: 1, date: moment(today).day(5).subtract(2, 'weeks').toDate()},
 	{id: 2, date: moment(today).day(5).toDate()},
 	{id: 3, date: moment(today).day(5).add(2, 'weeks').toDate()},
-	{id: 4, date: moment(today).day(5).add(4, 'weeks').toDate()}
+	{id: 4, date: moment(today).day(5).add(4, 'weeks').toDate()},
+	{id: 5, date: moment(today).day(5).add(6, 'weeks').toDate()},
+	{id: 6, date: moment(today).day(5).add(8, 'weeks').toDate()}
 ];
 // Users including their ideas
 // ---------------------------

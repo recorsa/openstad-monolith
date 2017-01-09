@@ -107,8 +107,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			beforeValidate: co.wrap(function*( idea, options ) {
 				// Automatically determine `endDate`, and `meetingId`.
 				if( idea.changed('startDate') ) {
-					var endDate = moment(idea.startDate).add(2, 'weeks').toDate();
-					var meeting = yield sequelize.models.meeting.findOne({
+					var duration = config.get('ideas.duration');
+					var endDate  = moment(idea.startDate).add(duration, 'weeks').toDate();
+					var meeting  = yield sequelize.models.meeting.findOne({
 						where: {
 							date: {$gt: endDate}
 						},
