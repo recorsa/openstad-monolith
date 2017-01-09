@@ -1,10 +1,9 @@
 var co      = require('co');
 var moment  = require('moment-timezone');
 var db      = require('../db');
-var noCache = require('../middleware/nocache');
 
 module.exports = function( app ) {
-	app.get('/', noCache, co.wrap(function*( req, res ) {
+	app.get('/', co.wrap(function*( req, res ) {
 		var data = yield {
 			articles         : getArticles(),
 			highlightedIdeas : db.Idea.getHighlighted(),

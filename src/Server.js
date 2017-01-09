@@ -37,6 +37,7 @@ module.exports  = {
 		// ... little helper middlewares...
 		require('./middleware/multi_accept')(this.app);
 		require('./middleware/force_registration')(this.app);
+		this.app.use(require('./middleware/nocache'));
 		// ... routes...
 		require('./routes/default')(this.app);
 		require('./routes/account')(this.app);
