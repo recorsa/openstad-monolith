@@ -150,6 +150,10 @@
 		margin-bottom: 20px;
 	}
 	
+	#map {
+		height: 250px;
+	}
+	
 	// Mod break
 	// ---------
 	// Always displayed below the user content.
@@ -332,5 +336,35 @@
 	}
 	input[type="submit"] {
 		float: right;
+	}
+}
+
+#content.newIdea {
+	#titleAndSummary, #map {
+		box-sizing: border-box;
+		float: left;
+		width: 50%;
+		
+		@media @primary100 {
+			float: none;
+			padding: 0 !important;
+			width: 100%;
+		}
+	}
+	#titleAndSummary {
+		padding-right: 10px;
+		
+		input {
+			box-sizing: border-box;
+			width: 100%;
+		}
+	}
+	#map {
+		height: 250px;
+		padding-left: 10px;
+	}
+	
+	#description {
+		clear: both;
 	}
 }

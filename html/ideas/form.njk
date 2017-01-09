@@ -1,5 +1,6 @@
 {% extends '../ideas.njk' %}
 {% set pageTitle = 'Nieuw idee' %}
+{% set contentClass = 'newIdea' %}
 
 {% block head %}
 	{{ super() }}
@@ -26,33 +27,59 @@
 <h1>Nieuw idee</h1>
 
 <form method="post" id="js-form">
-	Titel: <input type="text" name="title" value="{{idea.title}}"><br>
+	<div id="titleAndSummary">
+		Titel:<br>
+		<input type="text" name="title" value="{{idea.title}}"><br>
+		
+		Samenvatting:<br>
+		<textarea name="summary">{{idea.summary}}</textarea><br>
+	</div>
+	<div id="map"></div>
 	
-	Samenvatting:<br>
-	<textarea name="summary">{{idea.summary}}</textarea><br>
-	
-	Beschrijving:<br>
-	{% if useModernEditor %}
-		<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
-		<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
-	{% else %}
-		<textarea name="description">{{idea.description}}</textarea>
-	{% endif %}
-	
-	{% if idea %}
-	<input type="hidden" name="id" value="{{idea.id}}">
-	<input type="hidden" name="_method" value="PUT">
-	{% endif %}
-	<input type="hidden" name="_csrf" value="{{csrfToken}}">
-	
-	<input type="submit" value="Opslaan">
+	<div id="description">
+		Beschrijving:<br>
+		{% if useModernEditor %}
+			<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
+			<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
+		{% else %}
+			<textarea name="description">{{idea.description}}</textarea>
+		{% endif %}
+		
+		{% if idea %}
+		<input type="hidden" name="id" value="{{idea.id}}">
+		<input type="hidden" name="_method" value="PUT">
+		{% endif %}
+		<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		
+		<input type="submit" value="Opslaan">
+	</div>
 </form>
 {% endblock %}
 
 {% block footer %}
+	{{ super() }}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/lib/trix/dist/trix.js"></script>
 	<script src="/js/editor.js"></script>
 	<script>
+		var map = new google.maps.Map(document.getElementById('map'), {
+			center         : {lat: 52.3732175, lng: 4.8495996},
+			zoom           : 13,
+			mapTypeControl : false,
+			zoomControl    : true,
+			// scrollwheel: false,
+		});
+		var point = JSON.parse('{{idea.location | dump | safe}}' || null);
+		if( point ) {
+			latLng = {lat: point.coordinates[0], lng: point.coordinates[1]};
+			var marker = new google.maps.Marker({
+				position : latLng,
+				map      : map
+			});
+			map.setCenter(latLng);
+			map.setZoom(14);
+		}
+		
 		initAttachmentManager(
 			document.getElementById('js-form'),
 			document.getElementById('js-editor').editor

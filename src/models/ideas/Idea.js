@@ -65,6 +65,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.content(text));
 			}
 		},
+		location: {
+			type         : DataTypes.GEOMETRY('POINT'),
+			allowNull    : true
+		},
+		
 		modBreak: {
 			type         : DataTypes.TEXT,
 			allowNull    : true,

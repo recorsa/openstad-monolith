@@ -51,6 +51,7 @@ var users = [
 			title            : 'Metro naar stadsdeel West',
 			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein om sneller thuis te zijn.',
 			description      : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Ik wil een extra metrobuis!',
+			location         : {type: 'Point', coordinates: [52.3779893, 4.8460973]},
 			argumentsAgainst : [
 				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn. Daarnaast zal dit project ook weer enorm uit de hand lopen waarschijnlijk.'}
 			],
