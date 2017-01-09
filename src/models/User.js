@@ -90,7 +90,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			validate     : {
 				is: {
 					args : [/^\d{4} ?\w{2}$/],
-					msg  : 'Invalid zipcode'
+					msg  : 'Ongeldige postcode'
 				}
 			},
 			set          : function( zipCode ) {

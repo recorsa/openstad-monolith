@@ -108,29 +108,49 @@ module.exports = function( app ) {
 			return next(err);
 		}
 		
-		var zipCode = req.body.zipCode;
-		if( !zipCode ) {
+		var zipCode        = req.body.zipCode;
+		var newUserCreated = false;
+		
+		if( zipCode ) {
+			// Register a new anonymous member and continue with the normal request.
+			newUserCreated = db.User.registerAnonymous(zipCode)
+			.then(function( newUser ) {
+				var uidProperty = config.get('security.sessions.uidProperty');
+				req.session[uidProperty] = newUser.id;
+				req.user = newUser;
+				next();
+				return true;
+			})
+			.catch(function( error ) {
+				if( error instanceof db.sequelize.ValidationError ) {
+					error.errors.forEach(function( error ) {
+						req.flash('error', error.message);
+					});
+					return false;
+				} else {
+					throw error;
+				}
+			});
+		}
+		
+		Promise.resolve(newUserCreated)
+		.then(function( newUserCreated ) {
+			if( newUserCreated ) return;
+			
 			res.format({
 				html: function() {
-					res.render('ideas/enter_zipcode', {
+					res.out('ideas/enter_zipcode', false, {
 						csrfToken : req.csrfToken(),
-						opinion   : getOpinion(req)
+						opinion   : getOpinion(req),
+						zipCode   : zipCode
 					});
 				},
 				json: function() {
 					next(err);
 				}
 			});
-		} else {
-			// Register a new anonymous member and continue with the normal request.
-			var uidProperty = config.get('security.sessions.uidProperty');
-			db.User.registerAnonymous(zipCode)
-			.then(function( newUser ) {
-				req.session[uidProperty] = newUser.id;
-				req.user = newUser;
-				next();
-			});
-		}
+		})
+		.catch(next);
 	})
 	.post(function( req, res, next ) {
 		var user    = req.user;
