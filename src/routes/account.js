@@ -161,16 +161,13 @@ function sendAuthToken( user, req ) {
 		throw createError(400, 'User is not a member');
 	}
 	
-	var domain = (req.get('x-forwarded-proto') || req.protocol) + '://' +
-			         (req.get('x-forwarded-host')  || req.get('host'));
-	
 	return passwordless.generateToken(user.id)
 	.then(function( token ) {
 		mail.sendMail({
 			to      : user.email,
 			subject : 'AB tool: Login link',
 			// html    : 'Dit is een <b>testbericht</b>',
-			text    : 'token: '+domain+'/account/login_token'+
+			text    : 'token: '+req.fullHost+'/account/login_token'+
 			          '?token='+token+'&uid='+user.id
 		});
 		return user;
