@@ -160,14 +160,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.findOne({where: {email: email}});
 			},
 			
-			upgradeToMember: function( user, email ) {
-				if( !user.isMember() ) {
-					
-				} else {
-					
-				}      
-			},
-			
 			registerAnonymous: function( zipCode ) {
 				return this.create({
 					role    : 'anonymous',
@@ -180,21 +172,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 					email : email
 				};
 				
-				if( user.isAnonymous() ) {
-					return user.update(data);
-				} else {
-					return User.findOrCreate({
-						where    : {email: data.email},
-						defaults : data
-					})
-					.spread(function( actualUser ) {
-						if( actualUser.hasCompletedRegistration() ) {
-							throw createError(400, 'E-mail address is already in use');
-						} else {
+				return User.findMember(email)
+				.then(function( existingUser ) {
+					if( existingUser ) {
+						throw createError(400, 'Dit e-mail adres is al in gebruik');
+					}
+					
+					if( user.isAnonymous() ) {
+						return user.update(data);
+					} else {
+						return User.findOrCreate({
+							where    : {email: data.email},
+							defaults : data
+						})
+						.spread(function( actualUser ) {
+							if( actualUser.hasCompletedRegistration() ) {
+								throw createError(400, 'Dit e-mail adres is al in gebruik');
+							}
 							return actualUser;
-						}
-					});
-				}
+						});
+					}
+				});
 			}
 		},
 		instanceMethods: {
@@ -219,7 +217,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			hasCompletedRegistration: function() {
-				return this.complete;
+				return this.isMember() && this.email && this.complete;
 			},
 			isUnknown: function() {
 				return this.role === 'unknown';

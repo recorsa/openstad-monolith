@@ -125,7 +125,17 @@ module.exports = function( app ) {
 				isNew: !user.complete
 			});
 		})
-		.catch(next);
+		.catch(function( error ) {
+			if( error.status == 400 ) {
+				req.flash('error', error.message);
+				res.out('account/register', false, {
+					email     : req.body.email,
+					csrfToken : req.csrfToken()
+				});
+			} else {
+				return next(error);
+			}
+		});
 	});
 	
 	// Complete registration

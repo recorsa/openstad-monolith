@@ -10,7 +10,7 @@ Vul uw e-mail adres, en u krijgt een link opgestuurd waarmee u direct kunt inlog
 Hierna hoeft u enkel nog uw naam in te vullen om gebruik te kunnen maken van de website.
 
 <form method="post">
-	Email: <input type="email" name="email" autofocus>
+	Email: <input type="email" name="email" value="{{email}}" autofocus>
 	<input type="hidden" name="_csrf" value="{{csrfToken}}">
 	<input type="submit" name="Link opsturen">
 </form>
