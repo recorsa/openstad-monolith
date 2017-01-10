@@ -34,7 +34,9 @@
 		Samenvatting:<br>
 		<textarea name="summary">{{idea.summary}}</textarea><br>
 	</div>
-	<div id="map"></div>
+	<div id="location">
+		<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
+	</div>
 	
 	<div id="description">
 		Beschrijving:<br>
@@ -60,26 +62,12 @@
 	{{ super() }}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/lib/trix/dist/trix.js"></script>
+	<script src="/js/LocationEditor.js"></script>
 	<script src="/js/editor.js"></script>
 	<script>
-		var map = new google.maps.Map(document.getElementById('map'), {
-			center         : {lat: 52.3732175, lng: 4.8495996},
-			zoom           : 13,
-			mapTypeControl : false,
-			zoomControl    : true,
-			// scrollwheel: false,
-		});
-		var point = JSON.parse('{{idea.location | dump | safe}}' || null);
-		if( point ) {
-			latLng = {lat: point.coordinates[0], lng: point.coordinates[1]};
-			var marker = new google.maps.Marker({
-				position : latLng,
-				map      : map
-			});
-			map.setCenter(latLng);
-			map.setZoom(14);
-		}
-		
+		new LocationEditor(document.getElementById('locationField'));
+	</script>
+	<script>
 		initAttachmentManager(
 			document.getElementById('js-form'),
 			document.getElementById('js-editor').editor

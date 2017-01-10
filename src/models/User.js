@@ -244,9 +244,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			createNewIdea: function( data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'description']);
+				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
+				filtered.location  = JSON.parse(filtered.location || null);
 				
 				return db.Idea.create(filtered)
 				.then(function( idea ) {
@@ -255,7 +256,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			updateIdea: function( idea, data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'description']);
+				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
+				filtered.location = JSON.parse(filtered.location || null);
 				
 				return idea.update(filtered)
 				.then(function() {
