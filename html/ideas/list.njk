@@ -31,6 +31,10 @@
 				
 				{% if idea.posterImage %}
 					<div class="image" style="background-image: url(/image/{{idea.posterImage.key}});"></div>
+				{% elif idea.location %}
+					<div class="image" style="background-image: url(
+						https://maps.googleapis.com/maps/api/streetview?size=800x600&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&pitch=-0.76&key=AIzaSyCrp_kqFQoKEaW5DOEBVjAu61cRl3-T0Lg
+					);"></div>
 				{% else %}
 					<div class="image"></div>
 				{% endif %}
