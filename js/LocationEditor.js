@@ -22,6 +22,10 @@ LocationEditor.prototype.onMapClick = function( event ) {
 	this.setMarker(event.latLng);
 	this.storeLocation();
 };
+LocationEditor.prototype.onMarkerClick = function() {
+	this.removeMarker();
+	this.storeLocation();
+};
 LocationEditor.prototype.onMarkerDrag = function( event ) {
 	this.storeLocation();
 };
@@ -35,9 +39,15 @@ LocationEditor.prototype.getLocation = function() {
 	}
 };
 LocationEditor.prototype.storeLocation = function() {
-	var latLng = this.marker.getPosition();
-	var point  = {type: 'Point', coordinates: [latLng.lat(), latLng.lng()]};
-	this.input.value = JSON.stringify(point);
+	var value;
+	if( this.marker ) {
+		var latLng = this.marker.getPosition();
+		var point  = {type: 'Point', coordinates: [latLng.lat(), latLng.lng()]};
+		value = JSON.stringify(point)
+	} else {
+		value = null;
+	}
+	this.input.value = value;
 };
 
 LocationEditor.prototype.setMarker = function( latLng ) {
@@ -50,7 +60,11 @@ LocationEditor.prototype.setMarker = function( latLng ) {
 	setTimeout(function() {
 		this.map.panTo(latLng);
 	}.bind(this), 350);
-}
+};
+LocationEditor.prototype.removeMarker = function() {
+	this.marker.setMap(null);
+	this.marker = null;
+};
 
 LocationEditor.prototype._createMarker = function( latLng ) {
 	var marker = new google.maps.Marker({
@@ -58,6 +72,7 @@ LocationEditor.prototype._createMarker = function( latLng ) {
 		map       : this.map,
 		draggable : true
 	});
+	marker.addListener('click', this.onMarkerClick.bind(this));
 	marker.addListener('dragend', this.onMarkerDrag.bind(this));
 	
 	return marker;
