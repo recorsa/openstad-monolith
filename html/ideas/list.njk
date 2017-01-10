@@ -5,9 +5,7 @@
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
-	<div id="map">
-		<div class="image"></div>
-	</div>
+	<div id="map"></div>
 	
 	<div class="primary">
 		{{sec.speechBubble()}}
@@ -69,4 +67,39 @@
 		
 		{{sec.agenda(upcomingMeetings)}}
 	</div>
+{% endblock %}
+
+{% block footer %}
+	{{ super () }}
+	
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+	<script>
+		var bounds = new google.maps.LatLngBounds();
+		var map    = new google.maps.Map(document.getElementById('map'), {
+			center            : {lat: 52.3732175, lng: 4.8495996},
+			zoom              : 13,
+			disableDefaultUI  : true,
+			draggable         : false,
+			keyboardShortcuts : false,
+			scrollwheel       : false
+		});
+		window.addEventListener('resize', function() {
+			map.fitBounds(bounds);
+		});
+		
+		var locations = [
+			//{% for idea in runningIdeas %}
+			JSON.parse('{{idea.location | dump | safe}}' || null),
+			//{% endfor %}
+		];
+		locations.forEach(function( point ) {
+			if( !point ) return;
+			var marker = new google.maps.Marker({
+				position : {lat: point.coordinates[0], lng: point.coordinates[1]},
+				map      : map
+			});
+			bounds.extend(marker.getPosition());
+		});
+		map.fitBounds(bounds);
+	</script>
 {% endblock %}
