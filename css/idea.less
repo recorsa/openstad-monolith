@@ -52,7 +52,8 @@
 			box-sizing: border-box;
 			height: 100%;
 			margin-left: -@hMargin;
-			padding: 20px 10px 20px @hMargin;
+			padding: 20px 10px 60px @hMargin;
+			position: relative;
 			
 			@media @primary100 {
 				margin-left: 0;
@@ -74,6 +75,7 @@
 					border: 0;
 					box-sizing: border-box;
 					color: #FFF;
+					cursor: pointer;
 					display: block;
 					font-size: 1rem;
 					font-weight: bold;
@@ -82,7 +84,6 @@
 					margin: 0 0 10px 46px;
 					overflow: visible;
 					padding: 0 0 0 42px;
-					cursor: pointer;
 					position: relative;
 					text-align: center;
 					width: calc(100% - 46px);
@@ -105,9 +106,11 @@
 				margin-bottom: 20px;
 			}
 			ul.share {
+				bottom: 20px;
 				list-style-type: none;
 				margin: 0;
 				padding: 0;
+				position: absolute;
 				
 				li {
 					display: inline;
@@ -210,6 +213,7 @@
 		border-right: 4px solid #333;
 		border-radius: 0;
 		color: #333;
+		cursor: pointer;
 		font-size: inherit;
 		font-weight: bold;
 		height: 3rem;
