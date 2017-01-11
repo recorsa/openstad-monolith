@@ -1,0 +1,130 @@
+#content.newIdea {
+	#howDoesItWork {
+		background-color: #F6F6F6;
+		border: 1px solid #EC0000;
+		border-radius: 4px;
+		display: block;
+		margin-bottom: 20px;
+		overflow: hidden;
+		
+		@media @primary100 {
+			margin: 0px -30px 20px;
+		}
+		
+		h2 {
+			background-color: #EC0000;
+			color: #FFF;
+			font-size: 1rem;
+			font-weight: 300;
+			line-height: 2.5em;
+			margin: 0;
+			text-align: center;
+		}
+		>div {
+			box-sizing: border-box;
+			float: left;
+			padding: 20px 10px;
+			position: relative;
+			width: 33.33%;
+			
+			@media @primary100 {
+				float: none;
+				padding: 10px;
+				width: 100%;
+			}
+			
+			&:before {
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				content: '';
+				display: inline-block;
+				height: 117px;
+				width: 100%;
+				
+				@media @primary100 {
+					position: absolute;
+					height: 40px;
+					left: 10px;
+					top: 20px;
+					width: 40px;
+				}
+			}
+			&[data-step="1"]:before {
+				background-image: url('/img/instructions_idea.svg');
+			}
+			&[data-step="2"]:before {
+				background-image: url('/img/instructions_campaign.svg');
+			}
+			&[data-step="3"]:before {
+				background-image: url('/img/instructions_agenda.svg');
+			}
+			
+			h1 {
+				text-align: center;
+				
+				@media @primary100 {
+					margin-left: 60px;
+					text-align: left;
+				}
+			}
+			a {
+				color: #EC0000;
+				text-decoration: none;
+				
+				&:hover { text-decoration: underline;}
+			}
+		}
+	}
+	
+	#titleAndSummary, #location {
+		box-sizing: border-box;
+		float: left;
+		width: 50%;
+		
+		@media @primary100 {
+			float: none;
+			padding: 0 !important;
+			width: 100%;
+		}
+		
+		h2:first-of-type {
+			margin-top: 0;
+		}
+	}
+	#titleAndSummary {
+		padding-right: 10px;
+		
+		input {
+			box-sizing: border-box;
+			width: 100%;
+		}
+	}
+	#location {
+		height: 250px;
+		padding-left: 10px;
+		
+		>div {
+			height: 100%;
+		}
+	}
+	
+	#description {
+		clear: both;
+	}
+	
+	textarea {
+		border: 1px solid #C0C0C0;
+		border-radius: 4px;
+		box-sizing: border-box;
+		font: inherit;
+		padding: 0.4em 0.6em;
+		width: 100%;
+	}
+	textarea[name="summary"] {
+		height: 175px;
+	}
+	textarea[name="description"] {
+		height: 300px;
+	}
+}

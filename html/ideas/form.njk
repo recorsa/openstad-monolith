@@ -5,41 +5,79 @@
 {% block head %}
 	{{ super() }}
 	<link rel="stylesheet" type="text/css" href="/lib/trix/dist/trix.css">
-	<style type="text/css">
-		textarea {
-			border: 1px solid #C0C0C0;
-			border-radius: 4px;
-			box-sizing: border-box;
-			font: inherit;
-			padding: 0.4em 0.6em;
-			width: 100%;
-		}
-		textarea[name="summary"] {
-			height: 100px;
-		}
-		textarea[name="description"] {
-			height: 300px;
-		}
-	</style>
 {% endblock %}
 
 {% block content %}
 <h1>Nieuw idee</h1>
 
+<div id="howDoesItWork">
+	<h2>Hoe werkt het?</h2>
+	
+	<div data-step="1">
+		<h1>Jouw Plan</h1>
+		<p>
+			Beschrijf jouw plan voor de buurt en publiceer
+			het op de site onder de button “Mijn Plan”.
+		</p>
+		<p>
+			Houd het:
+			<ul>
+				<li>Positief</li>
+				<li>Duidelijk</li>
+				<li>Kort</li>
+			</ul>
+		</p>
+	</div>
+	
+	<div data-step="2">
+		<h1>Campagne</h1>
+		<p>
+			Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het op de agenda te krijgen van het Algemeen Bestuur. Je hebt 30 dagen om campagne te voeren.
+			Verzamel tenminste 100 stemmen voor je plan. Doe dit door:
+		</p>
+		
+		<ul>
+			<li>Buurtgenoten uit te nodigen via Facebook en twitter om je idee te steunen</li>
+			<li>Mails te versturen naar je buurtgenoten</li>
+			<li>Deur voor deur langs te gaan</li>
+			<li>Een bijeenkomst te organiseren</li>
+		</ul>
+		
+		<p>
+			Andere bewoners kunnen online op je plan reageren met likes en argumenten voor en tegen.
+		</p>
+	</div>
+	
+	<div data-step="3">
+		<h1>De Agenda</h1>
+		<p>
+			Het plan met de meeste stemmen komt
+			automatisch op de agenda van het Algemeen Bestuur. Elke maand wordt op een vast moment gekeken welk idee de meeste stemmen heeft.
+			Heeft jouw plan de meeste likes? Dan krijg je per mail een uitnodiging om in het Algemeen Bestuur jouw plan toe te lichten.
+			Daarna bespreekt het Algemeen Bestuur het plan en neemt een besluit.
+		</p>
+		
+		<b>Heb je vragen?</b><br>
+		Neem contact op met
+		<a href="mailto:destemvanwest@amsterdam.nl">destemvanwest@amsterdam.nl</a>
+	</div>
+</div>
+
 <form method="post" id="js-form">
 	<div id="titleAndSummary">
-		Titel:<br>
+		<h2>Titel idee</h2>
 		<input type="text" name="title" value="{{idea.title}}"><br>
 		
-		Samenvatting:<br>
+		<h2>Samenvatting</h2>
 		<textarea name="summary">{{idea.summary}}</textarea><br>
 	</div>
 	<div id="location">
+		<h2>Locatie</h2>
 		<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 	</div>
 	
 	<div id="description">
-		Beschrijving:<br>
+		<h2>Beschrijving</h2>
 		{% if useModernEditor %}
 			<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
 			<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
