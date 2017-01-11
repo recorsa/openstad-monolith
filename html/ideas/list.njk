@@ -73,13 +73,13 @@
 	{{ super () }}
 	
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+	<script src="/js/map.js"></script>
 	<script>
 		var bounds = new google.maps.LatLngBounds();
-		var map    = new google.maps.Map(document.getElementById('map'), {
+		var map    = initMap(document.getElementById('map'), {
 			center            : {lat: 52.3732175, lng: 4.8495996},
 			zoom              : 13,
 			maxZoom           : 14,
-			disableDefaultUI  : true,
 			draggable         : false,
 			keyboardShortcuts : false,
 			scrollwheel       : false
