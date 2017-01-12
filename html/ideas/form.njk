@@ -70,11 +70,13 @@
 		
 		<h2>Samenvatting</h2>
 		Vertel in maximaal 140 tekens waar jouw idee over gaat. De samenvatting verschijnt op de overzichtspagina.<br>
-		<textarea name="summary">{{idea.summary}}</textarea><br>
+		<textarea name="summary">{{idea.summary}}</textarea>
+		<div id="charsLeft"><span>140</span> tekens resterend.</div>
 	</div>
 	<div id="location">
 		<h2>Locatie</h2>
-		Heeft jouw idee betrekking op een specifieke locatie in West? Klik dat op een plek in de kaart om het vlaggetje te plaatsen.<br>
+		Heeft jouw idee betrekking op een specifieke locatie? Klik dan op een plek in de kaart om een vlaggetje te plaatsen.
+		Versleep het vlaggetje om het te verplaatsen. Door erop te klikken wordt het verwijderd.<br>
 		<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 	</div>
 	
@@ -134,7 +136,7 @@
 			<textarea name="description">{{idea.description}}</textarea>
 		{% endif %}
 		
-		{% if idea %}
+		{% if idea.id %}
 		<input type="hidden" name="id" value="{{idea.id}}">
 		<input type="hidden" name="_method" value="PUT">
 		{% endif %}
@@ -154,7 +156,42 @@
 	<script>
 		new LocationEditor(document.getElementById('locationField'));
 	</script>
+	
 	<script>
+		// Summary
+		// -------
+		var maxLen    = 140;
+		var textarea  = document.querySelector('textarea[name="summary"]');
+		var charsLeft = document.querySelector('#charsLeft span');
+		
+		updateCharsLeft();
+		textarea.addEventListener('keydown', function( event ) {
+			var len = textarea.value.length;
+			var key = event.key.toLowerCase();
+			
+			// Prevent input when maximum is reached.
+			if( len == maxLen ) {
+				switch( key ) {
+					case 'delete': case 'backspace':
+					case 'arrowdown': case 'arrowup':
+					case 'arrowleft': case 'arrowright':
+						return;
+					default:
+						event.preventDefault();
+				}
+			}
+		});
+		textarea.addEventListener('keyup', updateCharsLeft);
+		
+		function updateCharsLeft() {
+			charsLeft.innerHTML = 140 - textarea.value.length;
+		}
+	</script>
+	
+	{% if useModernEditor %}
+	<script>
+		// Main editor
+		// -----------
 		initAttachmentManager(
 			document.getElementById('js-form'),
 			document.getElementById('js-editor').editor
@@ -181,4 +218,5 @@
 			}
 		});
 	</script>
+	{% endif %}
 {% endblock %}

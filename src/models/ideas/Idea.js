@@ -47,6 +47,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		title: {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
+			validate     : {
+				len: {
+					args : [10,140],
+					msg  : 'Titel moet tussen 10 en 140 tekens lang zijn'
+				}
+			},
 			set          : function( text ) {
 				this.setDataValue('title', sanitize.title(text));
 			}
@@ -54,6 +60,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		summary: {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
+			validate     : {
+				len: {
+					args : [20,140],
+					msg  : 'Samenvatting moet tussen 20 en 140 tekens zijn'
+				}
+			},
 			set          : function( text ) {
 				this.setDataValue('summary', sanitize.summary(text));
 			}
@@ -61,6 +73,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		description: {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
+			validate     : {
+				len: {
+					args : [140,],
+					msg  : 'Beschrijving moet minimaal 140 tekens lang zijn'
+				}
+			},
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.content(text));
 			}

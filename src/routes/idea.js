@@ -59,7 +59,20 @@ module.exports = function( app ) {
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
 		})
-		.catch(next)
+		.catch(function( error ) {
+			if( error instanceof db.sequelize.ValidationError ) {
+				error.errors.forEach(function( error ) {
+					req.flash('error', error.message);
+				});
+				res.out('ideas/form', false, {
+					csrfToken       : req.csrfToken(),
+					idea            : req.body,
+					useModernEditor : isModernBrowser(req)
+				});
+			} else {
+				throw error;
+			}
+		});
 	});
 	
 	// Edit idea

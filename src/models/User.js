@@ -44,7 +44,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			validate     : {
 				len: {
 					args : [6,64],
-					msg  : 'Password must be between 6 to 64 characters'
+					msg  : 'Wachtwoord moet tussen 6 en 64 tekens zijn'
 				}
 			},
 			set          : function( password ) {
