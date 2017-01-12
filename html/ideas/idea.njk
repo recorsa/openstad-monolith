@@ -2,6 +2,18 @@
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
 
+{% block head %}
+	{{ super() }}
+	<meta property="og:title" content="{{idea.title}}">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="{{idea.summary}}">
+	<meta property="og:locale" content="nl_NL">
+	<meta property="og:site_name" content="De Stem van West">
+	{% if idea.posterImage %}
+		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
+	{% endif %}
+{% endblock %}
+
 {% block content %}
 	<div id="title">
 		<div>
