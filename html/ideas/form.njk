@@ -69,15 +69,24 @@
 		<input type="text" name="title" value="{{idea.title}}"><br>
 		
 		<h2>Samenvatting</h2>
+		Vertel in maximaal 140 tekens waar jouw idee over gaat. De samenvatting verschijnt op de overzichtspagina.<br>
 		<textarea name="summary">{{idea.summary}}</textarea><br>
 	</div>
 	<div id="location">
 		<h2>Locatie</h2>
+		Heeft jouw idee betrekking op een specifieke locatie in West? Klik dat op een plek in de kaart om het vlaggetje te plaatsen.<br>
 		<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 	</div>
 	
 	<div id="description">
 		<h2>Beschrijving</h2>
+		Gebruik de ruimte hieronder om je idee uitgebreider te beschrijven. Een paar tips:
+		<ul>
+			<li>Beschrijft hoe je op dit idee bent gekomen.
+			<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem? Vertel hier iets meer over.
+			<li>Waarom moet het Algemeen Bestuur jouw idee gaan bespreken?
+			<li>Draag argumenten aan om je buurtgenoten te overtuigen.
+		</ul>
 		{% if useModernEditor %}
 			<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
 			<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
@@ -90,9 +99,9 @@
 		<input type="hidden" name="_method" value="PUT">
 		{% endif %}
 		<input type="hidden" name="_csrf" value="{{csrfToken}}">
-		
-		<input type="submit" value="Opslaan">
 	</div>
+	
+	<input type="submit" value="Idee opslaan">
 </form>
 {% endblock %}
 
