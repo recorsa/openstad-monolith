@@ -14,23 +14,29 @@
 	// ------------------------
 	// 
 	div.flashMessage {
-		border: 2px solid #B1B1B1;
+		background-color: #F6F7F7;
+		border-right: 4px solid #B1B1B1;
+		font-weight: bold;
 		margin: 10px 0px;
 		padding: 10px 20px;
 		position: relative;
-		text-align: center;
 		
 		&.success {
-			border-color: #798DE8;
+			border-right-color: #798DE8;
 		}
-		div {
-			cursor: pointer;
-			font-family: monospace;
-			font-size: 20px;
-			line-height: 20px;
+		&.error {
+			border-right-color: #EC0000;
+		}
+		a {
 			position: absolute;
-			right: 10px;
-			top: 0px;
+			right: 15px;
+			top: 15px;
+			
+			img {
+				border: 0;
+				height: 18px;
+				width: 18px;
+			}
 		}
 	}
 	

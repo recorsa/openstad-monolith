@@ -51,12 +51,15 @@
 		
 		<div id="content" class="{{contentClass}}">
 			{% for type,list in messages %}
-				{% for message in list %}
-					<div class="flashMessage {{type}}">
-						{{message}}
-						<div onclick="location.reload()">x</div>
-					</div>
-				{% endfor %}
+				<div class="flashMessage {{type}}">
+					{% if type == 'error' %}<h2>Er ging iets fout</h2>{% endif %}
+					
+					<ul>
+						{% for message in list %}<li>{{message}}{% endfor %}
+					</ul>
+					
+					<a href="javascript: location.reload();"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
+				</div>
 			{% endfor %}
 			
 			{% block content %}
