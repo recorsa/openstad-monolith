@@ -88,16 +88,20 @@
 			map.fitBounds(bounds);
 		});
 		
-		var locations = [
+		var ideas = [
 			//{% for idea in runningIdeas %}
-			JSON.parse('{{idea.location | dump | safe}}' || null),
+			{id: {{idea.id}}, location: JSON.parse('{{idea.location | dump | safe}}' || null)},
 			//{% endfor %}
 		];
-		locations.forEach(function( point ) {
-			if( !point ) return;
-			var marker = new google.maps.Marker({
+		ideas.forEach(function( idea ) {
+			if( !idea.location ) return;
+			var point  = idea.location;
+			var marker = initMarker({
 				position : {lat: point.coordinates[0], lng: point.coordinates[1]},
 				map      : map
+			});
+			marker.addListener('click', function() {
+				window.location.href = '/idea/'+idea.id;
 			});
 			bounds.extend(marker.getPosition());
 		});
