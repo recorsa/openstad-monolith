@@ -53,6 +53,8 @@ module.exports = function( app ) {
 		});
 	})
 	.post(function( req, res, next ) {
+		req.body.location = JSON.parse(req.body.location || null);
+		
 		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
@@ -73,6 +75,8 @@ module.exports = function( app ) {
 		});
 	})
 	.put(function( req, res, next ) {
+		req.body.location = JSON.parse(req.body.location || null);
+		
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
