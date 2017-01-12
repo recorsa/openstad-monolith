@@ -143,8 +143,17 @@
 		textarea {
 			height: 300px;
 		}
-		#trixToolbar button.attach::before {
-			background-image: url('/img/attachment.svg');
+		#trixToolbar {
+			.button_row {
+				justify-content: flex-start;
+				
+				.button_group {
+					margin-right: 10px;
+				}
+			}
+			button.attach::before {
+				background-image: url('/img/camera.svg');
+			}
 		}
 	}
 }
