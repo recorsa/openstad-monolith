@@ -89,7 +89,47 @@
 		</ul>
 		{% if useModernEditor %}
 			<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
-			<trix-editor id="js-editor" class="userContentEditor" input="js-description"></trix-editor><br>
+			
+			<trix-toolbar id="trixToolbar">
+				<div class="button_row">
+					<span class="button_group text_tools">
+						<button type="button" class="icon bold" data-trix-attribute="bold" data-trix-key="b" title="Bold">Bold</button>
+						<button type="button" class="icon italic" data-trix-attribute="italic" data-trix-key="i" title="Italic">Italic</button>
+						<button type="button" class="icon strike" data-trix-attribute="strike" title="Strikethrough">Strikethrough</button>
+						<button type="button" class="icon link" data-trix-attribute="href" data-trix-action="link" data-trix-key="k" title="Link">Link</button>
+					</span>
+
+					<span class="button_group block_tools">
+						<button type="button" class="icon heading-1" data-trix-attribute="heading1" title="Heading">Heading</button>
+						<button type="button" class="icon quote" data-trix-attribute="quote" title="Quote">Quote</button>
+						<button type="button" class="icon code" data-trix-attribute="code" title="Code">Code</button>
+						<button type="button" class="icon list bullets" data-trix-attribute="bullet" title="Bullets">Bullets</button>
+						<button type="button" class="icon list numbers" data-trix-attribute="number" title="Numbers">Numbers</button>
+						<button type="button" class="icon nesting-level decrease" data-trix-action="decreaseNestingLevel" title="Decrease Level" disabled="">Decrease Level</button>
+						<button type="button" class="icon nesting-level increase" data-trix-action="increaseNestingLevel" title="Increase Level" disabled="">Increase Level</button>
+						<button type="button" class="icon attach" data-trix-action="x-attach" tabindex="-1">Attach Files</button>
+						{# <button type="button" class="icon camera" data-trix-action="x-camera" tabindex="-1">Camera</button> #}
+					</span>
+
+					<span class="button_group history_tools">
+						<button type="button" class="icon undo" data-trix-action="undo" data-trix-key="z" title="Undo" disabled="">Undo</button>
+						<button type="button" class="icon redo" data-trix-action="redo" data-trix-key="shift+z" title="Redo" disabled="">Redo</button>
+					</span>
+				</div>
+
+				<div class="dialogs">
+					<div class="dialog link_dialog" data-trix-attribute="href" data-trix-dialog="href">
+						<div class="link_url_fields">
+							<input type="url" required="" name="href" placeholder="Enter a URL…">
+							<div class="button_group">
+								<input type="button" value="Link" data-trix-method="setAttribute">
+								<input type="button" value="Unlink" data-trix-method="removeAttribute">
+							</div>
+						</div>
+					</div>
+				</div>
+			</trix-toolbar>
+			<trix-editor id="js-editor" class="userContentEditor" input="js-description" toolbar="trixToolbar"></trix-editor><br>
 		{% else %}
 			<textarea name="description">{{idea.description}}</textarea>
 		{% endif %}
@@ -119,5 +159,26 @@
 			document.getElementById('js-form'),
 			document.getElementById('js-editor').editor
 		);
+		
+		document.addEventListener('trix-action-invoke', function( event ) {
+			if( event.actionName === 'x-attach' ) {
+				var editorElement = event.target;
+				editorElement.focus();
+				
+				var input      = document.createElement('input');
+				input.type     = 'file';
+				input.multiple = true;
+				input.addEventListener('change', function( event ) {
+					var i, file;
+					for( i=0; file=input.files[i]; i++ ) {
+						editorElement.editor.insertFile(file);
+					}
+				});
+				
+				var click = document.createEvent('MouseEvents');
+				click.initMouseEvent('click',true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+				input.dispatchEvent(click);
+			}
+		});
 	</script>
 {% endblock %}
