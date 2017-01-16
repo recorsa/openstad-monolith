@@ -66,6 +66,10 @@
 		</div>
 		
 		<div class="userContent">
+			<p>
+				<strong>{{idea.summary | nl2br}}</strong>
+			</p>
+			
 			{{idea.description | safe}}
 			
 			{% if idea.location %}
