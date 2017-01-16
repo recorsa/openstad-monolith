@@ -68,7 +68,7 @@
 </div>
 {% endif %}
 
-{% if can('idea:create') %}
+{% if showForm %}
 <form method="post" id="js-form">
 	<div id="titleAndSummary">
 		<h2>Titel idee</h2>
@@ -155,7 +155,7 @@
 {% endblock %}
 
 {% block footer %}
-{% if can('idea:create') %}
+{% if showForm %}
 	{{ super() }}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/lib/trix/dist/trix.js"></script>

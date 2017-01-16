@@ -50,8 +50,9 @@ module.exports = function( app ) {
 		var help = req.query.help;
 		res.out('ideas/form', false, {
 			showHelp        : help != undefined ? !!Number(help) : true,
-			csrfToken       : req.csrfToken(),
-			useModernEditor : isModernBrowser(req)
+			showForm        : req.can('idea:create'),
+			useModernEditor : isModernBrowser(req),
+			csrfToken       : req.csrfToken()
 		});
 	})
 	.post(function( req, res, next ) {
@@ -84,9 +85,11 @@ module.exports = function( app ) {
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
-			csrfToken       : req.csrfToken(),
+			showHelp        : false,
+			showForm        : true,
 			idea            : req.idea,
-			useModernEditor : isModernBrowser(req)
+			useModernEditor : isModernBrowser(req),
+			csrfToken       : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {
