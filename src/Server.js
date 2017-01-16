@@ -43,6 +43,7 @@ module.exports  = {
 		require('./routes/default')(this.app);
 		require('./routes/account')(this.app);
 		require('./routes/dev')(this.app);
+		require('./routes/help')(this.app);
 		require('./routes/idea')(this.app);
 		// ... and error handlers always last.
 		require('./middleware/error_handling')(this.app);

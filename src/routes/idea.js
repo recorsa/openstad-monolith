@@ -45,9 +45,11 @@ module.exports = function( app ) {
 	// Create idea
 	// -----------
 	router.route('/new')
-	.all(auth.can('idea:create'))
+	.all(auth.can('idea:create', true))
 	.get(function( req, res ) {
+		var help = req.query.help;
 		res.out('ideas/form', false, {
+			showHelp        : help != undefined ? !!Number(help) : true,
 			csrfToken       : req.csrfToken(),
 			useModernEditor : isModernBrowser(req)
 		});

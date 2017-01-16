@@ -10,6 +10,7 @@
 {% block content %}
 <h1>Nieuw idee</h1>
 
+{% if showHelp %}
 <div id="howDoesItWork">
 	<h2>Hoe werkt het?</h2>
 	
@@ -59,9 +60,15 @@
 		<b>Heb je vragen?</b><br>
 		Neem contact op met
 		<a href="mailto:destemvanwest@amsterdam.nl">destemvanwest@amsterdam.nl</a>
+		
+		{% if not user.isLoggedIn() %}
+			<a href="/account/register" class="big">Meld je aan!</a>
+		{% endif %}
 	</div>
 </div>
+{% endif %}
 
+{% if can('idea:create') %}
 <form method="post" id="js-form">
 	<div id="titleAndSummary">
 		<h2>Titel idee</h2>
@@ -144,9 +151,11 @@
 	
 	<input type="submit" value="Idee opslaan">
 </form>
+{% endif %}
 {% endblock %}
 
 {% block footer %}
+{% if can('idea:create') %}
 	{{ super() }}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/lib/trix/dist/trix.js"></script>
@@ -218,4 +227,5 @@
 		});
 	</script>
 	{% endif %}
+{% endif %}
 {% endblock %}
