@@ -97,9 +97,23 @@
 		{% endblock %}
 	</div>
 	
-	<script type="text/javascript">
+	<script>
 		// Preload class is defined in `all.less` to disable all animations.
 		document.body.className = '';
+	</script>
+	<script>
+		// Flash messages
+		// --------------
+		// Make close buttons interactive.
+		var closeButtons = document.querySelectorAll('#content > .flashMessage a');
+		closeButtons.forEach(function( a ) {
+			a.href = '';
+			a.addEventListener('click', function( event ) {
+				var message = a.parentNode;
+				message.parentNode.removeChild(message);
+				event.preventDefault();
+			});
+		});
 	</script>
 </body>
 </html>
