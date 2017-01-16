@@ -198,12 +198,12 @@
 					<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="hidden" name="_csrf" value="{{csrfToken}}">
-						<input type="submit" value="D">
+						<input type="submit" value="D" class="default">
 					</form>
 				{% endif %}
 				{% if user.can('arg:edit', idea, arg) %}
 					<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
-						<input type="submit" value="E">
+						<input type="submit" value="E" class="default">
 					</form>
 				{% endif %}
 			</div>
