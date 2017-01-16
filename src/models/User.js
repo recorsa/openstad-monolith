@@ -35,7 +35,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(255),
 			allowNull    : true,
 			unique       : true,
-			validate     : {isEmail: true}
+			validate     : {
+				isEmail: {msg: 'Geen geldig emailadres'}
+			}
 		},
 		password: {
 			type         : DataTypes.VIRTUAL,
@@ -154,10 +156,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			findMember: function( email ) {
 				if( !email ) {
-					return Promise.reject(createError(400, 'No email address'));
+					return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
 				}
 				
-				return this.findOne({where: {email: email}});
+				return this.findOne({where: {email: email}})
+				.then(function( user ) {
+					if( !user ) {
+						throw createError(404, 'Geen gebruiker met dit emailadres gevonden');
+					}
+					return user;
+				});
 			},
 			
 			registerAnonymous: function( zipCode ) {

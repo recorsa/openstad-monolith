@@ -44,9 +44,6 @@ module.exports = function( app ) {
 		} else {
 			db.User.findMember(email)
 			.then(function( user ) {
-				if( !user ) {
-					throw createError(404, 'No user with that e-mail address');
-				}
 				// If this user has a password, display the password field.
 				// Otherwise, send a login link to the user's email address.
 				return !user.passwordHash || forceToken ?
@@ -86,7 +83,7 @@ module.exports = function( app ) {
 		
 		passwordless.useToken(token, uid).then(function( valid ) {
 			if( !valid ) {
-				return next(createError(401, 'Invalid token'));
+				throw createError(401, 'Ongeldige link');
 			}
 			
 			req.session[uidProperty] = uid;
