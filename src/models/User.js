@@ -159,13 +159,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
 				}
 				
-				return this.findOne({where: {email: email}})
-				.then(function( user ) {
-					if( !user ) {
-						throw createError(404, 'Geen gebruiker met dit emailadres gevonden');
-					}
-					return user;
-				});
+				return this.findOne({where: {email: email}});
 			},
 			
 			registerAnonymous: function( zipCode ) {

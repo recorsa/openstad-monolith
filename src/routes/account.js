@@ -45,6 +45,10 @@ module.exports = function( app ) {
 		} else {
 			db.User.findMember(email)
 			.then(function( user ) {
+				if( !user ) {
+					throw createError(404, 'Geen gebruiker met dit emailadres gevonden');
+				}
+				
 				// If this user has a password, display the password field.
 				// Otherwise, send a login link to the user's email address.
 				return !user.passwordHash || forceToken ?
