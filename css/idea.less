@@ -264,18 +264,21 @@
 				border-radius: 0;
 				box-sizing: border-box;
 				color: #B6B7BA;
+				cursor: pointer;
 				font-family: inherit;
 				font-size: 1.5rem;
 				font-weight: bold;
 				height: 55px;
 				outline: none;
 				padding: 10px;
+				position: relative;
 				resize: none;
 				width: 100%;
 				transition: color 0.2s, font-size 0.2s, height 0.2s 0.2s;
 				
-				&:focus {
+				&:not([data-disabled]):focus {
 					color: #000;
+					cursor: auto;
 					font-size: 0.875rem;
 					font-weight: normal;
 					height: 100px;

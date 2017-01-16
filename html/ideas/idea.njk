@@ -146,7 +146,11 @@
 {% block footer %}
 	{{ super() }}
 	
-	<script type="text/javascript">
+	<script>
+		// First image in content
+		// ----------------------
+		// If the content starts with an image, remove it from the content
+		// since it's already visible as poster image.
 		var figures = document.querySelectorAll('.userContent figure:first-child');
 		if( figures[0] ) {
 			var figure = figures[0];
@@ -155,6 +159,17 @@
 				parent.removeChild(figure);
 			}
 		}
+	</script>
+	<script>
+		// Disabled textareas
+		// ------------------
+		// Link to login/register page.
+		var textareas = document.querySelectorAll('#arguments textarea[data-disabled]');
+		textareas.forEach(function( textarea ) {
+			textarea.addEventListener('focus', function( event ) {
+				document.location.href = '/idea/{{idea.id}}/arg/new';
+			})
+		})
 	</script>
 	
 	{% if idea.location %}
@@ -180,15 +195,18 @@
 
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">
-	{% if can('arg:add') %}
+	{% if not can('idea:edit') or user.role == 'admin' %}
 		<form method="POST" action="/idea/{{idea.id}}/arg/new" class="newArgument">
 			<textarea
 				name="description"
 				placeholder="{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}"
+				{{'data-disabled readonly' if not can('arg:add')}}
 			></textarea>
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="hidden" name="sentiment" value="{{sentiment}}">
+			{% if can('arg:add') %}
 			<input type="submit" value="Verzenden">
+			{% endif %}
 		</form>
 	{% endif %}
 	

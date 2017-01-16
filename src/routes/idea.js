@@ -206,6 +206,14 @@ module.exports = function( app ) {
 			res.success('/idea/'+idea.id, {argument: argument});
 		})
 		.catch(next);
+	})
+	.all(function( err, req, res, next ) {
+		if( err.status == 403 && req.accepts('html') ) {
+			req.flash('error', 'Argumenteren kan enkel als geregistreerde gebruiker');
+			res.success('/account/register');
+		} else {
+			next(err);
+		}
 	});
 	
 	router.route('/:ideaId/arg/:argId/edit')
