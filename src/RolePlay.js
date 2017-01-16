@@ -60,11 +60,12 @@ extend(RolePlay.prototype, {
 				return user.can(actionName, req);
 			});
 			
+			// Add `can(actionName)` function to locals, so the passed
+			// permission can be checked in the template as well.
+			var actions = zipObject(actionNames, allowed);
+			self._addHelperFunction(req, res, actions);
+			
 			if( allOptional || allowed[0] ) {
-				// Add `can(actionName)` function to locals, so the passed
-				// permission can be checked in the template as well.
-				var actions = zipObject(actionNames, allowed);
-				self._addHelperFunction(req, res, actions);
 				next();
 			} else {
 				var action       = user.get(actionNames[0]);
