@@ -67,8 +67,52 @@
 			max-width: 200px;
 			padding: 5px 10px;
 			text-align: center;
-			text-decoration: none;
+			text-decoration: none !important;
 		}
+	}
+	
+	// Regular links
+	// -------------
+	a {
+		color: #EC0000;
+		text-decoration: none;
+		
+		&:hover { text-decoration: underline;}
+	}
+	// Red arrow links
+	// ---------------
+	a.readMore,
+	a.reply {
+		background-image: url('/img/arrow_right_red.svg');
+		background-repeat: no-repeat;
+		background-size: contain;
+		color: #000;
+		font-weight: 600;
+		line-height: 16px;
+		margin-top: 1em;
+		text-decoration: none;
+		display: block;
+		padding-left: 16px;
+	}
+	// Default submit button
+	// ---------------------
+	// With red arrow.
+	input[type="submit"]:not(.default) {
+		.appearance(none);
+		
+		background-color: transparent;
+		background-image: url('/img/arrow_right_whiteonred.svg');
+		background-position: center right;
+		background-repeat: no-repeat;
+		background-size: contain;
+		border: 0;
+		color: #000;
+		cursor: pointer;
+		font-size: inherit;
+		font-weight: bold;
+		line-height: 32px;
+		// outline: none;
+		padding: 0 40px 0 0;
 	}
 	
 	// Idea stats
@@ -129,22 +173,6 @@
 				background-size: 2.5px 7.5px;
 			}
 		}
-	}
-	
-	// Red arrow links
-	// ---------------
-	a.readMore,
-	a.reply {
-		background-image: url('/img/arrow_right_red.svg');
-		background-repeat: no-repeat;
-		background-size: contain;
-		color: #000;
-		font-weight: 600;
-		line-height: 16px;
-		margin-top: 1em;
-		text-decoration: none;
-		display: block;
-		padding-left: 16px;
 	}
 	
 	// .primary and .secondary columns
