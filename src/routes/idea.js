@@ -209,8 +209,9 @@ module.exports = function( app ) {
 	})
 	.all(function( err, req, res, next ) {
 		if( err.status == 403 && req.accepts('html') ) {
+			var ideaId = req.params.ideaId;
 			req.flash('error', 'Argumenteren kan enkel als geregistreerde gebruiker');
-			res.success('/account/register');
+			res.success('/account/register?ref=/idea/'+ideaId);
 		} else {
 			next(err);
 		}

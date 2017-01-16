@@ -1,6 +1,7 @@
 var config       = require('config');
+var createError  = require('http-errors');
 var express      = require('express');
-var createError  = require('http-errors')
+var url          = require('url');
 
 var auth         = require('../auth');
 var db           = require('../db');
@@ -19,7 +20,8 @@ module.exports = function( app ) {
 	router.route('/login_email')
 	.post(function( req, res, next ) {
 		var start      = Date.now();
-		var email      = req.body.email
+		var ref        = req.query.ref
+		  , email      = req.body.email
 		  , password   = req.body.password
 		  , forceToken = !!req.body.forceToken;
 		
@@ -31,15 +33,16 @@ module.exports = function( app ) {
 				// Delay the response so that it's always a minimum of 200ms.
 				var delay = Math.max(0, 200 - (Date.now() - start));
 				setTimeout(function() {
-					res.success('/', true);
+					res.success(url.resolve('/', ref), true);
 				}, delay);
 			})
 			.catch(function( err ) {
 				req.flash('error', err.message);
 				res.out('account/login_email', false, {
-					csrfToken : req.csrfToken(),
 					method    : 'password',
-					email     : email
+					ref       : ref,
+					email     : email,
+					csrfToken : req.csrfToken()
 				});
 			});
 		} else {
@@ -63,9 +66,10 @@ module.exports = function( app ) {
 					});
 				} else {
 					res.out('account/login_email', true, {
-						csrfToken : req.csrfToken(),
 						method    : 'password',
-						email     : email
+						ref       : ref,
+						email     : email,
+						csrfToken : req.csrfToken()
 					});
 				}
 			})
@@ -79,6 +83,7 @@ module.exports = function( app ) {
 		
 		req.flash('error', err.message);
 		res.out('account/register', false, {
+			ref         : req.query.ref,
 			email_login : req.body.email,
 			csrfToken   : req.csrfToken()
 		});
@@ -89,6 +94,7 @@ module.exports = function( app ) {
 		res.out('account/login_token', false, {
 			csrfToken    : req.csrfToken(),
 			invalidToken : !req.query.token,
+			ref          : req.query.ref,
 			token        : req.query.token,
 			uid          : req.query.uid
 		});
@@ -96,6 +102,7 @@ module.exports = function( app ) {
 	.post(function( req, res, next ) {
 		var token = req.body.token;
 		var uid   = req.body.uid;
+		var ref   = req.query.ref;
 		var start = Date.now();
 		
 		passwordless.useToken(token, uid)
@@ -105,22 +112,24 @@ module.exports = function( app ) {
 			}
 			
 			req.session[uidProperty] = uid;
+			req.session['ref']       = ref;
+			
 			// Delay the response so that it's always a minimum of 200ms.
 			var delay = Math.max(0, 200 - (Date.now() - start));
 			setTimeout(function() {
-				res.success('/', true);
+				res.success(url.resolve('/', req.query.ref), true);
 			}, delay);
 		})
 		.catch(next);
 	})
 	.post(function( err, req, res, next ) {
-		if( err.status != 401 ) {
-			return next(err);
+		if( err.status == 401 ) {
+			res.out('account/login_token', false, {
+				invalidToken: true
+			});
+		} else {
+			next(err);
 		}
-		
-		res.out('account/login_token', false, {
-			invalidToken: true
-		});
 	});
 	
 	// Logging out
@@ -136,7 +145,8 @@ module.exports = function( app ) {
 	.all(auth.can('account:register'))
 	.get(function( req, res, next ) {
 		res.out('account/register', false, {
-			csrfToken: req.csrfToken()
+			ref       : req.query.ref,
+			csrfToken : req.csrfToken()
 		});
 	})
 	.post(function( req, res, next ) {
@@ -158,6 +168,7 @@ module.exports = function( app ) {
 		) {
 			req.flash('error', err.message);
 			res.out('account/register', false, {
+				ref            : req.query.ref,
 				email_register : req.body.email,
 				csrfToken      : req.csrfToken()
 			});
@@ -172,13 +183,13 @@ module.exports = function( app ) {
 	.all(auth.can('account:complete'))
 	.get(function( req, res, next ) {
 		res.out('account/complete', false, {
-			csrfToken: req.csrfToken()
+			csrfToken : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {
 		req.user.completeRegistration(req.body)
 		.then(function() {
-			res.success('/', true);
+			res.success(url.resolve('/', req.session['ref']), true);
 		})
 		.catch(next);
 	});
@@ -196,7 +207,8 @@ function sendAuthToken( user, req ) {
 			subject : 'AB tool: Login link',
 			// html    : 'Dit is een <b>testbericht</b>',
 			text    : 'token: '+req.fullHost+'/account/login_token'+
-			          '?token='+token+'&uid='+user.id
+			          '?token='+token+'&uid='+user.id+
+			          '&ref='+req.query.ref
 		});
 		return user;
 	});

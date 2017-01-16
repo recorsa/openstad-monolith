@@ -14,7 +14,7 @@
 			loggen. Hiervoor is geen wachtwoord nodig.
 		</p>
 		
-		<form method="post" action="/account/login_email">
+		<form method="post" action="/account/login_email?ref={{ref}}">
 			<label>Emailadres <input type="email" name="email" value="{{email_login}}"></label>
 			
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
@@ -35,7 +35,7 @@
 			waarmee je direct eenmalig in kunt loggen.
 		</p>
 		
-		<form method="post" action="/account/register">
+		<form method="post" action="/account/register?ref={{ref}}">
 			<label>Emailadres <input type="email" name="email" value="{{email_register}}"></label>
 			
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
