@@ -148,15 +148,18 @@ module.exports = function( app ) {
 		.catch(next);
 	})
 	.all(function( err, req, res, next ) {
-		if( String(err.status)[0] != 4 || req.accepts('html', 'json') === 'json' ) {
-			return next(err);
+		if(
+			err.status == 400 || err.status == 404 ||
+			req.accepts('html')
+		) {
+			req.flash('error', err.message);
+			res.out('account/register', false, {
+				email_register : req.body.email,
+				csrfToken      : req.csrfToken()
+			});
+		} else {
+			next(err);
 		}
-		
-		req.flash('error', err.message);
-		res.out('account/register', false, {
-			email_register : req.body.email,
-			csrfToken      : req.csrfToken()
-		});
 	});
 	
 	// Complete registration

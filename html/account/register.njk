@@ -4,7 +4,7 @@
 {% set contentClass = 'register' %}
 
 {% block content %}
-{% if can('account:register') %}
+{% if not user.isLoggedIn() %}
 	<div id="login">
 		<h1>Login</h1>
 		
