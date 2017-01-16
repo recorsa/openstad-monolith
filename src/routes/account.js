@@ -34,7 +34,14 @@ module.exports = function( app ) {
 					res.success('/', true);
 				}, delay);
 			})
-			.catch(next);
+			.catch(function( err ) {
+				req.flash('error', err.message);
+				res.out('account/login_email', false, {
+					csrfToken : req.csrfToken(),
+					method    : 'password',
+					email     : email
+				});
+			});
 		} else {
 			db.User.findMember(email)
 			.then(function( user ) {
