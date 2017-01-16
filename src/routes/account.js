@@ -17,12 +17,6 @@ module.exports = function( app ) {
 	// Logging in
 	// ----------
 	router.route('/login_email')
-	.get(function( req, res ) {
-		res.out('account/login_email', true, {
-			csrfToken : req.csrfToken(),
-			step      : 0
-		});
-	})
 	.post(function( req, res, next ) {
 		var start      = Date.now();
 		var email      = req.body.email
@@ -66,14 +60,26 @@ module.exports = function( app ) {
 			})
 			.catch(next);
 		}
+	})
+	.post(function( err, req, res, next ) {
+		if( String(err.status)[0] != 4 || req.accepts('html', 'json') === 'json' ) {
+			return next(err);
+		}
+		
+		req.flash('error', err.message);
+		res.out('account/register', false, {
+			email_login : req.body.email,
+			csrfToken   : req.csrfToken()
+		});
 	});
 	
 	router.route('/login_token')
 	.get(function( req, res, next ) {
 		res.out('account/login_token', false, {
-			csrfToken : req.csrfToken(),
-			token     : req.query.token,
-			uid       : req.query.uid
+			csrfToken    : req.csrfToken(),
+			invalidToken : !req.query.token,
+			token        : req.query.token,
+			uid          : req.query.uid
 		});
 	})
 	.post(function( req, res, next ) {
@@ -81,7 +87,8 @@ module.exports = function( app ) {
 		var uid   = req.body.uid;
 		var start = Date.now();
 		
-		passwordless.useToken(token, uid).then(function( valid ) {
+		passwordless.useToken(token, uid)
+		.then(function( valid ) {
 			if( !valid ) {
 				throw createError(401, 'Ongeldige link');
 			}
@@ -94,6 +101,15 @@ module.exports = function( app ) {
 			}, delay);
 		})
 		.catch(next);
+	})
+	.post(function( err, req, res, next ) {
+		if( err.status != 401 ) {
+			return next(err);
+		}
+		
+		res.out('account/login_token', false, {
+			invalidToken: true
+		});
 	});
 	
 	// Logging out
@@ -122,16 +138,17 @@ module.exports = function( app ) {
 				isNew: !user.complete
 			});
 		})
-		.catch(function( error ) {
-			if( error.status == 400 ) {
-				req.flash('error', error.message);
-				res.out('account/register', false, {
-					email     : req.body.email,
-					csrfToken : req.csrfToken()
-				});
-			} else {
-				return next(error);
-			}
+		.catch(next);
+	})
+	.all(function( err, req, res, next ) {
+		if( String(err.status)[0] != 4 || req.accepts('html', 'json') === 'json' ) {
+			return next(err);
+		}
+		
+		req.flash('error', err.message);
+		res.out('account/register', false, {
+			email_register : req.body.email,
+			csrfToken      : req.csrfToken()
 		});
 	});
 	

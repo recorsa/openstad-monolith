@@ -1,6 +1,9 @@
 module.exports = function( role ) {
 	role.action({
-		'account:register' : needsToCompleteRegistration,
+		'account:register' : {
+			allow   : needsToCompleteRegistration,
+			message : 'Registreren is onnodig als u bent ingelogd'
+		},
 		'account:complete' : needsToCompleteRegistration,
 		
 		'idea:view'        : true,

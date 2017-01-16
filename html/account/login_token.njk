@@ -2,11 +2,24 @@
 {% set pageTitle = 'Login' %}
 
 {% block content %}
-<h1>Inloggen</h1>
-
 {% if user.isLoggedIn() %}
+	<h1>Inloggen is niet nodig</h1>
+	
 	U bent al ingelogd.
+{% elif invalidToken %}
+	<h1>Ongeldige link</h1>
+	
+	Deze login link is niet meer geldig. Mogelijke redenen:
+	<ul>
+		<li>U heeft deze pagina bereikt <b>buiten een email link om</b>.</li>
+		<li>De email is meer dan <b>één uur geleden</b> verzonden.</li>
+		<li>U heeft deze link reeds <b>eerder gebruikt</b> om in te loggen</li>
+	</ul>
+	
+	<a href="/account/register">Vraag a.u.b. nogmaals een login link aan</a>.
 {% else %}
+	<h1>Inloggen</h1>
+	
 	U kunt eenmalig inloggen met deze link. De e-mail kunt u hierna verwijderen.
 	<p>
 	Krijgt u een foutmelding na op <i>Inloggen</i> geklikt te hebben, dan is de link
@@ -17,7 +30,8 @@
 		<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		<input type="hidden" name="token" value="{{token}}">
 		<input type="hidden" name="uid" value="{{uid}}">
-		<input type="submit" value="Inloggen &gt;">
+		
+		<input type="submit" value="Inloggen">
 	</form>
 {% endif %}
 {% endblock %}

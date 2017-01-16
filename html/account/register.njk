@@ -1,17 +1,46 @@
 {% extends '../base.njk' %}
 
-{% set pageTitle = 'Registreren' %}
+{% set pageTitle = 'Aanmelden' %}
+{% set contentClass = 'register' %}
 
 {% block content %}
-<h1>Registreren</h1>
+{% if can('account:register') %}
+	<div id="login">
+		<h1>Login</h1>
+		
+		<p>
+			Heb je je al geregistreerd? Vul dan je emailadres in om in te loggen.
+			Je ontvangt dan per email een link waarmee je direct eenmalig in kunt
+			loggen. Hiervoor is geen wachtwoord nodig.
+		</p>
+		
+		<form method="post" action="/account/login_email">
+			<label>Emailadres <input type="email" name="email" value="{{email_login}}"></label>
+			
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="submit" value="Inloggen">
+		</form>
+	</div>
 
-Vul uw e-mail adres, en u krijgt een link opgestuurd waarmee u direct kunt inloggen.
-<p>
-Hierna hoeft u enkel nog uw naam in te vullen om gebruik te kunnen maken van de website.
-
-<form method="post">
-	Email: <input type="email" name="email" value="{{email}}" autofocus>
-	<input type="hidden" name="_csrf" value="{{csrfToken}}">
-	<input type="submit" name="Link opsturen">
-</form>
+	<div id="register">
+		<hr>
+		<h1>Registreer account</h1>
+		
+		<p>
+			Om een idee te kunnen uploaden en te reageren op die van buurtgenoten,
+			is een account nodig.
+		</p>
+		<p>
+			Vul hieronder een geldig emailadres in. Je ontvangt dan per email een link
+			waarmee je direct eenmalig in kunt loggen.
+		</p>
+		
+		<form method="post" action="/account/register">
+			<label>Emailadres <input type="email" name="email" value="{{email_register}}"></label>
+			
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="submit" value="Registreren">
+		</form>
+	</div>
+{% endif %}
 {% endblock %}

@@ -34,16 +34,12 @@
 			
 			<nav id="quick">
 				<div id="auth">
-				{% if not user.isLoggedIn() and user.can('account:register') %}
-				&gt; <a href="/account/register">Registreren</a>
-				{% endif %}
-				
-				&gt;
+					&gt;
 				{% if user.isLoggedIn() %}
 					<a href="/account/logout">Uitloggen</a>
 					{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
 				{% else %}
-					<a href="/account/login_email">Inloggen</a>
+					<a href="/account/register">Aanmelden</a>
 				{% endif %}
 				</div>
 			</nav>

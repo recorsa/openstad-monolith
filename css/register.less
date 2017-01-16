@@ -1,0 +1,44 @@
+#content.register {
+	label {
+		display: block;
+		font-weight: bold;
+		margin-bottom: 20px;
+		overflow: hidden;
+		
+		input {
+			float: right;
+			font-size: inherit;
+			width: calc(100% - 100px);
+		}
+	}
+	input[type="submit"] {
+		float: right;
+	}
+	
+	#login, #register {
+		box-sizing: border-box;
+		float: left;
+		width: 50%;
+		
+		@media @primary100 {
+			float: none;
+			padding: 0 !important;
+			width: 100%;
+		}
+	}
+	#login {
+		padding-right: 15px;
+	}
+	#register {
+		padding-left: 15px;
+		
+		hr {
+			display: none;
+			margin: 20px 0;
+			
+			@media @primary100 {
+				display: block;
+			}
+		}
+	}
+}
