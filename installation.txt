@@ -1,0 +1,57 @@
+screen -RDS installation
+sudo su
+
+# Apache / MySQL
+# --------------
+apt-get remove nginx
+apt-get install apache2
+apt-get install mysql-server mysql-client
+# Removes nginx-server, nginx-common etc.
+apt autoremove
+mysql_secure_installation
+
+# Node
+# ----
+apt-get install build-essential libssl-dev
+exit
+cd ~
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+source .bashrc
+# Test: should output nvm
+command -v nvm
+nvm install node
+# Test: should output node version
+node -v
+
+# Git
+# ---
+sudo apt-get install git
+git --version
+
+# Certbot
+# -------
+sudo su
+cd /usr/bin
+wget https://dl.eff.org/certbot-auto
+chmod a+x certbot-auto
+exit
+
+# Configure apache
+# ----------------
+# Set up correct virtual host(s)
+
+# Initialize SSL certificate
+# --------------------------
+sudo su
+apachectl stop
+# Choose standalone server, enter correct URL
+certbot-auto certonly
+apachectl start
+
+# Generate SSH key
+# ----------------
+# This key must be added to the git permissions of git.daanmortier.nl
+ssh-keygen -t rsa -b 4096 -C "Openstadsdeel Server"
+
+
+WLk7HefHgVpWvpvHebJgVisG
