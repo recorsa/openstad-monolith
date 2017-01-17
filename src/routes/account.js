@@ -33,7 +33,7 @@ module.exports = function( app ) {
 				// Delay the response so that it's always a minimum of 200ms.
 				var delay = Math.max(0, 200 - (Date.now() - start));
 				setTimeout(function() {
-					res.success(url.resolve('/', ref), true);
+					res.success(resolveURL(ref), true);
 				}, delay);
 			})
 			.catch(function( err ) {
@@ -117,7 +117,7 @@ module.exports = function( app ) {
 			// Delay the response so that it's always a minimum of 200ms.
 			var delay = Math.max(0, 200 - (Date.now() - start));
 			setTimeout(function() {
-				res.success(url.resolve('/', req.query.ref), true);
+				res.success(resolveURL(req.query.ref), true);
 			}, delay);
 		})
 		.catch(next);
@@ -189,7 +189,7 @@ module.exports = function( app ) {
 	.put(function( req, res, next ) {
 		req.user.completeRegistration(req.body)
 		.then(function() {
-			res.success(url.resolve('/', req.session['ref']), true);
+			res.success(resolveURL(req.session['ref']), true);
 		})
 		.catch(next);
 	});
@@ -212,4 +212,8 @@ function sendAuthToken( user, req ) {
 		});
 		return user;
 	});
+}
+
+function resolveURL( ref ) {
+	return url.resolve('/', ref || '');
 }
