@@ -18,7 +18,8 @@ module.exports = function( role ) {
 		},
 		'idea:edit'        : {
 			allow    : false,
-			resource : 'idea'
+			resource : 'idea',
+			message  : 'Idee bewerken niet toegestaan'
 		},
 		'idea:delete'      : {
 			allow    : false,

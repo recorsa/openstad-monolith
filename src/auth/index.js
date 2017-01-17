@@ -1,7 +1,8 @@
 var RolePlay = require('../RolePlay');
 
 var auth = new RolePlay({
-	defaultRoleName: 'unknown'
+	defaultError    : 'Geen toegang',
+	defaultRoleName : 'unknown'
 });
 
 var unknown   = auth.role('unknown');
