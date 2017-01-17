@@ -68,9 +68,10 @@ module.exports = function( app ) {
 					req.flash('error', error.message);
 				});
 				res.out('ideas/form', false, {
-					csrfToken       : req.csrfToken(),
+					showForm        : true,
+					useModernEditor : isModernBrowser(req),
 					idea            : req.body,
-					useModernEditor : isModernBrowser(req)
+					csrfToken       : req.csrfToken()
 				});
 			} else {
 				throw error;
@@ -87,8 +88,8 @@ module.exports = function( app ) {
 		res.out('ideas/form', false, {
 			showHelp        : false,
 			showForm        : true,
-			idea            : req.idea,
 			useModernEditor : isModernBrowser(req),
+			idea            : req.idea,
 			csrfToken       : req.csrfToken()
 		});
 	})
@@ -99,7 +100,21 @@ module.exports = function( app ) {
 		.then(function( idea ) {
 			res.success('/idea/'+idea.id, {idea: idea});
 		})
-		.catch(next);
+		.catch(function( error ) {
+			if( error instanceof db.sequelize.ValidationError ) {
+				error.errors.forEach(function( error ) {
+					req.flash('error', error.message);
+				});
+				res.out('ideas/form', false, {
+					showForm        : true,
+					useModernEditor : isModernBrowser(req),
+					idea            : req.idea,
+					csrfToken       : req.csrfToken()
+				});
+			} else {
+				throw error;
+			}
+		});
 	});
 	
 	// Delete idea
