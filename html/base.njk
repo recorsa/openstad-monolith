@@ -36,7 +36,6 @@
 				{% block quickNav %}{% endblock %}
 				
 				<div id="auth">
-					&gt;
 				{% if user.isLoggedIn() %}
 					<a href="/account/logout">Uitloggen</a>
 					{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
