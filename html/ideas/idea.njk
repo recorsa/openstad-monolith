@@ -102,7 +102,7 @@
 			
 			{% if can('idea:edit') %}
 				<form action="/idea/{{idea.id}}/edit">
-					<input type="submit" value="Bewerk idee">
+					<button type="submit" class="edit">Bewerk idee</button>
 				</form>
 			{% endif %}
 			
@@ -110,7 +110,7 @@
 				<form method="POST" action="/idea/{{idea.id}}/delete">
 					<input type="hidden" name="_method" value="DELETE">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<input type="submit" value="Verwijder idee">
+					<button type="submit" class="delete">Verwijder idee</button>
 				</form>
 			{% endif %}
 		{% endif %}
@@ -132,7 +132,7 @@
 			</form>
 			
 			<form method="GET" action="/idea/{{idea.id}}/mod_break">
-				<input type="submit" value="Mod break">
+				<button type="submit">Mod break</button>
 			</form>
 		{% endif %}
 	</div>
