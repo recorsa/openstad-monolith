@@ -11,6 +11,9 @@ var defaultFormat = null;
 // {{ var | date('add', 1, 'week') }}
 function dateFilter( date, format ) {
 	try {
+		if( !date ) {
+			throw Error('Onbekende datum');
+		}
 		// Timezone is set in `config/moment.js`.
 		var mom = moment(date);
 		return nlib.isFunction(mom[format]) ?
