@@ -170,6 +170,7 @@
 		);
 		textareas.forEach(function( textarea ) {
 			textarea.addEventListener('focus', function( event ) {
+				textarea.blur();
 				document.location.href = '/idea/{{idea.id}}/arg/new';
 			})
 		})
