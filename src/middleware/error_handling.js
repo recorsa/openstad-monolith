@@ -1,18 +1,23 @@
-var statuses = require('statuses');
+var createError = require('http-errors');
+var statuses    = require('statuses');
 
 module.exports = function( app ) {
+	// We only get here when the request has not yet been handled by a route.
+	app.use(function( req, res, next ) {
+		next(createError(404, 'Pagina niet gevonden'));
+	});
+	
 	app.use(function handleError( err, req, res, next ) {
 		var env            = app.get('env');
 		var status         = err.status || 500;
+		var showDebug      = (env === 'development' || req.user.isAdmin()) &&
+		                     status == 500;
 		var friendlyStatus = statuses[status]
 		var stack          = err.stack || err.toString();
 		var message        = err.message;
-		// Production get  s a default message.
-		var errorMessage   = env === 'development' || req.user.isAdmin() ?
-		                     stack :
-		                     '';
+		var errorMessage   = showDebug ? stack : '';
 		
-		if( env !== 'test' ) {
+		if( env !== 'test' && status == 500 ) {
 			console.error(stack);
 		}
 		
