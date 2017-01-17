@@ -230,6 +230,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			isMember: function() {
 				return this.role !== 'unknown' && this.role !== 'anonymous';
 			},
+			isAdmin: function() {
+				return this.role === 'admin' || this.role === 'su';
+			},
 			isLoggedIn: function() {
 				return this.id && this.id !== 1 && this.isMember();
 			},

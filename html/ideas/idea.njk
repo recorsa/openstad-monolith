@@ -194,29 +194,31 @@
 	</script>
 	
 	{% if idea.location %}
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
-		<script src="/js/map.js"></script>
-		<script>
-			var point  = JSON.parse('{{idea.location | dump | safe}}' || null);
-			var latLng = {lat: point.coordinates[0], lng: point.coordinates[1]};
-			var map    = initMap(document.getElementById('map'), {
-				center      : latLng,
-				zoom        : 14,
-				zoomControl : true,
-				scrollwheel : false
-			});
-			var marker = initMarker({
-				position : latLng,
-				map      : map
-			});
-		</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+	<script src="/js/map.js"></script>
+	<script>
+		// Google map
+		// ----------
+		var point  = JSON.parse('{{idea.location | dump | safe}}' || null);
+		var latLng = {lat: point.coordinates[0], lng: point.coordinates[1]};
+		var map    = initMap(document.getElementById('map'), {
+			center      : latLng,
+			zoom        : 14,
+			zoomControl : true,
+			scrollwheel : false
+		});
+		var marker = initMarker({
+			position : latLng,
+			map      : map
+		});
+	</script>
 	{% endif %}
 {% endblock %}
 
 
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">
-	{% if idea.isOpen() and (not can('idea:edit') or user.role == 'admin') %}
+	{% if idea.isOpen() and (not can('idea:edit') or user.isAdmin()) %}
 		<form method="POST" action="/idea/{{idea.id}}/arg/new" class="newArgument">
 			<textarea
 				name="description"

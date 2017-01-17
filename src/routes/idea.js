@@ -315,7 +315,7 @@ function fetchIdea( /* [scopes] */ ) {
 		db.Idea.scope(scopes).findById(ideaId)
 		.then(function( idea ) {
 			if( !idea ) {
-				next(createError(404, 'Idea not found'));
+				next(createError(404, 'Idee niet gevonden'));
 			} else {
 				req.idea = idea;
 				next();
@@ -329,7 +329,7 @@ function fetchArgument( req, res, next ) {
 	db.Argument.findById(argId)
 	.then(function( argument ) {
 		if( !argument ) {
-			next(createError(404, 'Argument not found'));
+			next(createError(404, 'Argument niet gevonden'));
 		} else {
 			req.argument = argument;
 			next();
