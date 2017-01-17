@@ -61,7 +61,9 @@ function _resolve( req, data ) {
 	}
 	
 	return Promise.resolve(result).then(function( data ) {
-		data.messages = req.flash();
+		if( req.session ) {
+			data.messages = req.flash();
+		}
 		return data;
 	});
 }
