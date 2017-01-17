@@ -111,6 +111,7 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.destroy()
 		.then(function() {
+			req.flash('success', 'Je idee is verwijderd');
 			res.success('/ideas', true);
 		})
 		.catch(next);

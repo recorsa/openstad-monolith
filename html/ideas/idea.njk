@@ -111,7 +111,7 @@
 			{% endif %}
 			
 			{% if can('idea:delete') %}
-				<form method="POST" action="/idea/{{idea.id}}/delete">
+				<form method="POST" action="/idea/{{idea.id}}/delete" id="deleteIdea">
 					<input type="hidden" name="_method" value="DELETE">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
 					<button type="submit" class="delete">Verwijder idee</button>
@@ -164,6 +164,19 @@
 				parent.removeChild(figure);
 			}
 		}
+	</script>
+	<script>
+		// Delete idea confirmation
+		// ------------------------
+		var form = document.getElementById('deleteIdea');
+		form.addEventListener('submit', function( event ) {
+			var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+			          'Dit kan niet ongedaan gemaakt worden.\n\n'+
+			          'Weet je het zeker?';
+			if( !confirm(msg) ) {
+				event.preventDefault();
+			}
+		});
 	</script>
 	<script>
 		// Disabled textareas
