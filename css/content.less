@@ -161,21 +161,36 @@
 	// Idea progress
 	// -------------
 	.ideaProgress {
-		border: 1px solid #666767;
-		border-radius: 10px;
-		margin-top: 5px;
-		overflow: hidden;
+		margin: 10px 0;
+		position: relative;
 		
-		.bar {
-			background-color: #EC0000;
-			background-position: top left;
-			background-repeat: repeat;
-			background-size: 5px 15px;
-			float: left;
-			height: 12px;
+		&:after {
+			background-image: url('/img/thumbsup_gray.svg');
+			background-repeat: no-repeat;
+			background-size: auto 18px;
+			background-position: top right 5px;
+			color: #676868;
+			content: '100';
+			font-size: 0.75rem;
+			line-height: 28px;
+			position: absolute;
+			right: -5px;
+			top: -5px;
+			width: 50px;
+		}
+		
+		.progress {
+			border: 1px solid #666767;
+			border-radius: 10px;
+			margin-right: 50px;
+			overflow: hidden;
 			
-			@media @retina {
-				background-size: 2.5px 7.5px;
+			.bar {
+				background-color: #EC0000;
+				background-position: top left;
+				background-repeat: repeat;
+				background-size: 5px 15px;
+				height: 12px;
 			}
 		}
 	}
