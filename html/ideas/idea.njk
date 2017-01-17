@@ -153,9 +153,8 @@
 		// ----------------------
 		// If the content starts with an image, remove it from the content
 		// since it's already visible as poster image.
-		var figures = document.querySelectorAll('.userContent figure:first-child');
-		if( figures[0] ) {
-			var figure = figures[0];
+		var figure = document.querySelector('.userContent figure:first-child');
+		if( figure ) {
 			var parent = figure.parentNode;
 			if( parent.firstChild === figure ) {
 				parent.removeChild(figure);
@@ -166,7 +165,9 @@
 		// Disabled textareas
 		// ------------------
 		// Link to login/register page.
-		var textareas = document.querySelectorAll('#arguments textarea[data-disabled]');
+		var textareas = Array.prototype.slice.call(
+			document.querySelectorAll('#arguments textarea[data-disabled]'), 0
+		);
 		textareas.forEach(function( textarea ) {
 			textarea.addEventListener('focus', function( event ) {
 				document.location.href = '/idea/{{idea.id}}/arg/new';
