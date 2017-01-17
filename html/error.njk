@@ -1,0 +1,18 @@
+{% extends './base.njk' %}
+
+{% set pageTitle = 'Foutmelding' %}
+{% set contentClass = 'error' %}
+
+{% block content %}
+{% if status == 404 %}
+	<h1>{{message}}</h1>
+	
+	<p>Helaas. De pagina waar u naar op zoek bent bestaat niet meer.</p>
+	
+	<p>Gebruik de navigatie bovenaan deze pagina om naar een andere pagina te navigeren.</p>
+{% else %}
+	<h1>{{status}}: {{friendlyStatus}}</h1>
+	
+	{{errorMessage | nl2br | safe}}
+{% endif %}
+{% endblock %}
