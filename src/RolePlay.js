@@ -13,8 +13,9 @@ var createError = require('http-errors');
 // 	defaultRoleName: string
 // }
 var RolePlay = module.exports = function RolePlay( options ) {
-	options = defaults(options, {
-		defaultRoleName: 'default'
+	this.options = options = defaults(options, {
+		defaultError    : 'Not authorized',
+		defaultRoleName : 'default'
 	});
 	
 	this.roles       = {};
@@ -25,6 +26,7 @@ RolePlay.Role = Role;
 RolePlay.Play = Play;
 
 extend(RolePlay.prototype, {
+	options     : undefined,
 	defaultRole : undefined,
 	roles       : undefined,
 	
@@ -69,7 +71,8 @@ extend(RolePlay.prototype, {
 				next();
 			} else {
 				var action       = user.get(actionNames[0]);
-				var errorMessage = result(action, 'message') || 'Not authorized';
+				var errorMessage = result(action, 'message') ||
+				                   self.options.defaultError;
 				next(createError(403, errorMessage));
 			}
 		}
