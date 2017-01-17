@@ -33,6 +33,8 @@
 			</nav>
 			
 			<nav id="quick">
+				{% block quickNav %}{% endblock %}
+				
 				<div id="auth">
 					&gt;
 				{% if user.isLoggedIn() %}
