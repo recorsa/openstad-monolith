@@ -45,7 +45,9 @@
 						<div class="bar" style="width: {{idea.progress}}%;"></div>
 					</div>
 					
+					{% if idea.isOpen() %}
 					<p class="duration">Nog {{idea.duration | duration}} om te stemmen.</p>
+					{% endif %}
 					
 					<ul class="share">
 						<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a>
@@ -195,7 +197,7 @@
 
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">
-	{% if not can('idea:edit') or user.role == 'admin' %}
+	{% if idea.isOpen() and (not can('idea:edit') or user.role == 'admin') %}
 		<form method="POST" action="/idea/{{idea.id}}/arg/new" class="newArgument">
 			<textarea
 				name="description"
@@ -208,6 +210,8 @@
 			<input type="submit" value="Verzenden">
 			{% endif %}
 		</form>
+	{% else %}
+		<h2>{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}</h2>
 	{% endif %}
 	
 	{% for arg in arguments %}
