@@ -70,8 +70,10 @@
 				button {
 					.appearance(none);
 					
-					background: 0;
 					background-color: #EC0000;
+					background-repeat: no-repeat;
+					background-size: auto 28px;
+					background-position: center left 8px;
 					border: 0;
 					box-sizing: border-box;
 					color: #FFF;
@@ -88,6 +90,12 @@
 					text-align: center;
 					width: calc(100% - 46px);
 					
+					&[value="yes"] {
+						background-image: url('/img/thumbsup_white_big.svg');
+					}
+					&[value="no"] {
+						background-image: url('/img/thumbsdown_white_big.svg');
+					}
 					&::before {
 						border: 1px solid #EC0000;
 						box-sizing: border-box;
