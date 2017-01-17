@@ -214,7 +214,7 @@
 		<div class="argument">
 			<div class="user">
 				<strong>{{arg.user.firstName}} {{arg.user.lastName}}</strong> &nbsp;&nbsp;|&nbsp;&nbsp;
-				{{arg.date | date('LLL')}}
+				{{arg.createdAt | date('LLL')}}
 				
 				{% if user.can('arg:delete', arg) %}
 					<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
