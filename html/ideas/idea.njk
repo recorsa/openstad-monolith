@@ -39,14 +39,14 @@
 							<button type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">voor</button>
 							<button type="submit" name="opinion" value="no" data-count="{{idea.no}}">tegen</button>
 						</form>
-					{% endif %}
-					
-					<div class="ideaProgress">
-						<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
-					</div>
-					
-					{% if idea.isOpen() %}
-					<div class="duration">Nog {{idea.duration | duration}} om te stemmen.</div>
+						
+						<div class="ideaProgress">
+							<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
+						</div>
+						
+						<div class="duration">Nog {{idea.duration | duration}} om te stemmen.</div>
+					{% else %}
+						<em>Stemmen op dit idee is niet meer mogelijk!</em>
 					{% endif %}
 					
 					<ul class="share">
