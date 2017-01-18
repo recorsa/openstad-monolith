@@ -267,6 +267,22 @@
 			}
 		});
 		{% endif %}
+		
+		// Delete confirmation for arguments
+		// ---------------------------------
+		var forms = Array.prototype.slice.call(
+			document.querySelectorAll('#arguments .argument form.delete'), 0
+		);
+		forms.forEach(function( form ) {
+			form.addEventListener('submit', function( event ) {
+				var msg = 'Let op! Je staat op het punt je argument te verwijderen. '+
+				          'Dit kan niet ongedaan gemaakt worden.\n\n'+
+				          'Weet je het zeker?';
+				if( !confirm(msg) ) {
+					event.preventDefault();
+				}
+			});
+		});
 	</script>
 	
 	{% if idea.location %}
@@ -329,7 +345,7 @@
 					</form>
 				{% endif %}
 				{% if user.can('arg:delete', arg) %}
-					<form class="action" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
+					<form class="action delete" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="hidden" name="_csrf" value="{{csrfToken}}">
 						<input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
