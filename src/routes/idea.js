@@ -74,7 +74,7 @@ module.exports = function( app ) {
 					csrfToken       : req.csrfToken()
 				});
 			} else {
-				throw error;
+				next(error);
 			}
 		});
 	});
@@ -112,7 +112,7 @@ module.exports = function( app ) {
 					csrfToken       : req.csrfToken()
 				});
 			} else {
-				throw error;
+				next(error);
 			}
 		});
 	});
@@ -167,7 +167,7 @@ module.exports = function( app ) {
 					});
 					return false;
 				} else {
-					throw error;
+					next(error);
 				}
 			});
 		}
