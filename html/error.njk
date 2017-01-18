@@ -5,7 +5,9 @@
 
 {% block content %}
 	<div id="errorMessage">
-	{% if status == 403 %}
+	{% if status == 400 %}
+		Klik op 'vorige' in uw browser om het opnieuw te proberen.
+	{% elif status == 403 %}
 		<h1>{{message}}</h1>
 		
 		<p>
@@ -24,6 +26,16 @@
 		<p>Helaas. De pagina waar u naar op zoek bent bestaat niet (meer).</p>
 		
 		<p>Gebruik het menu bovenaan deze pagina om naar een andere pagina te navigeren.</p>
+	{% elif status == 500 %}
+		<h1>Er ging iets fout!</h1>
+		
+		De server heeft een fout gemaakt bij het opvragen van deze pagina. Neem a.u.b. contact op
+		via <a href="mailto:destemvanwest@amsterdam.nl">destemvanwest@amsterdam.nl</a> om het probleem
+		te melden.
+		<p>
+		Excuses voor het ongemak.
+		<p>
+		{{errorMessage | nl2br | safe}}
 	{% else %}
 		<h1>{{status}}: {{friendlyStatus}}</h1>
 		
