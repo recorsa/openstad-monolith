@@ -192,7 +192,7 @@
 		textarea.addEventListener('keyup', updateCharsLeft);
 		
 		function updateCharsLeft() {
-			charsLeft.innerHTML = 140 - textarea.value.length;
+			charsLeft.innerHTML = maxLen - textarea.value.length;
 		}
 	</script>
 	

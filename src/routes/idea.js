@@ -33,10 +33,9 @@ module.exports = function( app ) {
 	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withUser', 'withVotes', 'withPosterImage', 'withArguments'))
 	.all(auth.can('idea:view', 'idea:*', 'arg:add'))
-	.get(function( req, res ) {
-		var idea = req.idea;
+	.get(function( req, res, next) {
 		res.out('ideas/idea', true, {
-			idea      : idea,
+			idea      : req.idea,
 			url       : req.fullHost + req.originalUrl,
 			csrfToken : req.csrfToken()
 		});
@@ -323,6 +322,9 @@ module.exports = function( app ) {
 	});
 };
 
+// Asset fetching
+// --------------
+
 function fetchIdea( /* [scopes] */ ) {
 	var scopes = Array.from(arguments);
 	
@@ -354,6 +356,9 @@ function fetchArgument( req, res, next ) {
 	.catch(next);
 }
 
+// Helper functions
+// ----------------
+
 function getOpinion( req ) {
 	var opinion = req.body.opinion;
 	// Fallback to support mutiple submit buttons with the opinion's
@@ -367,7 +372,6 @@ function getOpinion( req ) {
 	}
 	return opinion;
 }
-
 // Used to check if Trix editor is supported.
 // - Android >= 4.4
 // - Firefox >= 48
