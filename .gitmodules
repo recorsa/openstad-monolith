@@ -1,3 +1,6 @@
 [submodule "lib/trix"]
 	path = lib/trix
 	url = git://github.com/basecamp/trix.git
+[submodule "html/email/boilerplate"]
+	path = html/email/boilerplate
+	url = https://github.com/seanpowell/Email-Boilerplate.git

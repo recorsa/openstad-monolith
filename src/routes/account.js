@@ -1,6 +1,8 @@
 var config       = require('config');
 var createError  = require('http-errors');
 var express      = require('express');
+var fs           = require('fs');
+var nunjucks     = require('nunjucks');
 var url          = require('url');
 
 var auth         = require('../auth');
@@ -195,24 +197,39 @@ module.exports = function( app ) {
 	});
 }
 
-function sendAuthToken( user, req ) {
-	if( !user.isMember() ) {
-		throw createError(400, 'User is not a member');
-	}
+var sendAuthToken = (function() {
+	var tpl_html = nunjucks.compile(fs.readFileSync('html/email/login_link.njk', 'utf8'));
+	var tpl_txt  = nunjucks.compile(fs.readFileSync('html/email/login_link_text.njk', 'utf8'));
 	
-	return passwordless.generateToken(user.id)
-	.then(function( token ) {
-		mail.sendMail({
-			to      : user.email,
-			subject : 'AB tool: Login link',
-			// html    : 'Dit is een <b>testbericht</b>',
-			text    : 'token: '+req.fullHost+'/account/login_token'+
-			          '?token='+token+'&uid='+user.id+
-			          '&ref='+req.query.ref
+	return function sendAuthToken( user, req ) {
+		if( !user.isMember() ) {
+			throw createError(400, 'User is not a member');
+		}
+		
+		return passwordless.generateToken(user.id)
+		.then(function( token ) {
+			var env  = {
+				fullHost : req.fullHost,
+				token    : token,
+				userId   : user.id,
+				ref      : req.query.ref
+			};
+			
+			mail.sendMail({
+				to      : user.email,
+				subject : 'Login link',
+				html    : tpl_html.render(env),
+				text    : tpl_txt.render(env),
+				attachments : [{
+					filename : 'logo@2x.png',
+					path     : 'img/logo@2x.png',
+					cid      : 'logo'
+				}]
+			});
+			return user;
 		});
-		return user;
-	});
-}
+	};
+})();
 
 function resolveURL( ref ) {
 	return url.resolve('/', ref || '');

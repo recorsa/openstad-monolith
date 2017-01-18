@@ -3,20 +3,25 @@
 
 {% block content %}
 {% if user.isLoggedIn() %}
-	<h1>Inloggen is niet nodig</h1>
-	
-	U bent al ingelogd.
+	<div id="errorMessage">
+		<h1>Inloggen is niet nodig</h1>
+		
+		U bent al ingelogd.
+	</div>
 {% elif invalidToken %}
-	<h1>Ongeldige link</h1>
-	
-	Deze login link is niet meer geldig. Mogelijke redenen:
-	<ul>
-		<li>U heeft deze pagina bereikt <b>buiten een email link om</b>.</li>
-		<li>De email is meer dan <b>één uur geleden</b> verzonden.</li>
-		<li>U heeft deze link reeds <b>eerder gebruikt</b> om in te loggen</li>
-	</ul>
-	
-	<a href="/account/register">Vraag a.u.b. nogmaals een login link aan</a>.
+	<div id="errorMessage">
+		<h1>Ongeldige link</h1>
+		
+		Deze login link is niet meer geldig. Mogelijke redenen:
+		<ul>
+			<li>U heeft deze pagina bereikt <b>buiten een email link om</b>.</li>
+			<li>De email is meer dan <b>één uur geleden</b> verzonden.</li>
+			<li>U heeft deze link reeds <b>eerder gebruikt</b> om in te loggen.</li>
+			<li>Er is een <b>technische fout</b> opgetreden.</li>
+		</ul>
+		
+		Excuses voor het ongemak. <a href="/account/register">Vraag a.u.b. nogmaals een login link aan</a>.
+	</div>
 {% else %}
 	<h1>Inloggen</h1>
 	

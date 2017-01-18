@@ -43,4 +43,23 @@ module.exports = function( app ) {
 	router.get('/fonts', function( req, res, next ) {
 		res.out('test/fonts', false);
 	});
+	
+	router.get('/email/:page', function( req, res, next ) {
+		var fs       = require('fs');
+		var nunjucks = require('nunjucks');
+		
+		var src = fs.readFileSync('html/email/login_link.njk', 'utf8');
+		var tpl = nunjucks.compile(src);
+		
+		var userId = req.user.id;
+		var token  = 'temp';
+		var output = tpl.render({
+			fullHost : req.fullHost,
+			token    : token,
+			userId   : userId,
+			ref      : req.query.ref
+		});
+		
+		res.send(output);
+	});
 }

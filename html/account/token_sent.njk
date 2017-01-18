@@ -3,16 +3,21 @@
 {% set pageTitle = 'E-mail verzonden' %}
 
 {% block content %}
-<h1>E-mail verzonden</h1>
+<div id="errorMessage">
+	<h1>E-mail verzonden</h1>
+	
+	<p>
+		We hebben u een e-mail gestuurd met een link
 
-We hebben u een e-mail gestuurd met een link
+		{% if isNew %}
+			waarmee u uw registratie kunt voltooien. Hierna bent u gelijk ingelogd.
+		{% else %}
+			waarmee u eenmalig kunt inloggen.
+		{% endif %}
+	</p>
 
-{% if isNew %}
-	waarmee u uw registratie kunt voltooien. Hierna bent u gelijk ingelogd.
-{% else %}
-	waarmee u eenmalig kunt inloggen.
-{% endif %}
-
-<p>
-De link is 1 uur geldig.
+	<p>
+		De verstuurde link is 1 uur geldig.
+	</p>
+</div>
 {% endblock %}
