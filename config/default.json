@@ -54,8 +54,8 @@
 	},
 	
 	"ideas": {
-		// Running duration in weeks.
-		"duration": 4,
+		// Running duration in days.
+		"duration": 90,
 		// When an idea is closed, this threshold must be met or the idea
 		// will be automatically denied.
 		"minimumYesVotes": 100
