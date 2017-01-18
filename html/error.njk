@@ -4,7 +4,7 @@
 {% set contentClass = 'error' %}
 
 {% block content %}
-	<div>
+	<div id="errorMessage">
 	{% if status == 403 %}
 		<h1>{{message}}</h1>
 		
