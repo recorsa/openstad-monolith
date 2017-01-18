@@ -70,11 +70,11 @@ var users = [
 			description      : 'Ik moet nu een half uur fietsen, dat vind ik veel te lang. Helemaal bezweet op m\'n werk aankomen elke dag is echt geen doen; ik wil een extra metrobuis!',
 			location         : {type: 'Point', coordinates: [52.3779893, 4.8460973]},
 			argumentsAgainst : [
-				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn. Daarnaast zal dit project ook weer enorm uit de hand lopen waarschijnlijk.'}
+				{userId: 25, sentiment: 'against' , description: 'De kosten van dit idee zullen veel te hoog zijn. Daarnaast zal dit project ook weer enorm uit de hand lopen waarschijnlijk, net zoals de vorige metro.'}
 			],
 			argumentsFor     : [
-				{userId: 7  , sentiment: 'for'    , description: 'De metro is cool.'},
-				{userId: 3  , sentiment: 'for'    , description: 'Fietsen is verschrikkelijk als het regent.'}
+				{userId: 7  , sentiment: 'for'    , description: 'De metro is cool. Als ik iets mooi vind is het in mn leren jekkie en mn zonnebril op in zon zilveren ding stappen, echt geweldig. En de mensen maar denken, "waar komt die strakke vogel vandaan?"'},
+				{userId: 3  , sentiment: 'for'    , description: 'Fietsen is verschrikkelijk als het regent. Wat?! Minimaal 140 tekens invoeren?! Prima, dan blijf ik nog even doortypen met onzin. Alsof dit mij tegenhoud.'}
 			],
 			votes: [
 				{userId: 3  , opinion: 'yes'},
@@ -94,8 +94,8 @@ var users = [
 			summary          : 'Bomen geven troep en nemen licht weg. Uit de grond ermee!',
 			description      : 'Al die boomknuffelaars die vast willen houden aan het verleden. Tijd voor een frisse wind! Alle bomen de grond uit, en een hoge muur om alle parken heen, zodat vallende bladeren geen probleem meer zijn!',
 			argumentsAgainst : [
-				{userId: 19, sentiment: 'against' , description: 'Bomen zijn goed voor mensen, en zuiveren de lucht.'},
-				{userId: 30, sentiment: 'against' , description: 'Dit is een hellend vlak. Wat gaat dit betekenen voor de struiken?'}
+				{userId: 19, sentiment: 'against' , description: 'Bomen zijn goed voor mensen, en zuiveren de lucht. Ik wil niet weten wat er gaat gebeuren met de omgeving als we alle bomen weghalen?! Gekkigheid...'},
+				{userId: 30, sentiment: 'against' , description: 'Dit is een hellend vlak. Wat gaat dit betekenen voor de struiken? De struiken, de struiken, de struiken, de struiken, de struiken, de struiken, de struiken...'}
 			],
 			votes            : [
 				{userId: 2  , opinion: 'yes'},
