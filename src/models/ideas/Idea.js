@@ -8,7 +8,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: {
 			type         : DataTypes.INTEGER,
-			allowNull    : false
+			allowNull    : true
 		},
 		userId: {
 			type         : DataTypes.INTEGER,
@@ -140,7 +140,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					});
 					
 					idea.setDataValue('endDate', endDate);
-					idea.setDataValue('meetingId', meeting.id);
+					if( meeting ) {
+						idea.setDataValue('meetingId', meeting.id);
+					}
 				}
 			})
 		},
