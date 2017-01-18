@@ -190,7 +190,83 @@
 				textarea.blur();
 				document.location.href = '/idea/{{idea.id}}/arg/new';
 			})
-		})
+		});
+		
+		{% if can('arg:add') %}
+		// Character count on textareas
+		// ----------------------------
+		var minLen     = 140;
+		var maxLen     = 500;
+		var textareas  = Array.prototype.slice.call(
+			document.querySelectorAll('#arguments textarea'), 0
+		);
+		var charsLefts = document.querySelectorAll('#arguments textarea ~ div.charsLeft');
+		var buttons    = document.querySelectorAll('#arguments textarea ~ input[type="submit"]');
+		
+		textareas.forEach(function( textarea, i ) {
+			var charsLeft = charsLefts[i];
+			var button    = buttons[i];
+			var msg       = {
+				min: charsLeft.querySelector('div.min'),
+				max: charsLeft.querySelector('div.max')
+			};
+			var span      = {
+				min: msg.min.querySelector('span'),
+				max: msg.max.querySelector('span')
+			};
+			
+			validate();
+			
+			textarea.addEventListener('focus', function( event ) {
+				charsLeft.className += ' visible';
+			});
+			textarea.addEventListener('blur', function( event ) {
+				charsLeft.className = charsLeft.className.replace(' visible', '');
+			});
+			
+			textarea.addEventListener('keydown', function( event ) {
+				// Prevent input when maximum is reached.
+				if( textarea.value.length == maxLen ) {
+					switch( event.key.toLowerCase() ) {
+						case 'delete'    : case 'backspace':
+						case 'arrowdown' : case 'arrowup':
+						case 'arrowleft' : case 'arrowright':
+							return;
+						default:
+							event.preventDefault();
+					}
+				}
+			});
+			textarea.addEventListener('keyup', function() {
+				if( textarea.value.length > maxLen ) {
+					textarea.value = textarea.value.substr(0, maxLen);
+				}
+				validate();
+			});
+			
+			function validate() {
+				updateCharsLeft();
+				updateButton();
+			}
+			function updateCharsLeft() {
+				var len     = textarea.value.length;
+				var enable  = len < minLen ? 'min' : 'max';
+				var disable = enable == 'max' ? 'min' : 'max';
+				var chars   = len < minLen ?
+				              minLen - len :
+				              maxLen - len;
+				
+				msg[enable].className  = enable+' visible';
+				msg[disable].className = disable;
+				span[enable].innerHTML = chars;
+			}
+			function updateButton() {
+				var len = textarea.value.length;
+				var isValid = len > minLen && len <= maxLen;
+				button.disabled = !isValid;
+			}
+		});
+		{% endif %}
 	</script>
 	
 	{% if idea.location %}
@@ -225,6 +301,12 @@
 				placeholder="{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}"
 				{{'data-disabled readonly' if not can('arg:add')}}
 			></textarea>
+			
+			<div class="charsLeft">
+				<div class="min">Nog minimaal <span>140</span> tekens.</div>
+				<div class="max"><span>360</span> tekens resterend.</div>
+			</div>
+			
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="hidden" name="sentiment" value="{{sentiment}}">
 			{% if can('arg:add') %}

@@ -1,3 +1,5 @@
+var sanitize = require('../../util/sanitize');
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
 		ideaId: {
@@ -15,7 +17,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		description: {
 			type         : DataTypes.TEXT,
-			allowNull    : false
+			allowNull    : false,
+			validate     : {
+				len: {
+					args : [140,500],
+					msg  : 'Bericht moet tussen 140 en 500 tekens zijn'
+				}
+			},
+			set          : function( text ) {
+				this.setDataValue('description', sanitize.argument(text));
+			}
 		}
 	}, {
 		classMethods: {

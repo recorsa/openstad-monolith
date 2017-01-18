@@ -50,5 +50,9 @@ module.exports = {
 	},
 	content: function( text ) {
 		return sanitize(text, allSafeTags);
-	}
+	},
+	
+	argument: function( text ) {
+		return sanitize(text, noTags);
+	},
 };

@@ -209,8 +209,8 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
-	// Argumentation
-	// -------------
+	// Create argument
+	// ---------------
 	router.route('/:ideaId/arg/new')
 	.all(fetchIdea())
 	.all(auth.can('arg:add'))
@@ -221,7 +221,14 @@ module.exports = function( app ) {
 			req.flash('success', 'Argument toegevoegd');
 			res.success('/idea/'+idea.id, {argument: argument});
 		})
-		.catch(next);
+		.catch(function( err ) {
+			if( err instanceof db.sequelize.ValidationError ) {
+				err.errors.forEach(function( error ) {
+					req.flash('error', error.message);
+				});
+				next(createError(400));
+			}
+		});
 	})
 	.all(function( err, req, res, next ) {
 		if( err.status == 403 && req.accepts('html') ) {
@@ -233,21 +240,16 @@ module.exports = function( app ) {
 		}
 	});
 	
+	// Edit argument
+	// -------------
 	router.route('/:ideaId/arg/:argId/edit')
 	.all(fetchIdea(), fetchArgument)
 	.all(auth.can('arg:edit'))
 	.get(function( req, res, next ) {
-		res.format({
-			html: function() {
-				res.out('ideas/form_arg', true, {
-					argument  : req.argument,
-					csrfToken : req.csrfToken()
-				});
-			},
-			json: function() {
-				next(createError(406));
-			}
-		})
+		res.out('ideas/form_arg', false, {
+			argument  : req.argument,
+			csrfToken : req.csrfToken()
+		});
 	})
 	.put(function( req, res, next ) {
 		var argument = req.argument;
@@ -258,9 +260,23 @@ module.exports = function( app ) {
 			req.flash('success', 'Argument aangepast');
 			res.success('/idea/'+argument.ideaId, {argument: argument});
 		})
-		.catch(next);
+		.catch(function( err ) {
+			if( err instanceof db.sequelize.ValidationError ) {
+				err.errors.forEach(function( error ) {
+					req.flash('error', error.message);
+				});
+				res.out('ideas/form_arg', false, {
+					argument  : req.argument,
+					csrfToken : req.csrfToken()
+				});
+			} else {
+				next(err);
+			}
+		});
 	});
 	
+	// Delete argument
+	// ---------------
 	router.route('/:ideaId/arg/:argId/delete')
 	.all(fetchArgument)
 	.all(auth.can('arg:delete'))
