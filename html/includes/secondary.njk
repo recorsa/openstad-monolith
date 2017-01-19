@@ -6,14 +6,14 @@
 
 {% macro speechBubble() %}
 	<span class="speechBubble">
-		&ldquo;Heb jij een idee voor je buurt in Amsterdam West?
-		<a href="/idea/new" class="big">Ik heb een plan!</a>
+		&ldquo;Heb jij een goed voorstel?
+		<a href="/idea/new" class="big">Stuur je plan in!</a>
 	</span>
 {% endmacro %}
 
 {% macro highlightedIdeas( ideas ) %}
 	<div id="highlightedIdeas">
-		<h2>Campagnes</h2>
+		<h2>Plannen</h2>
 		<ul>
 		{% for idea in ideas %}
 			<li>
@@ -33,9 +33,8 @@
 {% macro agenda( meetings ) %}
 	<div id="agenda">
 		<h2>Agenda</h2>
-		Het Algemeen Bestuur vergadert elke 2 weken. In elke vergadering wordt
-		het bewonersidee besproken dat in 4 weken tijd de meeste stemmen heeft
-		gekregen.
+		Het Algemeen Bestuur vergadert iedere 2 weken. In deze vergadering wordt
+		ook het bewonersvoorstel besproken dat de meeste stemmen heeft gekregen.
 		
 		<div class="timeline">
 		{% for meeting in meetings %}
