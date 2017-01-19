@@ -262,7 +262,7 @@
 			}
 			function updateButton() {
 				var len = textarea.value.length;
-				var isValid = len > minLen && len <= maxLen;
+				var isValid = len >= minLen && len <= maxLen;
 				button.disabled = !isValid;
 			}
 		});
