@@ -75,7 +75,7 @@
 		<input type="text" name="title" value="{{idea.title}}"><br>
 		
 		<h2>Samenvatting</h2>
-		Vertel in maximaal 140 tekens waar jouw idee over gaat. De samenvatting verschijnt op de overzichtspagina.<br>
+		Vertel in maximaal 140 tekens wat je voorstel is.<br>
 		<textarea name="summary">{{idea.summary}}</textarea>
 		<div id="charsLeft"><span>140</span> tekens resterend.</div>
 	</div>
@@ -88,12 +88,12 @@
 	
 	<div id="description">
 		<h2>Beschrijving</h2>
-		Gebruik de ruimte hieronder om je idee uitgebreider te beschrijven. Een paar tips:
+		Gebruik de ruimte hieronder om je voorstel uit te leggen. Een paar tips:
 		<ul>
-			<li>Beschrijft hoe je op dit idee bent gekomen.
-			<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem? Vertel hier iets meer over.
-			<li>Waarom moet het Algemeen Bestuur jouw idee gaan bespreken?
-			<li>Draag argumenten aan om je buurtgenoten te overtuigen.
+			<li>Beschrijft hoe je op het idee bent gekomen.
+			<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
+			<li>Waarom moet het Algemeen Bestuur jouw voorstel bespreken?
+			<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
 		</ul>
 		{% if useModernEditor %}
 			<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
