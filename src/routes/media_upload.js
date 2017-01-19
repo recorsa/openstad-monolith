@@ -16,7 +16,7 @@ module.exports = function( app ) {
 			case 'image/gif':
 				break;
 			default:
-				return next(createError(415, 'Unsupported media type'));
+				return next(createError(415, 'Bestandstype niet toegestaan'));
 		}
 		
 		db.Image.create({
