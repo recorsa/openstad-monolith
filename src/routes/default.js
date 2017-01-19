@@ -16,43 +16,48 @@ module.exports = function( app ) {
 
 function getArticles() {
 	return Promise.resolve([{
-		title   : 'Hugo de Grootkade omgetoverd tot leefstraat door idee Mischa',
-		summary : `Bewoner Mischa pitchte zijn idee voor leefstraten
-		           bij het Algemeen Bestuur. Zij waren zo enthousiast
-		           dat de eerste 'leefkade' deze zomer al een feit was!`
+		title   : 'Jeroen wil dynamiek!',
+		summary : `Jeroen wil meer dynamiek in West! Hij wil bewoners enthousiasmeren
+		           mee te denken over de kansen die er liggen om hun buurt nóg beter
+		           en leuker te maken.`
 	}, {
-		title   : 'Bewoners kiezen zelf architect',
-		summary : `Bij de herinrichting van het Karel Doormanplein besloot
-		           een groep actieve bewoners om ook het jongerencentrum
-		          'New Society' op te knappen.`
-	}, {
-		title   : 'Jouw buurt heeft een ambassadeur!',
-		summary : `De buurtadoptant, zoals die genoemd wordt, is er om
-		           samen met jou de buurt nog beter te maken. Lees hier
-		           hoe.`
+		title   : 'Hugo de Grootkade autovrij',
+		summary : `Bewoner Mischa Woutersen had een bijzonder voorstel: straten in
+		           West een maand lang autovrij maken. Zijn plan werd werkelijkheid!
+		           In de zomer werd de eerste autovrije straat gerealiseerd: de Hugo
+		           de Grootkade! `
 	}, {
 		title   : 'Bernadette wil meer doen met ideeën uit de buurt',
-		summary : `Huiswerklessen geven, koken voor anderen of op elkaars
-		           kinderen passen: in de wijk van Bernadette Vieverich
-		          gebeurt het allemaal.`
+		summary : `Huiswerklessen geven, koken voor anderen of op elkaars kinderen
+		           passen: in haar wijk gebeurt het allemaal. Ontmoet Bernadette
+		           Vieverich.`
 	}, {
-		title   : 'Nog meer leefstraten!',
-		summary : `Na het succes van de eerste leefkade hebben bewoners
-		           van de Filips van Almondestraat zich aangemeld om gebruik
-		           te maken van het initiatiefvoorstel 'Flexstraten'.`
+		title   : 'Samen voor je buurt zorgen!',
+		summary : `Jelle vindt dat burgers zelf verantwoordelijkheid moeten krijgen.
+		           Hij leerde dit bij het jongerencentrum waar hij actief is. Iedereen
+		           heeft de sleutel van het gebouw, waardoor bewoners zich samen
+		           verantwoordelijk voelen.`
 	}, {
-		title   : 'Je buurt nog leuker maken!',
-		summary : `Jelle vind dat de burgers zelf verantwoordelijkheid
-		           moeten krijgen. Net zoals hij dat geleerd heeft bij
-		           het vrijzinnige jongerencentrum waar hij terecht kwam
-		           na zijn studie filosofie.`
+		title   : '\‘West heeft een ruig randje en is lekker mixed.\’',
+		summary : `Alexander IJkelenstam leeft in een buurt die bij hem past.`
 	}, {
-		title   : 'Schoolklas wil oversteekplaats',
-		summary : `Kinderen spreken in op de vergadering van het Algemeen
-		           Bestuur om een oversteekplaats bij hun school te krijgen.`
+		title   : '\‘Samenwerken is belangrijk\’',
+		summary : `De Stem van West is een mooi voorbeeld van co-creatie en samenwerking
+		           tussen inwoners en het Algemeen Bestuur, vindt Bjørn Lanser.`
 	}, {
-		title   : 'Algemeen Bestuur komt naar u toe',
-		summary : `Bewoners kunnen het AB vragen om in hun buurt op locatie
-		           te komen om een dringende vraag of probleem te bespreken.`
+		title   : 'Buurtbewoners kiezen eigen architect',
+		summary : `Bij de herinrichting van het Karel Doormanplein koos een groep actieve
+		           bewoners zelf voor een architect. Maar dat was niet alles. Ze zorgden
+		           ook voor de renovatie van het jongerencentrum!`
+	}, {
+		title   : 'Klagen of afspraken maken?',
+		summary : `Je kunt klagen over afval, maar je kunt ook samen afspraken maken.
+		           Dat is een veel prettigere manier om met elkaar om te gaan in de wijk,
+		           vindt Onika.`
+	}, {
+		title   : 'Met kleine stapjes tot grote veranderingen komen',
+		summary : `Een veranderproces is zwaar, maar met kleine stapjes kun je steeds
+		           verder komen. Ralph Stuyver weet inmiddels hoe hij zijn buurt stapje
+		           voor stapje mooier kan maken.`
 	}]);
 }
