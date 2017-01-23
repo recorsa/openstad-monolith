@@ -17,7 +17,8 @@
 		<ul>
 		{% for idea in ideas %}
 			<li>
-				<a href="/idea/{{idea.id}}">{{idea.title}}
+				<a href="/idea/{{idea.id}}">
+				<p>{{idea.title}}</p>
 				<div class="ideaStats">
 					<div class="count yes">{{idea.yes}}</div>
 					<div class="count no">{{idea.no}}</div>

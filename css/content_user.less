@@ -5,6 +5,14 @@
 
 // User content display only.
 .userContent {
+	> h1, p, div {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	figcaption {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 	figcaption:not(.caption-edited) {
 		display:none;
 	}
@@ -14,10 +22,6 @@
 .userContentEditor {
 	line-height: 1.5;
 	
-	> h1, p, div {
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
 	h1 {
 		font-size: 1.4em;
 		line-height: 1.4;
