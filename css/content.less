@@ -312,7 +312,7 @@
 		
 		// Secondary 'widgets'
 		// -------------------
-		// .speechBubble, #highlightedIdeas, #agenda, #didYouKnow, etc...
+		// `.speechBubble`s, `#highlightedIdeas`, `#agenda`, etc...
 		>div {
 			margin-bottom: 15px;
 			
@@ -346,87 +346,85 @@
 				display: none;
 			}
 		}
-	}
-	
-	// Highlighted ideas
-	// -----------------
-	#highlightedIdeas {
-		ul {
-			list-style-image: url('');
-			list-style-position: inside;
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
-		li {
-			background-color: #EC0000;
-			color: #FFF;
-			padding: 10px 10px;
-			
-			&:nth-last-of-type(n+2) {
-				margin-bottom: 15px;
+		// Highlighted ideas
+		// -----------------
+		#highlightedIdeas {
+			ul {
+				list-style-image: url('');
+				list-style-position: inside;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
 			}
-			a {
+			li {
+				background-color: #EC0000;
 				color: #FFF;
-				text-decoration: none;
-			}
-			.ideaStats {
-				margin: 5px -10px 0;
+				padding: 10px 10px;
+				
+				&:nth-last-of-type(n+2) {
+					margin-bottom: 15px;
+				}
+				a {
+					color: #FFF;
+					text-decoration: none;
+				}
+				.ideaStats {
+					margin: 5px -10px 0;
+				}
 			}
 		}
-	}
-	
-	// Upcoming meetings
-	// -----------------
-	#agenda {
-		.timeline {
-			background-color: whitesmoke;
-			margin-top: 10px;
-			padding: 5px;
-			// Create new stacking context for the negative z-index in `>div.point`.
-			// See: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
-			position: relative;
-			z-index: 1;
-			
-			>div {
-				box-sizing: border-box;
-				display: inline-block;
-				font-size: 1rem;
-				font-weight: bold;
-				line-height: 30px;
-				vertical-align: top;
-				width: calc(100% - 40px);
-				
-				&:nth-last-child(n+3) {
-					margin-bottom: 30px;
-				}
-			}
-			>div.point {
-				background-color: #FFF;
-				border: 5px solid #EC0000;
-				border-radius: 15px;
-				height: 30px;
+		// Upcoming meetings
+		// -----------------
+		#agenda {
+			.timeline {
+				background-color: whitesmoke;
+				margin-top: 10px;
+				padding: 5px;
+				// Create new stacking context for the negative z-index in `>div.point`.
+				// See: https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
 				position: relative;
-				width: 30px;
+				z-index: 1;
 				
-				&:nth-last-child(n+3)::before {
-					background-color: #333;
-					content: ' ';
-					height: 40px;
-					left: 50%;
-					margin-left: -7px;
-					position: absolute;
-					top: 20px;
-					width: 14px;
-					z-index: -1;
+				>div {
+					box-sizing: border-box;
+					display: inline-block;
+					font-size: 1rem;
+					font-weight: bold;
+					line-height: 30px;
+					vertical-align: top;
+					width: calc(100% - 40px);
+					
+					&:nth-last-child(n+3) {
+						margin-bottom: 30px;
+					}
 				}
-			}
-			>div.date {
-				padding-left: 10px;
-				white-space: nowrap;
-				
-				strong {
-					color: #EC0000;
+				>div.point {
+					background-color: #FFF;
+					border: 5px solid #EC0000;
+					border-radius: 15px;
+					height: 30px;
+					position: relative;
+					width: 30px;
+					
+					&:nth-last-child(n+3)::before {
+						background-color: #333;
+						content: ' ';
+						height: 40px;
+						left: 50%;
+						margin-left: -7px;
+						position: absolute;
+						top: 20px;
+						width: 14px;
+						z-index: -1;
+					}
+				}
+				>div.date {
+					padding-left: 10px;
+					white-space: nowrap;
+					
+					strong {
+						color: #EC0000;
+					}
 				}
 			}
 		}
