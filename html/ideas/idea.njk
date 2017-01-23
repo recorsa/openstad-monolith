@@ -72,17 +72,17 @@
 		</div>
 		
 		<div class="userContent">
-			<p>
+			<p class="summary">
 				<strong>{{idea.summary | nl2br}}</strong>
 			</p>
 			
 			{{idea.description | safe}}
-			
-			{% if idea.location %}
-				<h2>Locatie</h2>
-				<div id="map"></div>
-			{% endif %}
 		</div>
+		
+		{% if idea.location %}
+		<h2>Locatie</h2>
+		<div id="map"></div>
+		{% endif %}
 		
 		{% if idea.modBreak %}
 		<div id="modBreak">
