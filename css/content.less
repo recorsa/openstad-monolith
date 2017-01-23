@@ -50,15 +50,29 @@
 	// - In #primary only visible on smaller screens.
 	// - In #secondary only visible on larger screens.
 	.speechBubble {
-		border: 4px solid #EC0000;
+		border: 3px solid #EC0000;
 		border-radius: 12px;
 		box-sizing: border-box;
 		display: block;
 		font-size: 1.2rem;
 		font-weight: bold;
 		line-height: 1.5em;
-		margin-bottom: 1em;
+		margin-bottom: calc(1em + 28px);
 		padding: 20px;
+		position: relative;
+		
+		&:after {
+			background-image: url('/img/bubble_point.svg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: contain;
+			bottom: -28px;
+			content: '';
+			height: 28px;
+			position: absolute;
+			right: 20px;
+			width: 83px;
+		}
 	}
 	
 	// Regular links
