@@ -1,6 +1,5 @@
-var co      = require('co');
-var moment  = require('moment-timezone');
-var db      = require('../db');
+var co = require('co');
+var db = require('../db');
 
 module.exports = function( app ) {
 	app.get('/', co.wrap(function*( req, res ) {
@@ -12,7 +11,7 @@ module.exports = function( app ) {
 		
 		res.out('index', true, data);
 	}));
-}
+};
 
 function getArticles() {
 	return Promise.resolve([{

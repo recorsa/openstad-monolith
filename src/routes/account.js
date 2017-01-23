@@ -13,6 +13,10 @@ var passwordless = require('../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
 
+// Used for sending auth emails.
+var tpl_html     = nunjucks.compile(fs.readFileSync('html/email/login_link.njk', 'utf8'));
+var tpl_txt      = nunjucks.compile(fs.readFileSync('html/email/login_link_text.njk', 'utf8'));
+
 module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', noCache, router);
@@ -197,39 +201,34 @@ module.exports = function( app ) {
 	});
 }
 
-var sendAuthToken = (function() {
-	var tpl_html = nunjucks.compile(fs.readFileSync('html/email/login_link.njk', 'utf8'));
-	var tpl_txt  = nunjucks.compile(fs.readFileSync('html/email/login_link_text.njk', 'utf8'));
+function sendAuthToken( user, req ) {
+	if( !user.isMember() ) {
+		throw createError(400, 'User is not a member');
+	}
 	
-	return function sendAuthToken( user, req ) {
-		if( !user.isMember() ) {
-			throw createError(400, 'User is not a member');
-		}
+	return passwordless.generateToken(user.id)
+	.then(function( token ) {
+		var env = {
+			fullHost : req.fullHost,
+			token    : token,
+			userId   : user.id,
+			ref      : req.query.ref
+		};
 		
-		return passwordless.generateToken(user.id)
-		.then(function( token ) {
-			var env  = {
-				fullHost : req.fullHost,
-				token    : token,
-				userId   : user.id,
-				ref      : req.query.ref
-			};
-			
-			mail.sendMail({
-				to      : user.email,
-				subject : 'Login link',
-				html    : tpl_html.render(env),
-				text    : tpl_txt.render(env),
-				attachments : [{
-					filename : 'logo@2x.png',
-					path     : 'img/logo@2x.png',
-					cid      : 'logo'
-				}]
-			});
-			return user;
+		mail.sendMail({
+			to          : user.email,
+			subject     : 'Login link',
+			html        : tpl_html.render(env),
+			text        : tpl_txt.render(env),
+			attachments : [{
+				filename : 'logo@2x.png',
+				path     : 'img/logo@2x.png',
+				cid      : 'logo'
+			}]
 		});
-	};
-})();
+		return user;
+	});
+}
 
 function resolveURL( ref ) {
 	return url.resolve('/', ref || '');
