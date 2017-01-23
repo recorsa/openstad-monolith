@@ -310,6 +310,33 @@
 			width: 100%;
 		}
 		
+		// Secondary 'widgets'
+		// -------------------
+		// .speechBubble, #highlightedIdeas, #agenda, #didYouKnow, etc...
+		>div {
+			margin-bottom: 15px;
+			
+			@media @primary100 {
+				float: left;
+				margin-top: 0 !important;
+				vertical-align: top;
+				width: calc(50% - (@hMargin/2));
+				
+				&:nth-of-type(odd) {
+					margin-right: @hMargin;
+				}
+			}
+			@media @phone {
+				float: none;
+				width: 100%;
+				margin-right: 0 !important;
+			}
+			
+			h2 {
+				margin-top: 0;
+			}
+		}
+		
 		// Speech bubble
 		// -------------
 		.newIdeaBubble {
@@ -324,22 +351,6 @@
 	// Highlighted ideas
 	// -----------------
 	#highlightedIdeas {
-		@media @primary100 {
-			float: right;
-			margin-left: @hMargin;
-			margin-top: 0 !important;
-			vertical-align: top;
-			width: calc(50% - (@hMargin/2));
-		}
-		@media @phone {
-			float: none;
-			width: 100%;
-			margin: 0;
-		}
-		
-		h2 {
-			margin-top: 0;
-		}
 		ul {
 			list-style-image: url('');
 			list-style-position: inside;
@@ -368,24 +379,6 @@
 	// Upcoming meetings
 	// -----------------
 	#agenda {
-		@media @primary100 {
-			float: left;
-			margin-top: 0;
-			vertical-align: top;
-			width: calc(50% - (@hMargin/2));
-		}
-		@media @phone {
-			float: none;
-			width: 100%;
-			margin-top: 15px;
-		}
-		
-		margin-bottom: 15px;
-		margin-top: 15px;
-		
-		h2 {
-			margin-top: 0;
-		}
 		.timeline {
 			background-color: whitesmoke;
 			margin-top: 10px;
