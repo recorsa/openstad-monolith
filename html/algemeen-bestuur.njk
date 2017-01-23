@@ -1,0 +1,67 @@
+{% extends './base.njk' %}
+{% import './includes/secondary.njk' as sec %}
+
+{% set activeMenu   = 'about' %}
+{% set pageTitle    = 'Het Algemeen Bestuur' %}
+{% set contentClass = 'AB' %}
+
+{% block content %}
+<div class="primary">
+	<h1>Het Algemeen Bestuur</h1>
+	
+	<p>
+		Het Algemeen Bestuur bestaat uit 15 bewoners uit West die zijn
+		gekozen namens een politieke partij. Drie leden vormen samen het
+		Dagelijks Bestuur van Stadsdeel West.
+	</p>
+	<p>
+		De besluiten die het Algemeen Bestuur neemt gaan over de inrichting
+		van straten en pleinen, groen en parken en het welzijnswerk in
+		de buurt. Zij stellen gebiedsplannen vast met prioriteiten voor
+		de buurt. Het Algemeen Bestuur kijkt hoe stedelijk beleid uitpakt
+		in de buurten van West en adviseert het College en gemeenteraad
+		hierover. Ook adviseert het Algemeen Bestuur over stedelijke taken
+		die het stadsdeel uitvoert. Het zorgt ervoor dat wat het stadsdeel
+		doet, past bij de behoeften van de bewoners en ondernemers in hun
+		gebied en bij het beleid voor de hele stad.
+	</p>
+	
+	<h1>Buurtadoptant</h1>
+	
+	<p>
+		Het Algemeen Bestuur heeft een belangrijke rol in het ophalen van
+		signalen van bewoners. Om deze signaleringsfunctie goed te kunnen
+		vervullen hebben de AB leden ieder één of meer buurten geadopteerd.
+		De buurtadoptant is aanwezig op evenementen en bij bijeenkomsten of
+		buurtborrels. De buurtadoptant is het eerste aanspreekpunt voor
+		bewoners namens het Algemeen Bestuur in dat gebied. Hij/zij is tevens
+		het eerste aanspreekpunt voor het Dagelijks Bestuur als het gaat over
+		specifieke thema’s en onderwerpen uit die buurt.
+	</p>
+	<p>
+		Wil jij weten wie de buurtadoptant is van jouw buurt? Kijk dan hieronder
+		in het overzicht.
+	</p>
+	
+	<h1>Wie hoort er bij mijn buurt?</h1>
+	
+	{# Syntax formatting because `div.tile` is `display: inline-block`. #}
+	{% for member in members
+	%}<div class="tile">
+		<div class="image" style="background-image: url('img/ab/{{member.name}}.jpg');"></div>
+		<h3>{{member.name}}</h3>
+		<div class="neighborhoods">
+			<ul>
+			{% for name in member.neighborhood %}
+				<li>{{name}}
+			{% endfor %}
+			</ul>
+		</div>
+	</div>{%
+	endfor %}
+</div>
+
+<div class="secondary">
+	{{sec.agenda(upcomingMeetings)}}
+</div>
+{% endblock %}

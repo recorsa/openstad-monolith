@@ -40,6 +40,7 @@ module.exports  = {
 		require('./middleware/force_registration')(this.app);
 		this.app.use(require('./middleware/nocache'));
 		// ... routes...
+		require('./routes/ab')(this.app);
 		require('./routes/default')(this.app);
 		require('./routes/account')(this.app);
 		require('./routes/dev')(this.app);
