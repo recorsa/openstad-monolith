@@ -61,7 +61,7 @@ nav.menuBar {
 			display: inline-block;
 			height: @navBarHeight;
 			list-style: none;
-			max-width: 120px;
+			max-width: 170px;
 			text-align: center;
 			vertical-align: center;
 			width: 33.33%;
@@ -71,14 +71,19 @@ nav.menuBar {
 			}
 			
 			a {
+				border-right: 1px solid gray;
 				color: #FFF;
 				display: inline-block;
-				line-height: @navBarHeight;
+				line-height: (@navBarHeight - 14px);
+				margin-top: 7px;
 				width: 100%;
 				text-decoration: none;
 			}
-			& + li a {
-				border-left: 1px solid gray;
+			@media @primary100 {
+				& + li a {
+					border-left: 1px solid gray;
+					border-right: 0;
+				}
 			}
 		}
 	}
@@ -129,10 +134,18 @@ header {
 		}
 	}
 	
-	#mainMenu {
+	#superMenu {
 		height: 135px;
 	}
-	
+	#mainMenu {
+		li:nth-child(2) a:before {
+			content: 'Algemeen Bestuur';
+			
+			@media @phone {
+				content: 'Het AB';
+			}
+		}
+	}
 	#quick {
 		display: block;
 		height: @navBarHeight;
