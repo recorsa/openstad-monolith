@@ -203,7 +203,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							}
 						]
 					},
-					order   : 'sort, endDate DESC',
+					order   : 'status, endDate DESC',
 					include : [{
 						model: db.Meeting,
 						attributes: []
