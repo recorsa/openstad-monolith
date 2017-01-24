@@ -1,4 +1,6 @@
 {% extends '../ideas.njk' %}
+{% import '../includes/content.njk' as content %}
+
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
 
@@ -81,7 +83,7 @@
 		
 		{% if idea.location %}
 		<h2>Locatie</h2>
-		<div id="map"></div>
+		{{content.map(cookieConsent)}}
 		{% endif %}
 		
 		{% if idea.modBreak %}
@@ -287,7 +289,7 @@
 		});
 	</script>
 	
-	{% if idea.location %}
+	{% if idea.location and cookieConsent %}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/js/map.js"></script>
 	<script>

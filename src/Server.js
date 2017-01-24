@@ -43,6 +43,7 @@ module.exports  = {
 		require('./routes/ab')(this.app);
 		require('./routes/account')(this.app);
 		require('./routes/article')(this.app);
+		require('./routes/cookies')(this.app);
 		require('./routes/default')(this.app);
 		require('./routes/dev')(this.app);
 		require('./routes/help')(this.app);
@@ -137,6 +138,11 @@ module.exports  = {
 		require('./middleware/session_user')(this.app);
 		// Support for flash messages.
 		this.app.use(flash());
+		
+		// Cookie consent
+		// --------------
+		var cookieConsent  = require('./middleware/cookie_consent');
+		this.app.use(cookieConsent);
 	},
 	_initSecurityMiddleware: function() {
 		var csurf = require('csurf');
