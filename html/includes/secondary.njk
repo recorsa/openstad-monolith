@@ -5,14 +5,14 @@
 #}
 
 {% macro newIdeaBubble() %}
-	<span class="speechBubble newIdeaBubble">
+	<span class="widget speechBubble newIdeaBubble">
 		&ldquo;Heb jij een goed voorstel?&rdquo;
 		<a href="/idea/new" class="big">Stuur je plan in!</a>
 	</span>
 {% endmacro %}
 
 {% macro highlightedIdeas( ideas ) %}
-	<div id="highlightedIdeas">
+	<div id="highlightedIdeas" class="widget">
 		<h2>Plannen</h2>
 		<ul>
 		{% for idea in ideas %}
@@ -32,7 +32,7 @@
 {% endmacro %}
 
 {% macro agenda( meetings ) %}
-	<div id="agenda">
+	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
 		Het Algemeen Bestuur vergadert iedere 2 weken. In deze vergadering wordt
 		ook het bewonersvoorstel besproken dat de meeste stemmen heeft gekregen.
