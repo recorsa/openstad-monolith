@@ -1,5 +1,6 @@
 var sanitize = require('sanitize-html');
 
+var remoteURL = /^(?:\/\/)|(?:\w+?:\/{0,2})/;
 var noTags = {
 	allowedTags       : [],
 	allowedAttributes : []
@@ -34,8 +35,10 @@ var allSafeTags = {
 	allowedSchemes: ['http', 'https', 'ftp', 'mailto'],
 	transformTags: {
 		a: function( tagName, attrs ) {
-			attrs.target = '_blank';
-			attrs.rel    = 'noreferrer noopener';
+			if( attrs.href && remoteURL.test(attrs.href) ) {
+				attrs.target = '_blank';
+				attrs.rel    = 'noreferrer noopener';
+			}
 			return {tagName: tagName, attribs: attrs};
 		},
 	}
@@ -55,4 +58,13 @@ module.exports = {
 	argument: function( text ) {
 		return sanitize(text, noTags);
 	},
+	
+	// TODO: Transform all call to these two options, instead
+	//       of the content-type-named versions above.
+	safeTags: function( text ) {
+		return sanitize(text, allSafeTags);
+	},
+	noTags: function( text ) {
+		return sanitize(text, noTags);
+	}
 };
