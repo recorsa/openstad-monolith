@@ -196,7 +196,6 @@
 			})
 		});
 		
-		{% if can('arg:add') %}
 		// Character count on textareas
 		// ----------------------------
 		var minLen     = 140;
@@ -270,7 +269,6 @@
 				button.disabled = !isValid;
 			}
 		});
-		{% endif %}
 		
 		// Delete confirmation for arguments
 		// ---------------------------------
@@ -329,9 +327,7 @@
 			
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="hidden" name="sentiment" value="{{sentiment}}">
-			{% if can('arg:add') %}
 			<input type="submit" value="Verzenden">
-			{% endif %}
 		</form>
 	{% else %}
 		<h2>{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}</h2>
