@@ -38,7 +38,7 @@
 				<div id="auth">
 				{% if user.isLoggedIn() %}
 					<a href="/account/logout">Uitloggen</a>
-					{{'('+user.fullName+')' if user.hasCompletedRegistration()}}
+					<span>{{'('+user.fullName+')' if user.hasCompletedRegistration()}}</span>
 				{% else %}
 					<a href="/account/register">Aanmelden</a>
 				{% endif %}
