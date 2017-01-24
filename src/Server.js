@@ -41,8 +41,9 @@ module.exports  = {
 		this.app.use(require('./middleware/nocache'));
 		// ... routes...
 		require('./routes/ab')(this.app);
-		require('./routes/default')(this.app);
 		require('./routes/account')(this.app);
+		require('./routes/article')(this.app);
+		require('./routes/default')(this.app);
 		require('./routes/dev')(this.app);
 		require('./routes/help')(this.app);
 		require('./routes/idea')(this.app);

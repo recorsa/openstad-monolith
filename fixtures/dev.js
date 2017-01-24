@@ -4,7 +4,14 @@ var _      = require('lodash')
 var log    = require('debug')('app:db');
 
 var meetings = require('./data/meetings');
+var articles = require('./data/articles');
+
 module.exports = co.wrap(function*( db ) {
+	log('generating articles...');
+	yield articles.map(function( articleData ) {
+		return db.Article.create(articleData);
+	});
+	
 	log('generating meetings...');
 	yield meetings.map(function( meetingData ) {
 		return db.Meeting.create(meetingData);
