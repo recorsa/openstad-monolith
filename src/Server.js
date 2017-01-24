@@ -86,11 +86,13 @@ module.exports  = {
 		require('./routes/media_get')(this.app);
 	},
 	_initBasicMiddleware: function() {
-		var bodyParser         = require('body-parser')
-		var methodOverride     = require('method-override')
+		var bodyParser         = require('body-parser');
+		var cookieParser       = require('cookie-parser');
+		var methodOverride     = require('method-override');
 		
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({extended: true}));
+		this.app.use(cookieParser(config.get('security.sessions.secret')));
 		this.app.use(methodOverride(function( req, res ) {
 			var method;
 			if( req.body && req.body instanceof Object && '_method' in req.body ) {
@@ -127,7 +129,7 @@ module.exports  = {
 			}),
 			cookie: {
 				httpOnly : true,
-				secure   : false,
+				secure   : !config.get('debug'),
 				maxAge   : 31536000000 // 1 year
 			}
 		}));
