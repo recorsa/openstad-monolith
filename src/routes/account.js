@@ -31,6 +31,8 @@ module.exports = function( app ) {
 		  , password   = req.body.password
 		  , forceToken = !!req.body.forceToken;
 		
+		res.acceptCookies();
+		
 		if( email && password ) {
 			// Login with email/password.
 			db.User.findByCredentials(email, password)
@@ -150,12 +152,17 @@ module.exports = function( app ) {
 	router.route('/register')
 	.all(auth.can('account:register'))
 	.get(function( req, res, next ) {
+		if( !req.cookieConsent ) {
+			req.flash('include', 'flash/cookie_info.njk');
+		}
 		res.out('account/register', false, {
 			ref       : req.query.ref,
 			csrfToken : req.csrfToken()
 		});
 	})
 	.post(function( req, res, next ) {
+		res.acceptCookies();
+		
 		db.User.registerMember(req.user, req.body.email)
 		.then(function( user ) {
 			return sendAuthToken(user, req);
