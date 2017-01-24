@@ -47,6 +47,8 @@ module.exports  = {
 		require('./routes/dev')(this.app);
 		require('./routes/help')(this.app);
 		require('./routes/idea')(this.app);
+		// ... static page fallback...
+		require('./middleware/static_page')(this.app);
 		// ... and error handlers always last.
 		require('./middleware/error_handling')(this.app);
 		
