@@ -211,6 +211,27 @@
 		}
 	}
 	
+	// Big image banner above text content
+	// -----------------------------------
+	#banner {
+		margin: 0 0 10px;
+		position: relative;
+		
+		@media @phone {
+			margin: 0 -30px 20px;
+		}
+		.image {
+			background-image: url('/img/home_banner.jpg');
+			background-position: center;
+			background-size: cover;
+			height: 360px;
+		}
+		.text {
+			// Current only used on index page (See `index.less`).
+			// Leaving it here for possible future use.
+		}
+	}
+	
 	// .primary and .secondary columns
 	// -------------------------------
 	.primary {
