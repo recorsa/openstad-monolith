@@ -1,0 +1,43 @@
+{% extends './base.njk' %}
+{% import './includes/secondary.njk' as sec %}
+
+{% set pageTitle    = 'Artikel: '+article.title %}
+{% set contentClass = 'article' %}
+
+{% block quickNav %}
+	<a href="/" id="backToList">Terug naar het overzicht</a>
+{% endblock %}
+
+{% block content %}
+	<div id="banner">
+		<div class="image"></div>
+	</div>
+	
+	<div class="primary">
+		<h1>{{article.title}}</h1>
+		
+		<div id="summary">
+			<p>{{article.createdAt | date('LL')}}</p>
+			
+			<h3>In het kort</h3>
+			<p>
+				{{article.summary | safe}}
+			</p>
+			<hr>
+		</div>
+		
+		<div id="article">
+			<p>{{article.intro | safe}}</p>
+			
+			{% if article.quote %}
+			<blockquote>{{article.quote}}</blockquote>
+			{% endif %}
+			
+			{{article.description | safe}}
+		</div>
+	</div>
+	
+	<div class="secondary">
+		{{sec.newIdeaBubble()}}
+	</div>
+{% endblock %}
