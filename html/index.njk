@@ -21,9 +21,11 @@
 		{# Syntax formatting because `div.tile` is `display: inline-block`. #}
 		{% for article in articles
 		%}<div class="tile">
+			<a href="/article/{{article.id}}">
 			<div class="image"></div>
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
+			</a>
 			
 			<a href="/article/{{article.id}}" class="readMore">Lees meer</a>
 		</div>{%
