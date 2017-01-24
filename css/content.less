@@ -57,7 +57,9 @@
 		font-size: 1.1rem;
 		font-weight: bold;
 		line-height: 1.5em;
-		margin-bottom: calc(1em + 28px);
+		// Needs `!important` because `.secondary > .widget` will override
+		// it otherwise.
+		margin-bottom: calc(1em + 28px) !important;
 		padding: 20px;
 		position: relative;
 		text-align: center;
