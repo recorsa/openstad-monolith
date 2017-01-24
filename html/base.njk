@@ -57,9 +57,16 @@
 					{% elif type == 'success' %}
 						<h2>Gelukt!</h2>
 						{% for message in list %}{{message}}<br>{% endfor %}
+					{% elif type == 'include' %}
+						{% for file in list %}
+							{% include file %}
+						{% endfor %}
+					{% else %}
+						<h2>Informatie</h2>
+						{% for message in list %}{{message}}<br>{% endfor %}
 					{% endif %}
 					
-					<a href="javascript: location.reload();"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
+					<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
 				</div>
 			{% endfor %}
 			
@@ -111,7 +118,7 @@
 		// --------------
 		// Make close buttons interactive.
 		var closeButtons = Array.prototype.slice.call(
-			document.querySelectorAll('#content > .flashMessage a'), 0
+			document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
 		);
 		closeButtons.forEach(function( a ) {
 			a.href = '';
