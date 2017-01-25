@@ -28,6 +28,8 @@ module.exports = function( app ) {
 		.then(function() {
 			res.status(204).send();
 		})
-		.catch(next);
+		.catch(function( error ) {
+			next(createError(500, 'Bestand uploaden niet gelukt'))
+		});
 	});
 };
