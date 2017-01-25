@@ -247,7 +247,9 @@
 			},
 			error: function( file, error ) {
 				this.removeFile(file);
-				alert(error.message);
+				if( typeof error != 'string' ) {
+					alert(error.message);
+				}
 			}
 		});
 	</script>
