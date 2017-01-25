@@ -79,7 +79,8 @@
 	      style="background-image: url('/image/{{idea.posterImage.key}}');"
 	      {% endif %}
 	>
-		<button type="button">Verwijder afbeelding</button>
+		<div class="progress"><div class="bar"></div></div>
+		<button type="button">Verwijder afbeelding<!-- Also set in JS --></button>
 	</form>
 
 	<form method="post" id="js-form">
@@ -209,10 +210,11 @@
 	</script>
 	<script>
 		var currentImage;
-		var form   = document.getElementById('js-form');
-		var el     = document.getElementById('posterImageUpload');
+		var form        = document.getElementById('js-form');
+		var el          = document.getElementById('posterImageUpload');
+		var button      = el.querySelector('button');
+		var progressBar = el.querySelector('#posterImageUpload .progress .bar');
 		
-		var button = el.querySelector('button');
 		button.addEventListener('click', function() {
 			upload.removeFile(currentImage || {});
 		});
@@ -230,22 +232,35 @@
 				this.removeFile(currentImage || {});
 				currentImage = file;
 				
+				el.classList.add('uploading');
+				progressBar.style.width = 0;
+				
 				file.key = Date.now()+'-'+file.name;
 				this.options.params['key'] = file.key;
 			},
 			removedfile: function( file ) {
 				el.removeAttribute('style');
+				el.classList.remove('uploading');
 				form.clearAttachmentRef();
 			},
 			
 			thumbnail: function( file, dataURL ) {
 				el.setAttribute('style', 'background-image: url('+dataURL+')');
 			},
+			sending: function() {
+				button.innerHTML = 'Annuleer upload';
+			},
+			uploadprogress: function( file, progress, bytesSent ) {
+				progressBar.style.width = progress+'%';
+			},
 			
 			success: function( file ) {
+				el.classList.remove('uploading');
 				form.addAttachmentRef(file.key);
+				button.innerHTML = 'Verwijder afbeelding';
 			},
 			error: function( file, error ) {
+				button.innerHTML = 'Verwijder afbeelding';
 				this.removeFile(file);
 				if( typeof error != 'string' ) {
 					alert(error.message);

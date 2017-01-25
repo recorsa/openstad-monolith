@@ -122,6 +122,22 @@
 				text-shadow: 0 0 4px #000;
 			}
 			
+			// Upload progress bar
+			// -------------------
+			.progress {
+				background-color: #FFF;
+				display: none;
+				left: 50%;
+				margin-left: -100px;
+				margin-top: 2em;
+				max-width: 200px;
+				position: absolute;
+				top: 50%;
+				width: 80%;
+			}
+			&.uploading .progress {
+				display: block;
+			}
 			// Delete image button
 			// -------------------
 			button {
