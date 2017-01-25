@@ -81,7 +81,7 @@ module.exports = function( app ) {
 	// Edit idea
 	// ---------
 	router.route('/:ideaId/edit')
-	.all(fetchIdea('withVotes', 'withArguments'))
+	.all(fetchIdea('withVotes', 'withPosterImage', 'withArguments'))
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {

@@ -28,17 +28,19 @@ module.exports  = {
 		this._initSessionMiddleware();
 		this._initRenderMiddleware();
 		
+		// ... some render helping middleware...
+		require('./middleware/fullhost')(this.app);
+		require('./middleware/multi_accept')(this.app);
+		
 		// ... then the upload functionality (not compatible with CSRF)...
 		require('./routes/media_upload')(this.app);
 		
 		// ... security middleware (CSRF)...
 		this._initSecurityMiddleware();
 		
-		// ... little helper middlewares...
-		require('./middleware/fullhost')(this.app);
-		require('./middleware/multi_accept')(this.app);
+		// ... some more middlewares...
 		require('./middleware/force_registration')(this.app);
-		this.app.use(require('./middleware/nocache'));
+		require('./middleware/nocache')(this.app);
 		// ... routes...
 		require('./routes/ab')(this.app);
 		require('./routes/account')(this.app);

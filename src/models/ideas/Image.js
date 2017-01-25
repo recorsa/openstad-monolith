@@ -29,6 +29,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 		data: {
 			type      : DataTypes.BLOB('long'),
 			allowNull : false
+		},
+		processed: {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : false,
+			defaultValue : false
 		}
 	}, {
 		paranoid: false,
