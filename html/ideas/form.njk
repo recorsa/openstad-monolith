@@ -203,7 +203,20 @@
 			images.forEach(function( image ) {
 				this.removeChild(image);
 			}, this);
-		}
+		};
+		form.addEventListener('submit', function( event ) {
+			var uploadForm = document.getElementById('posterImageUpload');
+			if( !uploadForm ) return;
+			
+			if( uploadForm.classList.contains('uploading') ) {
+				event.stopPropagation();
+				event.preventDefault();
+				alert(
+					'De afbeelding upload is nog niet afgerond.\n\n'+
+					'Hierdoor kan uw idee nog niet opgeslagen worden.'
+				);
+			}
+		});
 	</script>	
 	<script>
 		new LocationEditor(document.getElementById('locationField'));
