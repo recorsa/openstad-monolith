@@ -26,6 +26,26 @@ function initAttachmentManager( form, editor ) {
 			delete images[key];
 		}
 	});
+	document.addEventListener('trix-action-invoke', function( event ) {
+		if( event.actionName !== 'x-attach' ) return;
+		
+		var editorElement = event.target;
+		editorElement.focus();
+		
+		var input      = document.createElement('input');
+		input.type     = 'file';
+		input.multiple = true;
+		input.addEventListener('change', function( event ) {
+			var i, file;
+			for( i=0; file=input.files[i]; i++ ) {
+				editorElement.editor.insertFile(file);
+			}
+		});
+		
+		var click = document.createEvent('MouseEvents');
+		click.initMouseEvent('click',true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+		input.dispatchEvent(click);
+	});
 	form.addEventListener('submit', function( event ) {
 		var attachments = editor.getDocument().getAttachments();
 		attachments.forEach(function( attachment ) {
