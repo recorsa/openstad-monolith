@@ -3,6 +3,10 @@ function initAttachmentManager( form, editor ) {
 	// {key: true, ...}
 	var images = {};
 	
+	if( !form.addAttachmentRef ) {
+		throw Error('initAttachmentManager: Form missing `addAttachmentRef` method');
+	}
+	
 	// document.addEventListener('trix-file-accept', function( event ) {
 	// 	// Prevent attaching .png files
 	// 	if( event.file.type === 'image/png' ) {
@@ -49,11 +53,7 @@ function initAttachmentManager( form, editor ) {
 	form.addEventListener('submit', function( event ) {
 		var attachments = editor.getDocument().getAttachments();
 		attachments.forEach(function( attachment ) {
-			var input   = document.createElement('input');
-			input.type  = 'hidden';
-			input.name  = 'images[]';
-			input.value = attachment.getAttribute('key');
-			form.appendChild(input);
+			form.addAttachmentRef(attachment.getAttribute('key'));
 		});
 	});
 

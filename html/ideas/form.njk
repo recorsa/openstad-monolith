@@ -169,6 +169,29 @@
 	<script src="/js/editor.js"></script>
 	
 	<script>
+		// Idea form extensions
+		// --------------------
+		// Used by poster file upload and description editor to register
+		// a reference to each uploaded file. This reference list is used
+		// by the server to connect the correct image uploads to this idea.
+		var form = document.getElementById('js-form');
+		form.addAttachmentRef = function( key ) {
+			var input   = document.createElement('input');
+			input.type  = 'hidden';
+			input.name  = 'images[]';
+			input.value = key;
+			this.appendChild(input);
+		};
+		form.clearAttachmentRef = function() {
+			var images = Array.prototype.slice.call(
+				form.querySelectorAll('input[name="images[]"]'), 0
+			);
+			images.forEach(function( image ) {
+				this.removeChild(image);
+			}, this);
+		}
+	</script>	
+	<script>
 		new LocationEditor(document.getElementById('locationField'));
 	</script>
 	<script>
