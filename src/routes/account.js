@@ -8,7 +8,6 @@ var url          = require('url');
 var auth         = require('../auth');
 var db           = require('../db');
 var mail         = require('../mail');
-var noCache      = require('../middleware/nocache');
 var passwordless = require('../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
@@ -19,7 +18,7 @@ var tpl_txt      = nunjucks.compile(fs.readFileSync('html/email/login_link_text.
 
 module.exports = function( app ) {
 	var router = express.Router();
-	app.use('/account', noCache, router);
+	app.use('/account', router);
 	
 	// Logging in
 	// ----------
