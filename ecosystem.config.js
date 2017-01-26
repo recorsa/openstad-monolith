@@ -20,13 +20,16 @@ module.exports = {
 	
 	deploy : {
 		production : {
-			user : 'daan',
-			host : '185.110.174.172',
-			path : '/var/www/stemvanwest.daanmortier.nl/www',
+			user          : 'daan',
+			host          : '185.110.174.172',
+			path          : '/var/www/stemvanwest.amsterdam.nl/www',
 			
-			ref  : 'origin/master',
-			repo : 'git@git.daanmortier.nl/abtool',
+			ref           : 'origin/master',
+			repo          : 'ssh://git@git.daanmortier.nl/abtool',
 			
+			env           : {
+				NODE_ENV : 'production'
+			},
 			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env production'
 		},
 		// dev : {
