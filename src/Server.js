@@ -29,7 +29,7 @@ module.exports  = {
 		this._initRenderMiddleware();
 		
 		// ... some render helping middleware...
-		require('./middleware/fullhost')(this.app);
+		require('./middleware/proxy_headers')(this.app);
 		require('./middleware/multi_accept')(this.app);
 		
 		// ... then the upload functionality (not compatible with CSRF)...
