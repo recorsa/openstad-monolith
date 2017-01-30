@@ -10,6 +10,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(255),
 			allowNull    : true
 		},
+		video: {
+			type         : DataTypes.TEXT,
+			allowNull    : true
+		},
 		title: {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
