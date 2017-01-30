@@ -14,8 +14,8 @@ module.exports = {
 			BLUEBIRD_WARNINGS          : 0
 		},
 		
-		watch        : true,
-		ignore_watch : ['\.git', 'node_modules', 'css', 'img']
+		// watch        : true,
+		// ignore_watch : ['\.git', 'node_modules', 'css', 'img']
 	}],
 	
 	deploy : {
