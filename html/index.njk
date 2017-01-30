@@ -22,7 +22,7 @@
 		{% for article in articles
 		%}<div class="tile">
 			<a href="/article/{{article.id}}">
-			<div class="image"></div>
+			<div class="image" style="background-image: url('/img/articles/{{article.id}}/thumbnail.jpg');"></div>
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
 			</a>
