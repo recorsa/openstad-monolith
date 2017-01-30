@@ -18,18 +18,28 @@
 	
 	"mail": {
 		"from": "from@localhost",
+		"method": "smtp", // smtp, sendgrid
+		
 		"transport": {
-			"pool"       : false,
-			"direct"     : false,
-			
-			"port"       : 587,
-			"host"       : "smtp.host.name",
-			"requireTLS" : true,
-			
-			"name"       : "host.name",
-			"auth"       : {
-				"user": "user",
-				"pass": "pass"
+			"smtp": {
+				"pool"       : false,
+				"direct"     : false,
+				
+				"port"       : 587,
+				"host"       : "smtp.host.name",
+				"requireTLS" : true,
+				
+				"name"       : "host.name",
+				"auth"       : {
+					"user": "user",
+					"pass": "pass"
+				}
+			},
+			"sendgrid": {
+				"auth": {
+					// "api_user": "",
+					"api_key": ""
+				}
 			}
 		}
 	},
