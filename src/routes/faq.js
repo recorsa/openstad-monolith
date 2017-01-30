@@ -12,7 +12,6 @@ var questions = [{
 	answer: `
 		<p>Uit gebruiksvriendelijkheid werkt deze site zonder wachtwoorden. Je hoeft geen wachtwoord te onthouden om toegang te hebben tot de site. Bovendien vinden wij het veel veiliger om geen wachtwoorden op te slaan van onze gebruikers. Op die manier kunnen wij de privacy het beste waarborgen.</p>
 		<p>Inloggen kan nu door via de knop ‘aanmelden’ direct recht onder de menubalk je emailadres in te vullen. Je ontvangt dan een e-mail met een link waarop je kunt klikken (een zogeheten login-token), waarna je ingelogd bent. Dit hoef je maar één keer te doen, want hierna blijf je bij elk volgend bezoek aan de site gewoon ingelogd!</p>
-
 	`
 }, {
 	id: 2,
