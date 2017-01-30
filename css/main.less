@@ -61,29 +61,23 @@ nav.menuBar {
 			display: inline-block;
 			height: @navBarHeight;
 			list-style: none;
-			max-width: 170px;
 			text-align: center;
 			vertical-align: center;
-			width: 33.33%;
 			
 			&.active {
 				border-bottom: 5px solid #FFE115;
 			}
 			
 			a {
-				border-right: 1px solid gray;
 				color: #FFF;
 				display: inline-block;
 				line-height: (@navBarHeight - 14px);
 				margin-top: 7px;
-				width: 100%;
+				padding: 0 20px;
 				text-decoration: none;
 			}
-			@media @primary100 {
-				& + li a {
-					border-left: 1px solid gray;
-					border-right: 0;
-				}
+			& + li a {
+				border-left: 1px solid gray;
 			}
 		}
 	}
