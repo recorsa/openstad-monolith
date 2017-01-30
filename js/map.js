@@ -112,13 +112,12 @@ function initMap( el, options ) {
 	return new google.maps.Map(el, defaults);
 }
 function initMarker( options ) {
-	// width=40.57px height=44.86px
-	options.crossOnDrag = false;
-	options.icon        = {
-		url    : '/img/flag.svg',
+	options.crossOnDrag = options.crossOnDrag || false;
+	options.icon        = options.icon || {
 		size   : new google.maps.Size(40, 44),
 		anchor : new google.maps.Point(8, 43)
 	};
+	options.icon.url = options.icon.url || '/img/flag.svg';
 	return new google.maps.Marker(options);
 }
 
