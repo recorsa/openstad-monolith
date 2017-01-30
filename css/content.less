@@ -154,32 +154,33 @@
 		white-space: nowrap;
 		
 		div.count {
+			background-position: left top;
+			background-repeat: no-repeat;
 			box-sizing: border-box;
 			display: inline-block;
 			font-size: 0.75rem;
 			font-weight: 100;
 			height: 25px;
 			padding-left: 30px;
+			padding-right: 5px;
 			padding-top: 4px;
-			background-position: left top;
-			background-repeat: no-repeat;
 				
 			&:nth-child(n+2) {
 				margin-left: 5px;
 			}
 			&.yes {
 				background-size: auto 20px;
-				background-image: url('/img/thumbsup_white_outline.svg');
+				background-image: url('/img/thumbsup_white.svg');
 			}
 			&.no {
 				background-position: left 5px;
 				background-size: auto 20px;
-				background-image: url('/img/thumbsdown_white_outline.svg');
+				background-image: url('/img/thumbsdown_white.svg');
 			}
 			&.arguments {
 				background-position: left 5px;
 				background-size: auto 20px;
-				background-image: url('/img/argument_white_outline.svg');
+				background-image: url('/img/argument_white.svg');
 			}
 		}
 	}
@@ -412,8 +413,21 @@
 			li {
 				background-color: #EC0000;
 				color: #FFF;
-				padding: 10px 10px;
+				padding: 10px 10px 10px 20px;
+				position: relative;
 				
+				&:before {
+					background-image: url('/img/arrow_right_white.svg');
+					background-position: top center;
+					background-repeat: no-repeat;
+					background-size: contain;
+					content: '';
+					height: 1em;
+					position: absolute;
+					top: 12px; // 10px padding-top + 2px for nice.
+					left: 0px;
+					width: 20px;
+				}
 				&:nth-last-of-type(n+2) {
 					margin-bottom: 15px;
 				}
@@ -423,11 +437,13 @@
 				}
 				p {
 					margin: 0;
+					max-height: 3em;
 					overflow: hidden;
 					text-overflow: ellipsis;
 				}
 				.ideaStats {
-					margin: 5px -10px 0;
+					margin: 5px 0 0;
+					text-align: left;
 				}
 			}
 		}
