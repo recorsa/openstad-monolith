@@ -33,6 +33,7 @@ module.exports  = {
 		require('./middleware/multi_accept')(this.app);
 		
 		// ... then the upload functionality (not compatible with CSRF)...
+		require('./routes/media_get')(this.app);
 		require('./routes/media_upload')(this.app);
 		
 		// ... security middleware (CSRF)...
@@ -84,8 +85,6 @@ module.exports  = {
 		this.app.use('/img', express.static('img'));
 		this.app.use('/js',  express.static('js'));
 		this.app.use('/lib',  express.static('lib'));
-		
-		require('./routes/media_get')(this.app);
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');

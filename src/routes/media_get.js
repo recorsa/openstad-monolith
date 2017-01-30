@@ -8,7 +8,7 @@ module.exports = function( app ) {
 		})
 		.then(function( image ) {
 			if( !image ) {
-				return next(createError(404, 'Image not found'));
+				return next(createError(404, 'Afbeelding niet gevonden'));
 			} else {
 				res.type(image.mimeType);
 				res.send(image.data);
