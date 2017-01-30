@@ -1,10 +1,11 @@
 var config = require('config');
 
 module.exports = function( req, res, next ) {
-	var consent = req.user.isLoggedIn() || (
-	              	req.cookies &&
-	              	req.cookies.cookieConsent == 'true'
-	              );
+	var consent = true;
+	              // req.user.isLoggedIn() || (
+	              // 	req.cookies &&
+	              // 	req.cookies.cookieConsent == 'true'
+	              // );
 	req.cookieConsent = consent;
 	res.locals.cookieConsent = consent;
 	
