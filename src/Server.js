@@ -50,6 +50,7 @@ module.exports  = {
 		require('./routes/default')(this.app);
 		require('./routes/dev')(this.app);
 		require('./routes/idea')(this.app);
+		require('./routes/faq')(this.app);
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
 		// ... and error handlers always last.

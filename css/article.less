@@ -10,6 +10,8 @@
 	.primary {
 		overflow: hidden;
 		
+		// TODO: proclaimer and FAQ pages use styling for `#summary` and
+		//       `#article` too. Refactor?
 		#summary {
 			box-sizing: border-box;
 			float: left;
@@ -36,7 +38,17 @@
 				}
 			}
 			p:first-child {
+				color: #818181;
+				font-size: 0.7rem;
 				margin-bottom: 2em;
+			}
+			p.strong {
+				font-weight: bold;
+				
+				a {
+					color: #000;
+					text-decoration: underline;
+				}
 			}
 		}
 		#article {
