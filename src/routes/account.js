@@ -203,6 +203,14 @@ module.exports = function( app ) {
 		.then(function() {
 			res.success(resolveURL(req.session['ref']), true);
 		})
+		.catch(db.sequelize.ValidationError, function( err ) {
+			err.errors.forEach(function( error ) {
+				req.flash('error', error.message);
+			});
+			res.out('account/complete', false, {
+				csrfToken : req.csrfToken()
+			});
+		})
 		.catch(next);
 	});
 }

@@ -119,9 +119,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			isValidMember: function() {
 				if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
 					if( !this.email ) {
-						throw new Error('Email address is required for members');
+						throw new Error('Onjuist email adres');
 					} else if( this.complete && (!this.firstName || !this.lastName) ) {
-						throw new Error('First- and last name are required for members');
+						throw new Error('Voor- en achternaam zijn verplichte velden');
 					}
 				}
 			},
@@ -199,11 +199,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		instanceMethods: {
 			completeRegistration: function( data ) {
+				var self = this;
 				var filtered = pick(data, [
 					'firstName', 'lastName', 'zipCode', 'gender', 'password'
 				]);
 				filtered.complete = true;
-				return this.update(filtered);
+				return this.update(filtered)
+				.catch(function( error ) {
+					// We need to set `complete` initially for the `isValidMember`
+					// validation to work correctly. There was an error completing
+					// registration however, so we unset `complete` again. The
+					// other properties can remain in memory so they're refilled into
+					// the form together with the error message(s).
+					self.set('complete', false);
+					throw error;
+				});
 			},
 			
 			authenticate: function( password ) {
