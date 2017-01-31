@@ -25,7 +25,7 @@ function getMembers() {
 	}, {
 		id           : 3,
 		name         : 'Bernadette Vieverich',
-		neighborhood : ['Doesbuurt', 'Trompbuurt', 'Geuzenbuurt', 'Gulden Winckelbuurt']
+		neighborhood : ['Does-, Tromp-, Geuzenbuurt', 'Gulden Winckelbuurt']
 	}, {
 		id           : 4,
 		name         : 'Bjørn Lanser',
@@ -45,7 +45,7 @@ function getMembers() {
 	}, {
 		id           : 8,
 		name         : 'Geert van Schaik',
-		neighborhood : ['Staatsliedenbuurt', 'Westerpark', 'Overbrakerbinnenpolder']
+		neighborhood : ['Staatsliedenbuurt', 'Westerpark / Overbrakerbinnenpolder']
 	}, {
 		id           : 9,
 		name         : 'Gerolf Bouwmeester',
