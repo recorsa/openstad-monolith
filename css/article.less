@@ -10,6 +10,19 @@
 	.primary {
 		overflow: hidden;
 		
+		ul {
+			list-style: none;
+			padding: 0;
+			
+			li {
+				background-image: url('/img/arrow_right_black.svg');
+				background-position: top 3px left;
+				background-repeat: no-repeat;
+				background-size: auto 0.9em;
+				padding-left: 15px;
+			}
+		}
+		
 		// TODO: proclaimer and FAQ pages use styling for `#summary` and
 		//       `#article` too. Refactor?
 		#summary {
@@ -50,26 +63,14 @@
 					text-decoration: underline;
 				}
 			}
-			ul {
-				list-style: none;
-				padding: 0;
+			// Main `ul` definition above in `.primary`.
+			ul li a {
+				color: #000;
+				font-weight: bold;
+				text-decoration: none;
 				
-				li {
-					background-image: url('/img/arrow_right_black.svg');
-					background-position: top 2px left;
-					background-repeat: no-repeat;
-					background-size: auto 1em;
-					padding-left: 15px;
-					
-					a {
-						color: #000;
-						font-weight: bold;
-						text-decoration: none;
-						
-						&:hover {
-							text-decoration: underline;
-						}
-					}
+				&:hover {
+					text-decoration: underline;
 				}
 			}
 		}
@@ -91,6 +92,9 @@
 			p:first-of-type {
 				font-weight: bold;
 			}
+			// 
+			// `div.video` in content.less.
+			// 
 			blockquote {
 				@margin: 50px;
 				font-size: 1.875rem;
