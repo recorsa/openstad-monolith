@@ -4,7 +4,7 @@ var startDate = moment().subtract(24, 'days').startOf('day');
 module.exports = [{
 	id          : 1,
 	createdAt   : moment('2017-01-31'),
-	image       : '',
+	video       : null,
 	title       : 'Wat stel jij voor?',
 	summary     : `De campagne voor ‘Stem van West’ is nu van start! Met deze campagne willen we de bewoner laten weten dat je nu online een voorstel kunt doen voor je eigen buurt.`,
 	intro       : `De campagne ‘Stem van West’ is nu gestart! Je zult posters in je buurt tegenkomen en misschien ook berichten op Facebook. Leden van het Algemeen Bestuur (AB) gaan de wijk in en leggen uit wat het online platform ‘de Stem van West’ voor jou als bewoner kan betekenen. Het AB wil namelijk graag weten welke interessante ideeën en plannen er leven bij de bewoners van West.`,
@@ -16,7 +16,7 @@ module.exports = [{
 }, {
 	id          : 2,
 	createdAt   : moment(startDate).add(24, 'days'),
-	image       : '',
+	video       : '{"url":"https://player.vimeo.com/video/201816568"}',
 	title       : 'Je stem laten horen helpt!',
 	summary     : `Ralph Stuyver protesteerde tegen de uitbreiding van een supermarkt onder zijn woning. Hierdoor zou het groen in zijn binnentuin verdwijnen. Hij stapte naar het stadsdeel om een oplossing te zoeken. `,
 	intro       : `Die co-creatie van het stadsdeel met ons als bewoners vind ik heel goed.`,
@@ -25,7 +25,7 @@ module.exports = [{
 }, {
 	id          : 3,
 	createdAt   : moment(startDate).add(19, 'days'),
-	image       : '',
+	video       : '{"url":"https://player.vimeo.com/video/201816517"}',
 	title       : 'Autovrije straten in West',
 	summary     : `Bewoner Mischa Woutersen had een bijzonder voorstel: maak meer straten in West tijdelijk autovrij. Bekijk hier hoe zijn plan werkelijkheid werd!`,
 	intro       : `Dorrit de Jong is lid van de bestuurscommissie en vindt dat mensen meer inspraak moeten krijgen bij beslissingen die hun directe omgeving aangaan. Ze zouden meer eigenaar van hun omgeving moeten worden door direct betrokken te worden bij beleidsplannen die hun wijk, buurt of gebied aangaan. Waarom ze dat zo belangrijk vindt wordt duidelijk aan de hand van het project ‘Leefstraten’, dat gebaseerd is op een idee van buurtbewoner Mischa Woutersen.`,
@@ -34,7 +34,7 @@ module.exports = [{
 }, {
 	id          : 4,
 	createdAt   : moment(startDate).add(3, 'days'),
-	image       : '',
+	video       : null,
 	title       : 'Buurtbewoners bemoeien zich met renovatie',
 	summary     : `Bij de herinrichting van het Karel Doormanplein koos een groep actieve bewoners zelf een architect uit voor de renovatie van het jongerencentrum.`,
 	intro       : `Bij de herinrichting van het Karel Doormanplein besloot een groep bewoners om zich actief te bemoeien met de renovatie van het plein. Ze vonden ook dat het jongerencentrum ‘New Society’ op het plein aan grondige verbouwing toe was. Buurtbewoners Lex de Jong en Harry Goossen wisten precies hoe je een plan kunt aandragen bij het stadsdeel en kregen het voor elkaar dat niet alleen het plein werd gerenoveerd, maar ook het jongerencentrum op het plein een opknapbeurt kreeg. De bewoners droegen zelf een architect voor, die het pand mocht renoveren.`,
@@ -55,7 +55,7 @@ module.exports = [{
 }, {
 	id          : 5,
 	createdAt   : moment(startDate).add(14, 'days'),
-	image       : '',
+	video       : null,
 	title       : 'Jeroen wil meer dynamiek!',
 	summary     : `Hij wil bewoners enthousiasmeren mee te denken over de kansen die er liggen om hun buurt nóg beter te maken.`,
 	intro       : `Jeroen wil een sfeer creëren en instrumenten ontwikkelen in West waarbij iedereen mee kan denken, invloed kan uitoefenen én kan meebeslissen over zaken in zijn buurt. Een mooi voorbeeld is de ontwerpwedstrijd voor de betegeling van de fietstunnel van de Zaanstraat in de Spaarndammerbuurt.`,
@@ -72,7 +72,7 @@ module.exports = [{
 }, {
 	id          : 6,
 	createdAt   : moment(startDate).add(10, 'days'),
-	image       : '',
+	video       : null,
 	title       : `De afstand verkleinen tussen bewoner en stadsdeel`,
 	summary     : `De Stem van West helpt bewoners om directer met het stadsdeel te communiceren.`,
 	intro       : `In alle stadsdelen gaan politici de buurt in om signalen van bewoners op te halen en met bewoners te praten. Ook Geert van Schaik doet dit waardoor de bewoners hem makkelijk  weten te vinden Alles dat helpt om de afstand te verkleinen tussen bewoner en stadsdeel wordt door Geert van Schaik toegejuicht.`,
@@ -87,7 +87,7 @@ module.exports = [{
 }, {
 	id          : 7,
 	createdAt   : moment(startDate).add(7, 'days'),
-	image       : '',
+	video       : null,
 	title       : `Bernadette wil meer doen met ideeën uit de buurt`,
 	summary     : `Huiswerklessen geven, koken voor anderen of op elkaars kinderen passen: in de wijk van Bernadette Vieverich gebeurt het allemaal.`,
 	intro       : `Bernadette groeide op in Curaçao, waardoor ze het heel normaal vindt om in een maatschappij te leven met veel diversiteit. “Je moet willen samenwonen en -werken.” Daarom zet ze zich in voor gelijke kansen, gelijke rechten én participatie.`,
@@ -105,7 +105,7 @@ module.exports = [{
 }, {
 	id          : 8,
 	createdAt   : moment(startDate).add(5, 'days'),
-	image       : '',
+	video       : '{"url":"https://player.vimeo.com/video/201816452"}',
 	title       : `Zelf onderwerpen op de agenda van het AB zetten`,
 	summary     : `Als bewoner van Amsterdam West bepaal jij waar de politici het over moeten hebben. Dat dit uniek is wordt door Jelle de Graaf uitgelegd in dit filmpje.`,
 	intro       : `Jelle vindt dat burgers zelf verantwoordelijkheid moeten krijgen én nemen. Hij hoopt dat de Stem van West bewoners aanzet om ideeën te posten waarvoor ze zich samen hard willen maken. Nu kan een bewoner een voorstel posten waarop gestemd kan worden door buurtbewoners. Als het plan genoeg stemmen krijgt, dan wordt het besproken in het Algemeen Bestuur.`,
@@ -118,7 +118,7 @@ module.exports = [{
 }, {
 	id          : 9,
 	createdAt   : moment(startDate).add(1, 'days'),
-	image       : '',
+	video       : null,
 	title       : 'Laat van je horen!',
 	summary     : `Ilana Rooderkerk wil dat je als Amsterdammer in West van je kunt laten horen. Met de Stem van West kun je jouw plan aan alle andere buurtbewoners presenteren.`,
 	intro       : `Ilana Rooderkerk: ’Ik wil dat je als Amsterdammer in West van je kunt laten horen.’`,
@@ -133,7 +133,7 @@ module.exports = [{
 }, {
 	id          : 10,
 	createdAt   : moment(startDate),
-	image       : '',
+	video       : '{"url":"https://player.vimeo.com/video/201816393"}',
 	title       : 'Bewoners op de bres voor behoud van plantsoen',
 	summary     : `Anne Janssen vertelt hoe bewoners zelf actie hebben ondernomen om hun plantsoen te behouden en mooier te maken.`,
 	intro       : ``,
