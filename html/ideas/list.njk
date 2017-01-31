@@ -72,7 +72,6 @@
 {% block footer %}
 	{{super()}}
 	
-	{% if cookieConsent %}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/js/map.js"></script>
 	<script>
@@ -131,5 +130,4 @@
 			map.fitBounds(bounds);
 		}
 	</script>
-	{% endif %}
 {% endblock %}

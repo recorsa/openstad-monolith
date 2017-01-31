@@ -1,6 +1,6 @@
 {% macro map( cookieConsent ) %}
 	<div id="map">
-		{% if not cookieConsent %}
+		{# {% if not cookieConsent %}
 		<div class="consent"><div>
 			Google Maps gebruikt mogelijk cookies voor analyse- en trackingdoeleinden.
 			Deze moet u accepteren om de kaart te kunnen bekijken.
@@ -8,6 +8,6 @@
 			
 			<a href="/accepteer-cookies" class="big">Accepteer cookies</a>
 		</div></div>
-		{% endif %}
+		{% endif %} #}
 	</div>
 {% endmacro %}
