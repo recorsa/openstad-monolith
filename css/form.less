@@ -1,4 +1,5 @@
 #content.newIdea {
+	input[type="text"],
 	textarea {
 		border: 1px solid #C0C0C0;
 		border-radius: 4px;
@@ -164,30 +165,22 @@
 		}
 	}
 	
+	.primary {
+		padding-right: @hMargin;
+	}
+	
 	#titleAndSummary, #location {
-		box-sizing: border-box;
-		float: left;
-		width: 50%;
-		
-		@media @primary100 {
-			float: none;
-			padding: 0 !important;
-			width: 100%;
-		}
-		
 		h2:first-of-type {
 			margin-top: 0;
 		}
 	}
 	#titleAndSummary {
-		padding-right: 10px;
-		
 		input {
 			box-sizing: border-box;
 			width: 100%;
 		}
 		textarea {
-			height: 130px;
+			height: 100px;
 		}
 		#charsLeft {
 			color: #9A9A9A;
@@ -195,7 +188,7 @@
 		}
 	}
 	#location {
-		padding-left: 10px;
+		margin-bottom: 20px;
 		
 		>div {
 			height: 250px;
@@ -205,9 +198,6 @@
 	#description {
 		clear: both;
 		
-		textarea {
-			height: 300px;
-		}
 		#trixToolbar {
 			.button_row {
 				justify-content: flex-start;
@@ -219,6 +209,10 @@
 			button.attach::before {
 				background-image: url('/img/camera.svg');
 			}
+		}
+		textarea,
+		trix-editor {
+			min-height: 200px;
 		}
 	}
 }

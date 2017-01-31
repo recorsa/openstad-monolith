@@ -74,6 +74,7 @@
 {% endif %}
 
 {% if showForm %}
+<div class="primary">
 	<form id="posterImageUpload" action="/image"
 	      {% if idea.posterImage %}
 	      style="background-image: url('/image/{{idea.posterImage.key}}');"
@@ -92,13 +93,6 @@
 			Vertel in maximaal 140 tekens wat je voorstel is.<br>
 			<textarea name="summary">{{idea.summary}}</textarea>
 			<div id="charsLeft"><span>140</span> tekens resterend.</div>
-		</div>
-		<div id="location">
-			<h2>Locatie</h2>
-			Heeft jouw plan betrekking op een specifieke plek in West? Klik dan de juiste locatie in de kaart
-			om een vlaggetje te plaatsen. Versleep het vlaggetje om het te verplaatsen. Door erop te
-			klikken wordt het verwijderd.<br>
-			<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 		</div>
 		
 		<div id="description">
@@ -165,12 +159,21 @@
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</div>
 		
+		<div id="location">
+			<h2>Locatie</h2>
+			Heeft jouw plan betrekking op een specifieke plek in West? Klik dan de juiste locatie in de kaart
+			om een vlaggetje te plaatsen. Versleep het vlaggetje om het te verplaatsen. Door erop te
+			klikken wordt het verwijderd.<br>
+			<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
+		</div>
+		
 		{% if idea.posterImage %}
 		<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
 		{% endif %}
 		
 		<input type="submit" value="Idee opslaan">
 	</form>
+</div>
 {% endif %}
 {% endblock %}
 
