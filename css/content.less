@@ -265,6 +265,30 @@
 		position: relative;
 	}
 	
+	// Video player
+	// ------------
+	.video {
+		background-color: #EFEFEF;
+		padding-bottom: 56.25%;
+		position: relative;
+		width: 100%;
+		
+		&.blocked {
+			background-image: url('/img/vimeo.svg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 90%;
+			height: 250px;
+			padding-bottom: 0;
+		}
+		
+		iframe {
+			height: 100%;
+			position: absolute;
+			width: 100%;
+		}
+	}
+	
 	// .primary and .secondary columns
 	// -------------------------------
 	.primary {

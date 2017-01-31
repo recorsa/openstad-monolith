@@ -12,7 +12,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		video: {
 			type         : DataTypes.TEXT,
-			allowNull    : true
+			allowNull    : true,
+			get          : function() {
+				var raw = this.getDataValue('video');
+				return raw ? JSON.parse(raw) : null;
+			}
 		},
 		title: {
 			type         : DataTypes.STRING(255),
