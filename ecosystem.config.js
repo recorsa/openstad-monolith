@@ -8,6 +8,11 @@ module.exports = {
 			BLUEBIRD_LONG_STACK_TRACES : 1,
 			BLUEBIRD_WARNINGS          : 0
 		},
+		env_staging : {
+			NODE_ENV                   : 'development',
+			BLUEBIRD_LONG_STACK_TRACES : 1,
+			BLUEBIRD_WARNINGS          : 0
+		},
 		env_production : {
 			NODE_ENV                   : 'production',
 			BLUEBIRD_LONG_STACK_TRACES : 1,
@@ -43,7 +48,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'dev'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env dev'
+			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env staging'
 		}
 	}
 }
