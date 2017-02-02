@@ -24,7 +24,7 @@ module.exports = {
 			host          : '185.110.174.172',
 			path          : '/var/www/stemvanwest.amsterdam.nl/www',
 			
-			ref           : 'origin/master',
+			ref           : 'origin/production',
 			repo          : 'ssh://git@git.daanmortier.nl/abtool',
 			
 			env           : {
@@ -32,16 +32,18 @@ module.exports = {
 			},
 			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env production'
 		},
-		// dev : {
-		// 	user : 'node',
-		// 	host : '212.83.163.1',
-		// 	ref  : 'origin/master',
-		// 	repo : 'git@github.com:repo.git',
-		// 	path : '/var/www/development',
-		// 	'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.json --env dev',
-		// 	env  : {
-		// 		NODE_ENV: 'dev'
-		// 	}
-		// }
+		staging : {
+			user          : 'daan',
+			host          : '185.110.174.172',
+			path          : '/var/www/destemvanwest.openstadsdeel.nl/www',
+			
+			ref           : 'origin/staging',
+			repo          : 'ssh://git@git.daanmortier.nl/abtool',
+			
+			env           : {
+				NODE_ENV : 'dev'
+			},
+			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env dev'
+		}
 	}
 }
