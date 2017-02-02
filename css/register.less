@@ -1,14 +1,27 @@
 #content.register {
 	label {
 		display: block;
-		font-weight: bold;
 		margin-bottom: 20px;
 		overflow: hidden;
 		
+		b {
+			display: block;
+		}
 		input {
+			box-sizing: border-box;
 			float: right;
 			font-size: inherit;
-			width: calc(100% - 100px);
+			outline: none;
+			width: 100%;
+		}
+		
+		@media @primary100 {
+			b     { display: inline; }
+			input { width: calc(100% - 100px); }
+		}
+		@media @phone {
+			b     { display: block; }
+			input { width: 100%; }
 		}
 	}
 	input[type="submit"] {
@@ -26,19 +39,19 @@
 			width: 100%;
 		}
 	}
-	#login {
-		padding-right: 15px;
+	>div:first-child {
+		padding-right: 30px;
 	}
-	#register {
-		padding-left: 15px;
+	>div:last-child {
+		padding-left: 30px;
+	}
+	
+	hr {
+		display: none;
+		margin: 20px 0;
 		
-		hr {
-			display: none;
-			margin: 20px 0;
-			
-			@media @primary100 {
-				display: block;
-			}
+		@media @primary100 {
+			display: block;
 		}
 	}
 }

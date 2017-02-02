@@ -5,41 +5,36 @@
 
 {% block content %}
 {% if not user.isLoggedIn() %}
-	<div id="login">
-		<h1>Login</h1>
-		
-		<p>
-			Heb je je al geregistreerd? Vul dan je emailadres in om in te loggen.
-			Je ontvangt dan per email een link waarmee je direct eenmalig in kunt
-			loggen. Hiervoor is geen wachtwoord nodig.
-		</p>
-		
-		<form method="post" action="/account/login_email?ref={{ref}}">
-			<label>Emailadres <input type="email" name="email" value="{{email_login}}"></label>
-			
-			<input type="hidden" name="_csrf" value="{{csrfToken}}">
-			<input type="submit" value="Inloggen">
-		</form>
-	</div>
-
 	<div id="register">
-		<hr>
-		<h1>Registreer account</h1>
+		<h1>Ik heb nog geen account</h1>
 		
 		<p>
-			Om een idee te kunnen uploaden en te reageren op die van buurtgenoten,
-			is een account nodig.
-		</p>
-		<p>
-			Vul hieronder een geldig emailadres in. Je ontvangt dan per email een link
-			waarmee je direct eenmalig in kunt loggen.
+			Je ontvangt per email een link waarmee je de registratie kan afronden.
+			Hierna ben je gelijk ingelogd voor 6 maanden of totdat je uitlogt.
 		</p>
 		
 		<form method="post" action="/account/register?ref={{ref}}">
-			<label>Emailadres <input type="email" name="email" value="{{email_register}}"></label>
+			<label><b>Emailadres</b> <input type="email" name="email" value="{{email_register}}" placeholder="naam@adres.nl"></label>
 			
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="submit" value="Registreren">
+		</form>
+	</div>
+	
+	<div id="login">
+		<hr>
+		<h1>Ik ben al lid</h1>
+		
+		<p>
+			Je ontvangt per email een link waarmee je direct kunt inloggen.
+			Hierna ben je gelijk ingelogd voor 6 maanden of totdat je uitlogt.
+		</p>
+		
+		<form method="post" action="/account/login_email?ref={{ref}}">
+			<label><b>Emailadres</b> <input type="email" name="email" value="{{email_login}}" placeholder="naam@adres.nl"></label>
+			
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="submit" value="Inloggen">
 		</form>
 	</div>
 {% endif %}
