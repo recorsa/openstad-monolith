@@ -12,10 +12,6 @@ var passwordless = require('../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
 
-// Used for sending auth emails.
-var tpl_html     = nunjucks.compile(fs.readFileSync('html/email/login_link.njk', 'utf8'));
-var tpl_txt      = nunjucks.compile(fs.readFileSync('html/email/login_link_text.njk', 'utf8'));
-
 module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', router);
@@ -101,7 +97,6 @@ module.exports = function( app ) {
 		res.out('account/login_token', false, {
 			csrfToken    : req.csrfToken(),
 			invalidToken : !req.query.token,
-			ref          : req.query.ref,
 			token        : req.query.token,
 			uid          : req.query.uid
 		});
@@ -109,22 +104,21 @@ module.exports = function( app ) {
 	.post(function( req, res, next ) {
 		var token = req.body.token;
 		var uid   = req.body.uid;
-		var ref   = req.query.ref;
 		var start = Date.now();
 		
 		passwordless.useToken(token, uid)
-		.then(function( valid ) {
+		.spread(function( valid, originUrl ) {
 			if( !valid ) {
 				throw createError(401, 'Ongeldige link');
 			}
 			
 			req.session[uidProperty] = uid;
-			req.session['ref']       = ref;
+			req.session['ref']       = originUrl;
 			
 			// Delay the response so that it's always a minimum of 200ms.
 			var delay = Math.max(0, 200 - (Date.now() - start));
 			setTimeout(function() {
-				res.success(resolveURL(req.query.ref), true);
+				res.success(resolveURL(originUrl), true);
 			}, delay);
 		})
 		.catch(next);
@@ -168,7 +162,7 @@ module.exports = function( app ) {
 		})
 		.then(function( user ) {
 			res.out('account/token_sent', true, {
-				isNew: !user.complete
+				isNew: !user.hasCompletedRegistration()
 			});
 		})
 		.catch(next);
@@ -220,20 +214,22 @@ function sendAuthToken( user, req ) {
 		throw createError(400, 'User is not a member');
 	}
 	
-	return passwordless.generateToken(user.id)
+	var ref = req.query.ref;
+	return passwordless.generateToken(user.id, ref)
 	.then(function( token ) {
-		var env = {
+		var data = {
+			date     : new Date(),
 			fullHost : req.fullHost,
 			token    : token,
 			userId   : user.id,
-			ref      : req.query.ref
+			ref      : ref
 		};
 		
 		mail.sendMail({
 			to          : user.email,
 			subject     : 'Login link',
-			html        : tpl_html.render(env),
-			text        : tpl_txt.render(env),
+			html        : nunjucks.render('email/login_link.njk', data),
+			text        : nunjucks.render('email/login_link_text.njk', data),
 			attachments : [{
 				filename : 'logo@2x.png',
 				path     : 'img/logo@2x.png',

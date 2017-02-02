@@ -56,8 +56,8 @@
 		},
 		"sessions": {
 			"secret"       : "e56789!ouAr-/t8ewHDyer90_",
-			// Login token TTL in ms.
-			"tokenTTL"     : 3600000,
+			// Login token TTL in ms (default: 48hrs).
+			"tokenTTL"     : 172800000,
 			// Property name to store user ID in `req.session`.
 			"uidProperty"  : "userId",
 			// Cached user instance TTL in seconds.

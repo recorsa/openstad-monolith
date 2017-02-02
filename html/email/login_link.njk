@@ -40,10 +40,11 @@
 									Klik op de knop hieronder om automatisch in te loggen.
 								</p>
 								<p>
-									Deze email is maximaal één uur geldig. Na inloggen kun je dit bericht verwijderen.
+									Deze email is maximaal 48 uur geldig vanaf {{date | date('dddd D MMMM HH:mm')}}.
+									Na een succesvolle inlog wordt de link hieronder ongeldig en kun je dit bericht verwijderen.
 								</p>
 								<p align="middle" style="margin: 3em 0 2em 0;">
-									<a href="{{fullHost}}/account/login_token?token={{token}}&uid={{userId}}&ref={{ref}}" target="_blank"
+									<a href="{{fullHost}}/account/login_token?token={{token}}&uid={{userId}}" target="_blank"
 									   style="background-color: #EC0000; color: #FFF; font-size: 1.25em; padding: 15px 50px; text-decoration: none;"
 									>
 										<b>Log in</b>
@@ -52,7 +53,7 @@
 								<p style="font-size: 0.7em; font-style: italic; margin-bottom: 5em;" align="center">
 									Of gebruik deze link in je browser:
 									<a href="{{fullHost}}/account/login_token?token={{token}}&uid={{userId}}&ref={{ref}}" target="_blank" style="color: #EC0000">
-										{{fullHost}}/account/login_token?token={{token}}&uid={{userId}}&ref={{ref}}
+										{{fullHost}}/account/login_token?token={{token}}&uid={{userId}}
 									</a>
 								</p>
 							</td>

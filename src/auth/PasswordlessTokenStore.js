@@ -9,7 +9,7 @@ var NodeCache    = require('node-cache');
 var TokenStore   = require('passwordless-tokenstore');
 var util         = require('util');
 
-var myCache = new NodeCache();
+var AuthToken    = require('../db').AuthToken;
 
 function NodeCacheStore() {
 	TokenStore.call(this);
@@ -22,10 +22,10 @@ extend(NodeCacheStore.prototype, {
 			throw new Error('TokenStore:authenticate called with invalid parameters');
 		}
 
-		myCache.get(uid, function( err, item ) {
-			if( err ) {
-				return callback(err, false, null);
-			} else if( item == undefined ) {
+		AuthToken.findByUID(uid)
+		.bind(this)
+		.then(function( item ) {
+			if( !item ) {
 				// Key not found.
 				return callback(null, false, null);
 			}
@@ -46,77 +46,66 @@ extend(NodeCacheStore.prototype, {
 
 				return callback(null, false, null);
 			});
-		}.bind(this));
+		})
+		.catch(function( error ) {
+			callback(err, false, null);
+		});
 	},
 
 	storeOrUpdate: function( token, uid, msToLive, originUrl, callback ) {
-		if( !token || !uid || !msToLive || !callback ) {
+		if( !token || !uid || !msToLive || isNaN(msToLive) ) {
 			throw new Error('TokenStore:storeOrUpdate called with invalid parameters');
 		}
 
-		bcrypt.hash(token, 10, function( err, hashedToken ) {
-			if( err ) {
-				return callback(err);
-			}
-
+		return bcrypt.hash(token, 10)
+		.then(function( hashedToken ) {
 			var newRecord = {
 				hashedToken : hashedToken,
 				uid         : uid,
-				ttl         : new Date(Date.now() + msToLive),
+				validUntil  : new Date(Date.now() + msToLive),
 				originUrl   : originUrl
 			};
 
-			myCache.set(uid, newRecord, function( err, success ) {
-				if( !err && success ) {
-					callback();
-				} else {
-					callback(err);
-				}
-			});
-
-		}.bind(this));
+			return AuthToken.upsert(newRecord).asCallback(callback);
+		});
 	},
 
 	invalidateUser: function( uid, callback ) {
-		if( !uid || !callback ) {
+		if( !uid ) {
 			throw new Error('TokenStore:invalidateUser called with invalid parameters');
 		}
 
-		myCache.del(uid, function( err, count ){
-			if( !err ) {
-				callback();
-			} else {
-				callback(err);
-			}
-		});
+		return AuthToken.destroyByUID(uid).asCallback(callback);
 	},
 
 	clear: function( callback ) {
 		if( !callback ) {
 			throw new Error('TokenStore:clear called with invalid parameters');
 		}
-
-		myCache.flushAll();
-		callback();
+		
+		return AuthToken.truncate().asCallback(callback);
 	},
 
 	length: function( callback ) {
-		callback(null, myCache.keys().length);
+		return AuthToken.count().asCallback(callback);
 	},
 
 	_validateToken: function( token, storedItem, callback ) {
-		if( storedItem && storedItem.ttl > new Date() ) {
-			bcrypt.compare(token, storedItem.hashedToken, function( err, res ) {
-				if( err ) {
-					return callback(err, false, null);
-				} else if( res ) {
-					return callback(null, true, storedItem.originUrl);
-				}
-				callback(null, false, null);
-			});
-		} else {
-			callback(null, false, null);
+		if( !storedItem || storedItem.validUntil < new Date() ) {
+			return callback(null, false, null);
 		}
+		
+		bcrypt.compare(token, storedItem.hashedToken, function( err, res ) {
+			if( err ) {
+				return callback(err, false, null);
+			}
+			
+			if( res ) {
+				callback(null, true, storedItem.originUrl);
+			} else {
+				callback(null, false, null);
+			}
+		});
 	}
 });
 

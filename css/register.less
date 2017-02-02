@@ -38,20 +38,27 @@
 			padding: 0 !important;
 			width: 100%;
 		}
+		
+		hr {
+			display: none;
+			margin: 20px 0;
+			
+			@media @primary100 {
+				display: block;
+			}
+		}
+		p {
+			min-height: 4.5em;
+			
+			@media @primary100 {
+				min-height: auto;
+			}
+		}
 	}
 	>div:first-child {
-		padding-right: 30px;
+		padding-right: 20px;
 	}
 	>div:last-child {
-		padding-left: 30px;
-	}
-	
-	hr {
-		display: none;
-		margin: 20px 0;
-		
-		@media @primary100 {
-			display: block;
-		}
+		padding-left: 20px;
 	}
 }

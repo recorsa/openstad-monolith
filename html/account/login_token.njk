@@ -12,17 +12,17 @@
 	
 	Deze login link is niet meer geldig. Mogelijke redenen:
 	<ul>
-		<li>De email is meer dan <b>één uur geleden</b> verzonden.</li>
-		<li>U heeft deze link reeds <b>eerder gebruikt</b> om in te loggen.</li>
+		<li>De email is meer dan <b>48 uur geleden</b> verzonden.</li>
+		<li>Je hebt deze link reeds <b>eerder gebruikt</b> om in te loggen.</li>
 		<li>Er is een <b>technische fout</b> opgetreden.</li>
-		<li>U heeft deze pagina bereikt <b>buiten een email link om</b>.</li>
+		<li>Je hebt deze pagina bereikt <b>buiten een email link om</b>.</li>
 	</ul>
 	
-	Excuses voor het ongemak. <a href="/account/register">Vraag a.u.b. nogmaals een login link aan</a>.
+	Excuses voor het ongemak. <a href="/account/register">Vraag nogmaals een login link aan</a>.
 {% else %}
 	<h1>Inloggen</h1>
 	
-	U kunt eenmalig inloggen met deze link. De e-mail vanuit waar u deze link heeft geopend kunt u hierna verwijderen.
+	Je kunt eenmalig inloggen met deze link. De e-mail vanuit waar je deze link hebt geopend kun je hierna verwijderen.
 	<p>
 	<form method="post">
 		<input type="hidden" name="_csrf" value="{{csrfToken}}">
