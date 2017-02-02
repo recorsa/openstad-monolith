@@ -159,7 +159,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
 				}
 				
-				return this.findOne({where: {email: email}});
+				return this.findOne({where: {
+					email : email
+				}});
 			},
 			
 			registerAnonymous: function( zipCode ) {
@@ -168,7 +170,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					zipCode : zipCode
 				});
 			},
-			registerMember: function( user, email ) {
+			// `currentUser` is the user instance that the system loaded for
+			// this session.
+			registerMember: function( currentUser, email ) {
 				var data = {
 					role  : 'member',
 					email : email
@@ -177,22 +181,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return User.findMember(email)
 				.then(function( existingUser ) {
 					if( existingUser ) {
-						throw createError(400, 'Dit e-mail adres is al in gebruik');
-					}
-					
-					if( user.isAnonymous() ) {
-						return user.update(data);
+						// If there is already a member with this email address,
+						// just return that one. This is probably someone who
+						// actually wants to login.
+						return existingUser;
+					} else if( currentUser.isAnonymous() ) {
+						// If the current user is anonymous, it means they already
+						// created an 'account' by filling in their zipcode during
+						// voting. Upgrade this account to a member.
+						return currentUser.update(data);
 					} else {
-						return User.findOrCreate({
-							where    : {email: data.email},
-							defaults : data
-						})
-						.spread(function( actualUser ) {
-							if( actualUser.hasCompletedRegistration() ) {
-								throw createError(400, 'Dit e-mail adres is al in gebruik');
-							}
-							return actualUser;
-						});
+						// No existing user, and the current user is of type unknown.
+						// Members should not be able to reach this point; the ACL
+						// prevents it.
+						return User.create(data);
 					}
 				});
 			}
