@@ -170,7 +170,7 @@ module.exports  = {
 			autoescape : true
 		});
 		
-		env.addGlobal('env', this.app.get('env'));
+		env.addGlobal('ENV', this.app.get('env'));
 		
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);

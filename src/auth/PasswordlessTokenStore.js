@@ -1,22 +1,19 @@
-// Passwordless token store based on node-cache.
-// 
 // Original: https://github.com/andreafalzetti/passwordless-nodecache
 // Modified to clean up, and to use `bcrypt` instead of `bcryptjs`.
 
-var bcrypt       = require('bcrypt');
-var extend       = require('lodash/extend');
-var NodeCache    = require('node-cache');
-var TokenStore   = require('passwordless-tokenstore');
-var util         = require('util');
+var bcrypt     = require('bcrypt');
+var extend     = require('lodash/extend');
+var TokenStore = require('passwordless-tokenstore');
+var util       = require('util');
 
-var AuthToken    = require('../db').AuthToken;
+var AuthToken  = require('../db').AuthToken;
 
-function NodeCacheStore() {
+function SequelizeStore() {
 	TokenStore.call(this);
 }
-util.inherits(NodeCacheStore, TokenStore);
+util.inherits(SequelizeStore, TokenStore);
 
-extend(NodeCacheStore.prototype, {
+extend(SequelizeStore.prototype, {
 	authenticate: function( token, uid, callback ) {
 		if( !token || !uid || !callback ) {
 			throw new Error('TokenStore:authenticate called with invalid parameters');
@@ -109,4 +106,4 @@ extend(NodeCacheStore.prototype, {
 	}
 });
 
-module.exports = NodeCacheStore;
+module.exports = SequelizeStore;
