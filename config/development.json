@@ -1,4 +1,8 @@
 {
 	"debug": true,
-	"logging": "app:*"
+	"logging": "app:*",
+	
+	"express": {
+		"port": 8082
+	}
 }

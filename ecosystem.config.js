@@ -1,6 +1,24 @@
 module.exports = {
 	apps : [{
-		name      : 'ab-server',
+		name      : 'stem-prod',
+		script    : 'server.js',
+		node_args : '--use-strict',
+		env : {
+			NODE_ENV                   : 'production',
+			BLUEBIRD_LONG_STACK_TRACES : 1,
+			BLUEBIRD_WARNINGS          : 0
+		}
+	}, {
+		name      : 'stem-staging',
+		script    : 'server.js',
+		node_args : '--use-strict',
+		env: {
+			NODE_ENV                   : 'staging',
+			BLUEBIRD_LONG_STACK_TRACES : 1,
+			BLUEBIRD_WARNINGS          : 0
+		}
+	}, {
+		name      : 'stem-dev',
 		script    : 'server.js',
 		node_args : '--use-strict',
 		env: {
@@ -8,19 +26,8 @@ module.exports = {
 			BLUEBIRD_LONG_STACK_TRACES : 1,
 			BLUEBIRD_WARNINGS          : 0
 		},
-		env_staging : {
-			NODE_ENV                   : 'development',
-			BLUEBIRD_LONG_STACK_TRACES : 1,
-			BLUEBIRD_WARNINGS          : 0
-		},
-		env_production : {
-			NODE_ENV                   : 'production',
-			BLUEBIRD_LONG_STACK_TRACES : 1,
-			BLUEBIRD_WARNINGS          : 0
-		},
-		
-		// watch        : true,
-		// ignore_watch : ['\.git', 'node_modules', 'css', 'img']
+		watch        : true,
+		ignore_watch : ['\.git', 'node_modules', 'css', 'img']
 	}],
 	
 	deploy : {
@@ -35,7 +42,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'production'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env production'
+			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-prod'
 		},
 		staging : {
 			user          : 'daan',
@@ -48,7 +55,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'dev'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --update-env --env staging'
+			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
 		}
 	}
 }

@@ -3,6 +3,6 @@
 	"logging": "app:*,-app:db:query",
 	
 	"express": {
-		"port": 8080
+		"port": 8081
 	}
 }
