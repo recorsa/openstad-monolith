@@ -1,5 +1,6 @@
 var config    = require('config');
 var NodeCache = require('node-cache');
+var pmx       = require('pmx');
 
 var db        = require('../db');
 var log       = require('debug')('app:http:session-user');
@@ -9,6 +10,13 @@ var uidProperty = config.get('security.sessions.uidProperty');
 var userCache = new NodeCache({
 	stdTTL    : config.get('security.sessions.userCacheTTL'),
 	useClones : false
+});
+
+// PM2 trigger
+// -----------
+pmx.action('flushUserCache', function( reply ) {
+	userCache.flushAll();
+	reply(userCache.getStats());
 });
 
 db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) {
