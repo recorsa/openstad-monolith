@@ -1,7 +1,7 @@
 var config = require('config');
 
 module.exports = function( req, res, next ) {
-	var consent = req.user.isLoggedIn() || (
+	var consent = (
 	              	req.cookies &&
 	              	req.cookies.cookieConsent == 'true'
 	              );
