@@ -1,6 +1,7 @@
 var config = require('config');
 process.env.DEBUG = config.get('logging');
 
+require('./config/debug');
 require('./config/moment');
 
 // Start HTTP server
