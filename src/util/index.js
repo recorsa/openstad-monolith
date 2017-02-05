@@ -8,7 +8,7 @@ require('useragent/features');
 var util = module.exports = {
 	invokeDir: function( dirName, fn, ctx ) {
 		dirName = util.relativePath(dirName);
-		_invokeDir(dirName, new Set, fn, ctx);
+		_invokeDir(dirName, fn, ctx);
 	},
 	
 	relativePath: function( dirName ) {
@@ -37,27 +37,21 @@ var util = module.exports = {
 	}
 };
 
-function _invokeDir( dirName, fileNames, fn, ctx ) {
+function _invokeDir( dirName, fn, ctx ) {
 	var dir = fs.readdirSync(dirName);
 	for( let fileName of dir ) {
 		var fullPath = path.join(dirName, fileName)
 			, isDir    = fs.lstatSync(fullPath).isDirectory();
 		
 		if( isDir ) {
-			_invokeDir(fullPath, fileNames, fn, ctx);
+			_invokeDir(fullPath, fn, ctx);
 		} else if(
 			fileName !== 'index.js' &&
 			fileName.match(/\.js$/) !== null
 		) {
 			var name = fileName.replace(/\.js$/, '');
-			if( fileNames.has(name) ) {
-				throw new Error('util.invokeDir panics on duplicate file names! ('+fullPath+')');
-			} else {
-				fileNames.add(name);
-			}
-			
 			var file = require(fullPath);
-			fn.call(ctx || file, file, name, fullPath);
+			fn.call(ctx || file, file, name, dirName);
 		}
 	}
 }
