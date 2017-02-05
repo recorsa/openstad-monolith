@@ -36,7 +36,6 @@ module.exports = function( app ) {
 	.get(function( req, res, next) {
 		res.out('ideas/idea', true, {
 			idea      : req.idea,
-			url       : req.fullHost + req.originalUrl,
 			csrfToken : req.csrfToken()
 		});
 	});

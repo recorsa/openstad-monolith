@@ -28,10 +28,6 @@ module.exports  = {
 		this._initSessionMiddleware();
 		this._initRenderMiddleware();
 		
-		// ... some render helping middleware...
-		require('./middleware/proxy_headers')(this.app);
-		require('./middleware/multi_accept')(this.app);
-		
 		// ... then the upload functionality (not compatible with CSRF)...
 		require('./routes/media_get')(this.app);
 		require('./routes/media_upload')(this.app);
@@ -159,21 +155,26 @@ module.exports  = {
 		// });
 	},
 	_initRenderMiddleware: function() {
-		var moment     = require('moment-timezone');
-		var nunjucks   = require('nunjucks');
-		var dateFilter = require('./nunjucks/dateFilter');
-		var duration   = require('./nunjucks/duration');
+		var moment       = require('moment-timezone');
+		// Rendering middleware.
+		var nunjucks     = require('nunjucks');
+		var nunjucksVars = require('./middleware/nunjucks');
+		var multiAccept  = require('./middleware/multi_accept');
+		// Nunjucks variable filters.
+		var dateFilter   = require('./nunjucks/dateFilter');
+		var duration     = require('./nunjucks/duration');
 		
 		var env = nunjucks.configure('html', {
 			express    : this.app,
 			watch      : false,
 			autoescape : true
 		});
-		
-		env.addGlobal('ENV', this.app.get('env'));
+		nunjucksVars(this.app);
+		multiAccept(this.app);
 		
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);
 		env.addFilter('duration', duration);
+		env.addGlobal('ENV', this.app.get('env'));
 	}
 };

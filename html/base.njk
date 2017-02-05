@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
 	
-	<title>{{pageTitle or 'Home'}} — De Stem van West — Gemeente Amsterdam</title>
+	<title>{{pageTitle+' — ' if pageTitle}}De Stem van West — Gemeente Amsterdam</title>
 	
 	<meta name="viewport" content="initial-scale=1">
 	{% block head %}
@@ -96,7 +96,7 @@
 						vinden? Email de Stem van West.
 					</p>
 					<ul>
-						<li><a href="mailto:destemvanwest@amsterdam.nl">Email De Stem van West</a></li>
+						<li><a href="mailto:stemvanwest@amsterdam.nl">Email De Stem van West</a></li>
 					</ul>
 				</div
 				><div>
@@ -114,7 +114,7 @@
 						site? Wij ontvangen graag jouw feedback!
 					</p>
 					<ul>
-						<li><a href="mailto:destemvanwest@amsterdam.nl">Stuur feedback</a></li>
+						<li><a href="mailto:stemvanwest@amsterdam.nl">Stuur feedback</a></li>
 					</ul>
 				</div
 				><div>
@@ -152,7 +152,7 @@
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-91300660-1', 'auto');
+	  ga('create', 'UA-91300660-1', '{{hostname}}');
 	  ga('send', 'pageview');
 
 	</script>

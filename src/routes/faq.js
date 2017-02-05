@@ -30,7 +30,7 @@ var questions = [{
 	id: 4,
 	question: `De site werkt niet. Waar moet ik dit melden?`,
 	answer: `
-		<p>Het spijt ons dat je niet op de site kunt of dat bepaalde onderdelen niet werken. We willen dit snel oplossen. Graag ontvangen wij een email via <a href="mailto:destemvanwest@amsterdam.nl">destemvanwest@amsterdam.nl</a> met daarin een korte uitleg waar het mis gaat en eventueel de URL van de pagina waar het over gaat. Ons team zit paraat om problemen zo snel mogelijk op te lossen! </p>
+		<p>Het spijt ons dat je niet op de site kunt of dat bepaalde onderdelen niet werken. We willen dit snel oplossen. Graag ontvangen wij een email via <a href="mailto:stemvanwest@amsterdam.nl">stemvanwest@amsterdam.nl</a> met daarin een korte uitleg waar het mis gaat en eventueel de URL van de pagina waar het over gaat. Ons team zit paraat om problemen zo snel mogelijk op te lossen! </p>
 	`
 }, {
 	id: 5,
@@ -43,7 +43,7 @@ var questions = [{
 	question: `Wat gebeurt er met mijn voorstel als ik niet de meeste stemmen heb gehaald?`,
 	answer: `
 		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van het Algemeen Bestuur te komen. Elke maand bespreekt het AB het voorstel dat die maand de meeste stemmen heeft gehaald. Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
-		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:destemvanwest@amsterdam.nl">destemvanwest@amsterdam.nl</a>.</p>
+		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:stemvanwest@amsterdam.nl">stemvanwest@amsterdam.nl</a>.</p>
 	`
 }, {
 	id: 7,
