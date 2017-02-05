@@ -1,3 +1,5 @@
+var jsonViews = require('../views');
+
 module.exports = function( app ) {
 	app.use(function defineOutMethod( req, res, next ) {
 		res.out     = out.bind(res, req);
@@ -21,7 +23,7 @@ function out( req, viewPath, allowJSON, data ) {
 		json: function() {
 			if( allowJSON ) {
 				_resolve(req, data).then(function( data ) {
-					res.json(data);
+					jsonViews.render(viewPath, req, res, data);
 				});
 			} else {
 				next(createError(406));
