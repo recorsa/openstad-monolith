@@ -16,8 +16,10 @@ module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', router);
 	
-	// Logging in
-	// ----------
+	// Logging in by email
+	// -------------------
+	// Most people won't have a password set, so this route will
+	// send a login link to their email address.
 	router.route('/login_email')
 	.post(function( req, res, next ) {
 		var start      = Date.now();
@@ -90,6 +92,8 @@ module.exports = function( app ) {
 		});
 	});
 	
+	// Logging in by token
+	// -------------------
 	router.route('/login_token')
 	.get(function( req, res, next ) {
 		res.out('account/login_token', false, {
@@ -158,22 +162,17 @@ module.exports = function( app ) {
 				isNew: !user.hasCompletedRegistration()
 			});
 		})
-		.catch(next);
-	})
-	.all(function( err, req, res, next ) {
-		if(
-			err.status == 400 || err.status == 404 ||
-			req.accepts('html')
-		) {
-			req.flash('error', err.message);
+		.catch(db.sequelize.ValidationError, function( err ) {
+			err.errors.forEach(function( error ) {
+				req.flash('error', error.message);
+			});
 			res.out('account/register', false, {
 				ref            : req.query.ref,
 				email_register : req.body.email,
 				csrfToken      : req.csrfToken()
 			});
-		} else {
-			next(err);
-		}
+		})
+		.catch(next);
 	});
 	
 	// Complete registration
