@@ -1,10 +1,15 @@
-var config      = require('config')
-  , bcrypt      = require('bcrypt')
-  , createError = require('http-errors');
-var extend      = require('lodash/extend')
-  , pick        = require('lodash/pick');
-var log         = require('debug')('app:user');
-var auth        = require('../auth');
+var config         = require('config')
+  , bcrypt         = require('bcrypt')
+  , createError    = require('http-errors');
+var extend         = require('lodash/extend')
+  , pick           = require('lodash/pick');
+var log            = require('debug')('app:user')
+  , sanitize       = require('../util/sanitize');
+var auth           = require('../auth');
+
+// For detecting throwaway accounts in the email address validation.
+var emailBlackList = require('../../config/mail_blacklist')
+  , emailDomain    = /^.+@(.+)$/;
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
@@ -36,7 +41,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : true,
 			unique       : true,
 			validate     : {
-				isEmail: {msg: 'Geen geldig emailadres'}
+				isEmail: {
+					msg: 'Geen geldig emailadres'
+				},
+				notBlackListed: function( email ) {
+					var domainName = emailDomain.exec(email)[1];
+					if( domainName in emailBlackList ) {
+						throw Error('Graag je eigen emailadres gebruiken; geen tijdelijk account');
+					}
+				}
 			}
 		},
 		password: {
@@ -69,11 +82,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 		
 		firstName: {
 			type         : DataTypes.STRING(64),
-			allowNull    : true
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('firstName', sanitize.noTags(value));
+			}
 		},
 		lastName: {
 			type         : DataTypes.STRING(64),
-			allowNull    : true
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('lastName', sanitize.noTags(value));
+			}
 		},
 		fullName: {
 			type         : DataTypes.VIRTUAL,
