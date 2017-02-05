@@ -132,7 +132,7 @@ module.exports  = {
 			cookie: {
 				httpOnly : true,
 				secure   : !config.get('debug'),
-				maxAge   : 31536000000 // 1 year
+				maxAge   : 15768000000 // 6 months
 			}
 		}));
 		// Middleware to fill `req.user` with a `User` instance.
@@ -170,7 +170,7 @@ module.exports  = {
 			autoescape : true
 		});
 		
-		env.addGlobal('env', this.app.get('env'));
+		env.addGlobal('ENV', this.app.get('env'));
 		
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);

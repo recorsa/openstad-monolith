@@ -1,5 +1,3 @@
-var sanitize = require('../util/sanitize');
-
 module.exports = function( db, sequelize, DataTypes ) {
 	var AuthToken = sequelize.define('auth_token', {
 		uid: {

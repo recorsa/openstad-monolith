@@ -53,7 +53,7 @@ module.exports = {
 			repo          : 'ssh://git@git.daanmortier.nl/abtool',
 			
 			env           : {
-				NODE_ENV : 'dev'
+				NODE_ENV : 'production'
 			},
 			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
 		}
