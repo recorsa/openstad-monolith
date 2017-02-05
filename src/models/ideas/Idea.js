@@ -353,7 +353,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			withUser: {
 				include: [{
 					model      : db.User,
-					attributes : ['firstName', 'lastName']
+					attributes : ['firstName', 'lastName', 'email']
 				}]
 			},
 			withVotes: {

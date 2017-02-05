@@ -43,6 +43,8 @@ module.exports = function( role ) {
 			allow    : false,
 			resource : 'argument',
 			message  : 'Argumenten verwijderen niet toegestaan'
-		}
+		},
+		
+		'user:mail'        : false
 	});
 };

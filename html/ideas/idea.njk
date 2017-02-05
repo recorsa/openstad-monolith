@@ -69,7 +69,14 @@
 		<h1>{{idea.title}}</h1>
 		
 		<div id="author">
-			Door <b>{{idea.user.firstName}} {{idea.user.lastName}}</b><br>
+		{% if can('user:mail') %}
+			Door <strong><a href="mailto:{{idea.user.email}}">
+				{{idea.user.firstName}} {{idea.user.lastName}}
+			</a></strong><br>
+		{% else %}
+			Door <strong>{{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
+		{% endif %}
+			
 			{{idea.startDate | date('LL')}}
 		</div>
 		
@@ -336,7 +343,14 @@
 	{% for arg in arguments %}
 		<div class="argument">
 			<div class="user">
-				<strong>{{arg.user.firstName}} {{arg.user.lastName}}</strong> &nbsp;&nbsp;|&nbsp;&nbsp;
+				<strong>
+				{% if can('user:mail') %}
+					<a href="mailto:{{arg.user.email}}">{{arg.user.firstName}} {{arg.user.lastName}}</a>
+				{% else %}
+					{{arg.user.firstName}} {{arg.user.lastName}}
+				{% endif %}
+				</strong>
+				&nbsp;&nbsp;|&nbsp;&nbsp;
 				{{arg.createdAt | date('LLL')}}
 				
 				{% if user.can('arg:edit', idea, arg) %}
