@@ -211,7 +211,7 @@ function sendAuthToken( user, req ) {
 	.then(function( token ) {
 		var data = {
 			date     : new Date(),
-			fullHost : req.fullHost,
+			fullHost : req.protocol+'://'+req.hostname,
 			token    : token,
 			userId   : user.id,
 			ref      : ref

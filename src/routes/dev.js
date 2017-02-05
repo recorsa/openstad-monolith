@@ -54,7 +54,7 @@ module.exports = function( app ) {
 		var userId = req.user.id;
 		var token  = 'temp';
 		var output = tpl.render({
-			fullHost : req.fullHost,
+			fullHost : req.protocol+'://'+req.hostname,
 			token    : token,
 			userId   : userId,
 			ref      : req.query.ref
