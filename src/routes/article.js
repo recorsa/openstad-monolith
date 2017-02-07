@@ -6,7 +6,7 @@ var db          = require('../db');
 
 module.exports = function( app ) {
 	var router = express.Router();
-	app.use('/article', router);
+	app.use('(/article|/artikel)', router);
 	
 	router.route('/:articleId')
 	.all(fetchArticle)

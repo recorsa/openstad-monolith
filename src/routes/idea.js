@@ -9,7 +9,7 @@ var util        = require('../util')
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.route('/ideas')
+	app.route('(/ideas|/plannen)')
 	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
 		var queries = {
@@ -28,7 +28,7 @@ module.exports = function( app ) {
 	// View idea
 	// ---------
 	var router = express.Router();
-	app.use('/idea', router);
+	app.use('(/idea|/plan)', router);
 	
 	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withUser', 'withVotes', 'withPosterImage', 'withArguments'))
@@ -42,7 +42,7 @@ module.exports = function( app ) {
 	
 	// Create idea
 	// -----------
-	router.route('/new')
+	router.route('(/new|/nieuw)')
 	.all(auth.can('idea:create', true))
 	.get(function( req, res ) {
 		var help = req.query.help;
@@ -58,7 +58,7 @@ module.exports = function( app ) {
 		
 		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
-			res.success('/idea/'+idea.id, {idea: idea});
+			res.success('/plan/'+idea.id, {idea: idea});
 		})
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
@@ -96,7 +96,7 @@ module.exports = function( app ) {
 		
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
-			res.success('/idea/'+idea.id, {idea: idea});
+			res.success('/plan/'+idea.id, {idea: idea});
 		})
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
@@ -125,7 +125,7 @@ module.exports = function( app ) {
 		idea.destroy()
 		.then(function() {
 			req.flash('success', 'Je idee is verwijderd');
-			res.success('/ideas', true);
+			res.success('/plannen', true);
 		})
 		.catch(next);
 	});
@@ -197,7 +197,7 @@ module.exports = function( app ) {
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
 			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
-			res.success('/idea/'+idea.id, function json() {
+			res.success('/plan/'+idea.id, function json() {
 				return db.Idea.scope('withVotes').findById(idea.id)
 				.then(function( idea ) {
 					return {idea: idea};
@@ -217,7 +217,7 @@ module.exports = function( app ) {
 		idea.addUserArgument(req.user, req.body)
 		.then(function( argument ) {
 			req.flash('success', 'Argument toegevoegd');
-			res.success('/idea/'+idea.id, {argument: argument});
+			res.success('/plan/'+idea.id, {argument: argument});
 		})
 		.catch(function( err ) {
 			if( err instanceof db.sequelize.ValidationError ) {
@@ -232,7 +232,7 @@ module.exports = function( app ) {
 		if( err.status == 403 && req.accepts('html') ) {
 			var ideaId = req.params.ideaId;
 			req.flash('error', 'Argumenteren kan enkel als geregistreerde gebruiker');
-			res.success('/account/register?ref=/idea/'+ideaId);
+			res.success('/account/register?ref=/plan/'+ideaId);
 		} else {
 			next(err);
 		}
@@ -256,7 +256,7 @@ module.exports = function( app ) {
 		})
 		.then(function() {
 			req.flash('success', 'Argument aangepast');
-			res.success('/idea/'+argument.ideaId, {argument: argument});
+			res.success('/plan/'+argument.ideaId, {argument: argument});
 		})
 		.catch(function( err ) {
 			if( err instanceof db.sequelize.ValidationError ) {
@@ -284,7 +284,7 @@ module.exports = function( app ) {
 		argument.destroy()
 		.then(function() {
 			req.flash('success', 'Argument verwijderd');
-			res.success('/idea/'+ideaId);
+			res.success('/plan/'+ideaId);
 		})
 		.catch(next);
 	});
@@ -298,7 +298,7 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.setStatus(req.body.status)
 		.then(function() {
-			res.success('/idea/'+idea.id, {idea: idea});
+			res.success('/plan/'+idea.id, {idea: idea});
 		})
 		.catch(next);
 	});
@@ -315,7 +315,7 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.setModBreak(req.user, req.body.modBreak)
 		.then(function() {
-			res.success('/idea/'+idea.id, {idea: idea});
+			res.success('/plan/'+idea.id, {idea: idea});
 		})
 		.catch(next);
 	});
@@ -332,7 +332,7 @@ function fetchIdea( /* [scopes] */ ) {
 		db.Idea.scope(scopes).findById(ideaId)
 		.then(function( idea ) {
 			if( !idea ) {
-				next(createError(404, 'Idee niet gevonden'));
+				next(createError(404, 'Plan niet gevonden'));
 			} else {
 				req.idea = idea;
 				next();
