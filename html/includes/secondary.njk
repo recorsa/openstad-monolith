@@ -7,7 +7,7 @@
 {% macro newIdeaBubble() %}
 	<span class="widget speechBubble newIdeaBubble">
 		&ldquo;Heb jij een goed voorstel?&rdquo;
-		<a href="/idea/new" class="big">Stuur je plan in!</a>
+		<a href="/plan/nieuw" class="big">Stuur je plan in!</a>
 	</span>
 {% endmacro %}
 
@@ -17,7 +17,7 @@
 		<ul>
 		{% for idea in ideas %}
 			<li>
-				<a href="/idea/{{idea.id}}">
+				<a href="/plan/{{idea.id}}">
 				<p>{{idea.title}}</p>
 				<div class="ideaStats">
 					<div class="count yes">{{idea.yes}}</div>

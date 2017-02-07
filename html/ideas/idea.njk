@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block quickNav %}
-	<a href="/ideas" id="backToList">Terug naar het overzicht</a>
+	<a href="/plannen" id="backToList">Terug naar het overzicht</a>
 {% endblock %}
 
 {% block content %}
@@ -40,7 +40,7 @@
 					<h2>Stemmen</h2>
 					
 					{% if idea.isOpen() %}
-						<form class="vote" method="POST" action="/idea/{{idea.id}}/vote">
+						<form class="vote" method="POST" action="/plan/{{idea.id}}/vote">
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
 							<button type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">voor</button>
 							<button type="submit" name="opinion" value="no" data-count="{{idea.no}}">tegen</button>
@@ -106,7 +106,7 @@
 	<div class="secondary">
 		{# <h2>Volgen</h2>
 		
-		<form action="/idea/{{idea.id}}/notify">
+		<form action="/plan/{{idea.id}}/notify">
 			<input type="submit" value="Mail updates">
 		</form> #}
 		
@@ -114,13 +114,13 @@
 			<h2>Bewerken</h2>
 			
 			{% if can('idea:edit') %}
-				<form action="/idea/{{idea.id}}/edit">
+				<form action="/plan/{{idea.id}}/edit">
 					<button type="submit" class="edit">Bewerk idee</button>
 				</form>
 			{% endif %}
 			
 			{% if can('idea:delete') %}
-				<form method="POST" action="/idea/{{idea.id}}/delete" id="deleteIdea">
+				<form method="POST" action="/plan/{{idea.id}}/delete" id="deleteIdea">
 					<input type="hidden" name="_method" value="DELETE">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
 					<button type="submit" class="delete">Verwijder idee</button>
@@ -131,7 +131,7 @@
 		{% if can('idea:admin') %}
 			<h2>Beheren</h2>
 			
-			<form method="POST" action="/idea/{{idea.id}}/status">
+			<form method="POST" action="/plan/{{idea.id}}/status">
 				<select name="status" onchange="this.form.submit();">
 					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
 					<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
@@ -144,7 +144,7 @@
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			</form>
 			
-			<form method="GET" action="/idea/{{idea.id}}/mod_break">
+			<form method="GET" action="/plan/{{idea.id}}/mod_break">
 				<button type="submit" class="modBreak">Moderator reactie</button>
 			</form>
 		{% endif %}
@@ -199,7 +199,7 @@
 		textareas.forEach(function( textarea ) {
 			textarea.addEventListener('focus', function( event ) {
 				textarea.blur();
-				document.location.href = '/idea/{{idea.id}}/arg/new';
+				document.location.href = '/plan/{{idea.id}}/arg/new';
 			})
 		});
 		
@@ -320,7 +320,7 @@
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">
 	{% if idea.isOpen() and (not can('idea:edit') or user.isAdmin()) %}
-		<form method="POST" action="/idea/{{idea.id}}/arg/new" class="newArgument">
+		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
 			<textarea
 				name="description"
 				placeholder="{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}"
@@ -354,12 +354,12 @@
 				{{arg.createdAt | date('LLL')}}
 				
 				{% if user.can('arg:edit', idea, arg) %}
-					<form class="action" method="GET" action="/idea/{{idea.id}}/arg/{{arg.id}}/edit">
+					<form class="action" method="GET" action="/plan/{{idea.id}}/arg/{{arg.id}}/edit">
 						<input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
 					</form>
 				{% endif %}
 				{% if user.can('arg:delete', arg) %}
-					<form class="action delete" method="POST" action="/idea/{{idea.id}}/arg/{{arg.id}}/delete">
+					<form class="action delete" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/delete">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="hidden" name="_csrf" value="{{csrfToken}}">
 						<input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
@@ -370,7 +370,7 @@
 			<p>{{arg.description | nl2br | urlize | safe}}</p>
 			
 			{% if user.can('arg:reply', arg) %}
-				<a href="/idea/{{idea.id}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
+				<a href="/plan/{{idea.id}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
 			{% endif %}
 		</div>
 	{% else %}
