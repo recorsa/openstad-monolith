@@ -3,9 +3,13 @@ var db          = require('../db');
 
 module.exports = function( app ) {
 	app.get('/image/:key', function( req, res, next ) {
-		db.Image.findOne({
-			where: {key: req.params.key}
-		})
+		var where = 'thumb' in req.query ?
+		            {key: {$in: [
+		            	req.params.key, db.Image.thumbName(req.params.key)
+		            ]}} :
+		            {key: req.params.key};
+		
+		db.Image.findOne({where: where, order: '`key` DESC'})
 		.then(function( image ) {
 			if( !image ) {
 				return next(createError(404, 'Afbeelding niet gevonden'));
