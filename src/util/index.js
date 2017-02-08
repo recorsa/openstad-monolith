@@ -49,9 +49,9 @@ function _invokeDir( dirName, fn, ctx ) {
 			fileName !== 'index.js' &&
 			fileName.match(/\.js$/) !== null
 		) {
-			var name = fileName.replace(/\.js$/, '');
-			var file = require(fullPath);
-			fn.call(ctx || file, file, name, dirName);
+			var name   = fileName.replace(/\.js$/, '');
+			var module = require(fullPath);
+			fn.call(ctx || module, module, name, dirName);
 		}
 	}
 }
