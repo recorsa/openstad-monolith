@@ -1,8 +1,11 @@
-var co       = require('co')
-  , config   = require('config')
-  , moment   = require('moment-timezone')
-  , pick     = require('lodash/pick');
-var sanitize = require('../../util/sanitize');
+var co         = require('co')
+  , config     = require('config')
+  , moment     = require('moment-timezone')
+  , pick       = require('lodash/pick')
+  , Promise    = require('bluebird');
+
+var sanitize   = require('../../util/sanitize');
+var ImageOptim = require('../../ImageOptim');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
@@ -304,6 +307,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				);
 				
 				return Promise.all(queries).then(function() {
+					ImageOptim.processIdea(self.id);
 					return self;
 				});
 			}
