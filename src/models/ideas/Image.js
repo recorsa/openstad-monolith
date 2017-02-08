@@ -1,4 +1,4 @@
-var co = require('co');
+var path = require('path');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Image = sequelize.define('image', {
@@ -40,12 +40,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 		
 		indexes: [{
 			fields : ['key'],
-			unique : false
+			unique : true
 		}],
 		
 		classMethods: {
 			associate: function( models ) {
 				this.belongsTo(models.Idea);
+			},
+			
+			thumbName: function( fileName ) {
+				var extName  = path.extname(fileName);
+				var baseName = path.basename(fileName, extName);
+				if( baseName.substr(-6) === '_thumb' ) {
+					return fileName;
+				} else {
+					return `${baseName}_thumb${extName}`;
+				}
 			}
 		}
 	});
