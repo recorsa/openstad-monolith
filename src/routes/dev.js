@@ -48,18 +48,13 @@ module.exports = function( app ) {
 		var fs       = require('fs');
 		var nunjucks = require('nunjucks');
 		
-		var src = fs.readFileSync('html/email/login_link.njk', 'utf8');
-		var tpl = nunjucks.compile(src);
-		
-		var userId = req.user.id;
-		var token  = 'temp';
-		var output = tpl.render({
+		res.render('email/'+req.params.page, {
+			complete : 'complete' in req.query,
+			date     : new Date(),
 			fullHost : req.protocol+'://'+req.hostname,
-			token    : token,
-			userId   : userId,
+			token    : 'temp',
+			userId   : req.user.id,
 			ref      : req.query.ref
 		});
-		
-		res.send(output);
 	});
 }
