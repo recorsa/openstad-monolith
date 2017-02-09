@@ -206,10 +206,13 @@ function sendAuthToken( user, req ) {
 		throw createError(400, 'User is not a member');
 	}
 	
-	var ref = req.query.ref;
+	var hasCompletedRegistration = user.hasCompletedRegistration();
+	var ref                      = req.query.ref;
+	
 	return passwordless.generateToken(user.id, ref)
 	.then(function( token ) {
 		var data = {
+			complete : hasCompletedRegistration,
 			date     : new Date(),
 			fullHost : req.protocol+'://'+req.hostname,
 			token    : token,
@@ -219,7 +222,9 @@ function sendAuthToken( user, req ) {
 		
 		mail.sendMail({
 			to          : user.email,
-			subject     : 'Login link',
+			subject     : hasCompletedRegistration ?
+			              'Inloggen' :
+			              'Registreren',
 			html        : nunjucks.render('email/login_link.njk', data),
 			text        : nunjucks.render('email/login_link_text.njk', data),
 			attachments : [{
