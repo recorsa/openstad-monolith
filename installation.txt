@@ -65,7 +65,7 @@ npm install
 pm2 deploy production setup
 # [END LOCAL]
 
-cd /var/www/stemvanwest.amsterdam.nl/current
+cd /var/www/stemvanwest.amsterdam.nl/www/current
 git submodule init
 git submodule update
 # Edit so that this git repository has access to all branches, not just master.
