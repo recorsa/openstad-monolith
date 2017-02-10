@@ -367,7 +367,7 @@
 				{% endif %}
 			</div>
 			
-			<p>{{arg.description | nl2br | urlize | safe}}</p>
+			<p>{{arg.description | urlize | nl2br | safe}}</p>
 			
 			{% if user.can('arg:reply', arg) %}
 				<a href="/plan/{{idea.id}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
