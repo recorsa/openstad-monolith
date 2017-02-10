@@ -1,6 +1,7 @@
 var config     = require('config');
-var nodemailer = require('nodemailer');
 var defaults   = require('lodash/defaults');
+var nodemailer = require('nodemailer');
+var Promise    = require('bluebird');
 
 var debug      = require('debug');
 var log        = debug('app:mail:sent');
@@ -29,19 +30,15 @@ var defaultSendMailOptions = {
 };
 module.exports = {
 	sendMail: function( options ) {
-		return new Promise(function( resolve, reject ) {
-			transporter.sendMail(
-				defaults(options, defaultSendMailOptions),
-				function( error, info ) {
-					if( error ) {
-						logError(error)
-						reject(error);
-					} else {
-						log(info.response);
-						resolve(info);
-					}
+		transporter.sendMail(
+			defaults(options, defaultSendMailOptions),
+			function( error, info ) {
+				if( error ) {
+					logError(error.message)
+				} else {
+					log(info.response);
 				}
-			);
-		});
+			}
+		);
 	}
 }
