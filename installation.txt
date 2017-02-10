@@ -9,9 +9,12 @@ apt-get install mysql-server mysql-client
 # Removes nginx-server, nginx-common etc.
 apt autoremove
 mysql_secure_installation
+# TODO: Create database.
+# TODO: Setup read/write user for database.
 
 # Node
 # ----
+# TODO: Ubuntu 16 has `nvm` in APT?
 apt-get install build-essential libssl-dev
 exit
 cd ~
@@ -53,5 +56,24 @@ apachectl start
 # This key must be added to the git permissions of git.daanmortier.nl
 ssh-keygen -t rsa -b 4096 -C "Openstadsdeel Server"
 
+# Install application
+# -------------------
+# [ON LOCAL BOX]
+npm install -g pm2
+git clone --recursive git.daanmortier.nl/abtool
+npm install
+pm2 deploy production setup
+# [END LOCAL]
 
-WLk7HefHgVpWvpvHebJgVisG
+cd /var/www/stemvanwest.amsterdam.nl/current
+git submodule init
+git submodule update
+# Edit so that this git repository has access to all branches, not just master.
+# Seems to be a bug in PM2.
+git config -e
+# Create config/local.json with connection settings etc.
+nano config/local.json
+
+# [ON LOCAL BOX]
+pm2 deploy production [--force]
+# [END LOCAL]
