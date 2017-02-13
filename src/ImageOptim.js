@@ -15,7 +15,7 @@ var self = module.exports = {
 	start: function() {
 		if( child ) return;
 		
-		child = cp.fork(__dirname+'/../optim.js', [], {
+		child = cp.fork(__dirname+'/optim/index.js', [], {
 			silent: true
 		});
 		
