@@ -225,7 +225,7 @@ extend(Role.prototype, {
 		}
 		
 		var resource, allow, message;
-		if( typeof def === 'object' && def.constructor === Object ) {
+		if( def instanceof Object && def.constructor === Object ) {
 			resource = def.resource;
 			allow    = def.allow;
 			message  = def.message;
