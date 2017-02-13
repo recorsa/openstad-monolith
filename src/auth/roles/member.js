@@ -15,7 +15,8 @@ module.exports = function( role ) {
 			allow   : mayAddArgument,
 			message : 'U kunt geen argument aan uw eigen idee toevoegen'
 		},
-		'arg:edit'         : mayMutateArgument
+		'arg:edit'         : mayMutateArgument,
+		'arg:delete'       : mayMutateArgument
 	});
 };
 
@@ -26,6 +27,7 @@ function mayAddArgument( user, idea ) {
 	return user.id !== idea.userId &&
 	       idea.isOpen();
 }
+// TODO: Deny when arg replies exist.
 function mayMutateArgument( user, idea, argument ) {
 	return user.id === argument.userId &&
 	       idea.isOpen();

@@ -41,7 +41,7 @@ module.exports = function( role ) {
 		},
 		'arg:delete'       : {
 			allow    : false,
-			resource : 'argument',
+			resource : ['idea', 'argument'],
 			message  : 'Argumenten verwijderen niet toegestaan'
 		},
 		

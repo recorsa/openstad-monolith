@@ -358,7 +358,7 @@
 						<input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
 					</form>
 				{% endif %}
-				{% if user.can('arg:delete', arg) %}
+				{% if user.can('arg:delete', idea, arg) %}
 					<form class="action delete" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/delete">
 						<input type="hidden" name="_method" value="DELETE">
 						<input type="hidden" name="_csrf" value="{{csrfToken}}">
