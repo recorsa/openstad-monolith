@@ -52,7 +52,7 @@ extend(MemoryStore.prototype, {
 		
 		function processAsset( asset ) {
 			if( !asset ) return;
-			if( assetId != undefined ) {
+			if( assetId !== undefined ) {
 				processInstance(asset.instances.get(assetId));
 			} else {
 				asset.instances.forEach(processInstance);
