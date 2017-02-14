@@ -9,8 +9,8 @@ hub.subscribe(1, null, null, ['arg:*', '*:edit']);
 hub.subscribe(2, 'idea', null, ['arg:add', 'vote']);
 
 Promise.all([
-	hub.trigger('idea', 1, 'arg:add'),
-	hub.trigger('foo', 10, 'bla:edit')
+	hub.trigger(3, 'idea', 11, 'arg:add'),
+	hub.trigger(3, 'foo', 666, 'bla:edit')
 ]).then(function( result ) {
 	result.forEach(ary(console.log, 1));
 });

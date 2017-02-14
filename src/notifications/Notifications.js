@@ -32,9 +32,9 @@ extend(Notifications.prototype, {
 		return this.store.removeEventListener(userId, assetName, assetId, eventNames);
 	},
 	
-	trigger: function( assetName, assetId, eventName ) {
-		var userIds = this.store.getUsersForEvent(assetName, assetId, eventName);
-		return userIds;
+	trigger: function( sourceUserId, assetName, assetId, eventName ) {
+		var self = this;
+		return this.store.getUsersForEvent(sourceUserId, assetName, assetId, eventName)
 	}
 });
 

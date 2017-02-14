@@ -24,14 +24,18 @@ extend(MemoryStore.prototype, {
 		return Promise.resolve();
 	},
 	
-	getUsersForEvent: function( assetName, assetId, eventName ) {
+	getUsersForEvent: function( sourceUserId, assetName, assetId, eventName ) {
 		var userIds = new Set;
 		function addUser( event ) {
 			if( event.name === null || event.regex.test(eventName) ) {
 				// Merge sets.
 				userIds = new Set(function*() {
 					yield* userIds;
-					yield* event.users;
+					for( var userId of event.users ) {
+						if( userId != sourceUserId ) {
+							yield userId;
+						}
+					}
 				}());
 			}
 		}
