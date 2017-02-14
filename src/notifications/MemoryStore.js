@@ -1,30 +1,31 @@
 var extend        = require('lodash/extend');
 var util          = require('util');
+var Promise       = require('bluebird');
+
 var Notifications = require('./Notifications');
+var Store         = Notifications.Store;
 
 var MemoryStore = module.exports = function() {
-	Notifications.Store.call(this);
+	Store.call(this);
 };
-util.inherits(MemoryStore, Notifications.Store);
+util.inherits(MemoryStore, Store);
 
 extend(MemoryStore.prototype, {
-	addEvent: function( userId, assetName, assetId, eventNames ) {
+	addEventListener: function( userId, assetName, assetId, eventNames ) {
+		var self = this;
 		eventNames.forEach(function( eventName ) {
-			var event = this._assureEvent(assetName, assetId, eventName);
+			var event = self._assureEvent(assetName, assetId, eventName);
 			event.users.add(userId);
-		}, this);
-	},
-	removeEvent: function( userId, assetName, assetId, eventNames ) {
+		});
 		
+		return Promise.resolve();
+	},
+	removeEventListener: function( userId, assetName, assetId, eventNames ) {
+		return Promise.resolve();
 	},
 	
 	getUsersForEvent: function( assetName, assetId, eventName ) {
 		var userIds = new Set;
-		this._eachEvent(assetName, assetId, addUser);
-		this._eachEvent(assetName, null, addUser);
-		this._eachEvent(null, null, addUser);
-		return userIds;
-		
 		function addUser( event ) {
 			if( event.name === null || event.regex.test(eventName) ) {
 				// Merge sets.
@@ -34,6 +35,12 @@ extend(MemoryStore.prototype, {
 				}());
 			}
 		}
+		
+		this._eachEvent(assetName, assetId, addUser);
+		this._eachEvent(assetName, null, addUser);
+		this._eachEvent(null, null, addUser);
+		
+		return Promise.resolve(userIds);
 	},
 	
 	_eachEvent: function( assetName, assetId, callback, ctx ) {
@@ -94,15 +101,11 @@ extend(MemoryStore.prototype, {
 		} else {
 			event = {
 				name  : eventName,
-				regex : this._query2RegExp(eventName),
+				regex : Notifications.query2RegExp(eventName),
 				users : new Set
 			};
 			instance.events.set(eventName, event);
 			return event;
 		}
-	},
-	
-	_query2RegExp: function( query ) {
-		return new RegExp(Notifications.query2RegExpString(query));
 	}
 });

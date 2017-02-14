@@ -4,6 +4,8 @@ const util         = require('util');
 const EventEmitter = require('events');
 const extend       = require('lodash/extend');
 
+// Notifications manager
+// ---------------------
 function Notifications( store ) {
 	this.store = store;
 }
@@ -17,8 +19,7 @@ extend(Notifications.prototype, {
 			eventNames = [eventNames];
 		}
 		
-		this.store.addEvent(userId, assetName, assetId, eventNames);
-		return this;
+		return this.store.addEventListener(userId, assetName, assetId, eventNames);
 	},
 	unsubscribe: function( userId, assetName, assetId, eventNames ) {
 		if( !userId ) {
@@ -28,8 +29,7 @@ extend(Notifications.prototype, {
 			eventNames = [eventNames];
 		}
 		
-		this.store.removeEvent(userId, assetName, assetId, eventNames);
-		return this;
+		return this.store.removeEventListener(userId, assetName, assetId, eventNames);
 	},
 	
 	trigger: function( assetName, assetId, eventName ) {
@@ -47,7 +47,7 @@ extend(Store.prototype, {
 	getUsersForEvent: function( assetName, assetId, eventName ) {}
 });
 
-Notifications.query2RegExpString = function( query ) {
+Notifications.query2RegExp = function( query ) {
 	query = String(query).replace(/:?\*:?/g, function( match ) {
 		switch( match ) {
 			case '*:':
@@ -60,7 +60,7 @@ Notifications.query2RegExpString = function( query ) {
 				return '(?:.*?)';
 		}
 	});
-	return '^'+query+'$';
+	return new RegExp('^'+query+'$');
 };
 
 Notifications.Notifications = Notifications;
