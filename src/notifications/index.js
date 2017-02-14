@@ -2,15 +2,41 @@ var ary           = require('lodash/ary');
 var Promise       = require('bluebird');
 
 var Notifications = require('./Notifications');
+var Publication   = Notifications.Publication;
 var MemoryStore   = require('./MemoryStore');
 
-var hub = new Notifications(new MemoryStore());
-hub.subscribe(1, null, null, ['arg:*', '*:edit']);
-hub.subscribe(2, 'idea', null, ['arg:add', 'vote']);
+var store = new MemoryStore();
+var hub   = new Notifications(store);
+
+var pub = hub.addPublication(new Publication('email', store, {
+	'*': {
+		events    : ['*']
+	},
+	'idea': [{
+		events    : ['arg:*'],
+		frequency : 10
+	}, {
+		events    : ['*'],
+		frequency : 0
+	}]
+}));
 
 Promise.all([
+	hub.subscribe('email', 1, null, null, ['arg:*', '*:edit']),
+	hub.subscribe('email', 2, 'idea', null, ['arg:add', 'vote']),
+	
 	hub.trigger(3, 'idea', 11, 'arg:add'),
+	hub.trigger(3, 'idea', 11, 'arg:edit'),
+	hub.trigger(1, 'idea', 12, 'arg:add'),
 	hub.trigger(3, 'foo', 666, 'bla:edit')
 ]).then(function( result ) {
-	result.forEach(ary(console.log, 1));
+	pub.processQueue(function( user ) {
+		console.log(`USER(${user.id}, freq ${user.frequency})\n----`);
+		for( let [assetName, asset] of user.assets ) {
+			for( let [instanceId, events] of asset ) {
+				console.log(`${assetName}(${instanceId}) [${Array.from(events)}]`);
+			}
+		}
+		console.log();
+	});
 });
