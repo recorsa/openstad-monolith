@@ -5,6 +5,7 @@ const defaults     = require('lodash/defaults');
 const EventEmitter = require('events');
 const extend       = require('lodash/extend');
 const forEach      = require('lodash/forEach');
+const Promise      = require('bluebird');
 
 // Notifications manager
 // ---------------------
@@ -44,13 +45,20 @@ extend(Notifications.prototype, {
 	},
 	
 	trigger: function( sourceUserId, assetName, assetId, eventName ) {
+		var events = [];
+		
 		this.publications.forEach(function( publication, pubName ) {
-			this.store.getUsersForEvent(pubName, sourceUserId, assetName, assetId, eventName)
-			.then(function( userIds ) {
-				if( !userIds.size ) return;
-				publication.onEvent(assetName, assetId, eventName, userIds);
-			});
+			events.push(
+				this.store.getUsersForEvent(pubName, sourceUserId, assetName, assetId, eventName)
+				.then(function( userIds ) {
+					return userIds.size ?
+					       publication.onEvent(assetName, assetId, eventName, userIds) :
+					       null;
+				})
+			);
 		}, this);
+		
+		return Promise.all(events).return(true);
 	}
 });
 
@@ -78,10 +86,13 @@ Notifications.query2RegExp = function( query ) {
 // 		frequency : 0
 // 	}>, ...]
 // }>
-function Publication( name, store, assets ) {
+function Publication( name, store, options ) {
 	this.name   = name;
 	this.store  = store;
-	this.assets = this._processEvents(assets);
+	this.assets = this._processEvents(options.assets);
+	
+	delete options.assets;
+	this.options = options;
 }
 extend(Publication.prototype, {
 	// Called by `Notifications.trigger`.
@@ -89,10 +100,10 @@ extend(Publication.prototype, {
 		var options = this._getEventOptions(assetName, eventName);
 		if( !options ) return;
 		
-		this.queue(assetName, assetId, eventName, userIds, options);
+		return this.queue(assetName, assetId, eventName, userIds, options);
 	},
 	queue: function( assetName, assetId, eventName, userIds, options ) {
-		this.store.queueEvent(this.name, assetName, assetId, eventName, userIds, options);
+		return this.store.queueEvent(this.name, assetName, assetId, eventName, userIds, options);
 	},
 	processQueue: function( callback, ctx ) {
 		this.store.iterateEventQueue(this.name, callback, ctx);

@@ -9,16 +9,21 @@ var store = new MemoryStore();
 var hub   = new Notifications(store);
 
 var pub = hub.addPublication(new Publication('email', store, {
-	'*': {
-		events    : ['*']
-	},
-	'idea': [{
-		events    : ['arg:*'],
-		frequency : 10
-	}, {
-		events    : ['*'],
-		frequency : 0
-	}]
+	assets: {
+		// Catch-all only used when no matching asset is found.
+		'*': {
+			events    : ['*']
+		},
+		// When asset definition is an array, the first matching
+		// definition is used when triggering an event.
+		'idea': [{
+			events    : ['arg:*'],
+			frequency : 300
+		}, {
+			events    : ['*'],
+			frequency : 0
+		}]
+	}
 }));
 
 Promise.all([

@@ -49,18 +49,8 @@ extend(MemoryStore.prototype, {
 	},
 	
 	queueEvent: function( pubName, assetName, assetId, eventName, userIds, options ) {
-		var pub = this._assurePublication(pubName);
-		
 		userIds.forEach(function( userId ) {
-			var user = pub.users.get(userId);
-			if( !user ) {
-				user = {
-					id        : userId,
-					frequency : Infinity,
-					assets    : new Map
-				};
-				pub.users.set(userId, user);
-			}
+			var user = this._assureUser(pubName, userId);
 			// `options.frequency` always exists.
 			user.frequency = Math.min(user.frequency, options.frequency);
 			
@@ -174,5 +164,20 @@ extend(MemoryStore.prototype, {
 			instance.events.set(eventName, event);
 			return event;
 		}
+	},
+	
+	_assureUser: function( pubName, userId ) {
+		var pub  = this._assurePublication(pubName);
+		var user = pub.users.get(userId);
+		if( !user ) {
+			user = {
+				id          : userId,
+				frequency   : Infinity,
+				lastMessage : new Date(0),
+				assets      : new Map
+			};
+			pub.users.set(userId, user);
+		}
+		return user;
 	}
 });
