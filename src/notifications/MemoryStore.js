@@ -5,6 +5,42 @@ var Promise       = require('bluebird');
 var Notifications = require('./Notifications');
 var Store         = Notifications.Store;
 
+/*
+```
+this.pubs = <Map>{
+	<pubName>: {
+		name   : pubName,
+		assets : <Map>{
+			<assetName>: {
+				name      : assetName,
+				instances : <Map>{
+					<assetId>: {
+						id     : assetId,
+						events : <Map>{
+							<eventName>: {
+								name  : eventName,
+								regex : RegExp,
+								users : <Set>[userId,...]
+							}
+						}
+					}
+				}
+			}
+		},
+		users: <Map>{
+			<userId>: {
+				id          : userId,
+				frequency   : Number,
+				lastMessage : Date
+				assets      : <Map>{
+					<assetId>: <Set>[eventName,...]
+				}
+			}
+		}
+	}
+}
+```
+*/
 var MemoryStore = module.exports = function() {
 	Store.call(this);
 	this.pubs = new Map;
