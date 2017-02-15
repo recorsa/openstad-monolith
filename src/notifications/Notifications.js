@@ -87,6 +87,10 @@ Notifications.query2RegExp = function( query ) {
 // 	}>, ...]
 // }>
 function Publication( name, store, options ) {
+	if( !options.sendMessage ) {
+		throw Error('Missing `options.sendMessage` handler');
+	}
+	
 	this.name   = name;
 	this.store  = store;
 	this.assets = this._processEvents(options.assets);
@@ -106,8 +110,26 @@ extend(Publication.prototype, {
 		return this.store.queueEvent(this.name, assetName, assetId, eventName, userIds, options);
 	},
 	processQueue: function( callback, ctx ) {
-		this.store.iterateEventQueue(this.name, callback, ctx);
-		this.store.clearEventQueue(this.name);
+		return this.store.iterateQueue(this.name, function( user ) {
+			return this.sendMessage(user)
+			.tap(function( messageSent ) {
+				if( messageSent ) {
+					return this.store.setLastUserMessage(this.name, user.id, new Date());
+				}
+			})
+		}, this);
+	},
+	sendMessage: function( user ) {
+		return this.store.userWantsMessage(this.name, user.id)
+		.bind(this)
+		.tap(function( isInterested ) {
+			if( isInterested ) {
+				return Promise.all([
+					this.options.sendMessage.call(this, user),
+					this.store.clearQueue(this.name, user.id)
+				]);
+			}
+		})
 	},
 	
 	_getEventOptions: function( assetName, eventName ) {
@@ -158,10 +180,12 @@ extend(Store.prototype, {
 	getUsersForEvent    : function( pubName, sourceUserId, assetName, assetId, eventName ) {},
 	
 	queueEvent          : function( pubName, assetName, assetId, eventName, userIds, options ) {},
-	// `callback( user, userId )` — `user` is not a user entity, rather a map of
-	// events with relevant asset IDs for that user.
-	iterateEventQueue   : function( pubName, callback, ctx ) {},
-	clearEventQueue     : function( pubName ) {}
+	iterateQueue        : function( pubName, callback, ctx ) {},
+	removeQueueUser     : function( pubName, userId ) {},
+	clearQueue          : function( pubName ) {},
+	
+	userWantsMessage    : function( pubName, userId ) {},
+	setLastUserMessage  : function( pubName, userId, time ) {},
 });
 
 // Export

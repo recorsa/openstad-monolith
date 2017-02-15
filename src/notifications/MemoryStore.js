@@ -69,17 +69,38 @@ extend(MemoryStore.prototype, {
 		
 		return Promise.resolve();
 	},
-	iterateEventQueue: function( pubName, callback, ctx ) {
-		var pub = this.pubs.get(pubName);
-		if( !pub ) return;
-		pub.users.forEach(function( user, userId ) {
-			callback.call(ctx, user, userId);
-		});
+	iterateQueue: function( pubName, callback, ctx ) {
+		var pub    = this.pubs.get(pubName);
+		var result = [];
+		if( pub ) {
+			pub.users.forEach(function( user ) {
+				result.push(callback.call(ctx, user));
+			});
+		}
+		return Promise.all(result).return();
 	},
-	clearEventQueue: function( pubName ) {
-		var pub = this.pubs.get(pubName);
-		if( !pub ) return;
-		pub.users.clear();
+	clearQueue: function( pubName, userId ) {
+		var pub = this._assurePublication(pubName);
+		if( userId ) {
+			var user = this._assureUser(pubName, userId);
+			user.assets.clear();
+		} else {
+			pub.users.clear();
+		}
+		
+		return Promise.resolve();
+	},
+	
+	userWantsMessage: function( pubName, userId ) {
+		var user         = this._assureUser(pubName, userId);
+		var isInterested = user.assets.size &&
+		                   (new Date() - user.lastMessage >= user.frequency * 1000);
+		return Promise.resolve(!!isInterested);
+	},
+	setLastUserMessage: function( pubName, userId, time ) {
+		var user = this._assureUser(pubName, userId);
+		user.lastMessage = new Date(+time);
+		return Promise.resolve();
 	},
 	
 	_eachEvent: function( pubName, assetName, assetId, callback, ctx ) {

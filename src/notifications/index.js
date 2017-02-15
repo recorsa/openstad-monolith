@@ -23,9 +23,23 @@ var pub = hub.addPublication(new Publication('email', store, {
 			events    : ['*'],
 			frequency : 0
 		}]
+	},
+	
+	sendMessage: function( user ) {
+		console.log(`USER(${user.id}, freq ${user.frequency}, last ${user.lastMessage})\n----`);
+		for( let [assetName, asset] of user.assets ) {
+			for( let [instanceId, events] of asset ) {
+				console.log(`${assetName}(${instanceId}) [${Array.from(events)}]`);
+			}
+		}
+		console.log();
+		
+		return Promise.resolve();
 	}
 }));
 
+// Tests
+// -----
 Promise.all([
 	hub.subscribe('email', 1, null, null, ['arg:*', '*:edit']),
 	hub.subscribe('email', 2, 'idea', null, ['arg:add', 'vote']),
@@ -34,14 +48,21 @@ Promise.all([
 	hub.trigger(3, 'idea', 11, 'arg:edit'),
 	hub.trigger(1, 'idea', 12, 'arg:add'),
 	hub.trigger(3, 'foo', 666, 'bla:edit')
-]).then(function( result ) {
-	pub.processQueue(function( user ) {
-		console.log(`USER(${user.id}, freq ${user.frequency})\n----`);
-		for( let [assetName, asset] of user.assets ) {
-			for( let [instanceId, events] of asset ) {
-				console.log(`${assetName}(${instanceId}) [${Array.from(events)}]`);
-			}
-		}
-		console.log();
-	});
+])
+.then(function() {
+	console.log('======');
+	return pub.processQueue();
+})
+.then(function() {
+	return [
+		hub.trigger(3, 'idea', 11, 'arg:add'),
+		hub.trigger(3, 'idea', 11, 'arg:edit'),
+		hub.trigger(1, 'idea', 12, 'arg:add'),
+		hub.trigger(3, 'foo', 666, 'bla:edit')
+	];
+})
+.all()
+.then(function( result ) {
+	console.log('======');
+	return pub.processQueue();
 });
