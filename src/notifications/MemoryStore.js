@@ -106,14 +106,14 @@ extend(MemoryStore.prototype, {
 		return Promise.resolve();
 	},
 	iterateQueue: function( pubName, callback, ctx ) {
-		var pub    = this.pubs.get(pubName);
-		var result = [];
+		var pub     = this.pubs.get(pubName);
+		var actions = [];
 		if( pub ) {
 			pub.users.forEach(function( user ) {
-				result.push(callback.call(ctx, user));
+				actions.push(callback.call(ctx, user));
 			});
 		}
-		return Promise.all(result).return();
+		return Promise.all(actions).return();
 	},
 	clearQueue: function( pubName, userId ) {
 		var pub = this._assurePublication(pubName);

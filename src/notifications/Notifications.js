@@ -109,23 +109,19 @@ extend(Publication.prototype, {
 	queue: function( assetName, assetId, eventName, userIds, options ) {
 		return this.store.queueEvent(this.name, assetName, assetId, eventName, userIds, options);
 	},
-	processQueue: function( callback, ctx ) {
+	processQueue: function() {
 		return this.store.iterateQueue(this.name, function( user ) {
-			return this.sendMessage(user)
-			.tap(function( messageSent ) {
-				if( messageSent ) {
-					return this.store.setLastUserMessage(this.name, user.id, new Date());
-				}
-			})
+			return this.sendMessage(user);
 		}, this);
 	},
 	sendMessage: function( user ) {
 		return this.store.userWantsMessage(this.name, user.id)
 		.bind(this)
-		.tap(function( isInterested ) {
-			if( isInterested ) {
+		.tap(function( userWantsMessage ) {
+			if( userWantsMessage ) {
 				return Promise.all([
 					this.options.sendMessage.call(this, user),
+					this.store.setLastUserMessage(this.name, user.id, new Date()),
 					this.store.clearQueue(this.name, user.id)
 				]);
 			}
