@@ -16,7 +16,7 @@ util.inherits(Notifications, EventEmitter);
 extend(Notifications.prototype, {
 	subscribe: function( pubName, userId, assetName, assetId, eventNames ) {
 		if( !userId ) {
-			throw Error('No user ID');
+			return Promise.reject(Error('No user ID'));
 		}
 		if( !Array.isArray(eventNames) ) {
 			eventNames = [eventNames];
@@ -24,13 +24,13 @@ extend(Notifications.prototype, {
 		
 		var pub = this.publications.get(pubName);
 		if( !pub ) {
-			throw Error(`Missing publication: ${pubName}`);
+			return Promise.reject(Error(`Missing publication: ${pubName}`));
 		}
 		return pub.addEventListener(userId, assetName, assetId, eventNames);
 	},
 	unsubscribe: function( pubName, userId, assetName, assetId, eventNames ) {
 		if( !userId ) {
-			throw Error('No user ID');
+			return Promise.reject(Error('No user ID'));
 		}
 		if( !Array.isArray(eventNames) ) {
 			eventNames = [eventNames];
@@ -38,14 +38,14 @@ extend(Notifications.prototype, {
 		
 		var pub = this.publications.get(pubName);
 		if( !pub ) {
-			throw Error(`Missing publication: ${pubName}`);
+			return Promise.reject(Error(`Missing publication: ${pubName}`));
 		}
 		return pub.removeEventListener(userId, assetName, assetId, eventNames);
 	},
 	
 	addPublication: function( publication ) {
 		if( this.publications.has(publication.name) ) {
-			throw Error(`Duplicate publication name: ${publication.name}`);
+			return Promise.reject(Error(`Duplicate publication name: ${publication.name}`));
 		}
 		this.publications.set(publication.name, publication);
 		return publication;
