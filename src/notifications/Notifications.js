@@ -79,6 +79,7 @@ Notifications.query2RegExp = function( query ) {
 // Publication
 // -----------
 // options: {
+// 	[autoSend: false,]
 // 	assets: {
 // 		<assetName>: [{
 // 			events    : [eventName,...]
@@ -97,7 +98,10 @@ function Publication( name, store, options ) {
 	this.assets = this._processEvents(options.assets);
 	
 	delete options.assets;
-	this.options = options;
+	options.autoSend = 'autoSend' in options ?
+	                   !!options.autoSend :
+	                   false;
+	this.options     = options;
 }
 extend(Publication.prototype, {
 	addEventListener: function( userId, assetName, assetId, eventNames ) {
@@ -118,6 +122,11 @@ extend(Publication.prototype, {
 			return options ?
 			       this.queue(assetName, assetId, eventName, userIds, options) :
 			       null;
+		})
+		.tap(function() {
+			if( this.options.autoSend ) {
+				return this.processQueue();
+			}
 		});
 	},
 	queue: function( assetName, assetId, eventName, userIds, options ) {
