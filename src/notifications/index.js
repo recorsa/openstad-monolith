@@ -6,7 +6,7 @@ var Publication   = Notifications.Publication;
 var MemoryStore   = require('./MemoryStore');
 
 var store = new MemoryStore();
-var hub   = new Notifications(store);
+var hub   = new Notifications();
 
 var pub = hub.addPublication(new Publication('email', store, {
 	assets: {

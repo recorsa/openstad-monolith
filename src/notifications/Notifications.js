@@ -9,8 +9,7 @@ const Promise      = require('bluebird');
 
 // Notifications manager
 // ---------------------
-function Notifications( store ) {
-	this.store        = store;
+function Notifications() {
 	this.publications = new Map;
 }
 util.inherits(Notifications, EventEmitter);
@@ -23,7 +22,11 @@ extend(Notifications.prototype, {
 			eventNames = [eventNames];
 		}
 		
-		return this.store.addEventListener(pubName, userId, assetName, assetId, eventNames);
+		var pub = this.publications.get(pubName);
+		if( !pub ) {
+			throw Error(`Missing publication: ${pubName}`);
+		}
+		return pub.addEventListener(userId, assetName, assetId, eventNames);
 	},
 	unsubscribe: function( pubName, userId, assetName, assetId, eventNames ) {
 		if( !userId ) {
@@ -33,7 +36,11 @@ extend(Notifications.prototype, {
 			eventNames = [eventNames];
 		}
 		
-		return this.store.removeEventListener(pubName, userId, assetName, assetId, eventNames);
+		var pub = this.publications.get(pubName);
+		if( !pub ) {
+			throw Error(`Missing publication: ${pubName}`);
+		}
+		return pub.removeEventListener(userId, assetName, assetId, eventNames);
 	},
 	
 	addPublication: function( publication ) {
@@ -49,12 +56,7 @@ extend(Notifications.prototype, {
 		
 		this.publications.forEach(function( publication, pubName ) {
 			events.push(
-				this.store.getUsersForEvent(pubName, sourceUserId, assetName, assetId, eventName)
-				.then(function( userIds ) {
-					return userIds.size ?
-					       publication.onEvent(assetName, assetId, eventName, userIds) :
-					       null;
-				})
+				publication.onEvent(sourceUserId, assetName, assetId, eventName)
 			);
 		}, this);
 		
@@ -99,12 +101,25 @@ function Publication( name, store, options ) {
 	this.options = options;
 }
 extend(Publication.prototype, {
+	addEventListener: function( userId, assetName, assetId, eventNames ) {
+		return this.store.addEventListener(this.name, userId, assetName, assetId, eventNames);
+	},
+	removeEventListener: function( userId, assetName, assetId, eventNames ) {
+		return this.store.removeEventListener(this.name, userId, assetName, assetId, eventNames);
+	},
+	
 	// Called by `Notifications.trigger`.
-	onEvent: function( assetName, assetId, eventName, userIds ) {
-		var options = this._getEventOptions(assetName, eventName);
-		if( !options ) return;
-		
-		return this.queue(assetName, assetId, eventName, userIds, options);
+	onEvent: function( sourceUserId, assetName, assetId, eventName, userIds ) {
+		this.store.getUsersForEvent(this.name, sourceUserId, assetName, assetId, eventName)
+		.bind(this)
+		.then(function( userIds ) {
+			var options = userIds.size ?
+			              this._getEventOptions(assetName, eventName) :
+			              undefined;
+			return options ?
+			       this.queue(assetName, assetId, eventName, userIds, options) :
+			       null;
+		});
 	},
 	queue: function( assetName, assetId, eventName, userIds, options ) {
 		return this.store.queueEvent(this.name, assetName, assetId, eventName, userIds, options);
