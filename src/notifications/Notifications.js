@@ -11,6 +11,9 @@ function Notifications() {
 }
 extend(Notifications.prototype, {
 	subscribe: function( pubName, userId, assetName, assetId, eventNames ) {
+		if( arguments.length != 5 ) {
+			return Promise.reject(Error('Incorrect argument count'));
+		}
 		if( !userId ) {
 			return Promise.reject(Error('No user ID'));
 		}
@@ -25,6 +28,9 @@ extend(Notifications.prototype, {
 		return pub.addEventListener(userId, assetName, assetId, eventNames);
 	},
 	unsubscribe: function( pubName, userId, assetName, assetId, eventNames ) {
+		if( arguments.length != 5 ) {
+			return Promise.reject(Error('Incorrect argument count'));
+		}
 		if( !userId ) {
 			return Promise.reject(Error('No user ID'));
 		}
