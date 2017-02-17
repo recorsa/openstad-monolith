@@ -5,32 +5,24 @@ var Notifications = require('./Notifications');
 var Publication   = Notifications.Publication;
 var MemoryStore   = require('./MemoryStore');
 
-var store = new MemoryStore();
-var hub   = new Notifications();
-
-var pub = hub.addPublication(new Publication('email', store, {
+var notifications = new Notifications();
+var pub = notifications.addPublication(new Publication('email', new MemoryStore(), {
+	autoSend: true,
+	
 	assets: {
-		// Catch-all only used when no matching asset is found.
-		'*': {
-			events    : ['*']
-		},
-		// When asset definition is an array, the first matching
-		// definition is used when triggering an event.
 		'idea': [{
-			events    : ['arg:*'],
-			frequency : 300
-		}, {
-			events    : ['*'],
+			events    : ['create'],
+			frequency : 0
+		}],
+		'arg': [{
+			events    : ['create', 'edit'],
 			frequency : 0
 		}]
 	},
-	
 	sendMessage: function( user ) {
 		// TODO: Implement mail functionality.
 		return Promise.resolve();
 	}
 }));
 
-module.exports = {
-	
-};
+module.exports = notifications;
