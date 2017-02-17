@@ -1,8 +1,5 @@
 'use strict';
 
-const util         = require('util');
-const defaults     = require('lodash/defaults');
-const EventEmitter = require('events');
 const extend       = require('lodash/extend');
 const forEach      = require('lodash/forEach');
 const Promise      = require('bluebird');
@@ -12,7 +9,6 @@ const Promise      = require('bluebird');
 function Notifications() {
 	this.publications = new Map;
 }
-util.inherits(Notifications, EventEmitter);
 extend(Notifications.prototype, {
 	subscribe: function( pubName, userId, assetName, assetId, eventNames ) {
 		if( !userId ) {
@@ -82,12 +78,15 @@ Notifications.query2RegExp = function( query ) {
 
 // Publication
 // -----------
-// assets<{
-// 	assetName: [options<{
-// 		events    : [eventName,...]
-// 		frequency : 0
-// 	}>, ...]
-// }>
+// options: {
+// 	assets: {
+// 		<assetName>: [{
+// 			events    : [eventName,...]
+// 			frequency : 0
+// 		}>, ...]
+// 	},
+// 	sendMessage: handler<function(users)>
+// }
 function Publication( name, store, options ) {
 	if( !options.sendMessage ) {
 		throw Error('Missing `options.sendMessage` handler');
