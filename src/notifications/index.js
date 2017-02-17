@@ -11,11 +11,11 @@ var pub = notifications.addPublication(new Publication('email', new MemoryStore(
 	
 	assets: {
 		'idea': [{
-			events    : ['create'],
+			events    : ['create', 'update'],
 			frequency : 0
 		}],
 		'arg': [{
-			events    : ['create', 'edit'],
+			events    : ['create', 'update'],
 			frequency : 0
 		}]
 	},
