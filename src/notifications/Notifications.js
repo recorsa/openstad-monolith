@@ -110,6 +110,11 @@ function Publication( name, store, options ) {
 	this.options     = options;
 }
 extend(Publication.prototype, {
+	name    : undefined,
+	store   : undefined,
+	assets  : undefined,
+	options : undefined,
+	
 	addEventListener: function( userId, assetName, assetId, eventNames ) {
 		return this.store.addEventListener(this.name, userId, assetName, assetId, eventNames);
 	},
@@ -150,7 +155,7 @@ extend(Publication.prototype, {
 			if( userWantsMessage ) {
 				return Promise.all([
 					this.options.sendMessage.call(this, user),
-					this.store.setLastUserMessage(this.name, user.id, new Date()),
+					this.store.updateLastMessageDate(this.name, user.id, new Date()),
 					this.store.clearQueue(this.name, user.id)
 				]);
 			}
@@ -200,17 +205,17 @@ extend(Publication.prototype, {
 // -----
 function Store() {}
 extend(Store.prototype, {
-	addEventListener    : function( pubName, userId, assetName, assetId, eventNames ) {},
-	removeEventListener : function( pubName, userId, assetName, assetId, eventNames ) {},
-	getUsersForEvent    : function( pubName, sourceUserId, assetName, assetId, eventName ) {},
+	addEventListener      : function( pubName, userId, assetName, assetId, eventNames ) {},
+	removeEventListener   : function( pubName, userId, assetName, assetId, eventNames ) {},
+	getUsersForEvent      : function( pubName, sourceUserId, assetName, assetId, eventName ) {},
 	
-	queueEvent          : function( pubName, assetName, assetId, eventName, userIds, options ) {},
-	iterateQueue        : function( pubName, callback, ctx ) {},
-	removeQueueUser     : function( pubName, userId ) {},
-	clearQueue          : function( pubName ) {},
+	queueEvent            : function( pubName, assetName, assetId, eventName, userIds, options ) {},
+	iterateQueue          : function( pubName, callback, ctx ) {},
+	removeQueueUser       : function( pubName, userId ) {},
+	clearQueue            : function( pubName ) {},
 	
-	userWantsMessage    : function( pubName, userId ) {},
-	setLastUserMessage  : function( pubName, userId, time ) {},
+	userWantsMessage      : function( pubName, userId ) {},
+	updateLastMessageDate : function( pubName, userId, time ) {},
 });
 
 // Export

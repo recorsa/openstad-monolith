@@ -49,11 +49,10 @@ util.inherits(MemoryStore, Store);
 
 extend(MemoryStore.prototype, {
 	addEventListener: function( pubName, userId, assetName, assetId, eventNames ) {
-		var self = this;
 		eventNames.forEach(function( eventName ) {
-			var event = self._assureEvent(pubName, assetName, assetId, eventName);
+			var event = this._assureEvent(pubName, assetName, assetId, eventName);
 			event.users.add(userId);
-		});
+		}, this);
 		
 		return Promise.resolve();
 	},
@@ -133,7 +132,7 @@ extend(MemoryStore.prototype, {
 		                   (new Date() - user.lastMessage >= user.frequency * 1000);
 		return Promise.resolve(!!isInterested);
 	},
-	setLastUserMessage: function( pubName, userId, time ) {
+	updateLastMessageDate: function( pubName, userId, time ) {
 		var user = this._assureUser(pubName, userId);
 		user.lastMessage = new Date(+time);
 		return Promise.resolve();
@@ -179,6 +178,7 @@ extend(MemoryStore.prototype, {
 			return pub;
 		}
 	},
+	
 	_assureAsset: function( pubName, assetName ) {
 		var pub = this._assurePublication(pubName);
 		var asset;
