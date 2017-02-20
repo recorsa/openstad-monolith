@@ -117,7 +117,7 @@ extend(MemoryStore.prototype, {
 	},
 	clearQueue: function( pubName, userId ) {
 		var pub = this._assurePublication(pubName);
-		if( userId ) {
+		if( userId != undefined ) {
 			var user = this._assureUser(pubName, userId);
 			user.assets.clear();
 		} else {

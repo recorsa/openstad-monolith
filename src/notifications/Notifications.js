@@ -14,7 +14,7 @@ extend(Notifications.prototype, {
 		if( arguments.length != 5 ) {
 			return Promise.reject(Error('Incorrect argument count'));
 		}
-		if( !userId ) {
+		if( userId == undefined ) {
 			return Promise.reject(Error('No user ID'));
 		}
 		if( !Array.isArray(eventNames) ) {
@@ -31,7 +31,7 @@ extend(Notifications.prototype, {
 		if( arguments.length != 5 ) {
 			return Promise.reject(Error('Incorrect argument count'));
 		}
-		if( !userId ) {
+		if( userId == undefined ) {
 			return Promise.reject(Error('No user ID'));
 		}
 		if( !Array.isArray(eventNames) ) {
