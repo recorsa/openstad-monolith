@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var sharp   = require('sharp');
 
-var db      = require('../../src/db');
+var db      = require('../../db');
 
 module.exports = function( params ) {
 	var ideaId = params.id;

@@ -1,7 +1,12 @@
-var config = require('config');
-process.env.DEBUG = config.get('logging');
+// Image optimization
+// ------------------
+// This module is forked in `ImageOptim` to run as a separate process.
+var util = require('../util');
 
-var actions = require('./src_optim/actions');
+var actions = {};
+util.invokeDir('./actions', function( action, actionName ) {
+	actions[actionName] = action;
+});
 
 process.stdin.resume();
 process.send('ready');

@@ -276,6 +276,7 @@ module.exports = function( app ) {
 	// Delete argument
 	// ---------------
 	router.route('/:ideaId/arg/:argId/delete')
+	.all(fetchIdea())
 	.all(fetchArgument)
 	.all(auth.can('arg:delete'))
 	.delete(function( req, res, next ) {
