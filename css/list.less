@@ -44,9 +44,28 @@
 		
 		.tile {
 			background-color: #F6F7F7;
+			position: relative;
 			
+			&.ACCEPTED {
+				// box-shadow: inset 0px 0px 0px 4px #00A03C;
+				border: 4px solid #00A03C;
+				top: -4px;
+				
+				.duration {
+					background-color: #00A03C;
+					background-image: none;
+					font-weight: bold;
+					padding-left: 5px;
+				}
+			}
 			&.DENIED {
 				opacity: 0.5;
+				
+				.duration {
+					background-color: #454545;
+					background-image: none;
+					padding-left: 5px;
+				}
 			}
 			&.USER {
 				background-color: #EAFADD;
