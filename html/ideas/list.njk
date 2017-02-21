@@ -37,17 +37,19 @@
 					<div class="image"></div>
 				{% endif %}
 				
-				<h3>{{idea.title}}</h3>
-				<p>{{idea.summary}}</p>
-				
-				<div class="ideaProgress">
-					<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
-				</div>
-				
-				<div class="ideaStats">
-					<div class="count yes">{{idea.yes}}</div>
-					<div class="count no">{{idea.no}}</div>
-					<div class="count arguments">{{idea.argCount}}</div>
+				<div class="info">
+					<h3>{{idea.title}}</h3>
+					<p>{{idea.summary}}</p>
+					
+					<div class="ideaProgress">
+						<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
+					</div>
+					
+					<div class="ideaStats">
+						<div class="count yes">{{idea.yes}}</div>
+						<div class="count no">{{idea.no}}</div>
+						<div class="count arguments">{{idea.argCount}}</div>
+					</div>
 				</div>
 				</a>
 			</div>{%
