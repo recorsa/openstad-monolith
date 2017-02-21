@@ -1,11 +1,12 @@
-var co         = require('co')
-  , config     = require('config')
-  , moment     = require('moment-timezone')
-  , pick       = require('lodash/pick')
-  , Promise    = require('bluebird');
+var co            = require('co')
+  , config        = require('config')
+  , moment        = require('moment-timezone')
+  , pick          = require('lodash/pick')
+  , Promise       = require('bluebird');
 
-var sanitize   = require('../../util/sanitize');
-var ImageOptim = require('../../ImageOptim');
+var sanitize      = require('../../util/sanitize');
+var ImageOptim    = require('../../ImageOptim');
+var notifications = require('../../notifications');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
@@ -260,7 +261,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 				var filtered = pick(data, ['sentiment', 'description']);
 				filtered.ideaId = this.id;
 				filtered.userId = user.id;
-				return db.Argument.create(filtered);
+				return db.Argument.create(filtered)
+				.tap(function( argument ) {
+					notifications.trigger(user.id, 'arg', argument.id, 'create');
+				});
+			},
+			updateUserArgument: function( user, argument, description ) {
+				return argument.update({
+					description: description
+				})
+				.tap(function( argument ) {
+					notifications.trigger(user.id, 'arg', argument.id, 'update');
+				});
 			},
 			
 			setModBreak: function( user, modBreak ) {

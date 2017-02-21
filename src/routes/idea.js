@@ -241,7 +241,8 @@ module.exports = function( app ) {
 	// Edit argument
 	// -------------
 	router.route('/:ideaId/arg/:argId/edit')
-	.all(fetchIdea(), fetchArgument)
+	.all(fetchIdea())
+	.all(fetchArgument)
 	.all(auth.can('arg:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form_arg', false, {
@@ -250,27 +251,25 @@ module.exports = function( app ) {
 		});
 	})
 	.put(function( req, res, next ) {
-		var argument = req.argument;
-		argument.update({
-			description: req.body.description
-		})
-		.then(function() {
+		var user        = req.user;
+		var argument    = req.argument;
+		var description = req.body.description;
+		
+		req.idea.updateUserArgument(user, argument, description)
+		.then(function( argument ) {
 			req.flash('success', 'Argument aangepast');
 			res.success('/plan/'+argument.ideaId, {argument: argument});
 		})
-		.catch(function( err ) {
-			if( err instanceof db.sequelize.ValidationError ) {
-				err.errors.forEach(function( error ) {
-					req.flash('error', error.message);
-				});
-				res.out('ideas/form_arg', false, {
-					argument  : req.argument,
-					csrfToken : req.csrfToken()
-				});
-			} else {
-				next(err);
-			}
-		});
+		.catch(db.sequelize.ValidationError, function( err ) {
+			err.errors.forEach(function( error ) {
+				req.flash('error', error.message);
+			});
+			res.out('ideas/form_arg', false, {
+				argument  : req.argument,
+				csrfToken : req.csrfToken()
+			});
+		})
+		.catch(next);
 	});
 	
 	// Delete argument

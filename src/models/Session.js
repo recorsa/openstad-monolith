@@ -7,6 +7,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		expires: DataTypes.DATE,
 		data: DataTypes.TEXT
 	}, {
-		paranoid: false
+		paranoid : false,
+		charset  : 'utf8',
 	});
 };

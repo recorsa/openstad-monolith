@@ -36,7 +36,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultValue : false
 		}
 	}, {
-		paranoid: false,
+		paranoid : false,
+		charset  : 'utf8',
 		
 		indexes: [{
 			fields : ['key'],

@@ -1,13 +1,10 @@
 var config  = require('config');
 var Promise = require('bluebird');
 
+Promise.longStackTraces();
 process.env.DEBUG = config.get('logging');
 
-// Start HTTP server
-// -----------------
-var Server  = require('./src/Server');
-var Cron    = require('./src/Cron');
-var db      = require('./src/db');
+var db = require('./src/db');
 
 if( !config.get('debug') ) {
 	console.error('Not in debug mode');

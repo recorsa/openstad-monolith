@@ -65,6 +65,14 @@
 		}
 	},
 	
+	"notifications": {
+		"admin": {
+			// Special high-frequency email notifications for site administrators.
+			// Should probably not be a personal email account.
+			"emailAddress": null
+		}
+	},
+	
 	"ideas": {
 		// Running duration in days.
 		"duration": 90,

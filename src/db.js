@@ -8,13 +8,15 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 	dialect        : dbConfig.dialect,
 	host           : dbConfig.host,
 	dialectOptions : {
-		multipleStatements: dbConfig.multipleStatements
+		charset            : 'utf8mb4',
+		multipleStatements : dbConfig.multipleStatements
 	},
 	timeZone       : config.timeZone,
 	logging        : require('debug')('app:db:query'),
 	typeValidation : true,
 	
 	define: {
+		charset        : 'utf8mb4',
 		underscored    : false, // preserve columName casing.
 		underscoredAll : true, // tableName to table_name.
 		paranoid       : true // deletedAt column instead of removing data.
