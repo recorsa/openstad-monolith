@@ -14,16 +14,14 @@ var notifications = new Notifications();
 var adminEmail = config.get('notifications.admin.emailAddress');
 if( adminEmail ) {
 	var pub = notifications.addPublication(new Publication('admin', new MemoryStore(), {
-		autoSend: true,
-		
 		assets: {
 			'idea': [{
 				events    : ['create', 'update'],
-				frequency : 0
+				frequency : 600 // 10 minutes
 			}],
 			'arg': [{
 				events    : ['create', 'update'],
-				frequency : 0
+				frequency : 600
 			}]
 		},
 		

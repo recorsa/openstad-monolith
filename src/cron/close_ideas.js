@@ -5,7 +5,7 @@ var db  = require('../db');
 // -------
 // Auto-close ideas that passed the deadline.
 // 
-// Runs every 10 minutes.
+// Runs every 5 minutes.
 module.exports = {
 	cronTime: '0 */5 * * * *',
 	runOnInit: true,
