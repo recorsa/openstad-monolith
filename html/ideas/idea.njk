@@ -42,8 +42,12 @@
 					{% if idea.isOpen() %}
 						<form class="vote" method="POST" action="/plan/{{idea.id}}/vote">
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-							<button type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">voor</button>
-							<button type="submit" name="opinion" value="no" data-count="{{idea.no}}">tegen</button>
+							<button class="{{'selected' if userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
+								voor
+							</button>
+							<button class="{{'selected' if userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
+								tegen
+							</button>
 						</form>
 						
 						<div class="ideaProgress">

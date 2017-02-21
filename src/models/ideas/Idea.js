@@ -225,6 +225,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		instanceMethods: {
+			getUserVote: function( user ) {
+				return db.Vote.findOne({
+					attributes: ['opinion'],
+					where: {
+						ideaId : this.id,
+						userId : user.id
+					}
+				});
+			},
 			isOpen: function() {
 				return this.status === 'OPEN';
 			},
