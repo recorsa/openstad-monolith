@@ -41,7 +41,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 		email: {
 			type         : DataTypes.STRING(255),
 			allowNull    : true,
-			unique       : true,
 			validate     : {
 				isEmail: {
 					msg: 'Geen geldig emailadres'
@@ -124,6 +123,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	}, {
+		charset: 'utf8',
+		
+		indexes: [{
+			fields: ['email'],
+			unique: true
+		}],
+		
 		validate: {
 			hasValidUserRole: function() {
 				if( this.id !== 1 && this.role === 'unknown' ) {

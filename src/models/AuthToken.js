@@ -18,7 +18,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false
 		}
 	}, {
-		paranoid: false,
+		paranoid : false,
+		charset  : 'utf8',
 		
 		indexes: [{
 			fields: ['hashedToken'],
