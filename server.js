@@ -1,11 +1,13 @@
 var config = require('config');
 process.env.DEBUG = config.get('logging');
 
-require('./config/debug');
-require('./config/moment');
+// Order is relevant.
 require('./config/promises');
+require('./config/moment');
+require('./config/debug');
+require('./config/notifications');
 
-// Start HTTP server
+// Start HTTP server.
 var Server     = require('./src/Server');
 var Cron       = require('./src/Cron');
 var ImageOptim = require('./src/ImageOptim');

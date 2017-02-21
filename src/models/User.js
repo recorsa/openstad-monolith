@@ -1,11 +1,13 @@
-var config         = require('config')
-  , bcrypt         = require('bcrypt')
-  , createError    = require('http-errors');
-var extend         = require('lodash/extend')
+var bcrypt         = require('bcrypt')
+  , config         = require('config')
+  , createError    = require('http-errors')
+  , extend         = require('lodash/extend')
+  , log            = require('debug')('app:user')
   , pick           = require('lodash/pick');
-var log            = require('debug')('app:user')
-  , sanitize       = require('../util/sanitize');
+
 var auth           = require('../auth');
+var notifications  = require('../notifications');
+var sanitize       = require('../util/sanitize');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -285,7 +287,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				filtered.startDate = Date.now();
 				
 				return db.Idea.create(filtered)
-				.then(function( idea ) {
+				.bind(this)
+				.tap(function( idea ) {
+					notifications.trigger(this.id, 'idea', idea.id, 'create');
+				})
+				.tap(function( idea ) {
 					return idea.updateImages(imageKeys);
 				});
 			},
@@ -294,7 +300,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
 				
 				return idea.update(filtered)
-				.then(function() {
+				.bind(this)
+				.tap(function( idea ) {
+					notifications.trigger(this.id, 'idea', idea.id, 'update');
+				})
+				.tap(function() {
 					return idea.updateImages(imageKeys);
 				});
 			}
