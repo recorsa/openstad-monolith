@@ -199,15 +199,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 					where: {
 						$or: [
 							{status: {$in: ['OPEN', 'CLOSED']}},
-							{
-								$and: [
-									{status: 'DENIED'},
+							// {
+							// 	$and: [
+							// 		{status: 'DENIED'},
 									sequelize.where(db.Meeting.rawAttributes.date, '>=', new Date())
-								]
-							}
+							// 	]
+							// }
 						]
 					},
-					order   : 'status, endDate DESC',
+					order   : `
+						CASE status
+							WHEN 'DENIED' THEN 0
+							WHEN 'ACCEPTED' THEN 2
+							WHEN 'BUSY' THEN 3
+							WHEN 'DONE' THEN 4
+							ELSE 1
+						END DESC,
+						endDate DESC
+					`,
 					include : [{
 						model: db.Meeting,
 						attributes: []
@@ -225,6 +234,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		instanceMethods: {
+			getUserVote: function( user ) {
+				return db.Vote.findOne({
+					attributes: ['opinion'],
+					where: {
+						ideaId : this.id,
+						userId : user.id
+					}
+				});
+			},
 			isOpen: function() {
 				return this.status === 'OPEN';
 			},

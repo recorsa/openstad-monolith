@@ -78,6 +78,8 @@
 			}
 			
 			.vote {
+				overflow: hidden;
+				
 				button {
 					.appearance(none);
 					
@@ -101,12 +103,6 @@
 					text-align: center;
 					width: calc(100% - 46px);
 					
-					&[value="yes"] {
-						background-image: url('/img/thumbsup_white_big.svg');
-					}
-					&[value="no"] {
-						background-image: url('/img/thumbsdown_white_big.svg');
-					}
 					&::before {
 						border: 1px solid #EC0000;
 						box-sizing: border-box;
@@ -117,6 +113,27 @@
 						position: absolute;
 						top: 0;
 						width: 42px;
+					}
+					&[value="yes"] {
+						background-image: url('/img/thumbsup_white_big.svg');
+					}
+					&[value="no"] {
+						background-image: url('/img/thumbsdown_white_big.svg');
+					}
+					&:disabled {
+						background-color: gray;
+						cursor: default;
+					}
+					&:disabled::before {
+						border-color: gray;
+						color: gray;
+					}
+					&.selected {
+						background-color: #009E3D;
+					}
+					&.selected::before {
+						border-color: #009E3D;
+						color: #009E3D;
 					}
 				}
 			}

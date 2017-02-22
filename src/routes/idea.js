@@ -32,10 +32,12 @@ module.exports = function( app ) {
 	
 	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withUser', 'withVotes', 'withPosterImage', 'withArguments'))
+	.all(fetchVote)
 	.all(auth.can('idea:view', 'idea:*', 'arg:add', 'user:mail'))
 	.get(function( req, res, next) {
 		res.out('ideas/idea', true, {
 			idea      : req.idea,
+			userVote  : req.vote,
 			csrfToken : req.csrfToken()
 		});
 	});
@@ -339,6 +341,23 @@ function fetchIdea( /* [scopes] */ ) {
 			}
 		})
 		.catch(next);
+	}
+}
+function fetchVote( req, res, next ) {
+	var user = req.user;
+	var idea = req.idea;
+	
+	if( !user.isUnknown() && idea ) {
+		idea.getUserVote(user)
+		.then(function( vote ) {
+			if( vote ) {
+				req.vote = vote;
+			}
+			next();
+		})
+		.catch(next);
+	} else {
+		next();
 	}
 }
 function fetchArgument( req, res, next ) {
