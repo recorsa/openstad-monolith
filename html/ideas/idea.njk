@@ -39,8 +39,9 @@
 				<div class="controls">
 					<h2>Stemmen</h2>
 					
+					<div class="vote">
 					{% if idea.isOpen() %}
-						<form class="vote" method="POST" action="/plan/{{idea.id}}/vote">
+						<form method="POST" action="/plan/{{idea.id}}/vote">
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
 							<button class="{{'selected' if userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
 								voor
@@ -49,15 +50,23 @@
 								tegen
 							</button>
 						</form>
-						
-						<div class="ideaProgress">
-							<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
-						</div>
-						
-						<div class="duration">Nog {{idea.duration | duration}} om te stemmen.</div>
 					{% else %}
-						<em>Stemmen op dit idee is niet meer mogelijk!</em>
+						<button disabled value="yes" data-count="{{idea.yes}}">voor</button>
+						<button disabled value="no" data-count="{{idea.no}}">tegen</button>
 					{% endif %}
+					</div>
+					
+					<div class="ideaProgress">
+						<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
+					</div>
+					
+				{% if idea.status == 'ACCEPTED' %}
+					<div><em>Dit plan wordt besproken in de volgende vergadering!</em></div>
+				{% elif idea.isOpen() %}
+					<div class="duration">Nog {{idea.duration | duration}} om te stemmen.</div>
+				{% else %}
+					<div><em>Stemmen op dit idee is niet meer mogelijk.</em></div>
+				{% endif %}
 					
 					<ul class="share">
 						<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a>
