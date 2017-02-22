@@ -34,16 +34,45 @@
 {% macro agenda( meetings ) %}
 	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
-		Het Algemeen Bestuur vergadert iedere 2 weken. In deze vergadering wordt
-		ook het bewonersvoorstel besproken dat de meeste stemmen heeft gekregen.
+		Het Algemeen Bestuur vergadert iedere 2 weken. Één keer per maand wordt ook het bewoners&shy;voorstel
+		met de meeste stemmen besproken. Dit wordt op de peildatum om 16:00 vastgesteld.
 		
 		<div class="timeline">
+			<div class="selection">
+				<b class="date">14 februari 2017</b>
+				<em>peildatum</em>
+			</div>
+			
+			<div class="meeting">
+				<b class="date">7 maart 2017</b>
+				<em>vergadering</em>
+				<ul>
+					<li><a href="/plan/23" title="Afgesloten speeltuin met kippen, konijnen en moestuintjes">
+						Afgesloten speeltuin met kippen, konijnen en moestuintjes
+					</a></li>
+					<li><a href="/plan/8" title="Bos en Lommerplein moet overdekte wereldmarkt van topniveau worden">
+						Bos en Lommerplein moet overdekte wereldmarkt van topniveau worden
+					</a></li>
+				</ul>
+			</div>
+			
+			<div class="selection">
+				<b class="date">21 maart 2017</b>
+				<em>peildatum</em>
+			</div>
+			
+			<div class="meeting">
+				<b class="date">4 april 2017</b>
+				<em>vergadering</em>
+			</div>
+		</div>
+		{# <div class="timeline">
 		{% for meeting in meetings %}
-			{# White space sensitive tags because of `inline-block` #}
+			<!-- White space sensitive tags because of `inline-block` -->
 			<div class="point"></div><div class="date">
 				{{meeting.date | date('D MMMM')}} <strong>{{meeting.date | date('YYYY')}}</strong>
 			</div>
 		{% endfor %}
-		</div>
+		</div> #}
 	</div>
 {% endmacro %}
