@@ -23,7 +23,7 @@
 				{% if idea.status == 'ACCEPTED' %}
 					Dit plan wordt besproken!
 				{% elif idea.status == 'DENIED' %}
-					Afgewezen
+					Afgelopen
 				{% elif idea.duration > 0 %}
 					Nog {{idea.duration | duration}}
 				{% else %}
