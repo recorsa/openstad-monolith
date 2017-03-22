@@ -209,9 +209,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 					order   : `
 						CASE status
-							WHEN 'DONE' THEN 4
-							#WHEN 'BUSY' THEN 3
-							WHEN 'ACCEPTED' THEN 2
+							WHEN 'ACCEPTED' THEN 4
+							WHEN 'BUSY' THEN 3
+							WHEN 'DONE' THEN 2
 							WHEN 'DENIED' THEN 0
 							ELSE 1
 						END DESC,
