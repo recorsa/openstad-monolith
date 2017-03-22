@@ -20,8 +20,10 @@
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}">
 				<a href="/plan/{{idea.id}}">
 				<div class="duration">
-				{% if idea.status == 'ACCEPTED' %}
-					Dit plan wordt besproken!
+				{% if idea.status == 'BUSY' %}
+					Dit plan is in behandeling
+				{% elif idea.status == 'ACCEPTED' %}
+					Dit plan wordt besproken
 				{% elif idea.status == 'DENIED' %}
 					Afgelopen
 				{% elif idea.duration > 0 %}

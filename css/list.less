@@ -46,15 +46,22 @@
 			background-color: #F6F7F7;
 			position: relative;
 			
+			&.BUSY,
 			&.ACCEPTED {
-				// border: 4px solid #00A03C;
-				// top: -4px;
-				
 				.duration {
-					background-color: #00A03C;
 					background-image: none;
 					font-weight: bold;
 					padding-left: 5px;
+				}
+			}
+			&.BUSY {
+				.duration {
+					background-color: #009DE6;
+				}
+			}
+			&.ACCEPTED {
+				.duration {
+					background-color: #00A03C;
 				}
 			}
 			&.DENIED {
