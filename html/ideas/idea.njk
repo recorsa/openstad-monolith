@@ -148,8 +148,8 @@
 				<select name="status" onchange="this.form.submit();">
 					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
 					<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
-					<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Status: Geaccepteerd</option>
 					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+					<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Status: Wordt besproken</option>
 					<option {{'selected' if idea.status=='BUSY'}}     value="BUSY">    Status: In behandeling</option>
 					<option {{'selected' if idea.status=='DONE'}}     value="DONE">    Status: Afgerond</option>
 				</select>

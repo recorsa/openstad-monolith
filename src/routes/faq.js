@@ -15,9 +15,9 @@ var questions = [{
 	`
 }, {
 	id: 2,
-	question: `Waarom is de inlog/registratielink maar één uur geldig?`,
+	question: `Waarom is de inlog/registratielink maar 48 uur geldig?`,
 	answer: `
-		<p>Voor je eigen veiligheid is de link in de ontvangen e-mail maar één uur geldig. Na registratie herkent onze server telkens wanneer je inlogt weer dat jij het bent. Wel zo makkelijk! </p>
+		<p>Voor je eigen veiligheid is de link in de ontvangen e-mail maar 48 uur geldig. Na registratie herkent onze server telkens wanneer je inlogt weer dat jij het bent. Wel zo makkelijk! </p>
 	`
 }, {
 	id: 3,
