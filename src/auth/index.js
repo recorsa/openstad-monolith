@@ -31,19 +31,19 @@ var helpers = {
 	},
 	
 	maySeeArgForm: function( user, idea ) {
-		return idea.isOpen() && (
+		return idea.isRunning() && (
 		         user.isAdmin() ||
 		         !helpers.isIdeaOwner(user, idea)
 		       );
 	},
 	mayAddArgument: function( user, idea ) {
 		return !helpers.isIdeaOwner(user, idea) &&
-		       idea.isOpen();
+		       idea.isRunning();
 	},
 	// TODO: Deny when arg replies exist.
 	mayMutateArgument: function( user, idea, argument ) {
 		return user.id === argument.userId &&
-		       idea.isOpen();
+		       idea.isRunning();
 	},
 	
 	isIdeaOwner: function( user, idea ) {
