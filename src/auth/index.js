@@ -30,6 +30,12 @@ var helpers = {
 		return idea.isOpen();
 	},
 	
+	maySeeArgForm: function( user, idea ) {
+		return idea.isOpen() && (
+		         user.isAdmin() ||
+		         !helpers.isIdeaOwner(user, idea)
+		       );
+	},
 	mayAddArgument: function( user, idea ) {
 		return !helpers.isIdeaOwner(user, idea) &&
 		       idea.isOpen();

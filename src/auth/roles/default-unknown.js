@@ -26,6 +26,13 @@ module.exports = function( helpers, role ) {
 			resource : 'idea'
 		},
 		
+		// Only used to determine whether to render the argument form.
+		// When a user is not allowed to add an argument, we still show
+		// the form, only disabled with login-on-focus.
+		'arg:form'         : {
+			allow    : helpers.maySeeArgForm,
+			resource : 'idea'
+		},
 		'arg:add'          : {
 			allow    : false,
 			resource : 'idea',
