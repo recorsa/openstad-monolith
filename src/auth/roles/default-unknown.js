@@ -1,4 +1,4 @@
-module.exports = function( role ) {
+module.exports = function( helpers, role ) {
 	role.action({
 		'dev'              : false,
 		
@@ -48,3 +48,4 @@ module.exports = function( role ) {
 		'user:mail'        : false
 	});
 };
+

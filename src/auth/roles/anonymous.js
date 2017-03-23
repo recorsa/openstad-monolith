@@ -1,9 +1,7 @@
-module.exports = function( role ) {
+module.exports = function( helpers, role ) {
 	role.action({
 		'idea:vote': {
-			allow: function( user, idea ) {
-				return idea.isOpen();
-			}
+			allow: helpers.mayVote
 		}
 	});
 };
