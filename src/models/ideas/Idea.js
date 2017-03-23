@@ -246,6 +246,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			isOpen: function() {
 				return this.status === 'OPEN';
 			},
+			isRunning: function() {
+				return this.status === 'OPEN'     ||
+				       this.status === 'CLOSED'   ||
+				       this.status === 'ACCEPTED' ||
+				       this.status === 'BUSY'
+			},
 			
 			addUserVote: function( user, opinion, ip ) {
 				var data = {

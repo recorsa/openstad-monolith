@@ -1,44 +1,22 @@
-module.exports = function( role ) {
+module.exports = function( helpers, role ) {
 	role.action({
 		'account:register' : {
-			allow   : needsToCompleteRegistration,
+			allow   : helpers.needsToCompleteRegistration,
 			message : 'Registreren is onnodig als u bent ingelogd'
 		},
-		'account:complete' : needsToCompleteRegistration,
+		'account:complete' : helpers.needsToCompleteRegistration,
 		
 		'idea:view'        : true,
 		'idea:create'      : true,
-		'idea:edit'        : mayMutateIdea,
-		'idea:delete'      : mayMutateIdea,
+		'idea:edit'        : helpers.mayMutateIdea,
+		'idea:delete'      : helpers.mayMutateIdea,
 		
 		'arg:add'          : {
-			allow   : mayAddArgument,
+			allow   : helpers.mayAddArgument,
 			message : 'U kunt geen argument aan uw eigen idee toevoegen'
 		},
-		'arg:edit'         : mayMutateArgument,
-		'arg:delete'       : mayMutateArgument
+		'arg:edit'         : helpers.mayMutateArgument,
+		'arg:delete'       : helpers.mayMutateArgument
 	});
 };
 
-function needsToCompleteRegistration( user ) {
-	return !user.hasCompletedRegistration();
-}
-function mayAddArgument( user, idea ) {
-	return user.id !== idea.userId &&
-	       idea.isOpen();
-}
-// TODO: Deny when arg replies exist.
-function mayMutateArgument( user, idea, argument ) {
-	return user.id === argument.userId &&
-	       idea.isOpen();
-}
-function mayMutateIdea( user, idea ) {
-	if( !idea.isOpen() ) {
-		return false;
-	}
-	// TODO: Time sensitivity?
-	var isOwner   = user.id === idea.userId;
-	var voteCount = idea.no + idea.yes + idea.abstain;
-	var argCount  = idea.argumentsFor.length + idea.argumentsAgainst.length;
-	return isOwner && !voteCount && !argCount;
-}

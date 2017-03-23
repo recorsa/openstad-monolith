@@ -332,7 +332,7 @@
 
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">
-	{% if idea.isOpen() and (not can('idea:edit') or user.isAdmin()) %}
+	{% if can('arg:form') %}
 		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
 			<textarea
 				name="description"

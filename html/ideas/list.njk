@@ -108,9 +108,11 @@
 		});
 		
 		var ideas = [
-			//{% for idea in runningIdeas %}
+			// {% for idea in runningIdeas %}
+			// {% if idea.isRunning() %}
 			{id: {{idea.id}}, location: JSON.parse('{{idea.location | dump | safe}}' || null)},
-			//{% endfor %}
+			// {% endif %}
+			// {% endfor %}
 		];
 		ideas.forEach(function( idea ) {
 			if( !idea.location ) return;
