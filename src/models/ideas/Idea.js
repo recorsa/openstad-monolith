@@ -400,6 +400,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 					voteCount('no')
 				])
 			},
+			withVotes: {
+				include: [{
+					model: db.Vote,
+					include: [{
+						model      : db.User,
+						attributes : ['id', 'zipCode']
+					}]
+				}]
+			},
 			withPosterImage: {
 				include: [{
 					model      : db.Image,
