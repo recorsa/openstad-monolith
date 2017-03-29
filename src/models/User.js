@@ -99,7 +99,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
 			get          : function() {
-				return this.getDataValue('firstName')+' '+this.getDataValue('lastName');
+				var firstName = this.getDataValue('firstName') || '';
+				var lastName  = this.getDataValue('lastName') || '';
+				return firstName || lastName ?
+				       (firstName+' '+lastName) :
+				       undefined;
 			}
 		},
 		gender: {
