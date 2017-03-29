@@ -31,7 +31,7 @@ module.exports = function( app ) {
 	app.use('(/idea|/plan)', router);
 	
 	router.route('/:ideaId(\\d+)')
-	.all(fetchIdea('withUser', 'withVotes', 'withPosterImage', 'withArguments'))
+	.all(fetchIdea('withUser', 'withVoteCount', 'withPosterImage', 'withArguments'))
 	.all(fetchVote)
 	.all(auth.can('idea:view', 'idea:*', 'arg:form', 'arg:add', 'user:mail'))
 	.get(function( req, res, next) {
@@ -82,7 +82,7 @@ module.exports = function( app ) {
 	// Edit idea
 	// ---------
 	router.route('/:ideaId/edit')
-	.all(fetchIdea('withVotes', 'withPosterImage', 'withArguments'))
+	.all(fetchIdea('withVoteCount', 'withPosterImage', 'withArguments'))
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
@@ -120,7 +120,7 @@ module.exports = function( app ) {
 	// Delete idea
 	// -----------
 	router.route('/:ideaId/delete')
-	.all(fetchIdea('withVotes', 'withArguments'))
+	.all(fetchIdea('withVoteCount', 'withArguments'))
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
 		var idea = req.idea;
@@ -200,7 +200,7 @@ module.exports = function( app ) {
 		.then(function( voteRemoved ) {
 			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
 			res.success('/plan/'+idea.id, function json() {
-				return db.Idea.scope('withVotes').findById(idea.id)
+				return db.Idea.scope('withVoteCount').findById(idea.id)
 				.then(function( idea ) {
 					return {idea: idea};
 				});
@@ -294,7 +294,7 @@ module.exports = function( app ) {
 	// Admin idea
 	// ----------
 	router.route('/:ideaId/status')
-	.all(fetchIdea('withVotes'))
+	.all(fetchIdea('withVoteCount'))
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
 		var idea = req.idea;

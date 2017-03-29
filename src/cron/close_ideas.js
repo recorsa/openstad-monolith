@@ -10,7 +10,7 @@ module.exports = {
 	cronTime: '0 */5 * * * *',
 	runOnInit: true,
 	onTick: function() {
-		db.Idea.scope('withVotes').findAll({
+		db.Idea.scope('withVoteCount').findAll({
 			where: {
 				endDate : {$lte: new Date()},
 				status  : 'OPEN'
