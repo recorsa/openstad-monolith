@@ -107,7 +107,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.DATE,
 			allowNull    : true
 		},
-		// Counts set in `summary`/`withVotes` scope.
+		// Counts set in `summary`/`withVoteCount` scope.
 		no: {
 			type         : DataTypes.VIRTUAL
 		},
@@ -119,11 +119,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			get          : function() {
 				var minimumYesVotes = config.get('ideas.minimumYesVotes');
 				var yes             = this.getDataValue('yes');
-				
-				if( yes === undefined ) {
-					throw Error('idea.progress needs scope `withVotes`');
-				}
-				return Number((Math.min(1, (yes / minimumYesVotes)) * 100).toFixed(2));
+				return yes !== undefined ?
+				       Number((Math.min(1, (yes / minimumYesVotes)) * 100).toFixed(2)) :
+				       undefined;
 			}
 		},
 		argCount: {
@@ -309,7 +307,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			setStatus: function( status ) {
 				var minimumYesVotes = config.get('ideas.minimumYesVotes');
 				if( this.yes === undefined ) {
-					throw Error('Idea.setStatus needs scope `withVotes`');
+					throw Error('Idea.setStatus needs scope `withVoteCount`');
 				}
 				if( status === 'CLOSED' && this.yes < minimumYesVotes ) {
 					status = 'DENIED';
@@ -351,7 +349,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 	
 	function scopes() {
-		// Helper function used in `withVotes` scope.
+		// Helper function used in `withVoteCount` scope.
 		function voteCount( opinion ) {
 			return [sequelize.literal(`
 				(SELECT
@@ -396,11 +394,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : ['firstName', 'lastName', 'email']
 				}]
 			},
-			withVotes: {
+			withVoteCount: {
 				attributes: Object.keys(this.attributes).concat([
 					voteCount('yes'),
 					voteCount('no')
 				])
+			},
+			withVotes: {
+				include: [{
+					model: db.Vote,
+					include: [{
+						model      : db.User,
+						attributes : ['id', 'zipCode']
+					}]
+				}]
 			},
 			withPosterImage: {
 				include: [{

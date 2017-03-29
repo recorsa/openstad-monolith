@@ -93,6 +93,8 @@
 			{{idea.startDate | date('LL')}}
 		</div>
 		
+		{{ modBreak() if idea.modBreak and not idea.isOpen() }}
+		
 		<div class="userContent">
 			<p class="summary">
 				<strong>{{idea.summary | nl2br}}</strong>
@@ -106,14 +108,7 @@
 		{{content.map(cookieConsent)}}
 		{% endif %}
 		
-		{% if idea.modBreak %}
-		<div id="modBreak">
-			<b>De Stem van West</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
-			<p>
-			{{idea.modBreak | safe | nl2br}}
-			</p>
-		</div>
-		{% endif %}
+		{{ modBreak() if idea.modBreak and idea.isOpen() }}
 	</div> <!-- #primary -->
 	
 	<div class="secondary">
@@ -159,6 +154,10 @@
 			
 			<form method="GET" action="/plan/{{idea.id}}/mod_break">
 				<button type="submit" class="modBreak">Moderator reactie</button>
+			</form>
+			
+			<form method="GET" action="/plan/{{idea.id}}/votes">
+				<button type="submit" class="votes">Stemoverzicht</button>
 			</form>
 		{% endif %}
 	</div>
@@ -329,6 +328,14 @@
 	{% endif %}
 {% endblock %}
 
+{% macro modBreak() %}
+	<div id="modBreak">
+		<b>De Stem van West</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+		<p>
+		{{idea.modBreak | safe | nl2br}}
+		</p>
+	</div>
+{% endmacro %}
 
 {% macro argList( sentiment, arguments ) %}
 	<div class="argList {{sentiment}}">

@@ -1,10 +1,12 @@
-var config      = require('config')
-  , createError = require('http-errors')
-  , express     = require('express')
-  , Promise     = require('bluebird');
-var util        = require('../util')
-  , db          = require('../db')
-  , auth        = require('../auth');
+var config       = require('config')
+  , createError  = require('http-errors')
+  , express      = require('express')
+  , moment       = require('moment-timezone')
+  , Promise      = require('bluebird')
+  , csvStringify = Promise.promisify(require('csv-stringify'));
+var util         = require('../util')
+  , db           = require('../db')
+  , auth         = require('../auth');
 
 module.exports = function( app ) {
 	// Idea index page
@@ -31,7 +33,7 @@ module.exports = function( app ) {
 	app.use('(/idea|/plan)', router);
 	
 	router.route('/:ideaId(\\d+)')
-	.all(fetchIdea('withUser', 'withVotes', 'withPosterImage', 'withArguments'))
+	.all(fetchIdea('withUser', 'withVoteCount', 'withPosterImage', 'withArguments'))
 	.all(fetchVote)
 	.all(auth.can('idea:view', 'idea:*', 'arg:form', 'arg:add', 'user:mail'))
 	.get(function( req, res, next) {
@@ -82,7 +84,7 @@ module.exports = function( app ) {
 	// Edit idea
 	// ---------
 	router.route('/:ideaId/edit')
-	.all(fetchIdea('withVotes', 'withPosterImage', 'withArguments'))
+	.all(fetchIdea('withVoteCount', 'withPosterImage', 'withArguments'))
 	.all(auth.can('idea:edit'))
 	.get(function( req, res, next ) {
 		res.out('ideas/form', false, {
@@ -120,7 +122,7 @@ module.exports = function( app ) {
 	// Delete idea
 	// -----------
 	router.route('/:ideaId/delete')
-	.all(fetchIdea('withVotes', 'withArguments'))
+	.all(fetchIdea('withVoteCount', 'withArguments'))
 	.all(auth.can('idea:delete'))
 	.delete(function( req, res, next ) {
 		var idea = req.idea;
@@ -200,7 +202,7 @@ module.exports = function( app ) {
 		.then(function( voteRemoved ) {
 			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
 			res.success('/plan/'+idea.id, function json() {
-				return db.Idea.scope('withVotes').findById(idea.id)
+				return db.Idea.scope('withVoteCount').findById(idea.id)
 				.then(function( idea ) {
 					return {idea: idea};
 				});
@@ -294,7 +296,7 @@ module.exports = function( app ) {
 	// Admin idea
 	// ----------
 	router.route('/:ideaId/status')
-	.all(fetchIdea('withVotes'))
+	.all(fetchIdea('withVoteCount'))
 	.all(auth.can('idea:admin'))
 	.put(function( req, res, next ) {
 		var idea = req.idea;
@@ -321,6 +323,40 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+	router.route('/:ideaId/votes')
+	.all(fetchIdea('withVotes'))
+	.all(auth.can('idea:admin'))
+	.get(function( req, res, next ) {
+		var votes      = req.idea.votes;
+		var votes_JSON = votes.map(function( vote ) {
+			return vote.toJSON();
+		});
+		
+		csvStringify(votes_JSON, {
+			header: true,
+			delimiter: ';',
+			quoted: true,
+			columns: {
+				'user.id'      : 'userId',
+				'user.zipCode' : 'zipCode',
+				'ip'           : 'ip',
+				'opinion'      : 'opinion',
+				'createdAt'    : 'createdAt'
+			},
+			formatters: {
+				date: function( value ) {
+					return moment(value)
+					       .tz(config.get('timeZone'))
+					       .format('YYYY-MM-DD HH:mm:ss');
+				}
+			}
+		}).then(function( csvText ) {
+			res.type('text/csv');
+			// res.type('text/plain');
+			res.set('Content-disposition', 'attachment; filename=Stemoverzicht plan '+req.idea.id+'.csv');
+			res.send(csvText);
+		});
+	})
 };
 
 // Asset fetching
