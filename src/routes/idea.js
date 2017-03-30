@@ -34,7 +34,7 @@ module.exports = function( app ) {
 	
 	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withUser', 'withVoteCount', 'withPosterImage', 'withArguments'))
-	.all(fetchVote)
+	.all(fetchVoteForUser)
 	.all(auth.can('idea:view', 'idea:*', 'arg:form', 'arg:add', 'user:mail'))
 	.get(function( req, res, next) {
 		res.out('ideas/idea', true, {
@@ -379,7 +379,7 @@ function fetchIdea( /* [scopes] */ ) {
 		.catch(next);
 	}
 }
-function fetchVote( req, res, next ) {
+function fetchVoteForUser( req, res, next ) {
 	var user = req.user;
 	var idea = req.idea;
 	
