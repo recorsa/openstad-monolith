@@ -293,8 +293,8 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
-	// Admin idea
-	// ----------
+	// Admin: change idea status
+	// -------------------------
 	router.route('/:ideaId/status')
 	.all(fetchIdea('withVoteCount'))
 	.all(auth.can('idea:admin'))
@@ -306,6 +306,9 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+	
+	// Admin: change mod break
+	// -----------------------
 	router.route('/:ideaId/mod_break')
 	.all(fetchIdea())
 	.all(auth.can('idea:admin'))
@@ -323,40 +326,67 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+	
+	// Admin: view votes
+	// -----------------
 	router.route('/:ideaId/votes')
 	.all(fetchIdea('withVotes'))
 	.all(auth.can('idea:admin'))
 	.get(function( req, res, next ) {
-		var votes      = req.idea.votes;
-		var votes_JSON = votes.map(function( vote ) {
-			return vote.toJSON();
-		});
+		var asDownload = 'download' in req.query;
+		var idea       = req.idea;
 		
-		csvStringify(votes_JSON, {
-			header: true,
-			delimiter: ';',
-			quoted: true,
-			columns: {
-				'user.id'      : 'userId',
-				'user.zipCode' : 'zipCode',
-				'ip'           : 'ip',
-				'opinion'      : 'opinion',
-				'createdAt'    : 'createdAt'
-			},
-			formatters: {
-				date: function( value ) {
-					return moment(value)
-					       .tz(config.get('timeZone'))
-					       .format('YYYY-MM-DD HH:mm:ss');
+		if( !asDownload ) {
+			// Display votes as interactive table.
+			res.out('ideas/idea_votes', true, {
+				idea  : idea
+			});
+		} else {
+			var votes_JSON = idea.votes.map(function( vote ) {
+				return vote.toJSON();
+			});
+			// Download votes as CSV.
+			csvStringify(votes_JSON, {
+				header: true,
+				delimiter: ';',
+				quoted: true,
+				columns: {
+					'user.id'      : 'userId',
+					'user.zipCode' : 'zipCode',
+					'ip'           : 'ip',
+					'opinion'      : 'opinion',
+					'createdAt'    : 'createdAt'
+				},
+				formatters: {
+					date: function( value ) {
+						return moment(value)
+						       .tz(config.get('timeZone'))
+						       .format('YYYY-MM-DD HH:mm:ss');
+					}
 				}
-			}
-		}).then(function( csvText ) {
-			res.type('text/csv');
-			// res.type('text/plain');
-			res.set('Content-disposition', 'attachment; filename=Stemoverzicht plan '+req.idea.id+'.csv');
-			res.send(csvText);
-		});
-	})
+			}).then(function( csvText ) {
+				res.type('text/csv');
+				res.set('Content-disposition', 'attachment; filename=Stemoverzicht plan '+req.idea.id+'.csv');
+				res.send(csvText);
+			});
+		}
+	});
+	
+	// Admin: toggle vote status
+	// -------------------------
+	router.route('/:ideaId/vote/:voteId/toggle_checked')
+	.all(fetchVote)
+	.all(auth.can('idea:admin'))
+	.get(function( req, res, next ) {
+		var ideaId = req.params.ideaId;
+		var vote   = req.vote;
+		
+		vote.toggle()
+		.then(function() {
+			res.success('/plan/'+ideaId+'/votes', {vote: vote});
+		})
+		.catch(next);
+	});
 };
 
 // Asset fetching
@@ -378,6 +408,17 @@ function fetchIdea( /* [scopes] */ ) {
 		})
 		.catch(next);
 	}
+}
+function fetchVote( req, res, next ) {
+	var voteId = req.params.voteId;
+	db.Vote.findById(voteId)
+	.then(function( vote ) {
+		if( vote ) {
+			req.vote = vote;
+		}
+		next();
+	})
+	.catch(next);
 }
 function fetchVoteForUser( req, res, next ) {
 	var user = req.user;

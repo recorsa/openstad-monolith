@@ -35,6 +35,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 				Vote.belongsTo(models.Idea);
 				Vote.belongsTo(models.User);
 			}
+		},
+		instanceMethods: {
+			toggle: function() {
+				var checked = this.get('checked');
+				this.set('checked', checked === null ? false : !checked);
+				return this.save();
+			}
 		}
 	});
 	
