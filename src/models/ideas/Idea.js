@@ -407,7 +407,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 						model      : db.User,
 						attributes : ['id', 'zipCode']
 					}]
-				}]
+				}],
+				order: 'createdAt'
 			},
 			withPosterImage: {
 				include: [{
