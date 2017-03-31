@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Nieuw idee</h1>
+<h1>{{'Nieuw idee' if not idea.id else 'Bewerk idee'}}</h1>
 
 {% if showHelp %}
 	<div id="howDoesItWork">
@@ -114,11 +114,11 @@
 				<trix-toolbar id="trixToolbar">
 					<div class="button_row">
 						<span class="button_group text_tools">
+							<button type="button" class="icon heading-1" data-trix-attribute="heading1" title="Titel">Heading</button>
 							<button type="button" class="icon bold" data-trix-attribute="bold" data-trix-key="b" title="Vetgedrukt">Bold</button>
 							<button type="button" class="icon italic" data-trix-attribute="italic" data-trix-key="i" title="Cursief">Italic</button>
 							{# <button type="button" class="icon strike" data-trix-attribute="strike" title="Doorstrepen">Strikethrough</button> #}
-							{# <button type="button" class="icon link" data-trix-attribute="href" data-trix-action="link" data-trix-key="k" title="Link">Link</button> #}
-							<button type="button" class="icon heading-1" data-trix-attribute="heading1" title="Titel">Heading</button>
+							<button type="button" class="icon link" data-trix-attribute="href" data-trix-action="link" data-trix-key="k" title="Link">Link</button>
 						</span>
 
 						<span class="button_group text_tools">
