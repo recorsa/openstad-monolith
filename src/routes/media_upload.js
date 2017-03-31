@@ -7,6 +7,9 @@ var auth        = require('../auth');
 var upload = multer();
 
 module.exports = function( app ) {
+	// TODO: Restrict to members only?
+	//       Rate limit?
+	//       Limit number of uploads per user?
 	app.post('/image', upload.single('file'), function( req, res, next ) {
 		var file = req.file;
 		switch( file.mimetype ) {

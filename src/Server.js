@@ -149,10 +149,6 @@ module.exports  = {
 		// TODO: Always sets a cookie for a user-specific token secret. Rewrite to use
 		//       in-memory store?
 		this.app.use(csurf());
-		// this.app.use(function( req, res, next ) {
-		// 	req.csrfToken = function() { return '' };
-		// 	next();
-		// });
 	},
 	_initRenderMiddleware: function() {
 		var moment       = require('moment-timezone');
