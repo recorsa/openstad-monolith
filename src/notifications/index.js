@@ -13,19 +13,27 @@ var notifications = new Notifications();
 // Setup high-frequency admin email notifications.
 var adminEmail = config.get('notifications.admin.emailAddress');
 if( adminEmail ) {
-	var pub = notifications.addPublication(new Publication('admin', new MemoryStore(), {
+	notifications.addPublication(new Publication('admin_idea', new MemoryStore(), {
 		assets: {
 			'idea': [{
 				events    : ['create', 'update'],
 				frequency : 600 // 10 minutes
-			}],
-			'arg': [{
-				events    : ['create', 'update'],
-				frequency : 600
 			}]
 		},
-		
-		sendMessage: function( user ) {
+		sendMessage: createSendMessageFunction('Nieuw idee geplaatst')
+	}));
+	notifications.addPublication(new Publication('admin_arg', new MemoryStore(), {
+		assets: {
+			'arg': [{
+				events    : ['create', 'update'],
+				frequency : 43200 // 12 hours
+			}]
+		},
+		sendMessage: createSendMessageFunction('Nieuwe argumenten geplaatst')
+	}));
+	
+	function createSendMessageFunction( subject ) {
+		return function sendMessage( user ) {
 			// HACK: The current file is included in some model definition
 			//       files, so including db at the top of this files results
 			//       in an empty object.
@@ -73,7 +81,7 @@ if( adminEmail ) {
 			.then(function() {
 				mail.sendMail({
 					to          : adminEmail,
-					subject     : 'Recente activiteit',
+					subject     : subject,
 					html        : nunjucks.render('email/notifications_admin.njk', data),
 					text        : 'Er hebben recent activiteiten plaatsgevonden op De Stem van West die mogelijk voor jou interessant zijn!',
 					attachments : [{
@@ -86,7 +94,7 @@ if( adminEmail ) {
 				return null;
 			});
 		}
-	}));
+	}
 }
 
 module.exports = notifications;
