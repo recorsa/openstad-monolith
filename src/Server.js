@@ -128,7 +128,7 @@ module.exports  = {
 			cookie: {
 				httpOnly : true,
 				secure   : !config.get('debug'),
-				maxAge   : 15768000000 // 6 months
+				maxAge   : null
 			}
 		}));
 		// Middleware to fill `req.user` with a `User` instance.

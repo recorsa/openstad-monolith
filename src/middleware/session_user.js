@@ -1,9 +1,12 @@
-var config    = require('config');
-var NodeCache = require('node-cache');
-var pmx       = require('pmx');
+var config      = require('config');
+var NodeCache   = require('node-cache');
+var pmx         = require('pmx');
 
-var db        = require('../db');
-var log       = require('debug')('app:http:session-user');
+var db          = require('../db');
+var log         = require('debug')('app:http:session-user');
+
+var uidProperty = config.get('security.sessions.uidProperty');
+var cookieTTL   = config.get('security.sessions.cookieTTL');
 
 // TODO: Cache cleanup — node-cache.
 var uidProperty = config.get('security.sessions.uidProperty');
@@ -31,6 +34,8 @@ db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) 
 
 module.exports = function( app ) {
 	app.use(function getSessionUser( req, res, next ) {
+		req.setSessionUser = setSessionUser.bind(req);
+		
 		if( !req.session ) {
 			next(new Error('express-session middleware not loaded?'));
 		} else {
@@ -46,6 +51,15 @@ module.exports = function( app ) {
 	});
 };
 
+function setSessionUser( userId, ref ) {
+	// The original `maxAge` is 'session', but now the user wants to
+	// stay logged in.
+	this.session.cookie.maxAge = cookieTTL;
+	this.session[uidProperty] = userId;
+	if( ref ) {
+		this.session['ref'] = originUrl;
+	}
+}
 function getUserInstance( userId ) {
 	var user = userCache.get(userId);
 	if( user ) {
