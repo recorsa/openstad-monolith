@@ -29,7 +29,6 @@ module.exports  = {
 		this._initRenderMiddleware();
 		
 		// ... then the upload functionality (not compatible with CSRF)...
-		require('./routes/media_get')(this.app);
 		require('./routes/media_upload')(this.app);
 		
 		// ... security middleware (CSRF)...
@@ -60,6 +59,7 @@ module.exports  = {
 	_initStatics: function() {
 		var less = require('less-middleware');
 		
+		require('./routes/media_get')(this.app);
 		// Requires custom change to less:
 		// https://github.com/less/less.js/pull/2866/files
 		// 
