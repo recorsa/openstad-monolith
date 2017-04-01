@@ -114,8 +114,7 @@ module.exports = function( app ) {
 				throw createError(401, 'Ongeldige link');
 			}
 			
-			req.session[uidProperty] = uid;
-			req.session['ref']       = originUrl;
+			req.setSessionUser(uid, originUrl);
 			
 			// Delay the response so that it's always a minimum of 200ms.
 			var delay = Math.max(0, 200 - (Date.now() - start));

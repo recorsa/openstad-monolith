@@ -56,6 +56,9 @@
 		},
 		"sessions": {
 			"secret"       : "e56789!ouAr-/t8ewHDyer90_",
+			// Default cookie is browser-session maxAge. This TTL is for logged in session
+			// cookies only.
+			"cookieTTL"    : 15768000000,
 			// Login token TTL in ms (default: 48hrs).
 			"tokenTTL"     : 172800000,
 			// Property name to store user ID in `req.session`.

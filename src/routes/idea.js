@@ -156,8 +156,7 @@ module.exports = function( app ) {
 			// Register a new anonymous member and continue with the normal request.
 			newUserCreated = db.User.registerAnonymous(zipCode)
 			.then(function( newUser ) {
-				var uidProperty = config.get('security.sessions.uidProperty');
-				req.session[uidProperty] = newUser.id;
+				req.setSessionUser(newUser.id);
 				req.user = newUser;
 				next();
 				return true;

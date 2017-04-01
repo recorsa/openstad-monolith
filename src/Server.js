@@ -29,7 +29,6 @@ module.exports  = {
 		this._initRenderMiddleware();
 		
 		// ... then the upload functionality (not compatible with CSRF)...
-		require('./routes/media_get')(this.app);
 		require('./routes/media_upload')(this.app);
 		
 		// ... security middleware (CSRF)...
@@ -60,6 +59,7 @@ module.exports  = {
 	_initStatics: function() {
 		var less = require('less-middleware');
 		
+		require('./routes/media_get')(this.app);
 		// Requires custom change to less:
 		// https://github.com/less/less.js/pull/2866/files
 		// 
@@ -128,7 +128,7 @@ module.exports  = {
 			cookie: {
 				httpOnly : true,
 				secure   : !config.get('debug'),
-				maxAge   : 15768000000 // 6 months
+				maxAge   : null
 			}
 		}));
 		// Middleware to fill `req.user` with a `User` instance.
@@ -149,10 +149,6 @@ module.exports  = {
 		// TODO: Always sets a cookie for a user-specific token secret. Rewrite to use
 		//       in-memory store?
 		this.app.use(csurf());
-		// this.app.use(function( req, res, next ) {
-		// 	req.csrfToken = function() { return '' };
-		// 	next();
-		// });
 	},
 	_initRenderMiddleware: function() {
 		var moment       = require('moment-timezone');
