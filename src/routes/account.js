@@ -161,17 +161,23 @@ module.exports = function( app ) {
 				isNew: !user.hasCompletedRegistration()
 			});
 		})
-		.catch(db.sequelize.ValidationError, function( err ) {
+		.catch(next);
+	})
+	.post(function( err, req, res, next ) {
+		// Sequelize validation error, or normal error?
+		if( err.errors ) {
 			err.errors.forEach(function( error ) {
 				req.flash('error', error.message);
 			});
-			res.out('account/register', false, {
-				ref            : req.query.ref,
-				email_register : req.body.email,
-				csrfToken      : req.csrfToken()
-			});
-		})
-		.catch(next);
+		} else {
+			req.flash('error', err.message);
+		}
+		
+		res.out('account/register', false, {
+			ref            : req.query.ref,
+			email_register : req.body.email,
+			csrfToken      : req.csrfToken()
+		});
 	});
 	
 	// Complete registration
