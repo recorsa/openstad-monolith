@@ -20,7 +20,7 @@ var helpers = {
 			return false;
 		}
 		// TODO: Time sensitivity?
-		var isOwner   = !helpers.isIdeaOwner(user, idea);
+		var isOwner   = helpers.isIdeaOwner(user, idea);
 		var voteCount = idea.no + idea.yes + idea.abstain;
 		var argCount  = idea.argumentsFor.length + idea.argumentsAgainst.length;
 		return isOwner && !voteCount && !argCount;

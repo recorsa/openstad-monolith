@@ -46,14 +46,17 @@
 			background-color: #F6F7F7;
 			position: relative;
 			
+			// Remove clock icon for some labels.
 			&.BUSY,
-			&.ACCEPTED {
+			&.ACCEPTED,
+			&.DONE {
 				.duration {
 					background-image: none;
 					font-weight: bold;
 					padding-left: 5px;
 				}
 			}
+			// Change color for some labels.
 			&.BUSY {
 				.duration {
 					background-color: #009DE6;
@@ -76,6 +79,11 @@
 			&.CLOSED {
 				.duration {
 					background-color: #454545;
+				}
+			}
+			&.DONE {
+				.duration {
+					background-color: #9151C3;
 				}
 			}
 			&.USER {

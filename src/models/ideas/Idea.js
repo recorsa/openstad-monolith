@@ -209,7 +209,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 						CASE status
 							WHEN 'ACCEPTED' THEN 4
 							WHEN 'BUSY' THEN 3
-							WHEN 'DONE' THEN 2
 							WHEN 'DENIED' THEN 0
 							ELSE 1
 						END DESC,

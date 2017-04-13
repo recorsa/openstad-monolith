@@ -39,8 +39,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 		instanceMethods: {
 			toggle: function() {
 				var checked = this.get('checked');
-				this.set('checked', checked === null ? false : !checked);
-				return this.save();
+				return this.update({
+					checked: checked === null ? false : !checked
+				});
 			}
 		}
 	});
