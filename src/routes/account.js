@@ -234,7 +234,7 @@ function sendAuthToken( user, req ) {
 			text        : nunjucks.render('email/login_link_text.njk', data),
 			attachments : [{
 				filename : 'logo@2x.png',
-				path     : 'img/logo@2x.png',
+				path     : 'img/email/logo@2x.png',
 				cid      : 'logo'
 			}]
 		});
