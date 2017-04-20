@@ -51,12 +51,12 @@ module.exports = function( app ) {
 	});
 };
 
-function setSessionUser( userId, ref ) {
+function setSessionUser( userId, originUrl ) {
 	// The original `maxAge` is 'session', but now the user wants to
 	// stay logged in.
 	this.session.cookie.maxAge = cookieTTL;
 	this.session[uidProperty] = userId;
-	if( ref ) {
+	if( originUrl ) {
 		this.session['ref'] = originUrl;
 	}
 }
