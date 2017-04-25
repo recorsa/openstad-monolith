@@ -1,12 +1,15 @@
 var config       = require('config')
   , createError  = require('http-errors')
+  , htmlToText   = require('html-to-text')
   , express      = require('express')
   , moment       = require('moment-timezone')
+  , nunjucks     = require('nunjucks')
   , Promise      = require('bluebird')
   , csvStringify = Promise.promisify(require('csv-stringify'));
 var util         = require('../util')
   , db           = require('../db')
-  , auth         = require('../auth');
+  , auth         = require('../auth')
+  , mail         = require('../mail');
 
 module.exports = function( app ) {
 	// Idea index page
@@ -62,6 +65,7 @@ module.exports = function( app ) {
 		
 		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
+			sendThankYouMail(req, idea);
 			res.success('/plan/'+idea.id, {idea: idea});
 		})
 		.catch(function( error ) {
@@ -496,4 +500,39 @@ function isModernBrowser( req ) {
 		default:
 			return false;
 	}
+}
+
+function sendThankYouMail( req, idea ) {
+	var data    = {
+		date     : new Date(),
+		user     : req.user,
+		idea     : idea,
+		fullHost : req.protocol+'://'+req.hostname
+	};
+	var html = nunjucks.render('email/idea_created.njk', data);
+	var text = htmlToText.fromString(html, {
+		ignoreImage              : true,
+		hideLinkHrefIfSameAsText : true,
+		uppercaseHeadings        : false
+	});
+	
+	mail.sendMail({
+		to          : req.user.email,
+		subject     : 'Bedankt voor je voorstel',
+		html        : html,
+		text        : text,
+		attachments : [{
+			filename : 'logo@2x.png',
+			path     : 'img/email/logo@2x.png',
+			cid      : 'logo'
+		}, {
+			filename : 'map@2x.png',
+			path     : 'img/email/map@2x.png',
+			cid      : 'map'
+		}, {
+			filename : 'steps@2x.png',
+			path     : 'img/email/steps@2x.png',
+			cid      : 'steps'
+		}]
+	});
 }

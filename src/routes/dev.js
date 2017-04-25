@@ -3,6 +3,7 @@ var config  = require('config');
 var log     = require('debug')('app:http')
 var db      = require('../db');
 var auth    = require('../auth');
+var mail    = require('../mail');
 
 module.exports = function( app ) {
 	if( !config.get('debug') ) {
@@ -48,13 +49,35 @@ module.exports = function( app ) {
 		var fs       = require('fs');
 		var nunjucks = require('nunjucks');
 		
-		res.render('email/'+req.params.page, {
+		var data     = {
 			complete : 'complete' in req.query,
 			date     : new Date(),
 			fullHost : req.protocol+'://'+req.hostname,
 			token    : 'temp',
 			userId   : req.user.id,
 			ref      : req.query.ref
+		};
+		var content  = nunjucks.render('email/'+req.params.page+'.njk', data);
+		
+		mail.sendMail({
+			to          : 'tjoekbezoer@gmail.com',
+			subject     : 'Bedankt voor je voorstel',
+			html        : content,
+			// text        : nunjucks.render('email/login_link_text.njk', data),
+			attachments : [{
+				filename : 'logo@2x.png',
+				path     : 'img/email/logo@2x.png',
+				cid      : 'logo'
+			}, {
+				filename : 'map@2x.png',
+				path     : 'img/email/map@2x.png',
+				cid      : 'map'
+			}, {
+				filename : 'steps@2x.png',
+				path     : 'img/email/steps@2x.png',
+				cid      : 'steps'
+			}]
 		});
+		res.send(content);
 	});
 }
