@@ -14,6 +14,12 @@ module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/dev', router);
 	
+	router.get('/login/:userId', function( req, res, next ) {
+		var userId = Number(req.params.userId);
+		req.setSessionUser(userId);
+		res.success('/');
+	});
+	
 	router.post('/reset_fixtures', auth.can('dev'), function( req, res, next ) {
 		db.sequelize.sync({force: true}).then(function() {
 			require('../../fixtures')(db).then(function() {
