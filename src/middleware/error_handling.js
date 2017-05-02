@@ -10,8 +10,8 @@ module.exports = function( app ) {
 	app.use(function handleError( err, req, res, next ) {
 		var env            = app.get('env');
 		var status         = err.status || 500;
-		var showDebug      = (env === 'development' || req.user.isAdmin()) &&
-		                     status == 500;
+		var userIsAdmin    = req.user && req.user.isAdmin();
+		var showDebug      = status == 500 && (env === 'development' || userIsAdmin);
 		var friendlyStatus = statuses[status]
 		var stack          = err.stack || err.toString();
 		var message        = err.message;

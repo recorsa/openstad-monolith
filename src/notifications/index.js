@@ -86,7 +86,7 @@ if( adminEmail ) {
 					text        : 'Er hebben recent activiteiten plaatsgevonden op De Stem van West die mogelijk voor jou interessant zijn!',
 					attachments : [{
 						filename : 'logo@2x.png',
-						path     : 'img/logo@2x.png',
+						path     : 'img/email/logo@2x.png',
 						cid      : 'logo'
 					}]
 				});
