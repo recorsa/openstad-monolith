@@ -24,9 +24,9 @@ module.exports  = {
 		this._initStatics();
 		
 		// ... then middleware everyone needs...
+		this._initRenderMiddleware();
 		this._initBasicMiddleware();
 		this._initSessionMiddleware();
-		this._initRenderMiddleware();
 		
 		// ... then the upload functionality (not compatible with CSRF)...
 		require('./routes/media_upload')(this.app);
