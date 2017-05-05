@@ -15,6 +15,9 @@
 	"express": {
 		"port": 8082
 	},
+	"sentry": {
+		"url": null
+	},
 	
 	"mail": {
 		"from": "from@localhost",
@@ -59,7 +62,8 @@
 			// Default cookie is browser-session maxAge. This TTL is for logged in session
 			// cookies only.
 			"cookieTTL"    : 15768000000,
-			// Login token TTL in ms (default: 48hrs).
+			// Login token TTL in ms (default: 48hrs). These tokens are created when a user
+			// wants to log in and enters their email address.
 			"tokenTTL"     : 172800000,
 			// Property name to store user ID in `req.session`.
 			"uidProperty"  : "userId",

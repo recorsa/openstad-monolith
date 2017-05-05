@@ -3,6 +3,7 @@ var _                  = require('lodash')
   , config             = require('config')
   , cors               = require('cors')
   , express            = require('express')
+  , Raven              = require('../config/raven');
 
 // Misc
 var util               = require('./util');
@@ -17,6 +18,8 @@ module.exports  = {
 		this.app.disable('x-powered-by');
 		this.app.set('trust proxy', true);
 		this.app.set('view engine', 'njk');
+		
+		this.app.use(Raven.requestHandler());
 		this.app.use(compression());
 		// this.app.use(cors());
 		
@@ -49,6 +52,7 @@ module.exports  = {
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
 		// ... and error handlers always last.
+		this.app.use(Raven.errorHandler());
 		require('./middleware/error_handling')(this.app);
 		
 		this.app.listen(port, function() {
