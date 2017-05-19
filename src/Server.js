@@ -38,6 +38,7 @@ module.exports  = {
 		this._initSecurityMiddleware();
 		
 		// ... some more middlewares...
+		require('./middleware/log')(this.app);
 		require('./middleware/force_registration')(this.app);
 		require('./middleware/nocache')(this.app);
 		// ... routes...

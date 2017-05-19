@@ -3,7 +3,6 @@ var NodeCache   = require('node-cache');
 var pmx         = require('pmx');
 
 var db          = require('../db');
-var log         = require('debug')('app:http:session-user');
 
 var uidProperty = config.get('security.sessions.uidProperty');
 var cookieTTL   = config.get('security.sessions.cookieTTL');
@@ -63,7 +62,6 @@ function setSessionUser( userId, originUrl ) {
 function getUserInstance( userId ) {
 	var user = userCache.get(userId);
 	if( user ) {
-		log('found user {"id":%d,"role":"%s"} in cache', user.id, user.role);
 		// Update cached item's TTL.
 		userCache.ttl(userId);
 		return Promise.resolve(user);
@@ -72,7 +70,6 @@ function getUserInstance( userId ) {
 			if( !user ) {
 				throw new Error('User not found');
 			}
-			log('found user {"id":%d,"role":"%s"} in database', user.id, user.role);
 			userCache.set(userId, user);
 			return user;
 		});
