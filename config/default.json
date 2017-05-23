@@ -16,7 +16,8 @@
 		"port": 8082
 	},
 	"sentry": {
-		"url": null
+		"active" : true,
+		"url"    : null
 	},
 	
 	"mail": {
