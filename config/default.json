@@ -86,6 +86,9 @@
 		"duration": 90,
 		// When an idea is closed, this threshold must be met or the idea
 		// will be automatically denied.
-		"minimumYesVotes": 100
+		"minimumYesVotes": 100,
+		// Threshold in days after which votes are anonimized (IP removed).
+		// Votes that are earmarked as fraudulous are never anonimized.
+		"anonimizeThreshold": 180
 	}
 }
