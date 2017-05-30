@@ -1,3 +1,5 @@
+var config = require('config');
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Vote = sequelize.define('vote', {
 		ideaId: {
@@ -34,6 +36,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 			associate: function( models ) {
 				Vote.belongsTo(models.Idea);
 				Vote.belongsTo(models.User);
+			},
+			
+			anonimizeOldVotes: function() {
+				var anonimizeThreshold = config.get('ideas.anonimizeThreshold');
+				return sequelize.query(`
+					UPDATE
+						votes v
+					SET
+						v.ip = NULL
+					WHERE
+						DATEDIFF(NOW(), v.updatedAt) > ${anonimizeThreshold} AND
+						checked != 0
+				`)
+				.spread(function( result, metaData ) {
+					return metaData;
+				});
 			}
 		},
 		instanceMethods: {

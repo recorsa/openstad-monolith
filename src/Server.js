@@ -1,22 +1,31 @@
-var _                  = require('lodash')
-  , compression        = require('compression')
-  , config             = require('config')
-  , cors               = require('cors')
-  , express            = require('express')
+var _            = require('lodash')
+  , config       = require('config')
+  , express      = require('express');
 
 // Misc
-var util               = require('./util');
-var log                = require('debug')('app:http');
+var util         = require('./util');
+var log          = require('debug')('app:http');
+
+var reportErrors = config.get('sentry.active');
 
 module.exports  = {
 	app: undefined,
 	
 	start: function( port ) {
 		log('initializing...');
+		
+		var Raven       = require('../config/raven');
+		var compression = require('compression');
+		// var cors        = require('cors');
+		
 		this.app = express();
 		this.app.disable('x-powered-by');
 		this.app.set('trust proxy', true);
 		this.app.set('view engine', 'njk');
+		
+		if( reportErrors ) {
+			this.app.use(Raven.requestHandler());
+		}
 		this.app.use(compression());
 		// this.app.use(cors());
 		
@@ -35,6 +44,7 @@ module.exports  = {
 		this._initSecurityMiddleware();
 		
 		// ... some more middlewares...
+		require('./middleware/log')(this.app);
 		require('./middleware/force_registration')(this.app);
 		require('./middleware/nocache')(this.app);
 		// ... routes...
@@ -49,6 +59,9 @@ module.exports  = {
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
 		// ... and error handlers always last.
+		if( reportErrors ) {
+			this.app.use(Raven.errorHandler());
+		}
 		require('./middleware/error_handling')(this.app);
 		
 		this.app.listen(port, function() {

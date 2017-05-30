@@ -15,6 +15,10 @@
 	"express": {
 		"port": 8082
 	},
+	"sentry": {
+		"active" : true,
+		"url"    : null
+	},
 	
 	"mail": {
 		"from": "from@localhost",
@@ -59,7 +63,8 @@
 			// Default cookie is browser-session maxAge. This TTL is for logged in session
 			// cookies only.
 			"cookieTTL"    : 15768000000,
-			// Login token TTL in ms (default: 48hrs).
+			// Login token TTL in ms (default: 48hrs). These tokens are created when a user
+			// wants to log in and enters their email address.
 			"tokenTTL"     : 172800000,
 			// Property name to store user ID in `req.session`.
 			"uidProperty"  : "userId",
@@ -81,6 +86,9 @@
 		"duration": 90,
 		// When an idea is closed, this threshold must be met or the idea
 		// will be automatically denied.
-		"minimumYesVotes": 100
+		"minimumYesVotes": 100,
+		// Threshold in days after which votes are anonimized (IP removed).
+		// Votes that are earmarked as fraudulous are never anonimized.
+		"anonimizeThreshold": 180
 	}
 }

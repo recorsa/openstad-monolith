@@ -181,28 +181,25 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			getRunning: function( limit ) {
-				// What we want to achieve:
-				// 
-				// ```sql
-				// SELECT FROM ideas i
-				// INNER JOIN meetings m ON
-				// 	m.id = i.meetingId
-				// WHERE
-				// 	i.status IN ('OPEN', 'CLOSED') OR (
-				// 		i.status = 'DENIED' AND
-				// 		m.date >= UTC_TIMESTAMP()
-				// 	)
-				// ```
+				// Get all running ideas.
+				// TODO: Ideas with status CLOSED should automatically
+				//       become DENIED at a certain point.
 				return this.scope('summary', 'withPosterImage').findAll({
 					where: {
 						$or: [
-							{status: {$in: ['OPEN', 'CLOSED']}},
-							// {
-							// 	$and: [
-							// 		{status: 'DENIED'},
+							{
+								status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY', 'DONE']}
+							}, {
+								$and: [
+									{status: {$not: 'DENIED'}},
 									sequelize.where(db.Meeting.rawAttributes.date, '>=', new Date())
-							// 	]
-							// }
+								]
+							}, {
+								$and: [
+									{status: 'DENIED'},
+									sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 7`)
+								]
+							}
 						]
 					},
 					order   : `
