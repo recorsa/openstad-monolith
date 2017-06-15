@@ -184,6 +184,16 @@ module.exports  = {
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);
 		env.addFilter('duration', duration);
+		
+		// Global variables.
 		env.addGlobal('ENV', this.app.get('env'));
+		env.addGlobal('DOMAIN', config.get('domainName'));
+		env.addGlobal('SITENAME', config.get('siteName'));
+		env.addGlobal('PAGENAME_POSTFIX', config.get('pageNamePostfix'));
+		env.addGlobal('EMAIL', config.get('emailAddress'));
+		
+		env.addGlobal('URL_ADMIN', config.get('infoUrls.administration'));
+		env.addGlobal('URL_FB', config.get('infoUrls.facebook'));
+		env.addGlobal('URL_TWITTER', config.get('infoUrls.twitter'));
 	}
 };

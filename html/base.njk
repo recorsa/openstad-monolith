@@ -6,7 +6,7 @@
 	
 	<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
 	
-	<title>{{pageTitle+' — ' if pageTitle}}De Stem van West — Gemeente Amsterdam</title>
+	<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
 	
 	<meta name="viewport" content="initial-scale=1">
 	{% block head %}
@@ -23,7 +23,7 @@
 				Amsterdam
 			</div>
 			
-			<h1>De Stem van West</h1>
+			<h1>{{SITENAME}}</h1>
 			
 			<nav id="superMenu">
 			
@@ -96,18 +96,18 @@
 					<h2>Contact</h2>
 					<p>
 						Het antwoord op je vraag niet bij ‘Veelgestelde vragen’ kunnen
-						vinden? Email de Stem van West.
+						vinden?
 					</p>
 					<ul>
-						<li><a href="mailto:stemvanwest@amsterdam.nl">Email De Stem van West</a></li>
+						<li><a href="mailto:{{EMAIL}}">Email {{SITENAME}}</a></li>
 					</ul>
 				</div
 				><div>
 					<h2>Volg het stadsdeel</h2>
 					<ul>
-						<li><a href="https://www.amsterdam.nl/bestuur-organisatie/bestuurscommissies/bestuurscommissie-w/" target="_blank">Algemeen Bestuur West</a></li>
-						<li><a href="https://www.facebook.com/stadsdeelwest/" target="_blank">Facebook</a></li>
-						<li><a href="https://twitter.com/020west" target="_blank">Twitter</a></li>
+						<li><a href="{{URL_ADMIN}}" target="_blank">Algemeen Bestuur</a></li>
+						<li><a href="{{URL_FB}}" target="_blank">Facebook</a></li>
+						<li><a href="{{URL_TWITTER}}" target="_blank">Twitter</a></li>
 					</ul>
 				</div
 				><div>
@@ -117,7 +117,7 @@
 						site? Wij ontvangen graag jouw feedback!
 					</p>
 					<ul>
-						<li><a href="mailto:stemvanwest@amsterdam.nl">Stuur feedback</a></li>
+						<li><a href="mailto:{{EMAIL}}">Stuur feedback</a></li>
 					</ul>
 				</div
 				><div>

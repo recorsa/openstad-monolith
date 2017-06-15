@@ -1,4 +1,12 @@
+var nunjucks = require('nunjucks');
+
 module.exports = function( app ) {
+	var questions = questionsData.map(function( entry ) {
+		entry.question = nunjucks.renderString(entry.question);
+		entry.answer   = nunjucks.renderString(entry.answer);
+		return entry;
+	});
+	
 	app.get('/veelgestelde-vragen', function( req, res, next ) {
 		res.out('veelgestelde-vragen', true, {
 			questions: questions
@@ -6,7 +14,7 @@ module.exports = function( app ) {
 	});
 };
 
-var questions = [{
+var questionsData = [{
 	id: 1,
 	question: `Waarom heb ik geen wachtwoord nodig?`,
 	answer: `
@@ -23,14 +31,14 @@ var questions = [{
 	id: 3,
 	question: `Hoe veilig is deze site?`,
 	answer: `
-		<p>De Stem van West neemt beveiligingsmaatregelen om misbruik van en ongeautoriseerde toegang tot persoonsgegevens te beperken.</p>
+		<p>{{SITENAME}} neemt beveiligingsmaatregelen om misbruik van en ongeautoriseerde toegang tot persoonsgegevens te beperken.</p>
 		<p>Meer weten over privacy en beveiliging van persoonsgegevens? Lees dan onze <a href="/proclaimer">Privacyverklaring en proclaimer</a>.</p>
 	`
 }, {
 	id: 4,
 	question: `De site werkt niet. Waar moet ik dit melden?`,
 	answer: `
-		<p>Het spijt ons dat je niet op de site kunt of dat bepaalde onderdelen niet werken. We willen dit snel oplossen. Graag ontvangen wij een email via <a href="mailto:stemvanwest@amsterdam.nl">stemvanwest@amsterdam.nl</a> met daarin een korte uitleg waar het mis gaat en eventueel de URL van de pagina waar het over gaat. Ons team zit paraat om problemen zo snel mogelijk op te lossen! </p>
+		<p>Het spijt ons dat je niet op de site kunt of dat bepaalde onderdelen niet werken. We willen dit snel oplossen. Graag ontvangen wij een email via <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> met daarin een korte uitleg waar het mis gaat en eventueel de URL van de pagina waar het over gaat. Ons team zit paraat om problemen zo snel mogelijk op te lossen! </p>
 	`
 }, {
 	id: 5,
@@ -43,7 +51,7 @@ var questions = [{
 	question: `Wat gebeurt er met mijn voorstel als ik niet de meeste stemmen heb gehaald?`,
 	answer: `
 		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van het Algemeen Bestuur te komen. Elke maand bespreekt het AB het voorstel dat die maand de meeste stemmen heeft gehaald. Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
-		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:stemvanwest@amsterdam.nl">stemvanwest@amsterdam.nl</a>.</p>
+		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
 	`
 }, {
 	id: 7,
@@ -67,7 +75,7 @@ var questions = [{
 	id: 10,
 	question: `Hoe kom ik direct in contact met leden van het Algemeen Bestuur?`,
 	answer: `
-		<p>Leden van het Algemeen Bestuur lezen actief mee met de voorstellen en discussies op de Stem van West. Wil je direct in contact komen met een AB-lid? Ga dan naar de <a href="https://www.amsterdam.nl/bestuur-organisatie/bestuurscommissies/bestuurscommissie/" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
-		<p>Op deze pagina kun je het Algemeen Bestuur van Stadsdeel West opzoeken en bekijken met wie je graag contact zou willen hebben. Op deze pagina vind je ook de contactgegevens van alle leden.</p>
+		<p>Leden van het Algemeen Bestuur lezen actief mee met de voorstellen en discussies op {{SITENAME}}. Wil je direct in contact komen met een AB-lid? Ga dan naar de <a href="{{URL_ADMIN}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
+		<p>Op deze pagina kun je het Algemeen Bestuur van je Stadsdeel opzoeken en bekijken met wie je graag contact zou willen hebben. Op deze pagina vind je ook de contactgegevens van alle leden.</p>
 	`
 }];

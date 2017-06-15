@@ -10,7 +10,7 @@
 	<meta property="og:type" content="website">
 	<meta property="og:description" content="{{idea.summary}}">
 	<meta property="og:locale" content="nl_NL">
-	<meta property="og:site_name" content="De Stem van West">
+	<meta property="og:site_name" content="{{SITENAME}}">
 	{% if idea.posterImage %}
 		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
 	{% endif %}
@@ -330,7 +330,7 @@
 
 {% macro modBreak() %}
 	<div id="modBreak">
-		<b>De Stem van West</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
 		<p>
 		{{idea.modBreak | safe | nl2br}}
 		</p>

@@ -1,4 +1,19 @@
 {
+	"siteName"        : "De Stem van West",
+	"pageNamePostfix" : "De Stem van West — Gemeente Amsterdam",
+	
+	// Used in places where express variable `fullHost` is unavailable or
+	// unfit for use.
+	"domainName"      : "stemvanwest.amsterdam.nl",
+	// Used to display an email address to end-users on the site.
+	"emailAddress"    : "stemvanwest@amsterdam.nl",
+	
+	"infoUrls": {
+		"administration" : "https://www.amsterdam.nl/bestuur-organisatie/bestuurscommissies/bestuurscommissie-w/",
+		"facebook"       : "https://www.facebook.com/stadsdeelwest/",
+		"twitter"        : "https://twitter.com/020west"
+	},
+	
 	"debug"    : false,
 	"locale"   : "nl",
 	"logging"  : "app:*,-app:db:query",
