@@ -63,7 +63,7 @@
 			<p>
 				Vragen? Check eerst ‘veelgestelde vragen’ en kijk of je antwoord er tussen staat.
 				Staat het antwoord op je vraag er niet bij, stuur dan een email naar
-				<a href="mailto:stemvanwest@amsterdam.nl">stemvanwest@amsterdam.nl</a>
+				<a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
 			</p>
 			
 			{% if not user.isLoggedIn() %}
@@ -164,7 +164,7 @@
 		
 		<div id="location">
 			<h2>Locatie</h2>
-			Heeft jouw plan betrekking op een specifieke plek in West? Klik dan de juiste locatie in de kaart
+			Heeft jouw plan betrekking op een specifieke plek? Klik dan de juiste locatie in de kaart
 			om een vlaggetje te plaatsen. Versleep het vlaggetje om het te verplaatsen. Door erop te
 			klikken wordt het verwijderd.<br>
 			<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>

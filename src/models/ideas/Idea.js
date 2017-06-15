@@ -61,6 +61,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('title', sanitize.title(text));
 			}
 		},
+		posterImageUrl: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var posterImage = this.get('posterImage');
+				var location    = this.get('location');
+				
+				return posterImage ? `/image/${posterImage.key}?thumb` :
+				       location    ? 'https://maps.googleapis.com/maps/api/streetview?'+
+				                     'size=800x600&'+
+				                     `location=${location.coordinates[0]},${location.coordinates[1]}&`+
+				                     'heading=151.78&pitch=-0.76&key=AIzaSyCrp_kqFQoKEaW5DOEBVjAu61cRl3-T0Lg'
+				                   : null;
+			}
+		},
 		summary: {
 			type         : DataTypes.TEXT,
 			allowNull    : false,

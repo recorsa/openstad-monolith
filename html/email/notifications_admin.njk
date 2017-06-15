@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>De Stem van West</title>
+		<title>{{SITENAME}}</title>
 		
 		<style type="text/css">
 			#outlook a {padding:0;}
@@ -43,7 +43,7 @@
 							<td></td>
 							<td>
 								<p>
-									Er hebben recent activiteiten plaatsgevonden op De Stem van West die mogelijk voor jou interessant zijn!
+									Er hebben recent activiteiten plaatsgevonden op {{SITENAME}} die mogelijk voor jou interessant zijn!
 								</p>
 								
 								{% if assets.idea %}
@@ -53,8 +53,8 @@
 										<b>{{idea.instance.title}}</b><br>
 										Door: {{idea.instance.user.firstName}} {{idea.instance.user.lastName}}<br>
 										{{'Toegevoegd op: ' if idea.action == 'created' else 'Bewerkt op: '}}{{idea.instance.updatedAt | date}}<br>
-										Link: <a href="https://stemvanwest.amsterdam.nl/plan/{{idea.instance.id}}" target="_blank" style="color: #EC0000">
-											https://stemvanwest.amsterdam.nl/plan/{{idea.instance.id}}
+										Link: <a href="https://{{DOMAIN}}/plan/{{idea.instance.id}}" target="_blank" style="color: #EC0000">
+											https://{{DOMAIN}}/plan/{{idea.instance.id}}
 										</a><br>
 										<br>
 										{{idea.instance.summary | nl2br | safe}}
@@ -68,8 +68,8 @@
 									<p>
 										Door: {{arg.instance.user.firstName}} {{arg.instance.user.lastName}}<br>
 										{{'Toegevoegd op: ' if arg.action == 'created' else 'Bewerkt op: '}}{{arg.instance.updatedAt | date}}<br>
-										Link: <a href="https://stemvanwest.amsterdam.nl/plan/{{arg.instance.ideaId}}" target="_blank" style="color: #EC0000">
-											https://stemvanwest.amsterdam.nl/plan/{{arg.instance.ideaId}}
+										Link: <a href="https://{{DOMAIN}}/plan/{{arg.instance.ideaId}}" target="_blank" style="color: #EC0000">
+											https://{{DOMAIN}}/plan/{{arg.instance.ideaId}}
 										</a><br>
 										<br>
 										{{arg.instance.description | nl2br | safe}}

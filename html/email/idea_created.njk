@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>De Stem van West</title>
+		<title>{{SITENAME}}</title>
 		
 		<style type="text/css">
 			#outlook a {padding:0;}
@@ -36,7 +36,7 @@
 							<td></td>
 							<td>
 								<h2 style="color: black !important; line-height: 1.25em;">
-								Welkom bij Stem van West!<br>
+								Welkom bij {{SITENAME}}!<br>
 								<strong style="color: #EC0000">Bedankt voor je plan.</strong>
 								</h2>
 								
@@ -46,7 +46,7 @@
 									<b>Beste {{user.fullName | default('indiener')}},</b>
 								</p>
 								<p>
-									Bedankt voor het plaatsen van jouw voorstel op de Stem van West!
+									Bedankt voor het plaatsen van jouw voorstel op {{SITENAME}}!
 									Je idee is goed ontvangen en zal de komende 90 dagen beschikbaar
 									zijn op de site voor het verzamelen van stemmen en argumenten.
 									Gedurende deze periode kun je door middel van een (social media)
@@ -90,7 +90,7 @@
 								<p>
 									<b>Je voorstel aanpassen?</b><br>
 									Je kunt zelf je voorstel wijzigen, totdat iemand een stem heeft uitgebracht of een argument heeft toegevoegd.
-									Wil je daarna nog iets veranderen, mail dan naar <a href="mailto:stemvanwest@amsterdam.nl" style="color: #EC0000">stemvanwest@amsterdam.nl</a>.
+									Wil je daarna nog iets veranderen, mail dan naar <a href="mailto:{{EMAIL}}" style="color: #EC0000">{{EMAIL}}</a>.
 									Ons team pakt het zo snel mogelijk op.
 								</p>
 								
@@ -100,14 +100,14 @@
 								
 								<p style="margin-bottom: 3em; margin-top: 2em;">
 									Hartelijke groet,<br>
-									Team Stem van West
+									Team {{SITENAME}}
 								</p>
 							</td>
 							<td></td>
 						</tr>
 						<tr>
 							<td colspan="3" style="background-color: #333; padding: 10px 0px; text-align: center;">
-								<a href="{{fullHost}}" target="_blank" style="color: #FFF; text-decoration: none;">stemvanwest.amsterdam.nl</a>
+								<a href="{{fullHost}}" target="_blank" style="color: #FFF; text-decoration: none;">{{DOMAIN}}</a>
 							</td>
 						</tr>
 					</tbody>

@@ -10,8 +10,10 @@ var Publication   = Notifications.Publication;
 
 var notifications = new Notifications();
 
+var siteName      = config.get('siteName');
+var adminEmail    = config.get('notifications.admin.emailAddress');
+
 // Setup high-frequency admin email notifications.
-var adminEmail = config.get('notifications.admin.emailAddress');
 if( adminEmail ) {
 	notifications.addPublication(new Publication('admin_idea', new MemoryStore(), {
 		assets: {
@@ -83,7 +85,7 @@ if( adminEmail ) {
 					to          : adminEmail,
 					subject     : subject,
 					html        : nunjucks.render('email/notifications_admin.njk', data),
-					text        : 'Er hebben recent activiteiten plaatsgevonden op De Stem van West die mogelijk voor jou interessant zijn!',
+					text        : `Er hebben recent activiteiten plaatsgevonden op ${siteName} die mogelijk voor jou interessant zijn!`,
 					attachments : [{
 						filename : 'logo@2x.png',
 						path     : 'img/email/logo@2x.png',
