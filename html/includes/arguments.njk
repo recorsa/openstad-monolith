@@ -1,0 +1,77 @@
+{% macro list( user, idea, propName ) %}
+	{% set arguments     = idea[propName] %}
+	{% set isFor         = propName == 'argumentsFor' %}
+	
+	{% set mayShowForm   = user.can('arg:form', idea) %}
+	{% set mayAddArg     = user.can('arg:add', idea) %}
+	{% set mayEmailUsers = user.can('user:mail') %}
+	
+	{% if mayShowForm %}
+		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
+			<textarea
+				name="description"
+				placeholder="{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}"
+				{{'data-disabled readonly' if not mayAddArg}}
+			></textarea>
+			
+			<div class="charsLeft">
+				<div class="min">Nog minimaal <span>140</span> tekens.</div>
+				<div class="max"><span>360</span> tekens resterend.</div>
+			</div>
+			
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			<input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
+			<input type="submit" value="Verzenden">
+		</form>
+	{% else %}
+		<h2>{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}</h2>
+	{% endif %}
+	
+	{% for arg in arguments %}
+		{% set mayEdit   = user.can('arg:edit', idea, arg) %}
+		{% set mayDelete = user.can('arg:delete', idea, arg) %}
+		{% set mayReply  = user.can('arg:reply', arg) %}
+		
+		<div class="argument">
+			<div class="user">
+				<strong>
+				{% if mayEmailUsers %}
+					<a href="mailto:{{arg.user.email}}">{{arg.user.firstName}} {{arg.user.lastName}}</a>
+				{% else %}
+					{{arg.user.firstName}} {{arg.user.lastName}}
+				{% endif %}
+				</strong>
+				&nbsp;&nbsp;|&nbsp;&nbsp;
+				{{arg.createdAt | date('LLL')}}
+				
+				{% if mayEdit %}
+					<form class="action" method="GET" action="/plan/{{arg.ideaId}}/arg/{{arg.id}}/edit">
+						<input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
+					</form>
+				{% endif %}
+				{% if mayDelete %}
+					<form class="action delete" method="POST" action="/plan/{{arg.ideaId}}/arg/{{arg.id}}/delete">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_csrf" value="{{csrfToken}}">
+						<input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
+					</form>
+				{% endif %}
+			</div>
+			
+			<p>{{arg.description | urlize | nl2br | safe}}</p>
+			
+			{% if mayReply %}
+				<a href="/plan/{{arg.ideaId}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
+			{% endif %}
+		</div>
+	{% else %}
+		<div class="noArguments">
+		{% if mayAddArg %}
+			Heb je een goed argument {{'voor' if isFor else 'tegen'}}?
+			Laat je stem horen!
+		{% else %}
+			Nog geen argumenten {{'voor' if isFor else 'tegen'}}.
+		{% endif %}
+		</div>
+	{% endfor %}
+{% endmacro %}

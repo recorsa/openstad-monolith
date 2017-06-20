@@ -342,7 +342,7 @@ module.exports = function( app ) {
 		if( !asDownload ) {
 			// Display votes as interactive table.
 			res.out('ideas/idea_votes', true, {
-				idea  : idea
+				idea : idea
 			});
 		} else {
 			var votes_JSON = idea.votes.map(function( vote ) {
@@ -350,17 +350,17 @@ module.exports = function( app ) {
 			});
 			// Download votes as CSV.
 			csvStringify(votes_JSON, {
-				header: true,
-				delimiter: ';',
-				quoted: true,
-				columns: {
+				header     : true,
+				delimiter  : ';',
+				quoted     : true,
+				columns    : {
 					'user.id'      : 'userId',
 					'user.zipCode' : 'zipCode',
 					'ip'           : 'ip',
 					'opinion'      : 'opinion',
 					'createdAt'    : 'createdAt'
 				},
-				formatters: {
+				formatters : {
 					date: function( value ) {
 						return moment(value)
 						       .tz(config.get('timeZone'))
