@@ -64,6 +64,15 @@
 				<a href="/plan/{{arg.ideaId}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
 			{% endif %}
 		</div>
+		
+		{% for reaction in arg.reactions %}
+			<div class="reaction">
+				{{reaction.description}}
+				—
+				<strong>{{reaction.user.fullName}}</strong>
+				{{reaction.createdAt | date('LLL')}}
+			</div>
+		{% endfor %}
 	{% else %}
 		<div class="noArguments">
 		{% if mayAddArg %}
