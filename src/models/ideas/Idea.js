@@ -437,15 +437,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 					as       : 'argumentsAgainst',
 					required : false,
 					where    : {
-						sentiment: 'against'
-					}
+						sentiment: 'against',
+						parentId : null
+					},
+					include: [{
+						model      : db.Argument,
+						as         : 'reactions',
+						required   : false
+					}]
 				}, {
 					model    : db.Argument,
 					as       : 'argumentsFor',
 					required : false,
 					where    : {
-						sentiment: 'for'
-					}
+						sentiment: 'for',
+						parentId : null
+					},
+					include: [{
+						model      : db.Argument,
+						as         : 'reactions',
+						required   : false
+					}]
 				}]
 			}
 		}
