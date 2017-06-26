@@ -175,8 +175,8 @@
 	</div>
 {% endblock %}
 
-{% block footer %}
-	{{ super() }}
+{% block scripts %}
+	{{ arguments.renderLists('#arguments .argList') }}
 	
 	<script>
 		// First image in content
