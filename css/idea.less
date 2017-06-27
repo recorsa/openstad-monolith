@@ -408,6 +408,40 @@
 				}
 			}
 		}
+		// Reaction form
+		// -------------
+		form.newReaction {
+			margin-left: 20px;
+			
+			textarea {
+				.appearance(none);
+				
+				border: 1px solid #B6B7BA;
+				border-radius: 0;
+				// box-sizing: border-box;
+				color: #666;
+				display: block;
+				font-family: inherit;
+				font-size: 0.9em;
+				// line-height: 1.25em;
+				// height: calc(1.25em + 10px);
+				margin-bottom: 5px;
+				outline: none;
+				overflow: hidden;
+				padding: 5px 10px;
+				resize: none;
+				width: calc(100% - 22px);
+			}
+			input[type="submit"] {
+				float: right;
+				line-height: 20px;
+				padding-right: 25px;
+			}
+		}
+		.reaction + form.newReaction {
+			border-top: 1px solid #E7E7E7;
+			padding-top: 5px;
+		}
 		
 		.argument {
 			background-color: #F6F6F6;
@@ -459,7 +493,8 @@
 				margin-top: 0px;
 			}
 		}
-		.reaction + .argument {
+		.reaction + .argument,
+		form + .argument {
 			margin-top: 10px;
 		}
 		
