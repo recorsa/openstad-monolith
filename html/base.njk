@@ -133,6 +133,14 @@
 		document.body.className = '';
 	</script>
 	<script>
+		function $( el, query ) {
+			query || (query = el, el = null);
+			return Array.prototype.slice.call(
+				(el || document).querySelectorAll(query), 0
+			);
+		}
+	</script>
+	<script>
 		// Flash messages
 		// --------------
 		// Make close buttons interactive.

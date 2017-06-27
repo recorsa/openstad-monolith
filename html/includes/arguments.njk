@@ -84,3 +84,115 @@
 		</div>
 	{% endfor %}
 {% endmacro %}
+
+{% macro renderLists( user, idea, cssQuery ) %}
+<script>
+	// General
+	// =======
+	
+	// Delete confirmation for arguments.
+	var forms = Array.prototype.slice.call(
+		document.querySelectorAll('#arguments .argument form.delete'), 0
+	);
+	forms.forEach(function( form ) {
+		form.addEventListener('submit', function( event ) {
+			var msg = 'Let op! Je staat op het punt je argument te verwijderen. '+
+			          'Dit kan niet ongedaan gemaakt worden.\n\n'+
+			          'Weet je het zeker?';
+			if( !confirm(msg) ) {
+				event.preventDefault();
+			}
+		});
+	});
+	
+	// Arguments
+	// =========
+	
+	// Go to login/register page when user clicks textarea, and is not logged in.
+	$('{{cssQuery}} form:first-child textarea[data-disabled]').forEach(function( textarea ) {
+		textarea.addEventListener('focus', function( event ) {
+			textarea.blur();
+			document.location.href = '/plan/{{idea.id}}/arg/new';
+		});
+	});
+	// Character count on 'new argument' forms.
+	$('{{cssQuery}} form:first-child').forEach(function( form, i ) {
+		renderForm(form);
+	});
+	
+	// Helper functions
+	// ================
+	
+	function renderForm( form ) {
+		var minLen = 140;
+		var maxLen = 500;
+		
+		var textarea  = form.querySelector('textarea');
+		var charsLeft = form.querySelector('div.charsLeft');
+		var button    = form.querySelector('input[type="submit"]');
+		
+		if( !charsLeft ) {
+			return;
+		}
+		
+		var msg = {
+			min: charsLeft.querySelector('div.min'),
+			max: charsLeft.querySelector('div.max')
+		};
+		var span = {
+			min: msg.min.querySelector('span'),
+			max: msg.max.querySelector('span')
+		};
+		
+		validate();
+		
+		textarea.addEventListener('focus', function( event ) {
+			charsLeft.className += ' visible';
+		});
+		textarea.addEventListener('blur', function( event ) {
+			charsLeft.className = charsLeft.className.replace(' visible', '');
+		});
+		textarea.addEventListener('keydown', function( event ) {
+			// Prevent input when maximum is reached.
+			if( textarea.value.length == maxLen ) {
+				switch( event.key.toLowerCase() ) {
+					case 'delete'    : case 'backspace':
+					case 'arrowdown' : case 'arrowup':
+					case 'arrowleft' : case 'arrowright':
+						return;
+					default:
+						event.preventDefault();
+				}
+			}
+		});
+		textarea.addEventListener('keyup', function() {
+			if( textarea.value.length > maxLen ) {
+				textarea.value = textarea.value.substr(0, maxLen);
+			}
+			validate();
+		});
+		
+		function validate() {
+			updateCharsLeft();
+			updateButton();
+		}
+		function updateCharsLeft() {
+			var len     = textarea.value.length;
+			var enable  = len < minLen ? 'min' : 'max';
+			var disable = enable == 'max' ? 'min' : 'max';
+			var chars   = len < minLen ?
+			              minLen - len :
+			              maxLen - len;
+			
+			msg[enable].className  = enable+' visible';
+			msg[disable].className = disable;
+			span[enable].innerHTML = chars;
+		}
+		function updateButton() {
+			var len = textarea.value.length;
+			var isValid = len >= minLen && len <= maxLen;
+			button.disabled = !isValid;
+		}
+	}
+</script>
+{% endmacro %}
