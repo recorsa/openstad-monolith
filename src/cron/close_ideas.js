@@ -23,9 +23,6 @@ module.exports = {
 						case 'CLOSED':
 							log('Automatically closed idea %d', idea.id);
 							break;
-						case 'DENIED':
-							log('Automatically denied idea %d', idea.id);
-							break;
 					}
 				});
 			}

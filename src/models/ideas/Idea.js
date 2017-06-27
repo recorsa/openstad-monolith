@@ -315,13 +315,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			setStatus: function( status ) {
-				var minimumYesVotes = config.get('ideas.minimumYesVotes');
-				if( this.yes === undefined ) {
-					throw Error('Idea.setStatus needs scope `withVoteCount`');
-				}
-				if( status === 'CLOSED' && this.yes < minimumYesVotes ) {
-					status = 'DENIED';
-				}
 				return this.update({status: status});
 			},
 			

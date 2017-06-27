@@ -1,3 +1,7 @@
+// This middleware is to define always-available variables that vary
+// per request. To define unchanging globals, see the bottom of
+// `Server.__initRenderMiddleware`.
+
 module.exports = function( app ) {
 	app.use(function( req, res, next ) {
 		var fullHost = req.protocol + '://' + req.hostname;
