@@ -339,6 +339,40 @@
 			width: 100%;
 		}
 		
+		// General form styling
+		// --------------------
+		// Both for new arguments and reactions
+		form {
+			div.charsLeft {
+				color: #9A9A9A;
+				display: none;
+				float: left;
+				font-size: 0.7rem;
+				
+				&.visible {
+					display: block;
+				}
+				
+				.min, .max {
+					display: none;
+				}
+				.min {
+					color: #EC0000;
+				}
+				.max {
+					color: #ABDE8D;
+				}
+				.visible {
+					display: block;
+				}
+			}
+			input[type="submit"]:disabled {
+				cursor: default;
+				opacity: 0.3;
+			}
+		}
+		// Argument form
+		// -------------
 		form.newArgument {
 			margin-bottom: 10px;
 			overflow: visible;
@@ -372,33 +406,6 @@
 					font-weight: normal;
 					height: 100px;
 				}
-			}
-			div.charsLeft {
-				color: #9A9A9A;
-				display: none;
-				float: left;
-				font-size: 0.7rem;
-				
-				&.visible {
-					display: block;
-				}
-				
-				.min, .max {
-					display: none;
-				}
-				.min {
-					color: #EC0000;
-				}
-				.max {
-					color: #ABDE8D;
-				}
-				.visible {
-					display: block;
-				}
-			}
-			input[type="submit"]:disabled {
-				cursor: default;
-				opacity: 0.3;
 			}
 		}
 		
