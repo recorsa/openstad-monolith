@@ -51,7 +51,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultScope: {
 				include: [{
 					model      : db.User,
-					attributes : ['firstName', 'lastName', 'email']
+					attributes : ['role', 'firstName', 'lastName', 'email']
 				}]
 			},
 			// See also `Idea` model, where this scope is redefined in the

@@ -35,10 +35,11 @@
 		<div class="argument">
 			<div class="user">
 				<strong>
+				{{'⭐' if arg.user.isAdmin()}}
 				{% if mayEmailUsers %}
-					<a href="mailto:{{arg.user.email}}">{{arg.user.firstName}} {{arg.user.lastName}}</a>
+					<a href="mailto:{{arg.user.email}}">{{arg.user.fullName}}</a>
 				{% else %}
-					{{arg.user.firstName}} {{arg.user.lastName}}
+					{{arg.user.fullName}}
 				{% endif %}
 				</strong>
 				&nbsp;&nbsp;|&nbsp;&nbsp;
