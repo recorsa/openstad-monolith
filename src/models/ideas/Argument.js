@@ -24,8 +24,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [140,500],
-					msg  : 'Bericht moet tussen 140 en 500 tekens zijn'
+					args : [30,500],
+					msg  : 'Bericht moet tussen 30 en 500 tekens zijn'
 				}
 			},
 			set          : function( text ) {
