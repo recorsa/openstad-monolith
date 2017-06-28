@@ -418,13 +418,10 @@
 				
 				border: 1px solid #B6B7BA;
 				border-radius: 0;
-				// box-sizing: border-box;
 				color: #666;
 				display: block;
 				font-family: inherit;
 				font-size: 0.9em;
-				// line-height: 1.25em;
-				// height: calc(1.25em + 10px);
 				margin-bottom: 5px;
 				outline: none;
 				overflow: hidden;
@@ -505,6 +502,20 @@
 			margin-left: 20px;
 			overflow: hidden;
 			padding: 2px 0;
+			
+			form.action {
+				input[type="submit"] {
+					.appearance(none);
+					background: 0;
+					cursor: pointer;
+					color: inherit;
+					font: inherit;
+					margin: 0;
+					outline: none;
+					padding: 0;
+					text-decoration: underline;
+				}
+			}
 		}
 		.argument + .reaction {
 			border-top: 0;

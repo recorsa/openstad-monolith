@@ -1,4 +1,4 @@
-{% macro list( user, idea, propName ) %}
+{% macro list( user, idea, csrfToken, propName ) %}
 	{% set arguments     = idea[propName] %}
 	{% set isFor         = propName == 'argumentsFor' %}
 	
@@ -32,7 +32,7 @@
 		{% set mayDelete = user.can('arg:delete', idea, arg) %}
 		{% set mayReply  = user.can('arg:reply', arg) %}
 		
-		<div class="argument">
+		<div class="argument" data-id="{{arg.id}}">
 			<div class="user">
 				<strong>
 				{{'⭐' if arg.user.isAdmin()}}
@@ -67,12 +67,32 @@
 		</div>
 		
 		{% for reaction in arg.reactions %}
-		<div class="reaction">
-			{{reaction.description}}
-			—
-			<strong>{{reaction.user.fullName}}</strong>
-			{{reaction.createdAt | date('LLL')}}
-		</div>
+			{% set mayEdit   = user.can('arg:edit', idea, reaction) %}
+			{% set mayDelete = user.can('arg:delete', idea, reaction) %}
+			{% set mayReply  = user.can('arg:reply', reaction) %}
+			
+			<div class="reaction">
+				{{reaction.description | urlize | safe}}
+				—
+				<strong>
+					{{'⭐' if reaction.user.isAdmin()}}
+					{{reaction.user.fullName}}
+				</strong>
+				{{reaction.createdAt | date('LLL')}}
+				
+				{% if mayEdit %}
+					<form class="action" method="GET" action="/plan/{{reaction.ideaId}}/arg/{{reaction.id}}/edit">
+						<input type="submit" class="default edit" value="bewerk" title="Argument bewerken">
+					</form>
+				{% endif %}
+				{% if mayDelete %}
+					<form class="action delete" method="POST" action="/plan/{{reaction.ideaId}}/arg/{{reaction.id}}/delete">
+						<input type="hidden" name="_method" value="DELETE">
+						<input type="hidden" name="_csrf" value="{{csrfToken}}">
+						<input type="submit" class="default delete" value="verwijder" title="Argument verwijderen">
+					</form>
+				{% endif %}
+			</div>
 		{% endfor %}
 	{% else %}
 		<div class="noArguments">
@@ -86,7 +106,7 @@
 	{% endfor %}
 	
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
-	<form class="tpl newReaction">
+	<form method="POST" action="/plan/{{idea.id}}/arg/new" class="tpl newReaction">
 		<textarea name="description" rows="1" placeholder="Type je reactie hier..."></textarea>
 		
 		<div class="charsLeft">
@@ -96,6 +116,7 @@
 		
 		<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		<input type="hidden" name="parentId" value="">
+		<input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
 		<input type="submit" value="Verzenden">
 	</form>
 {% endmacro %}
@@ -106,10 +127,7 @@
 	// =======
 	
 	// Delete confirmation for arguments.
-	var forms = Array.prototype.slice.call(
-		document.querySelectorAll('#arguments .argument form.delete'), 0
-	);
-	forms.forEach(function( form ) {
+	$('{{cssQuery}} form.delete').forEach(function( form ) {
 		form.addEventListener('submit', function( event ) {
 			var msg = 'Let op! Je staat op het punt je argument te verwijderen. '+
 			          'Dit kan niet ongedaan gemaakt worden.\n\n'+
@@ -169,7 +187,7 @@
 		var form;
 		if( !arg.$replyForm ) {
 			form = tpl.cloneNode(true);
-			renderReplyForm(form);
+			renderReplyForm(form, arg.getAttribute('data-id'));
 			arg.$replyForm = form;
 			argList.insertBefore(form, nextArg);
 		} else {
@@ -260,10 +278,11 @@
 		}
 	}
 	
-	function renderReplyForm( form ) {
-		var desc = form.querySelector('textarea');
-		var last = 0;
-		var resize = function() {
+	function renderReplyForm( form, parentArgId ) {
+		var desc     = form.querySelector('textarea');
+		var pidField = form.querySelector('input[name="parentId"]');
+		var last     = 0;
+		var resize   = function() {
 			// Throttle...
 			var now = Date.now();
 			if( now - last < 100 ) return;
@@ -273,6 +292,7 @@
 			desc.style.height = (desc.scrollHeight - 10) + 'px';
 		};
 		
+		pidField.value = Number(parentArgId);
 		renderForm(form);
 		
 		desc.addEventListener('input', resize);

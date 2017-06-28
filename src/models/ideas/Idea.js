@@ -290,7 +290,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			addUserArgument: function( user, data ) {
-				var filtered = pick(data, ['sentiment', 'description']);
+				var filtered = pick(data, ['parentId', 'sentiment', 'description']);
 				filtered.ideaId = this.id;
 				filtered.userId = user.id;
 				return db.Argument.create(filtered)

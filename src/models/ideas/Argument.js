@@ -4,7 +4,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
 		parentId: {
 			type         : DataTypes.INTEGER,
-			allowNull    : false
+			allowNull    : true
 		},
 		ideaId: {
 			type         : DataTypes.INTEGER,

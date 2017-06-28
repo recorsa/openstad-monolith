@@ -167,10 +167,10 @@
 		<h1>Argumenten</h1>
 		
 		<div class="argList for">
-			{{arguments.list(user, idea, 'argumentsFor')}}
+			{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
 		</div>
 		<div class="argList against">
-			{{arguments.list(user, idea, 'argumentsAgainst')}}
+			{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
 		</div>
 	</div>
 {% endblock %}
