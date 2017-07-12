@@ -172,8 +172,10 @@ module.exports  = {
 		// Nunjucks variable filters.
 		var dateFilter   = require('./nunjucks/dateFilter');
 		var duration     = require('./nunjucks/duration');
+		// Used for fetching template files.
+		var siteId       = config.get('siteId');
 		
-		var env = nunjucks.configure('html', {
+		var env = nunjucks.configure([`html/${siteId}`, 'html/default'], {
 			express    : this.app,
 			watch      : false,
 			autoescape : true
