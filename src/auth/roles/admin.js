@@ -1,5 +1,6 @@
 module.exports = function( helpers, role ) {
 	role.action({
-		'*': true
+		'*': true,
+		'arg:reply': false
 	});
 };
