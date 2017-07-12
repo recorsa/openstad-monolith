@@ -38,7 +38,7 @@ module.exports = function( app ) {
 	router.route('/:ideaId(\\d+)')
 	.all(fetchIdea('withUser', 'withVoteCount', 'withPosterImage', 'withArguments'))
 	.all(fetchVoteForUser)
-	.all(auth.can('idea:view', 'idea:*', 'arg:form', 'arg:add', 'user:mail'))
+	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
 	.get(function( req, res, next) {
 		res.out('ideas/idea', true, {
 			idea      : req.idea,
@@ -342,7 +342,7 @@ module.exports = function( app ) {
 		if( !asDownload ) {
 			// Display votes as interactive table.
 			res.out('ideas/idea_votes', true, {
-				idea  : idea
+				idea : idea
 			});
 		} else {
 			var votes_JSON = idea.votes.map(function( vote ) {
@@ -350,17 +350,17 @@ module.exports = function( app ) {
 			});
 			// Download votes as CSV.
 			csvStringify(votes_JSON, {
-				header: true,
-				delimiter: ';',
-				quoted: true,
-				columns: {
+				header     : true,
+				delimiter  : ';',
+				quoted     : true,
+				columns    : {
 					'user.id'      : 'userId',
 					'user.zipCode' : 'zipCode',
 					'ip'           : 'ip',
 					'opinion'      : 'opinion',
 					'createdAt'    : 'createdAt'
 				},
-				formatters: {
+				formatters : {
 					date: function( value ) {
 						return moment(value)
 						       .tz(config.get('timeZone'))

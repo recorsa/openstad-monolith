@@ -40,6 +40,9 @@ var helpers = {
 		return !helpers.isIdeaOwner(user, idea) &&
 		       idea.isRunning();
 	},
+	mayReplyToArgument: function( user, argument ) {
+		return !argument.parentId;
+	},
 	// TODO: Deny when arg replies exist.
 	mayMutateArgument: function( user, idea, argument ) {
 		return user.id === argument.userId &&

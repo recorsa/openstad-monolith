@@ -290,7 +290,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			addUserArgument: function( user, data ) {
-				var filtered = pick(data, ['sentiment', 'description']);
+				var filtered = pick(data, ['parentId', 'sentiment', 'description']);
 				filtered.ideaId = this.id;
 				filtered.userId = user.id;
 				return db.Argument.create(filtered)
@@ -394,7 +394,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			withUser: {
 				include: [{
 					model      : db.User,
-					attributes : ['firstName', 'lastName', 'email']
+					attributes : ['role', 'firstName', 'lastName', 'email']
 				}]
 			},
 			withVoteCount: {
@@ -430,15 +430,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 					as       : 'argumentsAgainst',
 					required : false,
 					where    : {
-						sentiment: 'against'
-					}
+						sentiment: 'against',
+						parentId : null
+					},
+					include: [{
+						model      : db.Argument,
+						as         : 'reactions',
+						required   : false
+					}]
 				}, {
 					model    : db.Argument,
 					as       : 'argumentsFor',
 					required : false,
 					where    : {
-						sentiment: 'for'
-					}
+						sentiment: 'for',
+						parentId : null
+					},
+					include: [{
+						model      : db.Argument,
+						as         : 'reactions',
+						required   : false
+					}]
 				}]
 			}
 		}

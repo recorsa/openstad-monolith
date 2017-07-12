@@ -268,9 +268,7 @@ extend(Role.prototype, {
 		}
 		
 		return function( input /* [, input...] */ ) {
-			var len       = arguments.length;
-			var getSimple = get.bind(this);
-			
+			var len = arguments.length;
 			if( len > 1 ) {
 				if( !Array.isArray(resourceDef) || len != resourceDef.length ) {
 					throw Error('Action \''+this.name+'\' missing resource');
@@ -286,7 +284,7 @@ extend(Role.prototype, {
 			) {
 				return castArray(resourceDef).map(get.bind(this, input));
 			} else {
-				return [get.bind(this, input)];
+				return [get.call(this, input)];
 			}
 		};
 	}

@@ -1,5 +1,6 @@
 {% extends '../ideas.njk' %}
 {% import '../includes/content.njk' as content %}
+{% import '../includes/arguments.njk' as arguments %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
@@ -165,13 +166,17 @@
 	<div id="arguments">
 		<h1>Argumenten</h1>
 		
-		{{argList('for', idea.argumentsFor)}}
-		{{argList('against', idea.argumentsAgainst)}}
+		<div class="argList for">
+			{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
+		</div>
+		<div class="argList against">
+			{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+		</div>
 	</div>
 {% endblock %}
 
-{% block footer %}
-	{{ super() }}
+{% block scripts %}
+	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
 	
 	<script>
 		// First image in content
@@ -200,110 +205,6 @@
 				}
 			});
 		}
-	</script>
-	<script>
-		// Disabled textareas
-		// ------------------
-		// Link to login/register page.
-		var textareas = Array.prototype.slice.call(
-			document.querySelectorAll('#arguments textarea[data-disabled]'), 0
-		);
-		textareas.forEach(function( textarea ) {
-			textarea.addEventListener('focus', function( event ) {
-				textarea.blur();
-				document.location.href = '/plan/{{idea.id}}/arg/new';
-			})
-		});
-		
-		// Character count on textareas
-		// ----------------------------
-		var minLen     = 140;
-		var maxLen     = 500;
-		var textareas  = Array.prototype.slice.call(
-			document.querySelectorAll('#arguments textarea'), 0
-		);
-		var charsLefts = document.querySelectorAll('#arguments textarea ~ div.charsLeft');
-		var buttons    = document.querySelectorAll('#arguments textarea ~ input[type="submit"]');
-		
-		textareas.forEach(function( textarea, i ) {
-			var charsLeft = charsLefts[i];
-			var button    = buttons[i];
-			var msg       = {
-				min: charsLeft.querySelector('div.min'),
-				max: charsLeft.querySelector('div.max')
-			};
-			var span      = {
-				min: msg.min.querySelector('span'),
-				max: msg.max.querySelector('span')
-			};
-			
-			validate();
-			
-			textarea.addEventListener('focus', function( event ) {
-				charsLeft.className += ' visible';
-			});
-			textarea.addEventListener('blur', function( event ) {
-				charsLeft.className = charsLeft.className.replace(' visible', '');
-			});
-			
-			textarea.addEventListener('keydown', function( event ) {
-				// Prevent input when maximum is reached.
-				if( textarea.value.length == maxLen ) {
-					switch( event.key.toLowerCase() ) {
-						case 'delete'    : case 'backspace':
-						case 'arrowdown' : case 'arrowup':
-						case 'arrowleft' : case 'arrowright':
-							return;
-						default:
-							event.preventDefault();
-					}
-				}
-			});
-			textarea.addEventListener('keyup', function() {
-				if( textarea.value.length > maxLen ) {
-					textarea.value = textarea.value.substr(0, maxLen);
-				}
-				validate();
-			});
-			
-			function validate() {
-				updateCharsLeft();
-				updateButton();
-			}
-			function updateCharsLeft() {
-				var len     = textarea.value.length;
-				var enable  = len < minLen ? 'min' : 'max';
-				var disable = enable == 'max' ? 'min' : 'max';
-				var chars   = len < minLen ?
-				              minLen - len :
-				              maxLen - len;
-				
-				msg[enable].className  = enable+' visible';
-				msg[disable].className = disable;
-				span[enable].innerHTML = chars;
-			}
-			function updateButton() {
-				var len = textarea.value.length;
-				var isValid = len >= minLen && len <= maxLen;
-				button.disabled = !isValid;
-			}
-		});
-		
-		// Delete confirmation for arguments
-		// ---------------------------------
-		var forms = Array.prototype.slice.call(
-			document.querySelectorAll('#arguments .argument form.delete'), 0
-		);
-		forms.forEach(function( form ) {
-			form.addEventListener('submit', function( event ) {
-				var msg = 'Let op! Je staat op het punt je argument te verwijderen. '+
-				          'Dit kan niet ongedaan gemaakt worden.\n\n'+
-				          'Weet je het zeker?';
-				if( !confirm(msg) ) {
-					event.preventDefault();
-				}
-			});
-		});
 	</script>
 	
 	{% if idea.location %}
@@ -334,74 +235,5 @@
 		<p>
 		{{idea.modBreak | safe | nl2br}}
 		</p>
-	</div>
-{% endmacro %}
-
-{% macro argList( sentiment, arguments ) %}
-	<div class="argList {{sentiment}}">
-	{% if can('arg:form') %}
-		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
-			<textarea
-				name="description"
-				placeholder="{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}"
-				{{'data-disabled readonly' if not can('arg:add')}}
-			></textarea>
-			
-			<div class="charsLeft">
-				<div class="min">Nog minimaal <span>140</span> tekens.</div>
-				<div class="max"><span>360</span> tekens resterend.</div>
-			</div>
-			
-			<input type="hidden" name="_csrf" value="{{csrfToken}}">
-			<input type="hidden" name="sentiment" value="{{sentiment}}">
-			<input type="submit" value="Verzenden">
-		</form>
-	{% else %}
-		<h2>{{'Ik ben voor, want...' if sentiment == 'for' else 'Ik ben tegen, want...'}}</h2>
-	{% endif %}
-	
-	{% for arg in arguments %}
-		<div class="argument">
-			<div class="user">
-				<strong>
-				{% if can('user:mail') %}
-					<a href="mailto:{{arg.user.email}}">{{arg.user.firstName}} {{arg.user.lastName}}</a>
-				{% else %}
-					{{arg.user.firstName}} {{arg.user.lastName}}
-				{% endif %}
-				</strong>
-				&nbsp;&nbsp;|&nbsp;&nbsp;
-				{{arg.createdAt | date('LLL')}}
-				
-				{% if user.can('arg:edit', idea, arg) %}
-					<form class="action" method="GET" action="/plan/{{idea.id}}/arg/{{arg.id}}/edit">
-						<input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
-					</form>
-				{% endif %}
-				{% if user.can('arg:delete', idea, arg) %}
-					<form class="action delete" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/delete">
-						<input type="hidden" name="_method" value="DELETE">
-						<input type="hidden" name="_csrf" value="{{csrfToken}}">
-						<input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
-					</form>
-				{% endif %}
-			</div>
-			
-			<p>{{arg.description | urlize | nl2br | safe}}</p>
-			
-			{% if user.can('arg:reply', arg) %}
-				<a href="/plan/{{idea.id}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>
-			{% endif %}
-		</div>
-	{% else %}
-		<div class="noArguments">
-		{% if can('arg:add') %}
-			Heb je een goed argument {{'voor' if sentiment == 'for' else 'tegen'}}?
-			Laat je stem horen!
-		{% else %}
-			Nog geen argumenten {{'voor' if sentiment == 'for' else 'tegen'}}.
-		{% endif %}
-		</div>
-	{% endfor %}
 	</div>
 {% endmacro %}

@@ -38,13 +38,13 @@ module.exports = function( helpers, role ) {
 			resource : 'idea',
 			message  : 'Argumenten toevoegen niet toegestaan'
 		},
-		'arg:edit'         : {
-			allow    : false,
-			resource : ['idea', 'argument']
-		},
 		'arg:reply'        : {
 			allow    : false,
 			resource : 'argument'
+		},
+		'arg:edit'         : {
+			allow    : false,
+			resource : ['idea', 'argument']
 		},
 		'arg:delete'       : {
 			allow    : false,
