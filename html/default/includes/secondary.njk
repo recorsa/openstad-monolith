@@ -33,6 +33,15 @@
 	{% endif %}
 {% endmacro %}
 
+{# 
+12 september 2017 - peildatum
+26 september 2017 - vergaderdatum
+10 oktober 2017 - peildatum
+31 oktober 2017 - vergaderdatum
+14 november 2017 - peildatum
+28 november 2017 - vergaderdatum + peildatum
+12 december 2017 - peildatum
+#}
 {% macro agenda( meetings ) %}
 	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
@@ -41,37 +50,74 @@
 		
 		<div class="timeline">
 			<div class="selection">
-				<b class="date">23 mei 2017</b>
+				<b class="date">20 juni 2017</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">6 juni 2017</b>
+				<b class="date">4 juli 2017</b>
 				<em>vergadering</em>
 				<ul>
-					<li><a href="/plan/58" title="Zaandammerplein groener en gezelliger">
-						Zaandammerplein groener en gezelliger
+					<li><a href="/plan/64" title="Maak van de Witte de Withstraat de Groene Loper naar de Chassébuurt!">
+						Maak van de Witte de Withstraat de Groene Loper naar de Chassébuurt!
 					</a></li>
 				</ul>
 			</div>
 			
 			<div class="selection">
-				<b class="date">20 juni</b>
+				<b class="date">12 september 2017</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">4 juli</b>
+				<b class="date">26 september 2017</b>
 				<em>vergadering</em>
 			</div>
-		</div>
-		{# <div class="timeline">
-		{% for meeting in meetings %}
-			<!-- White space sensitive tags because of `inline-block` -->
-			<div class="point"></div><div class="date">
-				{{meeting.date | date('D MMMM')}} <strong>{{meeting.date | date('YYYY')}}</strong>
+			
+			{# <div class="selection">
+				<b class="date">10 oktober 2017</b>
+				<em>peildatum</em>
 			</div>
-		{% endfor %}
-		</div> #}
+			
+			<div class="meeting">
+				<b class="date">31 oktober 2017</b>
+				<em>vergadering</em>
+				<ul>
+					<li><a href="/plan/1" title="x">
+						x
+					</a></li>
+				</ul>
+			</div> #}
+			
+			{# <div class="selection">
+				<b class="date">14 november 2017</b>
+				<em>peildatum</em>
+			</div>
+			
+			<div class="meeting">
+				<b class="date">28 november 2017</b>
+				<em>vergadering</em>
+				<ul>
+					<li><a href="/plan/1" title="x">
+						x
+					</a></li>
+				</ul>
+			</div> #}
+			
+			{# <div class="selection">
+				<b class="date">28 november 2017</b>
+				<em>peildatum</em>
+			</div>
+			
+			<div class="meeting">
+				<b class="date">12 december 2017</b>
+				<em>vergadering</em>
+				<ul>
+					<li><a href="/plan/1" title="x">
+						x
+					</a></li>
+				</ul>
+			</div> #}
+		</div>
 	</div>
 {% endmacro %}
