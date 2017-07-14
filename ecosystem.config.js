@@ -74,7 +74,7 @@ module.exports = {
 			host          : '185.110.174.172',
 			path          : '/var/www/stemvancentrum.amsterdam.nl/www',
 			
-			ref           : 'origin/staging',
+			ref           : 'origin/production',
 			repo          : 'ssh://git@git.daanmortier.nl/abtool',
 			
 			env           : {
