@@ -12,6 +12,7 @@
 {% endmacro %}
 
 {% macro highlightedIdeas( ideas ) %}
+	{% if ideas and ideas.length %}
 	<div id="highlightedIdeas" class="widget">
 		<h2>Plannen</h2>
 		<ul>
@@ -29,6 +30,7 @@
 		{% endfor %}
 		</ul>
 	</div>
+	{% endif %}
 {% endmacro %}
 
 {% macro agenda( meetings ) %}
