@@ -80,7 +80,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'production'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-prod'
+			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-centrum'
 		}
 	}
 }
