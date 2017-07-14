@@ -2,7 +2,7 @@
 {% import 'includes/content.njk' as content %}
 {% import 'includes/secondary.njk' as sec %}
 
-{% set pageTitle    = 'Ideeën' %}
+{% set pageTitle    = 'Plannen' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
@@ -13,7 +13,7 @@
 		
 		<a href="/hoe-werkt-het" id="howDoesItWork">Hoe werkt het?</a>
 		
-		<h2>Bewonersideeën voor West</h2>
+		<h2>Plannen</h2>
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
@@ -54,7 +54,7 @@
 				</a>
 			</div>{%
 		else %}
-			<i>Nog geen ideeën!</i>
+			<i>Wees de eerste met een goed plan voor jouw buurt!</i>
 		{% endfor %}
 		
 		{# {% if can('ideas:archive') %}

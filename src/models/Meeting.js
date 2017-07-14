@@ -12,13 +12,13 @@
 // 
 // begin september een peildatum afspreken?
 // 
-// 12 september 2017 - vergaderdatum
-// 26 september 2017 - peildatum
-// 10 oktober 2017 - vergaderdatum 
-// 31 oktober 2017 - peildatum
-// 14 november 2017 - vergaderdatum
-// 28 november 2017 - peildatum
-// 12 december 2017 - vergaderdatum
+// 12 september 2017 - peildatum
+// 26 september 2017 - vergaderdatum
+// 10 oktober 2017 - peildatum
+// 31 oktober 2017 - vergaderdatum
+// 14 november 2017 - peildatum
+// 28 november 2017 - vergaderdatum + peildatum
+// 12 december 2017 - peildatum
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {

@@ -34,87 +34,113 @@
 {% endmacro %}
 
 {# 
-12 september 2017 - peildatum
-26 september 2017 - vergaderdatum
-10 oktober 2017 - peildatum
-31 oktober 2017 - vergaderdatum
-14 november 2017 - peildatum
-28 november 2017 - vergaderdatum + peildatum
-12 december 2017 - peildatum
+Peildatum     * Woensdag 30 augustus 2017
+Vergadering     Dinsdag 12 september 2017
+Peildatum     * Woensdag 4 oktober 2017
+Vergadering     Dinsdag 17 oktober 2017
+Peildatum     * Woensdag 8 november
+Vergadering     Dinsdag 21 november 2017
+Peildatum     * Woensdag 6 december
+Vergadering     Dinsdag 19 december 2017
+Peildatum     * Woensdag 3 januari
+Vergadering     Dinsdag 16 januari 2018
+Peildatum     * Woensdag 7 februari
+Vergadering     Dinsdag 20 februari 2018
 #}
 {% macro agenda( meetings ) %}
 	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
-		Het Algemeen Bestuur vergadert iedere 2 weken. Één keer per maand wordt ook het bewoners&shy;voorstel
-		met de meeste stemmen besproken. Dit wordt op de peildatum om 16:00 vastgesteld.
+		Het Algemeen Bestuur vergadert iedere week. Eén keer per maand bespreekt
+		het AB het bewoners&shy;voorstel met de meeste stemmen. Welk voorstel dit is, 
+		wordt op de peildatum om 16:00 uur vastgesteld.
 		
 		<div class="timeline">
 			<div class="selection">
-				<b class="date">20 juni 2017</b>
+				<b class="date">30 augustus 2017</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">4 juli 2017</b>
+				<b class="date">12 september 2017</b>
 				<em>vergadering</em>
-				<ul>
-					<li><a href="/plan/64" title="Maak van de Witte de Withstraat de Groene Loper naar de Chassébuurt!">
-						Maak van de Witte de Withstraat de Groene Loper naar de Chassébuurt!
+				{# <ul>
+					<li><a href="/plan/1" title="Plan titel">
+						Plan titel
 					</a></li>
-				</ul>
+				</ul> #}
 			</div>
 			
 			<div class="selection">
-				<b class="date">12 september 2017</b>
+				<b class="date">4 oktober 2017</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">26 september 2017</b>
+				<b class="date">17 oktober 2017</b>
 				<em>vergadering</em>
+				{# <ul>
+					<li><a href="/plan/1" title="Plan titel">
+						Plan titel
+					</a></li>
+				</ul> #}
 			</div>
 			
 			{# <div class="selection">
-				<b class="date">10 oktober 2017</b>
+				<b class="date">8 november 2017</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">31 oktober 2017</b>
+				<b class="date">21 november 2017</b>
 				<em>vergadering</em>
 				<ul>
-					<li><a href="/plan/1" title="x">
-						x
+					<li><a href="/plan/1" title="Plan titel">
+						Plan titel
 					</a></li>
 				</ul>
 			</div> #}
 			
 			{# <div class="selection">
-				<b class="date">14 november 2017</b>
+				<b class="date">6 december 2017</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">28 november 2017</b>
+				<b class="date">19 december 2017</b>
 				<em>vergadering</em>
 				<ul>
-					<li><a href="/plan/1" title="x">
-						x
+					<li><a href="/plan/1" title="Plan titel">
+						Plan titel
 					</a></li>
 				</ul>
 			</div> #}
 			
 			{# <div class="selection">
-				<b class="date">28 november 2017</b>
+				<b class="date">3 januari 2018</b>
 				<em>peildatum</em>
 			</div>
 			
 			<div class="meeting">
-				<b class="date">12 december 2017</b>
+				<b class="date">16 januari 2018</b>
 				<em>vergadering</em>
 				<ul>
-					<li><a href="/plan/1" title="x">
-						x
+					<li><a href="/plan/1" title="Plan titel">
+						Plan titel
+					</a></li>
+				</ul>
+			</div> #}
+			
+			{# <div class="selection">
+				<b class="date">7 februari 2018</b>
+				<em>peildatum</em>
+			</div>
+			
+			<div class="meeting">
+				<b class="date">20 februari 2018</b>
+				<em>vergadering</em>
+				<ul>
+					<li><a href="/plan/1" title="Plan titel">
+						Plan titel
 					</a></li>
 				</ul>
 			</div> #}
