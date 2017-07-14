@@ -16,6 +16,7 @@ module.exports = function( helpers, role ) {
 			message : 'U kunt geen argument aan uw eigen idee toevoegen'
 		},
 		'arg:edit'         : helpers.mayMutateArgument,
+		'arg:reply'        : false,//helpers.mayReplyToArgument,
 		'arg:delete'       : helpers.mayMutateArgument
 	});
 };

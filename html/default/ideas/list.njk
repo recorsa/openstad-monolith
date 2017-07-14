@@ -1,6 +1,6 @@
-{% extends '../ideas.njk' %}
-{% import '../includes/content.njk' as content %}
-{% import '../includes/secondary.njk' as sec %}
+{% extends 'ideas.njk' %}
+{% import 'includes/content.njk' as content %}
+{% import 'includes/secondary.njk' as sec %}
 
 {% set pageTitle    = 'Ideeën' %}
 {% set contentClass = 'ideasList' %}
@@ -71,9 +71,7 @@
 	</div>
 {% endblock %}
 
-{% block footer %}
-	{{super()}}
-	
+{% block scripts %}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/js/map.js"></script>
 	<script>

@@ -133,6 +133,14 @@
 		document.body.className = '';
 	</script>
 	<script>
+		function $( el, query ) {
+			query || (query = el, el = null);
+			return Array.prototype.slice.call(
+				(el || document).querySelectorAll(query), 0
+			);
+		}
+	</script>
+	<script>
 		// Flash messages
 		// --------------
 		// Make close buttons interactive.
@@ -148,6 +156,9 @@
 			});
 		});
 	</script>
+	
+	{% block scripts %}{% endblock %}
+	
 	{% if ENV == 'production' %}
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

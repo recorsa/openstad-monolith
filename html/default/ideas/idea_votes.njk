@@ -1,5 +1,5 @@
-{% extends '../ideas.njk' %}
-{% import '../includes/content.njk' as content %}
+{% extends 'ideas.njk' %}
+{% import 'includes/content.njk' as content %}
 
 {% set pageTitle    = 'Stemoverzicht' %}
 {% set contentClass = 'admin' %}
@@ -39,7 +39,7 @@
 	</table>
 {% endblock %}
 
-{% block footer %}
+{% block scripts %}
 	<script src="/js/fetch.js"></script>
 	<script src="/js/sorttable.js"></script>
 	<script>
