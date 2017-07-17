@@ -4,5 +4,11 @@
 	
 	"express": {
 		"port": 8082
+	},
+	
+	"security": {
+		"sessions": {
+			"onlySecure": false
+		}
 	}
 }
