@@ -140,7 +140,7 @@ module.exports  = {
 			}),
 			cookie: {
 				httpOnly : true,
-				secure   : !config.get('debug'),
+				secure   : config.get('security.sessions.onlySecure'),
 				maxAge   : null
 			}
 		}));
