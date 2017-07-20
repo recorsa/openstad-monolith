@@ -1,11 +1,11 @@
-var bcrypt         = require('bcrypt')
-  , config         = require('config')
+var config         = require('config')
   , createError    = require('http-errors')
   , extend         = require('lodash/extend')
   , log            = require('debug')('app:user')
   , pick           = require('lodash/pick');
 
 var auth           = require('../auth');
+var Password       = require('../auth/password');
 var notifications  = require('../notifications');
 var sanitize       = require('../util/sanitize');
 
@@ -323,22 +323,3 @@ module.exports = function( db, sequelize, DataTypes ) {
 	
 	return User;
 };
-
-var Password = {
-	bcrypt: {
-		hash: function( password ) {
-			var cost = config.get('security.passwordHashing.methods.bcrypt.cost');
-			var salt = bcrypt.genSaltSync(cost);
-			var hash = bcrypt.hashSync(password, salt);
-			return {
-				method : 'bcrypt',
-				cost   : cost,
-				salt   : salt,
-				hash   : hash
-			};
-		},
-		compare: function( password, hashObject ) {
-			return bcrypt.compareSync(password, hashObject.hash);
-		}
-	}
-}
