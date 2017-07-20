@@ -157,6 +157,8 @@ module.exports = function( app ) {
 			return sendAuthToken(user, req);
 		})
 		.then(function( user ) {
+			// Renew token, so the previous one isn't reusable.
+			req.csrfToken();
 			res.out('account/token_sent', true, {
 				isNew: !user.hasCompletedRegistration()
 			});
