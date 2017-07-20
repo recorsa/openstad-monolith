@@ -245,7 +245,7 @@ function sendAuthToken( user, req ) {
 }
 
 function resolveURL( ref ) {
-	var target = url.parse(ref, false, true);
+	var target = url.parse(ref || '', false, true);
 	var path   = target.path;
 	return url.resolve('/', path || '');
 }
