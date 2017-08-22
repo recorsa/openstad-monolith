@@ -115,7 +115,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : true,
 			validate     : {
 				is: {
-					args : [/^\d{4} ?\w{2}$/],
+					args : [/^\d{4} ?[a-zA-Z]{2}$/],
 					msg  : 'Ongeldige postcode'
 				}
 			},
