@@ -8,7 +8,6 @@ var defaultFormat = null;
 // Examples:
 // {{ var | date }}
 // {{ var | date('YYYY-MM-DD') }}
-// {{ var | date('add', 1, 'week') }}
 function dateFilter( date, format ) {
 	try {
 		if( !date ) {

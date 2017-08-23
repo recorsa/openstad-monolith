@@ -36,7 +36,7 @@ module.exports = function( app ) {
 		req.setSessionUser = setSessionUser.bind(req);
 		
 		if( !req.session ) {
-			next(new Error('express-session middleware not loaded?'));
+			next(Error('express-session middleware not loaded?'));
 		} else {
 			getUserInstance(req.session[uidProperty] || 1)
 			.then(function( user ) {
