@@ -21,13 +21,13 @@ function out( req, viewPath, allowJSON, data ) {
 			});
 		},
 		json: function() {
-			if( allowJSON ) {
-				_resolve(req, data).then(function( data ) {
-					jsonViews.render(viewPath, req, res, data);
-				});
-			} else {
-				next(createError(406));
+			if( !allowJSON ) {
+				return res.status(406).send('Not Acceptable');
 			}
+			
+			_resolve(req, data).then(function( data ) {
+				jsonViews.render(viewPath, req, res, data);
+			});
 		},
 		default: function() {
 			res.status(406).send('Not Acceptable');
