@@ -42,11 +42,11 @@
 		</p>
 		
 		<p>Excuses voor het ongemak.</p>
-		{{errorMessage | nl2br | safe}}
+		{{errorStack | nl2br | safe}}
 	{% else %}
 		<h1>{{status}}: {{friendlyStatus}}</h1>
 		
-		<p>{{errorMessage | nl2br | safe}}</p>
+		<p>{{errorStack | nl2br | safe}}</p>
 	{% endif %}
 	</div>
 {% endblock %}
