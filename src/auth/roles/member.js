@@ -11,6 +11,8 @@ module.exports = function( helpers, role ) {
 		'idea:edit'        : helpers.mayMutateIdea,
 		'idea:delete'      : helpers.mayMutateIdea,
 		
+		'image:upload'     : true,
+		
 		'arg:add'          : {
 			allow   : helpers.mayAddArgument,
 			message : 'U kunt geen argument aan uw eigen idee toevoegen'
