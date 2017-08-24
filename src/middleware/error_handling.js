@@ -29,12 +29,16 @@ module.exports = function( app ) {
 		}
 		
 		res.status(status);
-		res.out('error', true, {
-			status         : status,
-			friendlyStatus : friendlyStatus,
-			message        : message,
-			errorStack     : errorStack.replace(/\x20{2}/g, ' &nbsp;'),
-			error          : err
-		})
+		if( res.out ) {
+			res.out('error', true, {
+				status         : status,
+				friendlyStatus : friendlyStatus,
+				message        : message,
+				errorStack     : errorStack.replace(/\x20{2}/g, ' &nbsp;'),
+				error          : err
+			});
+		} else {
+			res.send(`<h1>${friendlyStatus}</h1><p>${message}</p>`);
+		}
 	});
 };
