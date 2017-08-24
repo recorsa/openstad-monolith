@@ -31,7 +31,7 @@
 		
 		<p>
 			Deze pagina is beschermd tegen teveel herhaalde bezoeken. U kunt het nogmaals
-			proberen om: {{nextValidRequestDate | date('HH:mm:ss')}} (over {{untilNextTry | duration}})
+			proberen om: {{nextValidRequestDate | date('HH:mm:ss')}} (over {{retryAfter | duration}})
 		</p>
 	{% elif status == 500 %}
 		<h1>Er ging iets fout!</h1>

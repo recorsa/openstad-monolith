@@ -19,10 +19,10 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 	maxWait      : 900000, // 15 min
 	lifetime     : 86400, // 24 hours
 	failCallback : function( req, res, next, nextValidRequestDate ) {
-		var untilNext = Math.ceil((nextValidRequestDate.getTime() - Date.now())/1000);
-		res.header('Retry-After', untilNext);
+		var retryAfter = Math.ceil((nextValidRequestDate.getTime() - Date.now())/1000);
+		res.header('Retry-After', retryAfter);
 		res.locals.nextValidRequestDate = nextValidRequestDate;
-		res.locals.untilNextTry         = untilNext;
+		res.locals.retryAfter           = retryAfter;
 		
 		next(createError(429, {nextValidRequestDate: nextValidRequestDate}));
 	}
@@ -54,7 +54,11 @@ module.exports = function( app ) {
 				});
 			})
 			.catch(function( err ) {
+				// Login failed. Normally we would `throw createError()` here, but this
+				// is an exception, because we want to show the login page again instead
+				// of a 404 page (so the user can try again).
 				req.flash('error', err.message);
+				res.status(404);
 				res.out('account/login_email', true, {
 					method    : 'password',
 					ref       : ref,
