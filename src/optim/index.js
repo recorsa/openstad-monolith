@@ -24,7 +24,12 @@ process.on('message', function( task ) {
 		throw Error(`Action not found: ${actionName}`);
 	}
 	
-	action(params).then(function() {
+	action(params)
+	.then(function() {
 		process.send(task);
+	})
+	.all()
+	.catch(function( error ) {
+		process.send(error.stack);
 	});
 });

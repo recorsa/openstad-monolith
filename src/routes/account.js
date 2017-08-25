@@ -1,3 +1,4 @@
+var Brute        = require('express-brute');
 var config       = require('config');
 var createError  = require('http-errors');
 var express      = require('express');
@@ -12,6 +13,21 @@ var passwordless = require('../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
 
+var bruteForce   = new Brute(new Brute.MemoryStore(), {
+	freeRetries  : 3,
+	minWait      : 5000,
+	maxWait      : 900000, // 15 min
+	lifetime     : 86400, // 24 hours
+	failCallback : function( req, res, next, nextValidRequestDate ) {
+		var retryAfter = Math.ceil((nextValidRequestDate.getTime() - Date.now())/1000);
+		res.header('Retry-After', retryAfter);
+		res.locals.nextValidRequestDate = nextValidRequestDate;
+		res.locals.retryAfter           = retryAfter;
+		
+		next(createError(429, {nextValidRequestDate: nextValidRequestDate}));
+	}
+});
+
 module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', router);
@@ -21,8 +37,8 @@ module.exports = function( app ) {
 	// Most people won't have a password set, so this route will
 	// send a login link to their email address.
 	router.route('/login_email')
+	.post(bruteForce.prevent)
 	.post(function( req, res, next ) {
-		var start      = Date.now();
 		var ref        = req.query.ref
 		  , email      = req.body.email
 		  , password   = req.body.password
@@ -33,15 +49,17 @@ module.exports = function( app ) {
 			db.User.findByCredentials(email, password)
 			.then(function( user ) {
 				req.session[uidProperty] = user.id;
-				// Delay the response so that it's always a minimum of 200ms.
-				var delay = Math.max(0, 200 - (Date.now() - start));
-				setTimeout(function() {
+				req.brute.reset(function() {
 					res.success(resolveURL(ref), true);
-				}, delay);
+				});
 			})
 			.catch(function( err ) {
+				// Login failed. Normally we would `throw createError()` here, but this
+				// is an exception, because we want to show the login page again instead
+				// of a 404 page (so the user can try again).
 				req.flash('error', err.message);
-				res.out('account/login_email', false, {
+				res.status(404);
+				res.out('account/login_email', true, {
 					method    : 'password',
 					ref       : ref,
 					email     : email,
@@ -80,7 +98,12 @@ module.exports = function( app ) {
 		}
 	})
 	.post(function( err, req, res, next ) {
-		if( String(err.status)[0] != 4 || req.accepts('html', 'json') === 'json' ) {
+		if(
+			req.accepts('html', 'json') === 'json' || (
+				err.status != 400 &&
+				err.status != 404
+			)
+		) {
 			return next(err);
 		}
 		
@@ -103,6 +126,7 @@ module.exports = function( app ) {
 			uid          : req.query.uid
 		});
 	})
+	.post(bruteForce.prevent)
 	.post(function( req, res, next ) {
 		var token = req.body.token;
 		var uid   = req.body.uid;
@@ -115,12 +139,9 @@ module.exports = function( app ) {
 			}
 			
 			req.setSessionUser(uid, originUrl);
-			
-			// Delay the response so that it's always a minimum of 200ms.
-			var delay = Math.max(0, 200 - (Date.now() - start));
-			setTimeout(function() {
+			req.brute.reset(function() {
 				res.success(resolveURL(originUrl), true);
-			}, delay);
+			});
 		})
 		.catch(next);
 	})
@@ -151,6 +172,7 @@ module.exports = function( app ) {
 			csrfToken : req.csrfToken()
 		});
 	})
+	.post(bruteForce.prevent)
 	.post(function( req, res, next ) {
 		db.User.registerMember(req.user, req.body.email)
 		.then(function( user ) {
@@ -226,7 +248,6 @@ function sendAuthToken( user, req ) {
 			userId   : user.id,
 			ref      : ref
 		};
-		
 		mail.sendMail({
 			to          : user.email,
 			subject     : hasCompletedRegistration ?
@@ -240,6 +261,7 @@ function sendAuthToken( user, req ) {
 				cid      : 'logo'
 			}]
 		});
+		
 		return user;
 	});
 }

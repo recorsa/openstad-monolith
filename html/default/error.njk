@@ -23,23 +23,30 @@
 	{% elif status == 404 %}
 		<h1>{{message}}</h1>
 		
-		<p>Helaas. De pagina waar u naar op zoek bent bestaat niet (meer).</p>
+		<p>Het bestand dat u probeert te bekijken bestaat niet (meer).</p>
 		
-		<p>Gebruik het menu bovenaan deze pagina om naar een andere pagina te navigeren.</p>
+		<p>Gebruik de vorige knop van uw browser of het menu bovenaan deze pagina om naar een andere pagina te navigeren.</p>
+	{% elif status == 429 %}
+		<h1>Teveel pogingen</h1>
+		
+		<p>
+			Deze pagina is beschermd tegen teveel herhaalde bezoeken. U kunt het nogmaals
+			proberen om: {{nextValidRequestDate | date('HH:mm:ss')}} (over {{retryAfter | duration}})
+		</p>
 	{% elif status == 500 %}
 		<h1>Er ging iets fout!</h1>
 		
-		De server heeft een fout gemaakt bij het opvragen van deze pagina. Neem a.u.b. contact op
-		via <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> om het probleem
-		te melden.
 		<p>
-		Excuses voor het ongemak.
-		<p>
-		{{errorMessage | nl2br | safe}}
+			De server heeft een fout gemaakt bij het opvragen van deze pagina. Neem a.u.b.
+			contact op via <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> om het probleem te melden.
+		</p>
+		
+		<p>Excuses voor het ongemak.</p>
+		{{errorStack | nl2br | safe}}
 	{% else %}
 		<h1>{{status}}: {{friendlyStatus}}</h1>
 		
-		{{errorMessage | nl2br | safe}}
+		<p>{{errorStack | nl2br | safe}}</p>
 	{% endif %}
 	</div>
 {% endblock %}
