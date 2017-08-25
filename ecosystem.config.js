@@ -53,7 +53,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'production'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-prod'
+			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-prod'
 		},
 		staging : {
 			user          : 'daan',
@@ -66,7 +66,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'production'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
+			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
 		},
 		
 		production_centrum : {
@@ -80,7 +80,7 @@ module.exports = {
 			env           : {
 				NODE_ENV : 'production'
 			},
-			'post-deploy' : 'npm install && pm2 startOrRestart ecosystem.config.js --only stem-centrum'
+			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-centrum'
 		}
 	}
 }
