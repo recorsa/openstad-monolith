@@ -13,7 +13,15 @@
 		
 		<a href="/hoe-werkt-het" id="howDoesItWork">Hoe werkt het?</a>
 		
-		<h2>Plannen</h2>
+		<h2>
+			Plannen
+			
+			<select>
+				<option>Nieuwste eerst</option>
+				<option>Oudste eerst</option>
+				<option>Meeste stemmen</option>
+			</select>
+		</h2>
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
