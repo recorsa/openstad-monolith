@@ -17,13 +17,21 @@ module.exports = function( app ) {
 	app.route('(/ideas|/plannen)')
 	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
-		var queries = {
-			runningIdeas     : db.Idea.getRunning(),
+		// Figure out idea sorting, and store in the user's session.
+		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') ||
+		           req.session['idea_sort'];
+		if( sort ) {
+			req.session['idea_sort'] = sort;
+		}
+		
+		var data = {
+			sort             : sort,
+			runningIdeas     : db.Idea.getRunning(sort),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			upcomingMeetings : db.Meeting.getUpcoming(3)
 		};
 		
-		Promise.props(queries)
+		Promise.props(data)
 		.then(function( result ) {
 			res.out('ideas/list', true, result);
 		})
