@@ -197,19 +197,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			getRunning: function( sort ) {
 				var order;
 				switch( sort ) {
-					case 'date_desc':
-						order = 'endDate DESC';
+					case 'votes_desc':
+						order = 'yes DESC';
+						break;
+					case 'votes_asc':
+						order = 'yes ASC';
 						break;
 					case 'date_asc':
 						order = 'endDate ASC';
 						break;
-					case 'votes_desc':
-						order = '(yes + no) DESC';
-						break;
-					case 'votes_asc':
-						order = '(yes + no) ASC';
-						break;
-					case 'default':
+					case 'date_desc':
 					default:
 						order = `CASE status
 								WHEN 'ACCEPTED' THEN 4
