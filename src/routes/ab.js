@@ -48,7 +48,7 @@ function getMembers() {
 		neighborhood : ['Staatsliedenbuurt', 'Westerpark / Overbrakerbinnenpolder']
 	}, {
 		id           : 9,
-		name         : 'Gerolf Bouwmeester',
+		name         : 'Melanie van der Horst',
 		neighborhood : ['Westerpark']
 	}, {
 		id           : 10,

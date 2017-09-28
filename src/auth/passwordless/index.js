@@ -7,7 +7,7 @@ var extend      = require('lodash/extend');
 var util        = require('util');
 var Promise     = require('bluebird');
 
-var TokenStore  = require('./PasswordlessTokenStore');
+var TokenStore  = require('./TokenStore');
 var store       = Promise.promisifyAll(new TokenStore());
 
 module.exports = {

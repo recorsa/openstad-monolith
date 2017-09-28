@@ -194,7 +194,30 @@ module.exports = function( db, sequelize, DataTypes ) {
 					limit : 3
 				});
 			},
-			getRunning: function( limit ) {
+			getRunning: function( sort ) {
+				var order;
+				switch( sort ) {
+					case 'votes_desc':
+						order = 'yes DESC';
+						break;
+					case 'votes_asc':
+						order = 'yes ASC';
+						break;
+					case 'date_asc':
+						order = 'endDate ASC';
+						break;
+					case 'date_desc':
+					default:
+						order = `CASE status
+								WHEN 'ACCEPTED' THEN 4
+								WHEN 'BUSY' THEN 3
+								WHEN 'DENIED' THEN 0
+								ELSE 1
+							END DESC,
+							endDate DESC
+						`;
+				}
+				
 				// Get all running ideas.
 				// TODO: Ideas with status CLOSED should automatically
 				//       become DENIED at a certain point.
@@ -216,20 +239,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 							}
 						]
 					},
-					order   : `
-						CASE status
-							WHEN 'ACCEPTED' THEN 4
-							WHEN 'BUSY' THEN 3
-							WHEN 'DENIED' THEN 0
-							ELSE 1
-						END DESC,
-						endDate DESC
-					`,
+					order   : order,
 					include : [{
 						model: db.Meeting,
 						attributes: []
-					}],
-					limit   : limit
+					}]
 				});
 			},
 			getHistoric: function() {

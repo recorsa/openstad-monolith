@@ -13,7 +13,16 @@
 		
 		<a href="/hoe-werkt-het" id="howDoesItWork">Hoe werkt het?</a>
 		
-		<h2>Plannen</h2>
+		<h2>
+			Plannen
+			
+			<select>
+				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+				<option {{'selected' if sort == 'votes_desc'}} value="votes_desc">Meeste stemmen</option>
+				<option {{'selected' if sort == 'votes_asc'}} value="votes_asc">Minste stemmen</option>
+			</select>
+		</h2>
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
@@ -75,6 +84,8 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/js/map.js"></script>
 	<script>
+	// Interactive map
+	// ---------------
 	(function() {
 		var bounds;
 		var map    = initMap(document.getElementById('map'), {
@@ -135,10 +146,23 @@
 	})();
 	</script>
 	<script>
+	// Sorting dropdown
+	// ----------------
 	(function() {
-		var tiles = Array.prototype.slice.call(
-			document.querySelectorAll('#content > .primary > .tile:not([data-poster-url=""])'), 0
-		);
+		var select = document.querySelector('#content > .primary > h2 select');
+		select.addEventListener('change', function() {
+			// Replace current `sort=x` with new choice.
+			var pathName = location.pathname;
+			var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
+			location.href = pathName + search + 'sort=' + select.value;
+		});
+	})();
+	</script>
+	<script>
+	// Progressive thumbnail loading
+	// -----------------------------
+	(function() {
+		var tiles = $('#content > .primary > .tile:not([data-poster-url=""])');
 		
 		loadTileImages();
 		window.addEventListener('scroll', loadTileImages);

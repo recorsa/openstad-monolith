@@ -6,7 +6,7 @@ var extend     = require('lodash/extend');
 var TokenStore = require('passwordless-tokenstore');
 var util       = require('util');
 
-var AuthToken  = require('../db').AuthToken;
+var AuthToken  = require('../../db').AuthToken;
 
 function SequelizeStore() {
 	TokenStore.call(this);
