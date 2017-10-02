@@ -8,7 +8,7 @@
 {% block content %}
 	{{content.map(cookieConsent)}}
 	
-	<div class="primary">
+	<div id="ideas" class="primary">
 		{{sec.newIdeaBubble()}}
 		
 		<a href="/hoe-werkt-het" id="howDoesItWork">Hoe werkt het?</a>
@@ -88,7 +88,7 @@
 	// ---------------
 	(function() {
 		var bounds;
-		var map    = initMap(document.getElementById('map'), {
+		var map = initMap(document.getElementById('map'), {
 			center            : {lat: 52.3732175, lng: 4.8495996},
 			minZoom           : 13,
 			maxZoom           : 17,
@@ -154,7 +154,7 @@
 			// Replace current `sort=x` with new choice.
 			var pathName = location.pathname;
 			var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
-			location.href = pathName + search + 'sort=' + select.value;
+			location.href = pathName + search + 'sort=' + select.value + '#ideas';
 		});
 	})();
 	</script>
