@@ -11,7 +11,7 @@
 
 {% block content %}
 	<div id="banner">
-		<div class="image" style="background-image: url('/img/articles/{{article.id}}/banner.jpg');"></div>
+		<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'banner.jpg'}}');"></div>
 	</div>
 	
 	<div class="primary">

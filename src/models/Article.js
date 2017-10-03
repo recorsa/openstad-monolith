@@ -58,6 +58,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			scopes: scopes,
 			associate: function( models ) {
 				this.belongsTo(models.User);
+			},
+			
+			getTiles: function() {
+				return this.scope('asTile').findAll();
 			}
 		}
 	});
@@ -71,7 +75,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}]
 			},
 			asTile: {
-				attributes: ['id', 'image', 'title', 'summary']
+				attributes: ['id', 'image', 'title', 'summary'],
+				order: 'createdAt DESC'
 			}
 		};
 	}
