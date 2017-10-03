@@ -1,16 +1,15 @@
-var config      = require('config');
-var NodeCache   = require('node-cache');
-var pmx         = require('pmx');
+var config       = require('config');
+var NodeCache    = require('node-cache');
+var pmx          = require('pmx');
 
-var db          = require('../db');
+var db           = require('../db');
 
-var uidProperty = config.get('security.sessions.uidProperty');
-var cookieTTL   = config.get('security.sessions.cookieTTL');
+var uidProperty  = config.get('security.sessions.uidProperty');
+var cookieTTL    = config.get('security.sessions.cookieTTL');
+var userCacheTTL = config.get('security.sessions.userCacheTTL');
 
-// TODO: Cache cleanup — node-cache.
-var uidProperty = config.get('security.sessions.uidProperty');
 var userCache = new NodeCache({
-	stdTTL    : config.get('security.sessions.userCacheTTL'),
+	stdTTL    : userCacheTTL,
 	useClones : false
 });
 
