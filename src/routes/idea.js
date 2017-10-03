@@ -19,9 +19,11 @@ module.exports = function( app ) {
 	.get(function( req, res, next ) {
 		// Figure out idea sorting, and store in the user's session.
 		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') ||
-		           req.session['idea_sort'];
+		           req.cookies['idea_sort'];
 		if( sort ) {
-			req.session['idea_sort'] = sort;
+			res.cookie('idea_sort', sort, {
+				expires: 0
+			});
 		}
 		
 		var data = {
