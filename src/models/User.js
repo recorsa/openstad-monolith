@@ -106,6 +106,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 				       undefined;
 			}
 		},
+		initials: {
+			type         : DataTypes.VIRTUAL,
+			allowNull    : true,
+			get          : function() {
+				var firstName = this.getDataValue('firstName') || '';
+				var lastName  = this.getDataValue('lastName') || '';
+				var initials  = (firstName ? firstName.substr(0,1) : '') +
+				                (lastName ? lastName.substr(0,1) : '');
+				return initials.toUpperCase();
+			}
+		},
 		gender: {
 			type         : DataTypes.ENUM('male', 'female'),
 			allowNull    : true
