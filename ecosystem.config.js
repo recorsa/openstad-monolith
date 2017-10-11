@@ -1,14 +1,5 @@
-module.exports = {
+var config = {
 	apps : [{
-		name      : 'stem-prod',
-		script    : 'server.js',
-		node_args : '--use-strict',
-		env : {
-			NODE_ENV                   : 'production',
-			BLUEBIRD_LONG_STACK_TRACES : 1,
-			BLUEBIRD_WARNINGS          : 0
-		}
-	}, {
 		name      : 'stem-staging',
 		script    : 'server.js',
 		node_args : '--use-strict',
@@ -17,44 +8,9 @@ module.exports = {
 			BLUEBIRD_LONG_STACK_TRACES : 1,
 			BLUEBIRD_WARNINGS          : 0
 		}
-	}, {
-		name      : 'stem-dev',
-		script    : 'server.js',
-		node_args : '--use-strict',
-		env: {
-			NODE_ENV                   : 'development',
-			BLUEBIRD_LONG_STACK_TRACES : 1,
-			BLUEBIRD_WARNINGS          : 0
-		},
-		watch        : true,
-		ignore_watch : ['\.git', 'node_modules', 'css', 'img']
-	},
-	
-	{
-		name      : 'stem-centrum',
-		script    : 'server.js',
-		node_args : '--use-strict',
-		env : {
-			NODE_ENV                   : 'production',
-			BLUEBIRD_LONG_STACK_TRACES : 1,
-			BLUEBIRD_WARNINGS          : 0
-		}
 	}],
 	
 	deploy : {
-		production : {
-			user          : 'daan',
-			host          : '185.110.174.172',
-			path          : '/var/www/stemvanwest.amsterdam.nl/www',
-			
-			ref           : 'origin/production',
-			repo          : 'ssh://git@git.daanmortier.nl/abtool',
-			
-			env           : {
-				NODE_ENV : 'production'
-			},
-			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-prod'
-		},
 		staging : {
 			user          : 'daan',
 			host          : '185.110.174.172',
@@ -67,20 +23,55 @@ module.exports = {
 				NODE_ENV : 'production'
 			},
 			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
-		},
-		
-		production_centrum : {
-			user          : 'daan',
-			host          : '185.110.174.172',
-			path          : '/var/www/stemvancentrum.amsterdam.nl/www',
-			
-			ref           : 'origin/production',
-			repo          : 'ssh://git@git.daanmortier.nl/abtool',
-			
-			env           : {
-				NODE_ENV : 'production'
-			},
-			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-centrum'
 		}
+	}
+};
+// Production deployments
+// ----------------------
+addProductionApp([{
+	appName    : 'stem-prod',
+	deployName : 'production',
+	remotePath : '/var/www/stemvanwest.amsterdam.nl/www'
+}, {
+	appName    : 'stem-centrum',
+	deployName : 'production_centrum',
+	remotePath : '/var/www/stemvancentrum.amsterdam.nl/www'
+}, {
+	appName    : 'stem-oost',
+	deployName : 'production_oost',
+	remotePath : '/var/www/stemvanoost.amsterdam.nl/www'
+}]);
+module.exports = config;
+
+// Helper
+// ------
+// Automates configuring production deployments to keep it DRY.
+function addProductionApp( app ) {
+	if( app instanceof Array ) {
+		return app.forEach(addProductionApp);
+	}
+	
+	config.apps.push({
+		name      : app.appName,
+		script    : 'server.js',
+		node_args : '--use-strict',
+		env : {
+			NODE_ENV                   : 'production',
+			BLUEBIRD_LONG_STACK_TRACES : 1,
+			BLUEBIRD_WARNINGS          : 0
+		}
+	});
+	config.deploy[app.deployName] = {
+		user          : 'daan',
+		host          : '185.110.174.172',
+		path          : app.remotePath,
+		
+		ref           : 'origin/production',
+		repo          : 'ssh://git@git.daanmortier.nl/abtool',
+		
+		env           : {
+			NODE_ENV : 'production'
+		},
+		'post-deploy' : `npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName}`
 	}
 }
