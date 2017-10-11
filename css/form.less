@@ -20,10 +20,6 @@
 		margin-bottom: 20px;
 		overflow: hidden;
 		
-		@media @phone {
-			margin: 0px -30px 20px;
-		}
-		
 		h2 {
 			background-color: #EC0000;
 			color: #FFF;
@@ -86,6 +82,10 @@
 	
 	.primary {
 		padding-right: @hMargin;
+		
+		@media @primary100 {
+			padding-right: 0;
+		}
 		
 		#posterImageUpload {
 			button {
