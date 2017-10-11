@@ -42,8 +42,7 @@
 					{{arg.user.fullName}}
 				{% endif %}
 				</strong>
-				&nbsp;&nbsp;|&nbsp;&nbsp;
-				{{arg.createdAt | date('LLL')}}
+				| {{arg.createdAt | date('LLL')}}
 				
 				{% if mayEdit %}
 					<form class="action" method="GET" action="/plan/{{arg.ideaId}}/arg/{{arg.id}}/edit">
@@ -69,29 +68,34 @@
 		{% for reaction in arg.reactions %}
 			{% set mayEdit   = user.can('arg:edit', idea, reaction) %}
 			{% set mayDelete = user.can('arg:delete', idea, reaction) %}
-			{% set mayReply  = user.can('arg:reply', reaction) %}
 			
 			<div class="reaction">
-				{{reaction.description | urlize | safe}}
-				—
-				<strong>
+				<div class="user">
+					<strong>
 					{{'⭐' if reaction.user.isAdmin()}}
-					{{reaction.user.fullName}}
-				</strong>
-				{{reaction.createdAt | date('LLL')}}
-				
-				{% if mayEdit %}
-					<form class="action" method="GET" action="/plan/{{reaction.ideaId}}/arg/{{reaction.id}}/edit">
-						<input type="submit" class="default edit" value="bewerk" title="Argument bewerken">
-					</form>
-				{% endif %}
-				{% if mayDelete %}
-					<form class="action delete" method="POST" action="/plan/{{reaction.ideaId}}/arg/{{reaction.id}}/delete">
-						<input type="hidden" name="_method" value="DELETE">
-						<input type="hidden" name="_csrf" value="{{csrfToken}}">
-						<input type="submit" class="default delete" value="verwijder" title="Argument verwijderen">
-					</form>
-				{% endif %}
+					{% if mayEmailUsers %}
+						<a href="mailto:{{reaction.user.email}}">{{reaction.user.fullName}}</a>
+					{% else %}
+						{{reaction.user.fullName}}
+					{% endif %}
+					</strong>
+					| {{reaction.createdAt | date('LLL')}}
+					
+					{% if mayEdit %}
+						<form class="action" method="GET" action="/plan/{{reaction.ideaId}}/arg/{{reaction.id}}/edit">
+							<input type="submit" class="default edit" value="bewerken" title="Reactie bewerken">
+						</form>
+					{% endif %}
+					{% if mayDelete %}
+						<form class="action delete" method="POST" action="/plan/{{reaction.ideaId}}/arg/{{reaction.id}}/delete">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
+						</form>
+					{% endif %}
+				</div>
+			
+				{{reaction.description | urlize | safe}}
 			</div>
 		{% endfor %}
 	{% else %}
@@ -107,7 +111,7 @@
 	
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
 	<form method="POST" action="/plan/{{idea.id}}/arg/new" class="tpl newReaction">
-		<textarea name="description" rows="1" placeholder="Type je reactie hier..."></textarea>
+		<textarea name="description" rows="1" placeholder="Typ je reactie hier..."></textarea>
 		
 		<div class="charsLeft">
 			<div class="min">Nog minimaal <span>140</span> tekens.</div>

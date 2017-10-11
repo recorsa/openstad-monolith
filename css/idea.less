@@ -15,10 +15,6 @@
 	margin-bottom: 35px;
 	overflow: hidden;
 	
-	@media @phone {
-		margin: 0 -30px 35px;
-	}
-	
 	// Idea poster image
 	// -----------------
 	.primary {
@@ -371,8 +367,47 @@
 				opacity: 0.3;
 			}
 		}
-		// Argument form
-		// -------------
+		
+		// General user styling
+		// --------------------
+		// Both arguments and reaction style the author the same.
+		.argument .user,
+		.reaction .user {
+			overflow: hidden;
+			
+			a {
+				color: inherit;
+			}
+			form {
+				float: right;
+				line-height: 0;
+				
+				input.edit,
+				input.delete {
+					.appearance(none);
+					
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: 60%;
+					cursor: pointer;
+					font-size: 0;
+					height: 20px;
+					width: 20px;
+				}
+				input.edit {
+					background-color: #333;
+					background-image: url('/img/edit_white.svg');
+					margin-left: 4px;
+				}
+				input.delete {
+					background-color: #EC0000;
+					background-image: url('/img/delete_white.svg');
+				}
+			}
+		}
+		
+		// Argument
+		// --------
 		form.newArgument {
 			margin-bottom: 10px;
 			overflow: visible;
@@ -408,10 +443,33 @@
 				}
 			}
 		}
+		.argument {
+			background-color: #F6F6F6;
+			border-left: 3px solid #043287;
+			color: #666;
+			margin-bottom: 20px;
+			overflow: hidden;
+			padding: 10px;
+			
+			p {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			a.reply {
+				float: right;
+				margin-top: 0px;
+			}
+		}
+		.reaction + .argument,
+		form + .argument {
+			margin-top: 20px;
+		}
+		
 		// Reaction form
 		// -------------
 		form.newReaction {
 			margin-left: 20px;
+			.reaction();
 			
 			textarea {
 				.appearance(none);
@@ -421,7 +479,7 @@
 				color: #666;
 				display: block;
 				font-family: inherit;
-				font-size: 0.9em;
+				font-size: 1em;
 				margin-bottom: 5px;
 				outline: none;
 				overflow: hidden;
@@ -435,96 +493,23 @@
 				padding-right: 25px;
 			}
 		}
-		.reaction + form.newReaction {
-			border-top: 1px solid #E7E7E7;
-			padding-top: 5px;
-		}
-		
-		.argument {
-			background-color: #F6F6F6;
-			border-left: 5px solid #666;
-			color: #666;
-			margin-bottom: 20px;
-			overflow: hidden;
-			padding: 5px 10px;
-			
-			.user {
-				overflow: hidden;
-				
-				a {
-					color: inherit;
-				}
-				form {
-					float: right;
-					line-height: 0;
-					
-					input.edit,
-					input.delete {
-						.appearance(none);
-						
-						background-position: center;
-						background-repeat: no-repeat;
-						background-size: 60%;
-						cursor: pointer;
-						font-size: 0;
-						height: 20px;
-						width: 20px;
-					}
-					input.edit {
-						background-color: #333;
-						background-image: url('/img/edit_white.svg');
-						margin-left: 4px;
-					}
-					input.delete {
-						background-color: #EC0000;
-						background-image: url('/img/delete_white.svg');
-					}
-				}
-			}
-			p {
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-			a.reply {
-				float: right;
-				margin-top: 0px;
-			}
-		}
-		.reaction + .argument,
-		form + .argument {
-			margin-top: 10px;
-		}
-		
 		.reaction {
-			border-top: 1px solid #E7E7E7;
+			border-left: 3px solid #B0B0B0;
 			color: #666;
-			font-size: 0.9em;
+			margin-bottom: 5px;
 			margin-left: 20px;
 			overflow: hidden;
-			padding: 2px 0;
-			
-			form.action {
-				input[type="submit"] {
-					.appearance(none);
-					background: 0;
-					cursor: pointer;
-					color: inherit;
-					font: inherit;
-					margin: 0;
-					outline: none;
-					padding: 0;
-					text-decoration: underline;
-				}
-			}
+			padding: 10px;
 		}
 		.argument + .reaction {
 			border-top: 0;
-			margin-top: -10px;
+			margin-top: -15px;
 		}
 		
 		.noArguments {
 			background-color: #F6F6F6;
 			font-style: italic;
+			margin-bottom: 20px;
 			padding: 20px 10px;
 			text-align: center;
 		}

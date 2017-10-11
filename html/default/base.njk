@@ -16,7 +16,7 @@
 </head>
 <body class="preload">
 	<div id="page">
-		<header>
+		<header><a href="/">
 			<img src="/img/andreas.svg" width="24" alt=""/>
 			<div id="amsterdam">
 				Gemeente<br>
@@ -24,32 +24,36 @@
 			</div>
 			
 			<h1>{{SITENAME}}</h1>
-			
-			<nav id="superMenu">
-			
-			</nav>
-			
-			<nav id="mainMenu" role="navigation" class="menuBar">
+		</a></header>
+		
+		<nav id="mainMenu" role="navigation" class="menuBar">
+			<div>
 				<ul>
-					<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a>
-					<li class="{{'active' if activeMenu == 'about'}}"><a href="/algemeen-bestuur" title="Algemeen bestuur"></a>
-					<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Plannen</a>
+					<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
+					<li class="{{'active' if activeMenu == 'about'}}"><a href="/algemeen-bestuur" title="Algemeen bestuur"></a></li>
+					<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Plannen</a></li>
 				</ul>
-			</nav>
-			
-			<nav id="quick">
-				{% block quickNav %}{% endblock %}
 				
-				<div id="auth">
-				{% if user.isLoggedIn() %}
-					<a href="/account/logout">Uitloggen</a>
-					<span>{{'('+user.fullName+')' if user.hasCompletedRegistration()}}</span>
+				{% if user.hasCompletedRegistration() %}
+					<a href="/account" id="account" data-initials="{{user.initials}}">{{user.fullName}}</a>
 				{% else %}
-					<a href="/account/register">Aanmelden</a>
+					<a href="/account" id="account" data-initials="">Mijn account</a>
 				{% endif %}
-				</div>
-			</nav>
-		</header>
+			</div>
+		</nav>
+		
+		<nav id="subMenu" class="" role="navigation">
+			<div>
+				<ul>
+					{% if user.isLoggedIn() %}
+						{# <li><a href="/account">Mijn account</a></li> #}
+						<li><a href="/account/logout">Uitloggen</a></li>
+					{% else %}
+						<li><a href="/account/register">Aanmelden / inloggen</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
 		
 		<div id="content" class="{{contentClass}}">
 			{% for type,list in messages %}
@@ -82,8 +86,6 @@
 		
 		{% block footer %}
 		<footer>
-			<nav class="menuBar"></nav>
-			
 			<div>
 				<div>
 					<h2>Over deze site</h2>
@@ -120,9 +122,7 @@
 						<li><a href="mailto:{{EMAIL}}">Stuur feedback</a></li>
 					</ul>
 				</div
-				><div>
-					
-				</div>
+				>
 			</div>
 		</footer>
 		{% endblock %}
@@ -141,20 +141,62 @@
 		}
 	</script>
 	<script>
+		// Account submenu
+		// ---------------
+		(function() {
+			var button  = document.querySelector('#account');
+			var subMenu = document.querySelector('#subMenu');
+			var active  = false;
+			button.addEventListener('click', function( event ) {
+				if( !active ) {
+					showMenu(event);
+				} else {
+					hideMenu(event);
+				}
+			});
+			
+			function showMenu( event ) {
+				event.preventDefault();
+				event.stopPropagation();
+				
+				document.body.addEventListener('click', hideMenu);
+				subMenu.addEventListener('click', menuClick);
+				
+				subMenu.className += ' active';
+				active = true;
+			}
+			function hideMenu( event ) {
+				event.preventDefault();
+				event.stopPropagation();
+				
+				document.body.removeEventListener('click', hideMenu);
+				subMenu.removeEventListener('click', menuClick);
+				
+				subMenu.className = subMenu.className.replace(/ ?active/, '');
+				active = false;
+			}
+			function menuClick( event ) {
+				event.stopPropagation();
+			}
+		})();
+	</script>
+	<script>
 		// Flash messages
 		// --------------
 		// Make close buttons interactive.
-		var closeButtons = Array.prototype.slice.call(
-			document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-		);
-		closeButtons.forEach(function( a ) {
-			a.href = '';
-			a.addEventListener('click', function( event ) {
-				var message = a.parentNode;
-				message.parentNode.removeChild(message);
-				event.preventDefault();
+		(function() {
+			var closeButtons = Array.prototype.slice.call(
+				document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+			);
+			closeButtons.forEach(function( a ) {
+				a.href = '';
+				a.addEventListener('click', function( event ) {
+					var message = a.parentNode;
+					message.parentNode.removeChild(message);
+					event.preventDefault();
+				});
 			});
-		});
+		})();
 	</script>
 	
 	{% block scripts %}{% endblock %}
