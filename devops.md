@@ -38,7 +38,7 @@ Install history
 ---------------
 Mijn bash history tijdens installatie, met wat comments:
 
-```
+```bash
 screen -RDS installation
 sudo su
 

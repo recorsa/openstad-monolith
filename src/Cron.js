@@ -23,7 +23,7 @@ module.exports = {
 	},
 	stop: function() {
 		for( let job of this.jobs ) {
-			job.stop;
+			job.stop();
 		}
 		return this;
 	}
