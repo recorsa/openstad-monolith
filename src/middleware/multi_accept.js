@@ -2,32 +2,35 @@ var jsonViews = require('../views');
 
 module.exports = function( app ) {
 	app.use(function defineOutMethod( req, res, next ) {
-		res.out     = out.bind(res, req);
-		res.success = success.bind(res, req);
+		res.out     = out.bind(app, req, res, next);
+		res.success = success.bind(app, req, res, next);
 		next();
 	});
 };
 
-function out( req, viewPath, allowJSON, data ) {
+function out( req, res, next, viewPath, allowJSON, data ) {
 	if( typeof allowJSON !== 'boolean' ) {
 		throw new Error('req.out: allowJSON argument must be boolean');
 	}
 	
-	var res = this;
 	res.format({
 		html: function() {
-			_resolve(req, data).then(function( data ) {
+			_resolve(req, data)
+			.then(function( data ) {
 				res.render(viewPath, data);
-			});
+			})
+			.catch(next);
 		},
 		json: function() {
 			if( !allowJSON ) {
 				return res.status(406).send('Not Acceptable');
 			}
 			
-			_resolve(req, data).then(function( data ) {
+			_resolve(req, data)
+			.then(function( data ) {
 				jsonViews.render(viewPath, req, res, data);
-			});
+			})
+			.catch(next);
 		},
 		default: function() {
 			res.status(406).send('Not Acceptable');
@@ -35,16 +38,17 @@ function out( req, viewPath, allowJSON, data ) {
 	});
 }
 
-function success( req, url, data ) {
-	var res = this;
+function success( req, res, next, url, data ) {
 	res.format({
 		html: function() {
 			res.redirect(url);
 		},
 		json: function() {
-			_resolve(req, data).then(function( data ) {
+			_resolve(req, data)
+			.then(function( data ) {
 				res.json(data);
-			});
+			})
+			.catch(next);
 		},
 		default: function() {
 			res.status(406).send('Not Acceptable');
@@ -62,7 +66,8 @@ function _resolve( req, data ) {
 		result = {result: data};
 	}
 	
-	return Promise.resolve(result).then(function( data ) {
+	return Promise.resolve(result)
+	.then(function( data ) {
 		if( req.session ) {
 			data.messages = req.flash();
 		}
