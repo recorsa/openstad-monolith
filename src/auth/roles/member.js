@@ -14,6 +14,7 @@ module.exports = function( helpers, role ) {
 		'image:upload'     : true,
 		
 		'arg:add'          : helpers.mayAddArgument,
+		'arg:vote'         : helpers.mayVoteArgument,
 		'arg:edit'         : helpers.mayMutateArgument,
 		'arg:reply'        : helpers.mayReplyToArgument,
 		'arg:delete'       : helpers.mayMutateArgument

@@ -49,6 +49,11 @@ var helpers = {
 		return user.id === argument.userId &&
 		       idea.isRunning();
 	},
+	mayVoteArgument: function( user, idea, argument ) {
+		return user.id !== argument.userId &&
+		       !argument.parentId &&
+		       idea.isRunning();
+	},
 	
 	isIdeaOwner: function( user, idea ) {
 		return user.id === idea.userId;
