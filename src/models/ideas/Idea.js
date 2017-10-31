@@ -440,7 +440,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			withArguments: {
 				include: [{
-					model    : db.Argument.scope('defaultScope', 'withReactions'),
+					model    : db.Argument.scope(
+						'defaultScope',
+						{method: ['withVoteCount', 'argumentsAgainst']},
+						'withReactions'
+					),
 					as       : 'argumentsAgainst',
 					required : false,
 					where    : {
@@ -448,7 +452,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 						parentId : null
 					}
 				}, {
-					model    : db.Argument.scope('defaultScope', 'withReactions'),
+					model    : db.Argument.scope(
+						'defaultScope',
+						{method: ['withVoteCount', 'argumentsFor']},
+						'withReactions'
+					),
 					as       : 'argumentsFor',
 					required : false,
 					where    : {

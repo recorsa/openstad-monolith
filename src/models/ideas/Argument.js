@@ -31,6 +31,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.argument(text));
 			}
+		},
+		// Counts set in `withVoteCount` scope.
+		yes: {
+			type         : DataTypes.VIRTUAL
 		}
 	}, {
 		classMethods: {
@@ -38,6 +42,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			associate: function( models ) {
 				this.belongsTo(models.Idea);
 				this.belongsTo(models.User);
+				this.hasMany(models.ArgumentVote, {
+					as: 'votes'
+				});
 				this.hasMany(models.Argument, {
 					foreignKey : 'parentId',
 					as         : 'reactions'
@@ -47,12 +54,36 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 	
 	function scopes() {
+		// Helper function used in `withVoteCount` scope.
+		function voteCount( tableName, opinion ) {
+			return [sequelize.literal(`
+				(SELECT
+					COUNT(*)
+				FROM
+					argument_votes av
+				WHERE
+					av.deletedAt IS NULL AND (
+						av.checked IS NULL OR
+						av.checked  = 1
+					) AND
+					av.argumentId = ${tableName}.id AND
+					av.opinion    = "${opinion}")
+			`), opinion];
+		}
+		
 		return {
 			defaultScope: {
 				include: [{
 					model      : db.User,
 					attributes : ['role', 'firstName', 'lastName', 'email']
 				}]
+			},
+			withVoteCount: function( tableName ) {
+				return {
+					attributes: Object.keys(Argument.attributes).concat([
+						voteCount(tableName, 'yes')
+					])
+				};
 			},
 			withReactions: {
 				include: [{
