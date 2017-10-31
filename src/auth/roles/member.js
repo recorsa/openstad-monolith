@@ -13,10 +13,7 @@ module.exports = function( helpers, role ) {
 		
 		'image:upload'     : true,
 		
-		'arg:add'          : {
-			allow   : helpers.mayAddArgument,
-			message : 'U kunt geen argument aan uw eigen idee toevoegen'
-		},
+		'arg:add'          : helpers.mayAddArgument,
 		'arg:edit'         : helpers.mayMutateArgument,
 		'arg:reply'        : helpers.mayReplyToArgument,
 		'arg:delete'       : helpers.mayMutateArgument
