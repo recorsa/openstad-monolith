@@ -306,6 +306,18 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
+	// Vote for argument
+	// -----------------
+	router.route('/:ideaId/arg/:argId/vote')
+	.all(fetchIdea())
+	.all(fetchArgument)
+	.all(auth.can('arg:vote'))
+	.post(function( req, res, next ) {
+		var argument = req.argument;
+		var ideaId   = argument.ideaId;
+		next(Error('Not implemented yet'));
+	});
+	
 	// Admin: change idea status
 	// -------------------------
 	router.route('/:ideaId/status')

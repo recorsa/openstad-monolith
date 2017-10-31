@@ -30,6 +30,7 @@
 	{% for arg in arguments %}
 		{% set mayEdit   = user.can('arg:edit', idea, arg) %}
 		{% set mayDelete = user.can('arg:delete', idea, arg) %}
+		{% set mayVote   = user.can('arg:vote', idea, arg) %}
 		{% set mayReply  = user.can('arg:reply', arg) %}
 		
 		<div class="argument" data-id="{{arg.id}}">
@@ -59,6 +60,13 @@
 			</div>
 			
 			<p>{{arg.description | urlize | nl2br | safe}}</p>
+			
+			<form class="action vote" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/vote">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<button type="submit" name="opinion" value="yes" {{'disabled' if not mayVote}} class="{{'selected' if arg.userVote.opinion == 'yes'}}">
+					Mee eens ({{arg.yes}})
+				</button>
+			</form>
 			
 			{% if mayReply %}
 				<a href="/plan/{{arg.ideaId}}/arg/{{arg.id}}/reply" class="reply">Reageren</a>

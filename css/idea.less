@@ -459,6 +459,32 @@
 				float: right;
 				margin-top: 0px;
 			}
+			form.vote {
+				button {
+					.appearance(none);
+					cursor: pointer;
+					font-weight: bold;
+					padding-left: calc(1.5em + 10px);
+					position: relative;
+					
+					&:before {
+						content: '';
+						background-image: url('/img/thumbsup_white.svg');
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: 75%;
+						background-color: grey;
+						left: 0;
+						top: -0.1em;
+						position: absolute;
+						width: 1.5em;
+						height: 1.5em;
+					}
+					&:disabled {
+						cursor: default;
+					}
+				}
+			}
 		}
 		.reaction + .argument,
 		form + .argument {
