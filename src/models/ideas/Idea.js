@@ -440,31 +440,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			withArguments: {
 				include: [{
-					model    : db.Argument,
+					model    : db.Argument.scope('defaultScope', 'withReactions'),
 					as       : 'argumentsAgainst',
 					required : false,
 					where    : {
 						sentiment: 'against',
 						parentId : null
-					},
-					include: [{
-						model      : db.Argument,
-						as         : 'reactions',
-						required   : false
-					}]
+					}
 				}, {
-					model    : db.Argument,
+					model    : db.Argument.scope('defaultScope', 'withReactions'),
 					as       : 'argumentsFor',
 					required : false,
 					where    : {
 						sentiment: 'for',
 						parentId : null
-					},
-					include: [{
-						model      : db.Argument,
-						as         : 'reactions',
-						required   : false
-					}]
+					}
 				}]
 			}
 		}

@@ -54,11 +54,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : ['role', 'firstName', 'lastName', 'email']
 				}]
 			},
-			// See also `Idea` model, where this scope is redefined in the
-			// `withArguments` scope.
-			// 
-			// TODO: Find a way to use this scope definition there, to avoid
-			//       double scope definitions.
 			withReactions: {
 				include: [{
 					model      : db.Argument,
