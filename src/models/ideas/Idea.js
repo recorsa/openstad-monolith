@@ -463,7 +463,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 						sentiment: 'for',
 						parentId : null
 					}
-				}]
+				}],
+				// HACK: Inelegant?
+				order: [
+					'argumentsAgainst.parentId',
+					'argumentsFor.parentId',
+					'argumentsAgainst.createdAt',
+					'argumentsFor.createdAt'
+				]
 			}
 		}
 	}
