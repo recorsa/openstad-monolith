@@ -313,9 +313,29 @@ module.exports = function( app ) {
 	.all(fetchArgument)
 	.all(auth.can('arg:vote'))
 	.post(function( req, res, next ) {
+		var user     = req.user;
 		var argument = req.argument;
-		var ideaId   = argument.ideaId;
-		next(Error('Not implemented yet'));
+		var idea     = req.idea;
+		var opinion  = getOpinion(req);
+		
+		argument.addUserVote(user, opinion, req.ip)
+		.then(function( voteRemoved ) {
+			var flashMessage = !voteRemoved ?
+			                   'U heeft gestemd op het argument' :
+			                   'Uw stem op het argument is ingetrokken';
+			
+			req.flash('success', flashMessage);
+			res.success(`/plan/${idea.id}#arg${argument.id}`, function json() {
+				return db.Argument.scope(
+					{method: ['withVoteCount', 'argument']},
+				)
+				.findById(argument.id)
+				.then(function( argument ) {
+					return {argument: argument};
+				});
+			});
+		})
+		.catch(next);
 	});
 	
 	// Admin: change idea status

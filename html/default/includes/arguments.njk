@@ -33,7 +33,7 @@
 		{% set mayVote   = user.can('arg:vote', idea, arg) %}
 		{% set mayReply  = user.can('arg:reply', arg) %}
 		
-		<div class="argument" data-id="{{arg.id}}">
+		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
 			<div class="user">
 				<strong>
 				{{'⭐' if arg.user.isAdmin()}}
@@ -77,7 +77,7 @@
 			{% set mayEdit   = user.can('arg:edit', idea, reaction) %}
 			{% set mayDelete = user.can('arg:delete', idea, reaction) %}
 			
-			<div class="reaction">
+			<div class="reaction" id="arg{{arg.id}}">
 				<div class="user">
 					<strong>
 					{{'⭐' if reaction.user.isAdmin()}}

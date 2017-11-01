@@ -50,6 +50,32 @@ module.exports = function( db, sequelize, DataTypes ) {
 					as         : 'reactions'
 				});
 			}
+		},
+		
+		instanceMethods: {
+			addUserVote: function( user, opinion, ip ) {
+				var data = {
+					argumentId : this.id,
+					userId     : user.id,
+					opinion    : opinion,
+					ip         : ip
+				};
+				
+				// See `Idea.addUserVote` for an explanation of the logic below.
+				return db.ArgumentVote.findOne({where: data})
+				.then(function( vote ) {
+					if( vote ) {
+						return vote.destroy();
+					} else {
+						// HACK: See `Idea.addUserVote`.
+						data.deletedAt = null;
+						return db.ArgumentVote.upsert(data);
+					}
+				})
+				.then(function( result ) {
+					return result && !!result.deletedAt;
+				});
+			}
 		}
 	});
 	
