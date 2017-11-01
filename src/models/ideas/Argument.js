@@ -35,6 +35,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 		// Counts set in `withVoteCount` scope.
 		yes: {
 			type         : DataTypes.VIRTUAL
+		},
+		hasUserVoted: {
+			type         : DataTypes.VIRTUAL
 		}
 	}, {
 		classMethods: {
@@ -106,8 +109,30 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			withVoteCount: function( tableName ) {
 				return {
-					attributes: Object.keys(Argument.attributes).concat([
+					attributes: Object.keys(this.attributes).concat([
 						voteCount(tableName, 'yes')
+					])
+				};
+			},
+			withUserVote: function( tableName, userId ) {
+				userId = Number(userId);
+				if( !userId ) return {};
+				
+				return {
+					attributes: Object.keys(this.attributes).concat([
+						[sequelize.literal(`
+							(SELECT
+								COUNT(*)
+							FROM
+								argument_votes av
+							WHERE
+								av.deletedAt IS NULL AND (
+									av.checked IS NULL OR
+									av.checked  = 1
+								) AND
+								av.argumentId = ${tableName}.id AND
+								av.userId     = ${userId})
+						`), 'hasUserVoted']
 					])
 				};
 			},

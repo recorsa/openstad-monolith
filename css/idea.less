@@ -473,16 +473,19 @@
 					
 					&:before {
 						content: '';
+						background-color: #656565;
 						background-image: url('/img/thumbsup_white.svg');
 						background-position: center;
 						background-repeat: no-repeat;
 						background-size: 75%;
-						background-color: grey;
-						left: 0;
-						top: -0.1em;
-						position: absolute;
-						width: 1.5em;
 						height: 1.5em;
+						left: 0;
+						position: absolute;
+						top: -0.1em;
+						width: 1.5em;
+					}
+					&.voted:before {
+						background-color: #B1CC06;
 					}
 					&:disabled {
 						cursor: default;

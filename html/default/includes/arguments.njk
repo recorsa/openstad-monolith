@@ -63,7 +63,9 @@
 			
 			<form class="action vote" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/vote">
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<button type="submit" name="opinion" value="yes" {{'disabled' if not mayVote}} class="{{'selected' if arg.userVote.opinion == 'yes'}}">
+				<button type="submit" name="opinion" value="yes"
+				 class="{{'voted' if arg.hasUserVoted}}"
+				 {{'disabled' if not mayVote}}>
 					Mee eens ({{arg.yes}})
 				</button>
 			</form>
