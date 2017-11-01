@@ -8,6 +8,8 @@ var sanitize      = require('../../util/sanitize');
 var ImageOptim    = require('../../ImageOptim');
 var notifications = require('../../notifications');
 
+var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: {
@@ -466,6 +468,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}],
 				// HACK: Inelegant?
 				order: [
+					sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
+					sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
 					'argumentsAgainst.parentId',
 					'argumentsFor.parentId',
 					'argumentsAgainst.createdAt',
