@@ -1,5 +1,7 @@
-var log = require('debug')('app:cron');
-var db  = require('../db');
+var Promise = require('bluebird');
+
+var log     = require('debug')('app:cron');
+var db      = require('../db');
 
 // Purpose
 // -------
@@ -10,10 +12,16 @@ module.exports = {
 	cronTime: '0 0 4 * * *',
 	runOnInit: true,
 	onTick: function() {
-		db.Vote.anonimizeOldVotes()
-		.then(function( metaData ) {
-			if( metaData.affectedRows ) {
-				log(`anonimized votes: ${metaData.affectedRows}`);
+		Promise.all([
+			db.Vote.anonimizeOldVotes(),
+			db.ArgumentVote.anonimizeOldVotes()
+		])
+		.spread(function( voteResult, argVoteResult ) {
+			if( voteResult.affectedRows ) {
+				log(`anonimized votes: ${voteResult.affectedRows}`);
+			}
+			if( argVoteResult.affectedRows ) {
+				log(`anonimized argument votes: ${argVoteResult.affectedRows}`);
 			}
 		});
 	}
