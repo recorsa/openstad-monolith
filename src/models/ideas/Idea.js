@@ -8,6 +8,8 @@ var sanitize      = require('../../util/sanitize');
 var ImageOptim    = require('../../ImageOptim');
 var notifications = require('../../notifications');
 
+var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: {
@@ -438,24 +440,45 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				}]
 			},
-			withArguments: {
-				include: [{
-					model    : db.Argument.scope('defaultScope', 'withReactions'),
-					as       : 'argumentsAgainst',
-					required : false,
-					where    : {
-						sentiment: 'against',
-						parentId : null
-					}
-				}, {
-					model    : db.Argument.scope('defaultScope', 'withReactions'),
-					as       : 'argumentsFor',
-					required : false,
-					where    : {
-						sentiment: 'for',
-						parentId : null
-					}
-				}]
+			withArguments: function( userId ) {
+				return {
+					include: [{
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsAgainst']},
+							{method: ['withUserVote', 'argumentsAgainst', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsAgainst',
+						required : false,
+						where    : {
+							sentiment: 'against',
+							parentId : null
+						}
+					}, {
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsFor']},
+							{method: ['withUserVote', 'argumentsFor', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsFor',
+						required : false,
+						where    : {
+							sentiment: 'for',
+							parentId : null
+						}
+					}],
+					// HACK: Inelegant?
+					order: [
+						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
+						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
+						'argumentsAgainst.parentId',
+						'argumentsFor.parentId',
+						'argumentsAgainst.createdAt',
+						'argumentsFor.createdAt'
+					]
+				};
 			}
 		}
 	}

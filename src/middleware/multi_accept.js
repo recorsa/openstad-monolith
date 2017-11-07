@@ -46,6 +46,9 @@ function success( req, res, next, url, data ) {
 		json: function() {
 			_resolve(req, data)
 			.then(function( data ) {
+				if( req.method != 'GET' ) {
+					data.csrfToken = req.csrfToken();
+				}
 				res.json(data);
 			})
 			.catch(next);

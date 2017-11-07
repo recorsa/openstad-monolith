@@ -92,9 +92,16 @@ module.exports  = {
 			}
 		}));
 		
-		this.app.use('/img', express.static('img'));
-		this.app.use('/js',  express.static('js'));
-		this.app.use('/lib',  express.static('lib'));
+		var headerOptions = {
+			setHeaders: function( res ) {
+				res.set({
+					'Cache-Control': 'private'
+				});
+			}
+		};
+		this.app.use('/img', express.static('img', headerOptions));
+		this.app.use('/js',  express.static('js', headerOptions));
+		this.app.use('/lib',  express.static('lib', headerOptions));
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');
