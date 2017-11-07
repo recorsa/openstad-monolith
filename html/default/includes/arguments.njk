@@ -63,10 +63,8 @@
 			
 			<form class="action vote" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/vote">
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<button type="submit" name="opinion" value="yes"
-				 class="{{'voted' if arg.hasUserVoted}}"
-				 {{'disabled' if not mayVote}}>
-					Mee eens ({{arg.yes}})
+				<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}" {{'disabled' if not mayVote}}>
+					Mee eens (<span>{{arg.yes}}</span>)
 				</button>
 			</form>
 			
@@ -137,9 +135,22 @@
 
 {% macro renderLists( user, idea, cssQuery ) %}
 <script>
-	// General
-	// =======
+	// New argument form
+	// -----------------
+	// Go to login/register page when user clicks textarea, and is not logged in.
+	$('{{cssQuery}} form:first-child textarea[data-disabled]').forEach(function( textarea ) {
+		textarea.addEventListener('focus', function( event ) {
+			textarea.blur();
+			document.location.href = '/plan/{{idea.id}}/arg/new';
+		});
+	});
+	// Character count on 'new argument' forms.
+	$('{{cssQuery}} form:first-child').forEach(function( form, i ) {
+		renderForm(form);
+	});
 	
+	// For each argument
+	// -----------------
 	// Delete confirmation for arguments.
 	$('{{cssQuery}} form.delete').forEach(function( form ) {
 		form.addEventListener('submit', function( event ) {
@@ -151,20 +162,31 @@
 			}
 		});
 	});
-	
-	// Arguments
-	// =========
-	
-	// Go to login/register page when user clicks textarea, and is not logged in.
-	$('{{cssQuery}} form:first-child textarea[data-disabled]').forEach(function( textarea ) {
-		textarea.addEventListener('focus', function( event ) {
-			textarea.blur();
-			document.location.href = '/plan/{{idea.id}}/arg/new';
+	// Make argument vote buttons dynamic.
+	$('{{cssQuery}} form.vote').forEach(function( form ) {
+		var countBox = form.querySelector('button span');
+		var button   = countBox.parentNode;
+		
+		form.addEventListener('submit', function( event ) {
+			var method = form.method;
+			var url    = form.action;
+			var timer  = window.setTimeout(function() {button.disabled = true}, 500);
+			
+			send(method, url, {
+				opinion: 'yes'
+			})
+			.then(function( data ) {
+				var hasUserVoted   = data.argument.hasUserVoted;
+				var voteCount      = data.argument.yes;
+				countBox.innerHTML = voteCount;
+				button.className   = button.className.replace(/ ?voted|$/, hasUserVoted ? ' voted' : '');
+				
+				window.clearTimeout(timer);
+				button.disabled    = false;
+			});
+			
+			event.preventDefault();
 		});
-	});
-	// Character count on 'new argument' forms.
-	$('{{cssQuery}} form:first-child').forEach(function( form, i ) {
-		renderForm(form);
 	});
 	// Prepare 'reply' buttons to show a reaction form when it's clicked.
 	$('{{cssQuery}}').forEach(function( argList ) {
@@ -188,7 +210,7 @@
 	});
 	
 	// Helper functions
-	// ================
+	// ----------------
 	
 	function openReplyForm( tpl, arg ) {
 		var argList = arg.parentNode;

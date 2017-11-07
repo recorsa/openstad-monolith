@@ -172,6 +172,58 @@
 {% endblock %}
 
 {% block scripts %}
+	<script src="/js/promise.js"></script>
+	<script src="/js/fetch.js"></script>
+	
+	<script>
+		(function( global ) {
+			var csrfToken = '{{csrfToken}}';
+			
+			// Wrapper for fetch to POST/PUT data
+			global.send = function( method, url, data ) {
+				data._csrf = csrfToken;
+				
+				return fetch(url, {
+					method      : method,
+					headers     : {
+						'Content-Type' : 'application/json',
+						'Accept'       : 'application/json'
+					},
+					credentials : 'same-origin',
+					body        : data ? JSON.stringify(data): null
+				})
+				.then(checkStatus)
+				.then(parseJSON)
+				.then(function( data ) {
+					if( 'csrfToken' in data ) {
+						csrfToken = data.csrfToken;
+						// HACK?: Update all tokens in static forms as well.
+						$('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+							input.value = csrfToken;
+						});
+					}
+					return data;
+				})
+				.catch(function( error ) {
+					alert(error.message);
+				});
+			}
+			
+			function checkStatus( response ) {
+				if( response.status >= 200 && response.status < 300 ) {
+					return response;
+				} else {
+					var error = Error(response.statusText);
+					error.response = response;
+					throw error;
+				}
+			}
+			function parseJSON( response ) {
+				return response.json();
+			}
+		})(this);
+	</script>
+	
 	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
 	
 	<script>
