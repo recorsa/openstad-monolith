@@ -94,7 +94,7 @@
 		
 		<div class="userContent">
 			<p class="summary">
-				<strong>{{idea.summary | nl2br}}</strong>
+				<strong>{{idea.summary | safe | nl2br}}</strong>
 			</p>
 			
 			{{idea.description | safe}}
@@ -174,8 +174,11 @@
 {% block scripts %}
 	<script src="/js/promise.js"></script>
 	<script src="/js/fetch.js"></script>
-	
 	<script>
+		// Helper for sending non-GET HTTP requests
+		// ----------------------------------------
+		// Used in progressive enhancement scripts to replace a 'old-school'
+		// request with a `fetch`/`XMLHTTPRequest` action.
 		(function( global ) {
 			var csrfToken = '{{csrfToken}}';
 			

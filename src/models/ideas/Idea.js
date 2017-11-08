@@ -60,7 +60,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( text ) {
-				this.setDataValue('title', sanitize.title(text));
+				this.setDataValue('title', sanitize.title(text.trim()));
 			}
 		},
 		posterImageUrl: {
@@ -87,7 +87,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( text ) {
-				this.setDataValue('summary', sanitize.summary(text));
+				this.setDataValue('summary', sanitize.summary(text.trim()));
 			}
 		},
 		description: {
@@ -100,7 +100,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( text ) {
-				this.setDataValue('description', sanitize.content(text));
+				this.setDataValue('description', sanitize.content(text.trim()));
 			}
 		},
 		location: {

@@ -242,6 +242,27 @@
 		desc.focus();
 	}
 	
+	function renderReplyForm( form, parentArgId ) {
+		var desc     = form.querySelector('textarea');
+		var pidField = form.querySelector('input[name="parentId"]');
+		var last     = 0;
+		var resize   = function() {
+			// Throttle...
+			var now = Date.now();
+			if( now - last < 100 ) return;
+			last = now;
+			
+			desc.style.height = 'auto';
+			desc.style.height = (desc.scrollHeight - 10) + 'px';
+		};
+		
+		pidField.value = Number(parentArgId);
+		renderForm(form);
+		
+		desc.addEventListener('input', resize);
+		window.addEventListener('resize', resize);
+	}
+	
 	function renderForm( form ) {
 		var minLen = 30;
 		var maxLen = 500;
@@ -312,27 +333,6 @@
 			var isValid = len >= minLen && len <= maxLen;
 			button.disabled = !isValid;
 		}
-	}
-	
-	function renderReplyForm( form, parentArgId ) {
-		var desc     = form.querySelector('textarea');
-		var pidField = form.querySelector('input[name="parentId"]');
-		var last     = 0;
-		var resize   = function() {
-			// Throttle...
-			var now = Date.now();
-			if( now - last < 100 ) return;
-			last = now;
-			
-			desc.style.height = 'auto';
-			desc.style.height = (desc.scrollHeight - 10) + 'px';
-		};
-		
-		pidField.value = Number(parentArgId);
-		renderForm(form);
-		
-		desc.addEventListener('input', resize);
-		window.addEventListener('resize', resize);
 	}
 </script>
 {% endmacro %}
