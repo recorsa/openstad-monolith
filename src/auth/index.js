@@ -26,7 +26,7 @@ var helpers = {
 		return isOwner && !voteCount && !argCount;
 	},
 	
-	mayVote: function( user, idea ) {
+	mayVoteIdea: function( user, idea ) {
 		return idea.isOpen();
 	},
 	
@@ -41,11 +41,17 @@ var helpers = {
 		       idea.isRunning();
 	},
 	mayReplyToArgument: function( user, argument ) {
-		return !argument.parentId;
+		return !argument.parentId &&
+		       idea.isRunning();
 	},
 	// TODO: Deny when arg replies exist.
 	mayMutateArgument: function( user, idea, argument ) {
 		return user.id === argument.userId &&
+		       idea.isRunning();
+	},
+	mayVoteArgument: function( user, idea, argument ) {
+		return user.id !== argument.userId &&
+		       !argument.parentId &&
 		       idea.isRunning();
 	},
 	

@@ -8,6 +8,8 @@ var sanitize      = require('../../util/sanitize');
 var ImageOptim    = require('../../ImageOptim');
 var notifications = require('../../notifications');
 
+var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: {
@@ -58,7 +60,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( text ) {
-				this.setDataValue('title', sanitize.title(text));
+				this.setDataValue('title', sanitize.title(text.trim()));
 			}
 		},
 		posterImageUrl: {
@@ -85,7 +87,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( text ) {
-				this.setDataValue('summary', sanitize.summary(text));
+				this.setDataValue('summary', sanitize.summary(text.trim()));
 			}
 		},
 		description: {
@@ -98,7 +100,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( text ) {
-				this.setDataValue('description', sanitize.content(text));
+				this.setDataValue('description', sanitize.content(text.trim()));
 			}
 		},
 		location: {
@@ -438,34 +440,45 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				}]
 			},
-			withArguments: {
-				include: [{
-					model    : db.Argument,
-					as       : 'argumentsAgainst',
-					required : false,
-					where    : {
-						sentiment: 'against',
-						parentId : null
-					},
+			withArguments: function( userId ) {
+				return {
 					include: [{
-						model      : db.Argument,
-						as         : 'reactions',
-						required   : false
-					}]
-				}, {
-					model    : db.Argument,
-					as       : 'argumentsFor',
-					required : false,
-					where    : {
-						sentiment: 'for',
-						parentId : null
-					},
-					include: [{
-						model      : db.Argument,
-						as         : 'reactions',
-						required   : false
-					}]
-				}]
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsAgainst']},
+							{method: ['withUserVote', 'argumentsAgainst', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsAgainst',
+						required : false,
+						where    : {
+							sentiment: 'against',
+							parentId : null
+						}
+					}, {
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsFor']},
+							{method: ['withUserVote', 'argumentsFor', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsFor',
+						required : false,
+						where    : {
+							sentiment: 'for',
+							parentId : null
+						}
+					}],
+					// HACK: Inelegant?
+					order: [
+						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
+						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
+						'argumentsAgainst.parentId',
+						'argumentsFor.parentId',
+						'argumentsAgainst.createdAt',
+						'argumentsFor.createdAt'
+					]
+				};
 			}
 		}
 	}

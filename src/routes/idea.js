@@ -46,7 +46,24 @@ module.exports = function( app ) {
 	app.use('(/idea|/plan)', router);
 	
 	router.route('/:ideaId(\\d+)')
-	.all(fetchIdea('withUser', 'withVoteCount', 'withPosterImage', 'withArguments'))
+	.all(function( req, res, next ) {
+		// To be able to pass the user ID to the `withArguments` scope,
+		// we need to manually call the middleware created by `fetchIdea`.
+		// 
+		// Calling the `withArguments` scope as a method results in the field
+		// `hasUserVoted` being added to the results. This field is used to
+		// visualize whether a user has voted for an argument.
+		// 
+		// In other routes this scope is not called as a method. In these cases
+		// the `hasUserVoted` field is omitted from the results.
+		var middleware = fetchIdea(
+			'withUser',
+			'withVoteCount',
+			'withPosterImage',
+			{method: ['withArguments', req.user.id]}
+		);
+		middleware(req, res, next);
+	})
 	.all(fetchVoteForUser)
 	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
 	.get(function( req, res, next) {
@@ -302,6 +319,39 @@ module.exports = function( app ) {
 		.then(function() {
 			req.flash('success', 'Argument verwijderd');
 			res.success('/plan/'+ideaId);
+		})
+		.catch(next);
+	});
+	
+	// Vote for argument
+	// -----------------
+	router.route('/:ideaId/arg/:argId/vote')
+	.all(fetchIdea())
+	.all(fetchArgument)
+	.all(auth.can('arg:vote'))
+	.post(function( req, res, next ) {
+		var user     = req.user;
+		var argument = req.argument;
+		var idea     = req.idea;
+		var opinion  = getOpinion(req);
+		
+		argument.addUserVote(user, opinion, req.ip)
+		.then(function( voteRemoved ) {
+			var flashMessage = !voteRemoved ?
+			                   'U heeft gestemd op het argument' :
+			                   'Uw stem op het argument is ingetrokken';
+			
+			req.flash('success', flashMessage);
+			res.success(`/plan/${idea.id}#arg${argument.id}`, function json() {
+				return db.Argument.scope(
+					{method: ['withVoteCount', 'argument']},
+					{method: ['withUserVote', 'argument', user.id]}
+				)
+				.findById(argument.id)
+				.then(function( argument ) {
+					return {argument: argument};
+				});
+			});
 		})
 		.catch(next);
 	});

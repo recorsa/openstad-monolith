@@ -88,7 +88,7 @@
 					color: #FFF;
 					cursor: pointer;
 					display: block;
-					font-size: 1rem;
+					font-size: 1.1rem;
 					font-weight: bold;
 					height: 42px;
 					line-height: 42px;
@@ -268,7 +268,7 @@
 		color: #333;
 		cursor: pointer;
 		display: block;
-		font-size: inherit;
+		font-size: 1.1em;
 		font-weight: bold;
 		height: 3rem;
 		margin-bottom: 5px;
@@ -370,38 +370,46 @@
 		
 		// General user styling
 		// --------------------
-		// Both arguments and reaction style the author the same.
-		.argument .user,
-		.reaction .user {
-			overflow: hidden;
-			
-			a {
-				color: inherit;
+		// Author styling is similar for arguments and reactions.
+		.argument,
+		.reaction {
+			p {
+				margin-top: 0.5em;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
-			form {
-				float: right;
-				line-height: 0;
+			
+			.user {
+				overflow: hidden;
 				
-				input.edit,
-				input.delete {
-					.appearance(none);
+				a {
+					color: inherit;
+				}
+				form {
+					float: right;
+					line-height: 0;
 					
-					background-position: center;
-					background-repeat: no-repeat;
-					background-size: 60%;
-					cursor: pointer;
-					font-size: 0;
-					height: 20px;
-					width: 20px;
-				}
-				input.edit {
-					background-color: #333;
-					background-image: url('/img/edit_white.svg');
-					margin-left: 4px;
-				}
-				input.delete {
-					background-color: #EC0000;
-					background-image: url('/img/delete_white.svg');
+					input.edit,
+					input.delete {
+						.appearance(none);
+						
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: 60%;
+						cursor: pointer;
+						font-size: 0;
+						height: 20px;
+						width: 20px;
+					}
+					input.edit {
+						background-color: #333;
+						background-image: url('/img/edit_white.svg');
+						margin-left: 4px;
+					}
+					input.delete {
+						background-color: #EC0000;
+						background-image: url('/img/delete_white.svg');
+					}
 				}
 			}
 		}
@@ -449,15 +457,42 @@
 			color: #666;
 			margin-bottom: 20px;
 			overflow: hidden;
-			padding: 10px;
+			padding: 15px;
 			
-			p {
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
 			a.reply {
 				float: right;
 				margin-top: 0px;
+			}
+			form.vote {
+				button {
+					.appearance(none);
+					cursor: pointer;
+					font-weight: bold;
+					outline: none;
+					padding-left: calc(1.5em + 10px);
+					position: relative;
+					
+					&:before {
+						content: '';
+						background-color: #656565;
+						background-image: url('/img/thumbsup_white.svg');
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: 75%;
+						height: 1.5em;
+						left: 0;
+						position: absolute;
+						top: -0.1em;
+						width: 1.5em;
+					}
+					&.voted:before {
+						background-color: #B1CC06;
+					}
+					&:disabled {
+						cursor: default;
+						opacity: 0.5;
+					}
+				}
 			}
 		}
 		.reaction + .argument,
@@ -486,6 +521,10 @@
 				padding: 5px 10px;
 				resize: none;
 				width: calc(100% - 22px);
+				
+				@media @phone {
+					font-size: 16px; // To prevent zooming.
+				}
 			}
 			input[type="submit"] {
 				float: right;
@@ -493,13 +532,18 @@
 				padding-right: 25px;
 			}
 		}
+		
 		.reaction {
 			border-left: 3px solid #B0B0B0;
 			color: #666;
 			margin-bottom: 5px;
 			margin-left: 20px;
 			overflow: hidden;
-			padding: 10px;
+			padding: 10px 15px;
+			
+			p {
+				margin-bottom: 0;
+			}
 		}
 		.argument + .reaction {
 			border-top: 0;

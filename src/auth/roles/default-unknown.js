@@ -43,6 +43,11 @@ module.exports = function( helpers, role ) {
 			resource : 'idea',
 			message  : 'Argumenten toevoegen niet toegestaan'
 		},
+		'arg:vote'         : {
+			allow    : false,
+			resource : ['idea', 'argument'],
+			message  : 'Stemmen op dit argument niet toegestaan'
+		},
 		'arg:reply'        : {
 			allow    : false,
 			resource : 'argument'

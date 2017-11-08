@@ -31,6 +31,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.argument(text));
 			}
+		},
+		// Counts set in `withVoteCount` scope.
+		yes: {
+			type         : DataTypes.VIRTUAL
+		},
+		hasUserVoted: {
+			type         : DataTypes.VIRTUAL
 		}
 	}, {
 		classMethods: {
@@ -38,15 +45,61 @@ module.exports = function( db, sequelize, DataTypes ) {
 			associate: function( models ) {
 				this.belongsTo(models.Idea);
 				this.belongsTo(models.User);
+				this.hasMany(models.ArgumentVote, {
+					as: 'votes'
+				});
 				this.hasMany(models.Argument, {
 					foreignKey : 'parentId',
 					as         : 'reactions'
+				});
+			}
+		},
+		
+		instanceMethods: {
+			addUserVote: function( user, opinion, ip ) {
+				var data = {
+					argumentId : this.id,
+					userId     : user.id,
+					opinion    : opinion,
+					ip         : ip
+				};
+				
+				// See `Idea.addUserVote` for an explanation of the logic below.
+				return db.ArgumentVote.findOne({where: data})
+				.then(function( vote ) {
+					if( vote ) {
+						return vote.destroy();
+					} else {
+						// HACK: See `Idea.addUserVote`.
+						data.deletedAt = null;
+						return db.ArgumentVote.upsert(data);
+					}
+				})
+				.then(function( result ) {
+					return result && !!result.deletedAt;
 				});
 			}
 		}
 	});
 	
 	function scopes() {
+		// Helper function used in `withVoteCount` scope.
+		function voteCount( tableName, opinion ) {
+			return [sequelize.literal(`
+				(SELECT
+					COUNT(*)
+				FROM
+					argument_votes av
+				WHERE
+					av.deletedAt IS NULL AND (
+						av.checked IS NULL OR
+						av.checked  = 1
+					) AND
+					av.argumentId = ${tableName}.id AND
+					av.opinion    = "${opinion}")
+			`), opinion];
+		}
+		
 		return {
 			defaultScope: {
 				include: [{
@@ -54,11 +107,35 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : ['role', 'firstName', 'lastName', 'email']
 				}]
 			},
-			// See also `Idea` model, where this scope is redefined in the
-			// `withArguments` scope.
-			// 
-			// TODO: Find a way to use this scope definition there, to avoid
-			//       double scope definitions.
+			withVoteCount: function( tableName ) {
+				return {
+					attributes: Object.keys(this.attributes).concat([
+						voteCount(tableName, 'yes')
+					])
+				};
+			},
+			withUserVote: function( tableName, userId ) {
+				userId = Number(userId);
+				if( !userId ) return {};
+				
+				return {
+					attributes: Object.keys(this.attributes).concat([
+						[sequelize.literal(`
+							(SELECT
+								COUNT(*)
+							FROM
+								argument_votes av
+							WHERE
+								av.deletedAt IS NULL AND (
+									av.checked IS NULL OR
+									av.checked  = 1
+								) AND
+								av.argumentId = ${tableName}.id AND
+								av.userId     = ${userId})
+						`), 'hasUserVoted']
+					])
+				};
+			},
 			withReactions: {
 				include: [{
 					model      : db.Argument,
