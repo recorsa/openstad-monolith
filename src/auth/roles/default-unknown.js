@@ -50,7 +50,7 @@ module.exports = function( helpers, role ) {
 		},
 		'arg:reply'        : {
 			allow    : false,
-			resource : 'argument'
+			resource : ['idea', 'argument']
 		},
 		'arg:edit'         : {
 			allow    : false,
