@@ -46,7 +46,7 @@ module.exports = function( helpers, role ) {
 		'arg:vote'         : {
 			allow    : false,
 			resource : ['idea', 'argument'],
-			message  : 'Stemmen op dit argument niet toegestaan'
+			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
 		},
 		'arg:reply'        : {
 			allow    : false,
