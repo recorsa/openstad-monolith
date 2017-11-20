@@ -13,7 +13,7 @@
 		
 		<a href="/hoe-werkt-het" id="howDoesItWork">Hoe werkt het?</a>
 		
-		<h2>
+		<h1>
 			Plannen
 			
 			<select>
@@ -22,7 +22,7 @@
 				<option {{'selected' if sort == 'votes_desc'}} value="votes_desc">Meeste stemmen</option>
 				<option {{'selected' if sort == 'votes_asc'}} value="votes_asc">Minste stemmen</option>
 			</select>
-		</h2>
+		</h1>
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
@@ -149,7 +149,7 @@
 	// Sorting dropdown
 	// ----------------
 	(function() {
-		var select = document.querySelector('#content > .primary > h2 select');
+		var select = document.querySelector('#content > .primary > h1 select');
 		select.addEventListener('change', function() {
 			// Replace current `sort=x` with new choice.
 			var pathName = location.pathname;

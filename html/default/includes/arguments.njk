@@ -76,7 +76,7 @@
 			{% set mayEdit   = user.can('arg:edit', idea, reaction) %}
 			{% set mayDelete = user.can('arg:delete', idea, reaction) %}
 			
-			<div class="reaction" id="arg{{arg.id}}">
+			<div class="reaction" id="arg{{reaction.id}}">
 				<div class="user">
 					<strong>
 					{{'⭐' if reaction.user.isAdmin()}}

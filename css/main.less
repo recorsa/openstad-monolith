@@ -22,12 +22,12 @@ body {
 }
 
 h1 {
-	font-size: 1.875em;
+	font-size: 1.3125rem;
 	font-weight: 600;
 	line-height: 1em;
 }
 h2 {
-	font-size: 1.5em;
+	font-size: 1.125rem;
 	font-weight: 600;
 	line-height: 1em;
 }
@@ -110,7 +110,7 @@ header {
 #mainMenu {
 	background-color: #F3F3F3;
 	height: @navBarHeight;
-	margin-bottom: 18px;
+	margin-bottom: 30px;
 	
 	>div {
 		box-sizing: border-box;
@@ -208,7 +208,7 @@ header {
 	display: none;
 	font-size: 1rem;
 	font-weight: 600;
-	margin: -18px auto 0;
+	margin: -30px auto 0;
 	max-width: 1400px;
 	padding: 10px 0;
 	position: absolute;
@@ -248,8 +248,11 @@ header {
 				background-position: top 2px left;
 				background-repeat: no-repeat;
 				background-size: auto 12px;
-				margin-bottom: 8px; // correlates to `a {padding}`
 				padding-left: 15px;
+				
+				&:not(:last-child) {
+					margin-bottom: 8px; // correlates to `a {padding}`
+				}
 			}
 		}
 	}
