@@ -40,7 +40,7 @@ var helpers = {
 		return !helpers.isIdeaOwner(user, idea) &&
 		       idea.isRunning();
 	},
-	mayReplyToArgument: function( user, argument ) {
+	mayReplyToArgument: function( user, idea, argument ) {
 		return !argument.parentId &&
 		       idea.isRunning();
 	},

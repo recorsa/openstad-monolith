@@ -31,7 +31,7 @@
 		{% set mayEdit   = user.can('arg:edit', idea, arg) %}
 		{% set mayDelete = user.can('arg:delete', idea, arg) %}
 		{% set mayVote   = user.can('arg:vote', idea, arg) %}
-		{% set mayReply  = user.can('arg:reply', arg) %}
+		{% set mayReply  = user.can('arg:reply', idea, arg) %}
 		
 		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
 			<div class="user">
