@@ -354,6 +354,16 @@ module.exports = function( app ) {
 			});
 		})
 		.catch(next);
+	})
+	.all(function( err, req, res, next ) {
+		if( err.status == 403 && req.accepts('html') ) {
+			var ideaId = req.params.ideaId;
+			var argId  = req.params.argId;
+			req.flash('error', err.message);
+			res.success(`/account/register?ref=/plan/${ideaId}#arg${argId}`);
+		} else {
+			next(err);
+		}
 	});
 	
 	// Admin: change idea status

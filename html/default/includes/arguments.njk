@@ -30,7 +30,6 @@
 	{% for arg in arguments %}
 		{% set mayEdit   = user.can('arg:edit', idea, arg) %}
 		{% set mayDelete = user.can('arg:delete', idea, arg) %}
-		{% set mayVote   = user.can('arg:vote', idea, arg) %}
 		{% set mayReply  = user.can('arg:reply', idea, arg) %}
 		
 		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
@@ -63,7 +62,7 @@
 			
 			<form class="action vote" method="POST" action="/plan/{{idea.id}}/arg/{{arg.id}}/vote">
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}" {{'disabled' if not mayVote}}>
+				<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
 					Mee eens (<span>{{arg.yes}}</span>)
 				</button>
 			</form>
@@ -180,9 +179,12 @@
 				var voteCount      = data.argument.yes;
 				countBox.innerHTML = voteCount;
 				button.className   = button.className.replace(/ ?voted|$/, hasUserVoted ? ' voted' : '');
-				
-				window.clearTimeout(timer);
 				button.disabled    = false;
+				window.clearTimeout(timer);
+			})
+			.catch(function( errorJSON ) {
+				window.clearTimeout(timer);
+				alert(errorJSON.message);
 			});
 			
 			event.preventDefault();
