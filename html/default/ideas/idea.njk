@@ -195,8 +195,7 @@
 					credentials : 'same-origin',
 					body        : data ? JSON.stringify(data): null
 				})
-				.then(checkStatus)
-				.then(parseJSON)
+				.then(handleResponse)
 				.then(function( data ) {
 					if( 'csrfToken' in data ) {
 						csrfToken = data.csrfToken;
@@ -206,23 +205,16 @@
 						});
 					}
 					return data;
-				})
-				.catch(function( error ) {
-					alert(error.message);
 				});
 			}
 			
-			function checkStatus( response ) {
+			function handleResponse( response ) {
+				var json = response.json();
 				if( response.status >= 200 && response.status < 300 ) {
-					return response;
+					return json;
 				} else {
-					var error = Error(response.statusText);
-					error.response = response;
-					throw error;
+					return json.then(function( data ) {throw data});
 				}
-			}
-			function parseJSON( response ) {
-				return response.json();
 			}
 		})(this);
 	</script>
