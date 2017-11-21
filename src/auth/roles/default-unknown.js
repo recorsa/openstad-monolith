@@ -43,10 +43,9 @@ module.exports = function( helpers, role ) {
 			resource : 'idea',
 			message  : 'Argumenten toevoegen niet toegestaan'
 		},
-		'arg:vote'         : {
-			allow    : false,
-			resource : ['idea', 'argument'],
-			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
+		'arg:reply:form'   : {
+			allow    : helpers.maySeeReplyForm,
+			resource : ['idea', 'argument']
 		},
 		'arg:reply'        : {
 			allow    : false,
@@ -60,6 +59,11 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			resource : ['idea', 'argument'],
 			message  : 'Argumenten verwijderen niet toegestaan'
+		},
+		'arg:vote'         : {
+			allow    : false,
+			resource : ['idea', 'argument'],
+			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
 		},
 		
 		'user:mail'        : false

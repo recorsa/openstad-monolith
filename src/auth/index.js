@@ -31,11 +31,13 @@ var helpers = {
 	},
 	
 	maySeeArgForm: function( user, idea ) {
-		return idea.isRunning() && (
-		         user.isAdmin() ||
-		         !helpers.isIdeaOwner(user, idea)
-		       );
+		return idea.isRunning() &&
+		       !helpers.isIdeaOwner(user, idea);
 	},
+	maySeeReplyForm: function( user, idea ) {
+		return idea.isRunning();
+	},
+	
 	mayAddArgument: function( user, idea ) {
 		return !helpers.isIdeaOwner(user, idea) &&
 		       idea.isRunning();
