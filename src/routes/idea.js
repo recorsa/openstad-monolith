@@ -251,7 +251,9 @@ module.exports = function( app ) {
 		idea.addUserArgument(req.user, req.body)
 		.then(function( argument ) {
 			req.flash('success', 'Argument toegevoegd');
-			res.success('/plan/'+idea.id, {argument: argument});
+			res.success(`/plan/${idea.id}#arg${argument.id}`, {
+				argument: argument
+			});
 		})
 		.catch(function( err ) {
 			if( err instanceof db.sequelize.ValidationError ) {
@@ -266,7 +268,7 @@ module.exports = function( app ) {
 		if( err.status == 403 && req.accepts('html') ) {
 			var ideaId = req.params.ideaId;
 			req.flash('error', 'Argumenteren kan enkel als geregistreerde gebruiker');
-			res.success('/account/register?ref=/plan/'+ideaId);
+			res.success(`/account/register?ref=/plan/${ideaId}`);
 		} else {
 			next(err);
 		}
@@ -292,7 +294,9 @@ module.exports = function( app ) {
 		req.idea.updateUserArgument(user, argument, description)
 		.then(function( argument ) {
 			req.flash('success', 'Argument aangepast');
-			res.success('/plan/'+argument.ideaId, {argument: argument});
+			res.success(`/plan/${argument.ideaId}#arg${argument.id}`, {
+				argument: argument
+			});
 		})
 		.catch(db.sequelize.ValidationError, function( err ) {
 			err.errors.forEach(function( error ) {
@@ -354,6 +358,16 @@ module.exports = function( app ) {
 			});
 		})
 		.catch(next);
+	})
+	.all(function( err, req, res, next ) {
+		if( err.status == 403 && req.accepts('html') ) {
+			var ideaId = req.params.ideaId;
+			var argId  = req.params.argId;
+			req.flash('error', err.message);
+			res.success(`/account/register?ref=/plan/${ideaId}#arg${argId}`);
+		} else {
+			next(err);
+		}
 	});
 	
 	// Admin: change idea status

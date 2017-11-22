@@ -22,7 +22,7 @@ var config = {
 			env           : {
 				NODE_ENV : 'production'
 			},
-			'post-deploy' : 'npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
+			'post-deploy' : 'git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only stem-staging --update-env'
 		}
 	}
 };

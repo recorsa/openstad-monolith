@@ -31,11 +31,13 @@ var helpers = {
 	},
 	
 	maySeeArgForm: function( user, idea ) {
-		return idea.isRunning() && (
-		         user.isAdmin() ||
-		         !helpers.isIdeaOwner(user, idea)
-		       );
+		return idea.isRunning() &&
+		       !helpers.isIdeaOwner(user, idea);
 	},
+	maySeeReplyForm: function( user, idea ) {
+		return idea.isRunning();
+	},
+	
 	mayAddArgument: function( user, idea ) {
 		return !helpers.isIdeaOwner(user, idea) &&
 		       idea.isRunning();
@@ -51,8 +53,7 @@ var helpers = {
 	},
 	mayVoteArgument: function( user, idea, argument ) {
 		return user.id !== argument.userId &&
-		       !argument.parentId &&
-		       idea.isRunning();
+		       !argument.parentId;
 	},
 	
 	isIdeaOwner: function( user, idea ) {

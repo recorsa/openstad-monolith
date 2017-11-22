@@ -109,6 +109,6 @@
 		"anonimizeThreshold": 180,
 		// Minimum number of votes before it influences the date sorting of
 		// and idea's arguments.
-		"argumentVoteThreshold": 5
+		"argumentVoteThreshold": 0
 	}
 }
