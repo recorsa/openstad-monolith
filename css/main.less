@@ -258,22 +258,6 @@ header {
 	}
 }
 
-#content {
-	box-sizing: border-box;
-	margin: 0 auto;
-	max-width: 970px;
-	overflow: hidden;
-	padding: 0 15px 20px;
-	position: relative;
-	
-	// Visible again, because `#banner` has a negative margin to better
-	// line of with the top `nav.bar` that just got wider. A hidden over-
-	// flow hides this negative margin and thus the red background.
-	@media @phone {
-		overflow: visible;
-	}
-}
-
 footer {
 	background-color: #666;
 	color: #FFF;
