@@ -80,9 +80,8 @@
 			{% set mayDelete = user.can('arg:delete', idea, reaction) %}
 			
 			<div class="reaction" id="arg{{reaction.id}}">
-				<div class="user">
+				<div class="user {{'admin' if reaction.user.isAdmin()}}">
 					<strong>
-					{{'⭐' if reaction.user.isAdmin()}}
 					{% if mayEmailUsers %}
 						<a href="mailto:{{reaction.user.email}}">{{reaction.user.fullName}}</a>
 					{% else %}
@@ -121,7 +120,7 @@
 	
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
 	<form method="POST" action="/plan/{{idea.id}}/arg/new" class="tpl newReaction">
-		<textarea name="description" rows="1" placeholder="Typ je reactie hier..."></textarea>
+		<textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
 		
 		<div class="charsLeft">
 			<div class="min">Nog minimaal <span>140</span> tekens.</div>
