@@ -118,7 +118,7 @@
 	{% endfor %}
 	
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
-	<form method="POST" action="/plan/{{idea.id}}/arg/new" class="tpl newReaction">
+	<form method="POST" action="/plan/{{idea.id}}/arg/reply" class="tpl newReaction">
 		<textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
 		
 		<div class="charsLeft">
