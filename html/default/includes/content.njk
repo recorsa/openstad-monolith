@@ -15,7 +15,7 @@
 {# `options` might be custom options passed when calling this macro? #}
 {% macro video( cookieConsent, data, options ) %}
 	<div class="video {{'blocked' if not cookieConsent}}">
-		{% if not cookieConsent %}
+	{% if not cookieConsent %}
 		<div class="consent"><div>
 			Vimeo plaatst cookies op je computer voor analyse- en trackingdoeleinden.
 			We vragen je toestemming voor deze en andere <a href="/disclaimer#cookies">
@@ -23,12 +23,16 @@
 			
 			<a href="/accepteer-cookies" class="big">Accepteer cookies</a>
 		</div></div>
-		
-		{% else %}
-		
+	{% else %}
 		<iframe src="{{data.url}}" frameborder="0"
 		        webkitallowfullscreen mozallowfullscreen allowfullscreen>
 		</iframe>
-		{% endif %}
+	{% endif %}
 	</div>
+	
+	{% if cookieConsent and data.hasSubtitles %}
+	<div class="subtitlesMessage">
+		Voor nederlandse ondertiteling, klik op CC in de afspeelbalk.
+	</div>
+	{% endif %}
 {% endmacro %}
