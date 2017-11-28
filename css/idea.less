@@ -316,6 +316,16 @@
 	display: block;
 	overflow: hidden;
 	
+	>h1 {
+		background-color: #F3F3F3;
+	  height: 46px;
+	  margin-bottom: 30px;
+	  
+	  div {
+	  	padding-top: 16px;
+	  }
+	}
+	
 	div.argList {
 		box-sizing: border-box;
 		float: left;
@@ -381,6 +391,14 @@
 			
 			.user {
 				overflow: hidden;
+				
+				&.admin {
+					background-image: url('/img/flag_small.svg');
+					background-size: auto 1em;
+					background-position: left top 3px;
+					background-repeat: no-repeat;
+					padding-left: 18px;
+				}
 				
 				a {
 					color: inherit;
@@ -461,9 +479,9 @@
 			
 			a.reply {
 				background-image: url('/img/arrow_right_red.svg');
-				background-position: center right;
+				background-position: top 3px right;
 				background-repeat: no-repeat;
-				background-size: contain;
+				background-size: auto 1em;
 				color: #000;
 				display: block;
 				float: right;
@@ -471,13 +489,14 @@
 				line-height: 21px;
 				margin-top: 0px;
 				// icon width + 10px, like vote button.
-				padding-right: 21px;
+				padding-right: 15px;
 				text-decoration: none;
 			}
 			form.vote {
 				button {
 					.appearance(none);
 					cursor: pointer;
+					font-size: 0.75rem;
 					line-height: 21px;
 					outline: none;
 					padding-left: calc(1.5em + 10px);
@@ -568,6 +587,7 @@
 			background-color: #F6F6F6;
 			font-style: italic;
 			margin-bottom: 20px;
+			margin-top: 20px;
 			padding: 20px 10px;
 			text-align: center;
 		}

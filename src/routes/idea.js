@@ -250,7 +250,11 @@ module.exports = function( app ) {
 		var idea = req.idea;
 		idea.addUserArgument(req.user, req.body)
 		.then(function( argument ) {
-			req.flash('success', 'Argument toegevoegd');
+			var flashMessage = argument.parentId ?
+			                   'Reactie toegevoegd' :
+			                   'Argument toegevoegd';
+			
+			req.flash('success', flashMessage);
 			res.success(`/plan/${idea.id}#arg${argument.id}`, {
 				argument: argument
 			});
@@ -293,7 +297,11 @@ module.exports = function( app ) {
 		
 		req.idea.updateUserArgument(user, argument, description)
 		.then(function( argument ) {
-			req.flash('success', 'Argument aangepast');
+			var flashMessage = argument.parentId ?
+			                   'Reactie aangepast' :
+			                   'Argument aangepast';
+			
+			req.flash('success', flashMessage);
 			res.success(`/plan/${argument.ideaId}#arg${argument.id}`, {
 				argument: argument
 			});

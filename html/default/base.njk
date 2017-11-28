@@ -84,6 +84,14 @@
 			{% endblock %}
 		</div>
 		
+		{#
+			Extra page elements. E.g. used by idea.njk to render arguments which
+			has an extra header element that spans the entire `#page` width.
+		#}
+		{% block page %}
+		{# <div class="content">...</div> #}
+		{% endblock %}
+		
 		{% block footer %}
 		<footer>
 			<div>
