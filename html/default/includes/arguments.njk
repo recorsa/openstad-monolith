@@ -34,9 +34,8 @@
 		{% set mayReply        = user.can('arg:reply', idea, arg) %}
 		
 		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
-			<div class="user">
+			<div class="user {{'admin' if arg.user.isAdmin()}}">
 				<strong>
-				{{'⭐' if arg.user.isAdmin()}}
 				{% if mayEmailUsers %}
 					<a href="mailto:{{arg.user.email}}">{{arg.user.fullName}}</a>
 				{% else %}
