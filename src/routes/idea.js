@@ -243,40 +243,67 @@ module.exports = function( app ) {
 	
 	// Create argument
 	// ---------------
-	router.route('/:ideaId/arg/new')
-	.all(fetchIdea())
-	.all(auth.can('arg:add'))
-	.post(function( req, res, next ) {
-		var idea = req.idea;
-		idea.addUserArgument(req.user, req.body)
-		.then(function( argument ) {
-			var flashMessage = argument.parentId ?
-			                   'Reactie toegevoegd' :
-			                   'Argument toegevoegd';
-			
-			req.flash('success', flashMessage);
-			res.success(`/plan/${idea.id}#arg${argument.id}`, {
-				argument: argument
-			});
+	// Creating a new argument can be done two ways:
+	// 1. Add a new argument to the idea.
+	// 2. Reply to an existing argument.
+	// 
+	// Both methods share a lot of common ground, but differ in their
+	// authorization logic and an extra data field: `parentId`.
+	// 
+	// That's why argument creation logic is split into 2 routes, with
+	// a shared error handler.
+	(function() {
+		// New argument.
+		router.route('/:ideaId/arg/new')
+		.all(fetchIdea())
+		.all(auth.can('arg:add'))
+		.post(function( req, res, next ) {
+			var idea = req.idea;
+			idea.addUserArgument(req.user, req.body)
+			.then(function( argument ) {
+				req.flash('success', 'Argument toegevoegd');
+				res.success(`/plan/${idea.id}#arg${argument.id}`, {
+					argument: argument
+				});
+			})
+			.catch(next);
 		})
-		.catch(function( err ) {
-			if( err instanceof db.sequelize.ValidationError ) {
+		.all(createArgumentError);
+		
+		// Reply to argument.
+		router.route('/:ideaId/arg/reply')
+		.all(fetchIdea())
+		.all(fetchArgument)
+		.all(auth.can('arg:reply'))
+		.post(function( req, res, next ) {
+			var idea = req.idea;
+			idea.addUserArgument(req.user, req.body)
+			.then(function( argument ) {
+				req.flash('success', 'Reactie toegevoegd');
+				res.success(`/plan/${idea.id}#arg${argument.id}`, {
+					argument: argument
+				});
+			})
+			.catch(next);
+		})
+		.all(createArgumentError);
+		
+		// Shared error handler.
+		function createArgumentError( err, req, res, next ) {
+			if( err.status == 403 && req.accepts('html') ) {
+				var ideaId = req.params.ideaId;
+				req.flash('error', err.message);
+				res.success(`/account/register?ref=/plan/${ideaId}`);
+			} else if( err instanceof db.sequelize.ValidationError ) {
 				err.errors.forEach(function( error ) {
 					req.flash('error', error.message);
 				});
 				next(createError(400));
+			} else {
+				next(err);
 			}
-		});
-	})
-	.all(function( err, req, res, next ) {
-		if( err.status == 403 && req.accepts('html') ) {
-			var ideaId = req.params.ideaId;
-			req.flash('error', 'Argumenteren kan enkel als geregistreerde gebruiker');
-			res.success(`/account/register?ref=/plan/${ideaId}`);
-		} else {
-			next(err);
 		}
-	});
+	})();
 	
 	// Edit argument
 	// -------------
@@ -523,7 +550,8 @@ function fetchVoteForUser( req, res, next ) {
 	}
 }
 function fetchArgument( req, res, next ) {
-	var argId = req.params.argId;
+	// HACK: Mixing `req.params` and req.body`? Really? B-E-A-utiful...
+	var argId = req.params.argId || req.body.parentId;
 	db.Argument.findById(argId)
 	.then(function( argument ) {
 		if( !argument ) {

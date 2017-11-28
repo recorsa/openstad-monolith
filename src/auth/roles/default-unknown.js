@@ -41,7 +41,7 @@ module.exports = function( helpers, role ) {
 		'arg:add'          : {
 			allow    : false,
 			resource : 'idea',
-			message  : 'Argumenten toevoegen niet toegestaan'
+			message  : 'Argument toevoegen niet toegestaan'
 		},
 		'arg:reply:form'   : {
 			allow    : helpers.maySeeReplyForm,
@@ -53,12 +53,13 @@ module.exports = function( helpers, role ) {
 		},
 		'arg:edit'         : {
 			allow    : false,
-			resource : ['idea', 'argument']
+			resource : ['idea', 'argument'],
+			message  : 'Argument bewerken niet toegestaan'
 		},
 		'arg:delete'       : {
 			allow    : false,
 			resource : ['idea', 'argument'],
-			message  : 'Argumenten verwijderen niet toegestaan'
+			message  : 'Argument verwijderen niet toegestaan'
 		},
 		'arg:vote'         : {
 			allow    : false,

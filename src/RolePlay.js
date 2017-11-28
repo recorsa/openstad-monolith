@@ -70,9 +70,7 @@ extend(RolePlay.prototype, {
 			if( allOptional || allowed[0] ) {
 				next();
 			} else {
-				var action       = user.get(actionNames[0]);
-				var errorMessage = result(action, 'message') ||
-				                   self.options.defaultError;
+				var errorMessage = user.getErrorMessage(actionNames[0]);
 				next(createError(403, errorMessage));
 			}
 		}
@@ -104,7 +102,7 @@ extend(RolePlay.prototype, {
 		return new this.constructor.Play(this, user);
 	},
 	
-	gatherAction: function( actionName, roleName ) {
+	getAction: function( actionName, roleName ) {
 		var result = undefined;
 		var role   = this.roles[roleName];
 		var action;
@@ -121,6 +119,10 @@ extend(RolePlay.prototype, {
 			role = role.inherits;
 		}
 		return result;
+	},
+	getErrorMessage: function( actionName, roleName ) {
+		var action = this.getAction(actionName, roleName);
+		return result(action, 'message') || this.options.defaultError;
 	},
 	
 	// Used by `can` to assign a helper function to `req.can` and `res.locals.can`.
@@ -317,7 +319,10 @@ extend(Play.prototype, {
 		}
 	},
 	get: function( actionName ) {
-		return this.mgr.gatherAction(actionName, this.role);
+		return this.mgr.getAction(actionName, this.role);
+	},
+	getErrorMessage: function( actionName ) {
+		return this.mgr.getErrorMessage(actionName, this.role);
 	},
 	
 	_getUserRole: function( user ) {
