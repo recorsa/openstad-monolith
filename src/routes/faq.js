@@ -44,13 +44,13 @@ var questionsData = [{
 	id: 5,
 	question: `Wat gebeurt er met mijn voorstel als het op de site staat?`,
 	answer: `
-		<p>Na het uploaden krijg je 90 dagen de tijd om campagne te voeren voor jouw voorstel. Eén keer per maand wordt het voorstel dat op dat moment de meeste stemmen heeft op de agenda van het Algemeen Bestuur gezet en zullen zij dit uitgebreid bespreken. Als jouw voorstel ‘gewonnen’ heeft, zul je per email uitgenodigd worden om je voorstel te komen toelichten tijdens de vergadering. Een unieke kans!</p>
+		<p>Na het uploaden krijg je 90 dagen de tijd om campagne te voeren voor jouw voorstel. Eén keer per maand wordt uit alle voorstellen die minimaal 100 positieve stemmen hebben ontvangen het plan met de meeste stemmen gekozen. Dit voorstel wordt op de agenda van het Algemeen Bestuur gezet en zullen zij dit uitgebreid bespreken. Als jouw voorstel ‘gewonnen’ heeft, zul je per email uitgenodigd worden om je voorstel te komen toelichten tijdens de vergadering. Een unieke kans!</p>
 	`
 }, {
 	id: 6,
 	question: `Wat gebeurt er met mijn voorstel als ik niet de meeste stemmen heb gehaald?`,
 	answer: `
-		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van het Algemeen Bestuur te komen. Elke maand bespreekt het AB het voorstel dat die maand de meeste stemmen heeft gehaald. Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
+		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van het Algemeen Bestuur te komen. Elke maand bespreekt het AB het voorstel dat die maand de meeste stemmen heeft gehaald (met een ondergrens van 100 positieve stemmen). Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
 		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
 	`
 }, {
