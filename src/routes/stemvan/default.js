@@ -1,5 +1,5 @@
 var Promise = require('bluebird');
-var db      = require('../db');
+var db      = require('../../db');
 
 module.exports = function( app ) {
 	app.get('/', function( req, res, next ) {

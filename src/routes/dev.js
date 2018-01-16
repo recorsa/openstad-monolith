@@ -22,7 +22,7 @@ module.exports = function( app ) {
 	
 	router.post('/reset_fixtures', auth.can('dev'), function( req, res, next ) {
 		db.sequelize.sync({force: true}).then(function() {
-			require('../../fixtures')(db).then(function() {
+			require('../../../fixtures')(db).then(function() {
 				res.json(true);
 			});
 		}).catch(next);
@@ -40,7 +40,7 @@ module.exports = function( app ) {
 	});
 	
 	router.get('/randomize_idea_sort', function( req, res, next ) {
-		var cron = require('../cron/randomize_idea_sort');
+		var cron = require('../../cron/randomize_idea_sort');
 		cron.onTick().then(function() {
 			res.send()
 		})

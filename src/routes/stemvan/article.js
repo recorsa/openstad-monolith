@@ -2,7 +2,7 @@ var config      = require('config')
   , createError = require('http-errors')
   , express     = require('express')
   , Promise     = require('bluebird');
-var db          = require('../db');
+var db          = require('../../db');
 
 module.exports = function( app ) {
 	var router = express.Router();

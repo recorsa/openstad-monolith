@@ -29,7 +29,30 @@
 		"multipleStatements" : true
 	},
 	"express": {
-		"port": 8082
+		"port": 8082,
+		"middleware": {
+			// Middleware/routes to load before the security middleware is
+			// loaded. This is because some middleware don't work well with
+			// CSRF protection.
+			"beforeSecurity": [
+				"./routes/stemvan/media_upload"
+			],
+			// Middleware/routes to load after the security middleware is
+			// loaded.
+			"afterSecurity": [
+				"./middleware/log",
+				"./middleware/force_registration",
+				"./middleware/nocache",
+				"./routes/stemvan/default",
+				"./routes/stemvan/ab",
+				"./routes/stemvan/account",
+				"./routes/stemvan/article",
+				"./routes/stemvan/idea",
+				"./routes/stemvan/faq",
+				"./routes/cookies",
+				"./routes/dev"
+			]
+		}
 	},
 	"sentry": {
 		"active" : true,

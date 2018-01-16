@@ -2,8 +2,8 @@ var createError = require('http-errors')
   , express     = require('express')
   , mmm         = require('mmmagic')
   , multer      = require('multer');
-var db          = require('../db');
-var auth        = require('../auth');
+var db          = require('../../db');
+var auth        = require('../../auth');
 
 var magic = new mmm.Magic(mmm.MAGIC_MIME_TYPE);
 
