@@ -173,8 +173,10 @@ module.exports  = {
 		var duration     = require('./nunjucks/duration');
 		// Used for fetching template files.
 		var siteId       = config.get('siteId');
+		var fallback     = config.get('express.rendering.fallback');
+		var tplDirs      = [`html/${siteId}`].concat(fallback);
 		
-		var env = nunjucks.configure([`html/${siteId}`, 'html/default'], {
+		var env = nunjucks.configure(tplDirs, {
 			express    : this.app,
 			watch      : false,
 			autoescape : true

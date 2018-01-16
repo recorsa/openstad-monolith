@@ -30,6 +30,11 @@
 	},
 	"express": {
 		"port": 8082,
+		"rendering": {
+			// Template directories to fall back on when `html/${siteId}/pageName`
+			// does not exist.
+			"fallback": ["html/default"]
+		},
 		"middleware": {
 			// Middleware/routes to load before the security middleware is
 			// loaded. This is because some middleware don't work well with
