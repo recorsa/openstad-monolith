@@ -1,5 +1,5 @@
 {
-	"siteId"          : "default",
+	"siteId"          : "stemvan",
 	"siteName"        : "De Stem van West",
 	"pageNamePostfix" : "De Stem van West — Gemeente Amsterdam",
 	
@@ -33,7 +33,7 @@
 		"rendering": {
 			// Template directories to fall back on when `html/${siteId}/pageName`
 			// does not exist.
-			"fallback": ["html/default"]
+			"fallback": ["html/stemvan"]
 		},
 		"middleware": {
 			// Middleware/routes to load before the security middleware is
