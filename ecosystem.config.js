@@ -77,5 +77,5 @@ function addProductionApp( app ) {
 			NODE_ENV : 'production'
 		},
 		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName}`
-	}
+	};
 }
