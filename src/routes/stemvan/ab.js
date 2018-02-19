@@ -1,5 +1,5 @@
 var co = require('co');
-var db = require('../db');
+var db = require('../../db');
 
 module.exports = function( app ) {
 	app.get('/algemeen-bestuur', co.wrap(function*( req, res, next ) {

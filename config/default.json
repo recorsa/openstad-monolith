@@ -1,5 +1,5 @@
 {
-	"siteId"          : "default",
+	"siteId"          : "stemvan",
 	"siteName"        : "De Stem van West",
 	"pageNamePostfix" : "De Stem van West — Gemeente Amsterdam",
 	
@@ -29,7 +29,35 @@
 		"multipleStatements" : true
 	},
 	"express": {
-		"port": 8082
+		"port": 8082,
+		"rendering": {
+			// Template directories to fall back on when `html/${siteId}/pageName`
+			// does not exist.
+			"fallback": ["html/stemvan"]
+		},
+		"middleware": {
+			// Middleware/routes to load before the security middleware is
+			// loaded. This is because some middleware don't work well with
+			// CSRF protection.
+			"beforeSecurity": [
+				"./routes/stemvan/media_upload"
+			],
+			// Middleware/routes to load after the security middleware is
+			// loaded.
+			"afterSecurity": [
+				"./middleware/log",
+				"./middleware/force_registration",
+				"./middleware/nocache",
+				"./routes/stemvan/default",
+				"./routes/stemvan/ab",
+				"./routes/stemvan/account",
+				"./routes/stemvan/article",
+				"./routes/stemvan/idea",
+				"./routes/stemvan/faq",
+				"./routes/cookies",
+				"./routes/dev"
+			]
+		}
 	},
 	"sentry": {
 		"active" : true,
@@ -73,6 +101,12 @@
 					"cost"   : 10
 				}
 			}
+		},
+		"authorization": {
+			// Which folder to load in `src/auth/roles`. This folder should have
+			// an `index.js` which exports a `Roleplay` instance that loads
+			// all relevant roles for this application.
+			"roles": "stemvan"
 		},
 		"sessions": {
 			"onlySecure"   : true,

@@ -37,25 +37,17 @@ module.exports  = {
 		this._initBasicMiddleware();
 		this._initSessionMiddleware();
 		
-		// ... then the upload functionality (not compatible with CSRF)...
-		require('./routes/media_upload')(this.app);
-		
-		// ... security middleware (CSRF)...
+		var middleware = config.get('express.middleware');
+		// ... load middleware/routes not compatible with CSRF security...
+		middleware.beforeSecurity.forEach(( filePath ) => {
+			require(filePath)(this.app);
+		});
+		// ... load security middleware (CSRF)...
 		this._initSecurityMiddleware();
-		
-		// ... some more middlewares...
-		require('./middleware/log')(this.app);
-		require('./middleware/force_registration')(this.app);
-		require('./middleware/nocache')(this.app);
-		// ... routes...
-		require('./routes/ab')(this.app);
-		require('./routes/account')(this.app);
-		require('./routes/article')(this.app);
-		require('./routes/cookies')(this.app);
-		require('./routes/default')(this.app);
-		require('./routes/dev')(this.app);
-		require('./routes/idea')(this.app);
-		require('./routes/faq')(this.app);
+		// ... load middleware/routes that utilize CSRF security
+		middleware.afterSecurity.forEach(( filePath ) => {
+			require(filePath)(this.app);
+		});
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
 		// ... and error handlers always last.
@@ -181,8 +173,10 @@ module.exports  = {
 		var duration     = require('./nunjucks/duration');
 		// Used for fetching template files.
 		var siteId       = config.get('siteId');
+		var fallback     = config.get('express.rendering.fallback');
+		var tplDirs      = [`html/${siteId}`].concat(fallback);
 		
-		var env = nunjucks.configure([`html/${siteId}`, 'html/default'], {
+		var env = nunjucks.configure(tplDirs, {
 			express    : this.app,
 			watch      : false,
 			autoescape : true

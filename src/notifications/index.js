@@ -28,7 +28,7 @@ if( adminEmail ) {
 		assets: {
 			'arg': [{
 				events    : ['create', 'update'],
-				frequency : 43200 // 12 hours
+				frequency : 86400 // 24 hours
 			}]
 		},
 		sendMessage: createSendMessageFunction('Nieuwe argumenten geplaatst')

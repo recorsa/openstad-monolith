@@ -6,10 +6,10 @@ var fs           = require('fs');
 var nunjucks     = require('nunjucks');
 var url          = require('url');
 
-var auth         = require('../auth');
-var db           = require('../db');
-var mail         = require('../mail');
-var passwordless = require('../auth/passwordless');
+var auth         = require('../../auth');
+var db           = require('../../db');
+var mail         = require('../../mail');
+var passwordless = require('../../auth/passwordless');
 
 var uidProperty  = config.get('security.sessions.uidProperty');
 

@@ -6,10 +6,10 @@ var config       = require('config')
   , nunjucks     = require('nunjucks')
   , Promise      = require('bluebird')
   , csvStringify = Promise.promisify(require('csv-stringify'));
-var util         = require('../util')
-  , db           = require('../db')
-  , auth         = require('../auth')
-  , mail         = require('../mail');
+var util         = require('../../util')
+  , db           = require('../../db')
+  , auth         = require('../../auth')
+  , mail         = require('../../mail');
 
 module.exports = function( app ) {
 	// Idea index page
