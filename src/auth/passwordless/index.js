@@ -1,21 +1,18 @@
 var base58      = require('bs58');
-var co          = require('co');
 var config      = require('config');
 var createError = require('http-errors');
 var crypto      = require('crypto');
-var extend      = require('lodash/extend');
-var util        = require('util');
 var Promise     = require('bluebird');
 
-var TokenStore  = require('./TokenStore');
+var TokenStore  = require('../TokenStore');
 var store       = Promise.promisifyAll(new TokenStore());
 
 module.exports = {
 	generateToken: function( uid, originUrl ) {
-		var token = base58.encode(crypto.randomBytes(16));
-		var ttl   = config.get('security.sessions.tokenTTL');
+		var token      = base58.encode(crypto.randomBytes(16));
+		var validUntil = new Date(Date.now() + config.get('security.sessions.tokenTTL'));
 
-		return store.storeOrUpdate(token, uid.toString(), ttl, originUrl)
+		return store.storeOrUpdate(token, uid.toString(), validUntil, originUrl)
 		.then(function() {
 			return token;
 		});
@@ -26,18 +23,10 @@ module.exports = {
 			throw createError(400, 'Missing token or user ID');
 		}
 		
-		return new Promise(function( resolve, reject ) {
-			store.authenticate(token, uid.toString(), function( err, valid, originUrl ) {
-				if( err ) {
-					reject(err);
-				} else {
-					store.invalidateUser(uid)
-					.then(function() {
-						resolve([valid, originUrl]);
-					})
-					.catch(reject);
-				}
-			});
+		// Returns `originUrl`.
+		return store.authenticate(token, uid.toString())
+		.tap(function() {
+			return store.invalidateUser(uid);
 		});
 	}
 };

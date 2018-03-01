@@ -133,11 +133,7 @@ module.exports = function( app ) {
 		var start = Date.now();
 		
 		passwordless.useToken(token, uid)
-		.spread(function( valid, originUrl ) {
-			if( !valid ) {
-				throw createError(401, 'Ongeldige link');
-			}
-			
+		.then(function( originUrl ) {
 			req.setSessionUser(uid, originUrl);
 			req.brute.reset(function() {
 				res.success(resolveURL(originUrl), true);
