@@ -187,6 +187,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Argument, {as: 'argumentsFor'});
 				this.hasMany(models.Image);
 				this.hasOne(models.Image, {as: 'posterImage'});
+				this.hasOne(models.Poll);
 			},
 			
 			getHighlighted: function() {
@@ -481,6 +482,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 						'argumentsFor.createdAt'
 					]
 				};
+			},
+			withPoll: {
+				include: [{
+					model      : db.Poll,
+					attributes : ['title', 'description'],
+					required   : false
+				}]
 			}
 		}
 	}
