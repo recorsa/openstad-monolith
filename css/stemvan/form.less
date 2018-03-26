@@ -12,6 +12,39 @@
 		float: right;
 	}
 	
+	#modBreak {
+		border: 3px solid #FFE115;
+		margin: 35px 0px;
+		padding: 10px 20px;
+		position: relative;
+		
+		&::before,
+		&::after {
+			border-left: 30px solid #FFE115;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			border-right: 0;
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: -3px;
+			bottom: -32px;
+		}
+		&::after {
+			border-left: 30px solid #FFF;
+			bottom: -24px;
+			left: 0;
+		}
+		
+		b {
+			color: #EC0000;
+		}
+		p {
+			margin: 0.5em 0 0;
+		}
+	}
+	
 	#howDoesItWork {
 		background-color: #F6F6F6;
 		border: 1px solid #EC0000;
