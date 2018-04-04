@@ -22,6 +22,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : false
 		},
+		voteCount: {
+			type         : DataTypes.VIRTUAL
+		}
 		// TODO: posterImage, other images...
 	}, {
 		classMethods: {
@@ -37,13 +40,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	
 	function scopes() {
 		return {
-			defaultScope: {
-				include: [{
-					model      : db.PollVote,
-					as         : 'votes',
-					required   : false
-				}]
-			}
+			defaultScope: {}
 		};
 	}
 	
