@@ -188,6 +188,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Image);
 				this.hasOne(models.Image, {as: 'posterImage'});
 				this.hasOne(models.Poll);
+				this.hasMany(models.AgendaItem, {as: 'agenda'});
 			},
 			
 			getHighlighted: function() {
@@ -486,7 +487,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			withPoll: {
 				include: [{
 					model      : db.Poll,
-					attributes : ['title', 'description'],
+					attributes : ['id', 'title', 'description'],
+					required   : false
+				}]
+			},
+			withAgenda: {
+				include: [{
+					model      : db.AgendaItem,
+					as         : 'agenda',
+					attributes : ['startDate', 'endDate', 'description', 'actionText', 'actionURL'],
 					required   : false
 				}]
 			}

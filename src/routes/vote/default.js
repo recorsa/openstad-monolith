@@ -15,7 +15,8 @@ module.exports = function( app ) {
 			'withVoteCount',
 			'withPosterImage',
 			{method: ['withArguments', req.user.id]},
-			'withPoll'
+			'withPoll',
+			'withAgenda'
 		)
 		.findById(2)
 		.then(function( idea ) {
