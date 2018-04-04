@@ -11,6 +11,7 @@ module.exports = function( app ) {
 	app.route('/')
 	.all(function( req, res, next ) {
 		db.Idea.scope(
+			'summary',
 			'withUser',
 			'withVoteCount',
 			'withPosterImage',
