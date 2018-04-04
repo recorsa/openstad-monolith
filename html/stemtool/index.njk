@@ -18,20 +18,32 @@
 {% block page %}
 	<section id="summary" class="pageContent">
 		<div class="primary">
-			<div class="image"></div>
+			<div class="image" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
 			
 			<p>
-				Samenvatting
+				{{idea.summary}}
 			</p>
 		</div>
 		<div class="secondary controls">
-			Controls
+			<a href="#vote">{{idea.poll.totalVoteCount}} stemmen</a><br>
+			<a href="#arguments">{{idea.argCount}} argumenten</a>
+			<p>
+			<a href="#vote">Breng jouw stem uit!</a><br>
+			<a href="#arguments">Lees de reacties</a>
+			<p>
+			<a href="http://www.amsterdam.nl" target="_blank">Lees meer over dit project op amsterdam.nl</a>
 		</div>
 	</section>
 	
 	<section id="designs">
 		<div class="pageContent">
 			<h1>Ontwerpen</h1>
+			
+			<ul>
+			{% for option in idea.poll.options %}
+				<li>{{option.title}}</li>
+			{% endfor %}
+			</ul>
 		</div>
 	</section>
 	
@@ -42,10 +54,28 @@
 			<div class="userContent">
 				{{idea.description | safe}}
 			</div>
+			
+			<h1>Hoe werkt het? (spelregels)</h1>
+			<ul>
+				<li>Zo werk het stemproces: hoe wordt de uitslag bepaald</li>
+				<li>Wie mogen er stemmen...</li>
+				<li>Hoe werkt het</li>
+				<li>Waar kun je terecht met vragen</li>
+				<li>Andere spelregels?</li>
+				<li>Nader te bepalen samen met projectteam</li>
+			</ul>
 		</div> <!-- #primary -->
 		
-		<div class="secondary">
-			Agenda
+		<div id="agenda" class="secondary">
+			{% for item in idea.agenda %}
+				<div>
+					<h2>{{item.startDate | date('D MMMM')}}</h2>
+					{{item.description}}
+					{% if item.actionText %}
+					<a href="{{item.actionUrl}}">{{item.actionText}}</a>
+					{% endif %}
+				</div>
+			{% endfor %}
 			
 			{% if can('idea:edit', 'idea:delete') %}
 				<h2>Bewerken</h2>
@@ -76,6 +106,25 @@
 					<button type="submit" class="votes">Stemoverzicht</button>
 				</form>
 			{% endif %}
+		</div>
+	</section>
+	
+	<section id="vote" class="pageContent">
+		<div class="primary">
+			<h1>Stem op jouw favoriete ontwerp</h1>
+			
+			<form>
+				<input type="hidden" name="pollId" value="{{idea.poll.id}}">
+				
+				{% for option in idea.poll.options %}
+					<label><input type="checkbox" name="options[]" value="option.id">{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
+				{% endfor %}
+				
+				Postcode: <input type="text" name="zipCode"><br>
+				Email: <input type="email" name="email"><br>
+				
+				<input type="submit" value="Verstuur stem">
+			</form>
 		</div>
 	</section>
 {% endblock %}
@@ -156,25 +205,4 @@
 			});
 		}
 	</script>
-	
-	{% if idea.location %}
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
-	<script src="/js/map.js"></script>
-	<script>
-		// Google map
-		// ----------
-		var point  = JSON.parse('{{idea.location | dump | safe}}' || null);
-		var latLng = {lat: point.coordinates[0], lng: point.coordinates[1]};
-		var map    = initMap(document.getElementById('map'), {
-			center      : latLng,
-			zoom        : 14,
-			zoomControl : true,
-			scrollwheel : false
-		});
-		var marker = initMarker({
-			position : latLng,
-			map      : map
-		});
-	</script>
-	{% endif %}
 {% endblock %}
