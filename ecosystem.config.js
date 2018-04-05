@@ -48,6 +48,14 @@ addProductionApp([{
 	appName    : 'stem-zuidoost',
 	deployName : 'production_zuidoost',
 	remotePath : '/var/www/stemvanzuidoost.amsterdam.nl/www'
+}, {
+	appName    : 'stem-noord',
+	deployName : 'production_noord',
+	remotePath : '/var/www/stemvannoord.amsterdam.nl/www'
+}, {
+	appName    : 'stem-zuid',
+	deployName : 'production_zuid',
+	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www'
 }]);
 module.exports = config;
 
