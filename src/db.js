@@ -9,7 +9,8 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 	host           : dbConfig.host,
 	dialectOptions : {
 		charset            : 'utf8mb4',
-		multipleStatements : dbConfig.multipleStatements
+		multipleStatements : dbConfig.multipleStatements,
+		socketPath : dbConfig.socketPath
 	},
 	timeZone       : config.timeZone,
 	logging        : require('debug')('app:db:query'),
