@@ -30,7 +30,6 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	})
-	.all(fetchVoteForUser)
 	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
 	.get(function( req, res, next) {
 		res.out('index', true, {
@@ -40,24 +39,3 @@ module.exports = function( app ) {
 		});
 	});
 };
-
-// Asset fetching
-// --------------
-
-function fetchVoteForUser( req, res, next ) {
-	var user = req.user;
-	var idea = req.idea;
-	
-	if( !user.isUnknown() && idea ) {
-		idea.getUserVote(user)
-		.then(function( vote ) {
-			if( vote ) {
-				req.vote = vote;
-			}
-			next();
-		})
-		.catch(next);
-	} else {
-		next();
-	}
-}
