@@ -1,4 +1,8 @@
-var sanitize = require('../../util/sanitize');
+var config         = require('config');
+var createError    = require('http-errors');
+var defaults       = require('lodash/defaults');
+var sanitize       = require('../../util/sanitize');
+
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Poll = sequelize.define('poll', {
@@ -36,6 +40,26 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.PollOption, {
 					as: 'options'
 				});
+			}
+		},
+		instanceMethods: {
+			addUserVote: function( user, choices, ip ) {
+				// ... and bulk create if user has not voted yet.
+				var data = {
+					pollId : this.id,
+					userId : user.id,
+					ip     : ip
+				};
+				return db.PollVote.findOne({where: data})
+				.then(function( vote ) {
+					if( vote ) {
+						throw createError(400, 'Reeds gestemd');
+					}
+					var rows = choices.map(function( choice ) {
+						return defaults({pollOptionId: choice}, data);
+					});
+					return db.PollVote.bulkCreate(rows);
+				})
 			}
 		}
 	});
