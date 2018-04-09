@@ -105,20 +105,28 @@
 	
 	<section id="vote" class="pageContent">
 		<div class="primary">
-			<h1>Stem op jouw favoriete ontwerp</h1>
-			
-			<form>
-				<input type="hidden" name="pollId" value="{{poll.id}}">
+			{% if can('poll:vote') %}
+				<h1>Stem op jouw favoriete ontwerp</h1>
+				
+				<form method="POST" action="/vote">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<input type="hidden" name="pollId" value="{{poll.id}}">
+					
+					{% for option in poll.options %}
+						<label><input type="checkbox" name="choices[]" value="{{option.id}}">{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
+					{% endfor %}
+					
+					Postcode: <input type="text" name="zipCode"><br>
+					
+					<input type="submit" value="Verstuur stem">
+				</form>
+			{% else %}
+				<h1>Bedankt voor je stem!</h1>
 				
 				{% for option in poll.options %}
-					<label><input type="checkbox" name="options[]" value="option.id">{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
-				{% endfor %}
-				
-				Postcode: <input type="text" name="zipCode"><br>
-				Email: <input type="email" name="email"><br>
-				
-				<input type="submit" value="Verstuur stem">
-			</form>
+						<label><input type="checkbox" disabled>{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
+					{% endfor %}
+			{% endif %}
 		</div>
 	</section>
 {% endblock %}
