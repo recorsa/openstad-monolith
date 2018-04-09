@@ -6,6 +6,8 @@
 {% block content %}
 	<div id="errorMessage">
 	{% if status == 400 %}
+		<h1>{{message}}</h1>
+		
 		Klik op 'vorige' in uw browser om het opnieuw te proberen.
 	{% elif status == 403 %}
 		<h1>{{message}}</h1>
