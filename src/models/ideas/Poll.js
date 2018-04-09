@@ -47,8 +47,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 					model      : db.PollOption,
 					as         : 'options',
 					required   : false,
+					attributes : ['id', 'order', 'title', 'intro', 'description']
+				}]
+			},
+			
+			withVoteCount: {
+				include: [{
+					model      : db.PollOption,
+					as         : 'options',
+					required   : false,
 					attributes : [
-						'order', 'title', 'intro', 'description',
+						'id', 'order', 'title', 'intro', 'description',
 						[sequelize.literal(`
 							(SELECT
 								COUNT(*)
@@ -59,7 +68,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 									pv.checked IS NULL OR
 									pv.checked  = 1
 								) AND
-								pv.pollOptionId = \`poll.options\`.\`id\`)
+								pv.pollOptionId = \`options\`.\`id\`)
 						`), 'voteCount']
 					]
 				}]

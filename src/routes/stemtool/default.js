@@ -16,7 +16,6 @@ module.exports = function( app ) {
 			'withVoteCount',
 			'withPosterImage',
 			{method: ['withArguments', req.user.id]},
-			'withPoll',
 			'withAgenda'
 		)
 		.findById(2)
@@ -30,12 +29,39 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	})
+	.all(fetchPoll)
 	.all(auth.can('idea:admin', 'poll:vote', true))
 	.get(function( req, res, next) {
 		res.out('index', true, {
 			idea      : req.idea,
+			poll      : req.poll,
 			userVote  : req.vote,
 			csrfToken : req.csrfToken()
 		});
 	});
 };
+
+// Asset fetching
+// --------------
+
+function fetchPoll( req, res, next ) {
+	var ideaId = req.idea.id;
+	if( !ideaId ) {
+		throw createError(400, 'Geen ideaId');
+	}
+	
+	db.Poll.scope('withVoteCount').findOne({
+		where: {
+			ideaId: ideaId
+		}
+	})
+	.then(function( poll ) {
+		if( !poll ) {
+			throw createError(404, 'Poll niet gevonden');
+		}
+		
+		req.poll = poll;
+		next();
+	})
+	.catch(next);
+}
