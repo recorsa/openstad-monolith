@@ -2,6 +2,10 @@ var config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var PollVote = sequelize.define('poll_vote', {
+		pollId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false
+		},
 		pollOptionId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : false
@@ -35,6 +39,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}],
 		classMethods: {
 			associate: function( models ) {
+				PollVote.belongsTo(models.Poll);
 				PollVote.belongsTo(models.PollOption);
 				PollVote.belongsTo(models.User);
 			},
