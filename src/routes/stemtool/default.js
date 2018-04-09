@@ -30,7 +30,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	})
-	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
+	.all(auth.can('idea:admin', 'poll:vote', true))
 	.get(function( req, res, next) {
 		res.out('index', true, {
 			idea      : req.idea,
