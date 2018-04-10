@@ -1,4 +1,5 @@
 {% extends 'base.njk' %}
+{% import 'includes/arguments.njk' as arguments %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
@@ -136,6 +137,19 @@
 			{% endif %}
 		</div>
 	</section>
+	
+	<section id="arguments">
+		<h1><div class="pageContent">Argumenten</div></h1>
+		
+		<div class="pageContent">
+			<div class="argList for">
+				{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
+			</div>
+			<div class="argList against">
+				{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+			</div>
+		</div>
+	</section>
 {% endblock %}
 
 {% block scripts %}
@@ -186,4 +200,5 @@
 		})(this);
 	</script>
 	
+	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
 {% endblock %}
