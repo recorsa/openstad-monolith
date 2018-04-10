@@ -27,7 +27,8 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 
 module.exports = function( app ) {
 	app.route('/vote')
-	// .post(bruteForce.prevent)
+	.all(auth.can('poll:vote'))
+	.post(bruteForce.prevent)
 	.post(fetchPoll)
 	.post(function( req, res, next ) {
 		var user    = req.user;
@@ -69,9 +70,9 @@ module.exports = function( app ) {
 			});
 		})
 		.catch(function( err, req, res, next ) {
-			// req.brute.reset(function() {
+			req.brute.reset(function() {
 				next(err);
-			// });
+			});
 		});
 	})
 	.post(function( err, req, res, next ) {

@@ -1,9 +1,10 @@
-var createError  = require('http-errors')
-  , express      = require('express')
-  , Promise      = require('bluebird')
-var util         = require('../../util')
-  , db           = require('../../db')
-  , auth         = require('../../auth')
+var createError  = require('http-errors');
+var express      = require('express');
+var Promise      = require('bluebird');
+
+var util         = require('../../util');
+var db           = require('../../db');
+var auth         = require('../../auth');
 
 module.exports = function( app ) {
 	// View idea

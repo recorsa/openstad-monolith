@@ -1,8 +1,8 @@
 var config         = require('config');
 var createError    = require('http-errors');
 var defaults       = require('lodash/defaults');
-var sanitize       = require('../../util/sanitize');
 
+var sanitize       = require('../../util/sanitize');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Poll = sequelize.define('poll', {
