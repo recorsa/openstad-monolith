@@ -4,7 +4,8 @@ var config = {
 		script    : 'server.js',
 		node_args : '--use-strict',
 		env: {
-			NODE_ENV                   : 'staging',
+			NODE_ENV                   : 'stemvan',
+			NODE_APP_INSTANCE          : 'staging',
 			BLUEBIRD_LONG_STACK_TRACES : 1,
 			BLUEBIRD_WARNINGS          : 0
 		}
@@ -28,7 +29,7 @@ var config = {
 };
 // Production deployments
 // ----------------------
-addProductionApp([{
+addProductionApp('stemvan', [{
 	appName    : 'stem-prod',
 	deployName : 'production',
 	remotePath : '/var/www/stemvanwest.amsterdam.nl/www'
@@ -54,9 +55,12 @@ module.exports = config;
 // Helper
 // ------
 // Automates configuring production deployments to keep it DRY.
-function addProductionApp( app ) {
+function addProductionApp( env, app ) {
 	if( app instanceof Array ) {
-		return app.forEach(addProductionApp);
+		return app.forEach(addProductionApp.bind(null, env));
+	}
+	if( app.constructor !== Object ) {
+		return;
 	}
 	
 	config.apps.push({
@@ -64,7 +68,8 @@ function addProductionApp( app ) {
 		script    : 'server.js',
 		node_args : '--use-strict',
 		env : {
-			NODE_ENV                   : 'production',
+			NODE_ENV                   : env,
+			NODE_APP_INSTANCE          : 'production',
 			BLUEBIRD_LONG_STACK_TRACES : 1,
 			BLUEBIRD_WARNINGS          : 0
 		}

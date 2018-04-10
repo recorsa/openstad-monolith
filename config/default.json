@@ -1,19 +1,14 @@
 {
-	"siteId"          : "stemvan",
-	"siteName"        : "De Stem van West",
-	"pageNamePostfix" : "De Stem van West — Gemeente Amsterdam",
+	"siteName"        : "Default Site",
+	"pageNamePostfix" : "Gemeente Amsterdam",
 	
 	// Used in places where express variable `fullHost` is unavailable or
 	// unfit for use.
-	"domainName"      : "stemvanwest.amsterdam.nl",
+	"domainName"      : "www.amsterdam.nl",
 	// Used to display an email address to end-users on the site.
-	"emailAddress"    : "stemvanwest@amsterdam.nl",
+	"emailAddress"    : "info@amsterdam.nl",
 	
-	"infoUrls": {
-		"administration" : "https://www.amsterdam.nl/bestuur-organisatie/bestuurscommissies/bestuurscommissie-w/",
-		"facebook"       : "https://www.facebook.com/stadsdeelwest/",
-		"twitter"        : "https://twitter.com/020west"
-	},
+	"infoUrls": {},
 	
 	"debug"    : false,
 	"locale"   : "nl",
@@ -33,30 +28,19 @@
 		"rendering": {
 			// Template directories to fall back on when `html/${siteId}/pageName`
 			// does not exist.
-			"fallback": ["html/stemvan"]
+			"templateDirs": ["html/appName"],
+			// Global variable always available in all nunjucks template files.
+			// Accessible through `{{GLOBALS.propertyName}}` inside the template.
+			"globals" : {}
 		},
 		"middleware": {
 			// Middleware/routes to load before the security middleware is
 			// loaded. This is because some middleware don't work well with
 			// CSRF protection.
-			"beforeSecurity": [
-				"./routes/stemvan/media_upload"
-			],
+			"beforeSecurity": [],
 			// Middleware/routes to load after the security middleware is
 			// loaded.
-			"afterSecurity": [
-				"./middleware/log",
-				"./middleware/force_registration",
-				"./middleware/nocache",
-				"./routes/stemvan/default",
-				"./routes/stemvan/ab",
-				"./routes/stemvan/account",
-				"./routes/stemvan/article",
-				"./routes/stemvan/idea",
-				"./routes/stemvan/faq",
-				"./routes/cookies",
-				"./routes/dev"
-			]
+			"afterSecurity": []
 		}
 	},
 	"sentry": {
@@ -106,7 +90,7 @@
 			// Which folder to load in `src/auth/roles`. This folder should have
 			// an `index.js` which exports a `Roleplay` instance that loads
 			// all relevant roles for this application.
-			"roles": "stemvan"
+			"roles": "appName"
 		},
 		"sessions": {
 			"onlySecure"   : true,

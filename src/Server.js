@@ -173,8 +173,7 @@ module.exports  = {
 		var duration     = require('./nunjucks/duration');
 		// Used for fetching template files.
 		var siteId       = config.get('siteId');
-		var fallback     = config.get('express.rendering.fallback');
-		var tplDirs      = [`html/${siteId}`].concat(fallback);
+		var tplDirs      = config.get('express.rendering.templateDirs');
 		
 		var env = nunjucks.configure(tplDirs, {
 			express    : this.app,
@@ -195,8 +194,6 @@ module.exports  = {
 		env.addGlobal('PAGENAME_POSTFIX', config.get('pageNamePostfix'));
 		env.addGlobal('EMAIL', config.get('emailAddress'));
 		
-		env.addGlobal('URL_ADMIN', config.get('infoUrls.administration'));
-		env.addGlobal('URL_FB', config.get('infoUrls.facebook'));
-		env.addGlobal('URL_TWITTER', config.get('infoUrls.twitter'));
+		env.addGlobal('GLOBALS', config.get('express.rendering.globals'));
 	}
 };
