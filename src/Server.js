@@ -198,5 +198,12 @@ module.exports  = {
 		env.addGlobal('URL_ADMIN', config.get('infoUrls.administration'));
 		env.addGlobal('URL_FB', config.get('infoUrls.facebook'));
 		env.addGlobal('URL_TWITTER', config.get('infoUrls.twitter'));
+		// TODO: Refactor
+		//       Right now, there's too much stemvan config in default.json
+		//       Use NODE_ENV=$app to define application specific configuration,
+		//       and NODE_APP_INSTANCE for [development|production].
+		// 
+		// See: https://github.com/lorenwest/node-config/wiki/Configuration-Files
+		env.addGlobal('GLOBALS', config.get('infoUrls'));
 	}
 };
