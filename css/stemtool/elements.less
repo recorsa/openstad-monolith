@@ -1,0 +1,98 @@
+.box-green {
+  width: 100%;
+  padding: 10px;
+  background: #bed202;
+  font-size: 15px;
+  color: #fff;
+  display: block;
+  border-radius: 2px;
+}
+
+.box-grey {
+  width: 100%;
+  padding: 17px 15px 15px;
+  background: #f3f3f3;
+  font-size: 18px;
+  color: #000;
+  font-weight: 800;
+  border-bottom: 2px solid #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+  display: block;
+  position: relative;
+  padding-left: 58px;
+  max-width: 500px;
+
+
+  img {
+    max-width: 35px;
+    height: auto;
+    display: inline-block;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.number-plate {
+  background: #e8e8e8;
+    padding: 0;
+    display: inline-block;
+    height: 27px;
+    line-height: 29px;
+    width: 16px;
+    text-align: center;
+    color: black;
+    border-radius: 3px;
+    font-weight: 800;
+}
+
+.container-grey, .container-grey-edges {
+  background: #f6f6f6;
+  padding: 30px 40px;
+  position: relative;
+}
+
+.container-grey-edges::before, .container-grey-edges::after {
+  background: url(/img/stemtool/edges.svg);
+  content: '';
+  background-size: 100% 18px;
+  width: 100%;
+  height: 19px;
+  left: 0;
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+.container-grey-edges::before {
+    top: -9px;
+}
+
+.container-grey-edges::after {
+  bottom: -10px;
+}
+
+.hr-white {
+  border: 0;
+  background: white;
+  height: 5px;
+  width: 100%;
+}
+
+.input-field {
+  background: white;
+  border: 1px solid #b6b6b6;
+  line-height: 35px;
+  width: 100%;
+}
+
+.btn {
+  max-width: 200px;
+  width: 100%;
+  padding: 10px 0;
+  color: white;
+  font-size: 15px;
+  background: #004599;
+  -webkit-appearance: none;
+  border: 0;
+}
