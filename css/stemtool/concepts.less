@@ -1,0 +1,92 @@
+
+.concept-card-image {
+	background-size: cover;
+	padding-bottom: 72%;
+	position: relative;
+}
+
+.concept-card-number {
+	background: white;
+	border-bottom: 5px solid black;
+	border-right: 5px solid black;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 45px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 20px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.concept-card-number-1 {
+	border-color: #d3e15a;
+}
+
+.concept-card-number-2 {
+	border-color: #ff9101;
+}
+
+.concept-card-number-3 {
+	border-color: #a00078;
+}
+
+.concept-card-number-4 {
+	border-color: #004599;
+}
+
+.concept-card-title {
+	width: 90%;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.6);
+  color: black;
+  font-size: 15px;
+  position: absolute;
+  padding: 10px 1px 10px 8px;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.concept-card-link, .concept-card-link:active, .concept-card-link:visited {
+	width: 100%;
+	display: block;
+	color: #000;
+	background: white;
+	padding: 10px 10px;
+	font-size: 15px;
+	font-weight: 700;
+
+	&:hover {
+		color: red;
+		text-decoration: underline;
+	}
+
+	&:first-child {
+		border-bottom: 1px solid #eee;
+	}
+
+	img {
+		width: 12px;
+		height: 12px;
+		padding-right: 5px;
+	}
+}
+
+.concept-label  {
+	position: relative;
+	width: 100%;
+	display: block;
+
+	.concept-card-image {
+		width: 100px;
+		height: 100px;
+		padding: 0;
+	}
+
+	.concept-card-title {
+		left: 100px;
+		top: 0;
+		width: calc(100% - 100px);
+	}
+}

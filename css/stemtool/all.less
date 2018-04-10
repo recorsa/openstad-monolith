@@ -41,10 +41,21 @@
 @import 'content';
 @import 'content_user';
 @import 'error';
+@import 'layout';
+@import 'helpers';
+@import 'elements';
+
 // Section/page specific definitions.
 @import 'idea';
 @import 'form';
 @import 'admin';
+@import 'concepts';
+@import 'vote-form';
+
+
+* {
+  box-sizing: border-box;
+}
 
 // Script in `base.njk` removes this class when DOM is loaded.
 body.preload * {
