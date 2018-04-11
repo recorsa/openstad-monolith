@@ -75,7 +75,7 @@ var questionsData = [{
 	id: 10,
 	question: `Hoe kom ik direct in contact met leden van het Algemeen Bestuur?`,
 	answer: `
-		<p>Leden van het Algemeen Bestuur lezen actief mee met de voorstellen en discussies op {{SITENAME}}. Wil je direct in contact komen met een AB-lid? Ga dan naar de <a href="{{URL_ADMIN}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
+		<p>Leden van het Algemeen Bestuur lezen actief mee met de voorstellen en discussies op {{SITENAME}}. Wil je direct in contact komen met een AB-lid? Ga dan naar de <a href="{{GLOBALS.administration}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
 		<p>Op deze pagina kun je het Algemeen Bestuur van je Stadsdeel opzoeken en bekijken met wie je graag contact zou willen hebben. Op deze pagina vind je ook de contactgegevens van alle leden.</p>
 	`
 }];
