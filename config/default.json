@@ -29,7 +29,7 @@
 			// Template directories to fall back on when `html/${siteId}/pageName`
 			// does not exist.
 			"templateDirs": ["html/appName"],
-			// Global variable always available in all nunjucks template files.
+			// Global variables always available in all nunjucks template files.
 			// Accessible through `{{GLOBALS.propertyName}}` inside the template.
 			"globals" : {}
 		},

@@ -172,7 +172,6 @@ module.exports  = {
 		var dateFilter   = require('./nunjucks/dateFilter');
 		var duration     = require('./nunjucks/duration');
 		// Used for fetching template files.
-		var siteId       = config.get('siteId');
 		var tplDirs      = config.get('express.rendering.templateDirs');
 		
 		var env = nunjucks.configure(tplDirs, {

@@ -6,6 +6,10 @@
 		"port": 8082
 	},
 	
+	"sentry": {
+		"active" : false
+	},
+	
 	"security": {
 		"sessions": {
 			"onlySecure": false
