@@ -69,17 +69,20 @@ module.exports = function( app ) {
 				res.success('/', true);
 			});
 		})
-		.catch(function( err, req, res, next ) {
-			req.brute.reset(function() {
-				next(err);
-			});
-		});
+		.catch(db.sequelize.ValidationError, function( err ) {
+			var error = Error(err.errors[0].message);
+			error.status = 400;
+			next(error);
+		})
+		.catch(next);
 	})
 	.post(function( err, req, res, next ) {
-		if( err.status != 403 ) {
-			req.session.destroy();
-		}
-		next(err);
+		req.brute.reset(function() {
+			if( err.status != 403 ) {
+				req.unsetSessionUser();
+			}
+			next(err);
+		});
 	});
 };
 
