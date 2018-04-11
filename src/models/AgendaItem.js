@@ -25,7 +25,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING,
 			allowNull    : true,
 			set          : function( text ) {
-				this.setDataValue('actionText', sanitize.title(text.trim()));
+				var value = text ? sanitize.title(text.trim()) : text;
+				this.setDataValue('actionText', value);
 			}
 		},
 		actionURL: {

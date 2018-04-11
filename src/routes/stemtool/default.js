@@ -19,7 +19,7 @@ module.exports = function( app ) {
 			{method: ['withArguments', req.user.id]},
 			'withAgenda'
 		)
-		.findById(2)
+		.findById(1)
 		.then(function( idea ) {
 			if( !idea ) {
 				next(createError(404, 'Plan niet gevonden'));
