@@ -1,4 +1,12 @@
+if( !process.env.NODE_ENV ) {
+	return console.error('NODE_ENV environment variable not set');
+}
+if( !process.env.NODE_APP_INSTANCE ) {
+	return console.error('NODE_APP_INSTANCE environment variable not set');
+}
+
 var config = require('config');
+// Env variable used by npm's `debug` package.
 process.env.DEBUG = config.get('logging');
 
 // Order is relevant.

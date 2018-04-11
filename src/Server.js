@@ -172,9 +172,7 @@ module.exports  = {
 		var dateFilter   = require('./nunjucks/dateFilter');
 		var duration     = require('./nunjucks/duration');
 		// Used for fetching template files.
-		var siteId       = config.get('siteId');
-		var fallback     = config.get('express.rendering.fallback');
-		var tplDirs      = [`html/${siteId}`].concat(fallback);
+		var tplDirs      = config.get('express.rendering.templateDirs');
 		
 		var env = nunjucks.configure(tplDirs, {
 			express    : this.app,
@@ -195,15 +193,6 @@ module.exports  = {
 		env.addGlobal('PAGENAME_POSTFIX', config.get('pageNamePostfix'));
 		env.addGlobal('EMAIL', config.get('emailAddress'));
 		
-		env.addGlobal('URL_ADMIN', config.get('infoUrls.administration'));
-		env.addGlobal('URL_FB', config.get('infoUrls.facebook'));
-		env.addGlobal('URL_TWITTER', config.get('infoUrls.twitter'));
-		// TODO: Refactor
-		//       Right now, there's too much stemvan config in default.json
-		//       Use NODE_ENV=$app to define application specific configuration,
-		//       and NODE_APP_INSTANCE for [development|production].
-		// 
-		// See: https://github.com/lorenwest/node-config/wiki/Configuration-Files
-		env.addGlobal('GLOBALS', config.get('infoUrls'));
+		env.addGlobal('GLOBALS', config.get('express.rendering.globals'));
 	}
 };

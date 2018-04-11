@@ -1,0 +1,42 @@
+{
+	"siteName"        : "De Stem van West",
+	"pageNamePostfix" : "De Stem van West — Gemeente Amsterdam",
+	"domainName"      : "stemvanwest.amsterdam.nl",
+	"emailAddress"    : "stemvanwest@amsterdam.nl",
+	
+	"express": {
+		"port": 8082,
+		"rendering": {
+			"templateDirs": ["html/stemvan"],
+			"globals": {
+				"administration" : "https://www.amsterdam.nl/bestuur-organisatie/bestuurscommissies/bestuurscommissie-w/",
+				"facebook"       : "https://www.facebook.com/stadsdeelwest/",
+				"twitter"        : "https://twitter.com/020west"
+			}
+		},
+		"middleware": {
+			"beforeSecurity": [
+				"./routes/stemvan/media_upload"
+			],
+			"afterSecurity": [
+				"./middleware/log",
+				"./middleware/force_registration",
+				"./middleware/nocache",
+				"./routes/stemvan/default",
+				"./routes/stemvan/ab",
+				"./routes/stemvan/account",
+				"./routes/stemvan/article",
+				"./routes/stemvan/idea",
+				"./routes/stemvan/faq",
+				"./routes/cookies",
+				"./routes/dev"
+			]
+		}
+	},
+	
+	"security": {
+		"authorization": {
+			"roles": "stemvan"
+		}
+	}
+}
