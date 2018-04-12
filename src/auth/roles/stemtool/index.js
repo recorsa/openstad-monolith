@@ -24,6 +24,9 @@ var helpers = {
 	},
 	mayVoteArgument: function( user, idea, argument ) {
 		return !argument.parentId;
+	},
+	mayVotePoll: function( user, poll ) {
+		return poll.userVotes.length === 0;
 	}
 };
 
