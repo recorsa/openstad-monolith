@@ -137,6 +137,12 @@ module.exports = function( app ) {
 	.all(fetchIdea())
 	.all(fetchArgument)
 	.all(auth.can('arg:vote'))
+	.get(function( req, res, next ) {
+		res.out('form_arg_vote', false, {
+			argument  : req.argument,
+			csrfToken : req.csrfToken()
+		});
+	})
 	.post(updateUserSession)
 	.post(function( req, res, next ) {
 		var {user, argument, ip} = req;

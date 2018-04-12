@@ -124,7 +124,7 @@
 						<label><input type="checkbox" name="choices[]" value="{{option.id}}">{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
 					{% endfor %}
 					
-					Postcode: <input type="text" name="zipCode"><br>
+					Postcode: <input type="text" name="zipCode" value="{{user.zipCode}}"><br>
 					
 					<input type="submit" value="Verstuur stem">
 				</form>

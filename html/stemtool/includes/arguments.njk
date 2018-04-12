@@ -84,6 +84,7 @@
 	
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
 	<form method="POST" action="/arg/reply" class="tpl newReaction">
+		<input type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"><br>
 		<textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
 		
 		<div class="charsLeft">
@@ -134,9 +135,13 @@
 				button.disabled    = false;
 				window.clearTimeout(timer);
 			})
-			.catch(function( errorJSON ) {
+			.catch(function( error ) {
 				window.clearTimeout(timer);
-				alert(errorJSON.message);
+				if( error.status == 403 ) {
+					document.location.href = url;
+				} else {
+					alert(error.message);
+				}
 			});
 			
 			event.preventDefault();
@@ -188,16 +193,25 @@
 			form = arg.$replyForm;
 		}
 		
+		// Blur & focus behavior.
 		var desc = form.querySelector('textarea');
-		desc.addEventListener('blur', function() {
+		var name = form.querySelector('input[name="nickName"]');
+		desc.addEventListener('blur', blur);
+		name.addEventListener('blur', blur);
+		// Focus on relevant field.
+		!name.value ? name.focus() : desc.focus();
+		
+		function blur( event ) {
+			if( event.relatedTarget == desc || event.relatedTarget == name ) {
+				return;
+			}
+			
 			// Close reply form
-			if( !desc.value.length ) {
+			if( !desc.value.length && !name.value.length ) {
 				form.parentNode.removeChild(form);
 				arg.$replyForm = null;
 			}
-		});
-		
-		desc.focus();
+		}
 	}
 	
 	function renderReplyForm( form, parentArgId ) {
@@ -278,9 +292,7 @@
 			var len     = textarea.value.length;
 			var enable  = len < minLen ? 'min' : 'max';
 			var disable = enable == 'max' ? 'min' : 'max';
-			var chars   = len < minLen ?
-			              minLen - len :
-			              maxLen - len;
+			var chars   = len < minLen ? minLen - len : maxLen - len;
 			
 			msg[enable].className  = enable+' visible';
 			msg[disable].className = disable;
