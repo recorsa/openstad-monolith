@@ -139,7 +139,55 @@
 	</section>
 	
 	<section id="arguments">
-		<h1><div class="pageContent">Argumenten</div></h1>
+		<h1><div class="pageContent">Reacties</div></h1>
+		
+		<div class="pageContent">
+			{% if can('arg:add') %}
+				<form method="POST" action="/arg/new" class="newArgument">
+					<div>
+						Ik ben
+					
+						<select name="sentiment">
+							<option value="for">voor</option>
+							<option value="against">tegen</option>
+						</select>
+						
+						<select name="label">
+						{% for option in poll.options %}
+							<option value="{{option.order}}">Variant {{option.order}}</option>
+						{% endfor %}
+						</select>
+					</div>
+					
+					<div>
+						Naam: <input type="text" name="nickName" value="{{user.nickName}}">
+					</div>
+					
+					<textarea
+						name="description"
+						placeholder="Reactie"
+					></textarea>
+					
+					<div class="charsLeft">
+						<div class="min">Nog minimaal <span>30</span> tekens.</div>
+						<div class="max"><span>360</span> tekens resterend.</div>
+					</div>
+					
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<input type="submit" value="Verzenden">
+				</form>
+			{% endif %}
+		</div>
+		
+		<div class="pageContent" style="text-align: center;">
+			Laat reacties zien van:
+			
+			<select id="argumentFilter">
+			{% for option in poll.options %}
+				<option value="{{option.order}}">Variant {{option.order}}</option>
+			{% endfor %}
+			</select>
+		</div>
 		
 		<div class="pageContent">
 			<div class="argList for">
@@ -201,4 +249,15 @@
 	</script>
 	
 	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
+	<script>
+		// New argument form
+		// -----------------
+		// Character count on 'new argument' forms.
+		// 
+		// HACK: `renderForm` is defined in the scripts coming from
+		// `arguments.renderLists()` above.
+		$('#arguments form.newArgument').forEach(function( form, i ) {
+			renderForm(form);
+		});
+	</script>
 {% endblock %}

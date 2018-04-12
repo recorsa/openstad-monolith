@@ -1,15 +1,8 @@
 var config       = require('config')
-  , createError  = require('http-errors')
-  , htmlToText   = require('html-to-text')
-  , express      = require('express')
-  , moment       = require('moment-timezone')
-  , nunjucks     = require('nunjucks')
-  , Promise      = require('bluebird')
-  , csvStringify = Promise.promisify(require('csv-stringify'));
-var util         = require('../../util')
-  , db           = require('../../db')
-  , auth         = require('../../auth')
-  , mail         = require('../../mail');
+var createError  = require('http-errors')
+var Promise      = require('bluebird');
+var db           = require('../../db')
+var auth         = require('../../auth')
 
 module.exports = function( app ) {
 	// Create argument
@@ -28,14 +21,18 @@ module.exports = function( app ) {
 		app.route('/arg/new')
 		.all(fetchIdea())
 		.all(auth.can('arg:add'))
+		.post(updateUserSession)
 		.post(function( req, res, next ) {
-			var idea = req.idea;
-			idea.addUserArgument(req.user, req.body)
+			var {body, user, idea} = req;
+			
+			if( !body.nickName ) {
+				throw createError(400, 'Geen naam opgegeven');
+			}
+			
+			idea.addUserArgument(user, body)
 			.then(function( argument ) {
-				req.flash('success', 'Argument toegevoegd');
-				res.success(`/#arg${argument.id}`, {
-					argument: argument
-				});
+				req.flash('success', 'Bedankt voor je reactie');
+				res.success(`/#arg${argument.id}`, {argument});
 			})
 			.catch(next);
 		})
@@ -46,14 +43,18 @@ module.exports = function( app ) {
 		.all(fetchIdea())
 		.all(fetchArgument)
 		.all(auth.can('arg:reply'))
+		.post(updateUserSession)
 		.post(function( req, res, next ) {
-			var idea = req.idea;
-			idea.addUserArgument(req.user, req.body)
+			var {body, user, idea} = req;
+			
+			if( !body.nickName ) {
+				throw createError(400, 'Geen naam opgegeven');
+			}
+			
+			idea.addUserArgument(user, body)
 			.then(function( argument ) {
-				req.flash('success', 'Reactie toegevoegd');
-				res.success(`/#arg${argument.id}`, {
-					argument: argument
-				});
+				req.flash('success', 'Bedankt voor je reactie');
+				res.success(`/#arg${argument.id}`, {argument});
 			})
 			.catch(next);
 		})
@@ -61,15 +62,12 @@ module.exports = function( app ) {
 		
 		// Shared error handler.
 		function createArgumentError( err, req, res, next ) {
-			if( err.status == 403 && req.accepts('html') ) {
-				var ideaId = req.params.ideaId;
-				req.flash('error', err.message);
-				res.success(`/account/register?ref=/plan/${ideaId}`);
-			} else if( err instanceof db.sequelize.ValidationError ) {
-				err.errors.forEach(function( error ) {
-					req.flash('error', error.message);
-				});
-				next(createError(400));
+			if( err instanceof db.sequelize.ValidationError ) {
+				var error = err.errors.length ?
+				            Error(err.errors[0].message) :
+				            Error(err.message);
+				error.status = 400;
+				next(error);
 			} else {
 				next(err);
 			}
@@ -83,15 +81,14 @@ module.exports = function( app ) {
 	.all(fetchArgument)
 	.all(auth.can('arg:edit'))
 	.get(function( req, res, next ) {
-		res.out('ideas/form_arg', false, {
+		res.out('form_arg', false, {
 			argument  : req.argument,
 			csrfToken : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {
-		var user        = req.user;
-		var argument    = req.argument;
-		var description = req.body.description;
+		var {user, argument} = req;
+		var description      = req.body.description;
 		
 		req.idea.updateUserArgument(user, argument, description)
 		.then(function( argument ) {
@@ -108,7 +105,7 @@ module.exports = function( app ) {
 			err.errors.forEach(function( error ) {
 				req.flash('error', error.message);
 			});
-			res.out('ideas/form_arg', false, {
+			res.out('form_arg', false, {
 				argument  : req.argument,
 				csrfToken : req.csrfToken()
 			});
@@ -125,6 +122,7 @@ module.exports = function( app ) {
 	.delete(function( req, res, next ) {
 		var argument = req.argument;
 		var ideaId   = argument.ideaId;
+		
 		argument.destroy()
 		.then(function() {
 			req.flash('success', 'Argument verwijderd');
@@ -139,13 +137,15 @@ module.exports = function( app ) {
 	.all(fetchIdea())
 	.all(fetchArgument)
 	.all(auth.can('arg:vote'))
+	.post(updateUserSession)
 	.post(function( req, res, next ) {
-		var user     = req.user;
-		var argument = req.argument;
-		var idea     = req.idea;
-		var opinion  = getOpinion(req);
+		var {user, argument, ip} = req;
 		
-		argument.addUserVote(user, opinion, req.ip)
+		if( !user.zipCode ) {
+			throw createError(403, 'Geen postcode ingevuld');
+		}
+		
+		argument.addUserVote(user, 'yes', ip)
 		.then(function( voteRemoved ) {
 			var flashMessage = !voteRemoved ?
 			                   'U heeft gestemd op het argument' :
@@ -165,24 +165,24 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	})
-	.all(function( err, req, res, next ) {
-		if( err.status == 403 && req.accepts('html') ) {
-			var ideaId = req.params.ideaId;
-			var argId  = req.params.argId;
-			req.flash('error', err.message);
-			res.success(`/account/register?ref=/plan/${ideaId}#arg${argId}`);
-		} else {
-			next(err);
-		}
-	});
+	// .all(function( err, req, res, next ) {
+	// 	if( err.status == 403 && req.accepts('html') ) {
+	// 		var ideaId = req.params.ideaId;
+	// 		var argId  = req.params.argId;
+	// 		req.flash('error', err.message);
+	// 		res.success(`/account/register?ref=/plan/${ideaId}#arg${argId}`);
+	// 	} else {
+	// 		next(err);
+	// 	}
+	// });
 };
 
-function fetchIdea( /* [scopes] */ ) {
-	var scopes = Array.from(arguments);
-	
+// Helper functions
+// ----------------
+
+function fetchIdea( ...scopes ) {
 	return function( req, res, next ) {
-		var ideaId = req.params.ideaId;
-		db.Idea.scope(scopes).findById(ideaId)
+		db.Idea.scope(scopes).findById(1)
 		.then(function( idea ) {
 			if( !idea ) {
 				next(createError(404, 'Plan niet gevonden'));
@@ -195,7 +195,7 @@ function fetchIdea( /* [scopes] */ ) {
 	}
 }
 function fetchArgument( req, res, next ) {
-	// HACK: Mixing `req.params` and req.body`? Really? B-E-A-utiful...
+	// HACK: Mixing `req.params` and `req.body`? Really? B-E-A-utiful...
 	var argId = req.params.argId || req.body.parentId;
 	db.Argument.findById(argId)
 	.then(function( argument ) {
@@ -205,6 +205,37 @@ function fetchArgument( req, res, next ) {
 			req.argument = argument;
 			next();
 		}
+	})
+	.catch(next);
+}
+
+// `updateUserSession` assure for both adding arguments/replies
+// that the user performing the action has an anonymous profile
+// with a `nickName`. This middleware is only relevant on POSt
+// requests.
+function updateUserSession( req, res, next ) {
+	var {user, body} = req;
+	
+	// 1. Register/pass anonymous user.
+	// 2. Update `nickName`.
+	// 3. Update session ('login').
+	(
+		user.isAnonymous() ?
+		Promise.resolve(user) :
+		db.User.registerAnonymous(null)
+	)
+	.tap(function( user ) {
+		if( body.nickName || body.zipCode ) {
+			var data = {};
+			if( body.nickName ) data.nickName = body.nickName;
+			if( body.zipCode )  data.zipCode  = body.zipCode;
+			return user.update(data);
+		}
+	})
+	.then(function( user ) {
+		req.setSessionUser(user.id);
+		req.user = user;
+		next();
 	})
 	.catch(next);
 }

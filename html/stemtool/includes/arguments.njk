@@ -2,30 +2,6 @@
 	{% set arguments     = idea[propName] %}
 	{% set isFor         = propName == 'argumentsFor' %}
 	
-	{% set mayShowForm   = user.can('arg:form', idea) %}
-	{% set mayAddArg     = user.can('arg:add', idea) %}
-	
-	{% if mayShowForm %}
-		<form method="POST" action="/arg/new" class="newArgument">
-			<textarea
-				name="description"
-				placeholder="{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}"
-				{{'data-disabled readonly' if not mayAddArg}}
-			></textarea>
-			
-			<div class="charsLeft">
-				<div class="min">Nog minimaal <span>30</span> tekens.</div>
-				<div class="max"><span>360</span> tekens resterend.</div>
-			</div>
-			
-			<input type="hidden" name="_csrf" value="{{csrfToken}}">
-			<input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
-			<input type="submit" value="Verzenden">
-		</form>
-	{% else %}
-		<h2>{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}</h2>
-	{% endif %}
-	
 	{% for arg in arguments %}
 		{% set mayEdit         = user.can('arg:edit', idea, arg) %}
 		{% set mayDelete       = user.can('arg:delete', idea, arg) %}
@@ -124,13 +100,6 @@
 
 {% macro renderLists( user, idea, cssQuery ) %}
 <script>
-	// New argument form
-	// -----------------
-	// Character count on 'new argument' forms.
-	$('{{cssQuery}} form:first-child').forEach(function( form, i ) {
-		renderForm(form);
-	});
-	
 	// For each argument
 	// -----------------
 	// Delete confirmation for arguments.

@@ -31,9 +31,10 @@ module.exports = function( app ) {
 		.catch(next);
 	})
 	.all(fetchPoll)
-	.all(auth.can('idea:admin', 'poll:vote', true))
+	.all(auth.can('idea:admin', 'poll:vote', 'arg:add', true))
 	.get(function( req, res, next) {
 		res.out('index', true, {
+			user      : req.user,
 			idea      : req.idea,
 			poll      : req.poll,
 			userVote  : req.vote,
