@@ -20,77 +20,76 @@
 {% endblock %}
 
 {% block page %}
-	<section id="summary" class="pageContent">
-		<div class="primary">
+	<div id="summary" class="section-container">
+		<div class="col-container">
+			<div class="col-9">
+				<div id="banner">
+					<div class="image"
+						{% if idea.posterImage %}
+							style="background-image: url('/image/{{idea.posterImage.key}}');"
+						{% endif %}
+					></div>
+				</div>
+				<p>
+					{{idea.summary}}
+				</p>
+			</div>
 
-			<div class="image"
-				{% if idea.posterImage %}
-					style="background-image: url('/image/{{idea.posterImage.key}}');"
-				{% endif %}
-			></div>
+			<div class="col-3 controls">
+				<span class="widget speechBubble newIdeaBubble">
+					1 brug, 6 mogelijke varianten
+				</span>
 
-			<p>
-				{{idea.summary}}
-			</p>
+				<a href="#vote" class="box-green margin-bottom-xs">
+					<span class="margin-right-s">
+						<span class="number-plate"> {{paddedVoteCount[0]}} </span>
+						<span class="number-plate"> {{paddedVoteCount[1]}} </span>
+						<span class="number-plate"> {{paddedVoteCount[2]}} </span>
+					</span>
+						stemmen
+				</a>
+				<a href="#arguments" class="box-green">
+					<span class="margin-right-s">
+						<span class="number-plate"> {{paddedArgumentCount[0]}} </span>
+						<span class="number-plate"> {{paddedArgumentCount[1]}} </span>
+						<span class="number-plate"> {{paddedArgumentCount[2]}} </span>
+					</span>
+
+					argumenten
+				</a>
+				<br />
+
+				<a href="#arguments" class="box-grey-img scroll-link">
+					<img src="/img/stemtool/comments.svg" />
+					Lees de reacties
+				</a>
+
+				<br />
+
+				<a href="#vote" class="box-grey-img scroll-link">
+					<img src="/img/stemtool/vote.svg" />
+					Breng jouw stem uit!
+				</a>
+
+				<br />
+
+				<a href="http://www.amsterdam.nl" class="box-grey-img" target="_blank">
+					<img src="/img/stemtool/info.svg" />
+					Lees meer over dit project op amsterdam.nl
+				</a>
+				<br />
+			</div>
 		</div>
-		<div class="secondary controls">
-			<span class="widget speechBubble newIdeaBubble">
-				Stemcode in de brievenbus gehad?
-			</span>
+	</div>
 
-			<a href="#vote" class="box-green">
-				<span class="number-plate"> {{paddedVoteCount[0]}} </span>
-				<span class="number-plate"> {{paddedVoteCount[1]}} </span>
-				<span class="number-plate"> {{paddedVoteCount[2]}} </span>
-				stemmen
-			</a>
-			<br />
-			<a href="#arguments" class="box-green">
-				<span class="number-plate"> {{paddedArgumentCount[0]}} </span>
-				<span class="number-plate"> {{paddedArgumentCount[1]}} </span>
-				<span class="number-plate"> {{paddedArgumentCount[2]}} </span>
-				argumenten
-			</a>
-			<br />
 
-			<a href="#arguments" class="box-grey scroll-link">
-				<img src="/img/stemtool/comments.svg" />
-				Lees de reacties
-			</a>
-
-			<br />
-
-			<a href="#vote" class="box-grey scroll-link">
-				<img src="/img/stemtool/vote.svg" />
-				Breng jouw stem uit!
-			</a>
-
-			<br />
-
-			<a href="http://www.amsterdam.nl" class="box-grey" target="_blank">
-				<img src="/img/stemtool/info.svg" />
-				Lees meer over dit project op amsterdam.nl
-			</a>
-
-			<br />
-
-		</div>
-	</section>
-
-	<!--
-		This section differs from others: it does not use `div.primary`
-		and `div.secondary`. Instead it uses one `div.pageContent` so it
-		can be page wide. The proper content dimensions are controlled
-		with margins. See `idea.less` for `#designs` and `content.less`
-		for `.pageContent`.
-	-->
 	<section id="designs" class="content-section">
-		<div class="pageContent">
-			<h2>De Ontwerpen</h2>
+		<div class="section-container">
+			<h2>De varianten</h2>
 
 			<div class="col-container">
 				{% for option in poll.options
-				%}<div class="col-4">
+				%}<div class="col-3">
 						<div class="concept-card">
 							<div
 								class="concept-card-image"
@@ -116,44 +115,105 @@
 						</div>
 					</div>{%
 				endfor %}
+			</div>
 	</section>
 
-	<section id="details" class="pageContent content-section">
-		<div class="primary">
-			<h2>Achtergrondinformatie</h2>
+	<section id="details" class="content-section section-container">
+		<div class="col-container">
+			<div class="col-9">
+				<h2>Achtergrondinformatie</h2>
 
-			<div class="userContent">
-				{{idea.description | safe}}
-			</div>
-
-			<h2>Hoe werkt het? (spelregels)</h2>
-			<ul class="no-style-list">
-				<li><img src="/img/stemtool/check.svg" class="check" /> Zo werk het stemproces: hoe wordt de uitslag bepaald</li>
-				<li><img src="/img/stemtool/check.svg" class="check" /> Wie mogen er stemmen...</li>
-				<li><img src="/img/stemtool/check.svg" class="check" /> Hoe werkt het</li>
-				<li><img src="/img/stemtool/check.svg" class="check" /> Waar kun je terecht met vragen</li>
-				<li><img src="/img/stemtool/check.svg" class="check" /> Andere spelregels?</li>
-				<li><img src="/img/stemtool/check.svg" class="check" /> Nader te bepalen samen met projectteam</li>
-			</ul>
-			<br />
-
-			<a href="https://www.amsterdam.nl" target="black" class="box-grey">
-				Lees meer over dit project op amsterdam.nl
-			</a>
-		</div> <!-- #primary -->
-
-		<div id="agenda" class="secondary">
-			<h2>Proces</h2>
-
-			{% for item in idea.agenda %}
-				<div>
-					<h2>{{item.startDate | date('D MMMM')}}</h2>
-					{{item.description}}
-					{% if item.actionText %}
-					<a href="{{item.actionURL}}">{{item.actionText}}</a>
-					{% endif %}
+				<div class="userContent">
+					{{idea.description | safe}}
 				</div>
-			{% endfor %}
+
+				<h2>Hoe werkt het? (spelregels)</h2>
+				<ul class="checkmark-list">
+					<li>Zo werk het stemproces: hoe wordt de uitslag bepaald</li>
+					<li>Wie mogen er stemmen...</li>
+					<li>Hoe werkt het</li>
+					<li>Waar kun je terecht met vragen</li>
+					<li>Andere spelregels?</li>
+					<li>Nader te bepalen samen met projectteam</li>
+				</ul>
+				<br />
+
+				<a href="https://www.amsterdam.nl" target="black" class="box-grey">
+					Lees meer over dit project op amsterdam.nl
+				</a>
+
+				{% if can('poll:vote') %}
+					<div class="container-grey container-grey-edges margin-hor-m">
+						<h2 class="h1">Stem op jouw favoriete ontwerp</h2>
+
+						<hr class="hr-white margin-hor-m"></hr>
+
+						<form method="POST" action="/vote">
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="hidden" name="pollId" value="{{poll.id}}">
+
+							<label class="h3 block margin-bottom-s margin-top-0">
+								Ik stem op:
+								<span class="required-text">(verplicht)</span>
+							</label>
+							{% for option in poll.options %}
+								<label class="concept-label">
+									<div
+										class="concept-card-image"
+										style="background-image: url('img/stemtool/placeholder-concept.jpg');"
+									>
+										<div class="concept-card-number concept-card-number-{{loop.index}}">
+											{{alphabet[loop.index - 1].toUpperCase()}}
+										</div>
+									</div>
+
+									<div class="concept-card-title">
+										<input type="checkbox" name="choices[]" value="{{option.id}}">{{option.order}} {{option.title}} ({{option.voteCount}})</label>
+									</div>
+								</label>
+
+								<br />
+							{% endfor %}
+
+							<div class="margin-hor-m">
+								<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
+								<input type="text" name="fullName" class="input-field">
+							</div>
+							<div  class="margin-hor-m">
+								<label class="h3 block margin-hor-xs"> Postcode: <span class="required-text">(verplicht)</span>  </label>
+								<input type="text" name="zipCode" class="input-field">
+							</div>
+							<button type="submit" class="default btn btn-primary">
+								Verzenden
+							</button>
+						</form>
+						</div>
+
+					{% else %}
+						<h2>Bedankt voor je stem!</h2>
+
+						{% for option in poll.options %}
+								<label><input type="checkbox" disabled>{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
+							{% endfor %}
+				{% endif %}
+
+		</div>
+		<div class="col-3">
+			<div id="agenda">
+				<h2>Proces</h2>
+
+				<div class="agenda">
+				{% for item in idea.agenda %}
+					<div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
+						<h3 class="margin-top-0 margin-bottom-s h3">{{item.startDate | date('D MMMM')}}</h3>
+						{{item.description}}
+						{% if item.actionText %}
+						<a href="{{item.actionURL}}" class="block">{{item.actionText}}</a>
+						{% endif %}
+					</div>
+				{% endfor %}
+				</div>
+			</div>
 
 			{% if can('idea:admin') %}
 				<h2>Bewerken</h2>
@@ -178,66 +238,34 @@
 					<button type="submit" class="votes">Stemoverzicht</button>
 				</form>
 			{% endif %}
-		</div>
-	</section>
 
-	<section id="vote" class="pageContent">
-		<div class="primary">
-			{% if can('poll:vote') %}
-				<div class="container-grey container-grey-edges margin-hor-m">
-					<h2 class="h1">Stem op jouw favoriete ontwerp</h2>
+			<h2>Heb je nog even?</h2>
+			<div class="box-grey">
 
-					<hr class="hr-white margin-hor-m"></hr>
+				<h3>
+					We hebben nog twee extra vragen
+					over wat jij belangrijk vindt
+					in de uitwerking van de brug.
+					Laat jij je stem horen?
+				</h3>
+				<p>
+					Dit kost hooguit 2 minuten
+					van je tijd?
+				</p>
+				<a href="https://www.amsterdam.nl" target="_blank" class="carret-link">
+					Ja, ga naar vragenlijst
+				</a>
+			</div>
 
-					<form method="POST" action="/vote">
-						<input type="hidden" name="_csrf" value="{{csrfToken}}">
-						<input type="hidden" name="pollId" value="{{poll.id}}">
 
-						<label class="h3 block margin-bottom-s margin-top-0">
-							Ik stem op:
-							<span class="required-text">(verplicht)</span>
-						</label>
-						{% for option in poll.options %}
-							<label class="concept-label">
-								<div
-									class="concept-card-image"
-									style="background-image: url('img/stemtool/placeholder-concept.jpg');"
-								>
-									<div class="concept-card-number concept-card-number-{{loop.index}}">
-										{{alphabet[loop.index - 1].toUpperCase()}}
-									</div>
-								</div>
-
-								<div class="concept-card-title">
-									<input type="checkbox" name="choices[]" value="{{option.id}}">{{option.order}} {{option.title}} ({{option.voteCount}})</label>
-								</div>
-							</label>
-
-							<br />
-						{% endfor %}
-
-						<div class="margin-hor-m">
-							<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
-							<input type="text" name="fullName" class="input-field">
-						</div>
-						<div  class="margin-hor-m">
-							<label class="h3 block margin-hor-xs"> Postcode: <span class="required-text">(verplicht)</span>  </label>
-							<input type="text" name="zipCode" class="input-field">
-						</div>
-						<button type="submit" class="default btn btn-primary">
-							Verzenden
-						</button>
-					</form>
-				{% else %}
-					<h2>Bedankt voor je stem!</h2>
-
-					{% for option in poll.options %}
-							<label><input type="checkbox" disabled>{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
-						{% endfor %}
-				{% endif %}
 			</div>
 		</div>
 	</section>
+
+	<section id="arguments">
+
+	</section>
+
 {% endblock %}
 
 {% block scripts %}
