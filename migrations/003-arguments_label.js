@@ -6,7 +6,7 @@ module.exports = {
 			ALTER TABLE
 				arguments
 			ADD
-				parentId INT  UNSIGNED  NULL  DEFAULT NULL  AFTER id
+				label VARCHAR(255) NULL  DEFAULT NULL  AFTER description
 		`);
 	},
 	down: function() {
@@ -14,7 +14,7 @@ module.exports = {
 			ALTER TABLE
 				arguments
 			DROP
-				parentId
+				label
 		`);
 	}
 }

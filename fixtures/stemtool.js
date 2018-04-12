@@ -160,21 +160,28 @@ var users = [
 					}]
 				}]
 			},
-			argumentsAgainst : [
-				{userId: 3, sentiment: 'against' , description: 'Bomen zijn goed voor mensen, en zuiveren de lucht. Ik wil niet weten wat er gaat gebeuren met de omgeving als we alle bomen weghalen?! Gekkigheid...'},
-				{userId: 4, sentiment: 'against' , description: 'Dit is een hellend vlak. Wat gaat dit betekenen voor de struiken? De struiken, de struiken, de struiken, de struiken, de struiken, de struiken, de struiken...'}
-			]
+			argumentsAgainst : [{
+				userId      : 3,
+				sentiment   : 'against',
+				description : 'Bomen zijn goed voor mensen, en zuiveren de lucht. Ik wil niet weten wat er gaat gebeuren met de omgeving als we alle bomen weghalen?! Gekkigheid...',
+				label       : 'A'
+			}, {
+				userId      : 4,
+				sentiment   : 'against',
+				description : 'Dit is een hellend vlak. Wat gaat dit betekenen voor de struiken? De struiken, de struiken, de struiken, de struiken, de struiken, de struiken, de struiken...',
+				label       : 'A'
+			}]
 		}]
 	},
 	
-	{id : 3  , complete : 1 , role : 'member'       , email : 'test@test.com'  , password : null, firstName : 'Maria'     , lastName : 'Parker'    , gender : 'female' , zipCode : null}      ,
-	{id : 4  , complete : 1 , role : 'member'       , email : 'test2@test.com' , password : null, firstName : 'Judy'      , lastName : 'Hill'      , gender : 'female' , zipCode : null}      ,
-	{id : 5  , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Edwards'   , gender : 'female' , zipCode : null}      ,
-	{id : 6  , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Cole'      , gender : 'male'   , zipCode : null}      ,
-	{id : 7  , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Scott'     , gender : 'male'   , zipCode : null}      ,
-	{id : 8  , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Kim'       , gender : 'female' , zipCode : null}      ,
-	{id : 9  , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Rose'      , gender : 'male'   , zipCode : '1050 GH'} ,
-	{id : 10 , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Greene'    , gender : 'male'   , zipCode : null}      ,
-	{id : 11 , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : null        , gender : 'female' , zipCode : '1053 BM'} ,
-	{id : 12 , complete : 0 , role : 'anonymous'    , email : null             , password : null, firstName : null        , lastName : 'Miller'    , gender : 'male'   , zipCode : null}
+	{id : 3  , complete : 1 , role : 'anonymous'    , email : 'test@test.com'  , password : null, nickName : 'Maria Parker' , gender : 'female' , zipCode : null}      ,
+	{id : 4  , complete : 1 , role : 'anonymous'    , email : 'test2@test.com' , password : null, nickName : 'Judy Hill'    , gender : 'female' , zipCode : null}      ,
+	{id : 5  , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'female' , zipCode : null}      ,
+	{id : 6  , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'male'   , zipCode : null}      ,
+	{id : 7  , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'male'   , zipCode : null}      ,
+	{id : 8  , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'female' , zipCode : null}      ,
+	{id : 9  , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'male'   , zipCode : '1050 GH'} ,
+	{id : 10 , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'male'   , zipCode : null}      ,
+	{id : 11 , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'female' , zipCode : '1053 BM'} ,
+	{id : 12 , complete : 0 , role : 'anonymous'    , email : null             , password : null, nickName : null           , gender : 'male'   , zipCode : null}
 ];

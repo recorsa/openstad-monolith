@@ -34,7 +34,7 @@
 		
 		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
 			<div class="user {{'admin' if arg.user.isAdmin()}}">
-				<strong>{{arg.user.fullName}}</strong> | {{arg.createdAt | date('LLL')}}
+				<strong>{{arg.user.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
 				
 				{% if mayEdit %}
 					<form class="action" method="GET" action="/arg/{{arg.id}}/edit">
@@ -48,6 +48,10 @@
 						<input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
 					</form>
 				{% endif %}
+			</div>
+			
+			<div>
+				Is {{'voor' if arg.sentiment == 'for' else 'tegen'}} ontwerp {{arg.label}}
 			</div>
 			
 			<p>{{arg.description | urlize | nl2br | safe}}</p>
@@ -72,7 +76,7 @@
 			
 			<div class="reaction" id="arg{{reaction.id}}">
 				<div class="user {{'admin' if reaction.user.isAdmin()}}">
-					<strong>{{reaction.user.fullName}}</strong> | {{reaction.createdAt | date('LLL')}}
+					<strong>{{reaction.user.nickName}}</strong> | {{reaction.createdAt | date('LLL')}}
 					
 					{% if mayEdit %}
 						<form class="action" method="GET" action="/arg/{{reaction.id}}/edit">

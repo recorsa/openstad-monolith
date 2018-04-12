@@ -4,17 +4,17 @@ module.exports = {
 	up: function() {
 		return db.query(`
 			ALTER TABLE
-				arguments
+				users
 			ADD
-				parentId INT  UNSIGNED  NULL  DEFAULT NULL  AFTER id
+				nickName VARCHAR(64) NULL  DEFAULT NULL  AFTER passwordHash
 		`);
 	},
 	down: function() {
 		return db.query(`
 			ALTER TABLE
-				arguments
+				users
 			DROP
-				parentId
+				nickName
 		`);
 	}
 }
