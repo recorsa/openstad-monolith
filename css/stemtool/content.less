@@ -68,34 +68,7 @@
 	// Is used in #primary and #secondary.
 	// - In #primary only visible on smaller screens.
 	// - In #secondary only visible on larger screens.
-	.speechBubble {
-		border: 3px solid #EC0000;
-		border-radius: 12px;
-		box-sizing: border-box;
-		display: block;
-		font-size: 1.1rem;
-		font-weight: bold;
-		line-height: 1.5em;
-		// Needs `!important` because `.secondary > .widget` will override
-		// it otherwise.
-		margin-bottom: calc(1em + 28px) !important;
-		padding: 20px;
-		position: relative;
-		text-align: center;
 
-		&:after {
-			background-image: url('/img/bubble_point.svg');
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: contain;
-			bottom: -28px;
-			content: '';
-			height: 28px;
-			position: absolute;
-			right: 20px;
-			width: 83px;
-		}
-	}
 
 	// Regular links
 	// -------------
@@ -234,20 +207,7 @@
 
 	// Big image banner above text content
 	// -----------------------------------
-	#banner {
-		margin: 0 0 35px;
-		position: relative;
 
-		.image {
-			background-position: center;
-			background-size: cover;
-			height: 360px;
-		}
-		.text {
-			// Current only used on index page (See `index.less`).
-			// Leaving it here for possible future use.
-		}
-	}
 
 	// Cookie consent
 	// --------------
