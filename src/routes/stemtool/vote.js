@@ -3,6 +3,7 @@ var config       = require('config');
 var createError  = require('http-errors');
 var express      = require('express');
 var nunjucks     = require('nunjucks');
+var Promise      = require('bluebird');
 
 var auth         = require('../../auth');
 var db           = require('../../db');
@@ -57,7 +58,14 @@ module.exports = function( app ) {
 			}
 		});
 		
-		db.User.registerAnonymous(zipCode)
+		(
+			user.isAnonymous() ?
+			Promise.resolve(user) :
+			db.User.registerAnonymous(null)
+		)
+		.then(function( user ) {
+			return user.update({zipCode});
+		})
 		.then(function( user ) {
 			req.setSessionUser(user.id);
 			
