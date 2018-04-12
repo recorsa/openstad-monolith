@@ -2,13 +2,13 @@
   width: 100%;
   padding: 10px;
   background: #bed202;
-  font-size: 15px;
+  font-size: 19px;
   color: #fff;
   display: block;
   border-radius: 2px;
 }
 
-.box-grey {
+.box-grey-img {
   width: 100%;
   padding: 17px 15px 15px;
   background: #f3f3f3;
@@ -21,7 +21,7 @@
   position: relative;
   padding-left: 58px;
   max-width: 500px;
-
+  text-decoration: none;
 
   img {
     max-width: 35px;
@@ -34,17 +34,24 @@
   }
 }
 
+.box-grey {
+  padding: 15px 15px;
+  background: #f3f3f3;
+}
+
 .number-plate {
   background: #e8e8e8;
-    padding: 0;
-    display: inline-block;
-    height: 27px;
-    line-height: 29px;
-    width: 16px;
-    text-align: center;
-    color: black;
-    border-radius: 3px;
-    font-weight: 800;
+  background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+  padding: 0;
+  display: inline-block;
+  height: 29px;
+  line-height: 31px;
+  width: 20px;
+  text-align: center;
+  color: black;
+  border-radius: 3px;
+  font-weight: 800;
+  vertical-align: middle;
 }
 
 .container-grey, .container-grey-edges {
@@ -95,4 +102,61 @@
   background: #004599;
   -webkit-appearance: none;
   border: 0;
+}
+
+.speechBubble {
+  border: 3px solid #EC0000;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  line-height: 1.5em;
+  // Needs `!important` because `.secondary > .widget` will override
+  // it otherwise.
+  margin-bottom: calc(1em + 28px) !important;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+
+  &:after {
+    background-image: url('/img/bubble_point.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    bottom: -28px;
+    content: '';
+    height: 28px;
+    position: absolute;
+    right: 20px;
+    width: 83px;
+  }
+}
+
+#banner {
+  margin: 0 0 35px;
+  position: relative;
+  height: 100%;
+  height: 345px;
+  position: relative;
+
+  .image {
+    background-image: url('/img/placeholders/idea.jpg');
+    background-position: center;
+    background-size: cover;
+    bottom: 0px;
+    left: 0px;
+    margin-right: @hMargin;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    @media @primary100 {
+      margin-right: 0;
+    }
+  }
+  .text {
+    // Current only used on index page (See `index.less`).
+    // Leaving it here for possible future use.
+  }
 }
