@@ -23,8 +23,7 @@ var helpers = {
 		       idea.isRunning();
 	},
 	mayVoteArgument: function( user, idea, argument ) {
-		return user.id !== argument.userId &&
-		       !argument.parentId;
+		return !argument.parentId;
 	}
 };
 
