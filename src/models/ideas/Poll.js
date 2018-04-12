@@ -37,19 +37,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 			scopes: scopes,
 			associate: function( models ) {
 				this.belongsTo(models.Idea);
-				this.hasMany(models.PollOption, {
-					as: 'options'
-				});
+				this.hasMany(models.PollOption, {as: 'options'});
+				// To associate the votes the current user has cast.
+				// Plural, because in some polls, the user can cast
+				// multiple votes.
+				this.hasMany(models.PollVote, {as: 'userVotes'});
 			}
 		},
 		instanceMethods: {
-			addUserVote: function( user, choices, ip ) {
+			addVote: function( user, choices, ip ) {
 				// ... and bulk create if user has not voted yet.
 				var data = {
 					pollId : this.id,
 					userId : user.id,
 					ip     : ip
 				};
+				
 				return db.PollVote.findOne({where: data})
 				.then(function( vote ) {
 					if( vote ) {
@@ -96,6 +99,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 						`), 'voteCount']
 					]
 				}]
+			},
+			
+			withUserVote: function( userId ) {
+				userId = Number(userId);
+				if( !userId ) return {};
+				
+				return {
+					include: [{
+						model    : db.PollVote,
+						as       : 'userVotes',
+						required : false,
+						where    : {userId}
+					}]
+				};
 			}
 		};
 	}

@@ -4,7 +4,11 @@ module.exports = function( helpers, role ) {
 		
 		'idea:admin': false,
 		
-		'poll:vote' : true,
+		'poll:vote' : {
+			allow    : true,
+			message  : 'Stemmen niet toegestaan',
+			resource : 'poll'
+		},
 		
 		'arg:form'         : {
 			allow    : helpers.mayAddArgument,

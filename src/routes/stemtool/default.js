@@ -46,12 +46,16 @@ module.exports = function( app ) {
 // --------------
 
 function fetchPoll( req, res, next ) {
-	var ideaId = req.idea.id;
+	var {user, idea} = req;
+	var ideaId       = idea.id;
 	if( !ideaId ) {
 		throw createError(400, 'Geen ideaId');
 	}
 	
-	db.Poll.scope('withVoteCount').findOne({
+	db.Poll.scope(
+		'withVoteCount',
+		{method: ['withUserVote', user.id]}
+	).findOne({
 		where: {
 			ideaId: ideaId
 		}

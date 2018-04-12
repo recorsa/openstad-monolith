@@ -27,9 +27,9 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 
 module.exports = function( app ) {
 	app.route('/vote')
-	.all(auth.can('poll:vote'))
 	.post(bruteForce.prevent)
 	.post(fetchPoll)
+	.post(auth.can('poll:vote'))
 	.post(function( req, res, next ) {
 		var user    = req.user;
 		var poll    = req.poll;
@@ -45,9 +45,6 @@ module.exports = function( app ) {
 		// 
 		// This can be solved by checking the database for a vote instead
 		// of just checking authorization.
-		if( !user.can('poll:vote') ) {
-			throw createError(403, 'Reeds gestemd');
-		}
 		if( !zipCode ) {
 			throw createError(400, 'Geen postcode opgegeven');
 		}
@@ -63,9 +60,11 @@ module.exports = function( app ) {
 		db.User.registerAnonymous(zipCode)
 		.then(function( user ) {
 			req.setSessionUser(user.id);
+			
 			// Store vote.
-			return poll.addUserVote(user, choices, req.ip)
+			return poll.addVote(user, choices, req.ip)
 			.then(function() {
+				req.flash('success', 'Bedankt voor je stem');
 				res.success('/', true);
 			});
 		})
@@ -87,12 +86,18 @@ module.exports = function( app ) {
 };
 
 function fetchPoll( req, res, next ) {
-	var pollId = req.body.pollId;
+	var {user, body} = req;
+	var pollId       = body.pollId;
+	
 	if( !pollId ) {
 		throw createError(400, 'Geen pollId parameter');
 	}
 	
-	db.Poll.findById(pollId)
+	db.Poll.scope(
+		'withVoteCount',
+		{method: ['withUserVote', user.id]}
+	)
+	.findById(pollId)
 	.then(function( poll ) {
 		if( !poll ) {
 			throw createError(404, 'Poll niet gevonden');
