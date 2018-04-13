@@ -1,11 +1,12 @@
-.box-green {
+.box-blue {
   width: 100%;
   padding: 10px;
-  background: #bed202;
+  background: #004699;
   font-size: 19px;
   color: #fff;
   display: block;
-  border-radius: 2px;
+  border-radius: 3px;
+  text-decoration: none;
 }
 
 .box-grey-img {
@@ -37,6 +38,16 @@
 .box-grey {
   padding: 15px 15px;
   background: #f3f3f3;
+}
+
+.box-grey-link {
+  color: black;
+  font-size: 1em;
+  text-decoration: none;
+  padding: 17px 40px 15px;
+  border-bottom: 2px solid #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+  font-weight: 800;
 }
 
 .number-plate {
@@ -109,22 +120,22 @@
   border-radius: 12px;
   box-sizing: border-box;
   display: block;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: bold;
   line-height: 1.5em;
-  // Needs `!important` because `.secondary > .widget` will override
-  // it otherwise.
   margin-bottom: calc(1em + 28px) !important;
   padding: 20px;
   position: relative;
   text-align: center;
+  color: #000;
+
 
   &:after {
     background-image: url('/img/bubble_point.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    bottom: -28px;
+    bottom: -27px;
     content: '';
     height: 28px;
     position: absolute;
@@ -155,8 +166,49 @@
       margin-right: 0;
     }
   }
-  .text {
-    // Current only used on index page (See `index.less`).
-    // Leaving it here for possible future use.
+  .overlay-title {
+    z-index: 11;
+    background: #004699;
+    color: white;
+    width: 80%;
+    padding: 16px 20px;
+    left: 25px;
+    bottom: 25px;
+    position: absolute;
+    line-height: 1.3;
+    margin: 0;
+    font-size: 1.6em;
+
   }
+}
+
+
+.caret-link, .caret-link:active, .caret-link:visited {
+  &::before {
+    background-image: url(../../img/stemtool/red-arrow.svg);
+    content: '';
+    background-size: 100%;
+    width: 11px;
+    height: 16px;
+    left: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 4px;
+  }
+
+  position: relative;
+  display: inline-block;
+	width: 100%;
+	display: block;
+	color: #000;
+	padding-left: 20px;
+	font-size: 16px;
+	font-weight: 700;
+  text-decoration: none;
+
+	&:hover {
+		color: red;
+		text-decoration: underline;
+	}
+
 }
