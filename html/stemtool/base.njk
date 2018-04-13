@@ -3,11 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-	
+
 	<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
-	
+
 	<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
-	
+
 	<meta name="viewport" content="initial-scale=1">
 	{% block head %}
 	<link rel="stylesheet" type="text/css" media="all"   href="/css/stemtool/all.css">
@@ -21,19 +21,22 @@
 				Gemeente<br>
 				Amsterdam
 			</div>
-			
+
 			<h1>{{SITENAME}}</h1>
 		</a></header>
-		
+
 		<nav id="mainMenu" role="navigation" class="menuBar">
 			<div>
+				<!--- No menu for now, single page voting 
 				<ul>
 					<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
 				</ul>
+				!-->
 			</div>
 		</nav>
-		
-		<div id="content" class="pageContent {{contentClass}}">
+
+
+		<div id="content" class=" {{contentClass}}">
 			{% for type,list in messages %}
 				<div class="flashMessage {{type}}">
 					{% if type == 'error' %}
@@ -52,16 +55,16 @@
 						<h2>Informatie</h2>
 						{% for message in list %}{{message}}<br>{% endfor %}
 					{% endif %}
-					
+
 					<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
 				</div>
 			{% endfor %}
-			
+
 			{% block content %}
 				{# Standaard pagina. #}
 			{% endblock %}
 		</div>
-		
+
 		{#
 			Extra page elements. E.g. used by idea.njk to render arguments which
 			has an extra header element that spans the entire `#page` width.
@@ -69,7 +72,7 @@
 		{% block page %}
 			{# <div class="content">...</div> #}
 		{% endblock %}
-		
+
 		{% block footer %}
 		<footer>
 			<div>
@@ -98,7 +101,7 @@
 		</footer>
 		{% endblock %}
 	</div>
-	
+
 	<script>
 		// Preload class is defined in `all.less` to disable all animations.
 		document.body.className = '';
@@ -118,9 +121,9 @@
 			var button  = document.querySelector('#account');
 			var subMenu = document.querySelector('#subMenu');
 			var active  = false;
-			
+
 			if( !button ) return;
-			
+
 			button.addEventListener('click', function( event ) {
 				if( !active ) {
 					showMenu(event);
@@ -128,24 +131,24 @@
 					hideMenu(event);
 				}
 			});
-			
+
 			function showMenu( event ) {
 				event.preventDefault();
 				event.stopPropagation();
-				
+
 				document.body.addEventListener('click', hideMenu);
 				subMenu.addEventListener('click', menuClick);
-				
+
 				subMenu.className += ' active';
 				active = true;
 			}
 			function hideMenu( event ) {
 				event.preventDefault();
 				event.stopPropagation();
-				
+
 				document.body.removeEventListener('click', hideMenu);
 				subMenu.removeEventListener('click', menuClick);
-				
+
 				subMenu.className = subMenu.className.replace(/ ?active/, '');
 				active = false;
 			}
@@ -172,9 +175,9 @@
 			});
 		})();
 	</script>
-	
+
 	{% block scripts %}{% endblock %}
-	
+
 	{% if ENV == 'production' %}
 		{% include 'includes/analytics.njk' %}
 	{% endif %}

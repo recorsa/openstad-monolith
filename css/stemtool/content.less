@@ -3,19 +3,18 @@
 	margin: 0 auto;
 	max-width: 970px;
 	overflow: hidden;
-	padding: 0 15px 20px;
 	position: relative;
-	
+
 	// Visible again, because `#banner` has a negative margin to better
 	// line of with the top `nav.bar` that just got wider. A hidden over-
 	// flow hides this negative margin and thus the red background.
 	@media @phone {
 		overflow: visible;
 	}
-	
+
 	// Flash message for errors
 	// ------------------------
-	// 
+	//
 	div.flashMessage {
 		background-color: #F6F7F7;
 		border-right: 4px solid #B1B1B1;
@@ -23,7 +22,7 @@
 		margin: 10px 0px;
 		padding: 20px;
 		position: relative;
-		
+
 		&.error {
 			border-right-color: #EC0000;
 		}
@@ -41,20 +40,20 @@
 			position: absolute;
 			right: 15px;
 			top: 15px;
-			
+
 			img {
 				border: 0;
 				height: 18px;
 				width: 18px;
 			}
 		}
-		
+
 		// Cookie consent
 		// --------------
 		// Used on register page.
 		#cookieFlash {
 			font-weight: normal;
-			
+
 			p.small {
 				color: rgba(0,0,0,0.7);
 				font-size: 0.9em;
@@ -63,53 +62,24 @@
 			}
 		}
 	}
-	
+
 	// Speech bubble
 	// -------------
 	// Is used in #primary and #secondary.
 	// - In #primary only visible on smaller screens.
 	// - In #secondary only visible on larger screens.
-	.speechBubble {
-		border: 3px solid #EC0000;
-		border-radius: 12px;
-		box-sizing: border-box;
-		display: block;
-		font-size: 1.1rem;
-		font-weight: bold;
-		line-height: 1.5em;
-		// Needs `!important` because `.secondary > .widget` will override
-		// it otherwise.
-		margin-bottom: calc(1em + 28px) !important;
-		padding: 20px;
-		position: relative;
-		text-align: center;
-		
-		&:after {
-			background-image: url('/img/bubble_point.svg');
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: contain;
-			bottom: -28px;
-			content: '';
-			height: 28px;
-			position: absolute;
-			right: 20px;
-			width: 83px;
-		}
-	}
-	
+
+
 	// Regular links
 	// -------------
 	a {
-		color: #EC0000;
+		/* color: #EC0000; */
 		text-decoration: none;
-		
+
 		&:hover {
 			text-decoration: underline;
 		}
-		&:visited {
-			color: #7500CE;
-		}
+
 	}
 	// Big, button-like links
 	// ----------------------
@@ -145,7 +115,7 @@
 	// With red arrow.
 	input[type="submit"]:not(.default) {
 		.appearance(none);
-		
+
 		background-color: transparent;
 		background-image: url('/img/arrow_right_whiteonred.svg');
 		background-position: center right;
@@ -161,7 +131,7 @@
 		// outline: none;
 		padding: 0 40px 0 0;
 	}
-	
+
 	// Idea stats
 	// ----------
 	// Used in #primary tiles on the ideas list page, and in #secondary
@@ -169,7 +139,7 @@
 	.ideaStats {
 		text-align: center;
 		white-space: nowrap;
-		
+
 		div.count {
 			background-position: left top;
 			background-repeat: no-repeat;
@@ -181,7 +151,7 @@
 			padding-left: 30px;
 			padding-right: 5px;
 			padding-top: 4px;
-				
+
 			&:nth-child(n+2) {
 				margin-left: 5px;
 			}
@@ -206,7 +176,7 @@
 	.ideaProgress {
 		margin: 10px 0;
 		position: relative;
-		
+
 		&:after {
 			background-image: url('/img/thumbsup_gray.svg');
 			background-repeat: no-repeat;
@@ -227,31 +197,18 @@
 		border-radius: 10px;
 		margin-right: 50px;
 		overflow: hidden;
-		
+
 		div.bar {
 			background-color: #EC0000;
 			height: 12px;
 			width: 0;
 		}
 	}
-	
+
 	// Big image banner above text content
 	// -----------------------------------
-	#banner {
-		margin: 0 0 35px;
-		position: relative;
-		
-		.image {
-			background-position: center;
-			background-size: cover;
-			height: 360px;
-		}
-		.text {
-			// Current only used on index page (See `index.less`).
-			// Leaving it here for possible future use.
-		}
-	}
-	
+
+
 	// Cookie consent
 	// --------------
 	.consent {
@@ -259,7 +216,7 @@
 		height: 100%;
 		position: absolute;
 		width: 100%;
-		
+
 		>div {
 			display: table-cell;
 			height: 100%;
@@ -268,7 +225,7 @@
 			vertical-align: middle;
 		}
 	}
-	
+
 	// Google Maps
 	// -----------
 	#map,
@@ -277,7 +234,7 @@
 		overflow: hidden;
 		position: relative;
 	}
-	
+
 	// Video player
 	// ------------
 	.video {
@@ -285,7 +242,7 @@
 		padding-bottom: 56.25%;
 		position: relative;
 		width: 100%;
-		
+
 		&.blocked {
 			background-image: url('/img/vimeo.svg');
 			background-position: center;
@@ -294,7 +251,7 @@
 			height: 250px;
 			padding-bottom: 0;
 		}
-		
+
 		iframe {
 			height: 100%;
 			position: absolute;
@@ -307,14 +264,14 @@
 		padding: 5px 0px;
 		text-align: center;
 	}
-	
+
 	// .primary and .secondary columns
 	// -------------------------------
 	.primary {
 		box-sizing: border-box;
 		float: left;
 		width: calc(75% + (@hMargin*3/4));
-		
+
 		@media @grid50 {
 			width: calc(66.66% + (@hMargin*2/3));
 		}
@@ -322,18 +279,18 @@
 			float: none;
 			width: 100%;
 		}
-		
+
 		h1:first-of-type {
 			margin-top: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-		
+
 		// Speech bubble
 		// -------------
 		.newIdeaBubble {
 			display: none;
-			
+
 			@media @grid50 {
 				display: block;
 				margin-right: @hMargin;
@@ -342,7 +299,7 @@
 				margin-right: 0;
 			}
 		}
-		
+
 		// Content tile
 		// ------------
 		// Is used to list news articles on the home page, and ideas
@@ -355,13 +312,13 @@
 			position: relative;
 			vertical-align: top;
 			width: calc(33.33% - @hMargin);
-			
+
 			@media @grid50 {
 				width: calc(50% - @hMargin);
 			}
 			@media @primary100 {
 				width: calc(50% - (@hMargin / 2));
-				
+
 				& + div.tile:nth-of-type(2n) {
 					margin-right: 0;
 				}
@@ -370,14 +327,14 @@
 				float: none;
 				width: 100%;
 			}
-			
+
 			.image {
 				background-image: url('/img/placeholders/800x600.png');
 				background-position: center;
 				background-size: cover;
 				height: 130px;
 				width: 100%;
-				
+
 				@media @phone {
 					height: 180px;
 				}
@@ -388,13 +345,13 @@
 			}
 		}
 	}
-	
+
 	.secondary {
 		box-sizing: border-box;
 		float: right;
 		overflow: hidden;
 		width: calc(25% - (@hMargin*3/4));
-		
+
 		@media @grid50 {
 			width: calc(33.33% - (@hMargin*2/3));
 		}
@@ -403,19 +360,19 @@
 			margin-top: 20px;
 			width: 100%;
 		}
-		
+
 		// Secondary 'widgets'
 		// -------------------
 		// `.speechBubble`s, `#highlightedIdeas`, `#agenda`, etc...
 		>.widget {
 			margin-bottom: 30px;
-			
+
 			@media @primary100 {
 				float: left;
 				margin-top: 0 !important;
 				vertical-align: top;
 				width: calc(50% - (@hMargin/2));
-				
+
 				&:nth-of-type(odd) {
 					margin-right: @hMargin;
 				}
@@ -425,17 +382,17 @@
 				width: 100%;
 				margin-right: 0 !important;
 			}
-			
+
 			h2 {
 				margin-top: 0;
 			}
 		}
-		
+
 		// Speech bubble
 		// -------------
 		.newIdeaBubble {
 			display: block;
-			
+
 			@media @grid50 {
 				display: none;
 			}
@@ -455,7 +412,7 @@
 				color: #FFF;
 				padding: 10px 10px 10px 20px;
 				position: relative;
-				
+
 				&:before {
 					background-image: url('/img/arrow_right_white.svg');
 					background-position: top center;
@@ -499,7 +456,7 @@
 				margin-top: 10px;
 				padding: 1em 0;
 				position: relative;
-				
+
 				// Vertical line.
 				&::before {
 					background-color: #333;
@@ -510,7 +467,7 @@
 					top: 0px;
 					width: 14px;
 				}
-				
+
 				// Selection/Meeting events.
 				>div {
 					box-sizing: border-box;
@@ -519,7 +476,7 @@
 					position: relative;
 					vertical-align: top;
 					white-space: nowrap;
-					
+
 					&:not(:last-child) {
 						margin-bottom: 20px;
 					}
@@ -543,7 +500,7 @@
 						background-color: #333;
 						border: 5px solid transparent;
 					}
-					
+
 					// Information
 					b.date {
 						display: block;
@@ -558,7 +515,7 @@
 						list-style: none;
 						margin: 0;
 						padding: 0;
-						
+
 						li {
 							background-image: url('/img/arrow_right_red.svg');
 							background-position: top 2px left;
@@ -567,11 +524,11 @@
 							overflow: hidden;
 							text-overflow: ellipsis;
 							padding-left: 15px;
-							
+
 							a {
 								color: #000;
 								text-decoration: none;
-								
+
 								&:hover {
 									text-decoration: underline;
 								}
@@ -579,7 +536,7 @@
 						}
 					}
 				}
-				
+
 			}
 		}
 	}

@@ -1,0 +1,214 @@
+.box-blue {
+  width: 100%;
+  padding: 10px;
+  background: #004699;
+  font-size: 19px;
+  color: #fff;
+  display: block;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.box-grey-img {
+  width: 100%;
+  padding: 17px 15px 15px;
+  background: #f3f3f3;
+  font-size: 18px;
+  color: #000;
+  font-weight: 800;
+  border-bottom: 2px solid #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+  display: block;
+  position: relative;
+  padding-left: 58px;
+  max-width: 500px;
+  text-decoration: none;
+
+  img {
+    max-width: 35px;
+    height: auto;
+    display: inline-block;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.box-grey {
+  padding: 15px 15px;
+  background: #f3f3f3;
+}
+
+.box-grey-link {
+  color: black;
+  font-size: 1em;
+  text-decoration: none;
+  padding: 17px 40px 15px;
+  border-bottom: 2px solid #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+  font-weight: 800;
+}
+
+.number-plate {
+  background: #e8e8e8;
+  background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+  padding: 0;
+  display: inline-block;
+  height: 29px;
+  line-height: 31px;
+  width: 20px;
+  text-align: center;
+  color: black;
+  border-radius: 3px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+
+.container-grey, .container-grey-edges {
+  background: #f6f6f6;
+  padding: 30px 40px;
+  position: relative;
+}
+
+.container-grey-edges::before, .container-grey-edges::after {
+  background: url(/img/stemtool/edges.svg);
+  content: '';
+  background-size: 100% 18px;
+  width: 100%;
+  height: 19px;
+  left: 0;
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+.container-grey-edges::before {
+    top: -9px;
+}
+
+.container-grey-edges::after {
+  bottom: -10px;
+}
+
+.hr-white {
+  border: 0;
+  background: white;
+  height: 5px;
+  width: 100%;
+}
+
+.input-field {
+  background: white;
+  border: 1px solid #b6b6b6;
+  line-height: 35px;
+  width: 100%;
+}
+
+.btn {
+  max-width: 200px;
+  width: 100%;
+  padding: 10px 0;
+  color: white;
+  font-size: 15px;
+  background: #004599;
+  -webkit-appearance: none;
+  border: 0;
+}
+
+.speechBubble {
+  border: 3px solid #EC0000;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1.3rem;
+  font-weight: bold;
+  line-height: 1.5em;
+  margin-bottom: calc(1em + 28px) !important;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  color: #000;
+
+
+  &:after {
+    background-image: url('/img/bubble_point.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    bottom: -27px;
+    content: '';
+    height: 28px;
+    position: absolute;
+    right: 20px;
+    width: 83px;
+  }
+}
+
+#banner {
+  margin: 0 0 35px;
+  position: relative;
+  height: 100%;
+  height: 345px;
+  position: relative;
+
+  .image {
+    background-image: url('/img/placeholders/idea.jpg');
+    background-position: center;
+    background-size: cover;
+    bottom: 0px;
+    left: 0px;
+    margin-right: @hMargin;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    @media @primary100 {
+      margin-right: 0;
+    }
+  }
+  .overlay-title {
+    z-index: 11;
+    background: #004699;
+    color: white;
+    width: 80%;
+    padding: 16px 20px;
+    left: 25px;
+    bottom: 25px;
+    position: absolute;
+    line-height: 1.3;
+    margin: 0;
+    font-size: 1.6em;
+
+  }
+}
+
+
+.caret-link, .caret-link:active, .caret-link:visited {
+  &::before {
+    background-image: url(../../img/stemtool/red-arrow.svg);
+    content: '';
+    background-size: 100%;
+    width: 11px;
+    height: 16px;
+    left: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 4px;
+  }
+
+  position: relative;
+  display: inline-block;
+	width: 100%;
+	display: block;
+	color: #000;
+	padding-left: 20px;
+	font-size: 16px;
+	font-weight: 700;
+  text-decoration: none;
+
+	&:hover {
+		color: red;
+		text-decoration: underline;
+	}
+
+}

@@ -10,6 +10,10 @@
 
 @primary100   : ~'only screen and (max-width: 700px)';
 
+@medium  : ~'only screen and (max-width: 1040px)';
+@small  : ~'only screen and (max-width: 800px)';
+
+
 // Normal grid is 25% of total `#content` width.
 // This translates to 33.33% in `#primary` (which is itself 75%)
 // and 100% in `#secondary` (which is 25%).
@@ -41,10 +45,22 @@
 @import 'content';
 @import 'content_user';
 @import 'error';
+@import 'layout';
+@import 'helpers';
+@import 'elements';
+
 // Section/page specific definitions.
 @import 'idea';
 @import 'form';
 @import 'admin';
+@import 'concepts';
+@import 'vote-form';
+@import 'agenda';
+
+
+* {
+  box-sizing: border-box;
+}
 
 // Script in `base.njk` removes this class when DOM is loaded.
 body.preload * {

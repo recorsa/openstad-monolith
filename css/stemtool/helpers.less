@@ -1,0 +1,37 @@
+.no-style-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkmark-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-size: 100%;
+}
+
+.checkmark-list li {
+  position: relative;
+  padding-left: 46px;
+  margin: 16px 0px;
+}
+
+.checkmark-list li::before{
+  position: absolute;
+  content: '';
+  top: -3px;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-image: url(/img/stemtool/check.svg);
+  background-repeat: no-repeat;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}

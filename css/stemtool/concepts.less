@@ -1,0 +1,148 @@
+
+.concept-card-image {
+	background-size: cover;
+	padding-bottom: 72%;
+	position: relative;
+}
+
+.concept-card-number {
+	background: white;
+	border-bottom: 5px solid black;
+	border-right: 5px solid black;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 45px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 20px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.concept-card-number-1 {
+	border-color: #d3e15a;
+}
+
+.concept-card-number-2 {
+	border-color: #ff9101;
+}
+
+.concept-card-number-3 {
+	border-color: #a00078;
+}
+
+.concept-card-number-4 {
+	border-color: #004599;
+}
+
+.concept-card-title {
+	width: 90%;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.6);
+  color: black;
+  font-size: 15px;
+  position: absolute;
+  padding: 10px 1px 10px 8px;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.concept-card-link, .concept-card-link:active, .concept-card-link:visited {
+	width: 100%;
+	display: block;
+	color: #000;
+	background: white;
+	padding: 10px 10px 10px 30px;
+	font-size: 15px;
+	font-weight: 700;
+
+
+	&.caret-link&::before {
+		left: 11px;
+		top: 16px;
+	}
+
+
+	&:hover {
+		color: red;
+		text-decoration: underline;
+	}
+
+	&:first-child {
+		border-bottom: 1px solid #eee;
+	}
+
+	img {
+		width: 12px;
+		height: 12px;
+		padding-right: 5px;
+	}
+}
+
+.checkbox-choice {
+	opacity: 0;
+}
+
+.concept-label  {
+	position: relative;
+	width: 100%;
+	display: block;
+	transition: all 200ms ease-in;
+	-webkit-touch-callout: none;
+	 -webkit-user-select: none;
+	 -khtml-user-select: none;
+	 -moz-user-select: none;
+	 -ms-user-select: none;
+	 user-select: none;
+
+	&:hover {
+		cursor: pointer;
+		background: #eee;
+
+		.concept-card-title {
+
+			border-bottom: 2px solid #efefef;
+			border-right: 2px solid #efefef;
+			border-top: 2px solid #e6e6e6;
+
+		}
+	}
+
+	&::after {
+		background-size: 100%;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: -58px;
+    top: 16px;
+    content: '';
+    background: url(/img/stemtool/star-outline.svg);
+	}
+
+	.concept-card-image {
+		width: 80px;
+		height: 80px;
+		padding: 0;
+	}
+
+	.concept-card-title {
+		left: 80px;
+    top: 0;
+    width: calc(100% - 80px);
+    font-weight: 500;
+    font-size: 16px;
+    padding-top: 24px;
+		padding-left: 30px;
+		padding-right: 10px;
+		border-bottom: 2px solid #e6e6e6;
+		border-right: 2px solid #e6e6e6;
+	}
+
+}
+
+:checked + .concept-label{
+		&::after {
+			background: url(/img/stemtool/star-filled.svg);
+		}
+}
