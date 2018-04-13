@@ -33,11 +33,7 @@ module.exports = function( helpers, role ) {
 
 		// articles
 		'article:view'     : true,
-		'article:create'   : {
-			allow    : false,
-			resource : 'article',
-			message  : 'Artikel maken niet toegestaan'
-		},
+		'article:create'   : false,
 		'article:edit'     : {
 			allow    : false,
 			resource : 'article',

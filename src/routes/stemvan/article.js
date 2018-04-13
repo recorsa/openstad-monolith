@@ -10,7 +10,7 @@ module.exports = function( app ) {
 	var router = express.Router();
 	app.use('(/article|/artikel)', router);
 	
-	router.route('/:articleId')
+	router.route('/:articleId(\\d+)')
   .all(fetchArticle('withPosterImage'))
 	.all(auth.can('article:view', 'article:*'))
 	.get(function( req, res, next ) {
@@ -22,21 +22,37 @@ module.exports = function( app ) {
 
 	// Create article
 	// --------------
-	router.route('/:articleId/create')
-	.all(fetchArticle('withPosterImage'))
-	.all(auth.can('article:create'))
+	router.route('/create')
+  .all(auth.can('article:create', true))
   .get(function( req, res, next ) {
 		res.out('articles/form', true, {
-			article: req.article,
-			showForm        : false, // TODO: duh
+			showForm        : req.can('article:create'),
 			useModernEditor : isModernBrowser(req),
-			csrfToken : req.csrfToken()
+			csrfToken       : req.csrfToken()
 		})
 	})
   .post(function( req, res, next ) {
-		// get id, want die moeten over database incrementen
-		// maak dan ook gelijk de dirs
-		res.out('Moet nog');
+		req.body.location = JSON.parse(req.body.location || null);
+		
+		req.user.createNewArticle(req.body)
+		.then(function( article ) {
+			res.success('/article/'+article.id, {article: article});
+		})
+		.catch(function( error ) {
+			if( error instanceof db.sequelize.ValidationError ) {
+				error.errors.forEach(function( error ) {
+					req.flash('error', error.message);
+				});
+				res.out('articles/form', false, {
+					showForm        : true,
+					useModernEditor : isModernBrowser(req),
+					article         : req.body,
+					csrfToken       : req.csrfToken()
+				});
+			} else {
+				next(error);
+			}
+		});
 	});
 	
 	// Edit article
@@ -47,24 +63,45 @@ module.exports = function( app ) {
 	.get(function( req, res, next ) {
 		res.out('articles/form', true, {
 			article: req.article,
-			showForm        : false, // TODO: duh
+			showForm        : true,
 			useModernEditor : isModernBrowser(req),
 			csrfToken : req.csrfToken()
 		});
 	})
   .put(function( req, res, next ) {
-		res.out('Moet nog');
+		req.body.location = JSON.parse(req.body.location || null);
+		req.user.updateArticle(req.article, req.body)
+		.then(function( article ) {
+			res.success('/article/'+article.id, {article: article});
+		})
+		.catch(function( error ) {
+			if( error instanceof db.sequelize.ValidationError ) {
+				error.errors.forEach(function( error ) {
+					req.flash('error', error.message);
+				});
+				res.out('articles/form', false, {
+					showForm        : true,
+					useModernEditor : isModernBrowser(req),
+					article         : req.article,
+					csrfToken       : req.csrfToken()
+				});
+			} else {
+				next(error);
+			}
+		});
 	});
 	
 	// Delete article
 	// --------------
 	router.route('/:articleId/delete')
-	.all(fetchArticle)
+	  .all(fetchArticle())
 	.all(auth.can('article:delete'))
 	.delete(function( req, res, next ) {
 		var article = req.article;
+    console.log(1);
 		article.destroy()
 		.then(function() {
+    console.log(2);
 			req.flash('success', 'Het artikel is verwijderd');
 			res.success('/', true);
 		})
