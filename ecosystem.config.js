@@ -40,6 +40,16 @@ addApp('stemvan', [
 	deployName : 'production_zuidoost',
 	remotePath : '/var/www/stemvanzuidoost.amsterdam.nl/www',
 	ref        : 'origin/production'
+}, {
+	appName    : 'stem-noord',
+	deployName : 'production_noord',
+	remotePath : '/var/www/stemvannoord.amsterdam.nl/www',
+	ref        : 'origin/production'
+}, {
+	appName    : 'stem-zuid',
+	deployName : 'production_zuid',
+	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
+	ref        : 'origin/production'
 }]);
 module.exports = config;
 
