@@ -44,13 +44,13 @@ var questionsData = [{
 	id: 5,
 	question: `Wat gebeurt er met mijn voorstel als het op de site staat?`,
 	answer: `
-		<p>Na het uploaden krijg je 90 dagen de tijd om campagne te voeren voor jouw voorstel. Eén keer per maand wordt uit alle voorstellen die minimaal 100 positieve stemmen hebben ontvangen het plan met de meeste stemmen gekozen. Dit voorstel wordt op de agenda van het Algemeen Bestuur gezet en zullen zij dit uitgebreid bespreken. Als jouw voorstel ‘gewonnen’ heeft, zul je per email uitgenodigd worden om je voorstel te komen toelichten tijdens de vergadering. Een unieke kans!</p>
+		<p>Na het uploaden krijg je 90 dagen de tijd om campagne te voeren voor jouw voorstel. Eén keer per maand wordt uit alle voorstellen die minimaal 100 positieve stemmen hebben ontvangen het plan met de meeste stemmen gekozen. Dit voorstel wordt op de agenda van de stadsdeelcommissie gezet en zullen zij dit uitgebreid bespreken. Als jouw voorstel ‘gewonnen’ heeft, zul je per email uitgenodigd worden om je voorstel te komen toelichten tijdens de vergadering. Een unieke kans!</p>
 	`
 }, {
 	id: 6,
 	question: `Wat gebeurt er met mijn voorstel als ik niet de meeste stemmen heb gehaald?`,
 	answer: `
-		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van het Algemeen Bestuur te komen. Elke maand bespreekt het AB het voorstel dat die maand de meeste stemmen heeft gehaald (met een ondergrens van 100 positieve stemmen). Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
+		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van de stadsdeelcommissie te komen. Elke maand bespreekt de stadsdeelcommissie het voorstel dat die maand de meeste stemmen heeft gehaald (met een ondergrens van 100 positieve stemmen). Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
 		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
 	`
 }, {
@@ -73,9 +73,9 @@ var questionsData = [{
 	`
 }, {
 	id: 10,
-	question: `Hoe kom ik direct in contact met leden van het Algemeen Bestuur?`,
+	question: `Hoe kom ik direct in contact met leden van de stadsdeelcommissie?`,
 	answer: `
-		<p>Leden van het Algemeen Bestuur lezen actief mee met de voorstellen en discussies op {{SITENAME}}. Wil je direct in contact komen met een AB-lid? Ga dan naar de <a href="{{GLOBALS.administration}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
-		<p>Op deze pagina kun je het Algemeen Bestuur van je Stadsdeel opzoeken en bekijken met wie je graag contact zou willen hebben. Op deze pagina vind je ook de contactgegevens van alle leden.</p>
+		<p>Leden van de stadsdeelcommissie lezen actief mee met de voorstellen en discussies op de {{SITENAME}}. Wil je direct in contact komen met een lid van de stadsdeelcommissie? Ga dan naar de <a href="{{GLOBALS.administration}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
+		<p>Op deze pagina kun je de leden van jouw stadsdeelcommissie opzoeken, hun contactgegevens, en bekijken met wie je graag contact zou willen hebben.</p>
 	`
 }];
