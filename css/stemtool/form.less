@@ -17,7 +17,7 @@
 		margin: 35px 0px;
 		padding: 10px 20px;
 		position: relative;
-		
+
 		&::before,
 		&::after {
 			border-left: 30px solid #FFE115;
@@ -36,7 +36,7 @@
 			bottom: -24px;
 			left: 0;
 		}
-		
+
 		b {
 			color: #EC0000;
 		}
@@ -44,7 +44,7 @@
 			margin: 0.5em 0 0;
 		}
 	}
-	
+
 	#howDoesItWork {
 		background-color: #F6F6F6;
 		border: 1px solid #EC0000;
@@ -52,7 +52,7 @@
 		display: block;
 		margin-bottom: 20px;
 		overflow: hidden;
-		
+
 		h2 {
 			background-color: #EC0000;
 			color: #FFF;
@@ -68,13 +68,13 @@
 			padding: 20px 10px;
 			position: relative;
 			width: 33.33%;
-			
+
 			@media @primary100 {
 				float: none;
 				padding: 10px;
 				width: 100%;
 			}
-			
+
 			&:before {
 				background-position: center;
 				background-repeat: no-repeat;
@@ -83,7 +83,7 @@
 				display: inline-block;
 				height: 117px;
 				width: 100%;
-				
+
 				@media @primary100 {
 					position: absolute;
 					height: 40px;
@@ -101,10 +101,10 @@
 			&[data-step="3"]:before {
 				background-image: url('/img/instructions_agenda.svg');
 			}
-			
+
 			h1 {
 				text-align: center;
-				
+
 				@media @primary100 {
 					margin-left: 60px;
 					text-align: left;
@@ -112,19 +112,19 @@
 			}
 		}
 	}
-	
+
 	.primary {
 		padding-right: @hMargin;
-		
+
 		@media @primary100 {
 			padding-right: 0;
 		}
-		
+
 		#posterImageUpload {
 			button {
 				display: none;
 			}
-			
+
 			&.dz-clickable {
 				background-color: #EFEFEF;
 				background-position: center;
@@ -138,11 +138,11 @@
 				margin-bottom: 15px;
 				position: relative;
 				width: 100%;
-				
+
 				@media @phone {
 					height: 250px;
 				}
-				
+
 				&:after {
 					color: #7F7F7F;
 					content: 'Klik hier om een afbeelding te uploaden.';
@@ -159,7 +159,7 @@
 					color: #FFF;
 					text-shadow: 0 0 4px #000;
 				}
-				
+
 				// Upload progress bar
 				// -------------------
 				.progress {
@@ -180,7 +180,7 @@
 				// -------------------
 				button {
 					.appearance(none);
-					
+
 					background-color: #EC0000;
 					bottom: 10px;
 					color: #FFF;
@@ -200,7 +200,7 @@
 				}
 			}
 		}
-		
+
 		#titleAndSummary, #location {
 			h2:first-of-type {
 				margin-top: 0;
@@ -224,19 +224,19 @@
 		}
 		#location {
 			margin-bottom: 20px;
-			
+
 			>div {
 				height: 250px;
 			}
 		}
-		
+
 		#description {
 			clear: both;
-			
+
 			#trixToolbar {
 				.button_row {
 					justify-content: flex-start;
-					
+
 					.button_group {
 						margin-right: 10px;
 					}
@@ -251,7 +251,7 @@
 			}
 		}
 	}
-	
+
 	.secondary {
 		@media @primary100 {
 			display: none;

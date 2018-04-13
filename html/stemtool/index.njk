@@ -314,57 +314,90 @@
 	</section>
 
 	<section id="arguments">
-		<h1><div class="pageContent">Reacties</div></h1>
+		<div class="bg-sand" style="padding: 1px;">
+			<div class="section-container side-padding-xs">
+				<h2 class="margin-hor-m">
+					Reacties
+				</h2>
+			</div>
+		</div>
 
-		<div class="pageContent">
+		<div class="section-container side-padding-xs">
 			{% if can('arg:add') %}
-				<form method="POST" action="/arg/new" class="newArgument">
-					<div>
-						Ik ben
+				<div class="arguments-cta-box">
 
-						<select name="sentiment">
-							<option value="for">voor</option>
-							<option value="against">tegen</option>
-						</select>
-
-						<select name="label">
-						{% for option in poll.options %}
-							<option value="{{option.order}}">Variant {{option.order}}</option>
-						{% endfor %}
-						</select>
+					<div class="col-container">
+						<div class="col-3">
+							<img class="arguments-icon" src="/img/stemtool/comments.svg" />
+						</div>
+						<div class="col-9">
+							<div class="speech-balloon">
+								<h3 class="margin-0">
+									Wil je meepraten over de ontwerpen?
+									Plaats een argument voor of tegen!
+								</h3>
+							</div>
+						</div>
 					</div>
 
-					<div>
-						Naam: <input type="text" name="nickName" value="{{user.nickName}}">
+					<div class="box-grey ">
+						<form method="POST" action="/arg/new" class="newArgument">
+							<div>
+								Ik ben
+								<select name="sentiment">
+									<option value="for">voor</option>
+									<option value="against">tegen</option>
+								</select>
+
+								<select name="label">
+								{% for option in poll.options %}
+									<option value="{{option.order}}">Variant {{option.order}}</option>
+								{% endfor %}
+								</select>
+							</div>
+
+							<div>
+								Naam: <input type="text" name="nickName" value="{{user.nickName}}">
+							</div>
+
+							<textarea
+								name="description"
+								placeholder="Reactie"
+							></textarea>
+
+							<div class="charsLeft">
+								<div class="min">Nog minimaal <span>30</span> tekens.</div>
+								<div class="max"><span>360</span> tekens resterend.</div>
+							</div>
+
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="submit" value="Verzenden">
+						</form>
 					</div>
-
-					<textarea
-						name="description"
-						placeholder="Reactie"
-					></textarea>
-
-					<div class="charsLeft">
-						<div class="min">Nog minimaal <span>30</span> tekens.</div>
-						<div class="max"><span>360</span> tekens resterend.</div>
-					</div>
-
-					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<input type="submit" value="Verzenden">
-				</form>
+				</div>
 			{% endif %}
 		</div>
 
-		<div class="pageContent" style="text-align: center;">
-			Laat reacties zien van:
+		<div  class="section-container side-padding-xs">
+			<div class="box-grey">
+				<div class="col-container">
+					<div class="col-3">
+						<h3 class="margin-0"> Laat reacties zien van: </h3>
+					</div>
 
-			<select id="argumentFilter">
-			{% for option in poll.options %}
-				<option value="{{option.order}}">Variant {{option.order}}</option>
-			{% endfor %}
-			</select>
+					{% for option in poll.options %}
+						<div class="col-2">
+							<a href="#option-{{option.order}}">
+								Variant {{option.order}}
+							</a>
+						</div>
+					{% endfor %}
+
+				</div>
+
 		</div>
 
-		<div class="pageContent">
+		<div class="section-container side-padding-xs">
 			<div class="argList for">
 				{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
 			</div>

@@ -16,8 +16,21 @@
 	position: relative;
 }
 
-.col-container {
-	margin: 0 calc(-1 * unit(@grid-size, px));
+
+
+.col-4, .col-8, .col-3, .col-9, div[class^="col-"]{
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+	margin: 0 15px;
+	float: left;
+}
+
+.col-container, .clearfix {
+  margin: 0 calc(-1 * 15px)  !important;
+  float: none !important;
+  display: block !important;
 }
 
 .col-container:after {
@@ -26,14 +39,8 @@
   clear: both;
 }
 
-.col-4, .col-8, .col-3, .col-9{
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-	margin: 0 15px;
-	float: left;
-	width: calc(100% * 4 / 12 - 30px);
+.col-10 {
+	width: calc(100% * 10 / 12 - 30px);
 }
 
 .col-9 {
@@ -66,6 +73,10 @@
 
 .col-2 {
 	width: calc(100% * 2 / 12 - 30px);
+}
+
+.col-1 {
+	width: calc(100% * 1 / 12 - 30px);
 }
 
 @media @medium {
@@ -228,6 +239,10 @@
 
 .margin-bottom-xs {
 	margin-bottom: 5px;
+}
+
+.margin-0 {
+  margin: 0 !important;
 }
 
 .margin-top-0 {
