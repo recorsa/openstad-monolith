@@ -11,7 +11,7 @@ module.exports = function( app ) {
 	app.use('(/article|/artikel)', router);
 	
 	router.route('/:articleId')
-	.all(fetchArticle)
+  .all(fetchArticle('withPosterImage'))
 	.all(auth.can('article:view', 'article:*'))
 	.get(function( req, res, next ) {
 		res.out('articles/article', true, {
@@ -23,7 +23,7 @@ module.exports = function( app ) {
 	// Create article
 	// --------------
 	router.route('/:articleId/create')
-	.all(fetchArticle)
+	.all(fetchArticle('withPosterImage'))
 	.all(auth.can('article:create'))
   .get(function( req, res, next ) {
 		res.out('articles/form', true, {
@@ -42,7 +42,7 @@ module.exports = function( app ) {
 	// Edit article
 	// ------------
 	router.route('/:articleId/edit')
-	.all(fetchArticle)
+	.all(fetchArticle('withPosterImage'))
 	.all(auth.can('article:edit'))
 	.get(function( req, res, next ) {
 		res.out('articles/form', true, {
@@ -99,15 +99,18 @@ function isModernBrowser( req ) {
 }
 
 function fetchArticle( req, res, next ) {
-	var articleId = req.params.articleId;
-	db.Article.findById(articleId)
-	.then(function( article ) {
-		if( !article ) {
-			throw createError(404, 'Artikel niet gevonden');
-		} else {
-			req.article = article;
-			next();
-		}
-	})
-	.catch(next);
+	var scopes = Array.from(arguments);
+	return function( req, res, next ) {
+    var articleId = req.params.articleId;
+		db.Article.scope(scopes).findById(articleId)
+		  .then(function( article ) {
+			if( !article ) {
+				next(createError(404, 'Artikel niet gevonden'));
+			} else {
+				req.article = article;
+				next();
+			}
+		})
+		.catch(next);
+	}
 }

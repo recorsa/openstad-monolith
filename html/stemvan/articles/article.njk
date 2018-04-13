@@ -11,7 +11,16 @@
 
 {% block content %}
 	<div id="banner">
-		<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'banner.jpg'}}');"></div>
+		{% if article.posterImage %}
+			<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+		{% else %}
+			{% if article.posterImage %}
+				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			{% else %}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+
+		{% endif %}
 	</div>
 	
 	<div class="primary">
@@ -46,6 +55,13 @@
 		{{sec.newIdeaBubble()}}
 
 		{% if can('article:edit', 'article:delete') %}
+			<h2>Nieuw</h2>
+			
+			{% if can('article:edit') %}
+				<form action="/article/create">
+					<button type="submit" class="edit">Nieuw artikel</button>
+				</form>
+			{% endif %}
 			<h2>Bewerken</h2>
 			
 			{% if can('article:edit') %}
