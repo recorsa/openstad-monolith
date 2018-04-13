@@ -1,5 +1,7 @@
 var sanitize = require('../util/sanitize');
 
+var ImageOptim    = require('../ImageOptim');
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Article = sequelize.define('article', {
 		userId: {
@@ -80,24 +82,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.scope('asTile').findAll();
 			},
 
+		},
+		instanceMethods: {
+
 			updateImages: function( imageKeys ) {
 				var self = this;
 				if( !imageKeys || !imageKeys.length ) {
 					imageKeys = [''];
 				}
 				
-				var ideaId  = this.id;
+				var articleId  = this.id;
 				var queries = [
 					db.Image.destroy({
 						where: {
-							ideaId : ideaId,
+							articleId : articleId,
 							key    : {$notIn: imageKeys}
 						}
 					})
 				].concat(
 					imageKeys.map(function( imageKey, sort ) {
 						return db.Image.update({
-							ideaId : ideaId,
+							articleId : articleId,
 							sort   : sort
 						}, {
 							where: {key: imageKey}
@@ -106,7 +111,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				);
 				
 				return Promise.all(queries).then(function() {
-					ImageOptim.processIdea(self.id);
+					ImageOptim.processArticle(self.id);
 					return self;
 				});
       },
