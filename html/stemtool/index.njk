@@ -90,7 +90,7 @@
 
 	<section id="designs" class="content-section">
 		<div class="section-container side-padding-xs">
-			<h2>De varianten</h2>
+			<h2 class="margin-top-0">De varianten</h2>
 
 			<div class="col-container">
 				{% for option in poll.options
@@ -143,16 +143,19 @@
 					</ul>
 					<br />
 
-					<a href="https://www.amsterdam.nl" target="black" class="box-grey box-grey-link margin-hor-m inline-block">
+					<a href="https://www.amsterdam.nl" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
 						Lees meer over dit project op amsterdam.nl
 					</a>
 				</div>
 
-				{% if can('poll:vote') %}
+				<br />
+				<br />
+
 					<div class="vote-container container-grey container-grey-edges margin-hor-m">
 
 						<div class="vote-inner-container">
-							<h2 class="h2">
+							{% if can('poll:vote') %}
+							<h2 class="h2 margin-hor-s">
 								Mijn reactie op de varianten
 							</h2>
 
@@ -193,24 +196,22 @@
 									</div>
 									!-->
 									<div  class="margin-hor-m">
-										<label class="h3 block margin-hor-xs"> Postcode: <span class="required-text">(verplicht)</span>  </label>
+										<label class="h3 block margin-hor-xs"> Mijn postcode: <span class="required-text">(verplicht)</span>  </label>
 										<input type="text" name="zipCode" class="input-field" placeholder="Bijv. 1234AB">
 									</div>
 									<button type="submit" class="default btn btn-primary">
-										Verzenden
+										Verstuur
 									</button>
 								</form>
+								{% else %}
+									<h2>Bedankt voor je stem!</h2>
+
+							{% endif %}
 							</div>
 
 						</div>
 
-					{% else %}
-						<h2>Bedankt voor je stem!</h2>
 
-						{% for option in poll.options %}
-								<label><input type="checkbox" disabled>{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
-							{% endfor %}
-				{% endif %}
 
 		</div>
 		<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
@@ -266,13 +267,12 @@
 
 			<h2>Heb je nog even?</h2>
 			<div class="box-grey">
-
-				<h3>
+				<h4 class="margin-top-0">
 					We hebben nog twee extra vragen
 					over wat jij belangrijk vindt
 					in de uitwerking van de brug.
 					Laat jij je stem horen?
-				</h3>
+				</h4>
 				<p>
 					Dit kost hooguit 2 minuten
 					van je tijd?
@@ -284,32 +284,6 @@
 
 
 			</div>
-		</div>
-	</section>
-	<section id="vote" class="pageContent">
-		<div class="primary">
-			{% if can('poll:vote') %}
-				<h1>Stem op jouw favoriete ontwerp</h1>
-
-				<form method="POST" action="/vote">
-					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<input type="hidden" name="pollId" value="{{poll.id}}">
-
-					{% for option in poll.options %}
-						<label><input type="checkbox" name="choices[]" value="{{option.id}}">{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
-					{% endfor %}
-
-					Postcode: <input type="text" name="zipCode" value="{{user.zipCode}}"><br>
-
-					<input type="submit" value="Verstuur stem">
-				</form>
-			{% else %}
-				<h1>Bedankt voor je stem!</h1>
-
-				{% for option in poll.options %}
-						<label><input type="checkbox" disabled>{{option.order}} {{option.title}} ({{option.voteCount}})</label><br>
-					{% endfor %}
-			{% endif %}
 		</div>
 	</section>
 
@@ -327,10 +301,11 @@
 				<div class="arguments-cta-box">
 
 					<div class="col-container">
-						<div class="col-3">
+						<div class="col-2">
 							<img class="arguments-icon" src="/img/stemtool/comments.svg" />
 						</div>
-						<div class="col-9">
+
+						<div class="col-10">
 							<div class="speech-balloon">
 								<h3 class="margin-0">
 									Wil je meepraten over de ontwerpen?
@@ -340,30 +315,37 @@
 						</div>
 					</div>
 
-					<div class="box-grey ">
-						<form method="POST" action="/arg/new" class="newArgument">
+					<br />
+
+					<div class="box-grey">
+						<form method="POST" action="/arg/new" class="newArgument clearfix">
 							<div>
 								Ik ben
-								<select name="sentiment">
-									<option value="for">voor</option>
-									<option value="against">tegen</option>
+								<select name="sentiment"  class="select">
+									<option value="for">Voor</option>
+									<option value="against">Tegen</option>
 								</select>
 
-								<select name="label">
+								<select name="label" class="select">
 								{% for option in poll.options %}
-									<option value="{{option.order}}">Variant {{option.order}}</option>
+									<option value="{{option.order}}">Ontwerp {{option.order}}</option>
 								{% endfor %}
 								</select>
-							</div>
 
-							<div>
-								Naam: <input type="text" name="nickName" value="{{user.nickName}}">
+								want...
 							</div>
-
+							<br />
 							<textarea
+								class="textarea"
 								name="description"
-								placeholder="Reactie"
+								placeholder="Ik ben voor ontwerp A, want..."
 							></textarea>
+
+							<!--
+							<div>
+								Naam: <input type="text" name="nickName" value="{{user.nickName}}" class="input-field">
+							</div>
+							!-->
 
 							<div class="charsLeft">
 								<div class="min">Nog minimaal <span>30</span> tekens.</div>
@@ -371,7 +353,9 @@
 							</div>
 
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-							<input type="submit" value="Verzenden">
+							<button type="submit" class="pull-right btn btn-primary">
+								Verzenden
+							</button>
 						</form>
 					</div>
 				</div>
@@ -381,13 +365,13 @@
 		<div  class="section-container side-padding-xs">
 			<div class="box-grey">
 				<div class="col-container">
-					<div class="col-3">
-						<h3 class="margin-0"> Laat reacties zien van: </h3>
+					<div class="col-4">
+						<h3 class="margin-0"> Laat argumenten zien van: </h3>
 					</div>
 
 					{% for option in poll.options %}
 						<div class="col-2">
-							<a href="#option-{{option.order}}">
+							<a href="#option-{{option.order}}" class="tab-button argument-filter-tab" data-variant="{{option.order}}">
 								Variant {{option.order}}
 							</a>
 						</div>
@@ -399,9 +383,11 @@
 
 		<div class="section-container side-padding-xs">
 			<div class="argList for">
+				<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
 				{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
 			</div>
 			<div class="argList against">
+				<h3 class="text-center margin-hor-m h2"> Argumenten tegen </h3>
 				{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
 			</div>
 		</div>

@@ -22,6 +22,11 @@ body {
 	}
 }
 
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, b, strong {
+	color: black;
+}
+
 h1, .h1 {
 	font-size: 1.3125rem;
 	font-weight: 600;
@@ -100,26 +105,25 @@ header {
 		}
 	}
 
-	h1 {
+	a:visited h1, h1 {
 		box-sizing: border-box;
-		color: #434343;
-		font-size: 1.4375rem;
-		font-weight: 600;
-		right: 0;
-		line-height: 1em;
-		margin: 0;
-		max-width: (940px / 2 + 15px);
-		padding-right: 15px;
-		position: absolute;
-		text-align: right;
-		width: 50%;
-		top: 22px;
+	  color: #434343;
+	  font-size: 1.8375rem;
+	  font-weight: 600;
+	  right: 0;
+	  line-height: 1em;
+	  margin: 0;
+	  max-width: 485px;
+	  margin-left: 20%;
+	  text-decoration: none;
+	  padding-top: 22px;
+
 
 		@media @phone {
 			font-size: 18px;
 			line-height: 22px;
-			right: 10px;
-			top: 8px;
+			/*right: 10px;
+			top: 8px;*/
 		}
 	}
 }

@@ -16,8 +16,6 @@
 	position: relative;
 }
 
-
-
 .col-4, .col-8, .col-3, .col-9, div[class^="col-"]{
   box-sizing: border-box;
   display: inline-block;
@@ -27,13 +25,13 @@
 	float: left;
 }
 
-.col-container, .clearfix {
+.col-container {
   margin: 0 calc(-1 * 15px)  !important;
   float: none !important;
   display: block !important;
 }
 
-.col-container:after {
+.col-container:after, .clearfix:after {
 	content: "";
   display: table;
   clear: both;
