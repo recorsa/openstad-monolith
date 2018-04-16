@@ -242,26 +242,31 @@
 									Zo heb ik mijn sterren verdeeld:
 								</label>
 
-								{{ user.votes }}
 
-								{% for option in poll.options %}
-									<label for="checkbox-choice-{{option.id}}" class="concept-label selected">
-										<div class="relative">
-											<div
-												class="concept-card-image"
-												style="background-image: url('img/stemtool/placeholder-concept.jpg');"
-											>
-												<div class="concept-card-number concept-card-number-{{loop.index}}">
-													{{alphabet[loop.index - 1].toUpperCase()}}
+								{% for vote in poll.userVotes %}
+									{% for option in poll.options %}
+
+										{% if option.id === vote.pollOptionId %}
+										<label for="checkbox-choice-{{option.id}}" class="concept-label selected">
+											<div class="relative">
+												<div
+													class="concept-card-image"
+													style="background-image: url('img/stemtool/placeholder-concept.jpg');"
+												>
+													<div class="concept-card-number concept-card-number-{{loop.index}}">
+														{{alphabet[loop.index - 1].toUpperCase()}}
+													</div>
+												</div>
+
+												<div class="concept-card-title">
+													{{option.title}}
 												</div>
 											</div>
-
-											<div class="concept-card-title">
-												{{option.title}}
-											</div>
-										</div>
-									</label>
+										</label>
+										{% endif %}
+									{% endfor %}
 								{% endfor %}
+
 
 								<div  class="margin-hor-m">
 									<div class="form-field-container validate-postcode">

@@ -33,6 +33,7 @@ module.exports = function( app ) {
 	.all(fetchPoll)
 	.all(auth.can('idea:admin', 'poll:vote', 'arg:add', true))
 	.get(function( req, res, next) {
+		console.log(req.poll);
 		res.out('index', true, {
 			user      : req.user,
 			idea      : req.idea,
@@ -52,7 +53,7 @@ function fetchPoll( req, res, next ) {
 	if( !ideaId ) {
 		throw createError(400, 'Geen ideaId');
 	}
-	
+
 	db.Poll.scope(
 		'withVoteCount',
 		{method: ['withUserVote', user.id]}
@@ -65,7 +66,7 @@ function fetchPoll( req, res, next ) {
 		if( !poll ) {
 			throw createError(404, 'Poll niet gevonden');
 		}
-		
+
 		req.poll = poll;
 		next();
 	})
