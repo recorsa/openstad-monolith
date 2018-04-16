@@ -28,7 +28,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, b, strong {
 }
 
 h1, .h1 {
-	font-size: 1.3125rem;
+	font-size: 1.75rem;
 	font-weight: 600;
 	line-height: 1em;
 	margin-bottom: 1em;
@@ -59,6 +59,13 @@ form {
 }
 form.action {
 	display: inline;
+}
+
+hr {
+	background: #c6c6c6;
+	border: 0;
+	height: 1px;
+	width: 100%;
 }
 
 header {
@@ -283,52 +290,30 @@ footer {
 	background-color: #666;
 	color: #FFF;
 
-	>div {
-		box-sizing: border-box;
-		margin: 0 20px;
-		max-width: (940px + 30px);
-		margin: 0 auto;
-		padding: 0 15px;
+	h1, h2{
+		color: white;
+	}
 
-		>div {
-			box-sizing: border-box;
-			display: inline-block;
-			vertical-align: top;
-			width: 25%;
+	ul {
+		list-style: none;
+		padding: 0;
 
-			&:nth-last-child(n+2) {
-				padding-right: 10px;
-			}
+		li {
+			background-image: url('/img/arrow_right_white.svg');
+			background-position: top 2px left;
+			background-repeat: no-repeat;
+			background-size: auto 1em;
+			padding-left: 15px;
 
-			@media @grid50 {
-				width: 50%;
-			}
-			@media @grid100 {
-				width: 100%;
-				padding-right: 0px !important;
-			}
+			a {
+				color: #FFF;
+				text-decoration: none;
 
-			ul {
-				list-style: none;
-				padding: 0;
-
-				li {
-					background-image: url('/img/arrow_right_white.svg');
-					background-position: top 2px left;
-					background-repeat: no-repeat;
-					background-size: auto 1em;
-					padding-left: 15px;
-
-					a {
-						color: #FFF;
-						text-decoration: none;
-
-						&:hover {
-							text-decoration: underline;
-						}
-					}
+				&:hover {
+					text-decoration: underline;
 				}
 			}
 		}
 	}
+
 }

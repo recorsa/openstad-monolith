@@ -14,3 +14,32 @@
 .textarea {
 
 }
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after{
+  background-image: url(/img/stemtool/caret.svg);
+  content: '';
+  background-size: 100%;
+  width: 11px;
+  height: 16px;
+  right: 20px;
+  position: absolute;
+  background-repeat: no-repeat;
+  top: 5px;
+}
+
+.select-wrapper {
+  select {
+    background: transparent;
+    border-radius: 0;
+    -webkit-appearance: none;
+    padding: 10px 35px 10px 10px;
+    border: 1px solid black;
+    font-size: 16px;
+    margin: 0 7px;
+    display: inline-block;
+  }
+}

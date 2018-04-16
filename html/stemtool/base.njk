@@ -75,29 +75,31 @@
 
 		{% block footer %}
 		<footer>
-			<div>
-				<div>
-					<h2>Over deze site</h2>
-					<ul>
-						<li><a href="/disclaimer">Disclaimer</a></li>
-					</ul>
-				</div
-				><div>
-					<h2>Meer informatie</h2>
-					<ul>
-						<li><a href="{{GLOBALS.projectPage}}" target="_blank">Volg de project&shy;pagina op amsterdam.nl</a></li>
-					</ul>
-				</div
-				><div>
-					<h2>Contact</h2>
-					<p>
-						Heb je een vraag of het gebruik van de site? Wij horen het graag
-					</p>
-					<ul>
-						<li><a href="mailto:{{EMAIL}}">Stuur een e-mail</a></li>
-					</ul>
+			<div class="section-container">
+				<div class="col-container">
+					<div class="col-3 col-sm-6 col-xs-12">
+						<h2>Over deze site</h2>
+						<ul>
+							<li><a href="/disclaimer">Disclaimer</a></li>
+						</ul>
+					</div>
+					<div class="col-3  col-sm-6 col-xs-12">
+						<h2>Meer informatie</h2>
+						<ul>
+							<li><a href="{{GLOBALS.projectPage}}" target="_blank">Volg de project&shy;pagina op amsterdam.nl</a></li>
+						</ul>
+					</div>
+					<div class="col-3 col-sm-6 col-xs-12">
+						<h2>Contact</h2>
+						<p>
+							Heb je een vraag of het gebruik van de site? Wij horen het graag
+						</p>
+						<ul>
+							<li><a href="mailto:{{EMAIL}}">Stuur een e-mail</a></li>
+						</ul>
+					</div>
+					</div>
 				</div>
-			</div>
 		</footer>
 		{% endblock %}
 	</div>

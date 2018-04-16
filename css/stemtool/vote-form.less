@@ -5,6 +5,69 @@
 
 .vote-inner-container {
   max-width: 500px;
+
+  .btn {
+    max-width: 200px;
+    width: 100%;
+  }
+
+  .label-error {
+    display: none;
+    color: red;
+    font-size: 14px;
+  }
+
+  .error {
+    border-left: 3px solid red;
+    padding-left: 20px;
+
+    .label-error {
+      display: block;
+    }
+  }
+
+  .confirm-submit {
+    display: none;
+  }
+
+  .less-then-stars-error, .no-stars-error {
+    .label-container {
+      border-left: 3px solid red;
+      padding-left: 20px;
+    }
+  }
+
+  .no-stars-error-message, .less-then-stars-error-message {
+    display: none;
+  }
+
+  .less-then-stars-error {
+    .less-then-stars-message {
+      display: block;
+    }
+
+    .confirm-submit {
+      display: block;
+    }
+
+    .main-submit {
+      display: none;
+    }
+  }
+
+
+
+  .no-stars-error {
+    .no-stars-error-message {
+      display: block;
+    }
+  }
+
+  .unavailable {
+    .concept-card-image, .concept-card-title {
+      opacity: 0.4;
+    }
+  }
 }
 
 .vote-inner-container .input-field {

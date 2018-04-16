@@ -179,9 +179,6 @@
 			event.preventDefault();
 			if( hasClass(thisTab, 'active') ) {
 				thisTab.classList.remove("active");
-
-
-
 				$('{{cssQuery}} .argument').forEach(function(argument) {
 					argument.classList.remove("hidden");
 				});
@@ -200,8 +197,6 @@
 					argument.classList.remove("hidden");
 				});
 			}
-
-
 		});
 	});
 

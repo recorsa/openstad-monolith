@@ -108,10 +108,10 @@
 								</div>
 							</div>
 							<div>
-								<a href="#" class="concept-card-link caret-link">
+								<a href="#variant-modal-{{option.order}}"  class="concept-card-link caret-link">
 									Lees meer
 								</a>
-								<a href="#" class="concept-card-link caret-link">
+								<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link">
 									Lees reacties
 								</a>
 							</div>
@@ -151,7 +151,7 @@
 				<br />
 				<br />
 
-					<div class="vote-container container-grey container-grey-edges margin-hor-m">
+					<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m">
 
 						<div class="vote-inner-container">
 							{% if can('poll:vote') %}
@@ -161,19 +161,92 @@
 
 							<hr class="hr-white margin-hor-m"></hr>
 
-							<form method="POST" action="/vote">
+							<form id="vote-form" method="POST" action="/vote" class="">
 									<input type="hidden" name="_csrf" value="{{csrfToken}}">
 									<input type="hidden" name="pollId" value="{{poll.id}}">
 
 									<label class="h3 block margin-bottom-s margin-top-0">
-										Ik stem op:
-										<span class="required-text">(verplicht)</span>
+										Ik verdeel mijn sterren:
 									</label>
-									{% for option in poll.options %}
-										<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
-										<!-- {{option.order}} ({{option.voteCount}}) !-->
 
-										<label for="checkbox-choice-{{option.id}}" class="concept-label">
+									<div class="label-container">
+										{% for option in poll.options %}
+											<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
+											<!-- {{option.order}} ({{option.voteCount}}) !-->
+
+											<label for="checkbox-choice-{{option.id}}" class="concept-label">
+												<div class="label-error">
+													Je hebt al 3 sterren verdeeld. Klik nogmaals op een ster om
+													hem te verwijderen. Hierna kun je een ster aan een andere variant geven.
+												</div>
+												<div class="relative">
+													<div
+														class="concept-card-image"
+														style="background-image: url('img/stemtool/placeholder-concept.jpg');"
+													>
+														<div class="concept-card-number concept-card-number-{{loop.index}}">
+															{{alphabet[loop.index - 1].toUpperCase()}}
+														</div>
+													</div>
+
+													<div class="concept-card-title">
+													 	{{option.title}}
+													</div>
+												</div>
+
+											</label>
+										{% endfor %}
+									</div>
+
+									<!--
+									<div class="margin-hor-m">
+										<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
+										<input type="text" name="fullName" class="input-field">
+									</div>
+									!-->
+
+									<div  class="margin-hor-m">
+										<div class="form-field-container validate-postcode">
+											<label class="h3 block margin-hor-xs">
+													Mijn postcode:
+											</label>
+											<div class="label-error">
+													Een geldige postcode is vereist.
+											</div>
+											<input type="text" name="zipCode" class="input-field" placeholder="Bijv. 1234AB">
+										</div>
+									</div>
+
+									<div class="less-then-stars-message label-error">
+										Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
+									</div>
+
+									<div class="no-stars-error-message label-error">
+										Je hebt nog geen sterren verdeeld.
+									</div>
+
+									<br />
+
+									<button type="submit" class="default btn btn-primary">
+										<span class="main-submit">
+											Verstuur
+										</span>
+										<span class="confirm-submit">
+											Ja, verstuur
+										</span>
+									</button>
+
+								</form>
+								{% else %}
+								<label class="h3 block margin-bottom-s margin-top-0">
+									Zo heb ik mijn sterren verdeeld:
+								</label>
+
+								{{ user.votes }}
+
+								{% for option in poll.options %}
+									<label for="checkbox-choice-{{option.id}}" class="concept-label selected">
+										<div class="relative">
 											<div
 												class="concept-card-image"
 												style="background-image: url('img/stemtool/placeholder-concept.jpg');"
@@ -184,27 +257,41 @@
 											</div>
 
 											<div class="concept-card-title">
-											 	{{option.title}}
+												{{option.title}}
 											</div>
-										</label>
-									{% endfor %}
+										</div>
+									</label>
+								{% endfor %}
 
-									<!--
-									<div class="margin-hor-m">
-										<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
-										<input type="text" name="fullName" class="input-field">
+								<div  class="margin-hor-m">
+									<div class="form-field-container validate-postcode">
+										<label class="h3 block margin-hor-xs">
+												Mijn postcode:
+										</label>
+
+										<input type="text" name="zipCode" class="input-field" value="1043BV" placeholder="Bijv. 1234AB" disabled>
 									</div>
-									!-->
-									<div  class="margin-hor-m">
-										<label class="h3 block margin-hor-xs"> Mijn postcode: <span class="required-text">(verplicht)</span>  </label>
-										<input type="text" name="zipCode" class="input-field" placeholder="Bijv. 1234AB">
+								</div>
+
+								<hr class="hr-white margin-hor-m"></hr>
+
+								<div class="col-container">
+									<div class="col-2">
+										<img src="/img/stemtool/check-green.svg" />
 									</div>
-									<button type="submit" class="default btn btn-primary">
-										Verstuur
-									</button>
-								</form>
-								{% else %}
-									<h2>Bedankt voor je stem!</h2>
+									<div class="col-10">
+										Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
+										naar waarom je de sterren zo hebt verdeeld.
+										Onderaan kun je <b> argumenten </b> voor en tegen de varianten
+										plaatsen.
+										<br />
+										<br />
+
+										<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block">
+											Naar argumenten
+										</a>
+									</div>
+								</div>
 
 							{% endif %}
 							</div>
@@ -287,7 +374,7 @@
 		</div>
 	</section>
 
-	<section id="arguments">
+	<section id="arguments" class="margin-bottom-m">
 		<div class="bg-sand" style="padding: 1px;">
 			<div class="section-container side-padding-xs">
 				<h2 class="margin-hor-m">
@@ -318,35 +405,40 @@
 					<br />
 
 					<div class="box-grey">
-						<form method="POST" action="/arg/new" class="newArgument clearfix">
+						<form method="POST" action="/arg/new" class="newArgument clearfix ">
 							<div>
 								Ik ben
-								<select name="sentiment"  class="select">
-									<option value="for">Voor</option>
-									<option value="against">Tegen</option>
-								</select>
 
-								<select name="label" class="select">
-								{% for option in poll.options %}
-									<option value="{{option.order}}">Ontwerp {{option.order}}</option>
-								{% endfor %}
-								</select>
+								<span class="select-wrapper">
+									<select name="sentiment"  class="select">
+										<option value="for">Voor</option>
+										<option value="against">Tegen</option>
+									</select>
+								</span>
+
+								<span class="select-wrapper">
+									<select name="label">
+									{% for option in poll.options %}
+										<option value="{{option.order}}">Ontwerp {{option.order}}</option>
+									{% endfor %}
+									</select>
+								</span>
 
 								want...
 							</div>
 							<br />
+
 							<textarea
 								class="textarea"
 								name="description"
 								placeholder="Ik ben voor ontwerp A, want..."
 							></textarea>
+							<br />
 
-							<!--
 							<div>
 								Naam: <input type="text" name="nickName" value="{{user.nickName}}" class="input-field">
 							</div>
-							!-->
-
+							<br />
 							<div class="charsLeft">
 								<div class="min">Nog minimaal <span>30</span> tekens.</div>
 								<div class="max"><span>360</span> tekens resterend.</div>
@@ -362,7 +454,7 @@
 			{% endif %}
 		</div>
 
-		<div  class="section-container side-padding-xs">
+		<div  class="section-container side-padding-xs ">
 			<div class="box-grey">
 				<div class="col-container">
 					<div class="col-4">
@@ -371,7 +463,7 @@
 
 					{% for option in poll.options %}
 						<div class="col-2">
-							<a href="#option-{{option.order}}" class="tab-button argument-filter-tab" data-variant="{{option.order}}">
+							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
 								Variant {{option.order}}
 							</a>
 						</div>
@@ -392,6 +484,53 @@
 			</div>
 		</div>
 	</section>
+
+
+	<!--- Concept popups !-->
+
+	{% for option in poll.options %}
+		<div id="variant-modal-{{option.order}}" class="content-modal">
+			<div class="content-modal-content">
+
+				<div class="col-container">
+					<div class="col-12">
+						<h1 class="margin-hor-s">Ontwerp {{option.order}}: {{option.title}}</h1>
+						<hr class="margin-hor-m" />
+					</div>
+
+					<div class="col-6 col-xs-12">
+						<img src="/img/stemtool/placeholder-concept.jpg" style="max-width: 100%" />
+					</div>
+					<div class="col-6 col-xs-12">
+						{{ option.intro | safe }}
+					</div>
+				</div>
+
+				<div class="margin-hor-s">
+					<div class="col-container">
+						<div class="col-3 col-xs-6">
+							<a href="#arguments" class="btn btn-primary btn--stretch">
+								Reageer
+							</a>
+						</div>
+						<div class="col-3 col-xs-6">
+							<a href="#vote" class="btn btn-primary btn--stretch">
+								Stem
+							</a>
+						</div>
+						<div class="col-5 col-xs-6">
+							<a href="https://amsterdam.nl/javabrug" target="_blank" class="btn btn-secondary btn--stretch">
+								Lees meer over dit ontwerp
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<a href="#designs" class="content-modal-close" >x</a>
+			</div>
+		</div>
+	{% endfor %}
+
 
 {% endblock %}
 
@@ -446,14 +585,137 @@
 	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
 
 	<script>
+		var lessThenStarsClassName = 'less-then-stars-error';
+		var noStarsErrorClassName = 'no-stars-error';
+
 		// New argument form
 		// -----------------
 		// Character count on 'new argument' forms.
 		//
 		// HACK: `renderForm` is defined in the scripts coming from
 		// `arguments.renderLists()` above.
-		$('#arguments form.newArgument').forEach(function( form, i ) {
+		$('#arguments form.newArgument').forEach(function( form ) {
 			renderForm(form);
 		});
+
+		document.getElementById('vote-form').addEventListener('submit', function(ev) {
+			var validated = true;
+			var form = this;
+			var lessThenStars = hasClass(form, lessThenStarsClassName);
+			var checkedCount = getGiveVoteCount();
+			var maxChecked = 3;
+
+			/* Validate postcode field */
+			$('#vote-form .validate-postcode').forEach(function(inputContainer) {
+				if(!validatePostcodeFormField(inputContainer) ) {
+					validated = false;
+				}
+			});
+
+			/* Validate postcode field */
+			if (checkedCount === 0 ) {
+				clearClassesVoteForm();
+				form.classList.add(noStarsErrorClassName);
+				validated = false;
+			} else if (checkedCount < maxChecked && !lessThenStars) {
+				clearClassesVoteForm();
+				form.classList.add(lessThenStarsClassName);
+				validated = false;
+			}
+
+			if (!validated) {
+				ev.preventDefault();
+			}
+		});
+
+
+		$('#vote-form .validate-postcode').forEach(function(inputContainer) {
+			inputContainer.addEventListener('keyup', function(ev) {
+				validatePostcodeFormField(inputContainer);
+			});
+		});
+
+		function validatePostcodeFormField(inputContainer){
+			var inputEl = inputContainer.querySelector('input');
+			if(validatePostcode(inputEl.value)) {
+				inputContainer.classList.remove('error');
+				return true;
+			} else {
+				inputContainer.classList.add('error');
+				return false;
+			}
+		}
+
+		$('#vote-form .concept-label').forEach(function( label, i ) {
+			label.addEventListener('click', function(ev) {
+				var checkedCount = getGiveVoteCount();
+				var maxChecked = 3;
+				var itsCheckbox = document.getElementById(label.getAttribute('for'));
+
+				/** Add error when clicked on label when already all votes are given. **/
+				if (!itsCheckbox.checked && checkedCount >= maxChecked) {
+					ev.preventDefault();
+					clearVoteErrors();
+					label.classList.add('error');
+				} else {
+					clearVoteErrors();
+				}
+			})
+		});
+
+		$('#vote-form input[type="checkbox"]').forEach(function( checkbox, i ) {
+			checkbox.addEventListener('change', function(ev) {
+				addUnavailableClass();
+				clearClassesVoteForm();
+			});
+		});
+
+		function getGiveVoteCount () {
+			return $('#vote-form input[type="checkbox"]:checked').length;
+		}
+
+		function clearVoteErrors () {
+			$('#vote-form .concept-label').forEach(function(label) {
+				label.classList.remove('error');
+			});
+		}
+
+		function getVoteForm() {
+			return document.getElementById('vote-form');
+		}
+
+		function clearClassesVoteForm() {
+			getVoteForm().classList.remove(lessThenStarsClassName);
+			getVoteForm().classList.remove(noStarsErrorClassName);
+		}
+
+		function validatePostcode(postcode) {
+			var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+			return rege.test(postcode);
+		}
+
+		function argumentsLinkClick(order) {
+			document.getElementById('filter-arguments-option-'+order).click();
+		}
+
+		function addUnavailableClass () {
+			$('#vote-form .concept-label').forEach(function(label) {
+				var checkedCount = getGiveVoteCount();
+				var maxChecked = 3;
+				var itsCheckbox = document.getElementById(label.getAttribute('for'));
+
+				/** Add class for when it's unavailable for voting. **/
+				if ((checkedCount ) >= maxChecked && !itsCheckbox.checked) {
+					label.classList.add('unavailable');
+				} else {
+					label.classList.remove('unavailable');
+				}
+			});
+		}
+
+		function hasClass( target, className ) {
+			 return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+		}
+
 	</script>
 {% endblock %}

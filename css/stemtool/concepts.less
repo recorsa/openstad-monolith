@@ -55,10 +55,9 @@
 	display: block;
 	color: #000;
 	background: white;
-	padding: 10px 10px 10px 30px;
+	padding: 12px 10px 8px 30px;
 	font-size: 15px;
 	font-weight: 700;
-
 
 	&.caret-link&::before {
 		left: 11px;
@@ -98,15 +97,11 @@
 	 -ms-user-select: none;
 	 user-select: none;
 
-	&:hover {
+	&:hover:not(.unavailable) {
 		cursor: pointer;
 		background: #eee;
 
 		.concept-card-title {
-
-			border-bottom: 2px solid #efefef;
-			border-right: 2px solid #efefef;
-			border-top: 2px solid #e6e6e6;
 
 		}
 	}
@@ -153,8 +148,16 @@
 
 }
 
-:checked + .concept-label{
+:checked + .concept-label, .concept-label.selected{
+	.concept-card-title, .concept-card-title {
+    border-color: #ffe600 !important;
+	}
+
 		&::after {
 			background: url(/img/stemtool/star-filled.svg);
 		}
+}
+
+.concept-label.selected {
+	opacity: 0.8;
 }
