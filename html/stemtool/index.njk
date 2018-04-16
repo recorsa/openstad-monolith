@@ -245,7 +245,6 @@
 
 								{% for vote in poll.userVotes %}
 									{% for option in poll.options %}
-
 										{% if option.id === vote.pollOptionId %}
 										<label for="checkbox-choice-{{option.id}}" class="concept-label selected">
 											<div class="relative">
