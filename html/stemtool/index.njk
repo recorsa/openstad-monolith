@@ -26,9 +26,7 @@
 			<div class="col-9 col-xs-12 col-sm-8">
 				<div id="banner">
 					<div class="image"
-						{% if idea.posterImage %}
-							style="background-image: url('/image/{{idea.posterImage.key}}');"
-						{% endif %}
+							style="background-image: url('/img/stemtool/header.png');"
 					></div>
 					<h1 class="overlay-title">
 						{{idea.title  | safe }}
@@ -444,7 +442,7 @@
 								<span class="select-wrapper">
 									<select name="label">
 									{% for option in poll.options %}
-										<option value="{{option.order}}">Ontwerp {{option.order}}</option>
+										<option value="{{option.order}}">{{option.title}}</option>
 									{% endfor %}
 									</select>
 								</span>
@@ -454,7 +452,7 @@
 							<textarea
 								class="textarea margin-hor-s"
 								name="description"
-								placeholder="Ik ben voor ontwerp A, want..."
+								placeholder="Ik ben voor variant A, want..."
 							></textarea>
 
 							<div
