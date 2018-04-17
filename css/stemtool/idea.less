@@ -502,7 +502,7 @@
 			overflow: hidden;
 			padding: 15px;
 
-			a.reply {
+			a.reply, .newReaction input[type="submit"] {
 				background-image: url(/img/arrow_right_red.svg);
 			     background-position: top 3px right;
 			     background-repeat: no-repeat;
@@ -578,16 +578,31 @@
 				overflow: hidden;
 				padding: 5px 10px;
 				resize: none;
-				width: calc(100% - 22px);
+				width: 100%;
 
 				@media @phone {
 					font-size: 16px; // To prevent zooming.
 				}
 			}
 			input[type="submit"] {
+				background-color: transparent;
+				background-image: url('/img/arrow_right_whiteonred.svg');
+				background-position: center right;
+				background-repeat: no-repeat;
+				background-size: contain;
+				border: 0;
+				border-radius: 0;
+				color: #000;
+				cursor: pointer;
+				font-size: inherit;
+				font-weight: bold;
+				line-height: 32px;
+				// outline: none;
+				padding: 0 40px 0 0;
 				float: right;
 				line-height: 20px;
 				padding-right: 25px;
+				font-size: 12px;
 			}
 		}
 

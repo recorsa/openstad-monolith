@@ -49,7 +49,7 @@
 			{% set mayEdit   = user.can('arg:edit', idea, reaction) %}
 			{% set mayDelete = user.can('arg:delete', idea, reaction) %}
 
-			<div class="reaction" id="arg{{reaction.id}}">
+			<div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
 				<div class="user {{'admin' if reaction.user.isAdmin()}}">
 					<strong>{{reaction.user.nickName}}</strong> | {{reaction.createdAt | date('LLL')}}
 
@@ -83,7 +83,12 @@
 
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
 	<form method="POST" action="/arg/reply" class="tpl newReaction">
-		<input type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"><br>
+		<div {% if (user.nickName.length > 0 ) %} style="display: none;" {% endif %}>
+		<input
+			type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"
+			/>
+		</div>
+
 		<textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
 
 		<div class="charsLeft">
@@ -117,6 +122,7 @@
 	$('{{cssQuery}} form.vote').forEach(function( form ) {
 		var countBox = form.querySelector('button span');
 		var button   = countBox.parentNode;
+
 
 		form.addEventListener('submit', function( event ) {
 			var method = form.method;
@@ -179,7 +185,7 @@
 			event.preventDefault();
 			if( hasClass(thisTab, 'active') ) {
 				thisTab.classList.remove("active");
-				$('{{cssQuery}} .argument').forEach(function(argument) {
+				$('{{cssQuery}} .argument, {{cssQuery}} .reaction').forEach(function(argument) {
 					argument.classList.remove("hidden");
 				});
 			} else {
@@ -189,7 +195,7 @@
 
 				thisTab.classList.add("active");
 
-				$('{{cssQuery}} .argument').forEach(function(argument) {
+				$('{{cssQuery}} .argument, {{cssQuery}} .reaction').forEach(function(argument) {
 					argument.classList.add("hidden");
 				});
 
@@ -211,11 +217,12 @@
 
 	function openReplyForm( tpl, arg ) {
 		var argList = arg.parentNode;
-		var nextArg = arg;
-		while(
-			(nextArg = nextArg.nextElementSibling) &&
-			nextArg.className != 'argument'
-		);
+		var nextArg = arg.nextElementSibling;
+
+		while(nextArg && !hasClass(nextArg, 'argument')) {
+			nextArg = nextArg.nextElementSibling;
+		};
+
 
 		var form;
 		if( !arg.$replyForm ) {
@@ -235,15 +242,13 @@
 		// Focus on relevant field.
 		!name.value ? name.focus() : desc.focus();
 
-
-
 		function blur( event ) {
 			if( event.relatedTarget == desc || event.relatedTarget == name ) {
 				return;
 			}
 
 			// Close reply form
-			if( !desc.value.length && !name.value.length ) {
+			if( !desc.value.length ) {
 				form.parentNode.removeChild(form);
 				arg.$replyForm = null;
 			}
@@ -279,6 +284,8 @@
 		var charsLeft = form.querySelector('div.charsLeft');
 		var button    = form.querySelector('input[type="submit"]');
 
+		console.log('---- form', form, button);
+
 		if( !charsLeft ) {
 			return;
 		}
@@ -295,7 +302,7 @@
 		validate();
 
 		textarea.addEventListener('focus', function( event ) {
-			charsLeft.className += ' visible';
+			charsLeft.className += ' visible touched ';
 		});
 		textarea.addEventListener('blur', function( event ) {
 			charsLeft.className = charsLeft.className.replace(' visible', '');
@@ -334,10 +341,11 @@
 			msg[disable].className = disable;
 			span[enable].innerHTML = chars;
 		}
+
 		function updateButton() {
 			var len = textarea.value.length;
 			var isValid = len >= minLen && len <= maxLen;
-			// button.disabled = !isValid;
+			 button.disabled = !isValid;
 		}
 
 	}

@@ -36,6 +36,45 @@
   }
 
   .charsLeft {
+    color: #9A9A9A;
+    float: left;
+    font-size: 0.7rem;
     display: none;
+
+    &.touched {
+      display: block;
+    }
+
+    .min, .max {
+      display: none;
+    }
+    .min {
+      color: #EC0000;
+    }
+    .max {
+      color: #ABDE8D;
+    }
+    .visible {
+      display: block;
+    }
+  }
+
+  .label-error {
+    display: none;
+    color: red;
+    font-size: 14px;
+  }
+
+  .error {
+    border-left: 3px solid red;
+    padding-left: 20px;
+
+    .label-error {
+      display: block;
+    }
+  }
+
+  :disabled {
+    opacity: 0.4;
   }
 }

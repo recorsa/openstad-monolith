@@ -31,18 +31,18 @@
 						{% endif %}
 					></div>
 					<h1 class="overlay-title">
-						{{idea.title}}
+						{{idea.title  | safe }}
 					</h1>
 				</div>
 
 				<p class="side-padding-xs">
-					{{idea.summary}}
+					{{idea.summary | safe}}
 				</p>
 			</div>
 
 			<div class="col-3 controls col-xs-12 col-sm-4 side-padding-xs">
 				<span class="widget speechBubble newIdeaBubble">
-					1 brug, 6 mogelijke varianten
+					1 brug, 6 mogelijke locaties.
 				</span>
 
 				<a href="#vote" class="box-blue margin-bottom-xs">
@@ -409,7 +409,7 @@
 					<br />
 
 					<div class="box-grey">
-						<form method="POST" action="/arg/new" class="newArgument clearfix ">
+						<form id="new-argument-form" method="POST" action="/arg/new" class="newArgument clearfix ">
 							<div>
 								Ik ben
 
@@ -430,28 +430,34 @@
 
 								want...
 							</div>
-							<br />
-
 							<textarea
-								class="textarea"
+								class="textarea margin-hor-s"
 								name="description"
 								placeholder="Ik ben voor ontwerp A, want..."
 							></textarea>
-							<br />
 
-							<div>
-								Naam: <input type="text" name="nickName" value="{{user.nickName}}" class="input-field">
+							<div
+								{% if (user.nickName.length > 0 ) %} style="display: none;" {% endif %}
+								class="form-field-container validate-text-required margin-top-m"
+							>
+								 Naam: <br />
+
+								 <div class="label-error margin-hor-xs">
+										 Je hebt geen naam opgegeven.
+								 </div>
+
+								<input type="text" name="nickName" value="{{user.nickName}}" class="input-field">
 							</div>
 							<br />
+
 							<div class="charsLeft">
 								<div class="min">Nog minimaal <span>30</span> tekens.</div>
 								<div class="max"><span>360</span> tekens resterend.</div>
 							</div>
 
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-							<button type="submit" class="pull-right btn btn-primary">
-								Verzenden
-							</button>
+							<input type="submit" class="pull-right btn btn-primary" value="Verzenden" />
+
 						</form>
 					</div>
 				</div>
@@ -602,34 +608,59 @@
 			renderForm(form);
 		});
 
-		document.getElementById('vote-form').addEventListener('submit', function(ev) {
-			var validated = true;
-			var form = this;
-			var lessThenStars = hasClass(form, lessThenStarsClassName);
-			var checkedCount = getGiveVoteCount();
-			var maxChecked = 3;
+		var voteForm = document.getElementById('vote-form');
 
-			/* Validate postcode field */
-			$('#vote-form .validate-postcode').forEach(function(inputContainer) {
-				if(!validatePostcodeFormField(inputContainer) ) {
+		if (voteForm) {
+			voteForm.addEventListener('submit', function(ev) {
+				var validated = true;
+				var form = this;
+				var lessThenStars = hasClass(form, lessThenStarsClassName);
+				var checkedCount = getGiveVoteCount();
+				var maxChecked = 3;
+
+				/* Validate postcode field */
+				$('#vote-form .validate-postcode').forEach(function(inputContainer) {
+					if(!validatePostcodeFormField(inputContainer) ) {
+						validated = false;
+					}
+				});
+
+				/* Validate postcode field */
+				if (checkedCount === 0 ) {
+					clearClassesVoteForm();
+					form.classList.add(noStarsErrorClassName);
+					validated = false;
+				} else if (checkedCount < maxChecked && !lessThenStars) {
+					clearClassesVoteForm();
+					form.classList.add(lessThenStarsClassName);
+					validated = false;
+				}
+
+				if (!validated) {
+					ev.preventDefault();
+				}
+			});
+		}
+
+
+		document.getElementById('new-argument-form').addEventListener('submit', function(ev) {
+			var validated = true;
+
+			$('.validate-text-required').forEach(function(inputContainer) {
+				if(!validateRequiredTextField(inputContainer) ) {
 					validated = false;
 				}
 			});
 
-			/* Validate postcode field */
-			if (checkedCount === 0 ) {
-				clearClassesVoteForm();
-				form.classList.add(noStarsErrorClassName);
-				validated = false;
-			} else if (checkedCount < maxChecked && !lessThenStars) {
-				clearClassesVoteForm();
-				form.classList.add(lessThenStarsClassName);
-				validated = false;
-			}
-
 			if (!validated) {
 				ev.preventDefault();
 			}
+		});
+
+		$('.validate-text-required').forEach(function(inputContainer) {
+			inputContainer.addEventListener('keyup', function(ev) {
+				validateRequiredTextField(inputContainer);
+			});
 		});
 
 
@@ -641,7 +672,18 @@
 
 		function validatePostcodeFormField(inputContainer){
 			var inputEl = inputContainer.querySelector('input');
-			if(validatePostcode(inputEl.value)) {
+			 if (validatePostcode(inputEl.value)) {
+				inputContainer.classList.remove('error');
+				return true;
+			} else {
+				inputContainer.classList.add('error');
+				return false;
+			}
+		}
+
+		function validateRequiredTextField(inputContainer){
+			var inputEl = inputContainer.querySelector('input');
+			if(inputEl.value.length > 0) {
 				inputContainer.classList.remove('error');
 				return true;
 			} else {
