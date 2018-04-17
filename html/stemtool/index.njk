@@ -96,13 +96,13 @@
 						<div class="concept-card">
 							<div
 								class="concept-card-image"
-								style="background-image: url('img/stemtool/placeholder-concept.jpg');"
+								style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
 							>
 								<div class="concept-card-number concept-card-number-{{loop.index}}">
 									{{alphabet[loop.index - 1].toUpperCase()}}
 								</div>
 								<div class="concept-card-title">
-									`{{option.title}}`
+									&#8216;{{option.title}}&#8217;
 								</div>
 							</div>
 							<div>
@@ -199,7 +199,7 @@
 												<div class="relative">
 													<div
 														class="concept-card-image"
-														style="background-image: url('img/stemtool/placeholder-concept.jpg');"
+														style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
 													>
 														<div class="concept-card-number concept-card-number-{{loop.index}}">
 															{{alphabet[loop.index - 1].toUpperCase()}}
@@ -268,7 +268,7 @@
 											<div class="relative">
 												<div
 													class="concept-card-image"
-													style="background-image: url('img/stemtool/placeholder-concept.jpg');"
+													style="background-image: url('img/stemtool/variant_{{option.id}}_klein.png');"
 												>
 													<div class="concept-card-number concept-card-number-{{loop.index}}">
 														{{alphabet[loop.index - 1].toUpperCase()}}
@@ -330,7 +330,7 @@
 
 				<div class="agenda">
 				{% for item in idea.agenda %}
-					<div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
+					<div class="box-grey {{'agenda-day' if loop.index % 2 else 'agenda-period' }}">
 
 						<!-- <h3 class="margin-top-0 margin-bottom-xs h3">
 							{% if item.endDate %}
@@ -523,12 +523,12 @@
 
 				<div class="col-container">
 					<div class="col-12">
-						<h1 class="margin-hor-s">{{option.order}} . {{option.title}}</h1>
+						<h1 class="margin-hor-s">{{option.title}}: {{option.intro}}</h1>
 						<hr class="margin-hor-m" />
 					</div>
 
 					<div class="col-6 col-xs-12">
-						<img src="/img/stemtool/placeholder-concept.jpg" style="max-width: 100%" />
+						<img src="/img/stemtool/variant_{{option.id}}.png" style="max-width: 100%" />
 					</div>
 					<div class="col-6 col-xs-12">
 						{{ option.description | safe }}
