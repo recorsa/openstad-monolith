@@ -171,22 +171,28 @@
 									<input type="hidden" name="_csrf" value="{{csrfToken}}">
 									<input type="hidden" name="pollId" value="{{poll.id}}">
 
-									<label class="h3 block margin-bottom-s margin-top-0">
+									<label class="block margin-bottom-s margin-top-0">
 										Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
 										Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
 										Klik nogmaals om dat ongedaan te maken.
+										<br />
+										<br />
+
+										Het is geen verkiezing tussen de 6 varianten.
+										Je argumenten zijn belangrijker dan de toedeling van de sterren.
+										Graag horen we onderaan deze pagina wat je van de varianten vindt.
+										Wat spreekt je aan en wat zie je graag anders?
+										Daarmee help je de gemeente om te komen tot één voorkeursvariant.
 									</label>
 
 									<div class="label-container">
 										{% for option in poll.options %}
 											<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
-											<!-- {{option.order}} ({{option.voteCount}}) !-->
 
 											<label for="checkbox-choice-{{option.id}}" class="concept-label">
 												<div class="label-error">
-													Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten. Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven. Klik nogmaals om dat ongedaan te maken.
-													 <br /> <br />
-													  Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. Graag horen we onderaan deze pagina wat je van de varianten vindt. Wat spreekt je aan en wat zie je graag anders? Daarmee help je de gemeente om te komen tot één voorkeursvariant.
+													Je hebt al 3 sterren verdeeld. Klik nogmaals op een ster om
+													hem te verwijderen. Hierna kun je een ster aan een andere variant geven.
 												</div>
 												<div class="relative">
 													<div
@@ -199,8 +205,9 @@
 													</div>
 
 													<div class="concept-card-title">
-													 	{{option.title}}
+													 	{{ option.title }}
 													</div>
+
 												</div>
 
 											</label>
@@ -314,6 +321,7 @@
 
 
 		</div>
+
 		<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
 			<div id="agenda">
 				<h2>Proces</h2>
@@ -431,7 +439,7 @@
 								<span class="select-wrapper">
 									<select name="label">
 									{% for option in poll.options %}
-										<option value="{{option.order}}"> {{option.title}}</option>
+										<option value="{{option.order}}">Ontwerp {{option.order}}</option>
 									{% endfor %}
 									</select>
 								</span>
@@ -488,17 +496,17 @@
 					{% endfor %}
 
 				</div>
-
-		</div>
-
-		<div class="section-container side-padding-xs">
-			<div class="argList for">
-				<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
-				{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
 			</div>
-			<div class="argList against">
-				<h3 class="text-center margin-hor-m h2"> Argumenten tegen </h3>
-				{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+
+			<div class="section-container side-padding-xs">
+				<div class="argList for">
+					<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
+					{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
+				</div>
+				<div class="argList against">
+					<h3 class="text-center margin-hor-m h2"> Argumenten tegen </h3>
+					{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+				</div>
 			</div>
 		</div>
 	</section>
@@ -512,7 +520,7 @@
 
 				<div class="col-container">
 					<div class="col-12">
-						<h1 class="margin-hor-s">{{option.order}}. {{option.title}}</h1>
+						<h1 class="margin-hor-s">{{option.order}} . {{option.title}}</h1>
 						<hr class="margin-hor-m" />
 					</div>
 

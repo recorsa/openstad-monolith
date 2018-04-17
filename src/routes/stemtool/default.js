@@ -33,7 +33,6 @@ module.exports = function( app ) {
 	.all(fetchPoll)
 	.all(auth.can('idea:admin', 'poll:vote', 'arg:add', true))
 	.get(function( req, res, next) {
-		console.log(req.poll);
 		res.out('index', true, {
 			user      : req.user,
 			idea      : req.idea,
