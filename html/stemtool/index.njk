@@ -185,6 +185,10 @@
 										Daarmee help je de gemeente om te komen tot één voorkeursvariant.
 									</label>
 
+									<label class="block margin-bottom-s margin-top-0">
+										Zo verdeel ik mijn sterren:
+									</label>
+
 									<div class="label-container">
 										{% for option in poll.options %}
 											<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
@@ -330,15 +334,16 @@
 				{% for item in idea.agenda %}
 					<div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
 
-						<h3 class="margin-top-0 margin-bottom-xs h3">
+						<!-- <h3 class="margin-top-0 margin-bottom-xs h3">
 							{% if item.endDate %}
 								{{item.startDate | date('D MMMM')}} t/m {{item.endDate | date('D MMMM Y')}}
 							{% else %}
 								{{item.startDate | date('D MMMM Y')}}
 							{% endif %}
 						</h3>
+						!-->
 
-						<div> {{item.description}} </div>
+						<div> {{item.description | safe}} </div>
 						{% if item.actionText %}
 						<a href="{{item.actionURL}}" class="block caret-link">{{item.actionText}}</a>
 						{% endif %}
