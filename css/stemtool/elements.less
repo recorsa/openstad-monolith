@@ -9,6 +9,16 @@
   text-decoration: none;
 }
 
+.intro{
+  color: #434343;
+  display: block;
+  font-size: 16px;
+}
+
+.small {
+  font-size: 14px;
+}
+
 .box-grey-img {
   width: 100%;
   padding: 17px 15px 15px;
@@ -163,7 +173,7 @@ div.flashMessage {
 }
 
 .btn, .btn-secondary  {
-  padding: 10px 19px 9px;
+  padding: 13px 19px 9px;
   color: white;
   font-size: 15px;
   background: #004599;
@@ -172,6 +182,7 @@ div.flashMessage {
   text-decoration: none;
   display: inline-block;
   text-align: center;
+  font-weight: 600;
 
   &--stretch {
     width: 100%;
@@ -189,7 +200,7 @@ div.flashMessage {
   border-radius: 12px;
   box-sizing: border-box;
   display: block;
-  font-size: 1.3rem;
+  font-size: 1.2em;
   font-weight: bold;
   line-height: 1.5em;
   margin-bottom: calc(1em + 28px) !important;
@@ -252,8 +263,9 @@ div.flashMessage {
 
 
 .caret-link, .caret-link:active, .caret-link:visited {
+
   &::before {
-    background-image: url(../../img/stemtool/red-arrow.svg);
+    background-image: url(../../img/stemtool/black-arrow.svg);
     content: '';
     background-size: 100%;
     width: 11px;
@@ -262,6 +274,9 @@ div.flashMessage {
     position: absolute;
     background-repeat: no-repeat;
     top: 4px;
+  }
+  &:hover::before {
+    background-image: url(../../img/stemtool/red-arrow.svg);
   }
 
   position: relative;

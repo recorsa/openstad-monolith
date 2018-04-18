@@ -9,15 +9,16 @@
 
 {% block head %}
 	{{ super() }}
+
+	<title>Javabrug over het IJ - online tool</title>
+
 	<meta property="og:title" content="{{idea.title}}">
 	<meta property="og:type" content="website">
 	<meta property="og:description" content="{{idea.summary}}">
 	<meta property="og:locale" content="nl_NL">
 	<meta property="og:site_name" content="{{SITENAME}}">
+	<meta property="og:image" content="/img/stemtool/header.png">
 
-	{% if idea.posterImage %}
-		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
-	{% endif %}
 {% endblock %}
 
 {% block page %}
@@ -29,6 +30,7 @@
 							style="background-image: url('/img/stemtool/header.png');"
 					></div>
 					<h1 class="overlay-title">
+						<div class="margin-bottom-xs"> Geef je mening! </div>
 						{{idea.title  | safe }}
 					</h1>
 				</div>
@@ -43,7 +45,7 @@
 					1 brug, 6 mogelijke locaties.
 				</span>
 
-				<a href="#vote" class="box-blue margin-bottom-xs">
+				<a href="#vote" class="box-blue margin-bottom-xs scroll-link">
 					<span class="margin-right-s">
 						<span class="number-plate"> {{paddedVoteCount[0]}} </span>
 						<span class="number-plate"> {{paddedVoteCount[1]}} </span>
@@ -51,7 +53,7 @@
 					</span>
 					reacties
 				</a>
-				<a href="#arguments" class="box-blue">
+				<a href="#arguments" class="box-blue margin-bottom-sm scroll-link">
 					<span class="margin-right-s">
 						<span class="number-plate"> {{paddedArgumentCount[0]}} </span>
 						<span class="number-plate"> {{paddedArgumentCount[1]}} </span>
@@ -60,23 +62,18 @@
 
 					argumenten
 				</a>
-				<br />
 
-				<a href="#arguments" class="box-grey-img scroll-link">
+				<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
 					<img src="/img/stemtool/comments.svg" />
 					Lees de reacties
 				</a>
 
-				<br />
-
-				<a href="#vote" class="box-grey-img scroll-link">
-					<img src="/img/stemtool/vote.svg" />
+				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
+					<img src="/img/stemtool/stars.svg" />
 					Denk mee en verdeel sterren!
 				</a>
 
-				<br />
-
-				<a href="https://www.amsterdam.nl/javabrug" class="box-grey-img" target="_blank">
+				<a href="https://www.amsterdam.nl/javabrug" class="box-grey-img margin-bottom-sm" target="_blank">
 					<img src="/img/stemtool/info.svg" />
 					Lees meer over dit project op amsterdam.nl
 				</a>
@@ -88,13 +85,14 @@
 
 	<section id="designs" class="content-section">
 		<div class="section-container side-padding-xs">
-			<h2 class="margin-top-0">De varianten</h2>
+			<h2 class="margin-top-0">De locatievarianten</h2>
 
 			<div class="col-container">
 				{% for option in poll.options
 				%}<div class="col-3 col-sm-6 col-xs-12 margin-bottom-m">
 						<div class="concept-card">
-							<div
+							<a
+								href="#variant-modal-{{option.order}}"
 								class="concept-card-image"
 								style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
 							>
@@ -102,14 +100,14 @@
 									{{alphabet[loop.index - 1].toUpperCase()}}
 								</div>
 								<div class="concept-card-title">
-									&#8216;{{option.title}}&#8217;
+									{{option.title}}
 								</div>
-							</div>
+							</a>
 							<div>
 								<a href="#variant-modal-{{option.order}}"  class="concept-card-link caret-link">
 									Lees meer
 								</a>
-								<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link">
+								<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link scroll-link">
 									Lees reacties
 								</a>
 							</div>
@@ -129,25 +127,25 @@
 						{{idea.description | safe}}
 					</div>
 
-					<h2>Hoe werkt het? (spelregels)</h2>
+					<h2>Spelregels</h2>
 
 					<ul class="checkmark-list">
 						<li>Om jouw voorkeur aan te geven kun je in totaal 3 sterren verdelen over de varianten, maximaal 1 ster per variant.</li>
-						<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de reden waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
+						<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de <b> reden </b> waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
 						<li>Je kunt niet alleen argumenten vóór maar ook argumenten tégen een variant plaatsen.</li>
 						<li>Ben je het eens met wat anderen over een locatievariant zeggen? Laat dat dan weten door op ‘mee eens’ te klikken bij dat argument. Op die manier weten wij welke argumenten het belangrijkst zijn bij de keuze voor een voorkeursvariant. In de terugkoppeling gaan we specifiek in op de belangrijkste argumenten per variant.</li>
 						<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
 						<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
 						<li>De online tool helpt de gemeente bij de ontwikkeling en keuze van de voorkeursvariant.</li>
 						<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
-						<li>Wil je weten wat we met de resultaten hebben gedaan? Meld je dan aan voor de <a href="https://amsterdam.nl/sprongoverhetij" target="_blank">nieuwsbrief</a> om op de hoogte te blijven. </li>
+						<li>Wil je weten wat we met de resultaten hebben gedaan? Meld je dan aan voor de <a href="https://www.amsterdam.nl/bestuur-organisatie/volg-beleid/amsterdam-onderzoekt/nieuwsbrieven/nieuwsbrief-sprong-0/" target="_blank">nieuwsbrief</a> om op de hoogte te blijven. </li>
 						<li>Eind dit jaar organiseert de gemeente een nieuwe bijeenkomst om alle overwegingen en de keuze voor de uiteindelijke voorkeursvariant toe te lichten.  </li>
 						<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
 					</ul>
 
 					<br />
 
-					<a href="https://www.amsterdam.nl" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
+					<a href="https://www.amsterdam.nl/javabrug" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
 						Lees meer over dit project op amsterdam.nl
 					</a>
 				</div>
@@ -170,20 +168,21 @@
 									<input type="hidden" name="pollId" value="{{poll.id}}">
 
 									<label class="block margin-bottom-s margin-top-0">
-										Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
-										Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
-										Klik nogmaals om dat ongedaan te maken.
+										<b class="intro">
+											Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
+											Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
+											Klik nogmaals om dat ongedaan te maken.
+										</b>
 										<br />
-										<br />
-
-										Het is geen verkiezing tussen de 6 varianten.
-										Je argumenten zijn belangrijker dan de toedeling van de sterren.
-										Graag horen we onderaan deze pagina wat je van de varianten vindt.
-										Wat spreekt je aan en wat zie je graag anders?
-										Daarmee help je de gemeente om te komen tot één voorkeursvariant.
+										<div class="small">
+											Het is geen verkiezing tussen de 6 varianten.
+											Je argumenten zijn belangrijker dan de toedeling van de sterren.
+											Graag horen we onderaan deze pagina wat je van de varianten vindt.
+											Wat spreekt je aan en wat zie je graag anders?
+										</div>
 									</label>
 
-									<label class="block margin-bottom-s margin-top-0">
+									<label class="h3 block margin-bottom-xs margin-top-m">
 										Zo verdeel ik mijn sterren:
 									</label>
 
@@ -326,11 +325,11 @@
 
 		<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
 			<div id="agenda">
-				<h2>Proces</h2>
+				<h2>Tijdlijn</h2>
 
 				<div class="agenda">
 				{% for item in idea.agenda %}
-					<div class="box-grey {{'agenda-day' if loop.index % 2 else 'agenda-period' }}">
+					<div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
 
 						<!-- <h3 class="margin-top-0 margin-bottom-xs h3">
 							{% if item.endDate %}
@@ -523,7 +522,7 @@
 
 				<div class="col-container">
 					<div class="col-12">
-						<h1 class="margin-hor-s">{{option.title}}: {{option.intro}}</h1>
+						<h1 class="margin-hor-s">Variant {{option.order}}: {{option.title}} {{option.intro}}</h1>
 						<hr class="margin-hor-m" />
 					</div>
 
@@ -544,18 +543,18 @@
 						</div>
 						<div class="col-3 col-xs-6">
 							<a href="#vote" class="btn btn-primary btn--stretch">
-								Stem
+								Verdeel sterren
 							</a>
 						</div>
 						<div class="col-5 col-xs-6">
 							<a href="https://amsterdam.nl/javabrug" target="_blank" class="btn btn-secondary btn--stretch">
-								Lees meer over dit ontwerp
+								Lees meer over deze variant
 							</a>
 						</div>
 					</div>
 				</div>
 
-				<a href="#designs" class="content-modal-close" >x</a>
+				<a href="#variants" class="content-modal-close" >x</a>
 			</div>
 		</div>
 	{% endfor %}
@@ -566,7 +565,13 @@
 {% block scripts %}
 	<script src="/js/promise.js"></script>
 	<script src="/js/fetch.js"></script>
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/scroll-link.js"></script>
+	<script src="/js/enhancements.js"></script>
+
 	<script>
+		$.noConflict();
+
 		// Helper for sending non-GET HTTP requests
 		// ----------------------------------------
 		// Used in progressive enhancement scripts to replace a 'old-school'
@@ -627,6 +632,8 @@
 			renderForm(form);
 		});
 
+
+
 		var voteForm = document.getElementById('vote-form');
 
 		if (voteForm) {
@@ -684,18 +691,22 @@
 
 
 		$('#vote-form .validate-postcode').forEach(function(inputContainer) {
-			inputContainer.addEventListener('keyup', function(ev) {
-				validatePostcodeFormField(inputContainer);
-			});
+				inputContainer.addEventListener('keyup', function(ev) {
+					if(hasClass(inputContainer, 'error')) {
+						validatePostcodeFormField(inputContainer);
+					}
+				});
 		});
 
 		function validatePostcodeFormField(inputContainer){
 			var inputEl = inputContainer.querySelector('input');
 			 if (validatePostcode(inputEl.value)) {
 				inputContainer.classList.remove('error');
+				inputContainer.classList.add('success');
 				return true;
 			} else {
 				inputContainer.classList.add('error');
+				inputContainer.classList.remove('success');
 				return false;
 			}
 		}

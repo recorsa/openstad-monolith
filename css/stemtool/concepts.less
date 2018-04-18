@@ -3,6 +3,7 @@
 	background-size: cover;
 	padding-bottom: 88%;
 	position: relative;
+	display: block;
 }
 
 .concept-card-number {
@@ -64,12 +65,12 @@
   display: block;
   color: #000;
   background: white;
-  padding: 7px 10px 4px 30px;
+  padding: 6px 10px 3px 30px;
   font-size: 16px;
   font-weight: 700;
 	&.caret-link&::before {
 		left: 11px;
-    top: 11px;
+		top: 10px;
 	}
 
 
@@ -91,6 +92,10 @@
 
 .checkbox-choice {
 	opacity: 0;
+	height: 0px;
+	display: block;
+	padding: 0;
+	margin: 0;
 }
 
 .concept-label  {
@@ -104,6 +109,7 @@
 	 -moz-user-select: none;
 	 -ms-user-select: none;
 	 user-select: none;
+	 margin: 5px 0;
 
 	&:hover:not(.unavailable) {
 		cursor: pointer;
