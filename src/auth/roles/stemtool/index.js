@@ -14,8 +14,7 @@ var helpers = {
 		return idea.isRunning();
 	},
 	mayReplyToArgument: function( user, idea, argument ) {
-		return !argument.parentId &&
-		       idea.isRunning();
+		return !argument.parentId && user.can('idea:admin');
 	},
 	// TODO: Deny when arg replies exist.
 	mayMutateArgument: function( user, idea, argument ) {

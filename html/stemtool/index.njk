@@ -222,6 +222,7 @@
 									</div>
 									!-->
 
+									{% if not user.zipCode %}
 									<div  class="margin-hor-m">
 										<div class="form-field-container validate-postcode">
 											<label class="h3 block margin-hor-xs">
@@ -230,9 +231,11 @@
 											<div class="label-error">
 													Een geldige postcode is vereist.
 											</div>
+
 											<input type="text" name="zipCode" class="input-field" placeholder="Bijv. 1234AB">
 										</div>
 									</div>
+									{% endif %}
 
 									<div class="less-then-stars-message label-error">
 										Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
@@ -258,7 +261,6 @@
 								<label class="h3 block margin-bottom-s margin-top-0">
 									Zo heb ik mijn sterren verdeeld:
 								</label>
-
 
 								{% for vote in poll.userVotes %}
 									{% for option in poll.options %}
@@ -290,17 +292,21 @@
 												Mijn postcode:
 										</label>
 
-										<input type="text" name="zipCode" class="input-field" value="1043BV" placeholder="Bijv. 1234AB" disabled>
+										<input type="text" name="zipCode" class="input-field" value="{{user.zipCode}}"  disabled>
 									</div>
 								</div>
 
 								<hr class="hr-white margin-hor-m"></hr>
 
-								<div class="col-container">
+								<div class="col-container thank-you-container">
 									<div class="col-2">
-										<img src="/img/stemtool/check-green.svg" />
+										<img src="/img/stemtool/check-green.svg" class="icon" />
 									</div>
 									<div class="col-10">
+										<label class="h3 block margin-top-0 margin-bottom-xs">
+												Bedankt voor je reactie!
+										</label>
+
 										Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
 										naar waarom je de sterren zo hebt verdeeld.
 										Onderaan kun je <b> argumenten </b> voor en tegen de varianten
@@ -308,7 +314,7 @@
 										<br />
 										<br />
 
-										<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block">
+										<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
 											Naar argumenten
 										</a>
 									</div>
@@ -418,7 +424,7 @@
 						<div class="col-10">
 							<div class="speech-balloon">
 								<h3 class="margin-0">
-									Wil je meepraten over de varianten? Laat dan hier weten wat je ervan vindt!
+									Wil je meepraten over de varianten? <br /> Laat dan hier weten wat je ervan vindt!
 								</h3>
 							</div>
 						</div>
@@ -441,7 +447,7 @@
 								<span class="select-wrapper">
 									<select name="label">
 									{% for option in poll.options %}
-										<option value="{{option.order}}">{{option.title}}</option>
+										<option value="{{option.order}}">{{option.order}}: {{option.title}}</option>
 									{% endfor %}
 									</select>
 								</span>
@@ -449,33 +455,49 @@
 								want...
 							</div>
 							<textarea
-								class="textarea margin-hor-s"
+								class="textarea margin-hor-s block"
 								name="description"
 								placeholder="Ik ben voor variant A, want..."
 							></textarea>
 
-							<div
-								{% if (user.nickName.length > 0 ) %} style="display: none;" {% endif %}
-								class="form-field-container validate-text-required margin-top-m"
-							>
-								 Naam: <br />
-
-								 <div class="label-error margin-hor-xs">
-										 Je hebt geen naam opgegeven.
-								 </div>
-
-								<input type="text" name="nickName" value="{{user.nickName}}" class="input-field">
-							</div>
-							<br />
-
-							<div class="charsLeft">
+							<div class="charsLeft margin-bottom-s">
 								<div class="min">Nog minimaal <span>30</span> tekens.</div>
 								<div class="max"><span>360</span> tekens resterend.</div>
 							</div>
 
-							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-							<input type="submit" class="pull-right btn btn-primary" value="Verzenden" />
+							<div class="col-container">
+								<div class="col-7">
+									{% if not user.nickName %}
+									<div class="form-field-container validate-text-required margin-top-m">
+										 Naam: <br />
 
+										 <div class="label-error margin-hor-xs">
+												 Je hebt geen naam opgegeven.
+										 </div>
+
+										<input type="text" name="nickName" class="input-field stretch">
+									</div>
+									{% endif %}
+									&nbsp;
+								</div>
+								<div class="col-5">
+									{% if not user.zipCode %}
+									<div class="form-field-container validate-postcode margin-top-m" >
+										 Postcode: <br />
+
+										 <div class="label-error margin-hor-xs">
+												 Een geldige postcode is vereist.
+										 </div>
+
+										<input type="text" name="zipCode" class="input-field">
+									</div>
+									{% endif %}
+									<br class="clearfix" />
+										<input type="submit" class="pull-right btn btn-primary btn--stretch" value="Verzenden" />
+								</div>
+							</div>
+
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
 						</form>
 					</div>
 				</div>
@@ -484,13 +506,18 @@
 
 		<div  class="section-container side-padding-xs ">
 			<div class="box-grey">
-				<div class="col-container">
-					<div class="col-4">
+				<div class="aa-col-container" style="display: flex;   justify-content: space-between;">
+					<div class="aa-col-4">
 						<h3 class="margin-0"> Laat argumenten zien van: </h3>
+					</div>
+					<div class="">
+						<a id="filter-arguments-option-all" href="#" class="tab-button argument-filter-tab active" data-variant="all">
+							Alles
+						</a>
 					</div>
 
 					{% for option in poll.options %}
-						<div class="col-2">
+						<div class="aa-col-2">
 							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
 								Variant {{option.order}}
 							</a>
@@ -568,6 +595,7 @@
 	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/scroll-link.js"></script>
 	<script src="/js/enhancements.js"></script>
+	<script src="/js/argument-tabs.js"></script>
 
 	<script>
 		$.noConflict();
@@ -678,6 +706,14 @@
 				}
 			});
 
+
+			/* Validate postcode field */
+			$('#new-argument-form .validate-postcode').forEach(function(inputContainer) {
+				if(!validatePostcodeFormField(inputContainer) ) {
+					validated = false;
+				}
+			});
+
 			if (!validated) {
 				ev.preventDefault();
 			}
@@ -685,12 +721,14 @@
 
 		$('.validate-text-required').forEach(function(inputContainer) {
 			inputContainer.addEventListener('keyup', function(ev) {
-				validateRequiredTextField(inputContainer);
+				if(hasClass(inputContainer, 'error')) {
+					validateRequiredTextField(inputContainer);
+				}
 			});
 		});
 
 
-		$('#vote-form .validate-postcode').forEach(function(inputContainer) {
+		$('.validate-postcode').forEach(function(inputContainer) {
 				inputContainer.addEventListener('keyup', function(ev) {
 					if(hasClass(inputContainer, 'error')) {
 						validatePostcodeFormField(inputContainer);
@@ -701,8 +739,10 @@
 		function validatePostcodeFormField(inputContainer){
 			var inputEl = inputContainer.querySelector('input');
 			 if (validatePostcode(inputEl.value)) {
-				inputContainer.classList.remove('error');
-				inputContainer.classList.add('success');
+				 if (hasClass(inputContainer, 'error')) {
+						inputContainer.classList.remove('error');
+						inputContainer.classList.add('success');
+					}
 				return true;
 			} else {
 				inputContainer.classList.add('error');
@@ -711,13 +751,23 @@
 			}
 		}
 
+		function validatePostcode(postcode) {
+		  var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+		  return rege.test(postcode);
+		}
+
 		function validateRequiredTextField(inputContainer){
 			var inputEl = inputContainer.querySelector('input');
 			if(inputEl.value.length > 0) {
-				inputContainer.classList.remove('error');
+				if (hasClass(inputContainer, 'error')) {
+					inputContainer.classList.remove('error');
+					inputContainer.classList.add('success');
+				}
+
 				return true;
 			} else {
 				inputContainer.classList.add('error');
+				inputContainer.classList.remove('success');
 				return false;
 			}
 		}
@@ -765,10 +815,6 @@
 			getVoteForm().classList.remove(noStarsErrorClassName);
 		}
 
-		function validatePostcode(postcode) {
-			var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
-			return rege.test(postcode);
-		}
 
 		function argumentsLinkClick(order) {
 			document.getElementById('filter-arguments-option-'+order).click();
