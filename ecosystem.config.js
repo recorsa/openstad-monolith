@@ -8,9 +8,7 @@ addApp('stemvan', [{
 	deployName : 'staging',
 	remotePath : '/var/www/stemvanwest.openstadsdeel.nl/www',
 	ref        : 'origin/staging'
-}, 
-
-{
+}, {
 	appName    : 'stem-prod',
 	deployName : 'production',
 	remotePath : '/var/www/stemvanwest.amsterdam.nl/www',
@@ -35,12 +33,15 @@ addApp('stemvan', [{
 	deployName : 'production_zuidoost',
 	remotePath : '/var/www/stemvanzuidoost.amsterdam.nl/www',
 	ref        : 'origin/production'
-}]);
-
-addApp('stemtool', [{
+}, {
 	appName    : 'javabrug-staging',
 	deployName : 'staging_javabrug',
 	remotePath : '/var/www/javabrug.openstadsdeel.nl/www',
+	ref        : 'origin/projects/stemtool'
+}, {
+	appName    : 'stemtool-javabrug',
+	deployName : 'production_javabrug',
+	remotePath : '/var/www/javabrug.amsterdam.nl/www',
 	ref        : 'origin/projects/stemtool'
 }]);
 
