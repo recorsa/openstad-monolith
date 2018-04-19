@@ -10,10 +10,10 @@ module.exports = function( app ) {
 	// Creating a new argument can be done two ways:
 	// 1. Add a new argument to the idea.
 	// 2. Reply to an existing argument.
-	// 
+	//
 	// Both methods share a lot of common ground, but differ in their
 	// authorization logic and an extra data field: `parentId`.
-	// 
+	//
 	// That's why argument creation logic is split into 2 routes, with
 	// a shared error handler.
 	(function() {
@@ -24,11 +24,20 @@ module.exports = function( app ) {
 		.post(updateUserSession)
 		.post(function( req, res, next ) {
 			var {body, user, idea} = req;
-			
+
+			// in case nickname is already set to user add it to the body
+			if (user.nickName) {
+				body.nickName = user.nickName;
+			}
+
+			if( !user.zipCode ) {
+				throw createError(403, 'Geen postcode ingevuld');
+			}
+
 			if( !body.nickName ) {
 				throw createError(400, 'Geen naam opgegeven');
 			}
-			
+
 			idea.addUserArgument(user, body)
 			.then(function( argument ) {
 				req.flash('success', 'Bedankt voor je reactie');
@@ -37,7 +46,7 @@ module.exports = function( app ) {
 			.catch(next);
 		})
 		.all(createArgumentError);
-		
+
 		// Reply to argument.
 		app.route('/arg/reply')
 		.all(fetchIdea())
@@ -46,11 +55,11 @@ module.exports = function( app ) {
 		.post(updateUserSession)
 		.post(function( req, res, next ) {
 			var {body, user, idea} = req;
-			
+
 			if( !body.nickName ) {
 				throw createError(400, 'Geen naam opgegeven');
 			}
-			
+
 			idea.addUserArgument(user, body)
 			.then(function( argument ) {
 				req.flash('success', 'Bedankt voor je reactie');
@@ -59,7 +68,7 @@ module.exports = function( app ) {
 			.catch(next);
 		})
 		.all(createArgumentError);
-		
+
 		// Shared error handler.
 		function createArgumentError( err, req, res, next ) {
 			if( err instanceof db.sequelize.ValidationError ) {
@@ -73,7 +82,7 @@ module.exports = function( app ) {
 			}
 		}
 	})();
-	
+
 	// Edit argument
 	// -------------
 	app.route('/arg/:argId/edit')
@@ -89,13 +98,13 @@ module.exports = function( app ) {
 	.put(function( req, res, next ) {
 		var {user, argument} = req;
 		var description      = req.body.description;
-		
+
 		req.idea.updateUserArgument(user, argument, description)
 		.then(function( argument ) {
 			var flashMessage = argument.parentId ?
 			                   'Reactie aangepast' :
 			                   'Argument aangepast';
-			
+
 			req.flash('success', flashMessage);
 			res.success(`/#arg${argument.id}`, {
 				argument: argument
@@ -112,7 +121,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Delete argument
 	// ---------------
 	app.route('/arg/:argId/delete')
@@ -122,7 +131,7 @@ module.exports = function( app ) {
 	.delete(function( req, res, next ) {
 		var argument = req.argument;
 		var ideaId   = argument.ideaId;
-		
+
 		argument.destroy()
 		.then(function() {
 			req.flash('success', 'Argument verwijderd');
@@ -130,7 +139,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Vote for argument
 	// -----------------
 	app.route('/arg/:argId/vote')
@@ -146,17 +155,17 @@ module.exports = function( app ) {
 	.post(updateUserSession)
 	.post(function( req, res, next ) {
 		var {user, argument, ip} = req;
-		
+
 		if( !user.zipCode ) {
 			throw createError(403, 'Geen postcode ingevuld');
 		}
-		
+
 		argument.addUserVote(user, 'yes', ip)
 		.then(function( voteRemoved ) {
 			var flashMessage = !voteRemoved ?
 			                   'U heeft gestemd op het argument' :
 			                   'Uw stem op het argument is ingetrokken';
-			
+
 			req.flash('success', flashMessage);
 			res.success(`/#arg${argument.id}`, function json() {
 				return db.Argument.scope(
@@ -221,7 +230,7 @@ function fetchArgument( req, res, next ) {
 // requests.
 function updateUserSession( req, res, next ) {
 	var {user, body} = req;
-	
+
 	// 1. Register/pass anonymous user.
 	// 2. Update `nickName`.
 	// 3. Update session ('login').

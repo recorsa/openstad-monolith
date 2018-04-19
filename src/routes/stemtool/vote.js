@@ -21,7 +21,7 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 		res.header('Retry-After', retryAfter);
 		res.locals.nextValidRequestDate = nextValidRequestDate;
 		res.locals.retryAfter           = retryAfter;
-		
+
 		next(createError(429, {nextValidRequestDate: nextValidRequestDate}));
 	}
 });
@@ -34,16 +34,17 @@ module.exports = function( app ) {
 	.post(function( req, res, next ) {
 		var user    = req.user;
 		var poll    = req.poll;
-		
-		var zipCode = req.body.zipCode;
+
+		var zipCode = user.zipCode ? user.zipCode : req.body.zipCode;
 		var choices = req.body.choices;
-		
+
+
 		// Validate. This needs to happen in the route, because
 		// an error needs to reset the brute force prevention. If
 		// validation errors happen in the model, the user is already
 		// 'logged in' as anonymous, and the next try to vote will fail
 		// because the system thinks it's already voted.
-		// 
+		//
 		// This can be solved by checking the database for a vote instead
 		// of just checking authorization.
 		if( !zipCode ) {
@@ -57,7 +58,7 @@ module.exports = function( app ) {
 				throw createError(404, 'Keuze bestaat niet');
 			}
 		});
-		
+
 		(
 			user.isAnonymous() ?
 			Promise.resolve(user) :
@@ -68,12 +69,12 @@ module.exports = function( app ) {
 		})
 		.then(function( user ) {
 			req.setSessionUser(user.id);
-			
+
 			// Store vote.
 			return poll.addVote(user, choices, req.ip)
 			.then(function() {
 				req.flash('success', 'Bedankt voor je stem');
-				res.success('/', true);
+				res.success('/#vote', true);
 			});
 		})
 		.catch(db.sequelize.ValidationError, function( err ) {
@@ -96,11 +97,11 @@ module.exports = function( app ) {
 function fetchPoll( req, res, next ) {
 	var {user, body} = req;
 	var pollId       = body.pollId;
-	
+
 	if( !pollId ) {
 		throw createError(400, 'Geen pollId parameter');
 	}
-	
+
 	db.Poll.scope(
 		'withVoteCount',
 		{method: ['withUserVote', user.id]}
@@ -110,7 +111,7 @@ function fetchPoll( req, res, next ) {
 		if( !poll ) {
 			throw createError(404, 'Poll niet gevonden');
 		}
-		
+
 		req.poll = poll;
 		next();
 	})

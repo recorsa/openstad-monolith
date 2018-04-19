@@ -1,4 +1,4 @@
-.arguments-cta-box {
+.arguments-cta-box, #postcode-form {
   max-width: 480px;
   margin: 40px auto 15px;
   color: black;
@@ -14,7 +14,7 @@
 
   .speech-balloon h3 {
     text-align: center;
-    font-size: 19px;
+    font-size: 17px;
   }
 
   .arguments-icon {
@@ -27,19 +27,29 @@
     border: 1px solid black;
   }
 
+  .input-field.stretch {
+    max-width: none;
+  }
+
   .textarea {
     width: 100%;
     border: 1px solid black;
     font-size: 22px;
     padding: 8px 15px;
     height: 50px;
+        max-width: 100%;
+  }
+
+  select {
+    max-width: 180px;
   }
 
   .charsLeft {
     color: #9A9A9A;
-    float: left;
+    float: none;
     font-size: 0.7rem;
     display: none;
+    font-weight: 400;
 
     &.touched {
       display: block;
@@ -79,7 +89,7 @@
     padding-left: 20px;
 
     input[type="text"] {
-      color: green;
+      border-color: green;
     }
 
   }

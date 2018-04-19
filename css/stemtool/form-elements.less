@@ -2,6 +2,7 @@
   background: white;
   border: 1px solid #b2b2b2;
   line-height: 41px;
+  height: 41px;
   width: 100%;
   padding: 0 15px;
   font-size: 16px;
@@ -36,10 +37,16 @@
     background: transparent;
     border-radius: 0;
     -webkit-appearance: none;
+    -moz-appearance:none;
+    appearance: none;
     padding: 10px 35px 10px 10px;
     border: 1px solid black;
     font-size: 16px;
     margin: 0 7px;
     display: inline-block;
+  }
+
+  select::-ms-expand {
+    display: none;
   }
 }

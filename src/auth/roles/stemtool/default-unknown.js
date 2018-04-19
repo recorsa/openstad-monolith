@@ -1,15 +1,15 @@
 module.exports = function( helpers, role ) {
 	role.action({
 		'dev'       : false,
-		
+
 		'idea:admin': false,
-		
+
 		'poll:vote' : {
 			allow    : true,
 			message  : 'Stemmen niet toegestaan',
 			resource : 'poll'
 		},
-		
+
 		'arg:form'         : {
 			allow    : helpers.mayAddArgument,
 			resource : 'idea'
@@ -44,4 +44,3 @@ module.exports = function( helpers, role ) {
 		}
 	});
 };
-

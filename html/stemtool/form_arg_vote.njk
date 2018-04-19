@@ -3,13 +3,89 @@
 {% set contentClass = 'argument' %}
 
 {% block content %}
-<div id="errorMessage">
-	<h1>Vul je postcode in</h1>
-	
-	<form method="post">
-		Postcode: <input type="text" name="zipCode" value="{{zipCode}}" autofocus>
-		<input type="hidden" name="_csrf" value="{{csrfToken}}">
-		<input type="submit" value="Stemmen">
-	</form>
+<div id="errorMessage" class="zipcode-error-container section-container" style="margin-bottom: 80px;">
+	<div class="col-container">
+		<div class="col-5 col-sm-7 col-xs-12">
+		<h1>Vul je postcode in</h1>
+
+		<p>
+			Wij willen graag weten waar de verschillende stemmen
+			vandaan komen. Vul je postcode in om 'mee een' of 'mee oneens'
+			te stemmen.
+		</p>
+
+
+		<form id="postcode-form" method="post">
+
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+			<div class="form-field-container validate-postcode margin-top-m" >
+				 <label class="h3 margin-hor-s"> Postcode: <label> <br />
+
+				 <div class="label-error margin-hor-xs">
+						 Een geldige postcode is vereist.
+				 </div>
+
+				<input type="text" name="zipCode" class="input-field">
+			</div>
+
+			<br />
+			<input type="submit" class="pull-left block btn btn-primary" value="Verzenden" />
+		</form>
+	</div>
+
+	</div>
+
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+
+		document.getElementById('postcode-form').addEventListener('submit', function(ev) {
+			var validated = true;
+
+			/* Validate postcode field */
+			$('#postcode-form .validate-postcode').forEach(function(inputContainer) {
+				if(!validatePostcodeFormField(inputContainer) ) {
+					validated = false;
+				}
+			});
+
+			if (!validated) {
+				ev.preventDefault();
+			}
+		});
+
+		$('.validate-postcode').forEach(function(inputContainer) {
+				inputContainer.addEventListener('keyup', function(ev) {
+					if(hasClass(inputContainer, 'error')) {
+						validatePostcodeFormField(inputContainer);
+					}
+				});
+		});
+
+		function validatePostcode(postcode) {
+		  var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+		  return rege.test(postcode);
+		}
+
+		function validatePostcodeFormField(inputContainer){
+			var inputEl = inputContainer.querySelector('input');
+			 if (validatePostcode(inputEl.value)) {
+				 if (hasClass(inputContainer, 'error')) {
+						inputContainer.classList.remove('error');
+						inputContainer.classList.add('success');
+					}
+				return true;
+			} else {
+				inputContainer.classList.add('error');
+				inputContainer.classList.remove('success');
+				return false;
+			}
+		}
+
+		function hasClass( target, className ) {
+			 return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+		}
+</script>
 {% endblock %}

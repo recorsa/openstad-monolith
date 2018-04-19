@@ -81,6 +81,10 @@
 		</div>
 	{% endfor %}
 
+	<div class="noArguments no-arguments" style="display: none;">
+			Heb je een goed argument {{'voor' if isFor else 'tegen'}}? Laat je stem horen!
+	</div>
+
 	{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
 	<form method="POST" action="/arg/reply" class="tpl newReaction">
 		<div {% if (user.nickName.length > 0 ) %} style="display: none;" {% endif %}>
@@ -174,35 +178,6 @@
 					}
 				});
 			});
-		});
-	});
-
-
-	$('.argument-filter-tab').forEach(function(tab) {
-		tab.addEventListener('click', function(event) {
-			var thisTab = this;
-
-			event.preventDefault();
-			if( hasClass(thisTab, 'active') ) {
-				thisTab.classList.remove("active");
-				$('{{cssQuery}} .argument, {{cssQuery}} .reaction').forEach(function(argument) {
-					argument.classList.remove("hidden");
-				});
-			} else {
-				$('.argument-filter-tab').forEach(function(filterTab) {
-					filterTab.classList.remove("active");
-				});
-
-				thisTab.classList.add("active");
-
-				$('{{cssQuery}} .argument, {{cssQuery}} .reaction').forEach(function(argument) {
-					argument.classList.add("hidden");
-				});
-
-				$('{{cssQuery}} .argument-variant-' + thisTab.getAttribute('data-variant')).forEach(function(argument) {
-					argument.classList.remove("hidden");
-				});
-			}
 		});
 	});
 

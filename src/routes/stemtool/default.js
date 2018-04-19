@@ -7,6 +7,8 @@ var db           = require('../../db');
 var auth         = require('../../auth');
 
 module.exports = function( app ) {
+
+
 	// View idea
 	// ---------
 	app.route('/')
@@ -41,6 +43,9 @@ module.exports = function( app ) {
 			csrfToken : req.csrfToken()
 		});
 	});
+
+
+
 };
 
 // Asset fetching
