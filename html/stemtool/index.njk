@@ -429,7 +429,7 @@
 						<div class="col-10">
 							<div class="speech-balloon">
 								<h3 class="margin-0">
-									Wil je meepraten over de varianten? <br /> Laat dan hier weten wat je ervan vindt!
+									Wil je meepraten over de varianten? <br class="hidden-xs" /> Laat dan hier weten wat je ervan vindt!
 								</h3>
 							</div>
 						</div>
@@ -511,28 +511,46 @@
 
 		<div  class="section-container side-padding-xs ">
 			<div class="box-grey">
-				<div class="aa-col-container" style="display: flex;   justify-content: space-between;">
-					<div class="aa-col-4" style="max-width:200px;">
+				<div class="aa-col-container " style="display: flex;   justify-content: space-between;">
+					<div class="aa-col-4 hidden-xs" style="max-width:200px;">
 						<h3 class="margin-0"> Laat argumenten zien van: </h3>
 					</div>
-					<div class="">
+
+
+					<div class="hidden-xs">
 						<a id="filter-arguments-option-all" href="#" class="tab-button argument-filter-tab active" data-variant="all">
 							Alles
 						</a>
 					</div>
 
 					{% for option in poll.options %}
-						<div class="aa-col-2">
+						<div class="aa-col-2 hidden-xs">
 							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
 								{{option.order}}. {{option.title}}
 							</a>
 						</div>
 					{% endfor %}
 
+					<div class="select-wrapper stretch">
+						<select id="filter-arguments-select" class="stretch">
+							<option value="all">
+								Laat argumenten zien van
+							</option>
+							<option value="all">
+								 Alles
+							</option>
+							{% for option in poll.options %}
+								<option value="{{option.order}}">
+										{{option.order}}. {{option.title}}
+								</option>
+							{% endfor %}
+						</select>
+					</div>
+
 				</div>
 			</div>
 
-			<div class="section-container side-padding-xs">
+			<div class="section-container">
 				<div class="argList for">
 					<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
 					{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
