@@ -33,11 +33,33 @@
 
   .textarea {
     width: 100%;
-    border: 1px solid black;
     font-size: 22px;
     padding: 8px 15px;
     height: 50px;
-        max-width: 100%;
+    max-width: 100%;
+    transition: color 0.2s, font-size 0.2s, height 0.2s 0.2s;
+    border: 1px solid #B6B7BA;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #B6B7BA;
+    cursor: pointer;
+    display: block;
+    font-family: inherit;
+    font-size: 1.5em;
+    font-weight: bold;
+    height: 55px;
+    margin-bottom: 5px;
+    outline: none;
+    padding: 10px;
+    position: relative;
+
+    &:not([data-disabled]):focus {
+      color: #000;
+      cursor: auto;
+      font-size: 0.875rem;
+      font-weight: normal;
+      height: 100px;
+    }
   }
 
   select {

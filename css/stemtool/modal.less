@@ -47,11 +47,20 @@
 	line-height: 47px;
 	font-size: 34px;
 	z-index: 1;
-
+	-webkit-transition: all 100ms ease-in;
+	-moz-transition: all 100ms ease-in;
+	-ms-transition: all 100ms ease-in;
+	-o-transition: all 100ms ease-in;
+	transition: all 100ms ease-in;
+	
 	@media only screen and (max-width: 1000px) {
 		right: 0;
 		top: -50px;
 	}
+}
+
+.content-modal-close:hover {
+	background: #b90000;
 }
 
 .content-modal-content {

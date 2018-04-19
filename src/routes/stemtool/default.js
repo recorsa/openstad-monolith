@@ -8,6 +8,10 @@ var auth         = require('../../auth');
 
 module.exports = function( app ) {
 
+	app.route('/disclaimer')
+	.get(function(req, res) {
+		res.out('disclaimer', false);
+	});
 
 	// View idea
 	// ---------

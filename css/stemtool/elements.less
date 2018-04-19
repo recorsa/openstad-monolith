@@ -189,16 +189,29 @@ div.flashMessage {
   padding: 0 19px;
   align-items: flex-start;
   font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
-
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  -ms-transition: all 100ms ease-in;
+  -o-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+  
   &--stretch {
     width: 100%;
     max-width: 300px;
   }
 }
 
+.btn:hover {
+  background: #003066;
+}
+
 .btn-secondary {
   background: #e8e8e8;
   color: #000;
+}
+
+.btn-secondary:hover {
+  background: #cfcfcf;
 }
 
 .speechBubble {
