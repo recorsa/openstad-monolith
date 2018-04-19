@@ -507,7 +507,7 @@
 		<div  class="section-container side-padding-xs ">
 			<div class="box-grey">
 				<div class="aa-col-container" style="display: flex;   justify-content: space-between;">
-					<div class="aa-col-4">
+					<div class="aa-col-4" style="max-width:200px;">
 						<h3 class="margin-0"> Laat argumenten zien van: </h3>
 					</div>
 					<div class="">
@@ -519,7 +519,7 @@
 					{% for option in poll.options %}
 						<div class="aa-col-2">
 							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
-								Variant {{option.order}}
+								{{option.order}}. {{option.title}}
 							</a>
 						</div>
 					{% endfor %}
