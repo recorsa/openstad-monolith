@@ -18,6 +18,7 @@
 	<meta property="og:locale" content="nl_NL">
 	<meta property="og:site_name" content="{{SITENAME}}">
 	<meta property="og:image" content="/img/stemtool/header.png">
+	<link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
 
 {% endblock %}
 
@@ -158,7 +159,7 @@
 				<br />
 				<br />
 
-					<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m">
+					<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m side-padding-xs">
 
 						<div class="vote-inner-container">
 							{% if can('poll:vote') %}
@@ -195,12 +196,12 @@
 										{% for option in poll.options %}
 											<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
 
-											<label for="checkbox-choice-{{option.id}}" class="concept-label">
+											<label for="checkbox-choice-{{option.id}}" class="concept-label clearfix">
 												<div class="label-error">
 													Je hebt al 3 sterren verdeeld. Klik nogmaals op een ster om
 													hem te verwijderen. Hierna kun je een ster aan een andere variant geven.
 												</div>
-												<div class="relative">
+												<div class="relative clearfix">
 													<div
 														class="concept-card-image"
 														style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
@@ -271,7 +272,7 @@
 									{% for option in poll.options %}
 										{% if option.id === vote.pollOptionId %}
 										<label for="checkbox-choice-{{option.id}}" class="concept-label selected">
-											<div class="relative">
+											<div class="relative clearfix">
 												<div
 													class="concept-card-image"
 													style="background-image: url('img/stemtool/variant_{{option.id}}_klein.png');"
@@ -471,9 +472,11 @@
 							</div>
 
 							<div class="col-container">
-								<div class="col-7">
+								<div class="col-7 col-xs-12">
 									{% if not user.nickName %}
-									<div class="form-field-container validate-text-required margin-top-m">
+									<br class="visible-xs" />
+
+									<div class="form-field-container validate-text-required  ">
 										 Naam: <br />
 
 										 <div class="label-error margin-hor-xs">
@@ -485,7 +488,7 @@
 									{% endif %}
 									&nbsp;
 								</div>
-								<div class="col-5">
+								<div class="col-5 col-xs-12">
 									{% if not user.zipCode %}
 									<div class="form-field-container validate-postcode margin-top-m" >
 										 Postcode: <br />
@@ -494,11 +497,11 @@
 												 Een geldige postcode is vereist.
 										 </div>
 
-										<input type="text" name="zipCode" class="input-field">
+										<input type="text" name="zipCode" class="input-field stretch">
 									</div>
 									{% endif %}
 									<br class="clearfix" />
-										<input type="submit" class="pull-right btn btn-primary btn--stretch" value="Verzenden" />
+									<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verzenden" />
 								</div>
 							</div>
 
@@ -517,24 +520,24 @@
 					</div>
 
 
-					<div class="hidden-xs">
+					<div class="visible-lg">
 						<a id="filter-arguments-option-all" href="#" class="tab-button argument-filter-tab active" data-variant="all">
 							Alles
 						</a>
 					</div>
 
 					{% for option in poll.options %}
-						<div class="aa-col-2 hidden-xs">
+						<div class="aa-col-2 visible-lg">
 							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
 								{{option.order}}. {{option.title}}
 							</a>
 						</div>
 					{% endfor %}
 
-					<div class="select-wrapper stretch">
+					<div id="filter-arguments-select-wrapper" class="select-wrapper stretch hidden-lg">
 						<select id="filter-arguments-select" class="stretch">
 							<option value="all">
-								Laat argumenten zien van
+								Laat argumenten zien van:
 							</option>
 							<option value="all">
 								 Alles
@@ -550,7 +553,7 @@
 				</div>
 			</div>
 
-			<div class="section-container">
+			<div>
 				<div class="argList for">
 					<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
 					{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
@@ -577,7 +580,13 @@
 					</div>
 
 					<div class="col-6 col-xs-12">
-						<img src="/img/stemtool/variant_{{option.id}}.png" style="max-width: 100%" />
+						<!-- <img src="/img/stemtool/variant_{{option.id}}.png" style="max-width: 100%" /> !-->
+						<div class="fotorama" data-nav="thumbs" data-allowfullscreen="true" data-ratio="400/300" data-fit="cover"  data-thumbwidth="105" data-thumbheight="105">
+							<img src="/img/stemtool/variant1_1.png" />
+							<img src="/img/stemtool/variant1_2.png" />
+							<img src="/img/stemtool/variant1_3.png" />
+							<img src="/img/stemtool/variant1_4.png" />
+						</div>
 					</div>
 					<div class="col-6 col-xs-12">
 						{{ option.description | safe }}
@@ -618,6 +627,9 @@
 	<script src="/js/promise.js"></script>
 	<script src="/js/fetch.js"></script>
 	<script src="/js/jquery-3.3.1.min.js"></script>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
+
 	<script src="/js/scroll-link.js"></script>
 	<script src="/js/enhancements.js"></script>
 	<script src="/js/argument-tabs.js"></script>

@@ -3,7 +3,7 @@
 {% set contentClass = 'argument' %}
 
 {% block content %}
-<div id="errorMessage" class="zipcode-error-container section-container" style="margin-bottom: 80px;">
+<div id="errorMessage" class="zipcode-error-container section-container side-padding-xs" style="margin-bottom: 80px;">
 	<div class="col-container">
 		<div class="col-5 col-sm-7 col-xs-12">
 		<h1>Bewerk argument</h1>
@@ -16,6 +16,12 @@
 			<input type="hidden" name="_method" value="PUT">
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 
+
+			<div class="charsLeft margin-bottom-s">
+				<div class="min">Nog minimaal <span>30</span> tekens.</div>
+				<div class="max"><span>360</span> tekens resterend.</div>
+			</div>
+
 			<input type="submit" class="pull-left block btn btn-primary" value="Opslaan" />
 
 	</form>
@@ -26,52 +32,90 @@
 {% endblock %}
 {% block scripts %}
 <script>
+	// For each argument
+	// -----------------
+	// Delete confirmation for arguments.
 
-		document.getElementById('postcode-form').addEventListener('submit', function(ev) {
-			var validated = true;
 
-			/* Validate postcode field */
-			$('#postcode-form .validate-postcode').forEach(function(inputContainer) {
-				if(!validatePostcodeFormField(inputContainer) ) {
-					validated = false;
+	// Helper functions
+	// ----------------
+
+	function renderForm( form ) {
+		var minLen = 30;
+		var maxLen = 500;
+
+		var textarea  = form.querySelector('textarea');
+		var charsLeft = form.querySelector('div.charsLeft');
+		var button    = form.querySelector('input[type="submit"]');
+
+		if( !charsLeft ) {
+			return;
+		}
+
+		var msg = {
+			min: charsLeft.querySelector('div.min'),
+			max: charsLeft.querySelector('div.max')
+		};
+		var span = {
+			min: msg.min.querySelector('span'),
+			max: msg.max.querySelector('span')
+		};
+
+		validate();
+
+		textarea.addEventListener('focus', function( event ) {
+			charsLeft.className += ' visible touched ';
+		});
+		textarea.addEventListener('blur', function( event ) {
+			charsLeft.className = charsLeft.className.replace(' visible', '');
+		});
+		textarea.addEventListener('keydown', function( event ) {
+			// Prevent input when maximum is reached.
+			if( textarea.value.length == maxLen ) {
+				switch( event.key.toLowerCase() ) {
+					case 'delete'    : case 'backspace':
+					case 'arrowdown' : case 'arrowup':
+					case 'arrowleft' : case 'arrowright':
+						return;
+					default:
+						event.preventDefault();
 				}
-			});
-
-			if (!validated) {
-				ev.preventDefault();
 			}
 		});
-
-		$('.validate-postcode').forEach(function(inputContainer) {
-				inputContainer.addEventListener('keyup', function(ev) {
-					if(hasClass(inputContainer, 'error')) {
-						validatePostcodeFormField(inputContainer);
-					}
-				});
+		textarea.addEventListener('keyup', function() {
+			if( textarea.value.length > maxLen ) {
+				textarea.value = textarea.value.substr(0, maxLen);
+			}
+			validate();
 		});
 
-		function validatePostcode(postcode) {
-		  var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
-		  return rege.test(postcode);
+		function validate() {
+			updateCharsLeft();
+			updateButton();
+		}
+		function updateCharsLeft() {
+			var len     = textarea.value.length;
+			var enable  = len < minLen ? 'min' : 'max';
+			var disable = enable == 'max' ? 'min' : 'max';
+			var chars   = len < minLen ? minLen - len : maxLen - len;
+
+			msg[enable].className  = enable+' visible';
+			msg[disable].className = disable;
+			span[enable].innerHTML = chars;
 		}
 
-		function validatePostcodeFormField(inputContainer){
-			var inputEl = inputContainer.querySelector('input');
-			 if (validatePostcode(inputEl.value)) {
-				 if (hasClass(inputContainer, 'error')) {
-						inputContainer.classList.remove('error');
-						inputContainer.classList.add('success');
-					}
-				return true;
-			} else {
-				inputContainer.classList.add('error');
-				inputContainer.classList.remove('success');
-				return false;
-			}
+		function updateButton() {
+			var len = textarea.value.length;
+			var isValid = len >= minLen && len <= maxLen;
+			 button.disabled = !isValid;
 		}
 
-		function hasClass( target, className ) {
-			 return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
-		}
+	}
+</script>
+<script>
+
+$('#postcode-form').forEach(function( form ) {
+	renderForm(form);
+});
 </script>
 {% endblock %}
