@@ -15,6 +15,7 @@
 				"./routes/stemtool/default",
 				"./routes/stemtool/vote",
 				"./routes/stemtool/arg",
+				"./routes/stemtool/newsletter",
 				"./routes/stemtool/logout",
 				"./routes/dev"
 			]

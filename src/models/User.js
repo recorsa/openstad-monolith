@@ -143,7 +143,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 				          null;
 				this.setDataValue('zipCode', zipCode);
 			}
-		}
+		},
+		
+		signedUpForNewsletter: {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : false,
+			defaultValue : false
+		},
 	}, {
 		charset: 'utf8',
 		
