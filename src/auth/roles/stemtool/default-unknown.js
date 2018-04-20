@@ -4,6 +4,12 @@ module.exports = function( helpers, role ) {
 
 		'idea:admin': false,
 
+		'newsletter:signup' : {
+			allow    : true,
+			message  : 'U kunt zich niet aanmelden',
+			resource : 'user'
+		},
+
 		'poll:vote' : {
 			allow    : true,
 			message  : 'Stemmen niet toegestaan',
