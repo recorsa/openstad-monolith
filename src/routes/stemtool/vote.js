@@ -13,7 +13,8 @@ var maxPollChoices = config.get('polls.maxChoices');
 
 var bruteForce   = new Brute(new Brute.MemoryStore(), {
 	freeRetries  : 0,
-	minWait      : 60000,
+	//minWait      : 60000,
+	minWait: 0,
 	maxWait      : 900000, // 15 min
 	lifetime     : 86400, // 24 hours
 	failCallback : function( req, res, next, nextValidRequestDate ) {

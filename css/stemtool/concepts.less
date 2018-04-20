@@ -155,6 +155,14 @@
 	 user-select: none;
 	 margin: 5px 0;
 
+	 @media @medium {
+		 width: calc(100% - 60px);
+	 }
+
+	 @media @phone{
+		 width: calc(100% - 40px);
+	 }
+
 	&:hover:not(.unavailable) {
 		cursor: pointer;
 		background: #eee;
@@ -173,8 +181,19 @@
     top: 16px;
     content: '';
     background: url(/img/stemtool/star-outline.svg);
+
+		@media @phone {
+			height: 35px;
+	    width: 35px;
+	    right: -45px;
+		}
 	}
 
+	.concept-card-image {
+		width: 80px;
+		height: 80px;
+		padding: 0;
+	}
 
 
 	.concept-card-title {
@@ -191,6 +210,13 @@
     background: #ffffff;
     bottom: 0;
     color: #323232;
+
+		@media @phone {
+			font-size: 15px;
+			padding-top: 26px;
+			padding-left: 14px;
+			padding-right: 10px;
+		}
 	}
 
 	.concept-card-number {
