@@ -13,8 +13,8 @@ var maxPollChoices = config.get('polls.maxChoices');
 
 var bruteForce   = new Brute(new Brute.MemoryStore(), {
 	freeRetries  : 0,
-	//minWait      : 60000,
-	minWait: 0,
+	minWait      : 60000,
+	// minWait: 0,
 	maxWait      : 900000, // 15 min
 	lifetime     : 86400, // 24 hours
 	failCallback : function( req, res, next, nextValidRequestDate ) {
@@ -29,7 +29,13 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 
 module.exports = function( app ) {
 	app.route('/vote')
-	.post(bruteForce.prevent)
+	.post(function( req, res, next ) {
+		if (req.cookies && req.cookies.showLogoutButton == 'true') {
+			return next();
+		} else {
+			return bruteForce.prevent( req, res, next );
+		}
+	})
 	.post(fetchPoll)
 	.post(auth.can('poll:vote'))
 	.post(function( req, res, next ) {
