@@ -136,16 +136,14 @@
 					<h2>Spelregels</h2>
 
 					<ul class="checkmark-list">
-						<li>Om jouw voorkeur aan te geven kun je in totaal 3 sterren verdelen over de varianten, maximaal 1 ster per variant.</li>
+						<li>Om jouw voorkeur aan te geven kun je in totaal maximaal 3 sterren verdelen over de varianten en maximaal 1 ster per variant.  </li>
 						<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de <b> reden </b> waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
 						<li>Je kunt niet alleen argumenten vóór maar ook argumenten tégen een variant plaatsen.</li>
 						<li>Ben je het eens met wat anderen over een locatievariant zeggen? Laat dat dan weten door op ‘mee eens’ te klikken bij dat argument. Op die manier weten wij welke argumenten het belangrijkst zijn bij de keuze voor een voorkeursvariant. In de terugkoppeling gaan we specifiek in op de belangrijkste argumenten per variant.</li>
-						<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
 						<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
-						<li>De online tool helpt de gemeente bij de ontwikkeling en keuze van de voorkeursvariant.</li>
+						<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, veiligheid, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
 						<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
 						<li>Wil je weten wat we met de resultaten hebben gedaan? Meld je dan aan voor de <a href="https://www.amsterdam.nl/bestuur-organisatie/volg-beleid/amsterdam-onderzoekt/nieuwsbrieven/nieuwsbrief-sprong-0/" target="_blank">nieuwsbrief</a> om op de hoogte te blijven. </li>
-						<li>Eind dit jaar organiseert de gemeente een nieuwe bijeenkomst om alle overwegingen en de keuze voor de uiteindelijke voorkeursvariant toe te lichten.  </li>
 						<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
 					</ul>
 
@@ -397,7 +395,7 @@
 				</h4>
 				<p>
 					Dit kost hooguit 2 minuten
-					van je tijd?
+					van je tijd.
 				</p>
 				<a href="https://www.amsterdam.nl/projecten/javabrug/" target="_blank" class="caret-link">
 					Ja, ga naar vragenlijst
@@ -515,8 +513,8 @@
 		<div  class="section-container side-padding-xs ">
 			<div class="box-grey">
 				<div class="aa-col-container " style="display: flex;   justify-content: space-between;">
-					<div class="aa-col-4 hidden-xs" style="max-width:200px;">
-						<h3 class="margin-0"> Laat argumenten zien van: </h3>
+					<div class="aa-col-4 hidden-xs">
+						<h3 id="tab-text"> Laat argumenten zien van: </h3>
 					</div>
 
 
@@ -529,7 +527,7 @@
 					{% for option in poll.options %}
 						<div class="aa-col-2 visible-lg">
 							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
-								{{option.order}}. {{option.title}}
+								Variant {{option.order}}
 							</a>
 						</div>
 					{% endfor %}
@@ -582,16 +580,24 @@
 					<div class="col-6 col-xs-12">
 						<!-- <img src="/img/stemtool/variant_{{option.id}}.png" style="max-width: 100%" /> !-->
 						<div class="fotorama" data-nav="thumbs" data-allowfullscreen="true" data-ratio="400/300" data-fit="cover"  data-thumbwidth="105" data-thumbheight="105">
-							<img src="/img/stemtool/variant1_1.png" />
+							<!-- <img src="/img/stemtool/variant1_1.png" />
 							<img src="/img/stemtool/variant1_2.png" />
 							<img src="/img/stemtool/variant1_3.png" />
-							<img src="/img/stemtool/variant1_4.png" />
+							<img src="/img/stemtool/variant1_4.png" /> !-->
+							<a href="/img/stemtool/variant1_1.png"></a>
+							<a href="/img/stemtool/variant1_2.png"></a>
+							<a href="/img/stemtool/variant1_3.png"></a>
+							<a href="/img/stemtool/variant1_4.png"></a>
 						</div>
 					</div>
 					<div class="col-6 col-xs-12">
 						<br class="visible-xs" />
 
 						{{ option.description | safe }}
+
+						<br />
+						<small> De afbeeldingen hiernaast zijn sfeerbeelden. </small>
+
 					</div>
 				</div>
 
@@ -608,11 +614,15 @@
 							</a>
 						</div>
 
+
 						<div class="col-5 col-xs-12 ">
+
+							<!--
 							<br class="visible-xs" />
 							<a href="https://amsterdam.nl/javabrug" target="_blank" class="btn btn-secondary btn--stretch">
 								Lees meer over deze variant
 							</a>
+							!-->
 						</div>
 					</div>
 				</div>

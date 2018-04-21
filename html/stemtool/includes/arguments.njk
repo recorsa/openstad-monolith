@@ -26,7 +26,7 @@
 				{% endif %}
 			</div>
 			<div class="margin-hor-s">
-				<b> Ik ben {{'voor' if arg.sentiment == 'for' else 'tegen'}} ontwerp {{arg.label}}, omdat </b>
+				<b> Ik ben {{'voor' if arg.sentiment == 'for' else 'tegen'}} variant {{arg.label}}, omdat </b>
 			</div>
 
 			<p>{{arg.description | urlize | nl2br | safe}}</p>
