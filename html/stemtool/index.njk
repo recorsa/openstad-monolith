@@ -1,5 +1,6 @@
 {% extends 'base.njk' %}
 {% import 'includes/arguments.njk' as arguments %}
+{% import 'includes/newsletter.njk' as newsletter %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
@@ -384,6 +385,8 @@
 			{% endif %}
 
 			<br />
+
+      {{newsletter.form(user, csrfToken)}}
 
 			<h2>Heb je nog even?</h2>
 			<div class="box-grey">
