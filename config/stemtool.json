@@ -17,11 +17,13 @@
 				"./routes/stemtool/arg",
 				"./routes/stemtool/newsletter",
 				"./routes/stemtool/logout",
-				"./routes/dev"
+				"./routes/dev",
+				"./routes/stemvan/idea",
+
 			]
 		}
 	},
-	
+
 	"security": {
 		"authorization": {
 			"roles": "stemtool"
