@@ -50,6 +50,7 @@
 @import 'helpers';
 @import 'elements';
 @import 'modal';
+@import 'mobile-accordion';
 
 // Section/page specific definitions.
 @import 'idea';
@@ -86,3 +87,22 @@ body.preload * {
 	top: -9999px       !important;
 	visibility: hidden !important;
 }
+
+#logoutButton a {
+  background: red;
+  color: white;
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 14px 7px;
+  border-radius: 50%;
+  height: 70px;
+  width: 70px;
+  text-align: center;
+  line-height: 1;
+  text-decoration: none;
+  font-size: 13px;
+  -webkit-box-shadow: 0 0 14px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 14px 5px rgba(0, 0, 0, 0.1);
+  }

@@ -29,7 +29,7 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 
 module.exports = function( app ) {
 	app.route('/vote')
-	.post(function( req, res, next ) {
+	.post(function( req, res, next ) {		
 		if (req.cookies && req.cookies.showLogoutButton == 'true') {
 			return next();
 		} else {

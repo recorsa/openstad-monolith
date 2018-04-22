@@ -32,9 +32,7 @@
 					<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
 				</ul>
 				!-->
-				<ul>
-					<li id="logoutButton"></li>
-				</ul>
+
 			</div>
 		</nav>
 
@@ -107,6 +105,8 @@
 		</footer>
 		{% endblock %}
 	</div>
+
+	<div id="logoutButton"></div>
 
 	<script>
 		// Preload class is defined in `all.less` to disable all animations.
@@ -186,7 +186,7 @@
 		if (document.cookie.search(/showLogoutButton=true/) != -1) {
 			let button = document.createElement('a');
 			button.href = '/logout';
-			button.textContent = "Log uit";
+			button.textContent = "Start nieuwe sessie";
 			document.getElementById('logoutButton').appendChild(button);
 		}
 	</script>

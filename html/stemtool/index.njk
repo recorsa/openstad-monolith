@@ -87,7 +87,8 @@
 
 	<section id="designs" class="content-section">
 		<div class="section-container side-padding-xs">
-			<h2 class="margin-top-0">De locatievarianten</h2>
+			<div class="mobile-accordion">
+				<h2 class="mobile-accordion-opener margin-top-0">De locatievarianten</h2>
 
 			<div class="col-container">
 				{% for option in poll.options
@@ -122,37 +123,42 @@
 					</div>{%
 				endfor %}
 			</div>
+		</div>
 	</section>
 
-	<section id="details" class="content-section section-container">
+	<section id="details" class="content-section section-container ">
 		<div class="col-container">
 			<div class="col-9 col-sm-8 col-xs-12">
 				<div class="side-padding-xs">
-					<h2>Achtergrondinformatie</h2>
+					<div class="mobile-accordion">
+						<h2 class="mobile-accordion-opener">Achtergrondinformatie</h2>
 
-					<div class="userContent">
-						{{idea.description | safe}}
+						<div class="userContent">
+							{{idea.description | safe}}
+						</div>
 					</div>
 
-					<h2>Spelregels</h2>
+					<div class="mobile-accordion">
+						<h2 class="mobile-accordion-opener">Spelregels</h2>
 
-					<ul class="checkmark-list">
-						<li>Om jouw voorkeur aan te geven kun je in totaal maximaal 3 sterren verdelen over de varianten en maximaal 1 ster per variant.  </li>
-						<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de <b> reden </b> waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
-						<li>Je kunt niet alleen argumenten vóór maar ook argumenten tégen een variant plaatsen.</li>
-						<li>Ben je het eens met wat anderen over een locatievariant zeggen? Laat dat dan weten door op ‘mee eens’ te klikken bij dat argument. Op die manier weten wij welke argumenten het belangrijkst zijn bij de keuze voor een voorkeursvariant. In de terugkoppeling gaan we specifiek in op de belangrijkste argumenten per variant.</li>
-						<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
-						<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, veiligheid, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
-						<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
-						<li>Wil je weten wat we met de resultaten hebben gedaan? Meld je dan aan voor de <a href="https://www.amsterdam.nl/bestuur-organisatie/volg-beleid/amsterdam-onderzoekt/nieuwsbrieven/nieuwsbrief-sprong-0/" target="_blank">nieuwsbrief</a> om op de hoogte te blijven. </li>
-						<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
-					</ul>
+						<ul class="checkmark-list">
+							<li>Om jouw voorkeur aan te geven kun je in totaal maximaal 3 sterren verdelen over de varianten en maximaal 1 ster per variant.  </li>
+							<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de <b> reden </b> waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
+							<li>Je kunt niet alleen argumenten vóór maar ook argumenten tégen een variant plaatsen.</li>
+							<li>Ben je het eens met wat anderen over een locatievariant zeggen? Laat dat dan weten door op ‘mee eens’ te klikken bij dat argument. Op die manier weten wij welke argumenten het belangrijkst zijn bij de keuze voor een voorkeursvariant. In de terugkoppeling gaan we specifiek in op de belangrijkste argumenten per variant.</li>
+							<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
+							<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, veiligheid, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
+							<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
+							<li>Wil je weten wat we met de resultaten hebben gedaan? Meld je dan aan voor de <a href="https://www.amsterdam.nl/bestuur-organisatie/volg-beleid/amsterdam-onderzoekt/nieuwsbrieven/nieuwsbrief-sprong-0/" target="_blank">nieuwsbrief</a> om op de hoogte te blijven. </li>
+							<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
+						</ul>
 
-					<br />
+						<br />
 
-					<a href="https://www.amsterdam.nl/javabrug" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
-						Lees meer over dit project op amsterdam.nl
-					</a>
+						<a href="https://www.amsterdam.nl/javabrug" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
+							Lees meer over dit project op amsterdam.nl
+						</a>
+					</div>
 				</div>
 
 				<br />
