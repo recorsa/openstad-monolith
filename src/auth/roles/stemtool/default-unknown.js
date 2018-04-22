@@ -47,6 +47,27 @@ module.exports = function( helpers, role ) {
 			allow    : helpers.mayVoteArgument,
 			resource : ['idea', 'argument'],
 			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
-		}
+		},
+
+
+		'ideas:list'       : true,
+		'ideas:archive'    : true,
+		'idea:admin'       : false,
+		'idea:view'        : true,
+		'idea:create'      : false,
+		'idea:vote'        : {
+			allow    : false,
+			resource : 'idea'
+		},
+		'idea:edit'        : {
+			allow    : false,
+			resource : 'idea',
+			message  : 'Idee bewerken niet toegestaan'
+		},
+		'idea:delete'      : {
+			allow    : false,
+			resource : 'idea'
+		},
+
 	});
 };
