@@ -9,7 +9,7 @@
 
 	<div class="zipcode-error-container section-container side-padding-xs" style="margin-bottom: 80px;">
 		<div class="col-container">
-			<div class="col-5 col-sm-7 col-xs-12">v id="login">
+			<div class="col-5 col-sm-7 col-xs-12">
 		<h1>Ik ben al lid</h1>
 
 		<p>
@@ -18,12 +18,11 @@
 		</p>
 
 		<form method="post" action="/account/login_email?ref={{ref}}">
-			<label><b>Emailadres</b> <input type="email" name="email" value="{{email_login}}" placeholder="naam@adres.nl"></label>
+			<label><b>Emailadres</b> <input type="email" name="email" value="{{email_login}}" placeholder="naam@adres.nl" class="input-field block margin-bottom-s"></label>
 
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 			<input type="submit" value="Inloggen" class=" block btn btn-primary">
 		</form>
-		<hr>
 
 	</div>
 </div>
