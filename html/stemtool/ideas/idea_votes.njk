@@ -10,7 +10,7 @@
 
 {% block content %}
 	<a href="/plan/{{idea.id}}/votes?download">Download als CSV</a>
-	
+
 	<table id="votes" class="sortable">
 	<thead>
 		<tr>
@@ -24,7 +24,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	{% for vote in idea.votes %}
+	{% for vote in poll.votes %}
 		<tr class="{{'rejected' if vote.checked === false}}">
 			<td>{{vote.id}}</td>
 			<td>{{vote.user.id}}</td>
@@ -50,7 +50,7 @@
 			checkMark.addEventListener('click', function() {
 				var voteId = Number(checkMark.getAttribute('data-vote'));
 				if( !voteId ) return;
-				
+
 				fetch('/idea/{{idea.id}}/vote/'+voteId+'/toggle_checked', {
 					headers     : {'Accept': 'application/json'},
 					credentials : 'same-origin'
@@ -62,7 +62,7 @@
 				})
 			});
 		});
-		
+
 		function toJSON( resp ) {
 			return resp.json();
 		}
