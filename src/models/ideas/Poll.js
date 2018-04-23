@@ -18,19 +18,35 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : true
 		},
-		
+
 		totalVoteCount: {
 			type         : DataTypes.VIRTUAL,
 			get: function() {
 				var options = this.options;
+				var votedUsers = this.votedUsers;
+
+				console.log('votedUsers', votedUsers);
+
 				if( !Array.isArray(options) ) {
 					throw Error('Geen poll opties gevonden');
 				}
-				
+
 				return options.reduce(function( totalVoteCount, option ) {
 					return totalVoteCount + option.voteCount;
 				}, 0);
 			}
+		},
+		totalUserVoteCount: {
+			type         : DataTypes.VIRTUAL,
+
+			get: function() {
+				return sequelize.query("SELECT count(*) FROM `poll_votes`", { type: sequelize.QueryTypes.SELECT})
+				  .then(count => {
+						console.log('count', count);
+				    return 10;
+				  });
+			}
+
 		}
 	}, {
 		classMethods: {
@@ -52,7 +68,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					userId : user.id,
 					ip     : ip
 				};
-				
+
 				return db.PollVote.findOne({where: data})
 				.then(function( vote ) {
 					if( vote ) {
@@ -66,7 +82,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	});
-	
+
 	function scopes() {
 		return {
 			defaultScope: {
@@ -77,7 +93,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : ['id', 'order', 'title', 'intro', 'description']
 				}]
 			},
-			
+
 			withVoteCount: {
 				include: [{
 					model      : db.PollOption,
@@ -86,7 +102,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : [
 						'id', 'order', 'title', 'intro', 'description',
 						[sequelize.literal(`
-							(SELECT
+							(SELECT DISTINCT
 								COUNT(*)
 							FROM
 								poll_votes pv
@@ -95,16 +111,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 									pv.checked IS NULL OR
 									pv.checked  = 1
 								) AND
-								pv.pollOptionId = \`options\`.\`id\`)
+								pv.pollOptionId = \`options\`.\`id\`
+							GROUP BY pv.userId
+
+							)
 						`), 'voteCount']
 					]
 				}]
 			},
-			
+
 			withUserVote: function( userId ) {
 				userId = Number(userId);
 				if( !userId ) return {};
-				
+
 				return {
 					include: [{
 						model    : db.PollVote,
@@ -113,9 +132,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 						where    : {userId}
 					}]
 				};
+			},
+
+			withVotedUsers: function() {
+
+
+				return {
+					include: [{
+						model    : db.PollVote,
+						as       : 'votedUsers',
+						required : false,
+						group    : 'userId',
+					}]
+				};
 			}
+
+
 		};
 	}
-	
+
 	return Poll;
 };

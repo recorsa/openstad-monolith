@@ -25,40 +25,41 @@ module.exports = function( app ) {
 				expires: 0
 			});
 		}
-		
+
 		var data = {
 			sort             : sort,
 			runningIdeas     : db.Idea.getRunning(sort),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			upcomingMeetings : db.Meeting.getUpcoming(3)
 		};
-		
+
 		Promise.props(data)
 		.then(function( result ) {
 			res.out('ideas/list', true, result);
 		})
 		.catch(next);
 	});
-	
+
 	// View idea
 	// ---------
 	var router = express.Router();
 	app.use('(/idea|/plan)', router);
-	
+
 	router.route('/:ideaId(\\d+)')
 	.all(function( req, res, next ) {
 		// To be able to pass the user ID to the `withArguments` scope,
 		// we need to manually call the middleware created by `fetchIdea`.
-		// 
+		//
 		// Calling the `withArguments` scope as a method results in the field
 		// `hasUserVoted` being added to the results. This field is used to
 		// visualize whether a user has voted for an argument.
-		// 
+		//
 		// In other routes this scope is not called as a method. In these cases
 		// the `hasUserVoted` field is omitted from the results.
 		var middleware = fetchIdea(
 			'withUser',
 			'withVoteCount',
+      'withVotedUsers',
 			'withPosterImage',
 			{method: ['withArguments', req.user.id]}
 		);
@@ -73,7 +74,7 @@ module.exports = function( app ) {
 			csrfToken : req.csrfToken()
 		});
 	});
-	
+
 	// Create idea
 	// -----------
 	router.route('(/new|/nieuw)')
@@ -89,7 +90,7 @@ module.exports = function( app ) {
 	})
 	.post(function( req, res, next ) {
 		req.body.location = JSON.parse(req.body.location || null);
-		
+
 		req.user.createNewIdea(req.body)
 		.then(function( idea ) {
 			sendThankYouMail(req, idea);
@@ -111,7 +112,7 @@ module.exports = function( app ) {
 			}
 		});
 	});
-	
+
 	// Edit idea
 	// ---------
 	router.route('/:ideaId/edit')
@@ -128,7 +129,7 @@ module.exports = function( app ) {
 	})
 	.put(function( req, res, next ) {
 		req.body.location = JSON.parse(req.body.location || null);
-		
+
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
 			res.success('/plan/'+idea.id, {idea: idea});
@@ -149,7 +150,7 @@ module.exports = function( app ) {
 			}
 		});
 	});
-	
+
 	// Delete idea
 	// -----------
 	router.route('/:ideaId/delete')
@@ -164,7 +165,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Vote for idea
 	// -------------
 	// Also functions as anonymous registration by zipcode. When a user
@@ -179,10 +180,10 @@ module.exports = function( app ) {
 		if( err.status != 403 || !req.idea.isOpen() ) {
 			return next(err);
 		}
-		
+
 		var zipCode        = req.body.zipCode;
 		var newUserCreated = false;
-		
+
 		if( zipCode ) {
 			// Register a new anonymous member and continue with the normal request.
 			newUserCreated = db.User.registerAnonymous(zipCode)
@@ -203,11 +204,11 @@ module.exports = function( app ) {
 				}
 			});
 		}
-		
+
 		Promise.resolve(newUserCreated)
 		.then(function( newUserCreated ) {
 			if( newUserCreated ) return;
-			
+
 			res.format({
 				html: function() {
 					res.out('ideas/enter_zipcode', false, {
@@ -227,7 +228,7 @@ module.exports = function( app ) {
 		var user    = req.user;
 		var idea    = req.idea;
 		var opinion = getOpinion(req);
-		
+
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
 			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
@@ -240,16 +241,16 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Create argument
 	// ---------------
 	// Creating a new argument can be done two ways:
 	// 1. Add a new argument to the idea.
 	// 2. Reply to an existing argument.
-	// 
+	//
 	// Both methods share a lot of common ground, but differ in their
 	// authorization logic and an extra data field: `parentId`.
-	// 
+	//
 	// That's why argument creation logic is split into 2 routes, with
 	// a shared error handler.
 	(function() {
@@ -269,7 +270,7 @@ module.exports = function( app ) {
 			.catch(next);
 		})
 		.all(createArgumentError);
-		
+
 		// Reply to argument.
 		router.route('/:ideaId/arg/reply')
 		.all(fetchIdea())
@@ -287,7 +288,7 @@ module.exports = function( app ) {
 			.catch(next);
 		})
 		.all(createArgumentError);
-		
+
 		// Shared error handler.
 		function createArgumentError( err, req, res, next ) {
 			if( err.status == 403 && req.accepts('html') ) {
@@ -304,7 +305,7 @@ module.exports = function( app ) {
 			}
 		}
 	})();
-	
+
 	// Edit argument
 	// -------------
 	router.route('/:ideaId/arg/:argId/edit')
@@ -321,13 +322,13 @@ module.exports = function( app ) {
 		var user        = req.user;
 		var argument    = req.argument;
 		var description = req.body.description;
-		
+
 		req.idea.updateUserArgument(user, argument, description)
 		.then(function( argument ) {
 			var flashMessage = argument.parentId ?
 			                   'Reactie aangepast' :
 			                   'Argument aangepast';
-			
+
 			req.flash('success', flashMessage);
 			res.success(`/plan/${argument.ideaId}#arg${argument.id}`, {
 				argument: argument
@@ -344,7 +345,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Delete argument
 	// ---------------
 	router.route('/:ideaId/arg/:argId/delete')
@@ -361,7 +362,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Vote for argument
 	// -----------------
 	router.route('/:ideaId/arg/:argId/vote')
@@ -373,13 +374,13 @@ module.exports = function( app ) {
 		var argument = req.argument;
 		var idea     = req.idea;
 		var opinion  = getOpinion(req);
-		
+
 		argument.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
 			var flashMessage = !voteRemoved ?
 			                   'U heeft gestemd op het argument' :
 			                   'Uw stem op het argument is ingetrokken';
-			
+
 			req.flash('success', flashMessage);
 			res.success(`/plan/${idea.id}#arg${argument.id}`, function json() {
 				return db.Argument.scope(
@@ -404,7 +405,7 @@ module.exports = function( app ) {
 			next(err);
 		}
 	});
-	
+
 	// Admin: change idea status
 	// -------------------------
 	router.route('/:ideaId/status')
@@ -418,7 +419,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Admin: change mod break
 	// -----------------------
 	router.route('/:ideaId/mod_break')
@@ -438,20 +439,25 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	// Admin: view votes
 	// -----------------
 	router.route('/:ideaId/votes')
 	.all(fetchIdea('withVotes'))
+  .all(fetchPoll)
 	.all(auth.can('idea:admin'))
 	.get(function( req, res, next ) {
 		var asDownload = 'download' in req.query;
 		var idea       = req.idea;
-		
+    var poll       = req.poll;
+
+    console.log('-------- poll', poll);
+
 		if( !asDownload ) {
 			// Display votes as interactive table.
 			res.out('ideas/idea_votes', true, {
-				idea : idea
+				idea : idea,
+        poll : req.poll,
 			});
 		} else {
 			var votes_JSON = idea.votes.map(function( vote ) {
@@ -483,7 +489,7 @@ module.exports = function( app ) {
 			});
 		}
 	});
-	
+
 	// Admin: toggle vote status
 	// -------------------------
 	router.route('/:ideaId/vote/:voteId/toggle_checked')
@@ -492,7 +498,7 @@ module.exports = function( app ) {
 	.get(function( req, res, next ) {
 		var ideaId = req.params.ideaId;
 		var vote   = req.vote;
-		
+
 		vote.toggle()
 		.then(function() {
 			res.success('/plan/'+ideaId+'/votes', {vote: vote});
@@ -506,7 +512,7 @@ module.exports = function( app ) {
 
 function fetchIdea( /* [scopes] */ ) {
 	var scopes = Array.from(arguments);
-	
+
 	return function( req, res, next ) {
 		var ideaId = req.params.ideaId;
 		db.Idea.scope(scopes).findById(ideaId)
@@ -535,7 +541,7 @@ function fetchVote( req, res, next ) {
 function fetchVoteForUser( req, res, next ) {
 	var user = req.user;
 	var idea = req.idea;
-	
+
 	if( !user.isUnknown() && idea ) {
 		idea.getUserVote(user)
 		.then(function( vote ) {
@@ -590,7 +596,7 @@ function getOpinion( req ) {
 // - iPhone >= 8.4
 function isModernBrowser( req ) {
 	var agent = util.userAgent(req.get('user-agent'));
-	
+
 	// console.log(agent);
 	switch( agent.family.toLowerCase() ) {
 		case 'android':
@@ -625,7 +631,7 @@ function sendThankYouMail( req, idea ) {
 		hideLinkHrefIfSameAsText : true,
 		uppercaseHeadings        : false
 	});
-	
+
 	mail.sendMail({
 		to          : req.user.email,
 		subject     : 'Bedankt voor je voorstel',
@@ -645,4 +651,29 @@ function sendThankYouMail( req, idea ) {
 			cid      : 'steps'
 		}]
 	});
+}
+
+function fetchPoll( req, res, next ) {
+	var {user, idea} = req;
+	var ideaId       = idea.id;
+	if( !ideaId ) {
+		throw createError(400, 'Geen ideaId');
+	}
+
+	db.PollVote.scope().findAll({
+    // attributes: ['foo', 'bar'],
+		where: {
+			ideaId: ideaId
+		}
+	})
+	.then(function( votes ) {
+		if( !votes ) {
+			throw createError(404, 'Poll votes niet gevonden');
+		}
+
+    console.log('votes', votes);
+		req.pollVotes = votes;
+		next();
+	})
+	.catch(next);
 }

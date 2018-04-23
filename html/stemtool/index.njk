@@ -67,7 +67,7 @@
 
 				<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
 					<img src="/img/stemtool/comments.svg" />
-					Lees de reacties
+					Lees argumenten
 				</a>
 
 				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
@@ -149,7 +149,6 @@
 							<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
 							<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, veiligheid, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
 							<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
-							<li>Wil je weten wat we met de resultaten hebben gedaan? Meld je dan aan voor de <a href="https://www.amsterdam.nl/bestuur-organisatie/volg-beleid/amsterdam-onderzoekt/nieuwsbrieven/nieuwsbrief-sprong-0/" target="_blank">nieuwsbrief</a> om op de hoogte te blijven. </li>
 							<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
 						</ul>
 
@@ -367,7 +366,12 @@
 			</div>
 
 			{% if can('idea:admin') %}
+			<!--
+
 				<h2>Bewerken</h2>
+				<a href="/plan/{{idea.id}}/votes" class="votes btn">
+					Stemoverzicht
+				</a>
 
 				<form action="/plan/{{idea.id}}/edit">
 					<button type="submit" class="edit">Bewerk idee</button>
@@ -384,10 +388,11 @@
 				<form method="GET" action="/agenda/edit">
 					<button type="submit" class="votes">Bewerk agenda</button>
 				</form>
-
 				<form method="GET" action="/plan/{{idea.id}}/votes">
 					<button type="submit" class="votes">Stemoverzicht</button>
 				</form>
+				!-->
+
 			{% endif %}
 
 			<br />
@@ -406,7 +411,7 @@
 					Dit kost hooguit 2 minuten
 					van je tijd.
 				</p>
-				<a href="https://www.amsterdam.nl/projecten/javabrug/" target="_blank" class="caret-link">
+				<a href="https://www.amsterdam.nl/formulieren/bouw/javabrug/praat-mee-javabrug" target="_blank" class="caret-link">
 					Ja, ga naar vragenlijst
 				</a>
 			</div>
@@ -420,7 +425,7 @@
 		<div class="bg-sand" style="padding: 1px;">
 			<div class="section-container side-padding-xs">
 				<h2 class="margin-hor-m">
-					Reacties
+					Argumenten
 				</h2>
 			</div>
 		</div>
@@ -593,10 +598,10 @@
 							<img src="/img/stemtool/variant1_2.png" />
 							<img src="/img/stemtool/variant1_3.png" />
 							<img src="/img/stemtool/variant1_4.png" /> !-->
-							<a href="/img/stemtool/variant1_1.png"></a>
-							<a href="/img/stemtool/variant1_2.png"></a>
-							<a href="/img/stemtool/variant1_3.png"></a>
-							<a href="/img/stemtool/variant1_4.png"></a>
+							<a href="/img/stemtool/v{{option.id}}_1.jpg"></a>
+							<a href="/img/stemtool/v{{option.id}}_2.jpg"></a>
+							<a href="/img/stemtool/v{{option.id}}_3.jpg"></a>
+							<a href="/img/stemtool/v{{option.id}}_4.jpg"></a>
 						</div>
 					</div>
 					<div class="col-6 col-xs-12">

@@ -37,12 +37,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	});
-	
+
 	function scopes() {
 		return {
-			defaultScope: {}
+			defaultScope: {},
+			withUser: {
+				include: [{
+					model      : db.User,
+					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+				}]
+			},
 		};
 	}
-	
+
 	return Poll;
 };
