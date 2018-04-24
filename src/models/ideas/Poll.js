@@ -23,7 +23,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.VIRTUAL,
 			get: function() {
 				var options = this.options;
-				return options[0].voteCount;
+				var votedUsers = this.votedUsers;
+
+				console.log('votedUsers', votedUsers);
+
+				if( !Array.isArray(options) ) {
+					throw Error('Geen poll opties gevonden');
+				}
+
+				return options.reduce(function( totalVoteCount, option ) {
+					return totalVoteCount + option.voteCount;
+				}, 0);
 			}
 		},
 
@@ -81,22 +91,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : [
 						'id', 'order', 'title', 'intro', 'description',
 						[sequelize.literal(`
-							(SELECT
-									count(DISTINCT(userId))
+							(SELECT DISTINCT
+								COUNT(*)
 							FROM
-									poll_votes as pv
+								poll_votes pv
 							WHERE
 								pv.deletedAt IS NULL AND (
 									pv.checked IS NULL OR
 									pv.checked  = 1
-								)
-							GROUP BY pollId)
+								) AND
+								pv.pollOptionId = \`options\`.\`id\`
+							)
 						`), 'voteCount']
 					]
 				}]
 			},
 
-			withUserVote: function( userId ) {
+			withUserVote: function(userId) {
 				userId = Number(userId);
 				if( !userId ) return {};
 
@@ -109,19 +120,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}]
 				};
 			},
-
-			withVotedUsers: function() {
-
-
-				return {
-					include: [{
-						model    : db.PollVote,
-						as       : 'votedUsers',
-						required : false,
-						group    : 'userId',
-					}]
-				};
-			}
 
 
 		};
