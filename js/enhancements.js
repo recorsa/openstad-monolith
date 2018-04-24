@@ -28,6 +28,25 @@ jQuery( document ).ready(function( $ ) {
 
   $('.mobile-accordion-opener').on('click', function() {
     $(this).closest('.mobile-accordion').toggleClass('open');
-  })
+  });
+
+  $('.react-to-variant').click(function() {
+    var variantValue = $(this).attr('data-variant-value');
+    $('.variant-selector').val(variantValue);
+    updateVariantTextareaPlaceholder();
+  });
+
+  $('.for-or-against-selector, .variant-selector').on('change', function() {
+    updateVariantTextareaPlaceholder();
+  });
+
+
+  function updateVariantTextareaPlaceholder() {
+    var placeholderTpl = "Ik ben {{forOrAgainst}} variant {{variant}}, want..";
+    var forLabel = $('.for-or-against-selector').val() === 'against' ? 'tegen' : 'voor';
+    placeholderTpl = placeholderTpl.replace('{{forOrAgainst}}', forLabel);
+    placeholderTpl = placeholderTpl.replace('{{variant}}', $('.variant-selector').val());
+    $('.argument-textarea').attr('placeholder', placeholderTpl);
+  }
 
 });

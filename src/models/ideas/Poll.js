@@ -23,31 +23,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.VIRTUAL,
 			get: function() {
 				var options = this.options;
-				var votedUsers = this.votedUsers;
-
-				console.log('votedUsers', votedUsers);
-
-				if( !Array.isArray(options) ) {
-					throw Error('Geen poll opties gevonden');
-				}
-
-				return options.reduce(function( totalVoteCount, option ) {
-					return totalVoteCount + option.voteCount;
-				}, 0);
+				return options[0].voteCount;
 			}
 		},
-		totalUserVoteCount: {
-			type         : DataTypes.VIRTUAL,
 
-			get: function() {
-				return sequelize.query("SELECT count(*) FROM `poll_votes`", { type: sequelize.QueryTypes.SELECT})
-				  .then(count => {
-						console.log('count', count);
-				    return 10;
-				  });
-			}
-
-		}
 	}, {
 		classMethods: {
 			scopes: scopes,
@@ -102,19 +81,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 					attributes : [
 						'id', 'order', 'title', 'intro', 'description',
 						[sequelize.literal(`
-							(SELECT DISTINCT
-								COUNT(*)
+							(SELECT
+									count(DISTINCT(userId))
 							FROM
-								poll_votes pv
+									poll_votes as pv
 							WHERE
 								pv.deletedAt IS NULL AND (
 									pv.checked IS NULL OR
 									pv.checked  = 1
-								) AND
-								pv.pollOptionId = \`options\`.\`id\`
-							GROUP BY pv.userId
-
-							)
+								)
+							GROUP BY pollId)
 						`), 'voteCount']
 					]
 				}]

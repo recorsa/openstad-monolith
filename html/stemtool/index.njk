@@ -2,6 +2,10 @@
 {% import 'includes/arguments.njk' as arguments %}
 {% import 'includes/newsletter.njk' as newsletter %}
 
+{% from 'includes/arguments-form.njk' import argumentsForm %}
+{% from 'partials/number-plate.njk' import numberPlate %}
+
+
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
 {% set alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' , 'k'] %}
@@ -43,26 +47,21 @@
 			</div>
 
 			<div class="col-3 controls col-xs-12 col-sm-4 side-padding-xs">
+				{% if can('idea:admin') %}
+				<a href="/plan/{{idea.id}}/votes" class="votes btn block margin-bottom-sm">
+					Stemoverzicht
+				</a>
+				{% endif %}
 				<span class="widget speechBubble newIdeaBubble">
 					1 brug, 6 mogelijke locaties.
 				</span>
 
-				<a href="#vote" class="box-blue margin-bottom-xs scroll-link">
-					<span class="margin-right-s">
-						<span class="number-plate"> {{paddedVoteCount[0]}} </span>
-						<span class="number-plate"> {{paddedVoteCount[1]}} </span>
-						<span class="number-plate"> {{paddedVoteCount[2]}} </span>
-					</span>
-					reacties
+				<a href="#vote" class="margin-bottom-xs scroll-link block no-decoration" >
+					{{ numberPlate(poll.totalVoteCount, 'mensen') }}
 				</a>
-				<a href="#arguments" class="box-blue margin-bottom-sm scroll-link">
-					<span class="margin-right-s">
-						<span class="number-plate"> {{paddedArgumentCount[0]}} </span>
-						<span class="number-plate"> {{paddedArgumentCount[1]}} </span>
-						<span class="number-plate"> {{paddedArgumentCount[2]}} </span>
-					</span>
 
-					argumenten
+				<a href="#arguments" class="margin-bottom-sm scroll-link block no-decoration">
+					{{ numberPlate(idea.argCount, 'argumenten') }}
 				</a>
 
 				<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
@@ -366,6 +365,10 @@
 			</div>
 
 			{% if can('idea:admin') %}
+			<a href="/plan/{{idea.id}}/votes" class="votes btn">
+				Stemoverzicht
+			</a>
+
 			<!--
 
 				<h2>Bewerken</h2>
@@ -431,97 +434,7 @@
 		</div>
 
 		<div class="section-container side-padding-xs">
-			{% if can('arg:add') %}
-				<div class="arguments-cta-box">
-
-					<div class="col-container">
-						<div class="col-2">
-							<img class="arguments-icon" src="/img/stemtool/comments.svg" />
-						</div>
-
-						<div class="col-10">
-							<div class="speech-balloon">
-								<h3 class="margin-0">
-									Wil je meepraten over de varianten? <br class="hidden-xs" /> Laat dan hier weten wat je ervan vindt!
-								</h3>
-							</div>
-						</div>
-					</div>
-
-					<br />
-
-					<div class="box-grey">
-						<form id="new-argument-form" method="POST" action="/arg/new" class="newArgument clearfix ">
-							<div>
-								Ik ben
-
-								<span class="select-wrapper">
-									<select name="sentiment"  class="select">
-										<option value="for">Voor</option>
-										<option value="against">Tegen</option>
-									</select>
-								</span>
-
-								<span class="select-wrapper">
-									<select name="label">
-									{% for option in poll.options %}
-										<option value="{{option.order}}">{{option.order}}: {{option.title}}</option>
-									{% endfor %}
-									</select>
-								</span>
-
-								want...
-							</div>
-							<textarea
-								class="textarea margin-hor-s block"
-								name="description"
-								placeholder="Ik ben voor variant A, want..."
-							></textarea>
-
-							<div class="charsLeft margin-bottom-s">
-								<div class="min">Nog minimaal <span>30</span> tekens.</div>
-								<div class="max"><span>360</span> tekens resterend.</div>
-							</div>
-
-							<div class="col-container">
-								<div class="col-7 col-xs-12">
-									{% if not user.nickName %}
-									<br class="visible-xs" />
-
-									<div class="form-field-container validate-text-required  ">
-										 Naam: <br />
-
-										 <div class="label-error margin-hor-xs">
-												 Je hebt geen naam opgegeven.
-										 </div>
-
-										<input type="text" name="nickName" class="input-field stretch">
-									</div>
-									{% endif %}
-									&nbsp;
-								</div>
-								<div class="col-5 col-xs-12">
-									{% if not user.zipCode %}
-									<div class="form-field-container validate-postcode margin-top-m" >
-										 Postcode: <br />
-
-										 <div class="label-error margin-hor-xs">
-												 Een geldige postcode is vereist.
-										 </div>
-
-										<input type="text" name="zipCode" class="input-field stretch">
-									</div>
-									{% endif %}
-									<br class="clearfix" />
-									<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verzenden" />
-								</div>
-							</div>
-
-							<input type="hidden" name="_csrf" value="{{csrfToken}}">
-						</form>
-					</div>
-				</div>
-			{% endif %}
+			{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
 		</div>
 
 		<div  class="section-container side-padding-xs ">
@@ -618,7 +531,11 @@
 				<div class="margin-hor-s">
 					<div class="col-container">
 						<div class="col-3 col-xs-6">
-							<a href="#arguments" class="btn btn-primary btn--stretch scroll-link scroll-change-hash">
+							<a
+								href="#arguments"
+								class="btn btn-primary btn--stretch scroll-link scroll-change-hash react-to-variant"
+								data-variant-value="{{option.order}}"
+							>
 								Reageer
 							</a>
 						</div>
