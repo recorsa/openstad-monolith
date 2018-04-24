@@ -43,7 +43,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 				PollVote.belongsTo(models.PollOption);
 				PollVote.belongsTo(models.User);
 			},
-			
+			scopes : function () {
+				return {
+					withUser: {
+						include: [{
+							model      : db.User,
+							attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+						}],
+
+					},
+				}
+				//'withPollOption'
+			},
+
 			anonimizeOldVotes: function() {
 				var anonimizeThreshold = config.get('ideas.anonimizeThreshold');
 				return sequelize.query(`
@@ -69,6 +81,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	});
-	
+
 	return PollVote;
 };

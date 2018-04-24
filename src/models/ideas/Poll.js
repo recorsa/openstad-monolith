@@ -25,8 +25,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				var options = this.options;
 				var votedUsers = this.votedUsers;
 
-				console.log('votedUsers', votedUsers);
-
 				if( !Array.isArray(options) ) {
 					throw Error('Geen poll opties gevonden');
 				}

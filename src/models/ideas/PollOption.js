@@ -34,6 +34,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.PollVote, {
 					as: 'votes'
 				});
+
+				//this.hasMany(models.PollVote);
 			}
 		}
 	});

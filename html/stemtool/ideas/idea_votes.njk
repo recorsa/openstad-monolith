@@ -9,14 +9,15 @@
 {% endblock %}
 
 {% block content %}
-	<a href="/plan/{{idea.id}}/votes?download">Download als CSV</a>
+	<!-- <a href="/plan/{{idea.id}}/votes?download">Download als CSV</a> !-->
 
 	<table id="votes" class="sortable">
 	<thead>
 		<tr>
 			<th>Vote ID</th>
 			<th>User ID</th>
-			<th>Mening</th>
+			<th>Option Id</th>
+			<th>Option Title</th>
 			<th>Postcode</th>
 			<th class="sorttable_alpha">IP</th>
 			<th>Datum</th>
@@ -24,11 +25,13 @@
 		</tr>
 	</thead>
 	<tbody>
-	{% for vote in poll.votes %}
+
+	{% for vote in pollVotes %}
 		<tr class="{{'rejected' if vote.checked === false}}">
 			<td>{{vote.id}}</td>
 			<td>{{vote.user.id}}</td>
-			<td>{{vote.opinion}}</td>
+			<td>{{vote.pollOptionId}}</td>
+			<td>{{vote.poll_option.title}}</td>
 			<td>{{vote.user.zipCode}}</td>
 			<td>{{vote.ip}}</td>
 			<td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>

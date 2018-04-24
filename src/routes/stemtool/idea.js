@@ -450,14 +450,15 @@ module.exports = function( app ) {
 		var asDownload = 'download' in req.query;
 		var idea       = req.idea;
     var poll       = req.poll;
+    var pollVotes       = req.pollVotes;
 
-    console.log('-------- poll', poll);
 
 		if( !asDownload ) {
 			// Display votes as interactive table.
 			res.out('ideas/idea_votes', true, {
 				idea : idea,
         poll : req.poll,
+        pollVotes: pollVotes
 			});
 		} else {
 			var votes_JSON = idea.votes.map(function( vote ) {
@@ -529,7 +530,7 @@ function fetchIdea( /* [scopes] */ ) {
 }
 function fetchVote( req, res, next ) {
 	var voteId = req.params.voteId;
-	db.Vote.findById(voteId)
+	db.PollVote.findById(voteId)
 	.then(function( vote ) {
 		if( vote ) {
 			req.vote = vote;
@@ -656,22 +657,32 @@ function sendThankYouMail( req, idea ) {
 function fetchPoll( req, res, next ) {
 	var {user, idea} = req;
 	var ideaId       = idea.id;
+
 	if( !ideaId ) {
 		throw createError(400, 'Geen ideaId');
 	}
 
+//
 	db.PollVote.scope().findAll({
+    include: [
+           { model: db.User, as: 'user' },
+           { model: db.PollOption, as: 'poll_option'},
+       ],
     // attributes: ['foo', 'bar'],
-		where: {
+		/*where: {
 			ideaId: ideaId
-		}
+		}*/
 	})
 	.then(function( votes ) {
 		if( !votes ) {
 			throw createError(404, 'Poll votes niet gevonden');
 		}
 
-    console.log('votes', votes);
+    for(let vote of votes) {
+      console.log('vote.aaa', vote.poll_option);
+    }
+
+
 		req.pollVotes = votes;
 		next();
 	})

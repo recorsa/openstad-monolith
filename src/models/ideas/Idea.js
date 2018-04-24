@@ -34,7 +34,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( this.getDataValue('status') != 'OPEN' ) {
 					return 0;
 				}
-				
+
 				var now     = moment();
 				var endDate = this.getDataValue('endDate');
 				return Math.max(0, moment(endDate).diff(Date.now()));
@@ -68,7 +68,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			get          : function() {
 				var posterImage = this.get('posterImage');
 				var location    = this.get('location');
-				
+
 				return posterImage ? `/image/${posterImage.key}?thumb` :
 				       location    ? 'https://maps.googleapis.com/maps/api/streetview?'+
 				                     'size=800x600&'+
@@ -107,7 +107,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.GEOMETRY('POINT'),
 			allowNull    : true
 		},
-		
+
 		modBreak: {
 			type         : DataTypes.TEXT,
 			allowNull    : true,
@@ -156,7 +156,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						},
 						order: 'date ASC'
 					});
-					
+
 					idea.setDataValue('endDate', endDate);
 					if( meeting ) {
 						idea.setDataValue('meetingId', meeting.id);
@@ -178,7 +178,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		classMethods: {
 			scopes: scopes,
-			
+
 			associate: function( models ) {
 				this.belongsTo(models.Meeting);
 				this.belongsTo(models.User);
@@ -190,7 +190,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasOne(models.Poll);
 				this.hasMany(models.AgendaItem, {as: 'agenda'});
 			},
-			
+
 			getHighlighted: function() {
 				return this.scope('summary').findAll({
 					where : {status: 'OPEN'},
@@ -223,7 +223,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							endDate DESC
 						`;
 				}
-				
+
 				// Get all running ideas.
 				// TODO: Ideas with status CLOSED should automatically
 				//       become DENIED at a certain point.
@@ -280,7 +280,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				       this.status === 'ACCEPTED' ||
 				       this.status === 'BUSY'
 			},
-			
+
 			addUserVote: function( user, opinion, ip ) {
 				var data = {
 					ideaId  : this.id,
@@ -288,7 +288,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					opinion : opinion,
 					ip      : ip
 				};
-				
+
 				return db.Vote.findOne({where: data})
 				.then(function( vote ) {
 					if( vote ) {
@@ -304,7 +304,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				.then(function( result ) {
 					// When the user double-voted with the same opinion, the vote
 					// is removed: return `true`. Otherwise return `false`.
-					// 
+					//
 					// `vote.destroy` returns model when `paranoid` is `true`.
 					return result && !!result.deletedAt;
 				});
@@ -326,7 +326,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					notifications.trigger(user.id, 'arg', argument.id, 'update');
 				});
 			},
-			
+
 			setModBreak: function( user, modBreak ) {
 				return this.update({
 					modBreak       : modBreak,
@@ -337,13 +337,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			setStatus: function( status ) {
 				return this.update({status: status});
 			},
-			
+
 			updateImages: function( imageKeys ) {
 				var self = this;
 				if( !imageKeys || !imageKeys.length ) {
 					imageKeys = [''];
 				}
-				
+
 				var ideaId  = this.id;
 				var queries = [
 					db.Image.destroy({
@@ -362,7 +362,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						});
 					})
 				);
-				
+
 				return Promise.all(queries).then(function() {
 					ImageOptim.processIdea(self.id);
 					return self;
@@ -370,7 +370,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	});
-	
+
 	function scopes() {
 		// Helper function used in `withVoteCount` scope.
 		function voteCount( opinion ) {
@@ -399,7 +399,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					a.ideaId     = idea.id)
 			`), fieldName];
 		}
-		
+
 		return {
 			summary: {
 				attributes: {
@@ -501,6 +501,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	}
-				
+
 	return Idea;
 };
