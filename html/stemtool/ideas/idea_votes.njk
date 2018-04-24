@@ -25,7 +25,7 @@
 			<th>Option Id</th>
 			<th>Option Title</th>
 			<th>Postcode</th>
-			<th class="sorttable_alpha">IP</th>
+			<!--<th class="sorttable_alpha">IP</th>!-->
 			<th>Datum</th>
 			<th>OK</th>
 		</tr>
@@ -39,7 +39,7 @@
 			<td>{{vote.pollOptionId}}</td>
 			<td>{{vote.poll_option.title}}</td>
 			<td>{{vote.user.zipCode}}</td>
-			<td>{{vote.ip}}</td>
+			<!--<td>{{vote.ip}}</td>!-->
 			<td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
 			<td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}"></td>
 		</tr>
@@ -47,7 +47,7 @@
 
 	</tbody>
 	</table>
-	
+
 {% endblock %}
 
 {% block scripts %}
