@@ -25,8 +25,7 @@ jQuery( document ).ready(function( $ ) {
         }
         })
         .fotorama();
-
-  },1000);
+  }, 1400);
 
 
 
