@@ -6,7 +6,9 @@ jQuery( document ).ready(function( $ ) {
     }
   });
 
-  $('document').ready(function() {
+
+  setTimeout(function() {
+    //$('.fotorama').fotorama();
     $('.fotorama')
         .on('fotorama:fullscreenenter fotorama:fullscreenexit', function (e, fotorama) {
 
@@ -23,7 +25,9 @@ jQuery( document ).ready(function( $ ) {
         }
         })
         .fotorama();
-  });
+
+  },1000);
+
 
 
   $('.mobile-accordion-opener').on('click', function() {
