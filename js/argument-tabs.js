@@ -10,7 +10,6 @@ jQuery( document ).ready(function( $ ) {
     var $thisTab = $(this);
     var variant = $thisTab.attr('data-variant');
 
-    $('#filter-arguments-option-' + variant).trigger('click');
     filterVariant(variant);
   });
 

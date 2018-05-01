@@ -13,7 +13,7 @@ jQuery( document ).ready(function( $ ) {
   $('.react-to-variant').click(function() {
     var variantValue = $(this).attr('data-variant-value');
     $('.variant-selector').val(variantValue);
-
+    $('#filter-arguments-option-' + variantValue).trigger('click');
     updateVariantTextareaPlaceholder();
   });
 
