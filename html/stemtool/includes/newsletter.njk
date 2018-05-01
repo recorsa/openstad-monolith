@@ -6,7 +6,7 @@
 	<div class="box-grey newsletter">
 		<img src="/img/stemtool/newsletter.svg" width="50px"/>
 		<h4>Ja, ik meld mij graag aan voor de Sprong over het IJ nieuwsbrief:</h4>
-		<form id="newsletter-form" method="post" action="/newsletter/signup" onsubmit="return validateNewsletterInput()">
+		<form id="newsletter-form" method="post" action="/newsletter/signup" onsubmit="return validateNewsletterInput(this)">
       <input type="hidden" name="_csrf" value="{{csrfToken}}">
       <div id="newsletterNameError" class="label-error">
 				Een naam is vereist.
@@ -23,7 +23,7 @@
   <br/>
 
 	<script>
-		function validateNewsletterInput() {
+		function validateNewsletterInput(element) {
 
 			if (!document.getElementById('newsletterName').value) {
 				document.getElementById('newsletterNameError').style.display = 'block';
@@ -39,7 +39,8 @@
 				document.getElementById('newsletterEmailError').style.display = 'none';
       }
 
-      document.getElementById('newsletterSubmitbutton').disabled = true;
+      //document.getElementById('newsletterSubmitbutton').disabled = true;
+			setFormSendingToDisabled(element);
       return true;
 		}
 	</script>

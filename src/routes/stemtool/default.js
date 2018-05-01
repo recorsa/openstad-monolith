@@ -1,10 +1,12 @@
 var createError  = require('http-errors');
 var express      = require('express');
+var config       = require('config')
 var Promise      = require('bluebird');
 
 var util         = require('../../util');
 var db           = require('../../db');
 var auth         = require('../../auth');
+var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
 module.exports = function( app ) {
 
@@ -39,7 +41,14 @@ module.exports = function( app ) {
 					  {method: ['withUserVote', 'argument', req.user.id]},
 					  'withReactions'
 			    )
-            .findAll({where: {ideaId: 1, sentiment: 'against'}})
+            .findAll({
+							where: {ideaId: 1, sentiment: 'against'},
+							order: [
+								db.sequelize.literal(`yes DESC`),
+								['parentId', 'ASC'],
+								['createdAt', 'ASC']
+							]
+						})
             .then(arguments1 => {
               req.idea.argumentsAgainst = arguments1;
             })
@@ -51,10 +60,18 @@ module.exports = function( app ) {
 						{method: ['withUserVote', 'argument', req.user.id]},
 						'withReactions'
 			    )
-          .findAll({where: {ideaId: 1, sentiment: 'for'}})
-          .then((arguments2) => {
-            req.idea.argumentsFor = arguments2;
-          })
+	          .findAll(
+							{
+								where: {ideaId: 1, sentiment: 'for'},
+								order: [
+									db.sequelize.literal(`yes DESC`),
+									['parentId', 'ASC'],
+									['createdAt', 'ASC']
+								]
+							})
+	          .then((arguments2) => {
+	            req.idea.argumentsFor = arguments2;
+	          })
         })
 		    .then(function() {
 				  next();

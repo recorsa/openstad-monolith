@@ -32,7 +32,26 @@
 					<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
 				</ul>
 				!-->
+				{% if user.can('idea:admin') %}
+					{# <li><a href="/account">Mijn account</a></li> #}
+					<a href="/account/logout" id="account">{{user.nickName}}</a>
+				{% else %}
+					<!-- <a href="/account/logout" id="account">Account</a> !-->
 
+				{% endif %}
+			</div>
+		</nav>
+
+		<nav id="subMenu" class="" role="navigation">
+			<div>
+				<ul>
+					{% if user.isLoggedIn() %}
+						{# <li><a href="/account">Mijn account</a></li> #}
+						<li><a href="/logout">Uitloggen</a></li>
+					{% else %}
+						<!-- <li><a href="/account/register">Aanmelden / inloggen</a></li> !-->
+					{% endif %}
+				</ul>
 			</div>
 		</nav>
 

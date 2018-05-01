@@ -9,6 +9,8 @@ jQuery( document ).ready(function( $ ) {
     event.preventDefault();
     var $thisTab = $(this);
     var variant = $thisTab.attr('data-variant');
+
+    $('#filter-arguments-option-' + variant).trigger('click');
     filterVariant(variant);
   });
 
