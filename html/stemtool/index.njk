@@ -4,7 +4,13 @@
 
 {% from 'includes/arguments-form.njk' import argumentsForm %}
 {% from 'partials/number-plate.njk' import numberPlate %}
-
+{% from 'partials/mobile-menu.njk' import mobileMenu %}
+{% from 'partials/variant-modals.njk' import variantModals %}
+{% from 'partials/variant-checkboxes.njk' import variantCheckboxes %}
+{% from 'partials/variant-given-answers.njk' import variantGivenAnswers %}
+{% from 'partials/arguments-filters.njk' import argumentsFilters %}
+{% from 'partials/agenda-items.njk' import agendaItems %}
+{% from 'partials/form-field-zipcode.njk' import formFieldZipcode %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
@@ -162,241 +168,116 @@
 				<br />
 				<br />
 
-					<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m side-padding-xs">
+				<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m side-padding-xs">
 
-						<div class="vote-inner-container">
-							{% if can('poll:vote') %}
-							<h2 class="h2 margin-hor-s">
-								Mijn reactie op de varianten
-							</h2>
+					<div class="vote-inner-container">
+						{% if can('poll:vote') %}
+						<h2 class="h2 margin-hor-s">
+							Mijn reactie op de varianten
+						</h2>
+
+						<hr class="hr-white margin-hor-m"></hr>
+
+						<form id="vote-form" method="POST" action="/vote" class="">
+								<input type="hidden" name="_csrf" value="{{csrfToken}}">
+								<input type="hidden" name="pollId" value="{{poll.id}}">
+
+								<label class="block margin-bottom-s margin-top-0">
+									<b class="intro">
+										Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
+										Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
+										Klik nogmaals om dat ongedaan te maken.
+									</b>
+									<br />
+									<div class="small">
+										Het is geen verkiezing tussen de 6 varianten.
+										Je argumenten zijn belangrijker dan de toedeling van de sterren.
+										Graag horen we onderaan deze pagina wat je van de varianten vindt.
+										Wat spreekt je aan en wat zie je graag anders?
+									</div>
+								</label>
+
+								<label class="h3 block margin-bottom-xs margin-top-m">
+									Zo verdeel ik mijn sterren:
+								</label>
+
+								{{variantCheckboxes(poll.options, alphabet)}}
+								<!--
+								<div class="margin-hor-m">
+									<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
+									<input type="text" name="fullName" class="input-field">
+								</div>
+								!-->
+
+								{% if not user.zipCode %}
+									{{formFieldZipcode()}}
+								{% endif %}
+
+								<div class="less-then-stars-message label-error">
+									Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
+								</div>
+
+								<div class="no-stars-error-message label-error">
+									Je hebt nog geen sterren verdeeld.
+								</div>
+
+								<br />
+
+								<button type="submit" class="default btn btn-primary">
+									<span class="main-submit">
+										Verstuur
+									</span>
+									<span class="confirm-submit">
+										Ja, verstuur
+									</span>
+								</button>
+
+							</form>
+						{% else %}
+							<label class="h3 block margin-bottom-s margin-top-0">
+								Zo heb ik mijn sterren verdeeld:
+							</label>
+
+							{{variantGivenAnswers(poll.options, poll.userVotes, alphabet)}}
+
+							<div  class="margin-hor-m">
+								{{formFieldZipcode(user.zipCode)}}
+							</div>
 
 							<hr class="hr-white margin-hor-m"></hr>
 
-							<form id="vote-form" method="POST" action="/vote" class="">
-									<input type="hidden" name="_csrf" value="{{csrfToken}}">
-									<input type="hidden" name="pollId" value="{{poll.id}}">
-
-									<label class="block margin-bottom-s margin-top-0">
-										<b class="intro">
-											Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
-											Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
-											Klik nogmaals om dat ongedaan te maken.
-										</b>
-										<br />
-										<div class="small">
-											Het is geen verkiezing tussen de 6 varianten.
-											Je argumenten zijn belangrijker dan de toedeling van de sterren.
-											Graag horen we onderaan deze pagina wat je van de varianten vindt.
-											Wat spreekt je aan en wat zie je graag anders?
-										</div>
+							<div class="col-container thank-you-container">
+								<div class="col-2">
+									<img src="/img/stemtool/check-green.svg" class="icon" />
+								</div>
+								<div class="col-10">
+									<label class="h3 block margin-top-0 margin-bottom-xs">
+											Bedankt voor je reactie!
 									</label>
 
-									<label class="h3 block margin-bottom-xs margin-top-m">
-										Zo verdeel ik mijn sterren:
-									</label>
-
-									<div class="label-container">
-										{% for option in poll.options %}
-											<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
-
-											<label for="checkbox-choice-{{option.id}}" class="concept-label clearfix">
-												<div class="label-error">
-													Je hebt al 3 sterren verdeeld. Klik nogmaals op een ster om
-													hem te verwijderen. Hierna kun je een ster aan een andere variant geven.
-												</div>
-												<div class="relative clearfix">
-													<div
-														class="concept-card-image"
-														style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
-													>
-														<div class="concept-card-number concept-card-number-{{loop.index}}">
-															{{alphabet[loop.index - 1].toUpperCase()}}
-														</div>
-													</div>
-
-													<div class="concept-card-title">
-													 	{{ option.title }}
-													</div>
-
-												</div>
-
-											</label>
-										{% endfor %}
-									</div>
-
-									<!--
-									<div class="margin-hor-m">
-										<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
-										<input type="text" name="fullName" class="input-field">
-									</div>
-									!-->
-
-									{% if not user.zipCode %}
-									<div  class="margin-hor-m">
-										<div class="form-field-container validate-postcode">
-											<label class="h3 block margin-hor-xs">
-													Mijn postcode:
-											</label>
-											<div class="label-error">
-													Een geldige postcode is vereist.
-											</div>
-
-											<input type="text" name="zipCode" class="input-field" placeholder="Bijv. 1234AB">
-										</div>
-									</div>
-									{% endif %}
-
-									<div class="less-then-stars-message label-error">
-										Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
-									</div>
-
-									<div class="no-stars-error-message label-error">
-										Je hebt nog geen sterren verdeeld.
-									</div>
-
+									Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
+									naar waarom je de sterren zo hebt verdeeld.
+									Onderaan kun je <b> argumenten </b> voor en tegen de varianten
+									plaatsen.
+									<br />
 									<br />
 
-									<button type="submit" class="default btn btn-primary">
-										<span class="main-submit">
-											Verstuur
-										</span>
-										<span class="confirm-submit">
-											Ja, verstuur
-										</span>
-									</button>
-
-								</form>
-								{% else %}
-								<label class="h3 block margin-bottom-s margin-top-0">
-									Zo heb ik mijn sterren verdeeld:
-								</label>
-
-								{% for vote in poll.userVotes %}
-									{% for option in poll.options %}
-										{% if option.id === vote.pollOptionId %}
-										<label for="checkbox-choice-{{option.id}}" class="concept-label selected">
-											<div class="relative clearfix">
-												<div
-													class="concept-card-image"
-													style="background-image: url('img/stemtool/variant_{{option.id}}_klein.png');"
-												>
-													<div class="concept-card-number concept-card-number-{{loop.index}}">
-														{{alphabet[loop.index - 1].toUpperCase()}}
-													</div>
-												</div>
-
-												<div class="concept-card-title">
-													{{option.title}}
-												</div>
-											</div>
-										</label>
-										{% endif %}
-									{% endfor %}
-								{% endfor %}
-
-
-								<div  class="margin-hor-m">
-									<div class="form-field-container validate-postcode">
-										<label class="h3 block margin-hor-xs">
-												Mijn postcode:
-										</label>
-
-										<input type="text" name="zipCode" class="input-field" value="{{user.zipCode}}"  disabled>
-									</div>
+									<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
+										Naar argumenten
+									</a>
 								</div>
-
-								<hr class="hr-white margin-hor-m"></hr>
-
-								<div class="col-container thank-you-container">
-									<div class="col-2">
-										<img src="/img/stemtool/check-green.svg" class="icon" />
-									</div>
-									<div class="col-10">
-										<label class="h3 block margin-top-0 margin-bottom-xs">
-												Bedankt voor je reactie!
-										</label>
-
-										Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
-										naar waarom je de sterren zo hebt verdeeld.
-										Onderaan kun je <b> argumenten </b> voor en tegen de varianten
-										plaatsen.
-										<br />
-										<br />
-
-										<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
-											Naar argumenten
-										</a>
-									</div>
-								</div>
-
-							{% endif %}
 							</div>
 
+						{% endif %}
 						</div>
-
-
-
+					</div>
 		</div>
 
 		<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
 			<div id="agenda">
 				<h2>Tijdlijn</h2>
-
-				<div class="agenda">
-				{% for item in idea.agenda %}
-					<div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
-
-						<!-- <h3 class="margin-top-0 margin-bottom-xs h3">
-							{% if item.endDate %}
-								{{item.startDate | date('D MMMM')}} t/m {{item.endDate | date('D MMMM Y')}}
-							{% else %}
-								{{item.startDate | date('D MMMM Y')}}
-							{% endif %}
-						</h3>
-						!-->
-
-						<div> {{item.description | safe}} </div>
-						{% if item.actionText %}
-						<a href="{{item.actionURL}}" class="block caret-link">{{item.actionText}}</a>
-						{% endif %}
-					</div>
-				{% endfor %}
-				</div>
+				{{ agendaItems(idea.agenda) }}
 			</div>
-
-			{% if can('idea:admin') %}
-			<a href="/plan/{{idea.id}}/votes" class="votes btn">
-				Stemoverzicht
-			</a>
-
-			<!--
-
-				<h2>Bewerken</h2>
-				<a href="/plan/{{idea.id}}/votes" class="votes btn">
-					Stemoverzicht
-				</a>
-
-				<form action="/plan/{{idea.id}}/edit">
-					<button type="submit" class="edit">Bewerk idee</button>
-				</form>
-
-				<form method="POST" action="/plan/{{idea.id}}/delete" id="deleteIdea">
-					<input type="hidden" name="_method" value="DELETE">
-					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<button type="submit" class="delete">Verwijder idee</button>
-				</form>
-
-				<h2>Beheren</h2>
-
-				<form method="GET" action="/agenda/edit">
-					<button type="submit" class="votes">Bewerk agenda</button>
-				</form>
-				<form method="GET" action="/plan/{{idea.id}}/votes">
-					<button type="submit" class="votes">Stemoverzicht</button>
-				</form>
-				!-->
-
-			{% endif %}
 
 			<br />
 
@@ -438,45 +319,8 @@
 		</div>
 
 		<div  class="section-container side-padding-xs ">
-			<div class="box-grey">
-				<div class="aa-col-container " style="display: flex;   justify-content: space-between;">
-					<div class="aa-col-4 hidden-xs">
-						<h3 id="tab-text"> Laat argumenten zien van: </h3>
-					</div>
+			{{ argumentsFilters(poll.options) }}
 
-
-					<div class="visible-lg">
-						<a id="filter-arguments-option-all" href="#" class="tab-button argument-filter-tab active" data-variant="all">
-							Alles
-						</a>
-					</div>
-
-					{% for option in poll.options %}
-						<div class="aa-col-2 visible-lg">
-							<a id="filter-arguments-option-{{option.order}}" href="#" class="tab-button argument-filter-tab " data-variant="{{option.order}}">
-								Variant {{option.order}}
-							</a>
-						</div>
-					{% endfor %}
-
-					<div id="filter-arguments-select-wrapper" class="select-wrapper stretch hidden-lg">
-						<select id="filter-arguments-select" class="stretch">
-							<option value="all">
-								Laat argumenten zien van:
-							</option>
-							<option value="all">
-								 Alles
-							</option>
-							{% for option in poll.options %}
-								<option value="{{option.order}}">
-										{{option.order}}. {{option.title}}
-								</option>
-							{% endfor %}
-						</select>
-					</div>
-
-				</div>
-			</div>
 
 			<div>
 				<div class="argList for">
@@ -491,107 +335,9 @@
 		</div>
 	</section>
 
+	{{ variantModals(poll.options) }}
 
-	<!--- Concept popups !-->
-
-	{% for option in poll.options %}
-		<div id="variant-modal-{{option.order}}" class="content-modal">
-			<div class="content-modal-content">
-
-				<div class="col-container">
-					<div class="col-12">
-						<h1 class="margin-hor-s">Variant {{option.order}}: {{option.title}} {{option.intro}}</h1>
-						<hr class="margin-hor-m" />
-					</div>
-
-					<div class="col-6 col-xs-12">
-						<div class="fotorama"
-
-							data-nav="thumbs"
-							data-allowfullscreen="true"
-							data-ratio="400/300"
-							data-fit="cover"
-							data-thumbwidth="105"
-							data-thumbheight="105"
-							data-auto="false"
-						>
-
-							<a href="/img/stemtool/v{{option.id}}_1.jpg"></a>
-							<a href="/img/stemtool/v{{option.id}}_2.jpg"></a>
-							<a href="/img/stemtool/v{{option.id}}_3.jpg"></a>
-							<a href="/img/stemtool/v{{option.id}}_4.jpg"></a>
-						</div>
-					</div>
-					<div class="col-6 col-xs-12">
-						<br class="visible-xs" />
-
-						{{ option.description | safe }}
-
-						<br />
-						<small> De afbeeldingen hiernaast zijn sfeerbeelden. </small>
-
-					</div>
-				</div>
-
-				<div class="margin-hor-s">
-					<div class="col-container">
-						<div class="col-3 col-xs-6">
-							<a
-								href="#arguments"
-								class="btn btn-primary btn--stretch scroll-link scroll-change-hash react-to-variant"
-								data-variant-value="{{option.order}}"
-							>
-								Reageer
-							</a>
-						</div>
-						<div class="col-3 col-xs-6">
-							<a href="#vote" class="btn btn-primary btn--stretch scroll-link scroll-change-hash">
-								Verdeel sterren
-							</a>
-						</div>
-
-
-						<div class="col-5 col-xs-12 ">
-
-							<!--
-							<br class="visible-xs" />
-							<a href="https://amsterdam.nl/javabrug" target="_blank" class="btn btn-secondary btn--stretch">
-								Lees meer over deze variant
-							</a>
-							!-->
-						</div>
-					</div>
-				</div>
-
-				<a href="#variants" class="content-modal-close" >
-					<img src="/img/stemtool/cross.svg" width="17" height="17"/>
-				</a>
-			</div>
-		</div>
-	{% endfor %}
-
-	<div id="mobile-menu" class="visible-xs">
-		<a href="#content" class="mobile-menu-item scroll-link">
-			<img src="/img/stemtool/info.svg" height="20" />
-			Introductie
-		</a>
-		<a href="#designs" class="mobile-menu-item scroll-link">
-			<img src="/img/stemtool/stars.svg" height="20" />
-			Varianten
-		</a>
-		<a href="#details" class="mobile-menu-item scroll-link">
-			<img src="/img/stemtool/info.svg" height="20" />
-			Info
-		</a>
-		<a href="#vote" class="mobile-menu-item scroll-link">
-			<img src="/img/stemtool/stars.svg" height="20" />
-			Sterren
-		</a>
-		<a href="#arguments" class="mobile-menu-item scroll-link">
-			<img src="/img/stemtool/comments.svg" height="20" />
-			Argumenten
-		</a>
-	</div>
+	{{ mobileMenu() }}
 
 {% endblock %}
 
@@ -599,9 +345,7 @@
 	<script src="/js/promise.js"></script>
 	<script src="/js/fetch.js"></script>
 	<script src="/js/jquery-3.3.1.min.js"></script>
-
 	<script src="//cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
-
 	<script src="/js/scroll-link.js"></script>
 	<script src="/js/enhancements.js"></script>
 	<script src="/js/argument-tabs.js"></script>
