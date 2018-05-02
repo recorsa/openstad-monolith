@@ -23,11 +23,14 @@ module.exports = function( app ) {
 	// Create article
 	// --------------
 	router.route('/create')
+	.all(fetchAllArticles())
   .all(auth.can('article:create', true))
   .get(function( req, res, next ) {
 		res.out('articles/form', true, {
 			showForm        : req.can('article:create'),
+			allArticles     : req.allArticles,
 			useModernEditor : isModernBrowser(req),
+      article         : { createdAt: Date.now() },
 			csrfToken       : req.csrfToken()
 		})
 	})
@@ -38,6 +41,19 @@ module.exports = function( app ) {
 		.then(function( article ) {
 			res.success('/article/'+article.id, {article: article});
 		})
+    .then(function() {
+		  db.Article.getTiles()
+		    .then(articles => {
+          // renumber seqnr
+          var seqnr = 10;
+          articles.forEach((article) => {
+            console.log('++', seqnr);
+            article.seqnr = seqnr;
+            seqnr = seqnr + 10;
+            article.save();
+          });
+        })
+		})
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
@@ -47,6 +63,7 @@ module.exports = function( app ) {
 					showForm        : true,
 					useModernEditor : isModernBrowser(req),
 					article         : req.body,
+					allArticles     : req.allArticles,
 					csrfToken       : req.csrfToken()
 				});
 			} else {
@@ -59,20 +76,34 @@ module.exports = function( app ) {
 	// ------------
 	router.route('/:articleId/edit')
 	.all(fetchArticle('withPosterImage'))
+	.all(fetchAllArticles())
 	.all(auth.can('article:edit'))
 	.get(function( req, res, next ) {
 		res.out('articles/form', true, {
 			article: req.article,
 			showForm        : true,
+			allArticles     : req.allArticles,
 			useModernEditor : isModernBrowser(req),
 			csrfToken : req.csrfToken()
 		});
 	})
   .put(function( req, res, next ) {
-		req.body.location = JSON.parse(req.body.location || null);
 		req.user.updateArticle(req.article, req.body)
 		.then(function( article ) {
 			res.success('/article/'+article.id, {article: article});
+		})
+    .then(function() {
+		  db.Article.getTiles()
+		    .then(articles => {
+          // renumber seqnr
+          var seqnr = 10;
+          articles.forEach((article) => {
+            console.log('++', seqnr);
+            article.seqnr = seqnr;
+            seqnr = seqnr + 10;
+            article.save();
+          });
+        })
 		})
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
@@ -83,12 +114,13 @@ module.exports = function( app ) {
 					showForm        : true,
 					useModernEditor : isModernBrowser(req),
 					article         : req.article,
+					allArticles     : req.allArticles,
 					csrfToken       : req.csrfToken()
 				});
 			} else {
 				next(error);
 			}
-		});
+		})
 	});
 	
 	// Delete article
@@ -98,12 +130,30 @@ module.exports = function( app ) {
 	.all(auth.can('article:delete'))
 	.delete(function( req, res, next ) {
 		var article = req.article;
-    console.log(1);
 		article.destroy()
 		.then(function() {
-    console.log(2);
 			req.flash('success', 'Het artikel is verwijderd');
 			res.success('/', true);
+		})
+		.catch(next);
+	});
+
+	// toggle article isPublished
+	// --------------
+	router.route('/:articleId/toggleIsPublished')
+  .all(fetchArticle())
+	.all(auth.can('article:edit'))
+	.get(function( req, res, next ) {
+		var article = req.article;
+		article.isPublished = !article.isPublished;
+    article.save()
+		.then(function() {
+			if (article.isPublished) {
+				req.flash('success', 'Het artikel is gepuliceerd');
+			} else {
+				req.flash('success', 'Het artikel niet langer gepuliceerd');
+			}
+			res.success('/article/'+article.id, {article: article});
 		})
 		.catch(next);
 	});
@@ -114,7 +164,6 @@ module.exports = function( app ) {
 function isModernBrowser( req ) {
 	var agent = util.userAgent(req.get('user-agent'));
 	
-	// console.log(agent);
 	switch( agent.family.toLowerCase() ) {
 		case 'android':
 			return agent.satisfies('>= 4.4');
@@ -148,6 +197,17 @@ function fetchArticle( req, res, next ) {
 				next();
 			}
 		})
+		.catch(next);
+	}
+}
+
+function fetchAllArticles( req, res, next ) {
+	return function( req, res, next ) {
+		db.Article.getTiles()
+		  .then(articles => {
+        req.allArticles = articles;
+        next()
+      })
 		.catch(next);
 	}
 }

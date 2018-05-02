@@ -332,7 +332,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			createNewArticle: function( data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'description']);
+				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'seqnr', 'description', 'isPublished', 'date']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
 				
@@ -347,7 +347,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			updateArticle: function( article, data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'description']);
+				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'seqnr', 'description', 'isPublished', 'date']);
 				
 				return article.update(filtered)
 				.bind(this)

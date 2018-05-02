@@ -20,6 +20,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return raw ? JSON.parse(raw) : null;
 			}
 		},
+
+		seqnr: {
+			type         : DataTypes.INTEGER,
+			allowNull    : true
+		},
+
 		title: {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
@@ -68,6 +74,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.safeTags(text));
 			}
+		},
+		isPublished: {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : false,
+      defaultValue : false
+		},
+		date: {
+			type         : DataTypes.DATE,
+			allowNull    : true,
 		}
 	}, {
 		classMethods: {
@@ -128,7 +143,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}]
 			},
 			asTile: {
-				attributes: ['id', 'image', 'title', 'summary'],
+				attributes: ['id', 'image', 'title', 'summary', 'seqnr'],
 				include: [{
 					model      : db.Image,
 					as         : 'posterImage',
@@ -138,7 +153,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						sort: 0
 					}
 				}],
-				order: 'article.createdAt DESC'
+				order: 'article.seqnr, article.createdAt DESC'
 			},
 			withPosterImage: {
 				include: [{

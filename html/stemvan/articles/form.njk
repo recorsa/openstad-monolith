@@ -11,7 +11,6 @@
 <h1>{{'Nieuw artikel' if not article.id else 'Bewerk artikel'}}</h1>
 
 {% if showForm %}
-<div class="primary">
 	<form id="posterImageUpload" action="/image"
 	      {% if article.posterImage %}
 	      style="background-image: url('/image/{{article.posterImage.key}}');"
@@ -22,26 +21,29 @@
 	</form>
 
 	<form method="post" id="js-form">
-		<div id="titleAndSummary">
-			<h2>Auteur</h2>
-			<p>{{user.fullName}} <em>(uw emailadres wordt nooit gepubliceerd)</em></p>
+<div class="primary">
+
+  <div id="titleAndSummary">
 			
 			<h2>Titel artikel</h2>
 			<input type="text" name="title" value="{{article.title}}"><br>
 			
 			<h2>Samenvatting</h2>
+      <em>Dit is de tekst op de homepage en in de linker kolom</em><br>
 			<textarea name="summary">{{article.summary}}</textarea>
 			<div id="charsLeft"><span>140</span> tekens resterend.</div>
 			
 			<h2>Intro</h2>
+      <em>Dit is dik gedrukte tekst bovenin het artikel</em><br>
 			<textarea name="intro">{{article.intro}}</textarea>
 			
-			<h2>Quote</h2>
+			<h2>Citaat</h2>
+      <em>Deze tekst wordt extra groot en tussen aanhalingstekens afgebeeld</em><br>
 			<textarea name="quote">{{article.quote}}</textarea>
 		</div>
 		
 		<div id="description">
-			<h2>Beschrijving</h2>
+			<h2>Tekst</h2>
 			{% if useModernEditor %}
 				<input type="hidden" id="js-description" name="description" value="{{article.description}}">
 				
@@ -101,11 +103,29 @@
 		{% endif %}
 		
 		<input type="submit" value="Plan opslaan">
-	</form>
+  </div>
+
+  <div class="secondary">
+  
+			<h2 style="margin-top: 0;">Datum</h2>
+			<input type="date" name="date" value="{{article.date | date('YYYY-MM-DD')}}"><br>
+			
+			<h2>Plaats dit artikel na</h2>
+      <select name="seqnr" style="max-width: 100%;">
+        <option value="0">Vooraan</option>      
+        {% for art in allArticles%}
+          {% if art.id == article.id %}
+            <option value="{{art.seqnr}}" selected="true">Geen wijziging</option>      
+          {% else %}
+            <option value="{{art.seqnr + 5}}">{{art.title}}</option>      
+          {% endif %}
+        {% endfor %}
+      </select>
+
 </div>
 
-<div class="secondary">
-</div>
+</form>
+
 {% endif %}
 {% endblock %}
 
