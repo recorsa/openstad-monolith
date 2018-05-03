@@ -45,8 +45,8 @@ module.exports = function( app ) {
 							where: {ideaId: 1, sentiment: 'against'},
 							order: [
 								db.sequelize.literal(`yes DESC`),
-								['parentId', 'ASC'],
-								['createdAt', 'ASC']
+								['parentId', 'DESC'],
+								['createdAt', 'DESC']
 							]
 						})
             .then(arguments1 => {
@@ -65,8 +65,8 @@ module.exports = function( app ) {
 								where: {ideaId: 1, sentiment: 'for'},
 								order: [
 									db.sequelize.literal(`yes DESC`),
-									['parentId', 'ASC'],
-									['createdAt', 'ASC']
+									['parentId', 'DESC'],
+									['createdAt', 'DESC']
 								]
 							})
 	          .then((arguments2) => {
