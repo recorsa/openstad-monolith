@@ -1,6 +1,6 @@
-{% macro agendaItems(options) %}
+{% macro agendaItems(agenda) %}
 <div class="agenda">
-{% for item in idea.agenda %}
+{% for item in agenda %}
   <div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
 
     <!-- <h3 class="margin-top-0 margin-bottom-xs h3">
