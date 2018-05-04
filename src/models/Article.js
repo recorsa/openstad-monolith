@@ -143,7 +143,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}]
 			},
 			asTile: {
-				attributes: ['id', 'image', 'title', 'summary', 'seqnr'],
+				attributes: ['id', 'image', 'title', 'summary', 'isPublished', 'seqnr'],
 				include: [{
 					model      : db.Image,
 					as         : 'posterImage',
