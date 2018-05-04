@@ -63,14 +63,6 @@
 		{% endif %}
 
 		{% if can('article:edit', 'article:delete') %}
-			<h2>Nieuw</h2>
-     			
-			<form action="/article/create">
-				<button type="submit" class="edit">Nieuw artikel</button>
-			</form>
-		{% endif %}
-
-		{% if can('article:edit', 'article:delete') %}
 			<h2>Bewerken</h2>
 			
 			{% if can('article:edit') %}
