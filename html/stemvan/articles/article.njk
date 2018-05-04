@@ -21,7 +21,12 @@
 			{% endif %}
 
 		{% endif %}
-	</div>
+
+		{% if not article.isPublished %}
+			<div class="notPublished">Dit artikel is nog niet gepubliceerd</div>
+		{% endif %}
+
+  </div>
 	
 	<div class="primary">
 		<h1>{{article.title}}</h1>

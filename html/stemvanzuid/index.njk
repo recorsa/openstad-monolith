@@ -21,10 +21,13 @@
 		{% for article in articles
 		%}<div class="tile">
 			<a href="/artikel/{{article.id}}">
-						{% if article.posterImage %}
+			{% if article.posterImage %}
 				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
 			{% else %}
 				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+			{% if not article.isPublished %}
+				<div class="notPublished">Dit artikel is nog niet gepubliceerd</div>
 			{% endif %}
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
