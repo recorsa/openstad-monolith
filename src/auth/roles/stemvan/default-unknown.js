@@ -36,12 +36,10 @@ module.exports = function( helpers, role ) {
 		'article:create'   : false,
 		'article:edit'     : {
 			allow    : false,
-			resource : 'article',
 			message  : 'Artikel bewerken niet toegestaan'
 		},
 		'article:delete'   : {
 			allow    : false,
-			resource : 'article',
 			message  : 'Artikel verwijderen niet toegestaan'
 		},
 		

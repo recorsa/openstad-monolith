@@ -2,13 +2,11 @@ var Promise = require('bluebird');
 var db      = require('../../db');
 
 module.exports = function( app ) {
-	app.get('/', function( req, res, next ) {
-    var articles = db.Article.getTiles().filter(function( article ) {
-    	return article.isPublished == true ||
-    	       req.user && req.user.can('article:edit', article);
-    });
-    var data = {
-			articles         : articles,
+	app.route('/')
+	.get(function( req, res, next ) {
+		var user = req.user;
+		var data = {
+			articles         : db.Article.getTilesForUser(user),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			upcomingMeetings : db.Meeting.getUpcoming(3)
 		};

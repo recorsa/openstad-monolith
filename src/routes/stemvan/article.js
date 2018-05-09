@@ -42,19 +42,7 @@ module.exports = function( app ) {
 		.then(function( article ) {
 			res.success('/article/'+article.id, {article: article});
 		})
-		.then(function() {
-			db.Article.getTiles()
-			.then(articles => {
-				// renumber seqnr
-				var seqnr = 10;
-				articles.forEach((article) => {
-					console.log('++', seqnr);
-					article.seqnr = seqnr;
-					seqnr = seqnr + 10;
-					article.save();
-				});
-			});
-		})
+		.then(renumberArticles)
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
@@ -93,19 +81,7 @@ module.exports = function( app ) {
 		.then(function( article ) {
 			res.success('/article/'+article.id, {article: article});
 		})
-		.then(function() {
-			db.Article.getTiles()
-			.then(articles => {
-				// renumber seqnr
-				var seqnr = 10;
-				articles.forEach((article) => {
-					console.log('++', seqnr);
-					article.seqnr = seqnr;
-					seqnr = seqnr + 10;
-					article.save();
-				});
-			});
-		})
+		.then(renumberArticles)
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
@@ -200,11 +176,22 @@ function fetchArticle( req, res, next ) {
 
 function fetchAllArticles( req, res, next ) {
 	return function( req, res, next ) {
-		db.Article.getTiles()
+		db.Article.getAllTiles()
 		.then(articles => {
 			req.allArticles = articles;
 			next()
 		})
 		.catch(next);
 	}
+}
+
+function renumberArticles() {
+	return db.Article.getAllTiles()
+	.then(articles => {
+		var seqnr = 10;
+		var updates = articles.map((article) => {
+			return article.update({seqnr: article.seqnr + 10});
+		});
+		return Promise.all(updates);
+	});
 }

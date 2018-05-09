@@ -92,10 +92,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasOne(models.Image, {as: 'posterImage'});
 			},
 			
-			getTiles: function() {
+			getAllTiles: function() {
 				return this.scope('asTile').findAll();
 			},
-
+			getTilesForUser: function( user ) {
+				if( user.can('article:edit') ) {
+					return this.getAllTiles();
+				} else {
+					return this.scope('asTile').findAll({
+						where: {isPublished: true}
+					});
+				}
+			}
 		},
 		instanceMethods: {
 			updateImages: function( imageKeys ) {
