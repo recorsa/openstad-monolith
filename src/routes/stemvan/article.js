@@ -1,17 +1,18 @@
 var config      = require('config')
-  , createError = require('http-errors')
-  , express     = require('express')
-  , Promise     = require('bluebird');
+var createError = require('http-errors')
+var express     = require('express')
+var Promise     = require('bluebird');
+
 var util        = require('../../util')
-  , db          = require('../../db')
-  , auth        = require('../../auth');
+var db          = require('../../db')
+var auth        = require('../../auth');
 
 module.exports = function( app ) {
 	var router = express.Router();
 	app.use('(/article|/artikel)', router);
 	
 	router.route('/:articleId(\\d+)')
-  .all(fetchArticle('withPosterImage'))
+	.all(fetchArticle('withPosterImage'))
 	.all(auth.can('article:view', 'article:*'))
 	.get(function( req, res, next ) {
 		res.out('articles/article', true, {
@@ -24,35 +25,35 @@ module.exports = function( app ) {
 	// --------------
 	router.route('/create')
 	.all(fetchAllArticles())
-  .all(auth.can('article:create', true))
-  .get(function( req, res, next ) {
+	.all(auth.can('article:create', true))
+	.get(function( req, res, next ) {
 		res.out('articles/form', true, {
 			showForm        : req.can('article:create'),
 			allArticles     : req.allArticles,
 			useModernEditor : isModernBrowser(req),
-      article         : { createdAt: Date.now() },
+			article         : { createdAt: Date.now() },
 			csrfToken       : req.csrfToken()
 		})
 	})
-  .post(function( req, res, next ) {
+	.post(function( req, res, next ) {
 		req.body.location = JSON.parse(req.body.location || null);
 		
 		req.user.createNewArticle(req.body)
 		.then(function( article ) {
 			res.success('/article/'+article.id, {article: article});
 		})
-    .then(function() {
-		  db.Article.getTiles()
-		    .then(articles => {
-          // renumber seqnr
-          var seqnr = 10;
-          articles.forEach((article) => {
-            console.log('++', seqnr);
-            article.seqnr = seqnr;
-            seqnr = seqnr + 10;
-            article.save();
-          });
-        })
+		.then(function() {
+			db.Article.getTiles()
+			.then(articles => {
+				// renumber seqnr
+				var seqnr = 10;
+				articles.forEach((article) => {
+					console.log('++', seqnr);
+					article.seqnr = seqnr;
+					seqnr = seqnr + 10;
+					article.save();
+				});
+			});
 		})
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
@@ -80,30 +81,30 @@ module.exports = function( app ) {
 	.all(auth.can('article:edit'))
 	.get(function( req, res, next ) {
 		res.out('articles/form', true, {
-			article: req.article,
+			article         : req.article,
 			showForm        : true,
 			allArticles     : req.allArticles,
 			useModernEditor : isModernBrowser(req),
-			csrfToken : req.csrfToken()
+			csrfToken       : req.csrfToken()
 		});
 	})
-  .put(function( req, res, next ) {
+	.put(function( req, res, next ) {
 		req.user.updateArticle(req.article, req.body)
 		.then(function( article ) {
 			res.success('/article/'+article.id, {article: article});
 		})
-    .then(function() {
-		  db.Article.getTiles()
-		    .then(articles => {
-          // renumber seqnr
-          var seqnr = 10;
-          articles.forEach((article) => {
-            console.log('++', seqnr);
-            article.seqnr = seqnr;
-            seqnr = seqnr + 10;
-            article.save();
-          });
-        })
+		.then(function() {
+			db.Article.getTiles()
+			.then(articles => {
+				// renumber seqnr
+				var seqnr = 10;
+				articles.forEach((article) => {
+					console.log('++', seqnr);
+					article.seqnr = seqnr;
+					seqnr = seqnr + 10;
+					article.save();
+				});
+			});
 		})
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
@@ -126,11 +127,10 @@ module.exports = function( app ) {
 	// Delete article
 	// --------------
 	router.route('/:articleId/delete')
-	  .all(fetchArticle())
+	.all(fetchArticle())
 	.all(auth.can('article:delete'))
 	.delete(function( req, res, next ) {
-		var article = req.article;
-		article.destroy()
+		req.article.destroy()
 		.then(function() {
 			req.flash('success', 'Het artikel is verwijderd');
 			res.success('/', true);
@@ -141,18 +141,15 @@ module.exports = function( app ) {
 	// toggle article isPublished
 	// --------------
 	router.route('/:articleId/toggleIsPublished')
-  .all(fetchArticle())
+	.all(fetchArticle())
 	.all(auth.can('article:edit'))
 	.get(function( req, res, next ) {
 		var article = req.article;
-		article.isPublished = !article.isPublished;
-    article.save()
+		article.update({isPublished: !article.isPublished})
 		.then(function() {
-			if (article.isPublished) {
-				req.flash('success', 'Het artikel is gepuliceerd');
-			} else {
-				req.flash('success', 'Het artikel niet langer gepuliceerd');
-			}
+			req.flash('success', article.isPublished ?
+			                     'Het artikel is gepuliceerd' :
+			                     'Het artikel niet langer gepuliceerd');
 			res.success('/article/'+article.id, {article: article});
 		})
 		.catch(next);
@@ -187,9 +184,9 @@ function isModernBrowser( req ) {
 function fetchArticle( req, res, next ) {
 	var scopes = Array.from(arguments);
 	return function( req, res, next ) {
-    var articleId = req.params.articleId;
+		var articleId = req.params.articleId;
 		db.Article.scope(scopes).findById(articleId)
-		  .then(function( article ) {
+		.then(function( article ) {
 			if( !article ) {
 				next(createError(404, 'Artikel niet gevonden'));
 			} else {
@@ -204,10 +201,10 @@ function fetchArticle( req, res, next ) {
 function fetchAllArticles( req, res, next ) {
 	return function( req, res, next ) {
 		db.Article.getTiles()
-		  .then(articles => {
-        req.allArticles = articles;
-        next()
-      })
+		.then(articles => {
+			req.allArticles = articles;
+			next()
+		})
 		.catch(next);
 	}
 }

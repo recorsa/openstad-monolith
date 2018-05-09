@@ -1,6 +1,5 @@
-var sanitize = require('../util/sanitize');
-
-var ImageOptim    = require('../ImageOptim');
+var sanitize   = require('../util/sanitize');
+var ImageOptim = require('../ImageOptim');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Article = sequelize.define('article', {
@@ -78,7 +77,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		isPublished: {
 			type         : DataTypes.BOOLEAN,
 			allowNull    : false,
-      defaultValue : false
+			defaultValue : false
 		},
 		date: {
 			type         : DataTypes.DATE,
@@ -99,7 +98,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		},
 		instanceMethods: {
-
 			updateImages: function( imageKeys ) {
 				var self = this;
 				if( !imageKeys || !imageKeys.length ) {
@@ -129,9 +127,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					ImageOptim.processArticle(self.id);
 					return self;
 				});
-      },
-      
-    }
+			}
+		}
 	});
 	
 	function scopes() {
