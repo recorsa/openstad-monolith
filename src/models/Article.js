@@ -117,14 +117,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 					db.Image.destroy({
 						where: {
 							articleId : articleId,
-							key    : {$notIn: imageKeys}
+							key       : {$notIn: imageKeys}
 						}
 					})
 				].concat(
 					imageKeys.map(function( imageKey, sort ) {
 						return db.Image.update({
 							articleId : articleId,
-							sort   : sort
+							sort      : sort
 						}, {
 							where: {key: imageKey}
 						});

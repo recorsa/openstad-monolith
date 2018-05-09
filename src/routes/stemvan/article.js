@@ -124,8 +124,8 @@ module.exports = function( app ) {
 		article.update({isPublished: !article.isPublished})
 		.then(function() {
 			req.flash('success', article.isPublished ?
-			                     'Het artikel is gepuliceerd' :
-			                     'Het artikel niet langer gepuliceerd');
+			                     'Het artikel is gepubliceerd' :
+			                     'Het artikel niet langer gepubliceerd');
 			res.success('/article/'+article.id, {article: article});
 		})
 		.catch(next);
