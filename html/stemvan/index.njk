@@ -22,9 +22,9 @@
 		
 		{# Syntax formatting because `div.tile` is `display: inline-block`. #}
 		{% for article in articles
-		%}<div class="tile">
+		%}<div class="tile {{'unpublished' if not article.isPublished}}">
 			<a href="/artikel/{{article.id}}">
-						{% if article.posterImage %}
+			{% if article.posterImage %}
 				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
 			{% else %}
 				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
