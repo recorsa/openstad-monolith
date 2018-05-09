@@ -137,7 +137,7 @@
 			<h2>Beheren</h2>
 			
 			<form method="POST" action="/plan/{{idea.id}}/status">
-				<select name="status" onchange="this.form.submit();">
+				<select name="status" onchange="this.form.submit();" class="button">
 					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
 					<option {{'selected' if idea.status=='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
 					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>

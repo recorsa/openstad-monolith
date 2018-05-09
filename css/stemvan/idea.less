@@ -100,6 +100,7 @@
 					width: calc(100% - 46px);
 					
 					&::before {
+						background-color: #FFF;
 						border: 1px solid #EC0000;
 						box-sizing: border-box;
 						color: #EC0000;
@@ -255,56 +256,6 @@
 	
 	h2:first-of-type {
 		margin-top: 0;
-	}
-	button[type="submit"],
-	select {
-		.appearance(none);
-		
-		background: 0;
-		background-color: whitesmoke;
-		border: 0;
-		border-right: 4px solid #333;
-		border-radius: 0;
-		color: #333;
-		cursor: pointer;
-		display: block;
-		font-size: 1.1em;
-		font-weight: bold;
-		height: 3rem;
-		margin-bottom: 5px;
-		margin-left: 50px;
-		overflow: visible;
-		padding: 0 0 0 6px;
-		position: relative;
-		text-align: left;
-		width: calc(100% - 50px);
-		
-		&:before {
-			background-color: #333;
-			background-repeat : no-repeat;
-			background-position: center;
-			background-size: auto 30px;
-			content: '';
-			height: 3rem;
-			left: -50px;
-			position: absolute;
-			top: 0;
-			width: 50px;
-		}
-	}
-	select {
-		border-left: 50px solid #333;
-		margin-left: 0;
-		width: 100%;
-	}
-	button.edit:before {
-		background-image: url('/img/edit_white.svg');
-	}
-	button.delete:before {
-		background-image: url('/img/delete_white.svg');
-	}
-	button.modBreak:before {
-		background-image: url('/img/argument_white.svg');
 	}
 }
 
