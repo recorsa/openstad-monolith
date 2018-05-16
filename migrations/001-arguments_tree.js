@@ -8,5 +8,13 @@ module.exports = {
 			ADD
 				parentId INT  UNSIGNED  NULL  DEFAULT NULL  AFTER id
 		`);
+	},
+	down: function() {
+		return db.query(`
+			ALTER TABLE
+				arguments
+			DROP
+				parentId
+		`);
 	}
 }

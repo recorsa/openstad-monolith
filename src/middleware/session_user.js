@@ -32,7 +32,8 @@ db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) 
 
 module.exports = function( app ) {
 	app.use(function getSessionUser( req, res, next ) {
-		req.setSessionUser = setSessionUser.bind(req);
+		req.setSessionUser   = setSessionUser.bind(req);
+		req.unsetSessionUser = unsetSessionUser.bind(req);
 		
 		if( !req.session ) {
 			next(Error('express-session middleware not loaded?'));
@@ -57,6 +58,11 @@ function setSessionUser( userId, originUrl ) {
 	if( originUrl ) {
 		this.session['ref'] = originUrl;
 	}
+}
+function unsetSessionUser() {
+	this.session.cookie.maxAge = null;
+	this.session[uidProperty]  = null;
+	this.session['ref']        = null;
 }
 function getUserInstance( userId ) {
 	var user = userCache.get(userId);

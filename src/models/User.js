@@ -81,6 +81,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		
+		nickName: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('nickName', sanitize.noTags(value));
+			}
+		},
 		firstName: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true,
@@ -136,7 +143,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 				          null;
 				this.setDataValue('zipCode', zipCode);
 			}
-		}
+		},
+		
+		signedUpForNewsletter: {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : false,
+			defaultValue : false
+		},
 	}, {
 		charset: 'utf8',
 		
@@ -151,13 +164,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 					throw new Error('User role \'unknown\' is not allowed');
 				}
 			},
-			isValidAnon: function() {
-				if( this.role === 'unknown' || this.role === 'anonymous' ) {
-					if( this.complete || this.email ) {
-						throw new Error('Anonymous users cannot be complete profiles or have a mail address');
-					}
-				}
-			},
+			// isValidAnon: function() {
+			// 	if( this.role === 'unknown' || this.role === 'anonymous' ) {
+			// 		if( this.complete || this.email ) {
+			// 			throw new Error('Anonymous users cannot be complete profiles or have a mail address');
+			// 		}
+			// 	}
+			// },
 			isValidMember: function() {
 				if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
 					if( !this.email ) {
@@ -181,6 +194,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.hasMany(models.Vote);
 				this.hasMany(models.Argument);
 				this.hasMany(models.ThumbsUp);
+				this.hasMany(models.PollVote);
 			},
 			findByCredentials: function( email, password ) {
 				if( !email || !password ) {
@@ -301,6 +315,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			
+			// TODO: Move to `Idea` model.
 			createNewIdea: function( data ) {
 				var imageKeys = data.images;
 				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);

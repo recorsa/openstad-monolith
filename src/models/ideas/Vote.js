@@ -37,7 +37,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				Vote.belongsTo(models.Idea);
 				Vote.belongsTo(models.User);
 			},
-			
+
 			anonimizeOldVotes: function() {
 				var anonimizeThreshold = config.get('ideas.anonimizeThreshold');
 				return sequelize.query(`
@@ -63,6 +63,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	});
-	
+
 	return Vote;
 };

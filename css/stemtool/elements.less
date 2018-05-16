@@ -1,0 +1,366 @@
+.box-blue {
+  width: 100%;
+  padding: 10px;
+  background: #004699;
+  font-size: 19px;
+  color: #fff;
+  display: block;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.intro{
+  color: #434343;
+  display: block;
+  font-size: 16px;
+}
+
+.small {
+  font-size: 14px;
+}
+
+.box-grey-img {
+  width: 100%;
+  padding: 17px 15px 15px;
+  background: #f3f3f3;
+  font-size: 18px;
+  color: #000;
+  font-weight: 800;
+  border-bottom: 2px solid #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+  display: block;
+  position: relative;
+  padding-left: 58px;
+  max-width: 500px;
+  text-decoration: none;
+
+  img {
+    max-width: 35px;
+    height: auto;
+    display: inline-block;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.box-grey {
+  padding: 15px 15px;
+  background: #f3f3f3;
+}
+
+.box-grey-link {
+  color: black;
+  font-size: 1em;
+  text-decoration: none;
+  padding: 12px 37px 7px;
+  border-bottom: 2px solid #c8c8c8;
+  border-right: 2px solid #c8c8c8;
+  font-weight: 800;
+  background: #e8e8e8;
+  width: 100%;
+  text-align: center;
+  max-width: 520px;
+}
+
+.number-plate {
+  background: #e8e8e8;
+  background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+  padding: 0;
+  display: inline-block;
+  height: 29px;
+  line-height: 31px;
+  width: 20px;
+  text-align: center;
+  color: black;
+  border-radius: 3px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+
+.container-grey, .container-grey-edges {
+  background: #f6f6f6;
+  padding: 30px 40px;
+  position: relative;
+}
+
+.container-grey-edges::before, .container-grey-edges::after {
+  background: url(/img/stemtool/edges.svg);
+  content: '';
+  background-size: 175% 43px;
+  width: 100%;
+  height: 50px;
+  left: 0;
+  position: absolute;
+  background-repeat: no-repeat;
+}
+
+.container-grey-edges::before {
+  top: -23px;
+}
+
+.container-grey-edges::after {
+  bottom: -30px;
+}
+
+.hr-white {
+  border: 0;
+  background: white;
+  height: 5px;
+  width: 100%;
+}
+
+div.flashMessage {
+  background-color: #F6F7F7;
+  border-right: 4px solid #B1B1B1;
+  font-weight: bold;
+  margin: 10px 0px;
+  padding: 20px;
+  position: relative;
+
+  &.error {
+    border-right-color: #EC0000;
+  }
+  &.include,
+  &.info {
+    border-right-color: #6FCA45;
+  }
+  &.success {
+    border-right-color: #FFE115;
+  }
+  h1, h2, h3 {
+    margin-top: 0;
+  }
+  a.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    img {
+      border: 0;
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  // Cookie consent
+  // --------------
+  // Used on register page.
+  #cookieFlash {
+    font-weight: normal;
+
+    p.small {
+      color: rgba(0,0,0,0.7);
+      font-size: 0.9em;
+      margin: 20px 0 0;
+      text-align: center;
+    }
+  }
+}
+// Cookie consent
+// --------------
+// Used on register page.
+#cookieFlash {
+  font-weight: normal;
+
+  p.small {
+    color: rgba(0,0,0,0.7);
+    font-size: 0.9em;
+    margin: 20px 0 0;
+    text-align: center;
+  }
+}
+
+.btn, .btn-secondary  {
+  padding: 13px 19px 13px;
+  color: white;
+  font-size: 16px;
+  background: #004599;
+  -webkit-appearance: none;
+  border: 0;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  line-height: 1;
+  display: block;
+  height: 46px;
+  line-height: 48px;
+  padding: 0 19px;
+  align-items: flex-start;
+  font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  -ms-transition: all 100ms ease-in;
+  -o-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+
+  &--stretch {
+    width: 100%;
+    /* max-width: 300px; */
+  }
+}
+
+.btn:hover {
+  background: #003066;
+}
+
+.btn-secondary {
+  background: #e8e8e8;
+  color: #000;
+}
+
+.btn-secondary:hover {
+  background: #cfcfcf;
+}
+
+.speechBubble {
+  border: 3px solid #EC0000;
+  border-radius: 12px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 1.5em;
+  margin-bottom: calc(1em + 28px) !important;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  color: #000;
+
+
+  &:after {
+    background-image: url('/img/bubble_point.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    bottom: -28px;
+    content: '';
+    height: 28px;
+    position: absolute;
+    right: 20px;
+    width: 83px;
+  }
+}
+
+#banner {
+  margin: 0 0 35px;
+  position: relative;
+  height: 100%;
+  height: 345px;
+  position: relative;
+
+  .image {
+    background-image: url('/img/placeholders/idea.jpg');
+    background-position: center;
+    background-size: cover;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+
+    @media @primary100 {
+      margin-right: 0;
+    }
+  }
+  .overlay-title {
+    z-index: 11;
+    background: #004699;
+    color: white;
+    width: 80%;
+    padding: 16px 20px;
+    left: 25px;
+    bottom: 25px;
+    position: absolute;
+    line-height: 1.3;
+    margin: 0;
+    font-size: 24px;
+
+    > div {
+      font-size: 26px;
+    }
+
+  }
+}
+
+
+.caret-link, .caret-link:active, .caret-link:visited {
+
+  &::before {
+    background-image: url(../../img/stemtool/black-arrow.svg);
+    content: '';
+    background-size: 100%;
+    width: 11px;
+    height: 16px;
+    left: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 4px;
+  }
+  &:hover::before {
+    background-image: url(../../img/stemtool/red-arrow.svg);
+  }
+
+  position: relative;
+  display: inline-block;
+	width: 100%;
+	display: block;
+	color: #000;
+	padding-left: 20px;
+	font-size: 16px;
+	font-weight: 700;
+  text-decoration: none;
+
+	&:hover {
+		color: red;
+		text-decoration: underline;
+	}
+
+}
+
+.bg-sand {
+  background: whitesmoke;
+}
+
+.speech-balloon {
+  background: #f3f3f3;
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.speech-balloon:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+	border-right-color: #f3f3f3;
+	border-left: 0;
+	margin-top: -10px;
+	margin-left: -10px;
+}
+
+.tab-button {
+  background: #e8e8e8;
+  text-decoration: none;
+  color: black;
+  padding: 10px 12px;
+  border-right: 3px solid #bebebe;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+  height: 36px;
+  line-height: 1.3;
+  width: 88px;
+  text-align: center;
+}
+
+.tab-button.active {
+  background: #ec0000;
+  color: #FFF;
+  border-color: #434343;
+}

@@ -1,0 +1,339 @@
+body {
+	background-color: #E5E5E5;
+	margin: 0;
+	padding: 0;
+
+	font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.5em;
+	color: #434343;
+}
+
+#page {
+	background-color: #FFF;
+	box-sizing: border-box;
+	margin: 0 auto;
+	overflow: hidden;
+	width: 100%;
+	max-width: 1400px;
+
+	@media @phone {
+		width: auto;
+	}
+}
+
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, b, strong {
+	color: black;
+}
+
+h1, .h1 {
+	font-size: 26px;
+	font-weight: 600;
+	line-height: 1em;
+	margin-bottom: 1em;
+	margin-top: 2em;
+}
+h2, .h2 {
+	font-size: 1.525rem;
+	font-weight: 700;
+	line-height: 1em;
+	margin-bottom: 0.9em;
+	margin-top: 2em;
+}
+
+h3, .h3 {
+	font-size: 1.125em;
+	margin: 1em 0 0.5em;
+	font-weight: 800;
+}
+
+h4, .h4 {
+	font-size: 1em;
+	margin: 1em 0 0.5em;
+	font-weight: 800;
+}
+
+form {
+	/* overflow: hidden; */
+}
+form.action {
+	display: inline;
+}
+
+hr {
+	background: #c6c6c6;
+	border: 0;
+	height: 1px;
+	width: 100%;
+}
+
+header {
+	box-sizing: border-box;
+	height: 110px;
+	margin: 0 auto;
+	max-width: 970px;
+	padding: 0 15px;
+	position: relative;
+	width: 100%;
+
+	@media @medium {
+		width: 90%;
+	}
+
+	@media @phone {
+		width: 100%;
+	}
+
+	@media @phone {
+		height: 63px;
+	}
+
+	img {
+		border: 0;
+    height: auto;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 20px;
+		width: 20px;
+		left: -30px;
+
+		@media @large  {
+			left: 0;
+		}
+
+		@media @phone {
+			width: 13px;
+	    top: 9px;
+	    left: 12px;
+		}
+
+	}
+	#amsterdam {
+		color: #EC0000;
+		font-size: 15px;
+		line-height: 1;
+		font-weight: 800;
+		left: 0px;
+		position: absolute;
+		top: 22px;
+
+		@media @large  {
+			left: 30px;
+		}
+
+		@media @phone {
+			font-size: 14px;
+			line-height: 14px;
+			top: 10px;
+			left: 32px;
+		}
+	}
+
+	a:visited h1, h1 {
+		box-sizing: border-box;
+	  color: #434343;
+	  font-size: 28px;
+	  font-weight: 600;
+	  right: 0;
+	  line-height: 1em;
+	  margin: 0;
+	  max-width: 485px;
+	  margin-left: 20%;
+	  text-decoration: none;
+	  padding-top: 22px;
+
+
+		@media @phone {
+			font-size: 18px;
+			line-height: 22px;
+			text-align: right;
+			/*right: 10px;
+			top: 8px;*/
+		}
+	}
+}
+
+#mainMenu {
+	background-color: #F3F3F3;
+	height: @navBarHeight;
+	margin-bottom: 30px;
+
+	>div {
+		box-sizing: border-box;
+		color: #434343;
+		font-size: 1.125rem;
+		font-weight: 600;
+		line-height: 1.125rem;
+		max-width: (940px + 30px);
+		margin: 0 auto;
+		padding: 0 15px;
+
+		a {
+			color: inherit;
+			display: inline-block;
+			text-decoration: none;
+			text-shadow: 0 2px #F3F3F3;
+		}
+		// ATTENTION: This is also for links nested in <li>s.
+		li.active a,
+		a:hover {
+			border-bottom: 2px solid #EC0000;
+		}
+		a:hover {
+			color: #EC0000;
+		}
+
+		ul {
+			display: inline-block;
+			margin: 0;
+			max-width: 100%;
+			overflow: hidden;
+			padding: 0;
+			white-space: nowrap;
+
+			li {
+				box-sizing: border-box;
+				float: left;
+				height: @navBarHeight;
+				list-style: none;
+				padding: 16px 0 0;
+				text-align: center;
+
+				& + li {
+					padding-left: 20px;
+				}
+			}
+			li:nth-child(2) a:before {
+				content: 'Stadsdeelcommissie';
+
+				@media @phone {
+					content: 'Info';
+				}
+			}
+		}
+
+		a#account {
+			box-sizing: border-box;
+			float: right;
+			margin-top: 16px;
+			position: relative;
+			text-decoration: none;
+
+			&:before {
+				background-image: url('/img/profile.svg');
+				background-position: center left;
+				background-repeat: no-repeat;
+				background-size: auto 1.125rem;
+				content: '';
+				display: inline;
+				height: 1.125rem;
+				min-width: 20px;
+				position: absolute;
+				top: 0;
+				right: 100%;
+			}
+			&:hover:before {
+				background-image: url('/img/profile.svg#high');
+			}
+
+			@media @phone {
+				font-size: 0;
+
+				&:after {
+					content: attr(data-initials);
+					font-size: 1.125rem;
+				}
+			}
+		}
+	}
+}
+#subMenu {
+	background-color: #F3F3F3;
+	box-sizing: border-box;
+	color: #434343;
+	display: none;
+	font-size: 1rem;
+	font-weight: 600;
+	margin: -30px auto 0;
+	max-width: 1400px;
+	padding: 10px 0;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+
+	&.active {
+		display: block;
+	}
+
+	>div {
+		box-sizing: border-box;
+		max-width: (940px + 30px);
+		margin: 0 auto;
+		overflow: hidden;
+		padding: 0 15px;
+
+		a {
+			color: inherit;
+			padding: 8px 0; // correlates to `ul li {margin-bottom}`
+			text-decoration: none;
+
+			&:hover {
+				color: #EC0000;
+				text-decoration: underline;
+			}
+		}
+
+		ul {
+			float: right;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+
+			li {
+				background-image: url('/img/arrow_right_black.svg');
+				background-position: top 2px left;
+				background-repeat: no-repeat;
+				background-size: auto 12px;
+				padding-left: 15px;
+
+				&:not(:last-child) {
+					margin-bottom: 8px; // correlates to `a {padding}`
+				}
+			}
+		}
+	}
+}
+
+footer {
+	background-color: #666;
+	color: #FFF;
+
+	h1, h2{
+		color: white;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+
+		li {
+			background-image: url('/img/arrow_right_white.svg');
+			background-position: top 2px left;
+			background-repeat: no-repeat;
+			background-size: auto 1em;
+			padding-left: 15px;
+
+			a {
+				color: #FFF;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+}
