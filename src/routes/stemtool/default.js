@@ -45,54 +45,41 @@ function fetchIdea( req, res, next ) {
 	.findById(1)
 	.then(function( idea ) {
 		if( !idea ) {
-			next(createError(404, 'Plan niet gevonden'));
+			throw createError(404, 'Plan niet gevonden');
 		} else {
 			req.idea = idea;
+			return idea;
 		}
 	})
-	.then(function() {
+	.then(function( idea ) {
+		return [
+			fetchArguments(req.user.id, idea.id, 'for'),
+			fetchArguments(req.user.id, idea.id, 'against')
+		];
+	})
+	.spread(function( argumentsFor, argumentsAgainst ) {
+		req.idea.argumentsFor     = argumentsFor;
+		req.idea.argumentsAgainst = argumentsAgainst;
+		next();
+	})
+	.catch(next);
+	
+	function fetchArguments( userId, ideaId, sentiment ) {
 		return db.Argument.scope(
 			'defaultScope',
 			{method: ['withVoteCount', 'argument']},
-			{method: ['withUserVote', 'argument', req.user.id]},
+			{method: ['withUserVote', 'argument', userId]},
 			'withReactions'
 		)
 		.findAll({
-			where: {ideaId: 1, sentiment: 'against'},
+			where: {ideaId: ideaId, sentiment: sentiment},
 			order: [
 				db.sequelize.literal(`yes DESC`),
 				['parentId', 'DESC'],
 				['createdAt', 'DESC']
 			]
-		})
-		.then(arguments1 => {
-			req.idea.argumentsAgainst = arguments1;
 		});
-	})
-	.then(function() {
-		return db.Argument.scope(
-			'defaultScope',
-			{method: ['withVoteCount', 'argument']},
-			{method: ['withUserVote', 'argument', req.user.id]},
-			'withReactions'
-		)
-		.findAll(
-			{
-				where: {ideaId: 1, sentiment: 'for'},
-				order: [
-					db.sequelize.literal(`yes DESC`),
-					['parentId', 'DESC'],
-					['createdAt', 'DESC']
-				]
-			})
-		.then((arguments2) => {
-			req.idea.argumentsFor = arguments2;
-		});
-	})
-	.then(function() {
-		next();
-	})
-	.catch(next);
+	}
 }
 function fetchPoll( req, res, next ) {
 	var {user, idea} = req;
