@@ -1,0 +1,94 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/content.njk' as content %}
+
+{% set pageTitle    = 'Stemoverzicht' %}
+{% set contentClass = 'admin' %}
+
+{% block quickNav %}
+	<a href="/plan/{{idea.id}}" id="backToList">Terug naar plan</a>
+{% endblock %}
+
+{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+{% endblock %}
+
+
+{% block content %}
+	<!-- <a href="/plan/{{idea.id}}/votes?download">Download als CSV</a> !-->
+
+	<table id="votes" class="sortable">
+	<thead>
+		<tr>
+			<th>Vote ID</th>
+			<th>User ID</th>
+			<th>Option Id</th>
+			<th>Option Title</th>
+			<th>Postcode</th>
+			<!--<th class="sorttable_alpha">IP</th>!-->
+			<th>Datum</th>
+			<th>OK</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for vote in pollVotes %}
+		<tr class="{{'rejected' if vote.checked === false}}">
+			<td>{{vote.id}}</td>
+			<td>{{vote.user.id}}</td>
+			<td>{{vote.pollOptionId}}</td>
+			<td>{{vote.poll_option.title}}</td>
+			<td>{{vote.user.zipCode}}</td>
+			<!--<td>{{vote.ip}}</td>!-->
+			<td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
+			<td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}"></td>
+		</tr>
+	{% endfor %}
+
+	</tbody>
+	</table>
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+	<script src="/js/fetch.js"></script>
+	<!-- <script src="/js/sorttable.js"></script>!-->
+
+	<script>
+		$.noConflict();
+
+		jQuery( document ).ready(function( $ ) {
+			 $('#votes').DataTable({
+				 iDisplayLength: 100
+			 });
+		});
+
+
+		var checkMarks = Array.prototype.slice.call(
+			document.querySelectorAll('td.checked'), 0
+		);
+		checkMarks.forEach(function( checkMark ) {
+			checkMark.addEventListener('click', function() {
+				var voteId = Number(checkMark.getAttribute('data-vote'));
+				if( !voteId ) return;
+
+				fetch('/idea/{{idea.id}}/vote/'+voteId+'/toggle_checked', {
+					headers     : {'Accept': 'application/json'},
+					credentials : 'same-origin'
+				})
+				.then(toJSON)
+				.then(function( data ) {
+					var vote = data.vote;
+					checkMark.parentNode.classList.toggle('rejected', vote.checked === false)
+				})
+			});
+		});
+
+		function toJSON( resp ) {
+			return resp.json();
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,132 @@
+.no-style-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkmark-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-size: 100%;
+}
+
+.checkmark-list li {
+  position: relative;
+  padding-left: 46px;
+  margin: 16px 0px;
+}
+
+.checkmark-list li::before{
+  position: absolute;
+  content: '';
+  top: -3px;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  background-image: url(/img/stemtool/check.svg);
+  background-repeat: no-repeat;
+}
+
+.blue-text {
+  color: #004599;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.stretch {
+  width: 100% !important;
+}
+
+.relative {
+  position: relative;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.visible-xs {
+  display: none !important;
+}
+
+.visible-sm {
+  display: none !important;
+}
+
+.visible-lg {
+  display: block !important;
+}
+
+.hidden-lg {
+  display: none !important;
+}
+
+.no-decoration {
+  text-decoration: none;
+}
+
+
+@media @medium {
+  .hidden-lg {
+    display: block !important;
+  }
+
+
+  .visible-lg {
+    display: none !important;
+  }
+}
+
+
+@media @small {
+  .hidden-sm {
+    display: none !important;
+  }
+
+  .visible-sm {
+    display: block !important;
+  }
+}
+
+@media @phone {
+
+
+  .hidden-sm {
+    display: block !important;
+  }
+
+  .hidden-xs {
+    display: none !important;
+  }
+
+  .visible-sm {
+    display: none !important;
+  }
+
+  .visible-xs {
+    display: block !important;
+  }
+}

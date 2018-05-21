@@ -31,16 +31,14 @@ var helpers = {
 	},
 	
 	maySeeArgForm: function( user, idea ) {
-		return idea.isRunning() &&
-		       !helpers.isIdeaOwner(user, idea);
+		return idea.isRunning();
 	},
 	maySeeReplyForm: function( user, idea ) {
 		return idea.isRunning();
 	},
 	
 	mayAddArgument: function( user, idea ) {
-		return !helpers.isIdeaOwner(user, idea) &&
-		       idea.isRunning();
+		return idea.isRunning();
 	},
 	mayReplyToArgument: function( user, idea, argument ) {
 		return !argument.parentId &&
@@ -52,8 +50,7 @@ var helpers = {
 		       idea.isRunning();
 	},
 	mayVoteArgument: function( user, idea, argument ) {
-		return user.id !== argument.userId &&
-		       !argument.parentId;
+		return !argument.parentId;
 	},
 	
 	isIdeaOwner: function( user, idea ) {

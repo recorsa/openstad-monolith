@@ -2,20 +2,13 @@ var config = {
 	apps : [],
 	deploy : {}
 };
-// Production deployments
-// ----------------------
-addApp('stemvan', [
-// `stemvan` staging
-// -----------------
-{
+
+addApp('stemvan', [{
 	appName    : 'stem-staging',
 	deployName : 'staging',
 	remotePath : '/var/www/stemvanwest.openstadsdeel.nl/www',
 	ref        : 'origin/staging'
-}, 
-// `stemvan` production
-// --------------------
-{
+}, {
 	appName    : 'stem-prod',
 	deployName : 'production',
 	remotePath : '/var/www/stemvanwest.amsterdam.nl/www',
@@ -51,6 +44,19 @@ addApp('stemvan', [
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
 	ref        : 'origin/production'
 }]);
+
+addApp('stemtool', [{
+	appName    : 'javabrug-staging',
+	deployName : 'staging_javabrug',
+	remotePath : '/var/www/javabrug.openstadsdeel.nl/www',
+	ref        : 'origin/staging'
+}, {
+	appName    : 'stemtool-javabrug',
+	deployName : 'production_javabrug',
+	remotePath : '/var/www/javabrug.amsterdam.nl/www',
+	ref        : 'origin/production'
+}]);
+
 module.exports = config;
 
 // Helper

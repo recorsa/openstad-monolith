@@ -32,6 +32,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.argument(text));
 			}
 		},
+		label: {
+			type         : DataTypes.STRING,
+			allowNull    : true
+		},
 		// Counts set in `withVoteCount` scope.
 		yes: {
 			type         : DataTypes.VIRTUAL
@@ -104,7 +108,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultScope: {
 				include: [{
 					model      : db.User,
-					attributes : ['role', 'firstName', 'lastName', 'email']
+					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
 				}]
 			},
 			withVoteCount: function( tableName ) {

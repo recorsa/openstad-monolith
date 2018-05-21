@@ -16,7 +16,7 @@ module.exports = function( helpers, role ) {
 		'arg:add'          : helpers.mayAddArgument,
 		'arg:vote'         : {
 			allow   : helpers.mayVoteArgument,
-			message : 'Je kunt niet op je eigen argument stemmen'
+			message : 'Je kunt niet op reacties stemmen'
 		},
 		'arg:edit'         : helpers.mayMutateArgument,
 		'arg:reply'        : helpers.mayReplyToArgument,

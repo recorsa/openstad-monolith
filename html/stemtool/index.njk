@@ -1,0 +1,620 @@
+{% extends 'base.njk' %}
+{% import 'includes/arguments.njk' as arguments %}
+{% import 'includes/newsletter.njk' as newsletter %}
+
+{% from 'includes/arguments-form.njk' import argumentsForm %}
+{% from 'partials/number-plate.njk' import numberPlate %}
+{% from 'partials/mobile-menu.njk' import mobileMenu %}
+{% from 'partials/variant-modals.njk' import variantModals %}
+{% from 'partials/variant-checkboxes.njk' import variantCheckboxes %}
+{% from 'partials/variant-given-answers.njk' import variantGivenAnswers %}
+{% from 'partials/arguments-filters.njk' import argumentsFilters %}
+{% from 'partials/agenda-items.njk' import agendaItems %}
+{% from 'partials/form-field-zipcode.njk' import formFieldZipcode %}
+
+{% set pageTitle    = 'Idee: '+idea.title %}
+{% set contentClass = 'idea' %}
+{% set alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' , 'k'] %}
+{% set paddedVoteCount = ("000" + poll.totalVoteCount).slice(-3) %}
+{% set paddedArgumentCount = ("000" + idea.argCount).slice(-3) %}
+
+{% block head %}
+	{{ super() }}
+
+	<title>Javabrug over het IJ - online tool</title>
+
+	<meta property="og:title" content="{{idea.title}}">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="{{idea.summary}}">
+	<meta property="og:locale" content="nl_NL">
+	<meta property="og:site_name" content="{{SITENAME}}">
+	<meta property="og:image" content="/img/stemtool/header.png">
+	<link  href="//cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+
+{% endblock %}
+
+{% block page %}
+	<div id="summary" class="section-container">
+		<div class="col-container">
+			<div class="col-9 col-xs-12 col-sm-8">
+				<div id="banner">
+					<div class="image"
+							style="background-image: url('/img/stemtool/header.png');"
+					></div>
+					<h1 class="overlay-title">
+						<div class="margin-bottom-xs"> Geef je mening! </div>
+						{{idea.title  | safe }}
+					</h1>
+				</div>
+
+				<p class="side-padding-xs">
+					{{idea.summary | safe}}
+				</p>
+			</div>
+
+			<div class="col-3 controls col-xs-12 col-sm-4 side-padding-xs">
+				{% if can('idea:admin') %}
+				<a href="/plan/{{idea.id}}/votes" class="votes btn block margin-bottom-sm">
+					Sterrenoverzicht
+				</a>
+				{% endif %}
+				<span class="widget speechBubble newIdeaBubble">
+					1 brug, 6 mogelijke locaties.
+				</span>
+
+				<a href="#vote" class="margin-bottom-xs scroll-link block no-decoration" >
+					{{ numberPlate(poll.totalVoteCount, 'sterren') }}
+				</a>
+
+				<a href="#arguments" class="margin-bottom-sm scroll-link block no-decoration">
+					{{ numberPlate(idea.argCount, 'argumenten') }}
+				</a>
+
+				<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
+					<img src="/img/stemtool/comments.svg" />
+					Lees argumenten
+				</a>
+
+				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
+					<img src="/img/stemtool/stars.svg" />
+					Denk mee en verdeel sterren!
+				</a>
+
+				<a href="https://www.amsterdam.nl/javabrug" class="box-grey-img margin-bottom-sm" target="_blank">
+					<img src="/img/stemtool/info.svg" />
+					Lees meer over dit project op amsterdam.nl
+				</a>
+				<br />
+			</div>
+		</div>
+	</div>
+
+
+	<section id="designs" class="content-section">
+		<div class="section-container side-padding-xs">
+			<div class="mobile-accordion">
+				<h2 class="mobile-accordion-opener margin-top-0">De locatievarianten</h2>
+
+				<div class="col-container">
+					{% for option in poll.options
+					%}<div class="col-3 col-sm-6 col-xs-12 margin-bottom-m">
+							<div class="concept-card concept-card-{{loop.index}} clearfix">
+								<a
+									href="#variant-modal-{{option.order}}"
+									class="concept-card-image"
+									style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
+								>
+									<div class="concept-card-number concept-card-number-{{loop.index}}">
+										{{alphabet[loop.index - 1].toUpperCase()}}
+									</div>
+									<div class="concept-card-title">
+										{{option.title}}
+									</div>
+								</a>
+								<div class="concept-action-links">
+									<div class="concept-card-title-xs">
+										{{option.title}}
+									</div>
+									<div>
+										<a href="#variant-modal-{{option.order}}"  class="concept-card-link caret-link">
+											Lees meer
+										</a>
+										<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link scroll-link">
+											Lees reacties
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>{%
+					endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="details" class="content-section section-container ">
+		<div class="col-container">
+			<div class="col-9 col-sm-8 col-xs-12">
+				<div class="side-padding-xs">
+					<div class="mobile-accordion">
+						<h2 class="mobile-accordion-opener">Achtergrondinformatie</h2>
+
+						<div class="userContent">
+							{{idea.description | safe}}
+						</div>
+					</div>
+
+					<div class="mobile-accordion">
+						<h2 class="mobile-accordion-opener">Spelregels</h2>
+
+						<ul class="checkmark-list">
+							<li>Om jouw voorkeur aan te geven kun je in totaal maximaal 3 sterren verdelen over de varianten en maximaal 1 ster per variant.  </li>
+							<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de <b> reden </b> waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
+							<li>Je kunt niet alleen argumenten vóór maar ook argumenten tégen een variant plaatsen.</li>
+							<li>Ben je het eens met wat anderen over een locatievariant zeggen? Laat dat dan weten door op ‘mee eens’ te klikken bij dat argument. Op die manier weten wij welke argumenten het belangrijkst zijn bij de keuze voor een voorkeursvariant. In de terugkoppeling gaan we specifiek in op de belangrijkste argumenten per variant.</li>
+							<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
+							<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, veiligheid, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
+							<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
+							<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
+						</ul>
+
+						<br />
+
+						<a href="https://www.amsterdam.nl/javabrug" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
+							Lees meer over dit project op amsterdam.nl
+						</a>
+					</div>
+				</div>
+
+				<br />
+				<br />
+
+				<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m side-padding-xs">
+					<div class="vote-inner-container">
+					{% if can('poll:vote') %}
+						<h2 class="h2 margin-hor-s">
+							Mijn reactie op de varianten
+						</h2>
+
+						<hr class="hr-white margin-hor-m"></hr>
+
+						<form id="vote-form" method="POST" action="/vote" class="">
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="hidden" name="pollId" value="{{poll.id}}">
+
+							<label class="block margin-bottom-s margin-top-0">
+								<b class="intro">
+									Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
+									Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
+									Klik nogmaals om dat ongedaan te maken.
+								</b>
+								<br />
+								<div class="small">
+									Het is geen verkiezing tussen de 6 varianten.
+									Je argumenten zijn belangrijker dan de toedeling van de sterren.
+									Graag horen we onderaan deze pagina wat je van de varianten vindt.
+									Wat spreekt je aan en wat zie je graag anders?
+								</div>
+							</label>
+
+							<label class="h3 block margin-bottom-xs margin-top-m">
+								Zo verdeel ik mijn sterren:
+							</label>
+
+							{{variantCheckboxes(poll.options, alphabet)}}
+							<!--
+							<div class="margin-hor-m">
+								<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
+								<input type="text" name="fullName" class="input-field">
+							</div>
+							!-->
+
+							{% if not user.zipCode %}
+								{{formFieldZipcode()}}
+							{% endif %}
+
+							<div class="less-then-stars-message label-error">
+								Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
+							</div>
+
+							<div class="no-stars-error-message label-error">
+								Je hebt nog geen sterren verdeeld.
+							</div>
+
+							<br />
+
+							<button type="submit" class="default btn btn-primary">
+								<span class="main-submit">
+									Verstuur
+								</span>
+								<span class="confirm-submit">
+									Ja, verstuur
+								</span>
+							</button>
+
+						</form>
+					{% elseif can('poll:result') %}
+						<label class="h3 block margin-bottom-s margin-top-0">
+							Zo heb ik mijn sterren verdeeld:
+						</label>
+
+						{{variantGivenAnswers(poll.options, poll.userVotes, alphabet)}}
+
+						<div  class="margin-hor-m">
+							{{formFieldZipcode(user.zipCode)}}
+						</div>
+
+						<hr class="hr-white margin-hor-m"></hr>
+
+						<div class="col-container thank-you-container">
+							<div class="col-2">
+								<img src="/img/stemtool/check-green.svg" class="icon" />
+							</div>
+							<div class="col-10">
+								<label class="h3 block margin-top-0 margin-bottom-xs">
+										Bedankt voor je reactie!
+								</label>
+
+								Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
+								naar waarom je de sterren zo hebt verdeeld.
+								Onderaan kun je <b> argumenten </b> voor en tegen de varianten
+								plaatsen.
+								<br />
+								<br />
+
+								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
+									Naar argumenten
+								</a>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-container thank-you-container">
+							<div class="col-2">
+								<img src="/img/stemtool/check-green.svg" class="icon" />
+							</div>
+							<div class="col-10">
+								<label class="h3 block margin-top-0 margin-bottom-xs">
+									De stemronde is afgelopen!
+								</label>
+								
+								<p>
+									Iedereen die gestemd heeft: van harte bedankt! De stemmen worden nu geteld.
+									Mensen die zich hebben aangemeld voor de nieuwsbrief worden op de hoogte
+									gehouden over de uitslag.
+								</p>
+								
+								<p>
+									Onderaan kun je nog de <b>argumenten</b> voor en tegen alle varianten
+									doorlezen.
+								</p>
+								
+								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
+									Naar argumenten
+								</a>
+							</div>
+						</div>
+					{% endif %}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
+				<div id="agenda">
+					<h2>Tijdlijn</h2>
+					{{ agendaItems(idea.agenda) }}
+				</div>
+
+				<br />
+
+	      {{newsletter.form(user, csrfToken)}}
+
+				<h2>Heb je nog even?</h2>
+				<div class="box-grey">
+					<h4 class="margin-top-0">
+						We hebben nog twee extra vragen
+						over wat jij belangrijk vindt
+						in de uitwerking van de brug.
+						Laat jij je stem horen?
+					</h4>
+					<p>
+						Dit kost hooguit 2 minuten
+						van je tijd.
+					</p>
+					<a href="https://www.amsterdam.nl/formulieren/bouw/javabrug/praat-mee-javabrug" target="_blank" class="caret-link">
+						Ja, ga naar vragenlijst
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="arguments" class="margin-bottom-m">
+		<div class="bg-sand" style="padding: 1px;">
+			<div class="section-container side-padding-xs">
+				<h2 class="margin-hor-m">
+					Argumenten
+				</h2>
+			</div>
+		</div>
+
+		{% if can('arg:form') %}
+		<div class="section-container side-padding-xs">
+			{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
+		</div>
+		{% endif %}
+
+		<div class="section-container side-padding-xs" style="margin-top: 20px;">
+			{{ argumentsFilters(poll.options) }}
+
+			<div>
+				<div class="argList for">
+					<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
+					{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
+				</div>
+				<div class="argList against">
+					<h3 class="text-center margin-hor-m h2"> Argumenten tegen </h3>
+					{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{{ variantModals(poll.options) }}
+
+	{{ mobileMenu() }}
+
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/promise.js"></script>
+	<script src="/js/fetch.js"></script>
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
+	<script src="/js/scroll-link.js"></script>
+	<script src="/js/enhancements.js"></script>
+	<script src="/js/argument-tabs.js"></script>
+
+	<script>
+		$.noConflict();
+
+		// Helper for sending non-GET HTTP requests
+		// ----------------------------------------
+		// Used in progressive enhancement scripts to replace a 'old-school'
+		// request with a `fetch`/`XMLHTTPRequest` action.
+		(function( global ) {
+			var csrfToken = '{{csrfToken}}';
+
+			// Wrapper for fetch to POST/PUT data
+			global.send = function( method, url, data ) {
+				data._csrf = csrfToken;
+
+				return fetch(url, {
+					method      : method,
+					headers     : {
+						'Content-Type' : 'application/json',
+						'Accept'       : 'application/json'
+					},
+					credentials : 'same-origin',
+					body        : data ? JSON.stringify(data): null
+				})
+				.then(handleResponse)
+				.then(function( data ) {
+					if( 'csrfToken' in data ) {
+						csrfToken = data.csrfToken;
+						// HACK?: Update all tokens in static forms as well.
+						$('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+							input.value = csrfToken;
+						});
+					}
+					return data;
+				});
+			}
+
+			function handleResponse( response ) {
+				var json = response.json();
+				if( response.status >= 200 && response.status < 300 ) {
+					return json;
+				} else {
+					return json.then(function( data ) {throw data});
+				}
+			}
+		})(this);
+	</script>
+
+	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
+
+	<script>
+		(function() {
+			var lessThenStarsClassName = 'less-then-stars-error';
+			var noStarsErrorClassName  = 'no-stars-error';
+			var maxChecked             = 1;
+
+			// Voting form
+			// -----------
+			var voteForm = document.getElementById('vote-form');
+			if( voteForm ) {
+				voteForm.addEventListener('submit', function( event ) {
+					var validated     = true;
+					var form          = this;
+					var lessThenStars = hasClass(form, lessThenStarsClassName);
+					var checkedCount  = getGiveVoteCount();
+					
+					/* Validate postcode field */
+					$('#vote-form .validate-postcode').forEach(function( inputContainer ) {
+						if( !validatePostcodeFormField(inputContainer) ) {
+							validated = false;
+						}
+					});
+
+					/* Validate postcode field */
+					if( checkedCount === 0 ) {
+						clearClassesVoteForm();
+						form.classList.add(noStarsErrorClassName);
+						validated = false;
+					} else if( checkedCount < maxChecked && !lessThenStars ) {
+						clearClassesVoteForm();
+						form.classList.add(lessThenStarsClassName);
+						validated = false;
+					}
+
+
+					if( !validated ) {
+						event.preventDefault();
+					} else {
+						setFormSendingToDisabled(form);
+					}
+				});
+			}
+			
+			// New argument form
+			// -----------------
+			// - Character count on 'new argument' forms.
+			// - Validation.
+			//
+			// HACK: `renderForm` is defined in the scripts coming from
+			// `arguments.renderLists()` above.
+			$('#arguments form.newArgument').forEach(function( form ) {
+				renderForm(form);
+				
+				form.addEventListener('submit', function( event ) {
+					var validated = true;
+
+					$('.validate-text-required').forEach(function( inputContainer ) {
+						if( !validateRequiredTextField(inputContainer) ) {
+							validated = false;
+						}
+					});
+					$('#new-argument-form .validate-postcode').forEach(function( inputContainer ) {
+						if( !validatePostcodeFormField(inputContainer) ) {
+							validated = false;
+						}
+					});
+
+					if( !validated ) {
+						event.preventDefault();
+					} else {
+						setFormSendingToDisabled(this);
+					}
+				});
+			});
+			
+			// Field error clearing
+			// --------------------
+			// Clear the visual field errors when the user has corrected
+			// the mistake.
+			$('.validate-text-required').forEach(function( inputContainer ) {
+				inputContainer.addEventListener('keyup', function() {
+					if( hasClass(inputContainer, 'error') ) {
+						validateRequiredTextField(inputContainer);
+					}
+				});
+			});
+			$('.validate-postcode').forEach(function( inputContainer ) {
+				inputContainer.addEventListener('keyup', function() {
+					if( hasClass(inputContainer, 'error') ) {
+						validatePostcodeFormField(inputContainer);
+					}
+				});
+			});
+			
+			
+			$('#vote-form .concept-label').forEach(function( label, i ) {
+				var checkBox   = document.getElementById(label.getAttribute('for'));
+				
+				checkBox.addEventListener('change', function( event ) {
+					addUnavailableClass();
+					clearClassesVoteForm();
+				});
+				label.addEventListener('click', function( event ) {
+					var checkedCount = getGiveVoteCount();
+					
+					/** Add error when clicked on label when already all votes are given. **/
+					if( !checkBox.checked && checkedCount >= maxChecked ) {
+						event.preventDefault();
+						clearVoteErrors();
+						label.classList.add('error');
+					} else {
+						clearVoteErrors();
+					}
+				})
+			});
+			
+			function validatePostcodeFormField( inputContainer ){
+				var inputEl = inputContainer.querySelector('input');
+				 if( validatePostcode(inputEl.value) ) {
+					 if( hasClass(inputContainer, 'error') ) {
+							inputContainer.classList.remove('error');
+							inputContainer.classList.add('success');
+						}
+					return true;
+				} else {
+					inputContainer.classList.add('error');
+					inputContainer.classList.remove('success');
+					return false;
+				}
+			}
+
+			function validatePostcode( postcode ) {
+			  var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+			  return rege.test(postcode);
+			}
+
+			function validateRequiredTextField( inputContainer ){
+				var inputEl = inputContainer.querySelector('input');
+				if( inputEl.value.length > 0 ) {
+					if( hasClass(inputContainer, 'error') ) {
+						inputContainer.classList.remove('error');
+						inputContainer.classList.add('success');
+					}
+
+					return true;
+				} else {
+					inputContainer.classList.add('error');
+					inputContainer.classList.remove('success');
+					return false;
+				}
+			}
+
+			function getGiveVoteCount() {
+				return $('#vote-form input[type="checkbox"]:checked').length;
+			}
+
+			function clearVoteErrors() {
+				$('#vote-form .concept-label').forEach(function( label ) {
+					label.classList.remove('error');
+				});
+			}
+
+			function getVoteForm() {
+				return document.getElementById('vote-form');
+			}
+
+			function clearClassesVoteForm() {
+				getVoteForm().classList.remove(lessThenStarsClassName);
+				getVoteForm().classList.remove(noStarsErrorClassName);
+			}
+
+			function argumentsLinkClick( order ) {
+				document.getElementById('filter-arguments-option-'+order).click();
+			}
+
+			function addUnavailableClass() {
+				$('#vote-form .concept-label').forEach(function( label ) {
+					var checkedCount = getGiveVoteCount();
+					var itsCheckbox  = document.getElementById(label.getAttribute('for'));
+
+					/** Add class for when it's unavailable for voting. **/
+					if( (checkedCount ) >= maxChecked && !itsCheckbox.checked ) {
+						label.classList.add('unavailable');
+					} else {
+						label.classList.remove('unavailable');
+					}
+				});
+			}
+
+			function hasClass( target, className ) {
+				return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+			}
+		})();
+	</script>
+{% endblock %}
