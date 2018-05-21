@@ -126,8 +126,11 @@
 	$('{{cssQuery}} form.vote').forEach(function( form ) {
 		var countBox = form.querySelector('button span');
 		var button   = countBox.parentNode;
-
-
+		
+		if( button.disabled ) {
+			return;
+		}
+		
 		form.addEventListener('submit', function( event ) {
 			var method = form.method;
 			var url    = form.action;
@@ -258,8 +261,6 @@
 		var textarea  = form.querySelector('textarea');
 		var charsLeft = form.querySelector('div.charsLeft');
 		var button    = form.querySelector('input[type="submit"]');
-
-		console.log('---- form', form, button);
 
 		if( !charsLeft ) {
 			return;
