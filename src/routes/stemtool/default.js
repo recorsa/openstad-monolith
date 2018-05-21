@@ -20,7 +20,7 @@ module.exports = function( app ) {
 	app.route('/')
 	.all(fetchIdea)
 	.all(fetchPoll)
-	.all(auth.can('idea:admin', 'poll:vote', 'arg:add', true))
+	.all(auth.can('idea:admin', 'poll:vote', 'poll:result', 'arg:form', 'arg:add', true))
 	.get(function( req, res, next) {
 		res.out('index', true, {
 			user      : req.user,

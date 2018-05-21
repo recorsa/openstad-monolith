@@ -36,6 +36,7 @@ module.exports = function( app ) {
 			return bruteForce.prevent( req, res, next );
 		}
 	})
+	.post(fetchIdea)
 	.post(fetchPoll)
 	.post(auth.can('poll:vote'))
 	.post(function( req, res, next ) {
@@ -101,6 +102,18 @@ module.exports = function( app ) {
 	});
 };
 
+function fetchIdea( req, res, next ) {
+	db.Idea.findById(1)
+	.then(function( idea ) {
+		if( !idea ) {
+			next(createError(404, 'Plan niet gevonden'));
+		} else {
+			req.idea = idea;
+			next();
+		}
+	})
+	.catch(next);
+}
 function fetchPoll( req, res, next ) {
 	var {user, body} = req;
 	var pollId       = body.pollId;

@@ -10,9 +10,13 @@ module.exports = function( helpers, role ) {
 			resource : 'user'
 		},
 
-		'poll:vote' : {
-			allow    : true,
+		'poll:vote'         : {
+			allow    : helpers.mayVotePoll,
 			message  : 'Stemmen niet toegestaan',
+			resource : ['idea', 'poll']
+		},
+		'poll:result'      : {
+			allow    : helpers.mayViewUserVoteForPoll,
 			resource : 'poll'
 		},
 

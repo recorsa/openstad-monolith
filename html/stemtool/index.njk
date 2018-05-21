@@ -233,7 +233,7 @@
 							</button>
 
 						</form>
-					{% else %}
+					{% elseif can('poll:result') %}
 						<label class="h3 block margin-bottom-s margin-top-0">
 							Zo heb ik mijn sterren verdeeld:
 						</label>
@@ -262,6 +262,32 @@
 								<br />
 								<br />
 
+								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
+									Naar argumenten
+								</a>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-container thank-you-container">
+							<div class="col-2">
+								<img src="/img/stemtool/check-green.svg" class="icon" />
+							</div>
+							<div class="col-10">
+								<label class="h3 block margin-top-0 margin-bottom-xs">
+									De stemronde is afgelopen!
+								</label>
+								
+								<p>
+									Iedereen die gestemd heeft: van harte bedankt! De stemmen worden nu geteld.
+									Mensen die zich hebben aangemeld voor de nieuwsbrief worden op de hoogte
+									gehouden over de uitslag.
+								</p>
+								
+								<p>
+									Onderaan kun je nog <b> argumenten </b> voor en tegen de varianten
+									doorlezen.
+								</p>
+								
 								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
 									Naar argumenten
 								</a>
@@ -311,13 +337,14 @@
 			</div>
 		</div>
 
+		{% if can('arg:form') %}
 		<div class="section-container side-padding-xs">
 			{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
 		</div>
+		{% endif %}
 
-		<div  class="section-container side-padding-xs ">
+		<div class="section-container side-padding-xs" style="margin-top: 20px;">
 			{{ argumentsFilters(poll.options) }}
-
 
 			<div>
 				<div class="argList for">

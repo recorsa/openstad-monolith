@@ -7,6 +7,7 @@
 		{% set mayDelete       = user.can('arg:delete', idea, arg) %}
 		{% set maySeeReplyForm = user.can('arg:reply:form', idea, arg) %}
 		{% set mayReply        = user.can('arg:reply', idea, arg) %}
+		{% set mayVote         = user.can('arg:vote', idea, arg) %}
 
 		<div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
 			<div class="user {{'admin' if arg.user.isAdmin()}}">
@@ -31,12 +32,20 @@
 
 			<p>{{arg.description | urlize | nl2br | safe}}</p>
 
-			<form class="action vote" method="POST" action="/arg/{{arg.id}}/vote">
-				<input type="hidden" name="_csrf" value="{{csrfToken}}">
-				<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
-					Mee eens (<span>{{arg.yes}}</span>)
-				</button>
-			</form>
+			{% if mayVote %}
+				<form class="action vote" method="POST" action="/arg/{{arg.id}}/vote">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+						Mee eens (<span>{{arg.yes}}</span>)
+					</button>
+				</form>
+			{% else %}
+				<form class="action vote">
+					<button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+						Mee eens (<span>{{arg.yes}}</span>)
+					</button>
+				</form>
+			{% endif %}
 
 			{% if maySeeReplyForm %}
 				<a href="/arg/{{arg.id}}/reply"
