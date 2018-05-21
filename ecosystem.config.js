@@ -49,12 +49,12 @@ addApp('stemtool', [{
 	appName    : 'javabrug-staging',
 	deployName : 'staging_javabrug',
 	remotePath : '/var/www/javabrug.openstadsdeel.nl/www',
-	ref        : 'origin/projects/stemtool'
+	ref        : 'origin/staging'
 }, {
 	appName    : 'stemtool-javabrug',
 	deployName : 'production_javabrug',
 	remotePath : '/var/www/javabrug.amsterdam.nl/www',
-	ref        : 'origin/projects/stemtool'
+	ref        : 'origin/production'
 }]);
 
 module.exports = config;
