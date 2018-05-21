@@ -95,38 +95,39 @@
 			<div class="mobile-accordion">
 				<h2 class="mobile-accordion-opener margin-top-0">De locatievarianten</h2>
 
-			<div class="col-container">
-				{% for option in poll.options
-				%}<div class="col-3 col-sm-6 col-xs-12 margin-bottom-m">
-						<div class="concept-card concept-card-{{loop.index}} clearfix">
-							<a
-								href="#variant-modal-{{option.order}}"
-								class="concept-card-image"
-								style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
-							>
-								<div class="concept-card-number concept-card-number-{{loop.index}}">
-									{{alphabet[loop.index - 1].toUpperCase()}}
-								</div>
-								<div class="concept-card-title">
-									{{option.title}}
-								</div>
-							</a>
-							<div class="concept-action-links">
-								<div class="concept-card-title-xs">
-									{{option.title}}
-								</div>
-								<div>
-									<a href="#variant-modal-{{option.order}}"  class="concept-card-link caret-link">
-										Lees meer
-									</a>
-									<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link scroll-link">
-										Lees reacties
-									</a>
+				<div class="col-container">
+					{% for option in poll.options
+					%}<div class="col-3 col-sm-6 col-xs-12 margin-bottom-m">
+							<div class="concept-card concept-card-{{loop.index}} clearfix">
+								<a
+									href="#variant-modal-{{option.order}}"
+									class="concept-card-image"
+									style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
+								>
+									<div class="concept-card-number concept-card-number-{{loop.index}}">
+										{{alphabet[loop.index - 1].toUpperCase()}}
+									</div>
+									<div class="concept-card-title">
+										{{option.title}}
+									</div>
+								</a>
+								<div class="concept-action-links">
+									<div class="concept-card-title-xs">
+										{{option.title}}
+									</div>
+									<div>
+										<a href="#variant-modal-{{option.order}}"  class="concept-card-link caret-link">
+											Lees meer
+										</a>
+										<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link scroll-link">
+											Lees reacties
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>{%
-				endfor %}
+						</div>{%
+					endfor %}
+				</div>
 			</div>
 		</div>
 	</section>
@@ -169,9 +170,8 @@
 				<br />
 
 				<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m side-padding-xs">
-
 					<div class="vote-inner-container">
-						{% if can('poll:vote') %}
+					{% if can('poll:vote') %}
 						<h2 class="h2 margin-hor-s">
 							Mijn reactie op de varianten
 						</h2>
@@ -179,128 +179,125 @@
 						<hr class="hr-white margin-hor-m"></hr>
 
 						<form id="vote-form" method="POST" action="/vote" class="">
-								<input type="hidden" name="_csrf" value="{{csrfToken}}">
-								<input type="hidden" name="pollId" value="{{poll.id}}">
+							<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<input type="hidden" name="pollId" value="{{poll.id}}">
 
-								<label class="block margin-bottom-s margin-top-0">
-									<b class="intro">
-										Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
-										Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
-										Klik nogmaals om dat ongedaan te maken.
-									</b>
-									<br />
-									<div class="small">
-										Het is geen verkiezing tussen de 6 varianten.
-										Je argumenten zijn belangrijker dan de toedeling van de sterren.
-										Graag horen we onderaan deze pagina wat je van de varianten vindt.
-										Wat spreekt je aan en wat zie je graag anders?
-									</div>
-								</label>
-
-								<label class="h3 block margin-bottom-xs margin-top-m">
-									Zo verdeel ik mijn sterren:
-								</label>
-
-								{{variantCheckboxes(poll.options, alphabet)}}
-								<!--
-								<div class="margin-hor-m">
-									<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
-									<input type="text" name="fullName" class="input-field">
-								</div>
-								!-->
-
-								{% if not user.zipCode %}
-									{{formFieldZipcode()}}
-								{% endif %}
-
-								<div class="less-then-stars-message label-error">
-									Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
-								</div>
-
-								<div class="no-stars-error-message label-error">
-									Je hebt nog geen sterren verdeeld.
-								</div>
-
+							<label class="block margin-bottom-s margin-top-0">
+								<b class="intro">
+									Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
+									Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
+									Klik nogmaals om dat ongedaan te maken.
+								</b>
 								<br />
-
-								<button type="submit" class="default btn btn-primary">
-									<span class="main-submit">
-										Verstuur
-									</span>
-									<span class="confirm-submit">
-										Ja, verstuur
-									</span>
-								</button>
-
-							</form>
-						{% else %}
-							<label class="h3 block margin-bottom-s margin-top-0">
-								Zo heb ik mijn sterren verdeeld:
+								<div class="small">
+									Het is geen verkiezing tussen de 6 varianten.
+									Je argumenten zijn belangrijker dan de toedeling van de sterren.
+									Graag horen we onderaan deze pagina wat je van de varianten vindt.
+									Wat spreekt je aan en wat zie je graag anders?
+								</div>
 							</label>
 
-							{{variantGivenAnswers(poll.options, poll.userVotes, alphabet)}}
+							<label class="h3 block margin-bottom-xs margin-top-m">
+								Zo verdeel ik mijn sterren:
+							</label>
 
-							<div  class="margin-hor-m">
-								{{formFieldZipcode(user.zipCode)}}
+							{{variantCheckboxes(poll.options, alphabet)}}
+							<!--
+							<div class="margin-hor-m">
+								<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
+								<input type="text" name="fullName" class="input-field">
+							</div>
+							!-->
+
+							{% if not user.zipCode %}
+								{{formFieldZipcode()}}
+							{% endif %}
+
+							<div class="less-then-stars-message label-error">
+								Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
 							</div>
 
-							<hr class="hr-white margin-hor-m"></hr>
-
-							<div class="col-container thank-you-container">
-								<div class="col-2">
-									<img src="/img/stemtool/check-green.svg" class="icon" />
-								</div>
-								<div class="col-10">
-									<label class="h3 block margin-top-0 margin-bottom-xs">
-											Bedankt voor je reactie!
-									</label>
-
-									Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
-									naar waarom je de sterren zo hebt verdeeld.
-									Onderaan kun je <b> argumenten </b> voor en tegen de varianten
-									plaatsen.
-									<br />
-									<br />
-
-									<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
-										Naar argumenten
-									</a>
-								</div>
+							<div class="no-stars-error-message label-error">
+								Je hebt nog geen sterren verdeeld.
 							</div>
 
-						{% endif %}
+							<br />
+
+							<button type="submit" class="default btn btn-primary">
+								<span class="main-submit">
+									Verstuur
+								</span>
+								<span class="confirm-submit">
+									Ja, verstuur
+								</span>
+							</button>
+
+						</form>
+					{% else %}
+						<label class="h3 block margin-bottom-s margin-top-0">
+							Zo heb ik mijn sterren verdeeld:
+						</label>
+
+						{{variantGivenAnswers(poll.options, poll.userVotes, alphabet)}}
+
+						<div  class="margin-hor-m">
+							{{formFieldZipcode(user.zipCode)}}
 						</div>
+
+						<hr class="hr-white margin-hor-m"></hr>
+
+						<div class="col-container thank-you-container">
+							<div class="col-2">
+								<img src="/img/stemtool/check-green.svg" class="icon" />
+							</div>
+							<div class="col-10">
+								<label class="h3 block margin-top-0 margin-bottom-xs">
+										Bedankt voor je reactie!
+								</label>
+
+								Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
+								naar waarom je de sterren zo hebt verdeeld.
+								Onderaan kun je <b> argumenten </b> voor en tegen de varianten
+								plaatsen.
+								<br />
+								<br />
+
+								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
+									Naar argumenten
+								</a>
+							</div>
+						</div>
+					{% endif %}
 					</div>
-		</div>
-
-		<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
-			<div id="agenda">
-				<h2>Tijdlijn</h2>
-				{{ agendaItems(idea.agenda) }}
+				</div>
 			</div>
 
-			<br />
+			<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
+				<div id="agenda">
+					<h2>Tijdlijn</h2>
+					{{ agendaItems(idea.agenda) }}
+				</div>
 
-      {{newsletter.form(user, csrfToken)}}
+				<br />
 
-			<h2>Heb je nog even?</h2>
-			<div class="box-grey">
-				<h4 class="margin-top-0">
-					We hebben nog twee extra vragen
-					over wat jij belangrijk vindt
-					in de uitwerking van de brug.
-					Laat jij je stem horen?
-				</h4>
-				<p>
-					Dit kost hooguit 2 minuten
-					van je tijd.
-				</p>
-				<a href="https://www.amsterdam.nl/formulieren/bouw/javabrug/praat-mee-javabrug" target="_blank" class="caret-link">
-					Ja, ga naar vragenlijst
-				</a>
-			</div>
+	      {{newsletter.form(user, csrfToken)}}
 
-
+				<h2>Heb je nog even?</h2>
+				<div class="box-grey">
+					<h4 class="margin-top-0">
+						We hebben nog twee extra vragen
+						over wat jij belangrijk vindt
+						in de uitwerking van de brug.
+						Laat jij je stem horen?
+					</h4>
+					<p>
+						Dit kost hooguit 2 minuten
+						van je tijd.
+					</p>
+					<a href="https://www.amsterdam.nl/formulieren/bouw/javabrug/praat-mee-javabrug" target="_blank" class="caret-link">
+						Ja, ga naar vragenlijst
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
