@@ -21,7 +21,7 @@
 {% block head %}
 	{{ super() }}
 
-	<title>Javabrug over het IJ - online tool</title>
+	<title>{{SITENAME}}</title>
 
 	<meta property="og:title" content="{{idea.title}}">
 	<meta property="og:type" content="website">
@@ -78,7 +78,7 @@
 					Denk mee en verdeel sterren!
 				</a>
 
-				<a href="https://www.amsterdam.nl/javabrug" class="box-grey-img margin-bottom-sm" target="_blank">
+				<a href="{{GLOBALS.projectPage}}" class="box-grey-img margin-bottom-sm" target="_blank">
 					<img src="/img/stemtool/info.svg" />
 					Lees meer over dit project op amsterdam.nl
 				</a>
