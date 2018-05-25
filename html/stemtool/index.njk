@@ -38,9 +38,7 @@
 		<div class="col-container">
 			<div class="col-9 col-xs-12 col-sm-8">
 				<div id="banner">
-					<div class="image"
-							style="background-image: url('/img/stemtool/header.png');"
-					></div>
+					<div class="image" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
 					<h1 class="overlay-title">
 						<div class="margin-bottom-xs"> Geef je mening! </div>
 						{{idea.title  | safe }}
@@ -102,7 +100,7 @@
 								<a
 									href="#variant-modal-{{option.order}}"
 									class="concept-card-image"
-									style="background-image: url('/img/stemtool/variant_{{option.id}}_klein.png');"
+									style="background-image: url('/image/variant_{{option.id}}_klein.jpg');"
 								>
 									<div class="concept-card-number concept-card-number-{{loop.index}}">
 										{{alphabet[loop.index - 1].toUpperCase()}}
@@ -148,21 +146,18 @@
 						<h2 class="mobile-accordion-opener">Spelregels</h2>
 
 						<ul class="checkmark-list">
-							<li>Om jouw voorkeur aan te geven kun je in totaal maximaal 3 sterren verdelen over de varianten en maximaal 1 ster per variant.  </li>
-							<li>Het is geen verkiezing tussen de 6 varianten. Je argumenten zijn belangrijker dan de toedeling van de sterren. We zijn vooral benieuwd naar de <b> reden </b> waarom je een bepaalde variant goed of niet goed vindt. Licht daarom onderaan de pagina je keuze toe, nadat je de sterren hebt verdeeld. </li>
-							<li>Je kunt niet alleen argumenten vóór maar ook argumenten tégen een variant plaatsen.</li>
-							<li>Ben je het eens met wat anderen over een locatievariant zeggen? Laat dat dan weten door op ‘mee eens’ te klikken bij dat argument. Op die manier weten wij welke argumenten het belangrijkst zijn bij de keuze voor een voorkeursvariant. In de terugkoppeling gaan we specifiek in op de belangrijkste argumenten per variant.</li>
-							<li>Het projectteam Javabrug van de gemeente bekijkt alle reacties, overwegingen en voor- en tegenargumenten, in combinatie met de andere voorwaarden (zoals technische- en ontwerpeisen en fietscomfort), om te komen tot één variant waar het college van B&W en de gemeenteraad een besluit over nemen. </li>
-							<li>Bij de afweging om te komen tot een voorkeursvariant worden veel invalshoeken meegenomen, onder andere: stedenbouwkundige inpassing, ontwikkelingsmogelijkheden Hamerkwartier, het toekomstige park op de Kop van het Java-eiland, fietscomfort, veiligheid, aantakking op het fietsnetwerk, invloed op de directe omgeving, nautische eisen en technische en financiële risico’s. </li>
-							<li>De resultaten van de online tool zullen medio 2018 op deze website en de projectpagina op <a href="https://amsterdam.nl/javabrug" target="_blank"> amsterdam.nl </a> worden gepubliceerd. </li>
-							<li>Vragen? <a href="mailto:javabrug@amsterdam.nl?subject= &body= ">Mail ons</a></li>
+							<li>Alle bewoners uit stadsdeel West mogen op de ontwerpen stemmen.
+							<li>Je kunt op je favoriete ontwerp stemmen door het opgeven van je postcode.
+							<li>Het ontwerp met de meeste stemmen zal op de muur worden geschilderd.
+							<li>De uitslag wordt op woensdag 20 juni voor 17.00 uur bekend gemaakt op <a href="http://www.amsterdam.nl/kareldoorman" target="_blank">amsterdam.nl/kareldoorman</a>.
+							<li>Vragen kunnen via <a href="http://www.mutantes.land/kdp.html" target="_blank">de website van de kunstenaar</a> worden ingediend.
 						</ul>
 
-						<br />
+						{# <br />
 
-						<a href="https://www.amsterdam.nl/javabrug" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
+						<a href="{{GLOBALS.projectPage}}" target="black" class="box-grey box-grey-link  margin-hor-xs inline-block">
 							Lees meer over dit project op amsterdam.nl
-						</a>
+						</a> #}
 					</div>
 				</div>
 
@@ -173,7 +168,7 @@
 					<div class="vote-inner-container">
 					{% if can('poll:vote') %}
 						<h2 class="h2 margin-hor-s">
-							Mijn reactie op de varianten
+							Stem op jouw favoriete ontwerp
 						</h2>
 
 						<hr class="hr-white margin-hor-m"></hr>
@@ -183,22 +178,20 @@
 							<input type="hidden" name="pollId" value="{{poll.id}}">
 
 							<label class="block margin-bottom-s margin-top-0">
-								<b class="intro">
+								{# <b class="intro">
 									Laat je waardering weten door 3 sterren te verdelen over de mogelijke locatievarianten.
 									Klik op de variant of varianten (als je er meer hebt) van jouw voorkeur om deze een ster te geven.
 									Klik nogmaals om dat ongedaan te maken.
 								</b>
-								<br />
+								<br /> #}
 								<div class="small">
-									Het is geen verkiezing tussen de 6 varianten.
-									Je argumenten zijn belangrijker dan de toedeling van de sterren.
-									Graag horen we onderaan deze pagina wat je van de varianten vindt.
-									Wat spreekt je aan en wat zie je graag anders?
+									Stem hier op het ontwerp wat jij het liefst op de muur wilt zien. Naast jouw stem vragen we om je postcode
+									in te vullen, zodat we kunnen zien waar iedereen die een mooie muurschildering belangrijk vindt vandaan komt.
 								</div>
 							</label>
 
 							<label class="h3 block margin-bottom-xs margin-top-m">
-								Zo verdeel ik mijn sterren:
+								Ik stem op:
 							</label>
 
 							{{variantCheckboxes(poll.options, alphabet)}}
