@@ -324,23 +324,16 @@
 			</div>
 		</div>
 
-		{% if can('arg:form') %}
-		<div class="section-container side-padding-xs">
-			{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
-		</div>
-		{% endif %}
-
-		<div class="section-container side-padding-xs" style="margin-top: 20px;">
-			{{ argumentsFilters(poll.options) }}
-
-			<div>
+		<div class="content-section section-container">
+			<div class="col-9 col-sm-8 col-xs-12">
+				{% if can('arg:form') %}
+					{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
+				{% endif %}
+				
+				{{ argumentsFilters(poll.options) }}
+				
 				<div class="argList for">
-					<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
 					{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
-				</div>
-				<div class="argList against">
-					<h3 class="text-center margin-hor-m h2"> Argumenten tegen </h3>
-					{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
 				</div>
 			</div>
 		</div>
