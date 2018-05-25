@@ -426,20 +426,19 @@
 			// -----------
 			var voteForm = document.getElementById('vote-form');
 			if( voteForm ) {
+				// Validate...
 				voteForm.addEventListener('submit', function( event ) {
 					var validated     = true;
 					var form          = this;
 					var lessThenStars = hasClass(form, lessThenStarsClassName);
 					var checkedCount  = getGiveVoteCount();
 					
-					/* Validate postcode field */
 					$('#vote-form .validate-postcode').forEach(function( inputContainer ) {
 						if( !validatePostcodeFormField(inputContainer) ) {
 							validated = false;
 						}
 					});
-
-					/* Validate postcode field */
+					// Respond to voting errors.
 					if( checkedCount === 0 ) {
 						clearClassesVoteForm();
 						form.classList.add(noStarsErrorClassName);
@@ -450,12 +449,32 @@
 						validated = false;
 					}
 
-
 					if( !validated ) {
 						event.preventDefault();
 					} else {
 						setFormSendingToDisabled(form);
 					}
+				});
+				// ... and make voting options interactive.
+				$('#vote-form .concept-label').forEach(function( label, i ) {
+					var checkBox = document.getElementById(label.getAttribute('for'));
+					
+					checkBox.addEventListener('change', function( event ) {
+						addUnavailableClass();
+						clearClassesVoteForm();
+					});
+					label.addEventListener('click', function( event ) {
+						var checkedCount = getGiveVoteCount();
+						
+						// Respond to voting error.
+						if( !checkBox.checked && checkedCount >= maxChecked ) {
+							event.preventDefault();
+							clearVoteErrors();
+							label.classList.add('error');
+						} else {
+							clearVoteErrors();
+						}
+					})
 				});
 			}
 			
@@ -510,27 +529,6 @@
 				});
 			});
 			
-			
-			$('#vote-form .concept-label').forEach(function( label, i ) {
-				var checkBox   = document.getElementById(label.getAttribute('for'));
-				
-				checkBox.addEventListener('change', function( event ) {
-					addUnavailableClass();
-					clearClassesVoteForm();
-				});
-				label.addEventListener('click', function( event ) {
-					var checkedCount = getGiveVoteCount();
-					
-					/** Add error when clicked on label when already all votes are given. **/
-					if( !checkBox.checked && checkedCount >= maxChecked ) {
-						event.preventDefault();
-						clearVoteErrors();
-						label.classList.add('error');
-					} else {
-						clearVoteErrors();
-					}
-				})
-			});
 			
 			function validatePostcodeFormField( inputContainer ){
 				var inputEl = inputContainer.querySelector('input');
