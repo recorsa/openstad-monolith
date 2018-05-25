@@ -57,7 +57,7 @@
 				</a>
 				{% endif %}
 				<span class="widget speechBubble newIdeaBubble">
-					1 brug, 6 mogelijke locaties.
+					Kies welk ontwerp je het liefst op de muur ziet!
 				</span>
 
 				<a href="#vote" class="margin-bottom-xs scroll-link block no-decoration" >
@@ -68,14 +68,14 @@
 					{{ numberPlate(idea.argCount, 'argumenten') }}
 				</a>
 
-				<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
+				{# <a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
 					<img src="/img/stemtool/comments.svg" />
 					Lees argumenten
-				</a>
+				</a> #}
 
 				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
 					<img src="/img/stemtool/stars.svg" />
-					Denk mee en verdeel sterren!
+					Stem!
 				</a>
 
 				<a href="{{GLOBALS.projectPage}}" class="box-grey-img margin-bottom-sm" target="_blank">
@@ -91,7 +91,7 @@
 	<section id="designs" class="content-section">
 		<div class="section-container side-padding-xs">
 			<div class="mobile-accordion">
-				<h2 class="mobile-accordion-opener margin-top-0">De locatievarianten</h2>
+				<h2 class="mobile-accordion-opener margin-top-0">De ontwerpen</h2>
 
 				<div class="col-container">
 					{% for option in poll.options
@@ -207,7 +207,7 @@
 							{% endif %}
 
 							<div class="less-then-stars-message label-error">
-								Je hebt minder dan 3 sterren verdeeld, weet je het zeker?
+								Je mag nog meer sterren uitdelen, weet je het zeker?
 							</div>
 
 							<div class="no-stars-error-message label-error">
@@ -228,7 +228,7 @@
 						</form>
 					{% elseif can('poll:result') %}
 						<label class="h3 block margin-bottom-s margin-top-0">
-							Zo heb ik mijn sterren verdeeld:
+							Je hebt gestemd op:
 						</label>
 
 						{{variantGivenAnswers(poll.options, poll.userVotes, alphabet)}}
@@ -248,15 +248,12 @@
 										Bedankt voor je reactie!
 								</label>
 
-								Je sterren zijn goed ontvangen. We zijn ook erg benieuwd
-								naar waarom je de sterren zo hebt verdeeld.
-								Onderaan kun je <b> argumenten </b> voor en tegen de varianten
-								plaatsen.
+								Je stem is goed ontvangen. Onderaan kun je meedoen met het gesprek over de verschillende ontwerpen.
 								<br />
 								<br />
 
 								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
-									Naar argumenten
+									Naar reacties
 								</a>
 							</div>
 						</div>
@@ -272,17 +269,14 @@
 								
 								<p>
 									Iedereen die gestemd heeft: van harte bedankt! De stemmen worden nu geteld.
-									Mensen die zich hebben aangemeld voor de nieuwsbrief worden op de hoogte
-									gehouden over de uitslag.
 								</p>
 								
 								<p>
-									Onderaan kun je nog de <b>argumenten</b> voor en tegen alle varianten
-									doorlezen.
+									Onderaan kun je nog de <b>reacties</b> op alle ontwerpen doorlezen.
 								</p>
 								
 								<a href="#arguments" class="box-grey box-grey-link  margin-hor-xs inline-block scroll-link">
-									Naar argumenten
+									Naar reacties
 								</a>
 							</div>
 						</div>
@@ -297,7 +291,7 @@
 					{{ agendaItems(idea.agenda) }}
 				</div>
 
-				<br />
+				{# <br />
 
 	      {{newsletter.form(user, csrfToken)}}
 
@@ -316,7 +310,7 @@
 					<a href="https://www.amsterdam.nl/formulieren/bouw/javabrug/praat-mee-javabrug" target="_blank" class="caret-link">
 						Ja, ga naar vragenlijst
 					</a>
-				</div>
+				</div> #}
 			</div>
 		</div>
 	</section>
@@ -325,7 +319,7 @@
 		<div class="bg-sand" style="padding: 1px;">
 			<div class="section-container side-padding-xs">
 				<h2 class="margin-hor-m">
-					Argumenten
+					Reacties
 				</h2>
 			</div>
 		</div>
