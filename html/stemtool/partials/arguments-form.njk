@@ -11,7 +11,7 @@
       <div class="col-10">
         <div class="speech-balloon">
           <h3 class="margin-0">
-            Wil je meepraten over de varianten? <br class="hidden-xs" /> Laat dan hier weten wat je ervan vindt!
+            Toelichten waarop je hebt gestemd? <br class="hidden-xs" /> Laat dan hier een reactie achter!
           </h3>
         </div>
       </div>
@@ -22,29 +22,22 @@
     <div class="box-grey">
       <form id="new-argument-form" method="POST" action="/arg/new" class="newArgument clearfix ">
         <div>
-          Ik ben
-
-          <span class="select-wrapper">
-            <select name="sentiment"  class="select for-or-against-selector">
-              <option value="for">Voor</option>
-              <option value="against">Tegen</option>
-            </select>
-          </span>
+          Ik heb gestemd op
 
           <span class="select-wrapper">
             <select name="label" class="argument-textarea variant-selector">
             {% for option in options %}
-              <option value="{{option.order}}">{{option.order}}: {{option.title}}</option>
+              <option value="{{option.order}}">{{option.title}}</option>
             {% endfor %}
             </select>
           </span>
 
-          want...
+          omdat...
         </div>
         <textarea
           class="textarea margin-hor-s block argument-textarea"
           name="description"
-          placeholder="Ik ben voor variant A, want..."
+          placeholder="Typ hier je reactie..."
         ></textarea>
 
         <div class="charsLeft margin-bottom-s">
