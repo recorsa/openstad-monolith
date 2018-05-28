@@ -61,11 +61,11 @@
 				</span>
 
 				<a href="#vote" class="margin-bottom-xs scroll-link block no-decoration" >
-					{{ numberPlate(poll.totalVoteCount, 'sterren') }}
+					{{ numberPlate(poll.totalVoteCount, 'stemmen') }}
 				</a>
 
 				<a href="#arguments" class="margin-bottom-sm scroll-link block no-decoration">
-					{{ numberPlate(idea.argCount, 'argumenten') }}
+					{{ numberPlate(idea.argCount, 'reacties') }}
 				</a>
 
 				{# <a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
@@ -75,7 +75,7 @@
 
 				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
 					<img src="/img/stemtool/stars.svg" />
-					Stem!
+					Stem ook!
 				</a>
 
 				<a href="{{GLOBALS.projectPage}}" class="box-grey-img margin-bottom-sm" target="_blank">
@@ -143,7 +143,7 @@
 					</div>
 
 					<div class="mobile-accordion">
-						<h2 class="mobile-accordion-opener">Spelregels</h2>
+						<h2 class="mobile-accordion-opener">Hoe werkt het?</h2>
 
 						<ul class="checkmark-list">
 							<li>Alle bewoners uit stadsdeel West mogen op de ontwerpen stemmen.
@@ -185,8 +185,9 @@
 								</b>
 								<br /> #}
 								<div class="small">
-									Stem hier op het ontwerp wat jij het liefst op de muur wilt zien. Naast jouw stem vragen we om je postcode
-									in te vullen, zodat we kunnen zien waar iedereen die een mooie muurschildering belangrijk vindt vandaan komt.
+									Stem hier op het ontwerp dat jij het liefst op de muur ziet.
+									Daarnaast vragen we je om je postcode in te vullen, zodat we
+									kunnen zien waar de mensen die stemmen vandaan komen.
 								</div>
 							</label>
 
@@ -211,7 +212,7 @@
 							</div>
 
 							<div class="no-stars-error-message label-error">
-								Je hebt nog geen sterren verdeeld.
+								Je hebt nog geen keuze gemaakt.
 							</div>
 
 							<br />
@@ -404,7 +405,7 @@
 	{{ arguments.renderLists(user, idea, '#arguments .argList') }}
 
 	<script>
-		(function() {
+		(function( global ) {
 			var lessThenStarsClassName = 'less-then-stars-error';
 			var noStarsErrorClassName  = 'no-stars-error';
 			var maxChecked             = 1;
@@ -516,6 +517,14 @@
 				});
 			});
 			
+			// Functions called from the HTML
+			// ------------------------------
+			global.argumentsLinkClick = function( order ) {
+				document.getElementById('filter-arguments-option-'+order).click();
+			}
+			
+			// Helper functions
+			// ----------------
 			
 			function validatePostcodeFormField( inputContainer ){
 				var inputEl = inputContainer.querySelector('input');
@@ -572,10 +581,6 @@
 				getVoteForm().classList.remove(noStarsErrorClassName);
 			}
 
-			function argumentsLinkClick( order ) {
-				document.getElementById('filter-arguments-option-'+order).click();
-			}
-
 			function addUnavailableClass() {
 				$('#vote-form .concept-label').forEach(function( label ) {
 					var checkedCount = getGiveVoteCount();
@@ -593,6 +598,6 @@
 			function hasClass( target, className ) {
 				return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
 			}
-		})();
+		})(this);
 	</script>
 {% endblock %}
