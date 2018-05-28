@@ -55,6 +55,11 @@ addApp('stemtool', [{
 	deployName : 'production_javabrug',
 	remotePath : '/var/www/javabrug.amsterdam.nl/www',
 	ref        : 'origin/production'
+}, {
+	appName    : 'stemtool-kareldoorman',
+	deployName : 'production_kareldoorman',
+	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
+	ref        : 'origin/projects/kareldoorman'
 }]);
 
 module.exports = config;
