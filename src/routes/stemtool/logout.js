@@ -1,40 +1,31 @@
 var Brute        = require('express-brute');
 var config       = require('config');
-var createError  = require('http-errors');
 var express      = require('express');
-var fs           = require('fs');
-var nunjucks     = require('nunjucks');
-var url          = require('url');
 
 module.exports = function( app ) {
-
 	var router = express.Router();
 	app.use('/logout', router);
 
-	router.route('/activate-button')
-	.get(function( req, res, next ) {
-		res.cookie('showLogoutButton', 'true', {
-			maxAge   : 2 * 31536000000, // 2 years
-			httpOnly : false,
-			secure   : !config.get('debug')
-		});
-		res.success('/', true);
-	})
-
-	router.route('/deactivate-button')
-	.get(function( req, res, next ) {
-		res.cookie('showLogoutButton', 'false', {
-			maxAge   : 2 * 31536000000, // 2 years
-			httpOnly : false,
-			secure   : !config.get('debug')
-		});
-		res.success('/', true);
-	})
+	router.get('/activate-button',   setLogoutButtonCookie(true));
+	router.get('/deactivate-button', setLogoutButtonCookie(false));
 
 	router.route('/')
 	.get(function( req, res, next ) {
 		req.session.destroy();
 		res.success('/', true);
-	})
+	});
+};
 
+function setLogoutButtonCookie( bool ) {
+	var showButton = bool ? 'true' : 'false';
+	var secure     = config.get('security.sessions.onlySecure');
+	
+	return function( req, res, next ) {
+		res.cookie('showLogoutButton', showButton, {
+			maxAge   : 2592000000, // 30 days
+			httpOnly : false,
+			secure   : secure
+		});
+		res.success('/', true);
+	};
 }
