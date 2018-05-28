@@ -33,11 +33,7 @@ module.exports = function( app ) {
 
 	router.route('/')
 	.get(function( req, res, next ) {
-		res.cookie('amsterdam.sid', '', {
-			maxAge   : 0, // expire now
-			httpOnly : true,
-			secure   : !config.get('debug')
-		});
+		req.session.destroy();
 		res.success('/', true);
 	})
 
