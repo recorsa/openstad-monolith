@@ -101,8 +101,10 @@
 		</div>
 		
 		{% if idea.location %}
-		<h2>Locatie</h2>
-		{{content.map(cookieConsent)}}
+		<div id="mapcontainer">
+			<h2>Locatie</h2>
+			{{content.map(cookieConsent)}}
+		</div>
 		{% endif %}
 		
 		{{ modBreak() if idea.modBreak and idea.isOpen() }}
