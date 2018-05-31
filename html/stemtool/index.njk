@@ -303,7 +303,8 @@
 					<h2>Tijdlijn</h2>
 					{{ agendaItems(idea.agenda) }}
 				</div>
-
+				
+				{% if can('poll:vote') %}
 				<br />
 
 	      {{newsletter.form(user, csrfToken)}}
@@ -324,6 +325,7 @@
 						Ja, ga naar vragenlijst
 					</a>
 				</div>
+				{% endif %}
 			</div>
 		</div>
 	</section>
