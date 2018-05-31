@@ -66,6 +66,7 @@ module.exports = function( app ) {
 					instance: {
 						user        : {nickName: 'Daan Mortier'},
 						updatedAt   : new Date(),
+						label       : 'A',
 						description : 
 							`Dit is een test argument.`
 					}
@@ -73,6 +74,7 @@ module.exports = function( app ) {
 					instance: {
 						user        : {nickName: 'Michael de Paikel'},
 						updatedAt   : new Date(),
+						label       : 'B',
 						description : 
 							`En dit is nogmaals een test argument met iets meer
 							inhoud dan het vorige bericht. Op deze manier is beter
