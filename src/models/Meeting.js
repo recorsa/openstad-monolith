@@ -22,7 +22,8 @@
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
-		date: DataTypes.DATE
+		type : DataTypes.ENUM('selection','meeting'),
+		date : DataTypes.DATE
 	}, {
 		classMethods: {
 			associate: function( models ) {
