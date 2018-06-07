@@ -1,0 +1,27 @@
+{% extends 'base.njk' %}
+{% set pageTitle = 'Agenda bewerken' %}
+{% set contentClass = 'agenda' %}
+
+{% block content %}
+<div class="primary">
+	
+</div>
+
+<div class="secondary">
+	<div id="agenda" class="widget">
+		<div class="timeline">
+			{% for meeting in meetings %}
+			<div class="{{meeting.type}}">
+				<b class="date">{{meeting.date | date('D MMMM YYYY')}}</b>
+				<em>{{'peildatum' if meeting.type == 'selection' else 'vergadering'}}</em>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
