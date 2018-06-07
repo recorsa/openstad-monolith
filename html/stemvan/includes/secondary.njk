@@ -42,7 +42,7 @@
 28 november 2017 - vergaderdatum + peildatum
 12 december 2017 - peildatum
 #}
-{% macro agenda( meetings ) %}
+{% macro agenda( user, meetings ) %}
 	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
 		In de vorige bestuursperiode besprak het Algemeen Bestuur één keer per
@@ -79,5 +79,9 @@
 				</ul> #}
 			</div>
 		</div>
+		
+		{% if user.can('agenda:edit') %}
+		<a href="/agenda">Bewerk agenda</a>
+		{% endif %}
 	</div>
 {% endmacro %}
