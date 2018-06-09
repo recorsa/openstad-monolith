@@ -7,7 +7,7 @@ module.exports = function( helpers, role ) {
 		'account:register' : true,
 		'account:complete' : false,
 		
-		'agenda:edit'      : false,
+		'agenda:admin'     : false,
 		
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
