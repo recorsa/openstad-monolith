@@ -6,7 +6,7 @@ module.exports = function( app ) {
 		var data = {
 			articles         : db.Article.getTiles(),
 			highlightedIdeas : db.Idea.getHighlighted(),
-			upcomingMeetings : db.Meeting.getUpcoming(3)
+			upcomingMeetings : db.Meeting.getUpcoming()
 		};
 		
 		Promise.props(data)

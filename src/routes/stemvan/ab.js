@@ -6,7 +6,7 @@ module.exports = function( app ) {
 		var data = yield {
 			members          : getMembers(),
 			highlightedIdeas : db.Idea.getHighlighted(),
-			upcomingMeetings : db.Meeting.getUpcoming(3)
+			upcomingMeetings : db.Meeting.getUpcoming()
 		};
 		
 		res.out('algemeen-bestuur', true, data);

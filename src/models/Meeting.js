@@ -23,15 +23,33 @@
 module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
 		type : DataTypes.ENUM('selection','meeting'),
-		date : DataTypes.DATE
+		date : DataTypes.DATE,
+		finished: {
+			type: DataTypes.VIRTUAL,
+			get: function() {
+				return this.date < +new Date;
+			}
+		}
 	}, {
 		classMethods: {
 			associate: function( models ) {
 				Meeting.hasMany(models.Idea);
 			},
+			scopes: function() {
+				return {
+					withIdea: {
+						include: {
+							model: db.Idea,
+							attributes: ['id', 'title']
+						}
+					}
+				};
+			},
 			
 			getUpcoming: function( limit ) {
-				return this.findAll({
+				if( !limit ) limit = 4;
+				return this.scope('withIdea')
+				.findAll({
 					where: {
 						date: {$gte: new Date()}
 					},
