@@ -1,27 +1,120 @@
 {% extends 'base.njk' %}
 {% set pageTitle = 'Agenda bewerken' %}
-{% set contentClass = 'agenda' %}
+{% set contentClass = 'admin' %}
 
 {% block content %}
-<div class="primary">
-	
+<div class="controls">
+	<form action="/agenda/new" method="post">
+		<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		<input type="date" name="date" required pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd">
+		<select name="type">
+			<option value="selection">Peildatum</option>
+			<option value="meeting">Vergadering</option>
+		</select>
+		<input type="submit" value="Vergadering toevoegen" class="default">
+	</form>
 </div>
 
-<div class="secondary">
-	<div id="agenda" class="widget">
-		<div class="timeline">
-			{% for meeting in meetings %}
-			<div class="{{meeting.type}}">
-				<b class="date">{{meeting.date | date('D MMMM YYYY')}}</b>
-				<em>{{'peildatum' if meeting.type == 'selection' else 'vergadering'}}</em>
-			</div>
+<table id="meetings">
+<thead>
+	<tr>
+		<th>Datum</th>
+		<th>Type</th>
+		<th>Geagendeerde ideeën</th>
+		<th></th>
+	</tr>
+</thead>
+<tbody>
+{% for meeting in meetings %}
+	<tr id="data-{{meeting.id}}" class="{{'finished' if meeting.finished}}">
+		<td>{{meeting.date | date('D MMMM YYYY')}}</td>
+		<td>{{'Peildatum' if meeting.type == 'selection' else 'Vergadering'}}</td>
+		<td>
+			<ul>
+			{% for idea in meeting.ideas %}
+				<li><a href="/idea/{{idea.id}}">{{idea.title}}</a>
+			{% else %}
+				{% if meeting.type == 'meeting' %}
+				<i>Geen geagendeerde ideeën</i>
+				{% endif %}
 			{% endfor %}
-		</div>
-	</div>
-</div>
+			</ul>
+		</td>
+		<td>
+		{% if not meeting.finished %}
+			<form class="action edit" method="GET" action="/agenda/{{meeting.id}}" data-meeting="{{meeting.id}}">
+				<input type="submit" class="default edit" value="bewerken" title="Vergadering bewerken">
+			</form>
+			
+			{% if not meeting.ideas.length %}
+			<form class="action delete" method="POST" action="/agenda/{{meeting.id}}">
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<input type="submit" class="default delete" value="verwijderen" title="Vergadering verwijderen">
+			</form>
+			{% endif %}
+		{% endif %}
+		</td>
+	</tr>
+	
+	{% if not meeting.finished %}
+	<tr id="form-{{meeting.id}}" class="hidden">
+		<td colspan="4">
+			<form action="/agenda/{{meeting.id}}" method="post">
+				<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				
+				<input type="date" name="date"
+					required pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"
+					value="{{meeting.date | date('YYYY-MM-DD')}}"
+				>
+				<select name="type">
+					<option value="selection" {{'SELECTED' if meeting.type=='selection'}}>Peildatum</option>
+					<option value="meeting"   {{'SELECTED' if meeting.type=='meeting'}}>Vergadering</option>
+				</select>
+				
+				<button type="submit">Opslaan</button>
+				<button type="reset" class="cancel">Annuleren</button>
+			</form>
+		</td>
+	</tr>
+	{% endif %}
+{% endfor %}
+</tbody>
+</table>
 {% endblock %}
 
 
 {% block scripts %}
-
+<script>
+	$('form.edit').forEach(function( form ) {
+		var meetingId = form.getAttribute('data-meeting');
+		var dataRow   = document.querySelector('#data-'+meetingId);
+		var formRow   = document.querySelector('#form-'+meetingId);
+		
+		// Enable interaction to...
+		// ... show edit form...
+		form.addEventListener('submit', function( event ) {
+			event.preventDefault();
+			dataRow.classList.toggle('hidden');
+			formRow.classList.toggle('hidden');
+		});
+		// ... and hide edit form.
+		formRow.querySelector('button.cancel').addEventListener('click', function( event ) {
+			dataRow.classList.toggle('hidden');
+			formRow.classList.toggle('hidden');
+		});
+	});
+	
+	$('form.delete').forEach(function( form ) {
+		form.addEventListener('submit', function( event ) {
+			var msg = 'Let op! Je staat op het punt een vergadering te verwijderen. '+
+			          'Dit kan niet ongedaan gemaakt worden.\n\n'+
+			          'Weet je het zeker?';
+			if( !confirm(msg) ) {
+				event.preventDefault();
+			}
+		});
+	});
+</script>
 {% endblock %}
