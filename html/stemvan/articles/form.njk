@@ -92,17 +92,16 @@
 			{% endif %}
 			
 			{% if article.id %}
-			<input type="hidden" name="id" value="{{article.id}}">
-			<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="id" value="{{article.id}}">
+				<input type="hidden" name="_method" value="PUT">
 			{% endif %}
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</div>
 		
-		{% if article.posterImage %}
-		<input type="hidden" name="images[]" value="{{article.posterImage.key}}">
-		{% endif %}
-		
-		<input type="submit" value="Plan opslaan">
+		<input type="submit" value="Artikel opslaan en bekijken">
+		<div class="form-extra-help-text" style="clear: both;">
+			Let op: dit artikel wordt pas gepubliceerd als je dat op de volgende pagina bevestigt!
+		</div>
   </div>
 
   <div class="secondary">
@@ -122,7 +121,11 @@
         {% endfor %}
       </select>
 
-</div>
+	</div>
+
+	{% if article.posterImage %}
+		<input type="hidden" name="images[]" value="{{article.posterImage.key}}">
+	{% endif %}
 
 </form>
 
@@ -173,9 +176,6 @@
 			}
 		});
 	</script>	
-	<script>
-		new LocationEditor(document.getElementById('locationField'));
-	</script>
 	<script>
 		var currentImage;
 		var form        = document.getElementById('js-form');

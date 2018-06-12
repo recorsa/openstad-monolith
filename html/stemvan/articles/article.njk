@@ -10,6 +10,15 @@
 {% endblock %}
 
 {% block content %}
+
+	{% if not article.isPublished %}
+		<div id="unpublished-line">
+			Let op: dit artikel is nog niet gepubliceerd!
+			<a href="/article/{{article.id}}/edit" class="button edit">Bewerk artikel</a>
+			<a href="/article/{{article.id}}/toggleIsPublished" class="button publish">Publiceren</a>
+		</div>
+	{% endif %}
+
 	<div id="banner">
 		{% if article.posterImage %}
 			<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
@@ -60,7 +69,13 @@
 		{{sec.newIdeaBubble()}}
 
 		{% if can('article:edit', 'article:delete') %}
-			<h2>Acties</h2>
+			<h2 class="edit-header">Bewerken</h2>
+			
+			{% if can('article:edit') %}
+				<form action="/article/{{article.id}}/toggleIsPublished">
+					<button type="submit" class="publish">{% if article.isPublished %}Verberg artikel{% else %}Publiceer artikel{% endif %}</button>
+				</form>
+			{% endif %}
 			
 			{% if can('article:edit') %}
 				<form action="/article/{{article.id}}/edit">
@@ -68,12 +83,6 @@
 				</form>
 			{% endif %}
 
-			{% if can('article:edit') %}
-				<form action="/article/{{article.id}}/toggleIsPublished">
-					<button type="submit" class="edit">{% if article.isPublished %}Verberg artikel{% else %}Publiceer artikel{% endif %}</button>
-				</form>
-			{% endif %}
-			
 			{% if can('article:delete') %}
 				<form method="POST" action="/article/{{article.id}}/delete" id="deleteArticle">
 					<input type="hidden" name="_method" value="DELETE">
