@@ -1,10 +1,15 @@
 var Promise = require('bluebird');
+
 var db      = require('../../db');
+var auth    = require('../../auth');
 
 module.exports = function( app ) {
-	app.get('/', function( req, res, next ) {
+	app.route('/')
+	.all(auth.can('article:create', true))
+	.get(function( req, res, next ) {
+		var user = req.user;
 		var data = {
-			articles         : db.Article.getTiles(),
+			articles         : db.Article.getTilesForUser(user),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			upcomingMeetings : db.Meeting.getUpcoming(3)
 		};

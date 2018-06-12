@@ -1,6 +1,6 @@
-{% extends 'ideas.njk' %}
-{% set pageTitle = 'Nieuw idee' %}
-{% set contentClass = 'newIdea' %}
+{% extends 'articles.njk' %}
+{% set pageTitle = 'Nieuw artikel' %}
+{% set contentClass = 'newArticle' %}
 
 {% block head %}
 	{{ super() }}
@@ -8,106 +8,12 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{'Nieuw idee' if not idea.id else 'Bewerk idee'}}</h1>
-
-<div id="modBreak">   
-	<p>
-    <b>Let op:</b> {{SITENAME}} zit in een overgangsperiode. Na de
-		gemeenteraadsverkiezing op 21 maart 2018 is er geen Algemeen Bestuur meer.  Per
-		stadsdeel komt een stadsdeelcommissie, die adviseert aan het dagelijks bestuur
-		van het stadsdeel.
-	</p>
-	<p>
-		De stadsdeelcommissie besluit waarschijnlijk in april 2018 of
-		ze net als het Algemeen Bestuur de site willen blijven gebruiken om bewoners
-		voorstellen op de politieke agenda te laten zetten. Je kunt in de tussentijd nog
-		steeds jouw plannen voor de buurt uploaden. Plannen die nog campagnetijd hebben
-		in de tussenperiode, dingen nog steeds mee naar een plek op de agenda.
-	</p>
-	<p>
-		Mocht de stadsdeelcommissie besluiten {{SITENAME}} niet te
-		gebruiken, dan wordt het plan dat de meeste stemmen heeft op het moment dat de
-		stadsdeelcommissie dat besluit neemt, in elk geval besproken. Die datum geldt dan
-		als eerstvolgende peildatum.
-	</p>
-	<p>
-		Wanneer de stadsdeelcommissie de site wel in gebruik gaat nemen worden er nieuwe
-		peildata en vergaderdata vastgesteld waarop plannen met de meeste stemmen in de
-		stadsdeelcommissie worden geagendeerd. Deze data verschijnen dan in april op deze
-		site.
-	</p>
-</div>
-
-{% if showHelp %}
-	<div id="howDoesItWork">
-		<h2>Hoe werkt het?</h2>
-		
-		<div data-step="1">
-			<h1>Jouw Voorstel</h1>
-			<p>
-				Onze tips voor een goed voorstel:
-				<ul>
-					<li>Het is voor meerdere bewoners interessant</li>
-					<li>Formuleer je voorstel positief</li>
-					<li>Wees duidelijk in je uitleg</li>
-					<li>Houd het kort en bondig</li>
-				</ul>
-			</p>
-			<p>
-				Het idee mag voor je eigen buurt zijn, maar ook voor heel je stadsdeel!
-			</p>
-		</div>
-		
-		<div data-step="2">
-			<h1>Campagne</h1>
-			<p>
-				Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
-				op de agenda te krijgen van het Algemeen Bestuur. Verzamel tenminste 100 positieve
-				stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer gestemd
-				worden.
-			</p>
-			
-			<p>
-				Dit kun je doen door:
-				<ul>
-					<li>Buurtgenoten uit te nodigen via Facebook of Twitter</li>
-					<li>Mails te versturen naar je buurtgenoten</li>
-					<li>Deur voor deur langs te gaan</li>
-					<li>Een bijeenkomst te organiseren</li>
-				</ul>
-			</p>
-		</div>
-		
-		<div data-step="3">
-			<h1>De Agenda</h1>
-			<p>
-				Het plan met de meeste stemmen komt op de agenda van het Algemeen Bestuur. Eén keer
-				per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft.
-				Je kunt drie peildata meedingen.
-			</p>
-			<p>
-				Heeft jouw voorstel de meeste stemmen? Dan krijg je per email een uitnodiging om je
-				voorstel toe te lichten in de vergadering van het Algemeen Bestuur. Daarna neemt het
-				bestuur een besluit over het voorstel.
-			</p>
-			<p>
-				Vragen? Check eerst <a href="/veelgestelde-vragen">veelgestelde vragen</a> en kijk of
-				je antwoord er tussen staat. Staat het antwoord op je vraag er niet bij, stuur dan een
-				email naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
-			</p>
-			
-			{% if not user.isLoggedIn() %}
-				<a href="/account/register?ref=/idea/nieuw" class="big">Meld je aan!</a>
-			{% endif %}
-		</div>
-	</div>
-{% endif %}
+<h1>{{'Nieuw artikel' if not article.id else 'Bewerk artikel'}}</h1>
 
 {% if showForm %}
-<div class="primary">
 	<form id="posterImageUpload" action="/image"
-	      {% if idea.posterImage %}
-	      style="background-image: url('/image/{{idea.posterImage.key}}');"
+	      {% if article.posterImage %}
+	      style="background-image: url('/image/{{article.posterImage.key}}');"
 	      {% endif %}
 	>
 		<div class="progress"><div class="bar"></div></div>
@@ -115,31 +21,31 @@
 	</form>
 
 	<form method="post" id="js-form">
-		<div id="titleAndSummary">
-			<h2>Auteur</h2>
-			<p>{{user.fullName}} <em>(uw emailadres wordt nooit gepubliceerd)</em></p>
+<div class="primary">
+
+  <div id="titleAndSummary">
 			
-			<h2>Titel idee</h2>
-			<input type="text" name="title" value="{{idea.title}}"><br>
+			<h2>Titel artikel</h2>
+			<input type="text" name="title" value="{{article.title}}"><br>
 			
 			<h2>Samenvatting</h2>
-			Vertel in maximaal 140 tekens wat je voorstel is.<br>
-			<textarea name="summary">{{idea.summary}}</textarea>
+      <em>Dit is de tekst op de homepage en in de linker kolom</em><br>
+			<textarea name="summary">{{article.summary}}</textarea>
 			<div id="charsLeft"><span>140</span> tekens resterend.</div>
+			
+			<h2>Intro</h2>
+      <em>Dit is dik gedrukte tekst bovenin het artikel</em><br>
+			<textarea name="intro">{{article.intro}}</textarea>
+			
+			<h2>Citaat</h2>
+      <em>Deze tekst wordt extra groot en tussen aanhalingstekens afgebeeld</em><br>
+			<textarea name="quote">{{article.quote}}</textarea>
 		</div>
 		
 		<div id="description">
-			<h2>Beschrijving</h2>
-			Gebruik de ruimte hieronder om je voorstel uit te leggen. Een paar tips:
-			<ul>
-				<li>Beschrijft hoe je op het idee bent gekomen.
-				<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
-				<li>Waarom moet het Algemeen Bestuur jouw voorstel bespreken?
-				<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
-				<li>Gebruik minimaal 140 tekens.</li>
-			</ul>
+			<h2>Tekst</h2>
 			{% if useModernEditor %}
-				<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
+				<input type="hidden" id="js-description" name="description" value="{{article.description}}">
 				
 				<trix-toolbar id="trixToolbar">
 					<div class="button_row">
@@ -182,37 +88,47 @@
 				</trix-toolbar>
 				<trix-editor id="js-editor" class="userContentEditor" input="js-description" toolbar="trixToolbar"></trix-editor><br>
 			{% else %}
-				<textarea name="description">{{idea.description}}</textarea>
+				<textarea name="description">{{article.description}}</textarea>
 			{% endif %}
 			
-			{% if idea.id %}
-			<input type="hidden" name="id" value="{{idea.id}}">
-			<input type="hidden" name="_method" value="PUT">
+			{% if article.id %}
+				<input type="hidden" name="id" value="{{article.id}}">
+				<input type="hidden" name="_method" value="PUT">
 			{% endif %}
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</div>
 		
-		<div id="location">
-			<h2>Locatie</h2>
-			Heeft jouw plan betrekking op een specifieke plek? Klik dan de juiste locatie in de kaart
-			om een vlaggetje te plaatsen. Versleep het vlaggetje om het te verplaatsen. Door erop te
-			klikken wordt het verwijderd.<br>
-			<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
+		<input type="submit" value="Artikel opslaan en bekijken">
+		<div class="form-extra-help-text" style="clear: both;">
+			Let op: dit artikel wordt pas gepubliceerd als je dat op de volgende pagina bevestigt!
 		</div>
-		
-		{% if idea.posterImage %}
-		<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
-		{% endif %}
-		
-		<input type="submit" value="Plan opslaan">
-	</form>
-</div>
+  </div>
 
-<div class="secondary">
-	<span class="widget speechBubble">
-		&ldquo;Houd het positief, duidelijk en kort!&rdquo;
-	</span>
-</div>
+  <div class="secondary">
+  
+			<h2 style="margin-top: 0;">Datum</h2>
+			<input type="date" name="date" value="{{article.date | date('YYYY-MM-DD')}}"><br>
+			
+			<h2>Plaats dit artikel na</h2>
+      <select name="seqnr" style="max-width: 100%;">
+        <option value="0">Vooraan</option>      
+        {% for art in allArticles%}
+          {% if art.id == article.id %}
+            <option value="{{art.seqnr}}" selected="true">Geen wijziging</option>      
+          {% else %}
+            <option value="{{art.seqnr + 5}}">{{art.title}}</option>      
+          {% endif %}
+        {% endfor %}
+      </select>
+
+	</div>
+
+	{% if article.posterImage %}
+		<input type="hidden" name="images[]" value="{{article.posterImage.key}}">
+	{% endif %}
+
+</form>
+
 {% endif %}
 {% endblock %}
 
@@ -225,11 +141,11 @@
 	<script src="/js/editor.js"></script>
 	
 	<script>
-		// Idea form extensions
+		// Article form extensions
 		// --------------------
 		// Used by poster file upload and description editor to register
 		// a reference to each uploaded file. This reference list is used
-		// by the server to connect the correct image uploads to this idea.
+		// by the server to connect the correct image uploads to this article.
 		var form = document.getElementById('js-form');
 		form.addAttachmentRef = function( key ) {
 			var input   = document.createElement('input');
@@ -261,9 +177,6 @@
 		});
 	</script>	
 	<script>
-		new LocationEditor(document.getElementById('locationField'));
-	</script>
-	<script>
 		var currentImage;
 		var form        = document.getElementById('js-form');
 		var el          = document.getElementById('posterImageUpload');
@@ -278,7 +191,7 @@
 			maxFiles             : 1,
 			uploadMultiple       : false,
 			
-			maxFilesize          : 100,
+			maxFilesize          : 10,
 			maxThumbnailFilesize : 10,
 			thumbnailWidth       : 1800,
 			thumbnailHeight      : null,
@@ -315,15 +228,11 @@
 				button.innerHTML = 'Verwijder afbeelding';
 			},
 			error: function( file, error ) {
-      console.log('WTF')
-      console.log(file,error)
 				button.innerHTML = 'Verwijder afbeelding';
 				this.removeFile(file);
 				if( typeof error != 'string' ) {
 					alert(error.message);
-				} else {
-	        alert(error)
-        }
+				}
 			}
 		});
 	</script>

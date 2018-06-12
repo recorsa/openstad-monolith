@@ -307,7 +307,22 @@
 		padding: 5px 0px;
 		text-align: center;
 	}
-	
+
+	// .notPublished
+  // -------------
+	.notPublished {
+		box-sizing: border-box;
+		position: absolute;
+		top: 10px;
+		left: 0;
+		padding-top: 1px;
+		padding-left: 5px;
+		padding-right: 5px;
+		line-height: 20px;
+		background-color: red;
+		color: white;
+	}
+
 	// .primary and .secondary columns
 	// -------------------------------
 	.primary {
@@ -387,7 +402,8 @@
 				margin: 1em 0 0.5em;
 			}
 		}
-	}
+
+  }
 	
 	.secondary {
 		box-sizing: border-box;
@@ -425,10 +441,6 @@
 				width: 100%;
 				margin-right: 0 !important;
 			}
-			
-			h2 {
-				margin-top: 0;
-			}
 		}
 		
 		// Speech bubble
@@ -440,6 +452,69 @@
 				display: none;
 			}
 		}
+
+		h2.edit-header {
+			font-size: 20px;
+		}
+		
+		// Action buttons
+		// --------------
+		button[type="submit"],
+		select.button {
+			.appearance(none);
+
+			display: block;
+			position: relative;
+
+			height: 46px;
+
+			margin-left: 0;
+			margin-bottom: 10px;
+			padding-left: 46px;
+
+			border: 0;
+
+			color: black;
+			background-color: whitesmoke;
+
+			font-size: 16px;
+			font-weight: 600;
+
+			text-align: center;
+
+			overflow: visible;
+			cursor: pointer;
+
+			width: 100%;
+			
+			background-repeat : no-repeat;
+			background-position: 5px 5px;
+			background-size: 36px 36px;
+
+			&.edit {
+				background-image: url('/img/edit-buttons/edit.svg');
+			}
+			&.publish {
+				background-image: url('/img/edit-buttons/publish.svg');
+			}
+			&.delete {
+				background-image: url('/img/edit-buttons/delete.svg');
+			}
+			&.modBreak {
+				background-image: url('/img/edit-buttons/modbreak.svg');
+			}
+			&.calendar {
+				background-image: url('/img/edit-buttons/calendar.svg');
+			}
+			&.status {
+				background-image: url('/img/edit-buttons/status.svg');
+			}
+			&.votes {
+				background-image: url('/img/edit-buttons/votes.svg');
+			}
+
+		}
+		
 		// Highlighted ideas
 		// -----------------
 		#highlightedIdeas {

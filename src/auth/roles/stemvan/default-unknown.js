@@ -30,6 +30,18 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			message  : 'Afbeelding uploaden niet toegestaan'
 		},
+
+		// articles
+		'article:view'     : true,
+		'article:create'   : false,
+		'article:edit'     : {
+			allow    : false,
+			message  : 'Artikel bewerken niet toegestaan'
+		},
+		'article:delete'   : {
+			allow    : false,
+			message  : 'Artikel verwijderen niet toegestaan'
+		},
 		
 		// Only used to determine whether to render the argument form.
 		// When a user is not allowed to add an argument, we still show

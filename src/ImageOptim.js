@@ -34,6 +34,15 @@ var self = module.exports = {
 		});
 	},
 	
+	processArticle: function( articleId ) {
+		self._addTask({
+			action: 'processArticle',
+			params: {
+				id: articleId
+			}
+		});
+	},
+	
 	_addTask: function( task ) {
 		if( !task.action ) {
 			throw Error('Task has no action name');

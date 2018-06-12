@@ -5,6 +5,7 @@
 				height: 200px;
 			}
 		}
+		
 	}
 	
 	.primary {
@@ -133,12 +134,86 @@
 					right: -@margin;
 				}
 			}
+				
 		}
+
 	}
-	
+
+	#unpublished-line {
+		position: relative;
+		margin-bottom: 20px;
+		border: solid 3px #164995;
+ 		font-size: 16px;
+		font-weight: 600;
+		line-height: 40px;
+		margin: 15px 0px;
+		padding: 20px;
+
+		.button {
+			display: inline-block;
+			margin-left: 40px;
+			background-color: #164995;
+			color: white;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 40px;
+			height: 40px;
+			padding: 0 20px 0 40px;
+		}
+
+		a.button.edit {
+			background-position: 13px 12px;
+			background-size: 17px 15px;
+			background-repeat: no-repeat;
+			background-image: url('/img/icon-edit-argument.svg');
+		}
+
+		a.button.publish {
+			background-position: 13px 11px;
+			background-size: 17px 16px;
+			background-repeat: no-repeat;
+			background-image: url('/img/vinkje.svg');
+		}
+
+	}
+
 	.secondary {
 		.newIdeaBubble {
 			display: block !important;
 		}
 	}
+}
+
+/* todo: deze moet naar een hoger nivo */
+// Action buttons
+// --------------
+#content {
+	input[type="submit"]:not(.default) {
+		background-color: #164995;
+		background-image: none;
+		color: white;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 40px;
+		height: 40px;
+		padding: 0 20px 0 20px;
+	}
+}
+
+.form-extra-help-text {
+	padding-top: 20px;
+	font-size: 14px;
+	text-align: right;
+}
+
+// Action buttons
+// --------------
+// All article mutation buttons on the right side of the article's content.
+#content.article >.secondary {
+	margin-top: 10px;
+	
+	h2:first-of-type {
+		margin-top: 0;
+	}
+
 }

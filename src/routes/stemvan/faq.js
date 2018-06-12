@@ -75,7 +75,7 @@ var questionsData = [{
 	id: 10,
 	question: `Hoe kom ik direct in contact met leden van de stadsdeelcommissie?`,
 	answer: `
-		<p>Leden van de stadsdeelcommissie lezen actief mee met de voorstellen en discussies op de {{SITENAME}}. Wil je direct in contact komen met een lid van de stadsdeelcommissie? Ga dan naar de <a href="{{GLOBALS.administration}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
+		<p>Leden van de stadsdeelcommissie lezen actief mee met de voorstellen en discussies op de {{SITENAME}}. Wil je direct in contact komen met een lid van de stadsdeelcommissie? Ga dan naar de <a href="{{GLOBALS.administration}}" target="_blank">informatiepagina van de stadsdeelcommissie</a>.</p>
 		<p>Op deze pagina kun je de leden van jouw stadsdeelcommissie opzoeken, hun contactgegevens, en bekijken met wie je graag contact zou willen hebben.</p>
 	`
 }];

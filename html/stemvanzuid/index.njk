@@ -5,14 +5,11 @@
 
 {% block content %}
 	<div id="banner">
-		<div class="image" style="background-image: url('/img/home_banner_noord.jpg');"></div>
+		<div class="image" style="background-image: url('/img/home_banner_zuid.png');"></div>
 		<div class="text">
 			<h2>Welkom op de Stem van Zuid</h2>
 			<p>
-				Dit is jouw online meeting point voor het indienen van voorstellen voor je buurt.
-				Na de gemeenteraadsverkiezingen op 21 maart 2018 is het Algemeen Bestuur opgevolgd
-				door een stadsdeelcommissie. Hou deze site in de gaten om te zien wat dat betekent
-				voor plannen op {{SITENAME}}.
+				Dit is jouw online meetingpoint waar je voorstellen voor je buurt kunt indienen. Een nieuw plantsoen? Een dagbestedingsproject voor thuis- en daklozen? Extra parkeerplekken of juist veel minder? Jij bedenkt het! Voer campagne voor je plan, verzamel zoveel mogelijk stemmen en pitch jouw voorstel bij de stadsdeelcommissie.
 			</p>
 		</div>
 	</div>
@@ -24,7 +21,14 @@
 		{% for article in articles
 		%}<div class="tile">
 			<a href="/artikel/{{article.id}}">
-			<div class="image" style="background-image: url('/img/articles/{{article.id}}/thumbnail.jpg');"></div>
+			{% if article.posterImage %}
+				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			{% else %}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+			{% if not article.isPublished %}
+				<div class="notPublished">Dit artikel is nog niet gepubliceerd</div>
+			{% endif %}
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
 			</a>
@@ -35,7 +39,7 @@
 			Another weird formatting; see comment above.
 		#}<div class="tile">
 			<div class="image" style="background-image: url('/img/articles/custom_tile_west.jpg');"></div>
-			<h3>Wegens succes nu ook in stadsdeel Noord!</h3>
+			<h3>Wegens succes nu ook in stadsdeel Zuid!</h3>
 			‘De Stem van...’ is in West al sinds februari 2017 online, in Centrum sinds augustus en in Oost
 			sinds oktober. Nieuws&shy;gierig naar de plan&shy;nen die bewoners en onder&shy;nemers in de andere stadsdelen plaatsen?
 			
