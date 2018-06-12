@@ -51,7 +51,15 @@
 	
 	<div class="secondary">
 		{{sec.newIdeaBubble()}}
-		
+
+		{% if can('article:create') %}
+			<h2>Acties</h2>
+			
+			<form action="/article/create">
+				<button type="submit" class="edit">Nieuw artikel</button>
+			</form>
+		{% endif %}
+
 		{{sec.highlightedIdeas(highlightedIdeas)}}
 		
 		{{sec.agenda(user, upcomingMeetings)}}
