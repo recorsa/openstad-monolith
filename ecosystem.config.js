@@ -42,7 +42,7 @@ addApp('stemvan', [{
 	appName    : 'stem-zuid',
 	deployName : 'production_zuid',
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
-	ref        : 'origin/projects/article-editor'
+	ref        : 'origin/staging'
 }]);
 
 addApp('stemtool', [{
