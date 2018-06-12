@@ -27,7 +27,7 @@
 				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
 			{% endif %}
 			{% if not article.isPublished %}
-				<div class="notPublished">Dit artikel is nog niet gepubliceerd</div>
+				<div class="notPublished">Niet gepubliceerd</div>
 			{% endif %}
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
