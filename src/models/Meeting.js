@@ -53,8 +53,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 					where: {
 						date: {$gte: new Date()}
 					},
+					order: 'date',
 					limit: limit
 				})
+			},
+			// Use `idea.meetingId` to include the already connected meeting as well.
+			// Otherwise, it may not show up because the meeting's type is changed to
+			// 'selection'.
+			getSelectable: function( idea ) {
+				return this.findAll({
+					where: {
+						$or: [
+							{type: 'meeting'},
+							{id: idea.meetingId}
+						]
+					}
+				});
 			}
 		}
 	});
