@@ -22,20 +22,53 @@
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
-		date: DataTypes.DATE
+		type : DataTypes.ENUM('selection','meeting'),
+		date : DataTypes.DATE,
+		finished: {
+			type: DataTypes.VIRTUAL,
+			get: function() {
+				return this.date < +new Date;
+			}
+		}
 	}, {
 		classMethods: {
 			associate: function( models ) {
 				Meeting.hasMany(models.Idea);
 			},
+			scopes: function() {
+				return {
+					withIdea: {
+						include: {
+							model: db.Idea,
+							attributes: ['id', 'title']
+						}
+					}
+				};
+			},
 			
 			getUpcoming: function( limit ) {
-				return this.findAll({
+				if( !limit ) limit = 4;
+				return this.scope('withIdea')
+				.findAll({
 					where: {
 						date: {$gte: new Date()}
 					},
+					order: 'date',
 					limit: limit
 				})
+			},
+			// Use `idea.meetingId` to include the already connected meeting as well.
+			// Otherwise, it may not show up because the meeting's type is changed to
+			// 'selection'.
+			getSelectable: function( idea ) {
+				return this.findAll({
+					where: {
+						$or: [
+							{type: 'meeting'},
+							{id: idea.meetingId}
+						]
+					}
+				});
 			}
 		}
 	});

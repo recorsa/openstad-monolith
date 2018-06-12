@@ -5,7 +5,26 @@
 		text-align: center;
 	}
 	
-	table#votes {
+	div.controls {
+		margin-bottom: 20px;
+		text-align: center;
+	}
+	
+	table {
+		th:after {
+			position: absolute;
+		}
+		th.sorttable_sorted:after {
+			content: '▼';
+			font-size: 0.75em;
+		}
+		th.sorttable_sorted_reverse:after {
+			content: '▲';
+			font-size: 0.75em;
+		}
+	}
+	table#votes,
+	table#meetings {
 		border: 1px solid black;
 		border-collapse: collapse;
 		margin: 0 auto;
@@ -23,18 +42,8 @@
 				display: none;
 			}
 		}
-		th:after {
-			position: absolute;
-		}
-		th.sorttable_sorted:after {
-			content: '▼';
-			font-size: 0.75em;
-		}
-		th.sorttable_sorted_reverse:after {
-			content: '▲';
-			font-size: 0.75em;
-		}
-		
+	}
+	table#votes {
 		tr {
 			td.checked {
 				cursor: pointer;
@@ -43,16 +52,58 @@
 					content: '✓';
 				}
 			}
-			&.rejected {
-				background-color: #F9E4E1;
-				
-				td.checked {
-					color: #C53711;
-					&:after {
-						content: '✗';
-					}
+		}
+		tr.rejected {
+			background-color: #F9E4E1;
+			
+			td.checked {
+				color: #C53711;
+				&:after {
+					content: '✗';
 				}
 			}
+		}
+	}
+	table#meetings {
+		tr {
+			td {
+				ul {
+					margin: 0;
+					padding-left: 1.25em;
+				}
+				i {
+					opacity: 0.3;
+				}
+			}
+		}
+		tr.hidden {
+			display: none;
+		}
+		tr.finished {
+			background-color: #F4F4F4;
+			color: #8C8C8C;
+		}
+		
+		input.edit,
+		input.delete {
+			.appearance(none);
+			
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 60%;
+			cursor: pointer;
+			font-size: 0;
+			height: 20px;
+			width: 20px;
+		}
+		input.edit {
+			background-color: #333;
+			background-image: url('/img/edit_white.svg');
+			margin-left: 4px;
+		}
+		input.delete {
+			background-color: #EC0000;
+			background-image: url('/img/delete_white.svg');
 		}
 	}
 }
