@@ -25,6 +25,7 @@
 				"./routes/stemvan/default",
 				"./routes/stemvan/ab",
 				"./routes/stemvan/account",
+				"./routes/stemvan/agenda",
 				"./routes/stemvan/article",
 				"./routes/stemvan/idea",
 				"./routes/stemvan/faq",

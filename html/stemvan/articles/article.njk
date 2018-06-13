@@ -1,0 +1,115 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+{% import 'includes/content.njk' as content %}
+
+{% set pageTitle    = 'Artikel: '+article.title %}
+{% set contentClass = 'article' %}
+
+{% block quickNav %}
+	<a href="/" id="backToList">Terug naar het overzicht</a>
+{% endblock %}
+
+{% block content %}
+
+	{% if not article.isPublished %}
+		<div id="unpublished-line">
+			Let op: dit artikel is nog niet gepubliceerd!
+			<a href="/article/{{article.id}}/edit" class="button edit">Bewerk artikel</a>
+			<a href="/article/{{article.id}}/toggleIsPublished" class="button publish">Publiceren</a>
+		</div>
+	{% endif %}
+
+	<div id="banner">
+		{% if article.posterImage %}
+			<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+		{% else %}
+			{% if article.posterImage %}
+				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			{% else %}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+
+		{% endif %}
+
+		{% if not article.isPublished %}
+			<div class="notPublished">Dit artikel is nog niet gepubliceerd</div>
+		{% endif %}
+
+  </div>
+	
+	<div class="primary">
+		<h1>{{article.title}}</h1>
+		
+		<div id="summary">
+			<p>{{article.createdAt | date('LL')}}</p>
+			
+			<h3>In het kort</h3>
+			<p>
+				{{article.summary | safe}}
+			</p>
+			<hr>
+		</div>
+		
+		<div id="article">
+			<p>{{article.intro | safe}}</p>
+			
+			{% if article.video %}
+			{{content.video(cookieConsent, article.video)}}
+			{% endif %}
+			
+			{% if article.quote %}
+			<blockquote>{{article.quote | safe}}</blockquote>
+			{% endif %}
+			
+			{{article.description | safe}}
+		</div>
+	</div>
+	
+	<div class="secondary">
+		{{sec.newIdeaBubble()}}
+
+		{% if can('article:edit', 'article:delete') %}
+			<h2 class="edit-header">Bewerken</h2>
+			
+			{% if can('article:edit') %}
+				<form action="/article/{{article.id}}/toggleIsPublished">
+					<button type="submit" class="publish">{% if article.isPublished %}Verberg artikel{% else %}Publiceer artikel{% endif %}</button>
+				</form>
+			{% endif %}
+			
+			{% if can('article:edit') %}
+				<form action="/article/{{article.id}}/edit">
+					<button type="submit" class="edit">Bewerk artikel</button>
+				</form>
+			{% endif %}
+
+			{% if can('article:delete') %}
+				<form method="POST" action="/article/{{article.id}}/delete" id="deleteArticle">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="hidden" name="_csrf" value="{{csrfToken}}">
+					<button type="submit" class="delete">Verwijder artikel</button>
+				</form>
+			{% endif %}
+     
+		{% endif %}
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		// Delete article confirmation
+		// ------------------------
+		var form = document.getElementById('deleteArticle');
+		if( form ) {
+			form.addEventListener('submit', function( event ) {
+				var msg = 'Let op! Je staat op het punt het artikel te verwijderen. '+
+				          'Dit kan niet ongedaan gemaakt worden.\n\n'+
+				          'Weet je het zeker?';
+				if( !confirm(msg) ) {
+					event.preventDefault();
+				}
+			});
+		}
+	</script>
+{% endblock %}

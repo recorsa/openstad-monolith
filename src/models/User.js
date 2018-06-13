@@ -343,6 +343,35 @@ module.exports = function( db, sequelize, DataTypes ) {
 				.tap(function() {
 					return idea.updateImages(imageKeys);
 				});
+			},
+			
+			createNewArticle: function( data ) {
+				var imageKeys = data.images;
+				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'seqnr', 'description', 'isPublished', 'date']);
+				filtered.userId    = this.id;
+				filtered.startDate = Date.now();
+				
+				return db.Article.create(filtered)
+				.bind(this)
+				.tap(function( article ) {
+					notifications.trigger(this.id, 'article', article.id, 'create');
+				})
+				.tap(function( article ) {
+					return article.updateImages(imageKeys);
+				});
+			},
+			updateArticle: function( article, data ) {
+				var imageKeys = data.images;
+				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'seqnr', 'description', 'isPublished', 'date']);
+				
+				return article.update(filtered)
+				.bind(this)
+				.tap(function( article ) {
+					notifications.trigger(this.id, 'article', article.id, 'update');
+				})
+				.tap(function() {
+					return article.updateImages(imageKeys);
+				});
 			}
 		}
 	});

@@ -1,7 +1,16 @@
+body {
+	background-color: white;
+}
+
 #page {
 	max-width: none;
 	padding: 0;
-	
+	font-size: 1.2em;
+
+	nav {
+		display: none;
+	}
+
 	header {
 		img {
 			left: 0px;
@@ -14,49 +23,76 @@
 			display: none;
 		}
 	}
-	footer {
+
+  footer {
 		display: none;
 	}
+
+  #mapcontainer {
+  	page-break-inside: avoid;
+	}
+
 }
 
 #content.idea {
-	>.primary {
+
+  >.primary {
 		float: none;
 		padding-right: 0;
 		width: 100%;
+
+		h1 {
+		  font-size: 1.6em;
+		}
 	}
-	>.secondary {
+
+  >.secondary {
 		display: none;
 	}
-	
-	#arguments {
-		page-break-before: always;
-		
-		form.newArgument {
-			display: none;
+
+}
+
+#arguments {
+
+	form.newArgument {
+		display: none;
+	}
+
+	.delete, .edit, .reply {
+		display: none;
+	}
+
+	div.argList {
+		float: none;
+		padding: 0 !important;
+		width: 100%;
+
+		&.for:before,
+		&.against:before {
+			font-weight: bold;
 		}
-		div.argList {
-			float: none;
-			padding: 0 !important;
-			width: 100%;
-			
-			&.for:before,
-			&.against:before {
-				font-size: 1.5em;
-				font-weight: bold;
-			}
-			&.for:before {
-				content: 'Ik ben voor, want...';
-			}
-			&.against:before {
-				content: 'Ik ben tegen, want...';
-			}
-			
-			div.argument {
-				.user form,
-				.reply {
-					display: none;
-				}
+		&.for:before {
+			content: 'Argumenten voor';
+		}
+		&.against:before {
+			content: 'Argumenten tegen';
+		}
+
+		div.argument {
+
+		 	button.notvoted {
+				font-size: 0.8em;
+		 	}
+
+		 	button.voted {
+				font-size: 0.8em;
+		 	}
+
+      page-break-inside: avoid;
+
+			.user form,
+			.reply {
+				display: none;
 			}
 		}
 	}

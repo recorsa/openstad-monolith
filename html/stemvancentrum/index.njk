@@ -7,13 +7,10 @@
 	<div id="banner">
 		<div class="image" style="background-image: url('/img/home_banner_centrum.jpg');"></div>
 		<div class="text">
-			<h2>Welkom op de Stem van Centrum</h2>
-			<p>
-				Dit is jouw online meeting point voor het indienen van voorstellen voor je buurt.
-				Na de gemeenteraadsverkiezingen op 21 maart 2018 is het Algemeen Bestuur opgevolgd
-				door een stadsdeelcommissie. Hou deze site in de gaten om te zien wat dat betekent
-				voor plannen op {{SITENAME}}.
-			</p>
+				<h2>Welkom op de Stem van Centrum</h2>
+				<p>
+				Dit is jouw online meetingpoint waar je voorstellen en stellingen voor je buurt kunt indienen. Een nieuw plantsoen? Een dagbestedingsproject voor thuis- en daklozen? Extra parkeerplekken of juist veel minder? Jij bedenkt het! Voer campagne voor je plan, verzamel zoveel mogelijk stemmen en pitch jouw voorstel bij de stadsdeelcommissie.
+				</p>
 		</div>
 	</div>
 	
@@ -24,7 +21,14 @@
 		{% for article in articles
 		%}<div class="tile">
 			<a href="/artikel/{{article.id}}">
-			<div class="image" style="background-image: url('/img/articles/{{article.id}}/thumbnail.jpg');"></div>
+			{% if article.posterImage %}
+				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			{% else %}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+			{% if not article.isPublished %}
+				<div class="notPublished">Niet gepubliceerd</div>
+			{% endif %}
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
 			</a>
@@ -51,6 +55,6 @@
 		
 		{{sec.highlightedIdeas(highlightedIdeas)}}
 		
-		{{sec.agenda(upcomingMeetings)}}
+		{{sec.agenda(user, upcomingMeetings)}}
 	</div>
 {% endblock %}

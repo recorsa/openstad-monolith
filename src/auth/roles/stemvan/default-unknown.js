@@ -7,6 +7,8 @@ module.exports = function( helpers, role ) {
 		'account:register' : true,
 		'account:complete' : false,
 		
+		'agenda:admin'     : false,
+		
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
 		'idea:admin'       : false,
@@ -29,6 +31,18 @@ module.exports = function( helpers, role ) {
 		'image:upload'     : {
 			allow    : false,
 			message  : 'Afbeelding uploaden niet toegestaan'
+		},
+
+		// articles
+		'article:view'     : true,
+		'article:create'   : false,
+		'article:edit'     : {
+			allow    : false,
+			message  : 'Artikel bewerken niet toegestaan'
+		},
+		'article:delete'   : {
+			allow    : false,
+			message  : 'Artikel verwijderen niet toegestaan'
 		},
 		
 		// Only used to determine whether to render the argument form.

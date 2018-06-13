@@ -2,6 +2,10 @@ var path = require('path');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Image = sequelize.define('image', {
+		articleId: {
+			type      : DataTypes.INTEGER,
+			allowNull : true
+		},
 		ideaId: {
 			type      : DataTypes.INTEGER,
 			allowNull : true
@@ -47,6 +51,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		classMethods: {
 			associate: function( models ) {
 				this.belongsTo(models.Idea);
+				this.belongsTo(models.Article);
 			},
 			
 			thumbName: function( fileName ) {

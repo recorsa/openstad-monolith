@@ -1,0 +1,56 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+
+{% set contentClass = 'index' %}
+
+{% block content %}
+	<div id="banner">
+		<div class="image" style="background-image: url('/img/home_banner_noord.png');"></div>
+		<div class="text">
+			<h2 style="background-color: #EC0000">Welkom op de Stem van Niels</h2>
+			<p>
+				Dit is jouw online ontmoetingsplek waar je voorstellen voor je buurt kunt indienen. Na de gemeenteraadsverkiezingen op 21 maart 2018 is het Algemeen Bestuur opgevolgd door een stadsdeelcommissie. Houd deze site in de gaten om te zien wat dat betekent voor plannen op de Stem van Niels. 
+			</p>
+		</div>
+	</div>
+	
+	<div class="primary">
+		{{sec.newIdeaBubble()}}
+		
+		{# Syntax formatting because `div.tile` is `display: inline-block`. #}
+		{% for article in articles
+		%}<div class="tile">
+			<a href="/artikel/{{article.id}}">
+			{% if article.posterImage %}
+				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			{% else %}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+			<h3>{{article.title}}</h3>
+			{{article.summary}}
+			</a>
+			
+			<a href="/artikel/{{article.id}}" class="readMore">Lees meer</a>
+		</div>{%
+		endfor %}{#
+			Another weird formatting; see comment above.
+		#}<div class="tile">
+			<div class="image" style="background-image: url('/img/articles/custom_tile_west.jpg');"></div>
+			<h3>Wegens succes nu ook bij Niels!</h3>
+      ‘De Stem van...’ is al online gegaan in West, Centrum, Oost, Nieuw-West en Zuidoost. Nieuwsgierig naar de plannen van die bewoners en ondernemers in die stadsdelen?
+			<a href="https://stemvanwest.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van West</a>
+			<a href="https://stemvancentrum.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Centrum</a>
+			<a href="https://stemvanoost.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Oost</a>
+			<a href="https://stemvannieuwwest.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Nieuw-West</a>
+			<a href="https://stemvanzuidoost.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Zuidoost</a>
+		</div>
+	</div>
+	
+	<div class="secondary">
+		{{sec.newIdeaBubble()}}
+		
+		{{sec.highlightedIdeas(highlightedIdeas)}}
+		
+		{{sec.agenda(upcomingMeetings)}}
+	</div>
+{% endblock %}

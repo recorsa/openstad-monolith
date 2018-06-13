@@ -24,7 +24,14 @@
 		{% for article in articles
 		%}<div class="tile">
 			<a href="/artikel/{{article.id}}">
-			<div class="image" style="background-image: url('/img/articles/{{article.id}}/thumbnail.jpg');"></div>
+			{% if article.posterImage %}
+				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			{% else %}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+			{% endif %}
+			{% if not article.isPublished %}
+				<div class="notPublished">Niet gepubliceerd</div>
+			{% endif %}
 			<h3>{{article.title}}</h3>
 			{{article.summary}}
 			</a>
@@ -50,6 +57,6 @@
 		
 		{{sec.highlightedIdeas(highlightedIdeas)}}
 		
-		{{sec.agenda(upcomingMeetings)}}
+		{{sec.agenda(user, upcomingMeetings)}}
 	</div>
 {% endblock %}
