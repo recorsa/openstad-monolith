@@ -1,0 +1,13 @@
+{% macro numberPlate(count, text) %}
+{% set paddedCount = ("000" + count).slice(-3) %}
+
+<span class="box-blue block">
+  <span class="margin-right-s">
+    <span class="number-plate"> {{paddedCount[0]}} </span>
+    <span class="number-plate"> {{paddedCount[1]}} </span>
+    <span class="number-plate"> {{paddedCount[2]}} </span>
+  </span>
+
+  {{text}}
+</span>
+{% endmacro %}
