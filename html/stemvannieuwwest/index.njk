@@ -22,25 +22,25 @@
 		
 		{# Syntax formatting because `div.tile` is `display: inline-block`. #}
 		{% for article in articles
-		%}<div class="tile">
+		%}<div class="tile {{'unpublished' if not article.isPublished}}">
 			<a href="/artikel/{{article.id}}">
-			{% if article.posterImage %}
-				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
-			{% else %}
-				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
-			{% endif %}
-			{% if not article.isPublished %}
-				<div class="notPublished">Niet gepubliceerd</div>
-			{% endif %}
-			<h3>{{article.title}}</h3>
-			{{article.summary}}
+				{% if article.posterImage %}
+					<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+				{% else %}
+					<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+				{% endif %}
+				{% if not article.isPublished %}
+					<div class="notPublished">Niet gepubliceerd</div>
+				{% endif %}
+				<h3>{{article.title}}</h3>
+				{{article.summary}}
 			</a>
 			
 			<a href="/artikel/{{article.id}}" class="readMore">Lees meer</a>
 		</div>{%
-		endfor %}{#
-			Another weird formatting; see comment above.
-		#}<div class="tile">
+					endfor %}{#
+									 Another weird formatting; see comment above.
+									 #}<div class="tile">
 			<div class="image" style="background-image: url('/img/articles/custom_tile_west.jpg');"></div>
 			<h3>Wegens succes nu ook in stadsdeel Nieuw-West!</h3>
 			‘De Stem van...’ is in West al sinds februari 2017 online, in Centrum sinds augustus en in Oost
@@ -49,7 +49,7 @@
 			<a href="https://stemvanwest.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van West</a>
 			<a href="https://stemvancentrum.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Centrum</a>
 			<a href="https://stemvanoost.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Oost</a>
-		</div>
+									 </div>
 	</div>
 	
 	<div class="secondary">

@@ -41,7 +41,7 @@
 		<h1>{{article.title}}</h1>
 		
 		<div id="summary">
-			<p>{{article.createdAt | date('LL')}}</p>
+			<p>{{(article.date or article.createdAt) | date('LL')}}</p>
 			
 			<h3>In het kort</h3>
 			<p>
