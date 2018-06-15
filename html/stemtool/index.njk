@@ -1,22 +1,21 @@
 {% extends 'base.njk' %}
 {% import 'includes/arguments.njk' as arguments %}
-{% from 'includes/newsletter.njk' import newsletterForm %}
 
+{% from 'includes/agenda-items.njk' import agendaItems %}
+{% from 'includes/arguments-filters.njk' import argumentsFilters %}
 {% from 'includes/arguments-form.njk' import argumentsForm %}
-{% from 'includes/number-plate.njk' import numberPlate %}
+{% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
 {% from 'includes/mobile-menu.njk' import mobileMenu %}
-{% from 'includes/variant-modals.njk' import variantModals %}
+{% from 'includes/newsletter.njk' import newsletterForm %}
+{% from 'includes/number-plate.njk' import numberPlate %}
+{% from 'includes/questionnaire.njk' import questionnaireForm %}
 {% from 'includes/variant-checkboxes.njk' import variantCheckboxes %}
 {% from 'includes/variant-given-answers.njk' import variantGivenAnswers %}
-{% from 'includes/arguments-filters.njk' import argumentsFilters %}
-{% from 'includes/agenda-items.njk' import agendaItems %}
-{% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
+{% from 'includes/variant-modals.njk' import variantModals %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
-{% set alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' , 'k'] %}
-{% set paddedVoteCount = ("000" + poll.totalVoteCount).slice(-3) %}
-{% set paddedArgumentCount = ("000" + idea.argCount).slice(-3) %}
+{% set alphabet     = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' , 'k'] %}
 
 {% block head %}
 	{{ super() }}
@@ -58,11 +57,17 @@
 				</span>
 
 				<a href="#vote" class="margin-bottom-xs scroll-link block no-decoration" >
-					{{ numberPlate(poll.totalVoteCount, 'stemmen') }}
+					<span class="box-blue block">
+						{{numberPlate(poll.totalVoteCount)}}
+						stemmen
+					</span>
 				</a>
 
 				<a href="#arguments" class="margin-bottom-sm scroll-link block no-decoration">
-					{{ numberPlate(idea.argCount, 'reacties') }}
+					<span class="box-blue block">
+						{{numberPlate(idea.argCount)}}
+						reacties
+					</span>
 				</a>
 
 				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
@@ -284,31 +289,9 @@
 			</div>
 
 			<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
-				<div id="agenda">
-					<h2>Tijdlijn</h2>
-					{{ agendaItems(idea.agenda) }}
-				</div>
-
-				{# <br />
-
-
-				<h2>Heb je nog even?</h2>
-				<div class="box-grey">
-					<h4 class="margin-top-0">
-						We hebben nog twee extra vragen
-						over wat jij belangrijk vindt
-						in de uitwerking van de brug.
-						Laat jij je stem horen?
-					</h4>
-					<p>
-						Dit kost hooguit 2 minuten
-						van je tijd.
-					</p>
-					<a href="https://www.amsterdam.nl/formulieren/bouw/javabrug/praat-mee-javabrug" target="_blank" class="caret-link">
-						Ja, ga naar vragenlijst
-					</a>
-				</div> #}
+				{{agendaItems(idea.agenda)}}
 				{{newsletterForm(user, csrfToken)}}
+				{{questionnaireForm()}}
 			</div>
 		</div>
 	</section>
