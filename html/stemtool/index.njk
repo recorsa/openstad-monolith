@@ -38,8 +38,7 @@
 				<div id="banner">
 					<div class="image" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
 					<h1 class="overlay-title">
-						<div class="margin-bottom-xs"> Geef je mening! </div>
-						{{idea.title  | safe }}
+						{{idea.title | safe }}
 					</h1>
 				</div>
 
@@ -66,16 +65,16 @@
 					{{ numberPlate(idea.argCount, 'reacties') }}
 				</a>
 
-				{# <a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
-					<img src="/img/stemtool/comments.svg" />
-					Lees argumenten
-				</a> #}
-
 				<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
 					<img src="/img/stemtool/stars.svg" />
 					Stem ook!
 				</a>
-
+				
+				<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
+					<img src="/img/stemtool/comments.svg" />
+					Lees reacties
+				</a>
+				
 				<a href="{{GLOBALS.projectPage}}" class="box-grey-img margin-bottom-sm" target="_blank">
 					<img src="/img/stemtool/info.svg" />
 					Lees meer over dit project op amsterdam.nl
