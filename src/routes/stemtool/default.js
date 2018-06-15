@@ -6,15 +6,8 @@ var Promise      = require('bluebird');
 var util         = require('../../util');
 var db           = require('../../db');
 var auth         = require('../../auth');
-var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
 module.exports = function( app ) {
-
-	app.route('/disclaimer')
-	.get(function(req, res) {
-		res.out('disclaimer', false);
-	});
-
 	// View idea
 	// ---------
 	app.route('/')
