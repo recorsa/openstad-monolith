@@ -2,15 +2,15 @@
 {% import 'includes/arguments.njk' as arguments %}
 {% import 'includes/newsletter.njk' as newsletter %}
 
-{% from 'partials/arguments-form.njk' import argumentsForm %}
-{% from 'partials/number-plate.njk' import numberPlate %}
-{% from 'partials/mobile-menu.njk' import mobileMenu %}
-{% from 'partials/variant-modals.njk' import variantModals %}
-{% from 'partials/variant-checkboxes.njk' import variantCheckboxes %}
-{% from 'partials/variant-given-answers.njk' import variantGivenAnswers %}
-{% from 'partials/arguments-filters.njk' import argumentsFilters %}
-{% from 'partials/agenda-items.njk' import agendaItems %}
-{% from 'partials/form-field-zipcode.njk' import formFieldZipcode %}
+{% from 'includes/arguments-form.njk' import argumentsForm %}
+{% from 'includes/number-plate.njk' import numberPlate %}
+{% from 'includes/mobile-menu.njk' import mobileMenu %}
+{% from 'includes/variant-modals.njk' import variantModals %}
+{% from 'includes/variant-checkboxes.njk' import variantCheckboxes %}
+{% from 'includes/variant-given-answers.njk' import variantGivenAnswers %}
+{% from 'includes/arguments-filters.njk' import argumentsFilters %}
+{% from 'includes/agenda-items.njk' import agendaItems %}
+{% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
