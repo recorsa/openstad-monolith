@@ -1,47 +1,44 @@
-{% macro form(user, csrfToken) %}
+{% macro newsletterForm(user, csrfToken) %}
 
 	{% if not user.signedUpForNewsletter %}
-
-  <h2>Nieuwsbrief</h2>
-	<div class="box-grey newsletter">
-		<img src="/img/stemtool/newsletter.svg" width="50px"/>
-		<h4>Ja, ik meld mij graag aan voor de Sprong over het IJ nieuwsbrief:</h4>
-		<form id="newsletter-form" method="post" action="/newsletter/signup" onsubmit="return validateNewsletterInput(this)">
-      <input type="hidden" name="_csrf" value="{{csrfToken}}">
-      <div id="newsletterNameError" class="label-error">
-				Een naam is vereist.
-      </div>
-      <div id="newsletterEmailError" class="label-error">
-				Een geldig email adres is vereist.
-      </div>
-			<p><input id="newsletterName" name="newsletterName" placeholder="Naam" class="input-field stretch" type="text" value="{{user.nickName}}"/></p>
-			<p><input id="newsletterEmail" name="newsletterEmail" placeholder="Email" class="input-field stretch" type="text" value="{{user.email}}"/></p>
-			<input <input id="newsletterSubmitbutton" class="btn btn-primary btn--stretch" value="Meld mij aan" type="submit"/>
-		</form>
+	<div id="newsletter">
+	  <h2>Nieuwsbrief</h2>
+		<div class="box-grey newsletter">
+			<img src="/img/stemtool/newsletter.svg" width="50px"/>
+			<h4>Ja, ik meld mij graag aan voor de Sprong over het IJ nieuwsbrief:</h4>
+			<form id="newsletter-form" method="post" action="/newsletter/signup" onsubmit="return validateNewsletterInput(this)">
+	      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+	      <div id="newsletterNameError" class="label-error">
+					Een naam is vereist.
+	      </div>
+	      <div id="newsletterEmailError" class="label-error">
+					Een geldig email adres is vereist.
+	      </div>
+				<p><input id="newsletterName" name="newsletterName" placeholder="Naam" class="input-field stretch" type="text" value="{{user.nickName}}"/></p>
+				<p><input id="newsletterEmail" name="newsletterEmail" placeholder="Email" class="input-field stretch" type="text" value="{{user.email}}"/></p>
+				<input id="newsletterSubmitbutton" class="btn btn-primary btn--stretch" value="Meld mij aan" type="submit"/>
+			</form>
+		</div>
 	</div>
 
-  <br/>
-
 	<script>
-		function validateNewsletterInput(element) {
-
-			if (!document.getElementById('newsletterName').value) {
-				document.getElementById('newsletterNameError').style.display = 'block';
-				return false;
-			} else {
-				document.getElementById('newsletterNameError').style.display = 'none';
-      }
-
-			if (!document.getElementById('newsletterEmail').value || document.getElementById('newsletterEmail').value.search(/^[^ ]+@[^ ]+\.[^ ]+$/) == -1) {
-				document.getElementById('newsletterEmailError').style.display = 'block';
-				return false;
-			} else {
-				document.getElementById('newsletterEmailError').style.display = 'none';
-      }
-
-      //document.getElementById('newsletterSubmitbutton').disabled = true;
+		function validateNewsletterInput( element ) {
+			var name         = document.getElementById('newsletterName').value;
+			var email        = document.getElementById('newsletterEmail').value;
+			var nameError    = document.getElementById('newsletterNameError');
+			var emailError   = document.getElementById('newsletterEmailError');
+			
+			var nameIsValid  = !!name;
+			var emailIsValid = !!email && email.search(/^[^ ]+@[^ ]+\.[^ ]+$/) >= 0;
+			
+			nameError.style.display  = nameIsValid ? 'none' : 'block';
+			if( !nameIsValid ) return false;
+			
+			emailError.style.display = emailIsValid ? 'none' : 'block';
+			if( !emailIsValid ) return false;
+			
 			setFormSendingToDisabled(element);
-      return true;
+			return true;
 		}
 	</script>
 

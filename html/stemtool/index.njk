@@ -1,6 +1,6 @@
 {% extends 'base.njk' %}
 {% import 'includes/arguments.njk' as arguments %}
-{% import 'includes/newsletter.njk' as newsletter %}
+{% from 'includes/newsletter.njk' import newsletterForm %}
 
 {% from 'includes/arguments-form.njk' import argumentsForm %}
 {% from 'includes/number-plate.njk' import numberPlate %}
@@ -292,7 +292,6 @@
 
 				{# <br />
 
-	      {{newsletter.form(user, csrfToken)}}
 
 				<h2>Heb je nog even?</h2>
 				<div class="box-grey">
@@ -310,6 +309,7 @@
 						Ja, ga naar vragenlijst
 					</a>
 				</div> #}
+				{{newsletterForm(user, csrfToken)}}
 			</div>
 		</div>
 	</section>
