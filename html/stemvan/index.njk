@@ -5,16 +5,8 @@
 
 {% block content %}
 	<div id="banner">
-		<div class="image" style="background-image: url('/img/home_banner.jpg');"></div>
-		<div class="text">
-			<h2>Welkom op de Stem van West</h2>
-			<p>
-				Dit is jouw online meeting point voor het indienen van voorstellen voor je buurt.
-				Na de gemeenteraadsverkiezingen op 21 maart 2018 is het Algemeen Bestuur opgevolgd
-				door een stadsdeelcommissie. Hou deze site in de gaten om te zien wat dat betekent
-				voor plannen op {{SITENAME}}.
-			</p>
-		</div>
+		{% include "includes/home-banner-image.html" %}
+		{% include "includes/home-banner-text.html" %}
 	</div>
 	
 	<div class="primary">
@@ -24,26 +16,25 @@
 		{% for article in articles
 		%}<div class="tile {{'unpublished' if not article.isPublished}}">
 			<a href="/artikel/{{article.id}}">
-			{% if article.posterImage %}
-				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
-			{% else %}
-				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
-			{% endif %}
-			{% if not article.isPublished %}
-				<div class="notPublished">Niet gepubliceerd</div>
-			{% endif %}
-			<h3>{{article.title}}</h3>
-			{{article.summary}}
+				{% if article.posterImage %}
+					<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+				{% else %}
+					<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
+				{% endif %}
+				{% if not article.isPublished %}
+					<div class="notPublished">Niet gepubliceerd</div>
+				{% endif %}
+				<h3>{{article.title}}</h3>
+				{{article.summary}}
 			</a>
 			
 			<a href="/artikel/{{article.id}}" class="readMore">Lees meer</a>
-		</div>{%
-		endfor %}
+		</div>{% endfor %}{% include "includes/more-stenvans-tile.html" ignore missing %}{# Another weird formatting; see comment above. #}
 	</div>
 	
 	<div class="secondary">
 		{{sec.newIdeaBubble()}}
-		
+
 		{% if can('article:create') %}
 			<h2>Acties</h2>
 			
@@ -51,7 +42,7 @@
 				<button type="submit" class="edit">Nieuw artikel</button>
 			</form>
 		{% endif %}
-		
+
 		{{sec.highlightedIdeas(highlightedIdeas)}}
 		
 		{{sec.agenda(user, upcomingMeetings)}}

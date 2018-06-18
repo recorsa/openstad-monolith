@@ -41,7 +41,6 @@
 			</ul>
 		</td>
 		<td>
-		{% if not meeting.finished %}
 			<form class="action edit" method="GET" action="/agenda/{{meeting.id}}" data-meeting="{{meeting.id}}">
 				<input type="submit" class="default edit" value="bewerken" title="Vergadering bewerken">
 			</form>
@@ -53,11 +52,9 @@
 				<input type="submit" class="default delete" value="verwijderen" title="Vergadering verwijderen">
 			</form>
 			{% endif %}
-		{% endif %}
 		</td>
 	</tr>
 	
-	{% if not meeting.finished %}
 	<tr id="form-{{meeting.id}}" class="hidden">
 		<td colspan="4">
 			<form action="/agenda/{{meeting.id}}" method="post">
@@ -78,7 +75,6 @@
 			</form>
 		</td>
 	</tr>
-	{% endif %}
 {% endfor %}
 </tbody>
 </table>
