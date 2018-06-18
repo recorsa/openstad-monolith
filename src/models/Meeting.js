@@ -48,6 +48,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			getUpcoming: function( limit ) {
 				if( !limit ) limit = 4;
+				
 				return this.scope('withIdea')
 				.findAll({
 					where: {
@@ -60,14 +61,25 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// Use `idea.meetingId` to include the already connected meeting as well.
 			// Otherwise, it may not show up because the meeting's type is changed to
 			// 'selection'.
+			// 
+			// Also include meetings held in the last 2 months.
 			getSelectable: function( idea ) {
+				var now          = new Date;
+				var twoMonthsAgo = new Date(now.getFullYear(), now.getMonth()-2, now.getDate());
+				
 				return this.findAll({
 					where: {
 						$or: [
-							{type: 'meeting'},
+							{
+								$and: [
+									{type: 'meeting'},
+									{date: {$gte: twoMonthsAgo}}
+								]
+							},
 							{id: idea.meetingId}
 						]
-					}
+					},
+					order: 'date'
 				});
 			}
 		}
