@@ -153,8 +153,8 @@
 			
 			<form method="POST" action="/plan/{{idea.id}}/meeting">
 				<select name="meetingId" onchange="this.form.submit();" class="button calendar" {{'disabled' if idea.status!='ACCEPTED'}}>
-					<option value="0">Vergaderdatum</option>
-					{% for meeting in selectableMeetings%}
+					<option value="0">Niet geagendeerd</option>
+					{% for meeting in selectableMeetings %}
 					<option {{'selected' if idea.meetingId==meeting.id}} value="{{meeting.id}}">{{meeting.date | date('D MMMM YYYY')}}</option>
 					{% endfor %}
 				</select>
