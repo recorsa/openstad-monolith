@@ -20,6 +20,7 @@ module.exports = function( app ) {
 			idea      : req.idea,
 			poll      : req.poll,
 			userVote  : req.vote,
+			config    : config.get('stemtool'),
 			csrfToken : req.csrfToken()
 		});
 	});
