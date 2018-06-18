@@ -27,7 +27,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		finished: {
 			type: DataTypes.VIRTUAL,
 			get: function() {
-				return this.date < +new Date;
+				return this.date - new Date <= -86400000;
 			}
 		}
 	}, {

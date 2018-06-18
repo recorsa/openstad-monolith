@@ -347,7 +347,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						return;
 					} else if( !meeting ) {
 						throw Error('Vergadering niet gevonden');
-					} else if( meeting.date < Date.now() ) {
+					} else if( meeting.finished ) {
 						throw Error('Vergadering ligt in het verleden');
 					} else if( meeting.type == 'selection' ) {
 						throw Error('Agenderen op een peildatum is niet mogelijk');
