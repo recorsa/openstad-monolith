@@ -152,7 +152,7 @@
 					<div class="vote-inner-container">
 					{% if can('poll:vote') %}
 						<h2 class="h2 margin-hor-s">
-							Stem op jouw favoriete ontwerp
+							Breng jouw stem uit!
 						</h2>
 
 						<hr class="hr-white margin-hor-m"></hr>
@@ -458,7 +458,7 @@
 			// - Validation.
 			//
 			// HACK: `renderForm` is defined in the scripts coming from
-			// `{{ arguments.renderLists() }}` above.
+			// `arguments.renderLists()` above.
 			$('#arguments form.newArgument').forEach(function( form ) {
 				renderForm(form);
 				
