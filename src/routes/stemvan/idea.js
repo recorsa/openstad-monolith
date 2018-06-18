@@ -515,7 +515,22 @@ function fetchIdea( /* [scopes] */ ) {
 				next(createError(404, 'Plan niet gevonden'));
 			} else {
 				req.idea = idea;
-				next();
+				if (scopes.find(element => element == 'withVoteCount')) {
+					// add ranking
+					db.Idea.getRunning()
+						.then(rankedIdeas => {
+							rankedIdeas.forEach((rankedIdea) => {
+								if (rankedIdea.id == idea.id) {
+									idea.ranking = rankedIdea.ranking;
+								}
+							});
+						})
+						.then(ideas => {
+							next();
+						})
+				} else {
+					next();
+				}
 			}
 		})
 		.catch(next);
