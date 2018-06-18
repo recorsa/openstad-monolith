@@ -6,7 +6,6 @@
 {% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
 {% from 'includes/mobile-menu.njk' import mobileMenu %}
 {% from 'includes/number-plate.njk' import numberPlate %}
-{% from 'includes/variant-checkboxes.njk' import variantCheckboxes %}
 {% from 'includes/variant-given-answers.njk' import variantGivenAnswers %}
 {% from 'includes/variant-modals.njk' import variantModals %}
 
@@ -180,7 +179,8 @@
 								Ik stem op:
 							</label>
 
-							{{variantCheckboxes(poll.options, alphabet)}}
+							{% include 'includes/variant-checkboxes.njk' %}
+							
 							<!--
 							<div class="margin-hor-m">
 								<label class="h3 block margin-hor-xs"> Naam: <span class="required-text">(verplicht)</span></label>
