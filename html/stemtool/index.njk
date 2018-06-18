@@ -1,13 +1,8 @@
 {% extends 'base.njk' %}
 {% import 'includes/arguments.njk' as arguments %}
 
-{% from 'includes/arguments-filters.njk' import argumentsFilters %}
-{% from 'includes/arguments-form.njk' import argumentsForm %}
 {% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
-{% from 'includes/mobile-menu.njk' import mobileMenu %}
 {% from 'includes/number-plate.njk' import numberPlate %}
-{% from 'includes/variant-given-answers.njk' import variantGivenAnswers %}
-{% from 'includes/variant-modals.njk' import variantModals %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
@@ -217,7 +212,7 @@
 							Je hebt gestemd op:
 						</label>
 
-						{{variantGivenAnswers(poll.options, poll.userVotes, alphabet)}}
+						{% include 'includes/variant-given-answers.njk' %}
 
 						<div  class="margin-hor-m">
 							{{formFieldZipcode(user.zipCode)}}
@@ -291,12 +286,12 @@
 	{% if false %}
 		{% if can('arg:form') %}
 		<div class="section-container side-padding-xs">
-			{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
+			{% include 'includes/arguments-form.njk' %}
 		</div>
 		{% endif %}
 
 		<div class="section-container side-padding-xs" style="margin-top: 20px;">
-			{{ argumentsFilters(poll.options) }}
+			{% include 'includes/arguments-filters.njk' %}
 
 			<div>
 				<div class="argList for">
@@ -313,10 +308,10 @@
 		<div class="content-section section-container">
 			<div class="col-9 col-sm-8 col-xs-12">
 				{% if can('arg:form') %}
-					{{argumentsForm(poll.options, user.nickName, user.zipCode, csrfToken)}}
+					{% include 'includes/arguments-form.njk' %}
 				{% endif %}
 				
-				{{ argumentsFilters(poll.options) }}
+				{% include 'includes/arguments-filters.njk' %}
 				
 				<div class="argList for">
 					{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
@@ -326,9 +321,9 @@
 	{% endif %}
 	</section>
 
-	{{ variantModals(poll.options) }}
+	{% include 'includes/variant-modals.njk' %}
 
-	{{ mobileMenu() }}
+	{% include 'includes/mobile-menu.njk' %}
 
 {% endblock %}
 
