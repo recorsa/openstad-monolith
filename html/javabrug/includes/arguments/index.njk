@@ -1,0 +1,28 @@
+<div class="bg-sand" style="padding: 1px;">
+	<div class="section-container side-padding-xs">
+		<h2 class="margin-hor-m">
+			Reacties
+		</h2>
+	</div>
+</div>
+
+{% if can('arg:form') %}
+<div class="section-container side-padding-xs">
+	{% include 'includes/arguments/form.njk' %}
+</div>
+{% endif %}
+
+<div class="section-container side-padding-xs" style="margin-top: 20px;">
+	{% include 'includes/arguments/filter.njk' %}
+
+	<div>
+		<div class="argList for">
+			<h3  class="text-center margin-hor-m h2"> Argumenten voor </h3>
+			{{listArguments(user, idea, csrfToken, 'argumentsFor')}}
+		</div>
+		<div class="argList against">
+			<h3 class="text-center margin-hor-m h2"> Argumenten tegen </h3>
+			{{listArguments(user, idea, csrfToken, 'argumentsAgainst')}}
+		</div>
+	</div>
+</div>

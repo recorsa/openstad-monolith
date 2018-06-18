@@ -27,7 +27,7 @@
 				{% endif %}
 			</div>
 			<div class="margin-hor-s">
-				<b> Ik ben {{'voor' if arg.sentiment == 'for' else 'tegen'}} variant {{arg.label}}, omdat </b>
+				<b> Ik heb gestemd op {{arg.label}}, omdat </b>
 			</div>
 
 			<p>{{arg.description | urlize | nl2br | safe}}</p>
@@ -116,7 +116,7 @@
 	</form>
 {% endmacro %}
 
-{% macro renderLists( user, idea, cssQuery ) %}
+{% macro render( user, idea, cssQuery ) %}
 <script>
 	// For each argument
 	// -----------------
