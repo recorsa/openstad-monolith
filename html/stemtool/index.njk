@@ -1,14 +1,11 @@
 {% extends 'base.njk' %}
 {% import 'includes/arguments.njk' as arguments %}
 
-{% from 'includes/agenda-items.njk' import agendaItems %}
 {% from 'includes/arguments-filters.njk' import argumentsFilters %}
 {% from 'includes/arguments-form.njk' import argumentsForm %}
 {% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
 {% from 'includes/mobile-menu.njk' import mobileMenu %}
-{% from 'includes/newsletter.njk' import newsletterForm %}
 {% from 'includes/number-plate.njk' import numberPlate %}
-{% from 'includes/questionnaire.njk' import questionnaireForm %}
 {% from 'includes/variant-checkboxes.njk' import variantCheckboxes %}
 {% from 'includes/variant-given-answers.njk' import variantGivenAnswers %}
 {% from 'includes/variant-modals.njk' import variantModals %}
@@ -275,9 +272,9 @@
 			</div>
 
 			<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
-				{{agendaItems(idea.agenda)}}
-				{{newsletterForm(user, csrfToken)}}
-				{{questionnaireForm()}}
+				{% include 'includes/secondary/agenda-items.njk' %}
+				{% include 'includes/secondary/newsletter.njk' %}
+				{% include 'includes/secondary/questionnaire.njk' %}
 			</div>
 		</div>
 	</section>

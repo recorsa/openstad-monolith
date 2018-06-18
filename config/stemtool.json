@@ -3,8 +3,7 @@
 		"rendering": {
 			"templateDirs": ["html/stemtool"],
 			"globals": {
-				"projectPage" : "https://www.amsterdam.nl/",
-				"questionnairePage": "https://www.amsterdam.nl/"
+				"projectPage" : "https://www.amsterdam.nl/"
 			}
 		},
 		"middleware": {

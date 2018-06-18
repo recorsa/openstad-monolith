@@ -1,0 +1,15 @@
+<div id="agenda">
+	<h2>Tijdlijn</h2>
+	<div class="agenda">
+	{% for item in idea.agenda %}
+		<div class="box-grey {{'agenda-period' if item.endDate else 'agenda-day' }}">
+			<div>
+				{{item.description | safe}}
+			</div>
+			{% if item.actionText %}
+			<a href="{{item.actionURL}}" class="block caret-link">{{item.actionText}}</a>
+			{% endif %}
+		</div>
+	{% endfor %}
+	</div>
+</div>
