@@ -1,6 +1,7 @@
 {% extends 'ideas.njk' %}
 {% set pageTitle = 'Nieuw idee' %}
 {% set contentClass = 'newIdea' %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 
 {% block head %}
 	{{ super() }}
@@ -120,6 +121,13 @@
 </div>
 {% endif %}
 {% endblock %}
+
+{% if not user.isLoggedIn() %}
+	{% block howDoesItWork %}
+		{{howdoesitwork.howblock('open')}}
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld je aan!</a>
+	{% endblock %}
+{% endif %}
 
 {% block scripts %}
 {% if showForm %}
