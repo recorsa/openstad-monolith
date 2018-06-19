@@ -27,5 +27,12 @@
 		"authorization": {
 			"roles": "stemtool"
 		}
+	},
+	
+	// These settings are passed directly to the nunjucks template.
+	"stemtool": {
+		"poll": {
+			"maxChoices": 3
+		}
 	}
 }

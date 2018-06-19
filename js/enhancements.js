@@ -23,7 +23,7 @@ jQuery( document ).ready(function( $ ) {
 
 
   function updateVariantTextareaPlaceholder() {
-    var placeholderTpl = "Ik ben {{forOrAgainst}} variant {{variant}}, want..";
+    var placeholderTpl = "Ik heb gestemd op {{variant}}, omdat..";
     var forLabel = $('.for-or-against-selector').val() === 'against' ? 'tegen' : 'voor';
     placeholderTpl = placeholderTpl.replace('{{forOrAgainst}}', forLabel);
     placeholderTpl = placeholderTpl.replace('{{variant}}', $('.variant-selector').val());

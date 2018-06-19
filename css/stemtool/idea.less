@@ -353,21 +353,27 @@
 
 	div.argList {
 		box-sizing: border-box;
-		float: left;
-		width: 50%;
-
-		&:nth-of-type(odd) {
-			padding-right: 15px;
-		}
-		&:nth-of-type(even) {
-			padding-left: 15px;
-		}
-
+		
 		@media @primary100 {
-			float: none;
-			margin-top: 20px;
-			padding: 0 !important;
-			width: 100%;
+			// !important overrides more specific definitions in `&.for, &.against`
+			// definition below.
+			float: none      !important;
+			margin-top: 20px !important;
+			padding: 0       !important;
+			width: 100%      !important;
+		}
+		// When these classes are added, it is assumed that 2 arg columns
+		// are to be rendered.
+		&.for, &.against {
+			float: left;
+			width: 50%;
+
+			&:nth-of-type(odd) {
+				padding-right: 15px;
+			}
+			&:nth-of-type(even) {
+				padding-left: 15px;
+			}
 		}
 
 		// General form styling

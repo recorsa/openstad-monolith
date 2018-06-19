@@ -12,6 +12,8 @@ function dateFilter( date, format ) {
 	try {
 		if( !date ) {
 			throw Error('Onbekende datum');
+		} else if( date === 'now' || date === 'today' ) {
+			date = new Date();
 		}
 		// Timezone is set in `config/moment.js`.
 		var mom = moment(date);

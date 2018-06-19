@@ -128,9 +128,5 @@
 		// Minimum number of votes before it influences the date sorting of
 		// and idea's arguments.
 		"argumentVoteThreshold": 0
-	},
-	
-	"polls": {
-		"maxChoices": 3
 	}
 }
