@@ -1,6 +1,6 @@
-{% macro agenda(items, user) %}
+{% macro agenda(items, user, isPreview) %}
 	<div id="agenda">
-		<h2>Agenda</h2>
+		<h2>Agenda {% if isPreview %}preview{% endif %}</h2>
 		<div class="agenda">
 			{% for item in items %}
 				<div class="box-grey agenda-{{item.type}}">
@@ -21,7 +21,7 @@
 			{% endfor %}
 		</div>
 	</div>
-	{% if user.can('agenda:admin') %}
+	{% if user.can('agenda:admin') and not isPreview %}
 		<form action="/agenda">
 			<button type="submit" class="edit">Bewerk agenda</button>
 		</form>

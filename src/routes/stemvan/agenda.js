@@ -1,3 +1,4 @@
+var co = require('co');
 var config      = require('config');
 var createError = require('http-errors');
 var express     = require('express');
@@ -13,14 +14,16 @@ module.exports = function( app ) {
 	// View all meetings
 	// -----------------
 	router.route('/')
-	.all(auth.can('agenda:admin'))
-	.get(fetchMeetings)
-	.get(function( req, res, next ) {
-		res.out('agenda/list', true, {
-			meetings  : req.meetings,
-			csrfToken : req.csrfToken()
-		});
-	})
+		.all(auth.can('agenda:admin'))
+		.get(fetchMeetings)
+		.get(co.wrap(function*( req, res, next ) {
+			var data = yield {
+				meetings  : req.meetings,
+				csrfToken : req.csrfToken(),
+				upcomingMeetings : db.Meeting.getUpcoming(),
+			};
+			res.out('agenda/list', true, data);
+		}));
 	
 	// Add new meeting
 	// ---------------

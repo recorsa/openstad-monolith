@@ -8,14 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{'Nieuw artikel' if not article.id else 'Bewerk artikel'}}</h1>
-
-{% if showForm %}
-	<form id="posterImageUpload" action="/image"
-	      {% if article.posterImage %}
-	      style="background-image: url('/image/{{article.posterImage.key}}');"
-	      {% endif %}
-	>
+	<h1>{{'Nieuw artikel' if not article.id else 'Bewerk artikel'}}</h1>
+	
+	{% if showForm %}
+		<form id="posterImageUpload" action="/image" style="background-image: url('{% if article.posterImage %}/image/{{article.posterImage.key}}{% else %}/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}{% endif %}');">
 		<div class="progress"><div class="bar"></div></div>
 		<button type="button">Verwijder afbeelding<!-- Also set in JS --></button>
 	</form>
