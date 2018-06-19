@@ -24,6 +24,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
 		type : DataTypes.ENUM('selection','meeting'),
 		date : DataTypes.DATE,
+		forceShow : DataTypes.BOOLEAN,
 		finished: {
 			type: DataTypes.VIRTUAL,
 			get: function() {
@@ -51,11 +52,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 				
 				return this.scope('withIdea')
 				.findAll({
-					where: {
-						date: {$gte: new Date()}
-					},
 					order: 'date',
-					limit: limit
+				}).then(meetings => {
+					// limit
+					let limited = [];
+					for(var i = 0; i < meetings.length; i++) {
+						if (meetings[i].forceShow || ( new Date(meetings[i].date).getTime() > Date.now() && limit > 0 )) {
+							limited.push( meetings[i] );
+						}
+						if (!meetings[i].forceShow && new Date(meetings[i].date).getTime() > Date.now()) {
+							limit--;
+						}
+					}
+					return limited;
 				})
 			},
 			// Use `idea.meetingId` to include the already connected meeting as well.

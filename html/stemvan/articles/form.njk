@@ -98,11 +98,15 @@
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</div>
 		
-		<input type="submit" value="Artikel opslaan en bekijken">
-		<div class="form-extra-help-text" style="clear: both;">
-			Let op: dit artikel wordt pas gepubliceerd als je dat op de volgende pagina bevestigt!
-		</div>
-  </div>
+		{% if article.id %}
+			<input type="submit" value="Wijzigingen opslaan">
+		{% else %}
+			<input type="submit" value="Artikel opslaan en bekijken">
+			<div class="form-extra-help-text" style="clear: both;">
+				Let op: dit artikel wordt pas gepubliceerd als je dat op de volgende pagina bevestigt!
+			</div>
+		{% endif %}
+</div>
 
   <div class="secondary">
   

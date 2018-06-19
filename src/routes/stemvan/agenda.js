@@ -38,6 +38,21 @@ module.exports = function( app ) {
 		.catch(next);
 	});
 	
+	// Toggle forceShow
+	// ------------
+	router.route('/:meetingId/toggleForceShow')
+		.all(auth.can('agenda:admin'))
+		.all(fetchMeeting)
+		.put(function( req, res, next ) {
+			console.log('++++++++++', req.params.meetingId);
+			var forceShow = !req.meeting.forceShow;
+			req.meeting.update({forceShow})
+				.then(function( meeting ) {
+					res.success('/agenda', meeting);
+				})
+				.catch(next);
+		})
+	
 	// Edit meeting
 	// ------------
 	router.route('/:meetingId')
@@ -60,6 +75,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
+
 };
 
 function fetchMeetings( req, res, next ) {
