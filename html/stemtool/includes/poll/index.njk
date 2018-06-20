@@ -1,0 +1,9 @@
+<div class="vote-inner-container">
+{% if can('poll:vote') %}
+	{% include 'includes/poll/form.njk' %}
+{% elseif can('poll:result') %}
+	{% include 'includes/poll/result.njk' %}
+{% else %}
+	{% include 'includes/poll/closed.njk' %}
+{% endif %}
+</div>

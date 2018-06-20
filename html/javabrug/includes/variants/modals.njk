@@ -1,0 +1,67 @@
+{% for option in poll.options %}
+<div id="variant-modal-{{option.order}}" class="content-modal">
+	<div class="content-modal-content">
+
+		<div class="col-container">
+			<div class="col-12">
+				<h1 class="margin-hor-s">{{option.title}}{{':' if option.intro}} {{option.intro}}</h1>
+				<hr class="margin-hor-m" />
+			</div>
+
+			<div class="col-6 col-xs-12">
+				<div class="fotorama"
+
+					data-nav="thumbs"
+					data-allowfullscreen="true"
+					data-ratio="400/300"
+					data-fit="cover"
+					data-thumbwidth="105"
+					data-thumbheight="105"
+					data-auto="true"
+				>
+					<a href="/image/variant_{{option.id}}_1.jpg"></a>
+					<a href="/image/variant_{{option.id}}_2.jpg"></a>
+					<a href="/image/variant_{{option.id}}_3.jpg"></a>
+					<a href="/image/variant_{{option.id}}_4.jpg"></a>
+				</div>
+			</div>
+			<div class="col-6 col-xs-12">
+				<br class="visible-xs" />
+
+				{{ option.description | safe }}
+			</div>
+		</div>
+
+		<div class="margin-hor-s">
+			<div class="col-container">
+				<div class="col-3 col-xs-6">
+					<a
+						href="#arguments"
+						class="btn btn-primary btn--stretch scroll-link scroll-change-hash react-to-variant"
+						data-variant-value="{{option.order}}"
+					>
+						Reageer
+					</a>
+				</div>
+				<div class="col-3 col-xs-6">
+					<a href="#vote" class="btn btn-primary btn--stretch scroll-link scroll-change-hash">
+						Stem
+					</a>
+				</div>
+
+
+				<div class="col-5 col-xs-12 ">
+					{# <br class="visible-xs" />
+					<a href="https://amsterdam.nl/javabrug" target="_blank" class="btn btn-secondary btn--stretch">
+						Lees meer over deze variant
+					</a> #}
+				</div>
+			</div>
+		</div>
+
+		<a href="#variants" class="content-modal-close" >
+			<img src="/img/stemtool/cross.svg" width="17" height="17"/>
+		</a>
+	</div>
+</div>
+{% endfor %}

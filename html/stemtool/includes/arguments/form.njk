@@ -1,0 +1,84 @@
+<div class="arguments-cta-box">
+	<div class="col-container">
+		<div class="col-2">
+			<img class="arguments-icon" src="/img/stemtool/comments.svg" />
+		</div>
+
+		<div class="col-10">
+			<div class="speech-balloon">
+				<h3 class="margin-0">
+					Toelichten waarop je hebt gestemd? <br class="hidden-xs" /> Laat dan hier een reactie achter!
+				</h3>
+			</div>
+		</div>
+	</div>
+
+	<br />
+
+	<div class="box-grey">
+		<form id="new-argument-form" method="POST" action="/arg/new" class="newArgument clearfix ">
+			<div>
+				Ik heb gestemd op
+
+				<span class="select-wrapper">
+					<select name="label" class="argument-textarea variant-selector">
+					{% for option in poll.options %}
+						<option value="{{option.order}}">{{option.title}}</option>
+					{% endfor %}
+					</select>
+				</span>
+
+				omdat...
+			</div>
+			<textarea
+				class="textarea margin-hor-s block argument-textarea"
+				name="description"
+				placeholder="Ik heb gestemd op A, omdat..."
+			></textarea>
+
+			<div class="charsLeft margin-bottom-s">
+				<div class="min">Nog minimaal <span>30</span> tekens.</div>
+				<div class="max"><span>360</span> tekens resterend.</div>
+			</div>
+
+			<div class="col-container">
+				<div class="col-7 col-xs-12">
+					<br class="visible-xs" />
+
+					{% if nickName %}
+					<span class="name-label"> <strong> Naam: </strong> {{nickName}} </span>
+					{% else %}
+
+					<div class="form-field-container validate-text-required  ">
+						 Naam: <br />
+
+						 <div class="label-error margin-hor-xs">
+								 Je hebt geen naam opgegeven.
+						 </div>
+
+						<input type="text" name="nickName" class="input-field stretch">
+					</div>
+					{% endif %}
+					&nbsp;
+				</div>
+				<div class="col-5 col-xs-12">
+				{% if not zipCode %}
+					<div class="form-field-container validate-postcode margin-top-m" >
+						 Postcode: <br />
+
+						 <div class="label-error margin-hor-xs">
+								 Een geldige postcode is vereist.
+						 </div>
+
+						<input type="text" name="zipCode" class="input-field stretch">
+					</div>
+					{% endif %}
+					<br class="clearfix" />
+					<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verzenden" />
+				</div>
+			</div>
+
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		</form>
+	</div>
+</div>
