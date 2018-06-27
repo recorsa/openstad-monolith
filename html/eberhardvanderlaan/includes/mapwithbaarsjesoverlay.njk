@@ -1,0 +1,70 @@
+{% import 'includes/content.njk' as content %}
+{% macro map(runningIdeas) %}
+	{{content.map(cookieConsent)}}
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+	<script src="/js/map.js"></script>
+	<script>
+	 // Interactive map
+	 // ---------------
+	 var map;
+	 (function() {
+		 var bounds;
+		 map = initMap(document.getElementById('map'), {
+			 center            : {lat: 52.3666477, lng: 4.8544886},
+			 zoom              : 14,
+			 minZoom           : 13,
+			 maxZoom           : 17,
+			 draggable         : true,
+			 keyboardShortcuts : false,
+			 scrollwheel       : false,
+			 zoomControl       : true
+		 });
+
+		 var everythingElse = [
+       {lat:  0, lng: -80}, // north west
+			 {lat:  0, lng:  80}, // south west
+			 {lat: 80, lng:  80}, // south east
+			 {lat: 80, lng: -80}	// north east
+		 ];
+
+		 var deBaarsjesPolygon = [{ lng: 4.8422025, lat: 52.372100199999998},{ lng: 4.8421761, lat: 52.369583599999999},{ lng: 4.8455807, lat: 52.369636900000003},{ lng: 4.8476385, lat: 52.369852999999999},{ lng: 4.8477361, lat: 52.369588499999999},{ lng: 4.8484176, lat: 52.369697000000002},{ lng: 4.8504835, lat: 52.365330200000002},{ lng: 4.8504956, lat: 52.364369199999999},{ lng: 4.8501587, lat: 52.363837599999997},{ lng: 4.8494487, lat: 52.363300099999996},{ lng: 4.8495059, lat: 52.361098900000002},{ lng: 4.8489152, lat: 52.360814900000001},{ lng: 4.8487824, lat: 52.357865799999999},{ lng: 4.8518982, lat: 52.357844},{ lng: 4.8538275, lat: 52.358129499999997},{ lng: 4.854723, lat: 52.357862900000001},{ lng: 4.857383, lat: 52.361604399999997},{ lng: 4.8593457, lat: 52.363724900000001},{ lng: 4.8600959, lat: 52.364644699999999},{ lng: 4.866352, lat: 52.371585600000003},{ lng: 4.8672064, lat: 52.372624899999998},{ lng: 4.866565, lat: 52.373279599999996},{ lng: 4.8651313, lat: 52.374456600000002},{ lng: 4.864969, lat: 52.374607099999999},{ lng: 4.8646014, lat: 52.375342199999999},{ lng: 4.8555143, lat: 52.374358999999998},{ lng: 4.8525852, lat: 52.373540900000002},{ lng: 4.8467801, lat: 52.372305599999997},{ lng: 4.8422025, lat: 52.372100199999998}];
+
+		 map.data.setStyle({
+			 strokeColor: '#d00',
+			 strokeOpacity: 1,
+			 strokeWeight: 2,
+			 fillColor: '#000',
+			 fillOpacity: 0.2
+		 });
+
+     map.data.add({
+			 geometry: new google.maps.Data.Polygon( [everythingElse, deBaarsjesPolygon] )
+		 })
+
+		 var ideas = [
+			 // {% for idea in runningIdeas %}
+			 // {% if idea.isRunning() %}
+			 {id: {{idea.id}}, location: JSON.parse('{{idea.location | dump | safe}}' || null)},
+			 // {% endif %}
+			 // {% endfor %}
+		 ];
+		 ideas.forEach(function( idea ) {
+			 if( !idea.location ) return;
+			 var point  = idea.location;
+			 var marker = initMarker({
+				 position  : {lat: point.coordinates[0], lng: point.coordinates[1]},
+				 map       : map,
+				 clickable : false,
+				 icon      : {
+					 url     : '/img/flag_small.svg',
+					 size    : new google.maps.Size(22, 24),
+					 anchor  : new google.maps.Point(4, 21)
+				 }
+			 });
+			 // marker.addListener('click', function() {
+			 //  	 window.location.href = '/plan/'+idea.id;
+			 // });
+		 });
+	 })();
+	</script>
+{% endmacro %}

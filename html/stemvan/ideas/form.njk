@@ -1,5 +1,5 @@
 {% extends 'ideas.njk' %}
-{% set pageTitle = 'Nieuw idee' %}
+{% set pageTitle = 'Nieuw idee' if not idea.id else 'Bewerk idee' %}
 {% set contentClass = 'newIdea' %}
 
 {% block head %}
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{'Nieuw idee' if not idea.id else 'Bewerk idee'}}</h1>
+	<h1>{{pageTitle}}</h1>
 
 <div id="modBreak">   
 	<p>

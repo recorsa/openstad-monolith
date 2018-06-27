@@ -9,9 +9,10 @@
 	{% if mayShowForm %}
 		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
 			<textarea
-				name="description"
-				placeholder="{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}"
-				{{'data-disabled readonly' if not mayAddArg}}
+			name="description"
+			placeholder="{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}"
+			style="font-size: inherit;"
+			{{'data-disabled readonly' if not mayAddArg}}
 			></textarea>
 			
 			<div class="charsLeft">

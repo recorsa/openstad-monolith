@@ -1,0 +1,28 @@
+{% macro numberPlateButton(name, caption, value, href) %}
+	{% if href %}
+		<a href="/plannen" class="{{name}}">
+	{% else %}
+			<div class="{{name}}">
+	{% endif %}
+	<div class="{{name}}-content">
+		<div class="number-plates">
+			<div id="{{name}}-number-plate-000" class="number-plate"> 0 </div>
+			<div id="{{name}}-number-plate-00" class="number-plate"> 0 </div>
+			<div id="{{name}}-number-plate-0" class="number-plate"> 0 </div>
+		</div>
+		{{caption}}
+	</div>
+	<script>
+	 var value000 = parseInt({{value}}/100) || 0;
+	 var value00  = parseInt({{value}}/10) - value000;
+	 var value0   = {{value}} - value000 * 100 - value00 * 10;
+	 document.getElementById('{{name}}-number-plate-000').innerHTML = value000;
+	 document.getElementById('{{name}}-number-plate-00').innerHTML = value00;
+	 document.getElementById('{{name}}-number-plate-0').innerHTML = value0;
+	</script>
+	{% if href %}
+		</a>
+	{% else %}
+			</div>
+	{% endif %}
+{% endmacro %}

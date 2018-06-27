@@ -354,10 +354,15 @@ module.exports = function( app ) {
 	.delete(function( req, res, next ) {
 		var argument = req.argument;
 		var ideaId   = argument.ideaId;
+		var isReaction = !!argument.parentId;
 		argument.destroy()
 		.then(function() {
-			req.flash('success', 'Argument verwijderd');
-			res.success('/plan/'+ideaId);
+			let flashMessage = 'Argument verwijderd';
+			if (isReaction) {
+				flashMessage = 'Reactie verwijderd';
+			}
+			req.flash('success', flashMessage);
+			res.success('/plan/'+ideaId + '#arguments');
 		})
 		.catch(next);
 	});
@@ -515,7 +520,22 @@ function fetchIdea( /* [scopes] */ ) {
 				next(createError(404, 'Plan niet gevonden'));
 			} else {
 				req.idea = idea;
-				next();
+				if (scopes.find(element => element == 'withVoteCount')) {
+					// add ranking
+					db.Idea.getRunning()
+						.then(rankedIdeas => {
+							rankedIdeas.forEach((rankedIdea) => {
+								if (rankedIdea.id == idea.id) {
+									idea.ranking = rankedIdea.ranking;
+								}
+							});
+						})
+						.then(ideas => {
+							next();
+						})
+				} else {
+					next();
+				}
 			}
 		})
 		.catch(next);
