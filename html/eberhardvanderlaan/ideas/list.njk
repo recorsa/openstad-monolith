@@ -60,6 +60,7 @@
 		{% for idea in runningIdeas
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
 			<a href="/plan/{{idea.id}}">
+				{% if idea.status != 'DENIED' %}
 					<div class="ranking"><div class="label">{{idea.ranking}}</div></div>
 				{% endif %}
 				

@@ -1,8 +1,8 @@
 {% extends 'ideas.njk' %}
-{% set pageTitle = 'Nieuwe locatie' if not idea.id else 'Bewerk locatie' %}
-{% set pageTitle = pageTitle + ' insturen' if not user.isLoggedIn() else pageTitle %}
+{% set pageTitle = 'Nieuwe locatie insturen' if not idea.id else 'Bewerk locatie' %}
 {% set contentClass = 'newIdea' %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/mapwithbaarsjesoverlay.njk' as mapwithbaarsjesoverlay %}
 
 {% block head %}
 	{{ super() }}
@@ -28,24 +28,25 @@
 
 			<form method="post" id="js-form">
 				<div id="titleAndSummary">
-					<h2>Auteur</h2>
+					<h4>Naam</h4>
 					<p>{{user.fullName}} <em>(uw emailadres wordt nooit gepubliceerd)</em></p>
 					
-					<h2>Naam lokatie</h2>
+					<h2>Naam van je lokatie</h2>
 					<input type="text" name="title" value="{{idea.title}}"><br>
 					
 					<h2>Samenvatting</h2>
-					Vertel in maximaal 140 tekens wat je voorstel is.<br>
+					Vertel in maximaal 140 tekens iets meer over je locatie.<br>
 					<textarea name="summary">{{idea.summary}}</textarea>
-					<div id="charsLeft"><span>140</span> tekens resterend.</div>
+					<div id="charsLeft">Je hebt nog <span>140</span> tekens over.</div>
 				</div>
 				
 				<div id="description">
 					<h2>Beschrijving</h2>
-					Gebruik de ruimte hieronder om je voorstel uit te leggen. Een paar tips:
+					Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
 					<ul>
-						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
-						<li>Gebruik minimaal 140 tekens.</li>
+						<li>Wat is het verhaal achter jouw locatie?</li>
+						<li>Waarom is het een goede plek voor de boodschap van burgemeester van der Laan?</li>
+						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw voorstel te stemmen.</li>
 					</ul>
 					{% if useModernEditor %}
 						<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
@@ -93,6 +94,8 @@
 					{% else %}
 						<textarea name="description">{{idea.description}}</textarea>
 					{% endif %}
+					<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
+					
 					
 					{% if idea.id %}
 						<input type="hidden" name="id" value="{{idea.id}}">
@@ -116,9 +119,15 @@
 		</div>
 
 		<div class="secondary">
-			<span class="widget speechBubble">
-				&ldquo;Houd het positief, duidelijk en kort!&rdquo;
-			</span>
+			<div class="pageContent">
+				<div class="speechBubble">
+					“Zorg goed voor onze stad en voor elkaar.”
+					<div class="small">
+						Vaarwel,<br/><br/><br/><br/><br/>
+						Eberhard van der Laan
+					</div>
+				</div>
+			</div>
 		</div>
 	{% endif %}
 {% endblock %}
@@ -175,7 +184,8 @@
 		 });
 		</script>	
 		<script>
-		 new LocationEditor(document.getElementById('locationField'), {});
+		 var map = new LocationEditor(document.getElementById('locationField'), {});
+		 {{mapwithbaarsjesoverlay.addOverlayToLocationEditor(idea.location)}}
 		</script>
 		<script>
 		 var currentImage;
@@ -268,15 +278,44 @@
 		 }
 		</script>
 		
-		{% if useModernEditor %}
-			<script>
-			 // Main editor
-			 // -----------
-							initAttachmentManager(
-								document.getElementById('js-form'),
-								document.getElementById('js-editor').editor
-							);
-			</script>
-		{% endif %}
+		<script>
+		 // Main editor
+		 // -----------
+						var minLen = 140;
+		 var charsLeftMain = document.querySelector('#charsLeftMain span');
+
+		 {% if useModernEditor %}
+		 initAttachmentManager(
+			 document.getElementById('js-form'),
+			 document.getElementById('js-editor').editor
+		 );
+		 var mainEditor  = document.getElementById('js-editor');
+		 document.querySelector('#charsLeftMain').style.marginTop = '-20px';
+		 {% else %}
+		 var mainEditor  = document.querySelector('textarea[name="description"]');
+		 {% endif %}
+		 mainEditor.addEventListener('keyup', updateCharsLeftMain);
+
+		 function updateCharsLeftMain() {
+			 {% if useModernEditor %}
+			 console.log(mainEditor)
+			 console.log(mainEditor.innerHTML)
+			 let length = minLen - mainEditor.innerHTML.length
+			 {% else %}
+			 let length = minLen - mainEditor.value.length
+			 {% endif %}
+			 if (length <= 0) {
+				 document.querySelector('#charsLeftMain').style.display = 'none';
+			 } else {
+				 document.querySelector('#charsLeftMain').style.display = 'block';
+				 document.querySelector('#charsLeftMain span').innerHTML = length;
+			 }
+		 }
+		 
+		 updateCharsLeftMain();
+
+		</script>
+
+
 	{% endif %}
 {% endblock %}

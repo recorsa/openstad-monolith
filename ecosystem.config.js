@@ -43,6 +43,11 @@ addApp('stemvan', [{
 	deployName : 'production_zuid',
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
 	ref        : 'origin/projects/article-editor'
+}, {
+	appName    : 'stem-zorggoedvooronzestad',
+	deployName : 'production_zorggoedvooronzestad',
+	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
+	ref        : 'origin/projects/eberhardvanderlaan'
 }]);
 
 addApp('stemtool', [{

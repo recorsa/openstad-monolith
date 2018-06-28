@@ -186,6 +186,8 @@ function LocationEditor( input ) {
 	if( location ) {
 		this.setMarker(location);
 	}
+
+	return this.map;
 }
 
 LocationEditor.prototype.onMapClick = function( event ) {

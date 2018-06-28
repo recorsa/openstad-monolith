@@ -114,6 +114,60 @@ header {
 	
 	}
 
+	&.newIdea {
+
+		.primary {
+
+			#location > div {
+				height: 375px;
+			}
+
+			#charsLeftMain {
+				color: red;
+				font-size: 0.7rem;
+			}
+
+		}
+
+		#posterImageUpload.dz-clickable {
+			position: relative;
+			background-color: #f6f7f7;
+
+			&::before {
+				position: absolute;
+				top: 175px;
+				width: 100%;
+				font-size: 1rem;
+				font-weight: bold;
+				text-align: center;
+				color: #164995;
+				content: 'Let op: gebruik alleen foto’s die je zelf gemaakt hebt!';
+			}
+			&[style]:before {
+				content: '';
+			}
+			&::after {
+				position: absolute;
+				top: 150px;
+				font-size: 1rem;
+				height: auto;
+				display: block;
+				padding: 0;
+				content: 'Klik hier om een afbeelding te uploaden.';
+			}
+
+		}
+
+		.secondary {
+			.speechBubble {
+				margin-top: 0;
+				margin-left: -15px;
+				width: 219px;
+			}
+		}
+	
+	}
+
 	input[type="submit"]:not(.default) {
 		width: 140px;
 		padding: 0;
@@ -728,6 +782,7 @@ a.no-of-locations {
   text-decoration: none;
   display: block;
   margin-bottom: 20px;
+	height: 43px;
 }
 
 .no-of-votes-for,
@@ -739,7 +794,8 @@ a.no-of-locations {
 .no-of-votes-for-content,
 .no-of-votes-against-content,
 .no-of-locations-content {
-  width: 100%;
+	box-sizing: border-box;
+  width: calc(100% + 20px);
   padding: 7px 6px 7px 10px;
   background: #004699;
   font-size: 18px;
@@ -747,6 +803,19 @@ a.no-of-locations {
   color: #fff;
   display: block;
   text-decoration: none;
+	height: 43px;
+}
+
+.no-of-votes-for-caption,
+.no-of-votes-against-caption {
+	display: none;
+}
+
+.no-of-locations-caption {
+	box-sizing: border-box;
+	float: left;
+	line-height: 31px;
+	margin-left: -5px;
 }
 
 .disabled .no-of-votes-for-content,
@@ -771,7 +840,7 @@ a.no-of-locations {
 
 .no-of-locations-content .number-plates {
 	font-size: 0px;
-	display: inline-block;
+	float: left;
 	margin-right: 15px;
 }
 
