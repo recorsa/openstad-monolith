@@ -1,5 +1,5 @@
 {% import 'includes/content.njk' as content %}
-{% macro map(runningIdeas) %}
+{% macro map(runningIdeas, clickable) %}
 	{{content.map(cookieConsent)}}
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 	<script src="/js/map.js"></script>
@@ -54,16 +54,18 @@
 			 var marker = initMarker({
 				 position  : {lat: point.coordinates[0], lng: point.coordinates[1]},
 				 map       : map,
-				 clickable : false,
+				 clickable : {{clickable or false}},
 				 icon      : {
 					 url     : '/img/flag_small.svg',
 					 size    : new google.maps.Size(22, 24),
 					 anchor  : new google.maps.Point(4, 21)
 				 }
 			 });
-			 // marker.addListener('click', function() {
-			 //  	 window.location.href = '/plan/'+idea.id;
-			 // });
+			 if ({{clickable or false}}) {
+				 marker.addListener('click', function() {
+						 window.location.href = '/plan/'+idea.id;
+				 });
+			 }
 		 });
 	 })();
 	</script>

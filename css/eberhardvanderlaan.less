@@ -135,13 +135,14 @@ header {
 
 			&::before {
 				position: absolute;
-				top: 175px;
-				width: 100%;
-				font-size: 1rem;
+				top: 185px;
+				width: 70%;
+				margin-left: 15%;
+				font-size: 12px;
 				font-weight: bold;
 				text-align: center;
 				color: #164995;
-				content: 'Let op: gebruik alleen foto’s die je zelf gemaakt hebt!';
+				content: 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.';
 			}
 			&[style]:before {
 				content: '';
@@ -149,7 +150,7 @@ header {
 			&::after {
 				position: absolute;
 				top: 150px;
-				font-size: 1rem;
+				font-size: 14px;
 				height: auto;
 				display: block;
 				padding: 0;
@@ -689,6 +690,7 @@ a.meldjeaanknop {
 }
 
 #end-date-bar {
+	box-sizing: border-box;
 	position: relative;
 	width: 100%;
 	background-color: #bdd131;
@@ -696,6 +698,7 @@ a.meldjeaanknop {
 	line-height: 46px;
 	text-align: center;
 	margin: -10px auto 0 auto;
+	padding: 0 15px;
 	font-size: 18px;
 	font-weight: 600;
 
@@ -941,7 +944,7 @@ ul.share {
 		.ranking {
 			position: absolute;
 			top: 0;
-			right: 20px;
+			right: 21px;
 			width: 50px;
 			height: 50px;
 			color: white;
@@ -951,6 +954,10 @@ ul.share {
 			background-position: 12px 6px;
 			background-image: url('/img/trophy.svg');
 			z-index: 100;
+
+			@media @phone {
+				right: 0;
+			}
 
 			.label {
 				position: absolute;

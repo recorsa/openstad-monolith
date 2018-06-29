@@ -29,9 +29,9 @@
 			<form method="post" id="js-form">
 				<div id="titleAndSummary">
 					<h4>Naam</h4>
-					<p>{{user.fullName}} <em>(uw emailadres wordt nooit gepubliceerd)</em></p>
+					<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
 					
-					<h2>Naam van je lokatie</h2>
+					<h2>Naam van je locatie</h2>
 					<input type="text" name="title" value="{{idea.title}}"><br>
 					
 					<h2>Samenvatting</h2>
@@ -106,7 +106,7 @@
 				
 				<div id="location">
 					<h2>Locatie</h2>
-					Geef aan op de kaart wat jouw locatie is.<br>
+					Klik op de kaart om een vlaggetje bij jouw locatie te plaatsen..<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 				</div>
 				

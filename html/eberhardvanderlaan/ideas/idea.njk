@@ -89,7 +89,7 @@
 						</div>
 						<script>
 						 if (daysLeft > 0 ) {
-							 var timeLeftWidth = 170 * ( daysLeft / 80 );
+							 var timeLeftWidth = ( document.getElementById('bar').offsetWidth - 7 ) * ( daysLeft / 63 );
 							 document.getElementById('bar-blue').style.width = timeLeftWidth + 'px';
 							 document.getElementById('time-left-caption').innerHTML = 'Nog ' + daysLeft + ' dagen om te stemmen';
 						 } else {

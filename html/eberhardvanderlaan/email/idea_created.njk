@@ -7,47 +7,80 @@
 		<title>{{SITENAME}}</title>
 		
 		<style type="text/css">
-			#outlook a {padding:0;}
-			.ExternalClass {width:100%;}
-			.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
-			table td {border-collapse: collapse; line-height: 1.5em;}
-			table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
-			#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
-			p {margin-bottom: 1.5em;}
+		 #outlook a {padding:0;}
+		 .ExternalClass {width:100%;}
+		 .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+		 table td {border-collapse: collapse; line-height: 1.5em;}
+		 table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		 #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+		 p {margin-bottom: 1.5em;}
 
-      h4 {
-      margin: 0;
-      margin-top: 20px;
-      padding: 0;
-      font-weight: 600;
-      }
+		 a {
+			 color: #2b9ad6;
+			 text-deoration: none;
+		 }
 
-      .checkmark-list {
-        box-sizing: border-box;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        background-size: 100%;
-    	  margin-bottom: 35px;
-		  }
-	    .checkmark-list li {
-    		position: relative;
-    		padding-left: 46px;
-    		margin: 16px 0;
-		  }
+     h1 {
+			 font-size: 24px;
+			 font-weight: 600;
+			 margin-top: 20px;
+			 margin-bottom: 0;
+		 }
+		 
+     h2 {
+			 font-size: 18px;
+			 font-weight: 600;
+			 margin-top: 13px;
+			 margin-bottom: 20px;
+     }
 
-		  .checkmark-list li::before {
-    		position: absolute;
-    		content: '';
-    		top: -3px;
-    		left: 0;
-    		width: 30px;
-    		height: 30px;
-    		background-image: url(http://openstad-dev.francesco.denes.nl/img/stemtool/check.svg);
-    		background-repeat: no-repeat;
-		    }
+     h4 {
+       margin: 0;
+       margin-top: 20px;
+       padding: 0;
+       font-weight: 600;
+     }
 
-      
+		 .blue {
+			 color: #164995;		 
+		 }
+
+		 .list {
+			 margin-top: 13px;
+		 }
+
+		 .list td {
+			 padding-bottom: 15px;
+		 }
+
+		 .list .bullet {
+			 margin-top: -3px;
+			 padding-right: 15px;
+		 }
+
+		 #howDoesItWork {
+			 margin: 20px 0 20px 0;
+		 }
+		 
+		 .step {
+			 width: calc(25% - 21px);
+			 display: inline-block;
+			 vertical-align: top;
+			 font-size: 14px;
+			 font-weight: 600;
+			 margin-left: 0;
+			 margin-right: 17px;
+			 margin-right: 17px;
+			 padding: 0;
+			 box-sizing: border-box;
+		 }
+
+		 .step-header {
+			 padding-top: 20px;
+			 font-size: 13px;
+			 font-weight: 600;
+			 line-height: normal;
+		 }
 		</style>
 	</head>
 	<body style="margin: 0; padding: 0; min-width: 100%;">
@@ -55,42 +88,66 @@
 			<tr>
 				<td></td>
 				<td width="560">
+					<img src="cid:logo" width="99" height="70" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+					<h1>Zorg goed voor onze stad en elkaar</h1>
+					<h2 class="blue">Welkom! Bedankt voor je locatievoorstel.</h2>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+          <img src="cid:kaart" width="561" height="85"/>
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td></td>
+				<td width="560">
           <h4>Beste  {{user.fullName | default('indiener')}},</h4>
           <br/>
-          Bedankt voor het plaatsen van jouw locatievoorstel op de website ‘Zorg goed voor onze stad en elkaar’! Je voorstel is goed ontvangen en zal t/m 9 september (23:59 uur) beschikbaar zijn op de site voor het verzamelen van stemmen en argumenten. Gedurende deze periode kun je door middel van een (social media) campagne zo veel mogelijk medestanders zien te verzamelen. Dit is de link naar jouw voorstel: <a href="{{fullHost}}/plan/{{idea.id}}" target="_blank" style="color: #EC0000">{{fullHost}}/plan/{{idea.id}}</a><br/>
-          <br/>
+					Bedankt voor het plaatsen van jouw locatievoorstel op de website ‘Zorg
+					goed voor onze stad en voor elkaar’! Je voorstel is goed ontvangen en zal t/m 2
+					september (23:59 uur) beschikbaar zijn op de site voor het verzamelen van
+					stemmen en argumenten. Gedurende deze periode kun je door middel van
+					een (social media) campagne zo veel mogelijk medestanders zien te
+					verzamelen. Dit is de link naar jouw voorstel: <a href="{{fullHost}}/plan/{{idea.id}}" target="_blank">{{fullHost}}/plan/{{idea.id}}
+						<br/>
+						<br/>
         </td>
 				<td></td>
       </tr>
 			<tr>
 				<td style="background-color: #f3f3f3;"></td>
 				<td style="background-color: #f3f3f3;" width="560">
-	        <div id="howDoesItWork">
-		        <div class="pageContent">
-			        <div class="steps">
-				        <div class="step">
-					        <div class="step-image step-image-1"></div>
-					        <div class="step-header">1.<br/>Insturen locatie met een verhaal</div>
-					        <p>Alle Amsterdammers mogen een voorstel doen voor een locatie in de Baarsjes voor de muur-schildering. We zoeken een locatie met een verhaal.</p>
-				        </div>
-				        <div class="step">
-					        <div class="step-image step-image-2"></div>
-					        <div class="step-header">2.<br/>Stem op locatie in de Baarsjes</div>
-					        <p>Je kunt voor en tegen stemmen op een locatie én argumenten voor en tegen plaatsen. Daarnaast kun je campagne voeren voor jouw locatie om stemmen te winnen.</p>
-				        </div>
-				        <div class="step">
-					        <div class="step-image step-image-3"></div>
-					        <div class="step-header">3.<br/>Haalbaarheid + keuze locatie</div>
-					        <p>De locatie die na aftrek van tegen-stemmen de meeste stemmen voor heeft wordt als eerste onderzocht op haalbaarheid. Hier rolt uiteindelijk een winnende locatie uit.</p>
-				        </div>
-				        <div class="step">
-					        <div class="step-image step-image-4"></div>
-					        <div class="step-header">4.<br/>Ontwerpwedstrijd muurschildering</div>
-					        <p>In Fase 2 mogen alle Amsterdammers een ontwerp insturen voor een muurschildering op de gekozen locatie. Het winnend ontwerp wordt uitgevoerd.</p>
-				        </div>
-			        </div>
 
-	        </div>
+					<table id="howDoesItWork" cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; width:100%;">
+						<tr>
+							<td align="center" valign="middle"><img src="cid:howto-1" width="125" height="70"></td>
+							<td width="20"></td>
+							<td align="center" valign="middle"><img src="cid:howto-2" width="100" height="70"></td>
+							<td width="20"></td>
+							<td align="center" valign="middle"><img src="cid:howto-3" width="49" height="70"></td>
+							<td width="20"></td>
+							<td align="center" valign="middle"><img src="cid:howto-4" width="125" height="68"></td>
+						</tr>
+						<tr>
+					    <td valign="top" class="step-header">1. Insturen locatie met een verhaal</td>
+							<td valign="top" width="20"></td>
+					    <td valign="top" class="step-header">2. Stem op locatie in de Baarsjes</td>
+							<td valign="top" width="20"></td>
+					    <td valign="top" class="step-header">3. Haalbaarheid + keuze locatie</td>
+							<td valign="top" width="20"></td>
+					    <td valign="top" class="step-header">4. Fase 2: Ontwerpwedstrijd</td>
+						</tr>
+					</table>
+					
         </td>
 				<td style="background-color: #f3f3f3;"></td>
       </tr>
@@ -98,21 +155,42 @@
 				<td></td>
 				<td width="560">
           <h4>Gekozen locatie</h4>
-          Het locatievoorstel dat op 10 september 2018 de meeste stemmen voor heeft (nadat de tegen-stemmen eraf zijn gehaald) zal als eerste op haalbaarheid worden gecontroleerd door stadsdeel West. Hierbij zal zowel  gekeken worden naar alle geplaatste argumenten, als naar de technische en financiële haalbaarheid. De winnende locatie zal bekend worden gemaakt op {{DOMAIN}}
+					Het locatievoorstel dat op 3 september 2018 de meeste stemmen voor
+					heeft (nadat de tegen-stemmen eraf zijn gehaald) zal als eerste op
+					haalbaarheid worden gecontroleerd door stadsdeel West. Hierbij zal zowel
+					gekeken worden naar alle geplaatste argumenten, als naar de technische en
+					financiële haalbaarheid. De winnende locatie zal bekend worden gemaakt
+					op <a href="{{fullHost}}">{{DOMAIN}}</a>
           <h4>Campagne tips</h4>
-          <ul class="checkmark-list">
-            <li>Voeg een duidelijke foto toe aan je voorstel zodat het direct duidelijk is om welke locatie het gaat</li>
-            <li>Leg helder uit waarom jouw locatie geschikt is; wat is het verhaal bij deze locatie? Je kunt zelf aanpassingen doen aan je voorstel zo lang er nog geen stemmen of argumenten aan gekoppeld zijn. Toch iets aanpassen? Mail dan naar {{EMAIL}}, dan pakt ons team het zo snel mogelijk op!</li>
-            <li>Bespreek je voorstel indien mogelijk met buurtgenoten of de eigenaar van de locatie. Hoe meer draagvlak er is voor jouw locatie, hoe groter de kans dat het project op jouw locatie kan worden uitgevoerd!</li>
-            <li>Deel de pagina van jouw voorstel via facebook, twitter, email of whatsapp om zo veel mogelijk stemmen voor jouw locatie op te halen</li>
-          </ul>
+
+					<table class="list" cellspacing="0" cellpadding="0" border="0">
+						<tr>
+							<td valign="top" align="left"><img class="bullet" src="cid:bullet"/></td>
+							<td>Voeg een duidelijke foto toe aan je voorstel zodat het direct duidelijk is om welke locatie het gaat</td>
+						</tr>
+						<tr>
+							<td valign="top" align="left"><img class="bullet" src="cid:bullet"/></td>
+							<td>Leg helder uit waarom jouw locatie geschikt is; wat is het verhaal bij deze locatie? Je kunt zelf aanpassingen doen aan je voorstel zo lang er nog geen stemmen of argumenten aan gekoppeld zijn. Toch iets aanpassen? Mail dan naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>, dan pakt ons team het zo snel mogelijk op!</td>
+						</tr>
+						<tr>
+							<td valign="top" align="left"><img class="bullet" src="cid:bullet"/></td>
+							<td>Bespreek je voorstel indien mogelijk met buurtgenoten of de eigenaar van de locatie. Hoe meer draagvlak er is voor jouw locatie, hoe groter de kans dat het project op jouw locatie kan worden uitgevoerd!</td>
+						</tr>
+						<tr>
+							<td valign="top" align="left"><img class="bullet" src="cid:bullet"/></td>
+							<td>Deel de pagina van jouw voorstel via facebook, twitter, email of whatsapp om zo veel mogelijk stemmen voor jouw locatie op te halen</td>
+						</tr>
+					</table>
+
           <h4>Feedback?</h4>
-          Vragen of suggesties over dit project kun je naar <a href="mailto:{{EMAIL}}" style="color: #EC0000">{{EMAIL}}</a> sturen.<br/>
+          Vragen of suggesties over dit project kun je naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> sturen.<br/>
           <br/>
           <strong>Heel veel succes met je campagne!</strong><br/>
           <br/>
           Hartelijke groet,<br/>
           <strong style="color: red;">Team Zorg goed voor onze stad</strong><br/>
+          <br/>
+          <br/>
           <br/>
         </td>
 				<td></td>
@@ -126,7 +204,7 @@
 			<tr>
 				<td></td>
 				<td style=" text-align: center; height: 15px;" width="560">
-          <h4>{{DOMAIN}}</h4>
+          <h4><a href="{{fullHost}}" style="color: black; text-decoration: none;">{{DOMAIN}}</a></h4>
         </td>
 				<td></td>
       </tr>
@@ -134,102 +212,5 @@
 
     <br/><br style="display:block; clear: both;"/>
 
-		<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" id="backgroundTable" style="background-color: #FFF; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px;">
-			<tr>
-				<td width="100%">
-					<!-- ### -->
-					<table class="container" width="100%" align="center" cellpadding="0" cellspacing="0" style="background-color: #FFF; margin-bottom: 40px; max-width: 740px;">
-					<tbody>
-						<tr>
-							<td width="10%">&nbsp;</td>
-							<td width="80%" style="padding-top: 20px;">
-								<img src="cid:logo" height="75" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;">
-							</td>
-							<td width="10%">&nbsp;</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<h2 style="color: black !important; line-height: 1.25em;">
-								Welkom bij {{SITENAME}}!<br>
-								<strong style="color: #EC0000">Bedankt voor je plan.</strong>
-								</h2>
-								
-								<div style="background-image: url('cid:map'); background-position: center; background-repeat: no-repeat; background-size: auto 100%; height: 85px; width: 100%;"></div>
-								
-								<p>
-									<b>Beste {{user.fullName | default('indiener')}},</b>
-								</p>
-								<p>
-									Bedankt voor het plaatsen van jouw voorstel op {{SITENAME}}!
-									Je idee is goed ontvangen en zal de komende 90 dagen beschikbaar
-									zijn op de site voor het verzamelen van stemmen en argumenten.
-									Gedurende deze periode kun je door middel van een (social media)
-									campagne zo veel mogelijk medestanders zien te verzamelen.
-									<a href="{{fullHost}}/plan/{{idea.id}}" target="_blank" style="color: #EC0000">Bekijk hier jouw voorstel</a>.
-								</p>
-								<p align="middle" style="margin: 3em 0 2em 0;">
-									<img src="cid:steps" width="100%" height="auto"
-									     alt="Stap 1: Jouw plan, Stap 2: Voer Campagne, Stap 3: Kom op de Agenda" align="center"
-									     style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none;
-									            text-decoration:none; -ms-interpolation-mode: bicubic;
-									     "
-									>
-								</p>
-								
-								<p>
-									<b>Peildatum</b><br>
-									Heeft jouw voorstel op de peildatum om 16:00 uur de meeste stemmen?
-									Dan krijg je per email een uitnodiging om je voorstel toe te lichten
-									in de vergadering van het Algemeen Bestuur. Voor dit gesprek wordt 45
-									minuten op de agenda gereserveerd, waarna het bestuur een besluit neemt
-									over het voorstel.
-								</p>
-								<p>
-									Elke maand is er een peildatum waarop het idee met de meeste stemmen wordt
-									geselecteerd. Jouw voorstel kan maximaal 3 keer meedingen. <a href="{{fullHost}}#agenda" target="_blank" style="color: #EC0000">Bekijk op de site het kopje 'Agenda'</a>
-									om te weten te komen wanneer de volgende peildatum is.
-								</p>
-								
-								<p style="margin-bottom: 0;">
-									<b>Campagnetips</b><br>
-								</p>
-								
-								<ul style="margin-top: 0px;">
-									<li>Voeg een foto en eventueel een locatie toe aan je voorstel.
-									<li>Zorg ervoor dat je duidelijk ingaat op hetgeen je wilt bereiken of juist voorkomen. Hoe beter je uitleg hoe groter de impact, waardoor je meer buurtgenoten bereikt.
-									<li>Bespreek je voorstel met buurtgenoten. Wellicht zijn er buren die mee willen helpen met jouw voorstel of goede ideeën hebben om het voorstel aan te vullen.
-									<li>Deel de pagina van jouw voorstel via facebook, twitter of email en zorg dat jouw voorstel minimaal 100 stemmen ophaalt en op de peildatum de meeste voor-stemmen heeft.
-								</ul>
-								
-								<p>
-									<b>Je voorstel aanpassen?</b><br>
-									Je kunt zelf je voorstel wijzigen, totdat iemand een stem heeft uitgebracht of een argument heeft toegevoegd.
-									Wil je daarna nog iets veranderen, mail dan naar <a href="mailto:{{EMAIL}}" style="color: #EC0000">{{EMAIL}}</a>.
-									Ons team pakt het zo snel mogelijk op.
-								</p>
-								
-								<p>
-									<b>Heel veel succes met je campagne!</b>
-								</p>
-								
-								<p style="margin-bottom: 3em; margin-top: 2em;">
-									Hartelijke groet,<br>
-									Team {{SITENAME}}
-								</p>
-							</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td colspan="3" style="background-color: #333; padding: 10px 0px; text-align: center;">
-								<a href="{{fullHost}}" target="_blank" style="color: #FFF; text-decoration: none;">{{DOMAIN}}</a>
-							</td>
-						</tr>
-					</tbody>
-					</table>
-					<!-- ### -->
-				</td>
-			</tr>
-		</table>
 	</body>
 </html>

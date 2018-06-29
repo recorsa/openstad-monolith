@@ -27,19 +27,19 @@
 	{% else %}
 		<h2>{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}</h2>
 	{% endif %}
-	
+
+	{% if propName == 'argumentsFor' %}
+		<h2>Argumenten voor</h2>
+	{% else %}
+		<h2>Argumenten tegen</h2>
+	{% endif %}
+
 	{% for arg in arguments %}
 		{% set mayEdit         = user.can('arg:edit', idea, arg) %}
 		{% set mayDelete       = user.can('arg:delete', idea, arg) %}
 		{% set maySeeReplyForm = user.can('arg:reply:form', idea, arg) %}
 		{% set mayReply        = user.can('arg:reply', idea, arg) %}
 
-		{% if propName == 'argumentsFor' %}
-			<h2>Argumenten voor</h2>
-		{% else %}
-			<h2>Argumenten tegen</h2>
-		{% endif %}
-		
 		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
 			<div class="user {{'admin' if arg.user.isAdmin()}}">
 				<strong>
@@ -123,7 +123,7 @@
 			</div>
 		{% endfor %}
 				{% else %}
-		<div class="noArguments">
+		<div class="noArguments" style="margin-top: -2px;">
 			{% if mayAddArg %}
 				Heb je een goed argument {{'voor' if isFor else 'tegen'}}?
 				Laat je stem horen!
