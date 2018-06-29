@@ -275,6 +275,11 @@
 		 
 		 function updateCharsLeft() {
 			 charsLeft.innerHTML = maxLen - textarea.value.length;
+			 if (maxLen >= textarea.value.length) {
+				 charsLeft.style.color = '#9A9A9A';
+			 } else {
+				 charsLeft.style.color = 'red';
+			 }
 		 }
 		</script>
 		
