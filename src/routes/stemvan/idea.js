@@ -649,8 +649,7 @@ function sendThankYouMail( req, idea ) {
 	let attachments;
   // TODO: ff een snelle oplossing één dag voor live; verzin hier iets generieks voor
 	let site = config.get('siteId');
-	console.log(site);
-	if ( site == 'zorggoedvoordestad' ) {
+	if ( site == 'zorggoedvooronzestad' ) {
 		attachments = [{
 			filename : 'email.kaart.png',
 			path     : 'img/eberhardvanderlaan/email.kaart.png',
