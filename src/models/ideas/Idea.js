@@ -105,7 +105,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
-			allowNull    : true
+			allowNull    : !config.get('ideas.location.isMandatory'),
 		},
 
 		modBreak: {

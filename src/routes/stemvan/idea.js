@@ -98,7 +98,8 @@ module.exports = function( app ) {
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
-					req.flash('error', error.message);
+					// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
+					req.flash('error', error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 				});
 				res.out('ideas/form', false, {
 					showForm        : true,
@@ -136,7 +137,8 @@ module.exports = function( app ) {
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
-					req.flash('error', error.message);
+					// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
+					req.flash('error', error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 				});
 				res.out('ideas/form', false, {
 					showForm        : true,

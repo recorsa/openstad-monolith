@@ -127,7 +127,11 @@
 		"anonimizeThreshold": 180,
 		// Minimum number of votes before it influences the date sorting of
 		// and idea's arguments.
-		"argumentVoteThreshold": 0
+		"argumentVoteThreshold": 0,
+    "location": {
+			// Is location a mandatory field
+      "isMandatory": false
+    }
 	},
 	
 	"polls": {
