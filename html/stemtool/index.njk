@@ -152,199 +152,209 @@
 	{{ renderArgumentLists(user, idea, '#arguments .argList') }}
 
 	<script>
-		(function( global ) {
-			var lessThenStarsClassName = 'less-then-stars-error';
-			var noStarsErrorClassName  = 'no-stars-error';
-			var maxChecked             = {{config.poll.maxChoices}};
+	 (function( global ) {
+		 var lessThenStarsClassName = 'less-then-stars-error';
+		 var noStarsErrorClassName  = 'no-stars-error';
+		 var maxChecked             = {{config.poll.maxChoices}};
+		 var switchOrError          = '{{config.poll.switchOrError}}';
 
-			// Voting form
-			// -----------
-			var voteForm = document.getElementById('vote-form');
-			if( voteForm ) {
-				// Validate...
-				voteForm.addEventListener('submit', function( event ) {
-					var validated     = true;
-					var form          = this;
-					var lessThenStars = hasClass(form, lessThenStarsClassName);
-					var checkedCount  = getGiveVoteCount();
-					
-					$('#vote-form .validate-postcode').forEach(function( inputContainer ) {
-						if( !validatePostcodeFormField(inputContainer) ) {
-							validated = false;
-						}
-					});
-					// Respond to voting errors.
-					if( checkedCount === 0 ) {
-						clearClassesVoteForm();
-						form.classList.add(noStarsErrorClassName);
-						validated = false;
-					} else if( checkedCount < maxChecked && !lessThenStars ) {
-						clearClassesVoteForm();
-						form.classList.add(lessThenStarsClassName);
-						validated = false;
-					}
+		 // Voting form
+		 // -----------
+																	var voteForm = document.getElementById('vote-form');
+		 if( voteForm ) {
+			 // Validate...
+				 voteForm.addEventListener('submit', function( event ) {
+					 var validated     = true;
+					 var form          = this;
+					 var lessThenStars = hasClass(form, lessThenStarsClassName);
+					 var checkedCount  = getGiveVoteCount();
+					 
+					 $('#vote-form .validate-postcode').forEach(function( inputContainer ) {
+						 if( !validatePostcodeFormField(inputContainer) ) {
+							 validated = false;
+						 }
+					 });
+					 // Respond to voting errors.
+						 if( checkedCount === 0 ) {
+							 clearClassesVoteForm();
+							 form.classList.add(noStarsErrorClassName);
+							 validated = false;
+						 } else if( checkedCount < maxChecked && !lessThenStars ) {
+							 clearClassesVoteForm();
+							 form.classList.add(lessThenStarsClassName);
+							 validated = false;
+						 }
 
-					if( !validated ) {
-						event.preventDefault();
-					} else {
-						setFormSendingToDisabled(form);
-					}
-				});
-				// ... and make voting options interactive.
-				$('#vote-form .concept-label').forEach(function( label, i ) {
-					var checkBox = document.getElementById(label.getAttribute('for'));
-					
-					checkBox.addEventListener('change', function( event ) {
-						addUnavailableClass();
-						clearClassesVoteForm();
-					});
-					label.addEventListener('click', function( event ) {
-						var checkedCount = getGiveVoteCount();
-						
-						// Respond to voting error.
-						if( !checkBox.checked && checkedCount >= maxChecked ) {
-							event.preventDefault();
-							clearVoteErrors();
-							label.classList.add('error');
-						} else {
-							clearVoteErrors();
-						}
-					})
-				});
-			}
-			
-			// New argument form
-			// -----------------
-			// - Character count on 'new argument' forms.
-			// - Validation.
-			//
-			// HACK: `renderForm` is defined in the scripts coming from
-			// `arguments.renderLists()` above.
-			$('#arguments form.newArgument').forEach(function( form ) {
-				renderForm(form);
-				
-				form.addEventListener('submit', function( event ) {
-					var validated = true;
+					 if( !validated ) {
+						 event.preventDefault();
+					 } else {
+						 setFormSendingToDisabled(form);
+					 }
+				 });
+			 // ... and make voting options interactive.
+				 $('#vote-form .concept-label').forEach(function( label, i ) {
 
-					$('.validate-text-required').forEach(function( inputContainer ) {
-						if( !validateRequiredTextField(inputContainer) ) {
-							validated = false;
-						}
-					});
-					$('#new-argument-form .validate-postcode').forEach(function( inputContainer ) {
-						if( !validatePostcodeFormField(inputContainer) ) {
-							validated = false;
-						}
-					});
+					 var checkBox = document.getElementById(label.getAttribute('for'));
+					 
+					 checkBox.addEventListener('change', function( event ) {
+						 addUnavailableClass();
+						 clearClassesVoteForm();
+					 });
+					 label.addEventListener('click', function( event ) {
 
-					if( !validated ) {
-						event.preventDefault();
-					} else {
-						setFormSendingToDisabled(this);
-					}
-				});
-			});
-			
-			// Field error clearing
-			// --------------------
-			// Clear the visual field errors when the user has corrected
-			// the mistake.
-			$('.validate-text-required').forEach(function( inputContainer ) {
-				inputContainer.addEventListener('keyup', function() {
-					if( hasClass(inputContainer, 'error') ) {
-						validateRequiredTextField(inputContainer);
-					}
-				});
-			});
-			$('.validate-postcode').forEach(function( inputContainer ) {
-				inputContainer.addEventListener('keyup', function() {
-					if( hasClass(inputContainer, 'error') ) {
-						validatePostcodeFormField(inputContainer);
-					}
-				});
-			});
-			
-			// Functions called from the HTML
-			// ------------------------------
-			global.argumentsLinkClick = function( order ) {
-				document.getElementById('filter-arguments-option-'+order).click();
-			}
-			
-			// Helper functions
-			// ----------------
-			
-			function validatePostcodeFormField( inputContainer ){
-				var inputEl = inputContainer.querySelector('input');
-				 if( validatePostcode(inputEl.value) ) {
+						 // deselect existing; TODO: wat doe je hier als aantal groter dan 1
+						 if (switchOrError == 'switch') {
+							 $('#vote-form input[type="checkbox"]').forEach(function(checkbox) {
+								 checkbox.checked = false;
+							 })
+						 }
+
+						 var checkedCount = getGiveVoteCount();
+						 
+						 // Respond to voting error.
+							 if( !checkBox.checked && checkedCount >= maxChecked ) {
+								 event.preventDefault();
+								 clearVoteErrors();
+								 label.classList.add('error');
+							 } else {
+								 clearVoteErrors();
+							 }
+					 })
+				 });
+		 }
+		 
+		 // New argument form
+		 // -----------------
+																								 // - Character count on 'new argument' forms.
+			 // - Validation.
+			 //
+		 // HACK: `renderForm` is defined in the scripts coming from
+		 // `arguments.renderLists()` above.
+			 $('#arguments form.newArgument').forEach(function( form ) {
+				 renderForm(form);
+				 
+				 form.addEventListener('submit', function( event ) {
+					 var validated = true;
+
+					 $('.validate-text-required').forEach(function( inputContainer ) {
+						 if( !validateRequiredTextField(inputContainer) ) {
+							 validated = false;
+						 }
+					 });
+					 $('#new-argument-form .validate-postcode').forEach(function( inputContainer ) {
+						 if( !validatePostcodeFormField(inputContainer) ) {
+							 validated = false;
+						 }
+					 });
+
+					 if( !validated ) {
+						 event.preventDefault();
+					 } else {
+						 setFormSendingToDisabled(this);
+					 }
+				 });
+			 });
+		 
+		 // Field error clearing
+		 // --------------------
+																								 // Clear the visual field errors when the user has corrected
+		 // the mistake.
+			 $('.validate-text-required').forEach(function( inputContainer ) {
+				 inputContainer.addEventListener('keyup', function() {
 					 if( hasClass(inputContainer, 'error') ) {
-							inputContainer.classList.remove('error');
-							inputContainer.classList.add('success');
-						}
-					return true;
-				} else {
-					inputContainer.classList.add('error');
-					inputContainer.classList.remove('success');
-					return false;
-				}
-			}
+						 validateRequiredTextField(inputContainer);
+					 }
+				 });
+			 });
+		 $('.validate-postcode').forEach(function( inputContainer ) {
+			 inputContainer.addEventListener('keyup', function() {
+				 if( hasClass(inputContainer, 'error') ) {
+					 validatePostcodeFormField(inputContainer);
+				 }
+			 });
+		 });
+		 
+		 // Functions called from the HTML
+		 // ------------------------------
+																								 global.argumentsLinkClick = function( order ) {
+																									 document.getElementById('filter-arguments-option-'+order).click();
+																								 }
+		 
+		 // Helper functions
+		 // ----------------
+																																						 
+																																						 function validatePostcodeFormField( inputContainer ){
+																																							 var inputEl = inputContainer.querySelector('input');
+																																							 if( validatePostcode(inputEl.value) ) {
+																																								 if( hasClass(inputContainer, 'error') ) {
+																																									 inputContainer.classList.remove('error');
+																																									 inputContainer.classList.add('success');
+																																								 }
+																																								 return true;
+																																							 } else {
+																																								 inputContainer.classList.add('error');
+																																								 inputContainer.classList.remove('success');
+																																								 return false;
+																																							 }
+																																						 }
 
-			function validatePostcode( postcode ) {
-			  var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
-			  return rege.test(postcode);
-			}
+		 function validatePostcode( postcode ) {
+			 var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+			 return rege.test(postcode);
+		 }
 
-			function validateRequiredTextField( inputContainer ){
-				var inputEl = inputContainer.querySelector('input');
-				if( inputEl.value.length > 0 ) {
-					if( hasClass(inputContainer, 'error') ) {
-						inputContainer.classList.remove('error');
-						inputContainer.classList.add('success');
-					}
+		 function validateRequiredTextField( inputContainer ){
+			 var inputEl = inputContainer.querySelector('input');
+			 if( inputEl.value.length > 0 ) {
+				 if( hasClass(inputContainer, 'error') ) {
+					 inputContainer.classList.remove('error');
+					 inputContainer.classList.add('success');
+				 }
 
-					return true;
-				} else {
-					inputContainer.classList.add('error');
-					inputContainer.classList.remove('success');
-					return false;
-				}
-			}
+				 return true;
+			 } else {
+				 inputContainer.classList.add('error');
+				 inputContainer.classList.remove('success');
+				 return false;
+			 }
+		 }
 
-			function getGiveVoteCount() {
-				return $('#vote-form input[type="checkbox"]:checked').length;
-			}
+		 function getGiveVoteCount() {
+			 return $('#vote-form input[type="checkbox"]:checked').length;
+		 }
 
-			function clearVoteErrors() {
-				$('#vote-form .concept-label').forEach(function( label ) {
-					label.classList.remove('error');
-				});
-			}
+		 function clearVoteErrors() {
+			 $('#vote-form .concept-label').forEach(function( label ) {
+				 label.classList.remove('error');
+			 });
+		 }
 
-			function getVoteForm() {
-				return document.getElementById('vote-form');
-			}
+		 function getVoteForm() {
+			 return document.getElementById('vote-form');
+		 }
 
-			function clearClassesVoteForm() {
-				getVoteForm().classList.remove(lessThenStarsClassName);
-				getVoteForm().classList.remove(noStarsErrorClassName);
-			}
+		 function clearClassesVoteForm() {
+			 getVoteForm().classList.remove(lessThenStarsClassName);
+			 getVoteForm().classList.remove(noStarsErrorClassName);
+		 }
 
-			function addUnavailableClass() {
-				$('#vote-form .concept-label').forEach(function( label ) {
-					var checkedCount = getGiveVoteCount();
-					var itsCheckbox  = document.getElementById(label.getAttribute('for'));
+		 function addUnavailableClass() {
+			 $('#vote-form .concept-label').forEach(function( label ) {
+				 var checkedCount = getGiveVoteCount();
+				 var itsCheckbox  = document.getElementById(label.getAttribute('for'));
 
-					/** Add class for when it's unavailable for voting. **/
-					if( (checkedCount ) >= maxChecked && !itsCheckbox.checked ) {
-						label.classList.add('unavailable');
-					} else {
-						label.classList.remove('unavailable');
-					}
-				});
-			}
+				 /** Add class for when it's unavailable for voting. **/
+				 if( (checkedCount ) >= maxChecked && !itsCheckbox.checked && switchOrError != 'switch' ) {
+					 label.classList.add('unavailable');
+				 } else {
+					 label.classList.remove('unavailable');
+				 }
+			 });
+		 }
 
-			function hasClass( target, className ) {
-				return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
-			}
-		})(this);
+		 function hasClass( target, className ) {
+			 return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+		 }
+	 })(this);
 	</script>
 {% endblock %}

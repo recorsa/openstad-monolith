@@ -153,6 +153,51 @@ header {
 			top: 8px;*/
 		}
 	}
+
+	@media @phone {
+		a {
+			display: block;
+			position: relative;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 63px;
+		}
+	}
+
+	h1 {
+		font-size: 28px;
+		left: 170px;
+		right: 0;
+		width: initial;
+		max-width: initial;
+		text-align: left;
+		font-size: 28px;
+		line-height: 1em;
+
+		@media @phone {
+			position: absolute;
+			left: auto;
+			right: 0;
+			top: 0;
+			display: table;
+			height: 100%;
+			padding: 0;
+
+			span {
+				height: 100%;
+				margin: 0;
+				display: table-cell;
+				text-align: right;
+				vertical-align: middle;
+				font-size: 16px;
+				line-height: 1.25;
+			}
+
+		}
+			
+	}
+
 }
 
 #mainMenu {

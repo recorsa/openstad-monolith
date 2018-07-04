@@ -29,10 +29,10 @@
 		}
 	},
 	
-	// These settings are passed directly to the nunjucks template.
 	"stemtool": {
 		"poll": {
-			"maxChoices": 3
+			"maxChoices": 3,
+			"switchOrError": "error"
 		}
 	}
 }
