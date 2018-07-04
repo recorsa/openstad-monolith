@@ -22,18 +22,18 @@
 
 				<span class="select-wrapper">
 					<select name="label" class="argument-textarea variant-selector">
-					{% for option in poll.options %}
-						<option value="{{option.order}}">{{option.title}}</option>
-					{% endfor %}
+						{% for option in poll.options %}
+							<option value="{{option.order}}">{{option.title}}</option>
+						{% endfor %}
 					</select>
 				</span>
 
 				omdat...
 			</div>
 			<textarea
-				class="textarea margin-hor-s block argument-textarea"
-				name="description"
-				placeholder="Ik heb gestemd op A, omdat..."
+			class="textarea margin-hor-s block argument-textarea"
+			name="description"
+			placeholder="Ik heb gestemd op A, omdat..."
 			></textarea>
 
 			<div class="charsLeft margin-bottom-s">
@@ -45,33 +45,33 @@
 				<div class="col-7 col-xs-12">
 					<br class="visible-xs" />
 
-					{% if nickName %}
-					<span class="name-label"> <strong> Naam: </strong> {{nickName}} </span>
+					{% if user.nickName %}
+						<span class="name-label"> <strong> Naam: </strong> {{user.nickName}} </span>
 					{% else %}
 
-					<div class="form-field-container validate-text-required  ">
-						 Naam: <br />
+						<div class="form-field-container validate-text-required  ">
+							Naam: <br />
 
-						 <div class="label-error margin-hor-xs">
-								 Je hebt geen naam opgegeven.
-						 </div>
+							<div class="label-error margin-hor-xs">
+								Je hebt geen naam opgegeven.
+							</div>
 
-						<input type="text" name="nickName" class="input-field stretch">
-					</div>
+							<input type="text" name="nickName" class="input-field stretch">
+						</div>
 					{% endif %}
 					&nbsp;
 				</div>
 				<div class="col-5 col-xs-12">
-				{% if not zipCode %}
-					<div class="form-field-container validate-postcode margin-top-m" >
-						 Postcode: <br />
+					{% if not user.zipCode %}
+						<div class="form-field-container validate-postcode margin-top-m" >
+							Postcode: <br />
 
-						 <div class="label-error margin-hor-xs">
-								 Een geldige postcode is vereist.
-						 </div>
+							<div class="label-error margin-hor-xs">
+								Een geldige postcode is vereist.
+							</div>
 
-						<input type="text" name="zipCode" class="input-field stretch">
-					</div>
+							<input type="text" name="zipCode" class="input-field stretch">
+						</div>
 					{% endif %}
 					<br class="clearfix" />
 					<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verzenden" />
