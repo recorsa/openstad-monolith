@@ -18,6 +18,7 @@
 				"./routes/stemtool/newsletter",
 				"./routes/stemtool/logout",
 				"./routes/stemtool/idea",
+				"./routes/stemtool/account",
 				"./routes/dev"
 			]
 		}

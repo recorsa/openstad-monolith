@@ -515,8 +515,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				include: [{
 					model      : db.AgendaItem,
 					as         : 'agenda',
-					attributes : ['startDate', 'endDate', 'description', 'actionText', 'actionURL'],
-					required   : false
+					required   : false,
+					separate   : true,
+					order      : [
+            ['startDate', 'ASC']
+					]
 				}]
 			}
 		}
