@@ -55,71 +55,66 @@ module.exports = function( app ) {
 		var fs       = require('fs');
 		var nunjucks = require('nunjucks');
 		
-	var data    = {
-		date     : new Date(),
-		user     : req.user,
-		idea     : { id: 24 },
-		fullHost : req.protocol+'://'+req.hostname
-	};
-	var html = nunjucks.render('email/idea_created.njk', data);
-	var text = 'whatever'
-
-	let attachments;
-  // TODO: ff een snelle oplossing één dag voor live; verzin hier iets generieks voor
-	let site = config.get('siteId');
-	console.log(site);
-	if ( site == 'zorggoedvoordestad' ) {
-		attachments = [{
-			filename : 'email.kaart.png',
-			path     : 'img/eberhardvanderlaan/email.kaart.png',
-			cid      : 'kaart'
-		}, {
-			filename : 'logo.svg',
-			path     : 'img/logo-gemeenteams-webapplicaties.svg',
-			cid      : 'logo'
-		}, {
-			filename : 'howto-1.png',
-			path     : 'img/eberhardvanderlaan/howto-1.png',
-			cid      : 'howto-1'
-		}, {
-			filename : 'howto-2.png',
-			path     : 'img/eberhardvanderlaan/howto-2.png',
-			cid      : 'howto-2'
-		}, {
-			filename : 'howto-3.png',
-			path     : 'img/eberhardvanderlaan/howto-3.png',
-			cid      : 'howto-3'
-		}, {
-			filename : 'howto-4.png',
-			path     : 'img/eberhardvanderlaan/howto-4.png',
-			cid      : 'howto-4'
-		}, {
-			filename : 'bullet.png',
-			path     : 'img/eberhardvanderlaan/bullet.png',
-			cid      : 'bullet'
-		}]
-	} else {
-		attachments = [{
-			filename : 'logo@2x.png',
-			path     : 'img/email/logo@2x.png',
-			cid      : 'logo'
-		}, {
-			filename : 'map@2x.png',
-			path     : 'img/email/map@2x.png',
-			cid      : 'map'
-		}, {
-			filename : 'steps@2x.png',
-			path     : 'img/email/steps@2x.png',
-			cid      : 'steps'
-		}]
-	}
-
-	mail.sendMail({
-		to          : req.user.email,
-		subject     : 'Bedankt voor je voorstel',
-		html        : html,
-		text        : text,
-		attachments : attachments,
+		var data     = {
+			complete : 'complete' in req.query,
+			date     : new Date(),
+			token    : 'temp',
+			userId   : req.user.id,
+			ref      : req.query.ref,
+			assets   : {
+				arg: [{
+					instance: {
+						user        : {nickName: 'Daan Mortier'},
+						updatedAt   : new Date(),
+						label       : 'A',
+						description : 
+							`Dit is een test argument.`
+					}
+				}, {
+					instance: {
+						user        : {nickName: 'Michael de Paikel'},
+						updatedAt   : new Date(),
+						label       : 'B',
+						description : 
+							`En dit is nogmaals een test argument met iets meer
+							inhoud dan het vorige bericht. Op deze manier is beter
+							te zien hoe de layout zich om de tekst vormt.`
+					}
+				}]
+			}
+		};
+		var content  = nunjucks.render('email/'+req.params.page+'.njk', data);
+		
+		if( 'send' in req.query ) {
+			mail.sendMail({
+				to          : 'tjoekbezoer@gmail.com',
+				subject     : 'Bedankt voor je voorstel',
+				html        : content,
+				// text        : nunjucks.render('email/login_link_text.njk', data),
+				attachments : [{
+					filename : 'logo@2x.png',
+					path     : 'img/email/logo@2x.png',
+					cid      : 'logo'
+				}, {
+					filename : 'map@2x.png',
+					path     : 'img/email/map@2x.png',
+					cid      : 'map'
+				}, {
+					filename : 'steps@2x.png',
+					path     : 'img/email/steps@2x.png',
+					cid      : 'steps'
+				}]
+			});
+		}
+		
+		res.send(content);
 	});
+	
+	router.get('/send_notifications', function( req, res, next ) {
+		var notifications = require('../notifications');
+		notifications.publications.forEach(function( pub ) {
+			pub.processQueue();
+		});
+		res.send('Done');
 	});
 }

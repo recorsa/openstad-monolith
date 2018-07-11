@@ -1,0 +1,36 @@
+{% if can('idea:admin') %}
+<a href="/plan/{{idea.id}}/votes" class="votes btn block margin-bottom-sm">
+	Sterrenoverzicht
+</a>
+{% endif %}
+
+{% include 'includes/secondary/speech-bubble.njk' %}
+
+<a href="#vote" class="margin-bottom-xs scroll-link block no-decoration" >
+	<span class="box-blue block">
+		{{numberPlate(poll.totalVoteCount)}}
+		stemmen
+	</span>
+</a>
+
+<a href="#arguments" class="margin-bottom-sm scroll-link block no-decoration">
+	<span class="box-blue block">
+		{{numberPlate(idea.argCount)}}
+		reacties
+	</span>
+</a>
+
+<a href="#vote" class="box-grey-img scroll-link margin-bottom-sm">
+	<img src="/img/stemtool/stars.svg" />
+	Stem ook!
+</a>
+
+<a href="#arguments" class="box-grey-img scroll-link margin-bottom-sm">
+	<img src="/img/stemtool/comments.svg" />
+	Lees reacties
+</a>
+
+<a href="{{GLOBALS.projectPage}}" class="box-grey-img margin-bottom-sm" target="_blank">
+	<img src="/img/stemtool/info.svg" />
+	Lees meer op amsterdam.nl
+</a>

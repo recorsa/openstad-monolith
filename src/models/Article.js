@@ -82,6 +82,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 		date: {
 			type         : DataTypes.DATE,
 			allowNull    : true,
+			set(date) {
+				this.setDataValue('date', (date => {
+					try {
+						date = new Date(date).toISOString();
+					} catch(err) {
+						date = new Date().toISOString();
+					}
+					return date;
+				})(date));
+			}
 		}
 	}, {
 		classMethods: {

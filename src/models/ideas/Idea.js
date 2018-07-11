@@ -350,6 +350,26 @@ module.exports = function( db, sequelize, DataTypes ) {
 			setStatus: function( status ) {
 				return this.update({status: status});
 			},
+			setMeetingId: function( meetingId ) {
+				meetingId = ~~meetingId || null;
+				
+				return db.Meeting.findById(meetingId)
+				.bind(this)
+				.tap(function( meeting ) {
+					if( !meetingId ) {
+						return;
+					} else if( !meeting ) {
+						throw Error('Vergadering niet gevonden');
+					} else if( meeting.finished ) {
+						throw Error('Vergadering ligt in het verleden');
+					} else if( meeting.type == 'selection' ) {
+						throw Error('Agenderen op een peildatum is niet mogelijk');
+					}
+				})
+				.then(function() {
+					return this.update({meetingId});
+				});
+			},
 
 			updateImages: function( imageKeys ) {
 				var self = this;
@@ -508,8 +528,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				include: [{
 					model      : db.AgendaItem,
 					as         : 'agenda',
-					attributes : ['startDate', 'endDate', 'description', 'actionText', 'actionURL'],
-					required   : false
+					required   : false,
+					separate   : true,
+					order      : [
+            ['startDate', 'ASC']
+					]
 				}]
 			}
 		}

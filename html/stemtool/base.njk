@@ -8,7 +8,7 @@
 
 	<meta name="viewport" content="initial-scale=1">
 	{% block head %}
-	<link rel="stylesheet" type="text/css" media="all"   href="/css/stemtool/all.css">
+	<link rel="stylesheet" type="text/css" media="all" href="/css/stemtool/all.css">
 	{% endblock %}
 </head>
 <body class="preload">
@@ -21,7 +21,7 @@
 					Amsterdam
 				</div>
 
-				<h1>Javabrug over het IJ</h1>
+				<h1><span>{{SITENAME}}</span></h1>
 			</a>
 		</header>
 
@@ -203,7 +203,7 @@
 		// logout button
 		// -------------
 		if (document.cookie.search(/showLogoutButton=true/) != -1) {
-			let button = document.createElement('a');
+			var button = document.createElement('a');
 			button.href = '/logout';
 			button.textContent = "Start nieuwe sessie";
 			document.getElementById('logoutButton').appendChild(button);

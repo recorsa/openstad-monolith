@@ -1,0 +1,150 @@
+{% extends 'base.njk' %}
+{% set pageTitle = 'Agenda bewerken' %}
+{% set contentClass = 'admin' %}
+{% from 'partials/agenda-items.njk' import agenda %}
+
+{% block content %}
+	<div class="primary">
+		<h2 style="margin-top: 0;">Agenda bewerken</h2>
+		<div class="controls" style="text-align: left;">
+			<form action="/agenda/new" method="post">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+				<input type="date" name="date" required pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd">
+				<select name="type">
+					<option value="selection">Peildatum</option>
+					<option value="meeting">Vergadering</option>
+				</select>
+				<input type="submit" value="Datum toevoegen" class="default">
+			</form>
+		</div>
+
+		<table id="meetings" style="margin: 0 20px 0 0;">
+			<thead>
+				<tr>
+					<th>Datum</th>
+					<th>Type</th>
+					<th>Geagendeerde ideeën</th>
+					<th>Zichtbaar (*)</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for meeting in meetings %}
+					<tr id="data-{{meeting.id}}" class="{{'finished' if meeting.finished}}">
+						<td>{{meeting.date | date('D MMMM YYYY')}}</td>
+						<td>{{'Peildatum' if meeting.type == 'selection' else 'Vergadering'}}</td>
+						<td>
+							<ul>
+								{% for idea in meeting.ideas %}
+									<li><a href="/idea/{{idea.id}}">{{idea.title}}</a>
+								{% else %}
+										{% if meeting.type == 'meeting' %}
+											<i>Geen geagendeerde ideeën</i>
+										{% endif %}
+								{% endfor %}
+							</ul>
+						</td>
+						<td align="center">
+							<form id="toggle-force-show-form-{{meeting.id}}" class="action edit" method="post" action="/agenda/{{meeting.id}}/toggleForceShow" data-meeting="{{meeting.id}}">
+								<input type="hidden" name="_method" value="PUT">
+								<input type="hidden" name="_csrf" value="{{csrfToken}}">
+								<input type="checkbox" {% if meeting.forceShow %}checked="true"{% endif %} onchange="document.getElementById('toggle-force-show-form-{{meeting.id}}').submit();"/>
+							</form>
+							<script>
+							 let limited = [];
+							 for(var i = 0; i < meetings.length; i++) {
+								 if (meetings[i].forceShow || ( new Date(meetings[i].date).getTime() > Date.now() && limit > 0 )) {
+									 limited.push( meetings[i] );
+								 }
+								 if (!meetings[i].forceShow && new Date(meetings[i].date).getTime() > Date.now()) {
+									 limit--;
+									 meetings[i].selectedAutomatically = true;
+								 }
+							 }
+							 return limited;
+							</script>
+						</td>
+						<td  style="min-width: 75px;">
+							<form class="action edit" method="GET" action="/agenda/{{meeting.id}}" data-meeting="{{meeting.id}}">
+								<input type="submit" class="default edit" value="bewerken" title="Vergadering bewerken">
+							</form>
+							
+							{% if not meeting.ideas.length %}
+								<form class="action delete" method="POST" action="/agenda/{{meeting.id}}">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="_csrf" value="{{csrfToken}}">
+									<input type="submit" class="default delete" value="verwijderen" title="Vergadering verwijderen">
+								</form>
+							{% endif %}
+						</td>
+					</tr>
+					
+					<tr id="form-{{meeting.id}}" class="hidden">
+						<td colspan="4">
+							<form action="/agenda/{{meeting.id}}" method="post">
+								<input type="hidden" name="_method" value="PUT">
+								<input type="hidden" name="_csrf" value="{{csrfToken}}">
+								
+								<input type="date" name="date"
+								required pattern="\d{4}-\d{1,2}-\d{1,2}" placeholder="yyyy-mm-dd"
+								value="{{meeting.date | date('YYYY-MM-DD')}}"
+								>
+								<select name="type">
+									<option value="selection" {{'SELECTED' if meeting.type=='selection'}}>Peildatum</option>
+									<option value="meeting"   {{'SELECTED' if meeting.type=='meeting'}}>Vergadering</option>
+								</select>
+								
+								<button type="submit">Opslaan</button>
+								<button type="reset" class="cancel">Annuleren</button>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div>
+			<br/>
+			(*) De eerst komende 4 (peil/vergader)data worden altijd getoond.<br/>
+			Daarnaast worden alle items getoond waarbij een extra vinkje is gezet.
+		</div>
+	</div>
+
+	<div class="secondary">
+		{{ agenda(upcomingMeetings, user, true) }}
+	</div>
+{% endblock %}
+
+
+{% block scripts %}
+	<script>
+	 $('form.edit').forEach(function( form ) {
+		 var meetingId = form.getAttribute('data-meeting');
+		 var dataRow   = document.querySelector('#data-'+meetingId);
+		 var formRow   = document.querySelector('#form-'+meetingId);
+		 
+		 // Enable interaction to...
+			 // ... show edit form...
+			 form.addEventListener('submit', function( event ) {
+				 event.preventDefault();
+				 dataRow.classList.toggle('hidden');
+				 formRow.classList.toggle('hidden');
+			 });
+		 // ... and hide edit form.
+			 formRow.querySelector('button.cancel').addEventListener('click', function( event ) {
+				 dataRow.classList.toggle('hidden');
+				 formRow.classList.toggle('hidden');
+			 });
+	 });
+	 
+	 $('form.delete').forEach(function( form ) {
+		 form.addEventListener('submit', function( event ) {
+			 var msg = 'Let op! Je staat op het punt een vergadering te verwijderen. '+
+			           'Dit kan niet ongedaan gemaakt worden.\n\n'+
+			           'Weet je het zeker?';
+			 if( !confirm(msg) ) {
+				 event.preventDefault();
+			 }
+		 });
+	 });
+	</script>
+{% endblock %}

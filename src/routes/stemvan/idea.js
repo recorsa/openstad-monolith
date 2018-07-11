@@ -30,7 +30,7 @@ module.exports = function( app ) {
 			sort             : sort,
 			runningIdeas     : db.Idea.getRunning(sort),
 			highlightedIdeas : db.Idea.getHighlighted(),
-			upcomingMeetings : db.Meeting.getUpcoming(3)
+			upcomingMeetings : db.Meeting.getUpcoming()
 		};
 		
 		Promise.props(data)
@@ -67,11 +67,16 @@ module.exports = function( app ) {
 	.all(fetchVoteForUser)
 	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
 	.get(function( req, res, next) {
-		res.out('ideas/idea', true, {
-			idea      : req.idea,
-			userVote  : req.vote,
-			csrfToken : req.csrfToken()
-		});
+		db.Meeting.getSelectable(req.idea)
+		.then(function( meetings ) {
+			res.out('ideas/idea', true, {
+				idea               : req.idea,
+				userVote           : req.vote,
+				selectableMeetings : meetings,
+				csrfToken          : req.csrfToken()
+			});
+		})
+		.catch(next);
 	});
 	
 	// Create idea
@@ -422,6 +427,20 @@ module.exports = function( app ) {
 		idea.setStatus(req.body.status)
 		.then(function() {
 			res.success('/plan/'+idea.id, {idea: idea});
+		})
+		.catch(next);
+	});
+	
+	// Admin: Change meeting connection
+	// --------------------------------
+	router.route('/:ideaId/meeting')
+	.all(fetchIdea())
+	.all(auth.can('idea:admin'))
+	.put(function( req, res, next ) {
+		var idea = req.idea;
+		idea.setMeetingId(req.body.meetingId)
+		.then(function() {
+			res.success('/plan/'+idea.id, {idea});
 		})
 		.catch(next);
 	});

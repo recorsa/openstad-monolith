@@ -1,0 +1,32 @@
+{% macro agenda(items, user, isPreview) %}
+	<div id="agenda">
+		<h2>Agenda {% if isPreview %}preview{% endif %}</h2>
+		<div class="agenda">
+			{% for item in items %}
+				<div class="box-grey agenda-{{item.type}}">
+					<h3 class="margin-top-0 margin-bottom-xs h3">
+						{{item.date | date('D MMMM YYYY')}}
+					</h3>
+					<div class="agenda-item-description">{{'Peildatum' if item.type == 'selection' else 'Vergadering'}}</div>
+					<ul>
+						{% for idea in item.ideas %}
+							<li><a href="/plan/{{idea.id}}" title="{{idea.title}}">
+								{{idea.title}}
+							</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% else %}
+				<div class="agenda-item-description">Geen vergaderingen ingepland.</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% if user.can('agenda:admin') and not isPreview %}
+		<form action="/agenda">
+			<button type="submit" class="edit">Bewerk agenda</button>
+		</form>
+	{% endif %}
+	<br/>
+	<br/>
+{% endmacro %}
+`

@@ -8,14 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{'Nieuw artikel' if not article.id else 'Bewerk artikel'}}</h1>
-
-{% if showForm %}
-	<form id="posterImageUpload" action="/image"
-	      {% if article.posterImage %}
-	      style="background-image: url('/image/{{article.posterImage.key}}');"
-	      {% endif %}
-	>
+	<h1>{{'Nieuw artikel' if not article.id else 'Bewerk artikel'}}</h1>
+	
+	{% if showForm %}
+		<form id="posterImageUpload" action="/image" style="background-image: url('{% if article.posterImage %}/image/{{article.posterImage.key}}{% else %}/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}{% endif %}');">
 		<div class="progress"><div class="bar"></div></div>
 		<button type="button">Verwijder afbeelding<!-- Also set in JS --></button>
 	</form>
@@ -98,11 +94,15 @@
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</div>
 		
-		<input type="submit" value="Artikel opslaan en bekijken">
-		<div class="form-extra-help-text" style="clear: both;">
-			Let op: dit artikel wordt pas gepubliceerd als je dat op de volgende pagina bevestigt!
-		</div>
-  </div>
+		{% if article.id %}
+			<input type="submit" value="Wijzigingen opslaan">
+		{% else %}
+			<input type="submit" value="Artikel opslaan en bekijken">
+			<div class="form-extra-help-text" style="clear: both;">
+				Let op: dit artikel wordt pas gepubliceerd als je dat op de volgende pagina bevestigt!
+			</div>
+		{% endif %}
+</div>
 
   <div class="secondary">
   

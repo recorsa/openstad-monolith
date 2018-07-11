@@ -42,7 +42,7 @@ addApp('stemvan', [{
 	appName    : 'stem-zuid',
 	deployName : 'production_zuid',
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
-	ref        : 'origin/projects/article-editor'
+	ref        : 'origin/staging'
 }, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
@@ -60,6 +60,11 @@ addApp('stemtool', [{
 	deployName : 'production_javabrug',
 	remotePath : '/var/www/javabrug.amsterdam.nl/www',
 	ref        : 'origin/production'
+}, {
+	appName    : 'stemtool-kareldoorman',
+	deployName : 'production_kareldoorman',
+	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
+	ref        : 'origin/staging'
 }]);
 
 module.exports = config;

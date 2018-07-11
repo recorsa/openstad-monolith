@@ -1,76 +1,219 @@
 {% extends 'base.njk' %}
 {% import 'includes/secondary.njk' as sec %}
+{% from 'partials/agenda-items.njk' import agenda %}
 
 {% set activeMenu   = 'about' %}
 {% set pageTitle    = 'De stadsdeelcommissie' %}
 {% set contentClass = 'AB' %}
 
 {% block content %}
-<div class="primary">
-	<img src="/img/ab/stadsdeelcommissie.zuid.jpg">
-	
-<<<<<<< HEAD
-	<h1>Overgangsperiode Algemeen Bestuur naar stadsdeel&shy;commissies</h1>
-	
-	<p>
-		Na de gemeenteraadsverkiezing op 21 maart 2018 is er geen Algemeen
-		Bestuur meer in de stadsdelen.  Per stadsdeel komt er een stadsdeel&shy;commissie,
-		die adviseert aan het dagelijks bestuur van het stadsdeel. De leden
-		van de stadsdeel&shy;commissie zijn gekozen door bewoners. Het advies van
-		een stadsdeel&shy;commissie is zwaarwegend. Dat betekent dat als het dagelijks
-		bestuur het advies niet volgt, zij dat goed uit moet kunnen leggen.
-		In de nieuwe bestuursperiode worden de leden van het dagelijks bestuur
-		in de stadsdelen niet meer gekozen, maar aangesteld door het college
-		van burgemeester en wethouders.
-	</p>
-	<p>
-		In maart en april werken de nieuwe stadsdeel&shy;commissies zich in. De
-		stadsdeel&shy;commissie besluit dan ook of ze net als het Algemeen Bestuur
-		{{SITENAME}} willen blijven gebruiken om bewoners de mogelijkheid te 
-		geven voorstellen op de politieke agenda te zetten. Binnenkort kun je 
-		hier meer over lezen op deze site.
-	</p>
-	<p>
-		Voor meer informatie lees de pagina over 
-		<a href="https://www.amsterdam.nl/bestuur-organisatie/bestuurscommissies/nieuw-bestuurlijk/" target="_blank">
-			het nieuwe bestuurlijk stelsel en de stadsdeel&shy;commissies
-		</a>
-	</p>
-	
-	<h2>Plannen uploaden</h2>
-	
-	<p>
-		Je kunt in de tussentijd nog steeds jouw plannen voor de buurt uploaden. 
-		Plannen die nog campagnetijd hebben in de tussenperiode, dingen nog steeds 
-		mee naar een plek op de agenda. Mocht de stadsdeel&shy;commissie besluiten
-		{{SITENAME}} niet te gebruiken, dan wordt het plan dat de
-		meeste stemmen heeft op het moment dat de stadsdeel&shy;commissie dat besluit 
-		neemt, in elk geval besproken. Die datum geldt dan als eerstvolgende 
-		peildatum. Wanneer de stadsdeel&shy;commissie {{SITENAME}} in gebruik gaat nemen, 
-		worden er nieuwe peildata en vergaderdata vastgesteld waarop plannen met 
-		de meeste stemmen in de stadsdeel&shy;commissie worden geagendeerd. Deze data 
-		verschijnen in april dan weer op deze site.
-	</p>
-=======
-	<h1>Stadsdeel­commissie</h1>
-	
-  <p>De stadsdeel­commissie adviseert het dagelijks bestuur van het stadsdeel. De leden van de stadsdeel­commissie zijn gekozen door bewoners. Het advies van een stadsdeel­commissie is zwaarwegend. Dat betekent dat, als het dagelijks bestuur het advies niet volgt, zij dat goed uit moet kunnen leggen. De leden van het dagelijks bestuur van de stadsdelen zijn aangesteld door het college van burgemeester en wethouders. Kijk voor meer informatie op de pagina over <a href="https://www.amsterdam.nl/bestuur-organisatie/stadsdelen/nieuw-bestuurlijk/" target="_blank">het nieuwe bestuurlijk stelsel en de stadsdeel­commissies</a>.</p>
-	
->>>>>>> projects/article-editor
-</div>
+	<div class="primary">
+		<img src="/img/ab/stadsdeelcommissie.zuid.jpg">
+		
+		<h1>Wat is een stadsdeelcommissie?</h1>
 
-<div class="secondary">
-	{{sec.agenda(upcomingMeetings)}}
-	
-	<div class="widget">
-		<h2>Wist je dat?</h2>
-		<div id="didYouKnowBubble" class="speechBubble">
-<<<<<<< HEAD
-			&ldquo;Iedere bewoner die zich aanmeldt mag 3 minuten spreken tijdens een AB vergadering.&rdquo;
-=======
-			&ldquo;... als je idee in de stadsdeelcommissie-vergadering wordt besproken, je begeleiding krijgt bij het voorbereiden, presenteren en uitvoeren van je idee? &rdquo;
->>>>>>> projects/article-editor
+		<p>De stadsdeelcommissie adviseert het dagelijks bestuur van stadsdeel Zuid en het bestuur van de stad over de toekomst van het stadsdeel, de inrichting van het stadsdeel en de uitvoering van werkzaamheden. Dit doet de commissie namens hun buurtgenoten.</p>
+
+		<p>Als er in het stadsdeel of in jouw buurt zaken spelen die je graag deelt met de politiek, is de stadsdeelcommissie het eerste aanspreekpunt. De stadsdeelcommissie praat over zaken die van belang zijn voor stadsdeel Zuid. De commissie geeft adviezen aan het dagelijks bestuur van stadsdeel Zuid of het college van B&W.</p>
+
+		<p>De stadsdeelcommissie vergadert twee keer per maand. Een keer per maand op het stadsdeelkantoor samen met het dagelijks bestuur, en een keer per maand een gebiedsgerichte vergadering voor elk van de drie gebieden (Oud-Zuid, De Pijp/Rivierenbuurt en Buitenveldert/Zuidas). De vergaderingen zijn openbaar toegankelijk. Kijk voor meer informatie op: <a href="https://zuid.notubiz.nl">https://zuid.notubiz.nl</a>/</p>
+
+		<h2>Wie vertegenwoordigen mijn buurt?</h2>
+		
+		<p>De stadsdeelcommissieleden weten goed wat er speelt in stadsdeel Zuid. Heb je vragen over de inspraak of wil je een suggestie delen? Dan kun je een van de commissieleden aanspreken of een voorstel indienen voor een initiatief in Zuid.</p>
+
+		<h2>Stadsdeel Zuid heeft drie deelgebieden:</h2>
+
+		<p><strong>Oud-Zuid</strong>: hieronder vallen het Museumkwartier, Willemspark en het Vondelpark, de Apollobuurt, de Stadionbuurt, de Schinkelbuurt en de Hoofddorppleinbuurt.</p>
+
+		<table border="0" cellpadding="6"	cellspacing="0">
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/marius_drissen.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>Oud-Zuid</strong><br/>
+					Marius Drissen<br/>
+					Groen­Links<br/>
+					<a href="mailto: drissenmarius@gmail.com">drissenmarius@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/els_weijers.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>Oud-Zuid</strong><br/>
+					Els Weijers<br/>
+					D66<br/>
+					<a href="mailto: els.weijers@kpnmail.nl">els.weijers@kpnmail.nl</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/chris_wouterlood.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>Oud-Zuid</strong><br/>
+					Chris Wouterlood<br/>
+					VVD<br/>
+					<a href="mailto: chriswouterlood@gmail.com">chriswouterlood@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/frank_bolhuis.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>Oud-Zuid</strong><br/>
+					Frank Bolhuis<br/>
+					PvdA<br/>
+					<a href="mailto: frankbolhuis@hotmail.com">frankbolhuis@hotmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/laurie_jansen.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>Oud-Zuid</strong><br/>
+					Laurie Jansen<br/>
+					CDA<br/>
+					<a href="mailto: lauriejansen@gmail.com">lauriejansen@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+		</table>
+
+		<p><strong>De Pijp/Rivierenbuurt</strong>: hieronder vallen de Veluwebuurt, de Scheldebuurt, het Martin Luther Kingpark, de Rijnbuurt, de IJselbuurt, de Cornelis Troostbuurt, de Lizzy Ansinghbuurt, de Burgemeester Tellegenbuurt, de Van der Helstpleinbuurt, de Hemonybuurt, de Willibrordusbuurt en de Diamantbuurt.</p>
+
+		<table border="0" cellpadding="6"	cellspacing="0">
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/femke_korsten.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>De Pijp/Rivierenbuurt</strong><br/>
+					Femke Korsten<br/>
+					Groen­Links<br/>
+					<a href="mailto: fem.korsten@gmail.com">fem.korsten@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/maaike_stevens-leusink.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>De Pijp/Rivierenbuurt</strong><br/>
+					Maaike Stevens-Leusink<br/>
+					GroenLinks<br/>
+					<a href="mailto: maaikeleusink@hotmail.com">maaikeleusink@hotmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/erik_schmit.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>De Pijp/Rivierenbuurt</strong><br/>
+					Erik Schmit<br/>
+					D66<br/>
+					<a href="mailto: erik_schmit@hotmail.com">erik_schmit@hotmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/alexander_doijer.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>De Pijp/Rivierenbuurt</strong><br/>
+					Alexander Doijer<br/>
+					D66<br/>
+					<a href="mailto: a.doijer@d66amsterdamzuid.nl">a.doijer@d66amsterdamzuid.nl</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/gianni_pollarini.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>De Pijp/Rivierenbuurt</strong><br/>
+					Gianni Pollarini<br/>
+					VVD<br/>
+					<a href="mailto: gianni.pollarini@gmail.com">gianni.pollarini@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/ercan_colak.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>De Pijp/Rivierenbuurt</strong><br/>
+					Ercan Çolak<br/>
+					PvdA<br/>
+					<a href="mailto: ercancolak88@gmail.com">ercancolak88@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+		</table>
+		
+		<p><strong>Buitenveldert/Zuidas</strong>: hieronder vallen Buitenveldert-West, Buitenveldert-Oost en de Zuidas.</p>
+
+		<table border="0" cellpadding="6"	cellspacing="0">
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/arend_van_vuren.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>Buitenveldert/Zuidas</strong><br/>
+					Arend van Vuren<br/>
+					GroenLinks<br/>
+					<a href="mailto: agvanvuren@gmail.com">agvanvuren@gmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/angelo_verhoeven.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>Buitenveldert/Zuidas</strong><br/>
+					Angelo Verhoeven<br/>
+					D66<br/>
+					<a href="mailto: angelo.verhoeven@hotmail.com">angelo.verhoeven@hotmail.com</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/ronnie_eisenmann.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+					<strong>Buitenveldert/Zuidas</strong><br/>
+					Ronnie Eisenmann<br/>
+					VVD<br/>
+					<a href="mailto: ronnie@eisenmann.org">ronnie@eisenmann.org</a><br/>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/zuid/keren_hirsch.jpg" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+					<strong>Buitenveldert/Zuidas</strong><br/>
+					Keren Hirsch<br/>
+					PvdA<br/>
+					<a href="mailto: ke­ren­hirsch@hot­mail.com">ke­ren­hirsch@hot­mail.com</a><br/>
+	 			</td>
+	 		</tr>
+		</table>
+		
+	</div>
+
+	<div class="secondary">
+		{{ agenda(upcomingMeetings, user) }}
+		
+		<div class="widget">
+			<h2>Wist je dat?</h2>
+			<div id="didYouKnowBubble" class="speechBubble">
+				&ldquo;Iedere bewoner die zich aanmeldt mag 3 minuten spreken tijdens een vergadering van de stadsdeelcommissie.&rdquo;
+			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

@@ -42,7 +42,7 @@
 28 november 2017 - vergaderdatum + peildatum
 12 december 2017 - peildatum
 #}
-{% macro agenda( meetings ) %}
+{% macro agenda( user, meetings ) %}
 	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
 		In de vorige bestuursperiode besprak het Algemeen Bestuur één keer per
@@ -51,33 +51,28 @@
 		stadsdeel&shy;commissie en nieuwe vergaderdata.
 		
 		<div class="timeline">
-			<div class="selection">
-				<b class="date">peildatum</b>
-				<em>datum volgt</em>
-			</div>
-			<div class="meeting">
-				<b class="date">vergadering</b>
-				<em>datum volgt</em>
-				{# <ul>
-					<li><a href="/plan/#" title="Titel">
-						Titel
+			{% for meeting in meetings %}
+			<div class="{{meeting.type}}">
+				<b class="date">{{meeting.date | date('D MMMM YYYY')}}</b>
+				<em>{{'peildatum' if meeting.type == 'selection' else 'vergadering'}}</em>
+				
+				<ul>
+					{% for idea in meeting.ideas %}
+					<li><a href="/plan/{{idea.id}}" title="{{idea.title}}">
+						{{idea.title}}
 					</a></li>
-				</ul> #}
+					{% endfor %}
+				</ul>
 			</div>
-			
-			<div class="selection">
-				<b class="date">peildatum</b>
-				<em>datum volgt</em>
-			</div>
-			<div class="meeting">
-				<b class="date">vergadering</b>
-				<em>datum volgt</em>
-				{# <ul>
-					<li><a href="/plan/#" title="Titel">
-						Titel
-					</a></li>
-				</ul> #}
-			</div>
+			{% else %}
+			<i>Geen vergaderingen ingepland.</i>
+			{% endfor %}
 		</div>
+		
+		{% if user.can('agenda:admin') %}
+		<form action="/agenda">
+			<button type="submit" class="edit">Bewerk agenda</button>
+		</form>
+		{% endif %}
 	</div>
 {% endmacro %}

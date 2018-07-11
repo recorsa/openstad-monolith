@@ -9,7 +9,7 @@ var auth         = require('../../auth');
 var db           = require('../../db');
 
 var uidProperty    = config.get('security.sessions.uidProperty');
-var maxPollChoices = config.get('polls.maxChoices');
+var maxPollChoices = config.get('stemtool.poll.maxChoices');
 
 var bruteForce   = new Brute(new Brute.MemoryStore(), {
 	freeRetries  : 0,

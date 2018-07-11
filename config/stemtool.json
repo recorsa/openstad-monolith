@@ -18,6 +18,7 @@
 				"./routes/stemtool/newsletter",
 				"./routes/stemtool/logout",
 				"./routes/stemtool/idea",
+				"./routes/stemtool/account",
 				"./routes/dev"
 			]
 		}
@@ -26,6 +27,13 @@
 	"security": {
 		"authorization": {
 			"roles": "stemtool"
+		}
+	},
+	
+	"stemtool": {
+		"poll": {
+			"maxChoices": 3,
+			"switchOrError": "error"
 		}
 	}
 }

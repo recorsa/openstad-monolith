@@ -135,6 +135,7 @@
 	},
 	
 	"polls": {
-		"maxChoices": 3
+		"maxChoices": 3,
+		"argumentVoteThreshold": 0
 	}
 }

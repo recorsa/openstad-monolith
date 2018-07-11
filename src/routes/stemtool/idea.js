@@ -30,7 +30,7 @@ module.exports = function( app ) {
 			sort             : sort,
 			runningIdeas     : db.Idea.getRunning(sort),
 			highlightedIdeas : db.Idea.getHighlighted(),
-			upcomingMeetings : db.Meeting.getUpcoming(3)
+			upcomingMeetings : db.Meeting.getUpcoming()
 		};
 
 		Promise.props(data)

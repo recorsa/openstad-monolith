@@ -1,31 +1,31 @@
 {% extends 'base.njk' %}
 {% import 'includes/secondary.njk' as sec %}
+{% from 'partials/agenda-items.njk' import agenda %}
 
 {% set activeMenu   = 'about' %}
 {% set pageTitle    = 'De stadsdeelcommissie' %}
 {% set contentClass = 'AB' %}
 
 {% block content %}
-<div class="primary">
-	<img src="/img/ab/stadsdeelcommissie.noord.jpg">
-	
-	<h1>Overgangsperiode: van Algemeen Bestuur naar stadsdeel­commissie</h1>
-	
-	<p>Na de gemeenteraadsverkiezing op 21 maart 2018 is er geen Algemeen Bestuur meer in de stadsdelen. Per stadsdeel komt er een stadsdeel­commissie, die het dagelijks bestuur van het stadsdeel adviseert.</p>
+	<div class="primary">
+		<img src="/img/ab/stadsdeelcommissie.noord.jpg">
+		
+		<h1>Overgangsperiode: van Algemeen Bestuur naar stadsdeel­commissie</h1>
+		
+		<p>Na de gemeenteraadsverkiezing op 21 maart 2018 is er geen Algemeen Bestuur meer in de stadsdelen. Per stadsdeel komt er een stadsdeel­commissie, die het dagelijks bestuur van het stadsdeel adviseert.</p>
 
-  <h3>Gekozen door bewoners</h3>
-  <p>De leden van de stadsdeel­commissie zijn gekozen door bewoners. Het advies van een stadsdeel­commissie is zwaarwegend. Dat betekent dat, als het dagelijks bestuur het advies niet volgt, zij dat goed uit moet kunnen leggen. De leden van het dagelijks bestuur van de stadsdelen worden niet meer gekozen, maar aangesteld door het college van burgemeester en wethouders. Kijk voor meer informatie op de pagina over <a href="https://www.amsterdam.nl/bestuur-organisatie/stadsdelen/nieuw-bestuurlijk/" target="_blank">het nieuwe bestuurlijk stelsel en de stadsdeel­commissies</a>.</p>
-	
-</div>
-
-<div class="secondary">
-	{{sec.agenda(upcomingMeetings)}}
-	
-	<div class="widget">
-		<h2>Wist je dat?</h2>
-		<div id="didYouKnowBubble" class="speechBubble">
-			&ldquo;... als je idee in de stadsdeelcommissie-vergadering wordt besproken, je begeleiding krijgt bij het voorbereiden, presenteren en uitvoeren van je idee? &rdquo;
-		</div>
+		<h3>Gekozen door bewoners</h3>
+		<p>De leden van de stadsdeel­commissie zijn gekozen door bewoners. Het advies van een stadsdeel­commissie is zwaarwegend. Dat betekent dat, als het dagelijks bestuur het advies niet volgt, zij dat goed uit moet kunnen leggen. De leden van het dagelijks bestuur van de stadsdelen worden niet meer gekozen, maar aangesteld door het college van burgemeester en wethouders. Kijk voor meer informatie op de pagina over <a href="https://www.amsterdam.nl/bestuur-organisatie/stadsdelen/nieuw-bestuurlijk/" target="_blank">het nieuwe bestuurlijk stelsel en de stadsdeel­commissies</a>.</p>
+		
 	</div>
+
+	<div class="secondary">
+		{{ agenda(upcomingMeetings, user) }}
+		<div class="widget">
+			<h2>Wist je dat?</h2>
+			<div id="didYouKnowBubble" class="speechBubble">
+				&ldquo;... als je idee in de stadsdeelcommissie-vergadering wordt besproken, je begeleiding krijgt bij het voorbereiden, presenteren en uitvoeren van je idee? &rdquo;
+			</div>
+		</div>
 </div>
 {% endblock %}

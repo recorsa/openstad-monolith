@@ -1,0 +1,25 @@
+{% macro formFieldZipcode(zipCode) %}
+<div class="margin-hor-m">
+	<div class="form-field-container validate-postcode">
+		<label class="h3 block margin-hor-xs">
+			Mijn postcode:
+		</label>
+		<div class="label-error">
+			Een geldige postcode is vereist.
+		</div>
+
+		<input
+			type="text"
+			name="zipCode"
+			class="input-field"
+			placeholder="Bijv. 1234AB"
+			value="{{zipCode}}"
+			{% if(zipCode) %} disabled {% endif %}
+		/>
+
+		<div class="info">
+			Vul hier de postcode in van de plek (in Amsterdam) waar je woont of werkt.
+		</div>
+	</div>
+</div>
+{% endmacro %}

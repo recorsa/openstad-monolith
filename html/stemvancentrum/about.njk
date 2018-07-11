@@ -1,148 +1,149 @@
 {% extends 'base.njk' %}
 {% import 'includes/secondary.njk' as sec %}
+{% from 'partials/agenda-items.njk' import agenda %}
 
 {% set activeMenu   = 'about' %}
 {% set pageTitle    = 'De stadsdeelcommissie' %}
 {% set contentClass = 'AB' %}
 
 {% block content %}
-<div class="primary">
-	<img src="/img/ab/stadsdeelcommissie.centrum.jpg">
-	
-	<h1>Wat is een stadsdeelcommissie?</h1>
+	<div class="primary">
+		<img src="/img/ab/stadsdeelcommissie.centrum.jpg">
+		
+		<h1>Wat is een stadsdeelcommissie?</h1>
 
-	<p>
-	  De stadsdeelcommissie adviseert het dagelijks bestuur van stadsdeel Centrum en het bestuur van de stad over de toekomst van het stadsdeel, de inrichting van het stadsdeel en de uitvoering van werkzaamheden. Dit doet de commissie namens hun buurtgenoten.
-	</p>
+		<p>
+			De stadsdeelcommissie adviseert het dagelijks bestuur van stadsdeel Centrum en het bestuur van de stad over de toekomst van het stadsdeel, de inrichting van het stadsdeel en de uitvoering van werkzaamheden. Dit doet de commissie namens hun buurtgenoten.
+		</p>
 
-	<p>
-		Als er in het stadsdeel of in jouw buurt zaken spelen die je graag deelt met de politiek, is de stadsdeelcommissie het eerste aanspreekpunt. De stadsdeelcommissie praat over zaken die van belang zijn voor stadsdeel Centrum. De commissie geeft adviezen aan het  dagelijks bestuur van stadsdeel Centrum of het college van B&W.
-	</p>
+		<p>
+			Als er in het stadsdeel of in jouw buurt zaken spelen die je graag deelt met de politiek, is de stadsdeelcommissie het eerste aanspreekpunt. De stadsdeelcommissie praat over zaken die van belang zijn voor stadsdeel Centrum. De commissie geeft adviezen aan het  dagelijks bestuur van stadsdeel Centrum of het college van B&W.
+		</p>
 
-	<p>
-		De stadsdeelcommissie vergadert twee keer per maand met het dagelijks bestuur. De vergaderingen vinden meestal plaats in de Stopera en zijn openbaar toegankelijk. Kijk voor meer informatie op: <a href="https://centrum.notubiz.nl/">https://centrum.notubiz.nl/</a> 
-	</p>
+		<p>
+			De stadsdeelcommissie vergadert twee keer per maand met het dagelijks bestuur. De vergaderingen vinden meestal plaats in de Stopera en zijn openbaar toegankelijk. Kijk voor meer informatie op: <a href="https://centrum.notubiz.nl/">https://centrum.notubiz.nl/</a> 
+		</p>
 
-	<h2>Wie vertegenwoordigen mijn buurt?</h2>
+		<h2>Wie vertegenwoordigen mijn buurt?</h2>
 
-	<p>
-		De stadsdeelcommissieleden weten goed wat er speelt in stadsdeel Centrum. Heb je vragen over de inspraak of wil je een suggestie delen? Dan kun je een van de commissieleden aanspreken of een voorstel indienen voor een initiatief in Centrum. 
-	</p>
+		<p>
+			De stadsdeelcommissieleden weten goed wat er speelt in stadsdeel Centrum. Heb je vragen over de inspraak of wil je een suggestie delen? Dan kun je een van de commissieleden aanspreken of een voorstel indienen voor een initiatief in Centrum. 
+		</p>
 
-	<h2>Stadsdeel Centrum heeft twee deelgebieden:</h2>
+		<h2>Stadsdeel Centrum heeft twee deelgebieden:</h2>
 
-	<p>
-		<strong>Centrum Oost</strong>: het zuidelijke deel van de Grachtengordel, de Weteringschans, de Nieuwmarktbuurt en Lastage, de Weesperbuurt, de Plantagebuurt, de Kadijken en de Oostelijke Eilanden. 
-	</p>
-	
-	<table border="0" cellpadding="6"	cellspacing="0">
-	 	<tr>
-	 		<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/oostra.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum Oost</strong><br/>
-	 			Neeria Oostra<br/>
-	 			GroenLinks<br/>
-	 			<a href="mailto: n.oostra@amsterdam.nl">n.oostra@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	 	<tr>
-	 		<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/bruin.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum Oost</strong><br/>
-	 			Pia Bruin<br/>
-	 			D66<br/>
-	 			<a href="mailto: p.bruin@amsterdam.nl">p.bruin@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	 	<tr>
-	 		<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/vandenboogaard.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum Oost</strong><br/>
-	 			Lisa van den Boogaard<br/>
-	 			PvdA<br/>
-	 			<a href="mailto: l.van.den.boogaard@amsterdam.nl">l.van.den.boogaard@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	 	<tr>
-	 		<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/vankraaij.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum Oost</strong><br/>
-	 			Rapha&euml;l van Kraaij<br/>
-	 			VVD<br/>
-	 			<a href="mailto: r.van.kraaij@amsterdam.nl">r.van.kraaij@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	</table>
+		<p>
+			<strong>Centrum Oost</strong>: het zuidelijke deel van de Grachtengordel, de Weteringschans, de Nieuwmarktbuurt en Lastage, de Weesperbuurt, de Plantagebuurt, de Kadijken en de Oostelijke Eilanden. 
+		</p>
+		
+		<table border="0" cellpadding="6"	cellspacing="0">
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/oostra.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum Oost</strong><br/>
+	 				Neeria Oostra<br/>
+	 				GroenLinks<br/>
+	 				<a href="mailto: n.oostra@amsterdam.nl">n.oostra@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/bruin.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum Oost</strong><br/>
+	 				Pia Bruin<br/>
+	 				D66<br/>
+	 				<a href="mailto: p.bruin@amsterdam.nl">p.bruin@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/vandenboogaard.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum Oost</strong><br/>
+	 				Lisa van den Boogaard<br/>
+	 				PvdA<br/>
+	 				<a href="mailto: l.van.den.boogaard@amsterdam.nl">l.van.den.boogaard@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/vankraaij.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum Oost</strong><br/>
+	 				Rapha&euml;l van Kraaij<br/>
+	 				VVD<br/>
+	 				<a href="mailto: r.van.kraaij@amsterdam.nl">r.van.kraaij@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+		</table>
 
-	<p>
-		<strong>Centrum West</strong>: de beide Burgwallen (Oude Zijde en Nieuwe Zijde), grachtengordel-West, de Jordaan, de Haarlemmerbuurt inclusief Westerdok/IJdok en de Westelijke Eilanden.
-	</p>
+		<p>
+			<strong>Centrum West</strong>: de beide Burgwallen (Oude Zijde en Nieuwe Zijde), grachtengordel-West, de Jordaan, de Haarlemmerbuurt inclusief Westerdok/IJdok en de Westelijke Eilanden.
+		</p>
 
-	<table border="0" cellpadding="6"	cellspacing="0">
-	 	<tr>
-	 		<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/zeevenhooven.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum West</strong><br/>
-	 			Noah Zeevenhooven<br/>
-	 			GroenLinks<br/>
-	 			<a href="mailto: n.zeevenhooven@amsterdam.nl">n.zeevenhooven@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	 	<tr>
-	 		<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/vanveen.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum West</strong><br/>
-	 			Debbie van Veen<br/>
-	 			D66<br/>
-	 			<a href="mailto: d.van.veen@amsterdam.nl">d.van.veen@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	 	<tr>
-	 		<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/vanproosdij.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum West</strong><br/>
-	 			Julia van Proosdij<br/>
-	 			PvdA<br/>
-	 			<a href="mailto: j.van.proosdij@amsterdam.nl">j.van.proosdij@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	 	<tr>
-	 		<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
-	 			<img src="/img/ab/centrum/vandersande.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
-	 		</td>
-	 		<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
-	 			<strong>Centrum West</strong><br/>
-	 			Bas van der Sande<br/>
-	 			VVD<br/>
-	 			<a href="mailto: b.van.der.sande@amsterdam.nl">b.van.der.sande@amsterdam.nl</a>
-	 		</td>
-	 	</tr>
-	</table>
+		<table border="0" cellpadding="6"	cellspacing="0">
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/zeevenhooven.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum West</strong><br/>
+	 				Noah Zeevenhooven<br/>
+	 				GroenLinks<br/>
+	 				<a href="mailto: n.zeevenhooven@amsterdam.nl">n.zeevenhooven@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/vanveen.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum West</strong><br/>
+	 				Debbie van Veen<br/>
+	 				D66<br/>
+	 				<a href="mailto: d.van.veen@amsterdam.nl">d.van.veen@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="background-color: #e8e8e8; padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/vanproosdij.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="background-color: #e8e8e8; line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum West</strong><br/>
+	 				Julia van Proosdij<br/>
+	 				PvdA<br/>
+	 				<a href="mailto: j.van.proosdij@amsterdam.nl">j.van.proosdij@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+	 		<tr>
+	 			<td align="left" valign="top" style="padding-left: 15px; padding-right: 45px;">
+	 				<img src="/img/ab/centrum/vandersande.png" width="100" height="150" style="width: auto; margin-bottom: 0px;"/>
+	 			</td>
+	 			<td align="left" valign="middle" style="line-height: 27px; padding-right: 200px;">
+	 				<strong>Centrum West</strong><br/>
+	 				Bas van der Sande<br/>
+	 				VVD<br/>
+	 				<a href="mailto: b.van.der.sande@amsterdam.nl">b.van.der.sande@amsterdam.nl</a>
+	 			</td>
+	 		</tr>
+		</table>
 
-</div>
+	</div>
 
-<div class="secondary">
-	{{sec.agenda(upcomingMeetings)}}
-	
-	<div class="widget">
-		<h2>Wist je dat?</h2>
-		<div id="didYouKnowBubble" class="speechBubble">
-			&ldquo;... als je idee in de stadsdeelcommissie-vergadering wordt besproken, je begeleiding krijgt bij het voorbereiden, presenteren en uitvoeren van je idee? &rdquo;
-		</div>
+	<div class="secondary">
+		{{ agenda(upcomingMeetings, user) }}
+		
+		<div class="widget">
+			<h2>Wist je dat?</h2>
+			<div id="didYouKnowBubble" class="speechBubble">
+				&ldquo;... als je idee in de stadsdeelcommissie-vergadering wordt besproken, je begeleiding krijgt bij het voorbereiden, presenteren en uitvoeren van je idee? &rdquo;
+			</div>
 	</div>
 </div>
 {% endblock %}

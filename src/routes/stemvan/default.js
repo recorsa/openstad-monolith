@@ -11,8 +11,8 @@ module.exports = function( app ) {
 		var data = {
 			articles         : db.Article.getTilesForUser(user),
 			highlightedIdeas : db.Idea.getHighlighted(),
-			upcomingMeetings : db.Meeting.getUpcoming(3),
 			runningIdeas     : db.Idea.getRunning(),
+			upcomingMeetings : db.Meeting.getUpcoming()
 		};
 		
 		Promise.props(data)
