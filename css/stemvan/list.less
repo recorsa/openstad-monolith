@@ -9,6 +9,7 @@
 	}
 	
 	.primary {
+
 		#howDoesItWork,
 		#viewArchive {
 			border-radius: 4px;
@@ -25,7 +26,7 @@
 			}
 		}
 		#howDoesItWork {
-			background-color: #EC0000;
+			background-color: #164995;
 			color: #FFF;
 			margin-bottom: 20px;
 		}
@@ -77,15 +78,11 @@
 			position: relative;
 			font-size: 14px;
 			
-			
 			// Remove clock icon for some labels.
 			&.BUSY,
 			&.ACCEPTED,
 			&.DONE {
 				.duration {
-					background-image: none;
-					font-weight: bold;
-					padding-left: 5px;
 				}
 			}
 			// Change color for some labels.
@@ -96,7 +93,17 @@
 			}
 			&.ACCEPTED {
 				.duration {
+					background-size: 12px 12px;
+					background-position: 7px 7px;
+					background-image: url('/img/star.svg');
 					background-color: #00A03C;
+				}
+			}
+			&.OPEN {
+				.duration {
+					background-size: 12px 12px;
+					background-position: 7px 7px;
+					background-image: url('/img/star.svg');
 				}
 			}
 			&.DENIED {
@@ -104,8 +111,6 @@
 				
 				.duration {
 					background-color: #454545;
-					background-image: none;
-					padding-left: 5px;
 				}
 			}
 			&.CLOSED {
@@ -115,6 +120,9 @@
 			}
 			&.DONE {
 				.duration {
+					background-size: 12px 12px;
+					background-position: 7px 7px;
+					background-image: url('/img/star.svg');
 					background-color: #9151C3;
 				}
 			}
@@ -135,21 +143,31 @@
 			}
 			
 			.duration {
-				background-color: #EC0000;
-				background-image: url('/img/clock_white.svg');
-				background-repeat: no-repeat;
-				background-size: auto 15px;
-				background-position: left 4px center;
-				color: #FFF;
-				font-size: 0.75rem;
+				position: relative;
+				box-sizing: border-box;
+				width: 100%;
 				left: 0;
-				padding: 2px 5px 0 25px;
-				position: absolute;
-				top: 6px;
+				padding: 1px 5px 1px 25px;
+				top: 0px;
+				padding-left: 26px;
+
+				font-size: 12px;
+				font-weight: 600;
+				line-height: 26px;
+				color: #FFF;
+
+				background-color: #434343;
+				background-repeat: no-repeat;
+				background-size: 6px 6px;
+				background-position: 10px 10px;
+				background-image: url('/img/bullet.svg');
+				
 			}
+
 			.image {
 				background-image: url('/img/placeholders/idea.jpg');
 			}
+
 			.info {
 				padding: 0 10px 10px;
 				
@@ -160,14 +178,14 @@
 					overflow: hidden;
 					
 					.bar {
-						background-color: #EC0000;
+						background-color: #004699;
 						float: left;
 						height: 12px;
 					}
 				}
 				.ideaStats {
 					margin-top: 12px;
-					width: calc(100% + 20px);
+					width: calc(100%);
 					
 					// Override white icons defined in `content.less`.
 					div.count {

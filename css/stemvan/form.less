@@ -40,7 +40,7 @@
 		}
 		
 		b {
-			color: #EC0000;
+			color: #164995;
 		}
 		p {
 			margin: 0.5em 0 0;
@@ -49,14 +49,14 @@
 	
 	#howDoesItWork {
 		background-color: #F6F6F6;
-		border: 1px solid #EC0000;
+		border: 1px solid #164995;
 		border-radius: 4px;
 		display: block;
 		margin-bottom: 20px;
 		overflow: hidden;
 		
 		h2 {
-			background-color: #EC0000;
+			background-color: #164995;
 			color: #FFF;
 			font-size: 1rem;
 			font-weight: 300;
@@ -121,7 +121,7 @@
 		}
 		
 		&.dz-clickable {
-			background-color: #EFEFEF;
+			background-color: #f6f7f7;
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -137,19 +137,44 @@
 			@media @phone {
 				height: 250px;
 			}
-			
-			&:after {
-				color: #7F7F7F;
-				content: 'Klik hier om een afbeelding te uploaden.';
-				display: table-cell;
-				font-size: 1rem;
+
+			&::before {
+				position: absolute;
+				top: 45%;
+				width: 70%;
+				margin-left: 15%;
+				font-size: 12px;
 				font-weight: bold;
-				height: 100%;
-				padding: 0 20px;
+				text-align: center;
+				color: #164995;
+				content: 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.';
+				
+				@media @phone {
+					margin-top: 20px;
+					margin-left: 10%;
+					width: 80%;
+				}
+
+			}
+
+			&[style]:before {
+				content: '';
+			}
+
+			&::after {
+				position: absolute;
+				top: 35%;
+				width: 100%;
+				height: auto;
+				display: block;
+				padding: 0;
+				font-size: 14px;
+				font-weight: bold;
 				text-align: center;
 				vertical-align: middle;
-				width: 100%;
+				content: 'Klik hier om een afbeelding te uploaden.';
 			}
+
 			&[style]:after {
 				color: #FFF;
 				text-shadow: 0 0 4px #000;
@@ -176,7 +201,7 @@
 			button {
 				.appearance(none);
 				
-				background-color: #EC0000;
+				background-color: #164995;
 				bottom: 10px;
 				color: #FFF;
 				cursor: pointer;

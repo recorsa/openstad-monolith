@@ -5,12 +5,14 @@
 {% set contentClass = 'index' %}
 
 {% block content %}
+
 	<div id="banner">
-		{% include "includes/home-banner-image.html" %}
 		{% include "includes/home-banner-text.html" %}
+		{% include "includes/home-banner-image.html" %}
 	</div>
 	
 	<div class="primary">
+
 		{{sec.newIdeaBubble()}}
 		
 		{# Syntax formatting because `div.tile` is `display: inline-block`. #}
@@ -31,21 +33,21 @@
 			
 			<a href="/artikel/{{article.id}}" class="readMore">Lees meer</a>
 		</div>{% endfor %}{% include "includes/more-stenvans-tile.html" ignore missing %}{# Another weird formatting; see comment above. #}
+
 	</div>
 	
 	<div class="secondary">
+
 		{{sec.newIdeaBubble()}}
 
+		{{ agenda(upcomingMeetings, user) }}
+
 		{% if can('article:create') %}
-			<h2>Acties</h2>
-			
 			<form action="/article/create">
 				<button type="submit" class="edit">Nieuw artikel</button>
 			</form>
 		{% endif %}
 
-		{{sec.highlightedIdeas(highlightedIdeas)}}
-		
-		{{ agenda(upcomingMeetings, user) }}
 	</div>
+
 {% endblock %}

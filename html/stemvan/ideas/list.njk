@@ -29,6 +29,8 @@
 		{% for idea in runningIdeas
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
 			<a href="/plan/{{idea.id}}">
+				<div class="image"></div>
+				
 				<div class="duration">
 					{% if idea.status == 'BUSY' %}
 						Dit plan is in behandeling
@@ -44,8 +46,6 @@
 						Afgelopen
 					{% endif %}
 				</div>
-				
-				<div class="image"></div>
 				
 				<div class="info">
 					<h3>{{idea.title}}</h3>

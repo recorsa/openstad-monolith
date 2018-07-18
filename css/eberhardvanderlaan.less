@@ -1,118 +1,6 @@
 @import 'stemvan/base';
 
-header {
-
-	@media @phone {
-		a {
-			display: block;
-			position: relative;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: 63px;
-		}
-	}
-		
-	#amsterdam {
-		font-size: 15px;
-		line-height: 1;
-		font-weight: 800;
-		left: 45px;
-		position: absolute;
-		top: 22px;
-
-		@media @phone {
-			left: 35px;
-			top: 10px;
-		}
-	}
-
-	h1 {
-		font-size: 28px;
-		left: 170px;
-		right: 0;
-		width: initial;
-		max-width: initial;
-		text-align: left;
-		font-size: 28px;
-		line-height: 1em;
-
-		@media @phone {
-			left: 150px;
-			top: 0;
-			display: table;
-			height: 100%;
-
-			span {
-				height: 100%;
-				margin: 0;
-				display: table-cell;
-				text-align: right;
-				vertical-align: middle;
-				font-size: 16px;
-				line-height: 1.25;
-			}
-
-		}
-			
-	}
-
-}
-
-#mainMenu {
-	margin-bottom: 20px;
-	
-  div {
-		font-size: 18px;
-		
-		ul li:nth-child(2) a::before {
-		 	content: '';
-		}
-
-	}
-
-}
-
-#subMenu {
-	z-index: 100000;
-}
-
 .pageContent {
-
-	h1, .primary h1:first-of-type {
-		margin-top: 35px;
-		margin-bottom: 20px;
-		font-size: 29px;
-		font-style: normal;
-		line-height: 1.4;
-	}
-
-	h2 {
-		font-size: 24px;
-		font-weight: 600;
-		font-style: normal;
-		line-height: 1.4;
-	}
-
-	h3 {
-		font-size: 24px;
-		font-weight: 600;
-		font-style: normal;
-		line-height: 1.25;
-	}
-
-	h4 {
-		font-size: 20px;
-		font-weight: 600;
-		font-style: normal;
-		line-height: 1.4;
-	}
-
-	.primary {
-		font-size: 16px;
-		font-weight: normal;
-		line-height: 1.38;
-	}
 	
 	&.proclaimer {
 
@@ -149,11 +37,6 @@ header {
 
 			#location > div {
 				height: 375px;
-			}
-
-			#charsLeftMain {
-				color: red;
-				font-size: 0.7rem;
 			}
 
 		}
@@ -205,18 +88,6 @@ header {
 			}
 		}
 	
-	}
-
-	input[type="submit"]:not(.default) {
-		width: 140px;
-		padding: 0;
-		font-size: 16px;
-		font-weight: 600;
-		color: white;
-		background: none;
-		background-color: #164995;
-		line-height: 40px;
-		text-align: center;
 	}
 	
 	.speechBubble {
@@ -431,56 +302,6 @@ header {
 	}
 
 	&.idea {
-
-		.primary {
-
-			#author {
-				font-size: 14px;
-				line-height: 20px;
-				font-style: normal;
-			}
-
-			#modBreak {
-				box-sizing: border-box;
-				width: 100%;
-				padding-bottom: 0px;
-				border: 3px solid #FFE115;
-				margin: 35px 0px;
-				
-				&::before {
-					box-sizing: border-box;
-					border: 0 none;
-					background-repeat: no-repeat;
-					background-size: 42px 24px;
-					background-position: right center;
-					background-image: url('/img/modbreak-arrow.png');
-					content: '';
-					position: absolute;
-					width: calc(100% + 6px);
-					height: 24px;
-					right: 0px;
-					top: -24px;
-				}
-				&::after {
-					border: 0 none;
-				}
-				
-				b {
-					color: black;
-				}
-
-			}
-
-			#author + #modBreak {
-				margin-bottom: 0px;
-				margin-top: 20px;
-			}
-			
-		}
-
-		.summary {
-			font-size: 18px;
-		}
 
 		#mapcontainer {
 			margin-top: 35px;
@@ -979,34 +800,6 @@ ul.share {
 			z-index: 10;
 		}
 
-		.statusbalk {
-			position: relative;
-			display: inline-block;
-			margin-top: 10px;
-			background-color: #003066;
-			background-repeat: no-repeat;
-			background-size: 12px 12px;
-			background-position: 11px 9px;
-			background-image: url('/img/star.svg');
-			color: white;
-			padding: 6px 15px 5px 32px;
-			font-size: 14px;
-			font-weight: 600;
-			z-index: 100;
-
-			&.CLOSED {
-				background-color: #787979;
-			}
-
-			&.DENIED {
-				background-color: #434343;
-				background-size: 8px 8px;
-				background-position: 13px 10px;
-				background-image: url('/img/bullet.svg');
-			}
-
-		}
-
 		.ranking {
 			position: absolute;
 			top: 0;
@@ -1044,92 +837,6 @@ ul.share {
 	}
 
 	.secondary .controls {
-		height: 375px;
-		margin-left: -21px;
-		padding: 15px;
-		border: 3px solid #e8e8e8;
-		border-left-width: 0;
-
-		@media @phone {
-			padding: 15px 15px;
-			margin-left: 0;
-			border: 3px solid #e8e8e8;
-			border-top-width: 0;
-		}
-
-		h4 {
-			margin-top: 0;
-			padding-top: 0;
-			padding-bottom: 0;
-			margin-bottom: 6px;
-		}
-
-		.vote {
-
-			margin-bottom: 30px;
-			
-			button {
-				.appearance(none);
-				
-				background: #004699;
-				background-repeat: no-repeat;
-				background-size: auto 28px;
-				background-position: center left 8px;
-				border: 0;
-				box-sizing: border-box;
-				font-size: 18px;
-				font-weight: 600;
-				color: #fff;
-				cursor: pointer;
-				display: block;
-				float: left;
-				height: 43px;
-				line-height: 43px;
-				margin: 0;
-				overflow: visible;
-				padding: 0 0 0 42px;
-				position: relative;
-				text-align: center;
-				width: calc(100% - 92px);
-
-				&:hover {
-					background-color: #003066;
-				}
-				
-				&::before {
-					content: none;
-				}
-
-				&[value="yes"] {
-					background-image: url('/img/thumbsup_white.svg');
-				}
-				&[value="no"] {
-					background-image: url('/img/thumbsdown_white.svg');
-				}
-				&:disabled {
-  				background-color: #bebebe;
-					cursor: default;
-					&:hover {
-  					background-color: #bebebe;
-					}
-				}
-				&:disabled::before {
-					content: none;
-				}
-				&.selected[value="yes"] {
-					background-color: #bdd131;
-					&:disabled {
-  					background-color: #bebebe;
-					}
-				}
-				&.selected[value="no"] {
-					background-color: #ea1d25;
-					&:disabled {
-  					background-color: #bebebe;
-					}
-				}
-			}
-		}
 
 		.time-left {
 			position: relative;
@@ -1178,16 +885,26 @@ ul.share {
 				bottom: 0px;
 			}
 		}
-		
+
 		ul.share {
-			position: relative;
-			top: 0;
 			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			
 			li {
+				display: inline;
+				margin: 0;
+				padding: 0;
+				
 				a {
-					margin: 0;
-					width: 30px;
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: 30px 30px;
+					display: inline-block;
+					font-size: 0;
 					height: 30px;
+					width: 30px;
+					
 					&.facebook {
 						background-image: url('/img/share-facebook.svg');
 					}
@@ -1200,9 +917,9 @@ ul.share {
 				}
 			}
 		}
-		
-	}
 
+	}
+	
 }
 
 #mapcontainer {
@@ -1239,157 +956,6 @@ ul.share {
 		}
 	}
 
-}
-
-#arguments {
-
-	>h1 {
-
-	  div {
-	  	font-size: 29px;
-	  }
-	}
-
-	h2 {
-		margin: 26px 0 14px 0;
-	}
-
-	div.argList {
-		font-size: 16px;
-		line-height: 1.38;
-		
-		&.for .argument p:before {
-			font-weight: bold;
-			display: block;
-			content: 'Ik ben voor, omdat:';
-			padding-top: 3px;
-			padding-bottom: 13px;
-		}
-		
-		&.against .argument p:before {
-			font-weight: bold;
-			display: block;
-			content: 'Ik ben tegen, omdat:';
-			padding-top: 3px;
-			padding-bottom: 13px;
-		}
-
-		form {
-			div.charsLeft {
-				font-size: 12px;
-			}
-		}
-
-		form.newArgument {
-
-			textarea {
-				font-weight: normal
-			}
-		}
-
-		form.newReaction {
-			input[type="submit"] {
-				padding: 0;
-				font-size: 14px;
-				width: 100px;
-				line-height: 30px;
-			}
-		}
-		
-		.argument {
-			position: relative;
-			color: black;
-			padding-top: 17px;
-
-			a.reply {
-				background-image: url('/img/arrow_right_black.svg');
-				background-size: auto 12px;
-				background-position: top 4px right;
-			}
-
-			form.vote button:before {
-				width: 25px;
-				height: 25px;
-				background-color: #aeaeae;
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: auto 14px;
-			}
-
-			form.vote button {
-				font-size: 14px;
-				padding-left: 35px;
-			}
-
-			.user.admin {
-				padding-left: 24px;
-				background-size: 16px 18px;
-				background-position: 0 2px;
-			}
-
-		}
-		
-		.reaction {
-			position: relative;
-			color: black;
-			padding-top: 17px;
-
-			.user.admin {
-				padding-left: 24px;
-				background-size: 16px 18px;
-				background-position: 0 2px;
-			}
-		}
-
-		.argument .hamburger,
-		.reaction .hamburger {
-			position: absolute;
-			top: 0;
-			right: 0;
-			width: 40px;
-			height: 40px;
-			background-image: url('/img/hamburger-dots.svg');
-			background-size: 4px 18px;
-			background-repeat: no-repeat;
-			background-position: center;
-
-			&:hover {
-				background-color: #e8e8e8;
-			}
-			
-			form {
-				display: none;
-
-				input.edit {
-					background-image: url('/img/edit-buttons/edit-transparent.svg');
-					background-color: #c9cbcc;
-					background-size: contain;
-					width: 40px;
-					height: 40px;
-					margin: 0;
-				}
-
-				input.delete {
-					background-image: url('/img/edit-buttons/delete-transparent.svg');
-					background-color: #f34541;
-					background-size: contain;
-					width: 40px;
-					height: 40px;
-					margin: 0;
-				}
-			}
-
-			&.active {
-				width: 80px;
-
-				form {
-					display: block;
-				}
-			}
-		}
-		
-		
-	}
 }
 
 /* tijdlijn: gekopieerd uit javabrug */

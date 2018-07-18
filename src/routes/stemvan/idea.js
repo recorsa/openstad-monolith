@@ -702,15 +702,15 @@ function sendThankYouMail( req, idea ) {
 		}]
 	} else {
 		attachments = [{
-			filename : 'logo@2x.png',
-			path     : 'img/email/logo@2x.png',
+			filename : 'logo.svg',
+			path     : 'img/logo-gemeenteams-webapplicaties.svg',
 			cid      : 'logo'
 		}, {
-			filename : 'map@2x.png',
+			filename : 'map.png',
 			path     : 'img/email/map@2x.png',
 			cid      : 'map'
 		}, {
-			filename : 'steps@2x.png',
+			filename : 'steps.png',
 			path     : 'img/email/steps@2x.png',
 			cid      : 'steps'
 		}]
