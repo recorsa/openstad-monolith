@@ -65,6 +65,11 @@ addApp('stemtool', [{
 	deployName : 'production_kareldoorman',
 	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
 	ref        : 'origin/staging'
+}, {
+	appName    : 'api-server',
+	deployName : 'production_api',
+	remotePath : '/var/www/api.openstadsdeel.nl/www',
+	ref        : 'origin/projects/monolith-as-api-server'
 }]);
 
 module.exports = config;
