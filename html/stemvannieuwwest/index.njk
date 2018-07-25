@@ -5,14 +5,11 @@
 
 {% block content %}
 	<div id="banner">
-		<div class="image" style="background-image: url('/img/home_banner_nwest.jpg');"></div>
+		<div class="image" style="background-image: url('/img/home_banner_nwest.jpg');"><div style="position: absolute; right: 8px; bottom: 4px; font-weight: bold; color: white;">Foto Jeroen Paling | Dutsh Amsterdam</div></div>
 		<div class="text">
 			<h2>Welkom op de Stem van Nieuw-West</h2>
 			<p>
-				Dit is jouw online meeting point voor het indienen van voorstellen voor je buurt.
-				Na de gemeenteraadsverkiezingen op 21 maart 2018 is het Algemeen Bestuur opgevolgd
-				door een stadsdeelcommissie. Hou deze site in de gaten om te zien wat dat betekent
-				voor plannen op {{SITENAME}}.
+				Dit is jouw online meetingpoint waar je voorstellen voor je buurt kunt indienen. Een nieuw plantsoen? Een dagbestedingsproject voor dak- en thuislozen? Extra parkeerplekken of juist veel minder? Jij bedenkt het! Voer campagne voor je plan, verzamel zoveel mogelijk stemmen voor je plan en pitch jouw voorstel bij de stadsdeelcommissie.
 			</p>
 		</div>
 	</div>
@@ -24,24 +21,21 @@
 		{% for article in articles
 		%}<div class="tile">
 			<a href="/artikel/{{article.id}}">
-			<div class="image" style="background-image: url('/img/articles/{{article.id}}/thumbnail.jpg');"></div>
-			<h3>{{article.title}}</h3>
-			{{article.summary}}
+				<div class="image" style="background-image: url('/img/articles/{{article.id}}/thumbnail.jpg');"></div>
+				<h3>{{article.title}}</h3>
+				{{article.summary}}
 			</a>
 			
 			<a href="/artikel/{{article.id}}" class="readMore">Lees meer</a>
-		</div>{%
-		endfor %}{#
-			Another weird formatting; see comment above.
-		#}<div class="tile">
+		</div>{% endfor %}{# Another weird formatting; see comment above. #}<div class="tile">
 			<div class="image" style="background-image: url('/img/articles/custom_tile_west.jpg');"></div>
-			<h3>Wegens succes nu ook in stadsdeel Nieuw-West!</h3>
-			‘De Stem van...’ is in West al sinds februari 2017 online, in Centrum sinds augustus en in Oost
-			sinds oktober. Nieuws&shy;gierig naar de plan&shy;nen die bewoners en onder&shy;nemers in de andere stadsdelen plaatsen?
-			
+			<h3>In andere stadsdelen</h3>
+			Nieuwsgierig naar de plannen die van bewoners en ondernemers in andere stadsdelen?
 			<a href="https://stemvanwest.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van West</a>
 			<a href="https://stemvancentrum.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Centrum</a>
 			<a href="https://stemvanoost.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Oost</a>
+			<a href="https://stemvanzuid.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Zuid</a>
+			<a href="https://stemvanzuidoost.amsterdam.nl" target="_blank" class="readMore">Bezoek de site van Zuid Oost</a>
 		</div>
 	</div>
 	

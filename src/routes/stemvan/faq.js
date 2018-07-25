@@ -44,35 +44,40 @@ var questionsData = [{
 	id: 5,
 	question: `Wat gebeurt er met mijn voorstel als het op de site staat?`,
 	answer: `
-		<p>Na het uploaden krijg je 90 dagen de tijd om campagne te voeren voor jouw voorstel. Eén keer per maand wordt uit alle voorstellen die minimaal 100 positieve stemmen hebben ontvangen het plan met de meeste stemmen gekozen. Dit voorstel wordt op de agenda van de stadsdeelcommissie gezet en zullen zij dit uitgebreid bespreken. Als jouw voorstel ‘gewonnen’ heeft, zul je per email uitgenodigd worden om je voorstel te komen toelichten tijdens de vergadering. Een unieke kans!</p>
+		<p>Na het uploaden krijg je 90 dagen de tijd om campagne te voeren stemmen te werven voor jouw voorstel. Eén keer per maand wordt het voorstel dat op dat moment de meeste stemmen heeft op de agenda van de stadsdeelcommissie gezet. Zij zullen dit voorstel uitgebreid bespreken. Als jouw voorstel heeft ‘gewonnen’, word je per e-mail uitgenodigd om je voorstel toe te lichten tijdens de vergadering. Een unieke kans!</p>
 	`
 }, {
 	id: 6,
 	question: `Wat gebeurt er met mijn voorstel als ik niet de meeste stemmen heb gehaald?`,
 	answer: `
-		<p>Tijdens jouw campagneperiode van 90 dagen heb je drie keer de kans om met je voorstel op de agenda van de stadsdeelcommissie te komen. Elke maand bespreekt de stadsdeelcommissie het voorstel dat die maand de meeste stemmen heeft gehaald (met een ondergrens van 100 positieve stemmen). Ben je na de eerste maand nét niet eerste geworden? Niet getreurd! Dan kun je het de volgende maand gewoon nog eens proberen. Je reeds opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
-		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
+		<p>Tijdens de 90 dagen die je hebt om stemmen te werven, heb je drie keer de kans om met je voorstel op de agenda van de stadsdeelcommissie te komen. Elke maand bespreekt de stadsdeelcommissie het voorstel dat die maand de meeste stemmen heeft gehaald. De stadsdeelcommissie formuleert een advies aan het dagelijks bestuur die dan een besluit neemt over je plan. Ben je na de eerste maand nét niet eerste geworden? Niet getreurd. Je kunt het de volgende maand gewoon nog eens proberen. Je al opgehaalde stemmen tellen gewoon weer mee voor de volgende maand.</p>
 	`
 }, {
 	id: 7,
+	question: `Verdwijnt mijn voorstel als ik na 90 dagen niet voldoende stemmen heb?`,
+	answer: `
+		<p>Ook nadat jouw 90 dagen campagnetijd voorbij zijn, blijft je voorstel op de site te bekijken. Deze wordt dan opgenomen in het archief van geüploade plannen om anderen te inspireren. Wil je dat je voorstel verwijderd wordt na de campagneperiode, neem dan contact op met <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
+	`
+}, {
+	id: 8,
 	question: `Kan ik stemmen op mijn eigen voorstel?`,
 	answer: `
 		<p>Ja, je kunt eenmalig stemmen op je eigen voorstel.</p>
 	`
 }, {
-	id: 8,
+	id: 9,
 	question: `Kan ik ook een stem uitbrengen zonder argument?`,
 	answer: `
 		<p>Ja hoor, dat kan! Maar het is slim om je stem toe te lichten, zodat andere bewoners jouw stem beter begrijpen en zij hierdoor makkelijker een eigen keuze kunnen maken. </p>
 	`
 }, {
-	id: 9,
+	id: 10,
 	question: `Ik heb me vergist en wil mijn mening veranderen. Kan ik mijn stem en argument nog veranderen?`,
 	answer: `
 		<p>Ja hoor, dat kan! Door opnieuw op de stemknop ‘voor’ of ‘tegen’ te klikken kun je je stem aanpassen of ongedaan maken. Nadat je een argument geplaatst hebt, kun je deze wijzigen of verwijderen via de iconen in de rechterbovenhoek.</p>
 	`
 }, {
-	id: 10,
+	id: 11,
 	question: `Hoe kom ik direct in contact met leden van de stadsdeelcommissie?`,
 	answer: `
 		<p>Leden van de stadsdeelcommissie lezen actief mee met de voorstellen en discussies op de {{SITENAME}}. Wil je direct in contact komen met een lid van de stadsdeelcommissie? Ga dan naar de <a href="{{GLOBALS.administration}}" target="_blank">Bestuurscommissie informatiepagina</a>.</p>
