@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('src/db');
+const db = require('../../db');
 
 let router = express.Router({mergeParams: true});
 

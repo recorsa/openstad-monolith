@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const express = require('express');
-const db      = require('src/db');
-const auth    = require('src/auth');
+const db      = require('../../db');
+const auth    = require('../../auth');
 
 let router = express.Router({mergeParams: true});
 
