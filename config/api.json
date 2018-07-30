@@ -1,0 +1,39 @@
+{
+	"express": {
+		"rendering": {
+			"templateDirs": ["html/stemtool"],
+			"globals": {
+				"projectPage" : "https://www.amsterdam.nl/"
+			}
+		},
+		"middleware": {
+			"beforeSecurity": [
+				"./routes/media_get"
+			],
+			"afterSecurity": [
+				"./middleware/log",
+				"./routes/stemtool/default",
+				"./routes/stemtool/vote",
+				"./routes/stemtool/arg",
+				"./routes/stemtool/newsletter",
+				"./routes/stemtool/logout",
+				"./routes/stemtool/idea",
+				"./routes/stemtool/account",
+				"./routes/dev"
+			]
+		}
+	},
+
+	"security": {
+		"authorization": {
+			"roles": "api"
+		}
+	},
+	
+	"stemtool": {
+		"poll": {
+			"maxChoices": 3,
+			"switchOrError": "error"
+		}
+	}
+}

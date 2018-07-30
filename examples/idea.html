@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>An HTML Document</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+		<script src="/js/custom-elements.min.js"></script>
+  </head>
+  <body>
+		<div style="width: 1000px; margin: 0 auto;">
+			<h1>
+				Een plan
+			</h1>
+			Dit is een voorbeeld met webcomponents
+			
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/idea.css"/>
+			<script>
+				let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
+				var script = document.createElement('script');
+				script.src="/widget/site/2/idea/" + id
+				document.head.appendChild(script)
+			</script>
+			<idea-widget>XXX</idea-widget>
+
+		</div>
+  </body>
+</html>

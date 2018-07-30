@@ -20,40 +20,56 @@ module.exports = function( helpers, role ) {
 			resource : 'poll'
 		},
 
-		'arg:form'         : {
+		'arguments:list'       : true,
+		'argument:view'        : true,
+
+		'argument:form'         : {
 			allow    : helpers.mayAddArgument,
 			resource : 'idea'
 		},
-		'arg:add'          : {
+		'argument:create'          : {
 			allow    : helpers.mayAddArgument,
 			resource : 'idea',
 			message  : 'Argument toevoegen niet toegestaan'
 		},
-		'arg:reply:form'   : {
+		'argument:reply:form'   : {
 			allow    : helpers.mayReplyToArgument,
 			resource : ['idea', 'argument']
 		},
-		'arg:reply'        : {
+		'argument:reply'        : {
 			allow    : helpers.mayReplyToArgument,
 			resource : ['idea', 'argument']
 		},
-		'arg:edit'         : {
+		'argument:edit'         : {
 			allow    : helpers.mayMutateArgument,
 			resource : ['idea', 'argument'],
 			message  : 'Argument bewerken niet toegestaan'
 		},
-		'arg:delete'       : {
+		'argument:delete'       : {
 			allow    : helpers.mayMutateArgument,
 			resource : ['idea', 'argument'],
 			message  : 'Argument verwijderen niet toegestaan'
 		},
-		'arg:vote'         : {
+		'argument:vote'         : {
 			allow    : helpers.mayVoteArgument,
 			resource : ['idea', 'argument'],
 			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
 		},
 
-
+		'sites:list'       : true,
+		'site:view'        : true,
+		'site:create'      : false,
+		'site:edit'        : {
+			allow    : false,
+			resource : 'site',
+			message  : 'Site bewerken niet toegestaan'
+		},
+		'site:delete'      : {
+			allow    : false,
+			resource : 'site'
+		},
+		
+		
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
 		'idea:admin'       : false,

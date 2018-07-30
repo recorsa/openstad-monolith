@@ -1,0 +1,19 @@
+class IdeaWidget extends HTMLElement {
+constructor() {
+super();
+}
+connectedCallback () {
+let baseUrl = this.getAttribute('base-url') || window.location.href;
+this.innerHTML = `
+<idea id="idea-{{idea.id}}">
+	<idea-image><div style="background-image: url({{idea.posterImageUrl}})"></div></idea-image>
+	<idea-title>{{idea.title}}</idea-title>
+	<idea-description>{{idea.description | safe}}</idea-description>
+	<idea-counters>{{idea.yes}}, {{idea.no}}, {{idea.argCount}}</idea-counters>
+</idea>
+`
+}
+}
+
+customElements.define('idea-widget', IdeaWidget);
+

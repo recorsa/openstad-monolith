@@ -40,14 +40,26 @@ module.exports  = {
 		
 		var middleware = config.get('express.middleware');
 		// ... load middleware/routes not compatible with CSRF security...
-		middleware.beforeSecurity.forEach(( filePath ) => {
-			require(filePath)(this.app);
+		middleware.beforeSecurity.forEach(( entry ) => {
+			if (typeof entry == 'object' ) {
+				// nieuwe versie: use route
+				this.app.use(entry.route, require(entry.router));
+			} else {
+				// oude versie: de file doet de app.use
+				require(entry)(this.app);
+			}
 		});
 		// ... load security middleware (CSRF)...
 		this._initSecurityMiddleware();
 		// ... load middleware/routes that utilize CSRF security
-		middleware.afterSecurity.forEach(( filePath ) => {
-			require(filePath)(this.app);
+		middleware.afterSecurity.forEach(( entry ) => {
+			if (typeof entry == 'object' ) {
+				// nieuwe versie: use route
+				this.app.use(entry.route, require(entry.router));
+			} else {
+				// oude versie: de file doet de app.use
+				require(entry)(this.app);
+			}
 		});
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
@@ -95,6 +107,7 @@ module.exports  = {
 		this.app.use('/img', express.static('img', headerOptions));
 		this.app.use('/js',  express.static('js', headerOptions));
 		this.app.use('/lib', express.static('lib', headerOptions));
+		this.app.use('/examples', express.static('examples', headerOptions));
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');

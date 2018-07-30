@@ -12,6 +12,10 @@ var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
+		siteId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : false
+		},
 		meetingId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : true
@@ -68,6 +72,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			get          : function() {
 				var posterImage = this.get('posterImage');
 				var location    = this.get('location');
+
+				if ( Array.isArray(posterImage) ) {
+					posterImage = posterImage[0];
+				}
 
 				return posterImage ? `/image/${posterImage.key}?thumb` :
 				       location    ? 'https://maps.googleapis.com/maps/api/streetview?'+
@@ -183,10 +191,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.belongsTo(models.Meeting);
 				this.belongsTo(models.User);
 				this.hasMany(models.Vote);
+				this.hasOne(models.Vote, {as: 'userVote'});
 				this.hasMany(models.Argument, {as: 'argumentsAgainst'});
 				this.hasMany(models.Argument, {as: 'argumentsFor'});
 				this.hasMany(models.Image);
-				this.hasOne(models.Image, {as: 'posterImage'});
+				this.hasMany(models.Image, {as: 'posterImage'});
 				this.hasOne(models.Poll);
 				this.hasMany(models.AgendaItem, {as: 'agenda'});
 			},
@@ -198,7 +207,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					limit : 3
 				});
 			},
-			getRunning: function( sort ) {
+
+			// deze bestaat voor de oude sites; de api gebruikt hier scopes voor
+			getRunning: function( sort, options ) {
 				var order;
 				switch( sort ) {
 					case 'votes_desc':
@@ -224,11 +235,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						`;
 				}
 
-				// Get all running ideas.
-				// TODO: Ideas with status CLOSED should automatically
-				//       become DENIED at a certain point.
-				return this.scope('summary', 'withPosterImage').findAll({
-					where: {
+				let where = {
 						$or: [
 							{
 								status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY', 'DONE']}
@@ -244,7 +251,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 								]
 							}
 						]
-					},
+				};
+
+				// todo: dit kan mooier
+				if (options && options.siteId) {
+					where = {
+						$and: [
+							{ siteId: options.siteId },
+							{ $or: where.$or },
+						]
+					}
+				}
+
+				// Get all running ideas.
+				// TODO: Ideas with status CLOSED should automatically
+				//       become DENIED at a certain point.
+				return this.scope('summary', 'withPosterImage').findAll({
+					where: where,
 					order   : order,
 					include : [{
 						model: db.Meeting,
@@ -434,6 +457,178 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 		return {
+
+			// nieuwe scopes voor de api
+			// -------------------------
+
+			// defaults
+			api: {
+			},
+			
+			// vergelijk getRunning()
+			selectRunning: {
+				where: {
+					$or: [
+						{
+							status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY', 'DONE']}
+						}, {
+							$and: [
+								{status: 'DENIED'},
+								sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 7`)
+							]
+						}
+					]
+				}
+			},
+			
+			includeArguments: function( userId ) {
+				return {
+					include: [{
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsAgainst']},
+							{method: ['withUserVote', 'argumentsAgainst', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsAgainst',
+						required : false,
+						where    : {
+							sentiment: 'against',
+							parentId : null
+						}
+					}, {
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsFor']},
+							{method: ['withUserVote', 'argumentsFor', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsFor',
+						required : false,
+						where    : {
+							sentiment: 'for',
+							parentId : null
+						}
+					}],
+					// HACK: Inelegant?
+					order: [
+						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
+						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
+						'argumentsAgainst.parentId',
+						'argumentsFor.parentId',
+						'argumentsAgainst.createdAt',
+						'argumentsFor.createdAt'
+					]
+				};
+			},
+
+			includeMeeting: {
+				include : [{
+					model: db.Meeting,
+				}]
+			},
+
+			includePosterImage: {
+				include: [{
+					model      : db.Image,
+					as         : 'posterImage',
+					attributes : ['key'],
+					required   : false,
+					where      : {
+						sort: 0
+					}
+				}]
+			},
+
+			includeRanking: {
+// 				}).then((ideas) => {
+// 					// add ranking
+// 					let ranked = ideas.slice();
+// 					ranked.forEach(idea => {
+// 						idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
+// 					});
+// 					ranked.sort( (a, b) => a.ranking < b.ranking );
+// 					let rank = 1;
+// 					ranked.forEach(idea => {
+// 						idea.ranking = rank;
+// 						rank++;
+// 					});
+// 					return sort == 'ranking' ? ranked : ideas;
+// 				});
+			},
+			
+			includeVoteCount: {
+				attributes: {
+					include: [
+						voteCount('yes'),
+						voteCount('no'),
+						argCount('argCount')
+					]
+				}
+			},
+			
+			includeUser: {
+				include: [{
+					model      : db.User,
+					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+				}]
+			},
+			
+			includeUserVote: function(userId) {
+				let result = {
+					include: [{
+						model    : db.Vote,
+						as       : 'userVote',
+						required : false,
+						where    : {
+							userId : userId
+						}
+					}]
+				};
+				return result;
+			},
+			
+			// vergelijk getRunning()
+			sort: function (sort) {
+
+				let result = {};
+
+				var order;
+				switch( sort ) {
+					case 'votes_desc':
+						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+						order = 'yes DESC';
+						break;
+					case 'votes_asc':
+						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+						order = 'yes ASC';
+						break;
+					case 'date_asc':
+						order = 'endDate ASC';
+						break;
+					case 'date_desc':
+					default:
+						order = `
+							CASE status
+								WHEN 'ACCEPTED' THEN 4
+								WHEN 'OPEN'     THEN 3
+								WHEN 'BUSY'     THEN 2
+								WHEN 'DENIED'   THEN 0
+								                ELSE 1
+							END DESC,
+							endDate DESC
+						`;
+				}
+
+				result.order = order;
+
+				return result;
+
+      },
+
+			// oude scopes
+			// -----------
+			
 			summary: {
 				attributes: {
 					include: [

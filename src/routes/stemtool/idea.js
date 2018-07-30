@@ -173,7 +173,7 @@ module.exports = function( app ) {
 	// via the POST error handler. After the user submits his zipcode,
 	// a new anonymous member is created, and the normal POST handler
 	// is called.
-	router.route('/:ideaId/vote')
+	router.route('/:ideaId(\\d+)/vote')
 	.all(fetchIdea())
 	.all(auth.can('idea:vote'))
 	.post(function( err, req, res, next ) {
