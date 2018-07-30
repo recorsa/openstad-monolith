@@ -1,0 +1,22 @@
+class IdeasWidget extends HTMLElement {
+constructor() {
+super();
+}
+connectedCallback () {
+let baseUrl = this.getAttribute('base-url') || window.location.href;
+this.innerHTML = `
+{% for idea in runningIdeas %}
+	<idea id="idea-{{idea.id}}">
+		<a href="${baseUrl}{{idea.id}}">
+			<idea-image><div style="background-image: url({{idea.posterImageUrl}})"></div></idea-image>
+			<idea-title>{{idea.title}}</idea-title>
+			<idea-summary>{{idea.summary}}</idea-summary>
+			<idea-counters>{{idea.yes}}, {{idea.no}}, {{idea.argCount}}</idea-counters>
+		</a>
+	</idea>
+{% endfor %}`
+}
+}
+
+customElements.define('ideas-widget', IdeasWidget);
+

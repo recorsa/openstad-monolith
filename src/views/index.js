@@ -9,9 +9,11 @@ var views = {
 		var view = views[viewPath];
 		if( view && view != render ) {
 			var processed = view(req, res, data);
-			res.json(processed);
+			res.write(JSON.stringify(processed));
+			res.end();
 		} else {
-			res.json(data);
+			res.write(JSON.stringify(data));
+			res.end();
 		}
 	}
 };

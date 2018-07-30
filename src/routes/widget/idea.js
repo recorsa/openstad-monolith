@@ -11,7 +11,121 @@ var util         = require('../../util')
   , auth         = require('../../auth')
   , mail         = require('../../mail');
 
-module.exports = function( app ) {
+
+const http = require('http');
+
+let router = express.Router({mergeParams: true});
+
+router.route('/')
+
+// list ideas
+// ----------
+	.get(auth.can('ideas:list'))
+	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
+	.get(function( req, res, next ) {
+
+		// fetch ideas from api server
+		http.get('http://localhost:8084/api/site/'+req.params.siteId+'/idea?running=true&includePosterImage=true&includeVoteCount=true', (resp) => {
+			let data = '';
+			resp.on('data', (chunk) => {
+				data += chunk;
+			});
+			resp.on('end', () => {
+				req.ideas = JSON.parse(data);
+				next();
+			});
+			
+		}).on("error", (err) => {
+			console.log("Error: " + err.message);
+			next();
+		});		
+		
+	})
+	.get(function( req, res, next ) {
+
+		// Figure out idea sorting, and store in the user's session.
+		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') ||
+		           req.cookies['idea_sort'];
+		if( sort ) {
+			res.cookie('idea_sort', sort, {
+				expires: 0
+			});
+		}
+		
+		var data = {
+			runningIdeas     : req.ideas,
+		};
+		
+		Promise.props(data)
+		.then(function( result ) {
+			res.out('ideas/list', true, result);
+		})
+		.catch(next);
+	});
+
+router.route('/test')
+	.get(function( req, res, next ) {
+		res.status(200).end(`
+<h1>Test</h1>
+`)
+	});
+
+
+// view idea
+// ---------
+
+router.route('/:ideaId(\\d+)')
+	.all(auth.can('idea:view'))
+// list ideas
+// ----------
+	.get(auth.can('ideas:list'))
+	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
+	.get(function( req, res, next ) {
+
+		// fetch ideas from api server
+		http.get('http://localhost:8084/api/site/'+req.params.siteId+'/idea/'+req.params.ideaId+'?includePosterImage=true&includeVoteCount=true&includeUserVote=true', (resp) => {
+			let data = '';
+			resp.on('data', (chunk) => {
+				data += chunk;
+			});
+			resp.on('end', () => {
+				req.idea = JSON.parse(data);
+				next();
+			});
+			
+		}).on("error", (err) => {
+			console.log("Error: " + err.message);
+			next();
+		});		
+		
+	})
+	.get(function( req, res, next ) {
+
+		var data = {
+			idea     : req.idea,
+		};
+		
+		Promise.props(data)
+		.then(function( result ) {
+			res.out('ideas/idea', true, result);
+		})
+		.catch(next);
+	});
+
+router.route('/test')
+	.get(function( req, res, next ) {
+		res.status(200).end(`
+<h1>Test</h1>
+`)
+	});
+
+module.exports = router;
+
+
+
+
+
+let oud = function( app ) {
 	// Idea index page
 	// ---------------
 	app.route('(/ideas|/plannen)')
@@ -83,13 +197,6 @@ module.exports = function( app ) {
 	// -----------
 	router.route('(/new|/nieuw)')
 	.all(auth.can('idea:create', true))
-		.all(function( req, res, next ) {
-			if (config.ideas.addNewIdeas === 'closed') {
-				next(createError(404));
-			} else {
-				return next();
-			}
-		})
 	.get(function( req, res ) {
 		var help = req.query.help;
 		res.out('ideas/form', false, {
@@ -186,7 +293,7 @@ module.exports = function( app ) {
 	// via the POST error handler. After the user submits his zipcode,
 	// a new anonymous member is created, and the normal POST handler
 	// is called.
-	router.route('/:ideaId(\\d+)/vote')
+	router.route('/:ideaId/vote')
 	.all(fetchIdea())
 	.all(auth.can('idea:vote'))
 	.post(function( err, req, res, next ) {

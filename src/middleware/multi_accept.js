@@ -16,21 +16,20 @@ function out( req, res, next, viewPath, allowJSON, data ) {
 	res.format({
 		html: function() {
 			_resolve(req, data)
-			.then(function( data ) {
-				res.render(viewPath, data);
-			})
-			.catch(next);
+				.then(function( data ) {
+					res.render(viewPath, data);
+				})
+				.catch(next);
 		},
 		json: function() {
 			if( !allowJSON ) {
 				return res.status(406).send('Not Acceptable');
 			}
-			
 			_resolve(req, data)
-			.then(function( data ) {
-				jsonViews.render(viewPath, req, res, data);
-			})
-			.catch(next);
+				.then(function( data ) {
+					jsonViews.render(viewPath, req, res, data);
+				})
+				.catch(next);
 		},
 		default: function() {
 			res.status(406).send('Not Acceptable');
