@@ -105,7 +105,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
-			allowNull    : true
+			allowNull    : !config.get('ideas.location.isMandatory'),
 		},
 
 		modBreak: {
@@ -250,6 +250,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 						model: db.Meeting,
 						attributes: []
 					}]
+				}).then((ideas) => {
+					// add ranking
+					let ranked = ideas.slice();
+					ranked.forEach(idea => {
+						idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
+					});
+					ranked.sort( (a, b) => a.ranking < b.ranking );
+					let rank = 1;
+					ranked.forEach(idea => {
+						idea.ranking = rank;
+						rank++;
+					});
+					return sort == 'ranking' ? ranked : ideas;
 				});
 			},
 			getHistoric: function() {

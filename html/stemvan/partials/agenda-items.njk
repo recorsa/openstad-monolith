@@ -1,6 +1,9 @@
 {% macro agenda(items, user, isPreview) %}
 	<div id="agenda">
 		<h2>Agenda {% if isPreview %}preview{% endif %}</h2>
+		<div class="description">
+			Een keer per maand bespreekt de stadsdeelcommissie het bewonersvoorstel met de meeste stemmen. Welk voorstel dit is, wordt op de peildatum om 16:00 uur vastgesteld.
+		</div>
 		<div class="agenda">
 			{% for item in items %}
 				<div class="box-grey agenda-{{item.type}}">

@@ -186,7 +186,7 @@
 // the wide column on the left), we cannot use the default `div.primary`/`div.secondary`
 // column divide from `stemvan`. If you need two columns, you wrap your
 // `div.primary`/`div.secondary` in a `<section>` element.
-#content.idea ~ section {
+.pageContent.idea ~ section {
 	&#summary {
 		.image {
 			background-image: url('/img/placeholders/idea.jpg');
@@ -208,7 +208,7 @@
 // All main content in the left column. This is the original CSS
 // for `stemvan`. `.primary` and `secondary` are still used in `stemtool`,
 // only inside `<section>` elements.
-#content.idea >.primary {
+.pageContent.idea >.primary {
 	margin-top: 10px;
 	padding-right: @hMargin;
 
@@ -275,7 +275,7 @@
 // Idea content — secondary column
 // -------------------------------
 // All idea mutation buttons on the right side of the idea's content.
-#content.idea >.secondary {
+.pageContent.idea >.secondary {
 	margin-top: 10px;
 
 	h2:first-of-type {
@@ -643,7 +643,7 @@
 // Add/edit argument
 // -----------------
 // This is a separate page from the idea details page.
-#content.argument {
+.pageContent.argument {
 	textarea {
 		box-sizing: border-box;
 		height: 100px;

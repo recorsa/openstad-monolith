@@ -28,6 +28,7 @@ var defaultSendMailOptions = {
 	subject : 'No title',
 	text    : 'No message'
 };
+
 module.exports = {
 	sendMail: function( options ) {
 		transporter.sendMail(

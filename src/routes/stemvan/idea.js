@@ -103,7 +103,8 @@ module.exports = function( app ) {
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
-					req.flash('error', error.message);
+					// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
+					req.flash('error', error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 				});
 				res.out('ideas/form', false, {
 					showForm        : true,
@@ -141,7 +142,8 @@ module.exports = function( app ) {
 		.catch(function( error ) {
 			if( error instanceof db.sequelize.ValidationError ) {
 				error.errors.forEach(function( error ) {
-					req.flash('error', error.message);
+					// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
+					req.flash('error', error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 				});
 				res.out('ideas/form', false, {
 					showForm        : true,
@@ -359,10 +361,15 @@ module.exports = function( app ) {
 	.delete(function( req, res, next ) {
 		var argument = req.argument;
 		var ideaId   = argument.ideaId;
+		var isReaction = !!argument.parentId;
 		argument.destroy()
 		.then(function() {
-			req.flash('success', 'Argument verwijderd');
-			res.success('/plan/'+ideaId);
+			let flashMessage = 'Argument verwijderd';
+			if (isReaction) {
+				flashMessage = 'Reactie verwijderd';
+			}
+			req.flash('success', flashMessage);
+			res.success('/plan/'+ideaId + '#arguments');
 		})
 		.catch(next);
 	});
@@ -534,7 +541,22 @@ function fetchIdea( /* [scopes] */ ) {
 				next(createError(404, 'Plan niet gevonden'));
 			} else {
 				req.idea = idea;
-				next();
+				if (scopes.find(element => element == 'withVoteCount')) {
+					// add ranking
+					db.Idea.getRunning()
+						.then(rankedIdeas => {
+							rankedIdeas.forEach((rankedIdea) => {
+								if (rankedIdea.id == idea.id) {
+									idea.ranking = rankedIdea.ranking;
+								}
+							});
+						})
+						.then(ideas => {
+							next();
+						})
+				} else {
+					next();
+				}
 			}
 		})
 		.catch(next);
@@ -644,24 +666,61 @@ function sendThankYouMail( req, idea ) {
 		hideLinkHrefIfSameAsText : true,
 		uppercaseHeadings        : false
 	});
-	
+
+	let attachments;
+  // TODO: ff een snelle oplossing één dag voor live; verzin hier iets generieks voor
+	let site = config.get('siteId');
+	if ( site == 'zorggoedvooronzestad' ) {
+		attachments = [{
+			filename : 'email.kaart.png',
+			path     : 'img/eberhardvanderlaan/email.kaart.png',
+			cid      : 'kaart'
+		}, {
+			filename : 'logo.svg',
+			path     : 'img/logo-gemeenteams-webapplicaties.svg',
+			cid      : 'logo'
+		}, {
+			filename : 'howto-1.png',
+			path     : 'img/eberhardvanderlaan/howto-1.png',
+			cid      : 'howto-1'
+		}, {
+			filename : 'howto-2.png',
+			path     : 'img/eberhardvanderlaan/howto-2.png',
+			cid      : 'howto-2'
+		}, {
+			filename : 'howto-3.png',
+			path     : 'img/eberhardvanderlaan/howto-3.png',
+			cid      : 'howto-3'
+		}, {
+			filename : 'howto-4.png',
+			path     : 'img/eberhardvanderlaan/howto-4.png',
+			cid      : 'howto-4'
+		}, {
+			filename : 'bullet.png',
+			path     : 'img/eberhardvanderlaan/bullet.png',
+			cid      : 'bullet'
+		}]
+	} else {
+		attachments = [{
+			filename : 'logo.svg',
+			path     : 'img/logo-gemeenteams-webapplicaties.svg',
+			cid      : 'logo'
+		}, {
+			filename : 'map.png',
+			path     : 'img/email/map@2x.png',
+			cid      : 'map'
+		}, {
+			filename : 'steps.png',
+			path     : 'img/email/steps@2x.png',
+			cid      : 'steps'
+		}]
+	}
+
 	mail.sendMail({
 		to          : req.user.email,
 		subject     : 'Bedankt voor je voorstel',
 		html        : html,
 		text        : text,
-		attachments : [{
-			filename : 'logo@2x.png',
-			path     : 'img/email/logo@2x.png',
-			cid      : 'logo'
-		}, {
-			filename : 'map@2x.png',
-			path     : 'img/email/map@2x.png',
-			cid      : 'map'
-		}, {
-			filename : 'steps@2x.png',
-			path     : 'img/email/steps@2x.png',
-			cid      : 'steps'
-		}]
+		attachments : attachments,
 	});
 }

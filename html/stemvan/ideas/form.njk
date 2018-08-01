@@ -1,5 +1,5 @@
 {% extends 'ideas.njk' %}
-{% set pageTitle = 'Nieuw idee' %}
+{% set pageTitle = 'Nieuw idee' if not idea.id else 'Bewerk idee' %}
 {% set contentClass = 'newIdea' %}
 
 {% block head %}
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{'Nieuw idee' if not idea.id else 'Bewerk idee'}}</h1>
+	<h1>{{pageTitle}}</h1>
 
 {% if showHelp %}
 	<div id="howDoesItWork">
@@ -34,7 +34,7 @@
 			<h1>Campagne</h1>
 			<p>
 				Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
-				op de agenda te krijgen van het Algemeen Bestuur. Verzamel tenminste 100 positieve
+				op de agenda te krijgen van de stadsdeelcommissie. Verzamel tenminste 100 positieve
 				stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer gestemd
 				worden.
 			</p>
@@ -53,13 +53,13 @@
 		<div data-step="3">
 			<h1>De Agenda</h1>
 			<p>
-				Het plan met de meeste stemmen komt op de agenda van het Algemeen Bestuur. Eén keer
+				Het plan met de meeste stemmen komt op de agenda van de stadsdeelcommissie. Eén keer
 				per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft.
 				Je kunt drie peildata meedingen.
 			</p>
 			<p>
 				Heeft jouw voorstel de meeste stemmen? Dan krijg je per email een uitnodiging om je
-				voorstel toe te lichten in de vergadering van het Algemeen Bestuur. Daarna neemt het
+				voorstel toe te lichten in de vergadering van de stadsdeelcommissie. Daarna neemt het
 				bestuur een besluit over het voorstel.
 			</p>
 			<p>
@@ -69,7 +69,7 @@
 			</p>
 			
 			{% if not user.isLoggedIn() %}
-				<a href="/account/register?ref=/idea/nieuw" class="big">Meld je aan!</a>
+				<a href="/account/register?ref=/idea/nieuw" class="button color-white background-blue" style="color: white">Meld je aan!</a>
 			{% endif %}
 		</div>
 	</div>
@@ -88,8 +88,8 @@
 
 	<form method="post" id="js-form">
 		<div id="titleAndSummary">
-			<h2>Auteur</h2>
-			<p>{{user.fullName}} <em>(uw emailadres wordt nooit gepubliceerd)</em></p>
+			<h4>Naam</h4>
+			<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
 			
 			<h2>Titel idee</h2>
 			<input type="text" name="title" value="{{idea.title}}"><br>
@@ -97,7 +97,10 @@
 			<h2>Samenvatting</h2>
 			Vertel in maximaal 140 tekens wat je voorstel is.<br>
 			<textarea name="summary">{{idea.summary}}</textarea>
-			<div id="charsLeft"><span>140</span> tekens resterend.</div>
+			<div id="charsLeftSummary" class="charsLeft">
+				<div class="min">Nog minimaal <span>0</span> tekens</div>
+				<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+			</div>
 		</div>
 		
 		<div id="description">
@@ -106,7 +109,7 @@
 			<ul>
 				<li>Beschrijft hoe je op het idee bent gekomen.
 				<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
-				<li>Waarom moet het Algemeen Bestuur jouw voorstel bespreken?
+				<li>Waarom moet de stadsdeelcommissie jouw voorstel bespreken?
 				<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
 				<li>Gebruik minimaal 140 tekens.</li>
 			</ul>
@@ -156,10 +159,14 @@
 			{% else %}
 				<textarea name="description">{{idea.description}}</textarea>
 			{% endif %}
+			<div id="charsLeftDescription" class="charsLeft">
+				<div class="min">Nog minimaal <span>0</span> tekens</div>
+				<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+			</div>
 			
 			{% if idea.id %}
-			<input type="hidden" name="id" value="{{idea.id}}">
-			<input type="hidden" name="_method" value="PUT">
+				<input type="hidden" name="id" value="{{idea.id}}">
+				<input type="hidden" name="_method" value="PUT">
 			{% endif %}
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</div>
@@ -173,7 +180,7 @@
 		</div>
 		
 		{% if idea.posterImage %}
-		<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
+			<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
 		{% endif %}
 		
 		<input type="submit" value="Plan opslaan">
@@ -189,146 +196,151 @@
 {% endblock %}
 
 {% block scripts %}
-{% if showForm %}
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
-	<script src="/lib/dropzone/dist/dropzone.js"></script>
-	<script src="/lib/trix/dist/trix.js"></script>
-	<script src="/js/map.js"></script>
-	<script src="/js/editor.js"></script>
-	
-	<script>
-		// Idea form extensions
-		// --------------------
-		// Used by poster file upload and description editor to register
-		// a reference to each uploaded file. This reference list is used
-		// by the server to connect the correct image uploads to this idea.
-		var form = document.getElementById('js-form');
-		form.addAttachmentRef = function( key ) {
-			var input   = document.createElement('input');
-			input.type  = 'hidden';
-			input.name  = 'images[]';
-			input.value = key;
-			this.appendChild(input);
-		};
-		form.clearAttachmentRef = function() {
-			var images = Array.prototype.slice.call(
-				form.querySelectorAll('input[name="images[]"]'), 0
-			);
-			images.forEach(function( image ) {
-				this.removeChild(image);
-			}, this);
-		};
-		form.addEventListener('submit', function( event ) {
-			var uploadForm = document.getElementById('posterImageUpload');
-			if( !uploadForm ) return;
-			
-			if( uploadForm.classList.contains('uploading') ) {
-				event.stopPropagation();
-				event.preventDefault();
-				alert(
-					'De afbeelding upload is nog niet afgerond.\n\n'+
-					'Hierdoor kan uw idee nog niet opgeslagen worden.'
-				);
-			}
-		});
-	</script>	
-	<script>
-		new LocationEditor(document.getElementById('locationField'));
-	</script>
-	<script>
-		var currentImage;
-		var form        = document.getElementById('js-form');
-		var el          = document.getElementById('posterImageUpload');
-		var button      = el.querySelector('button');
-		var progressBar = el.querySelector('#posterImageUpload .progress .bar');
+	{% if showForm %}
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
+		<script src="/lib/dropzone/dist/dropzone.js"></script>
+		<script src="/lib/trix/dist/trix.js"></script>
+		<script src="/js/map.js"></script>
+		<script src="/js/editor.js"></script>
 		
-		button.addEventListener('click', function() {
-			upload.removeFile(currentImage || {});
+		<script>
+		 // Idea form extensions
+		 // --------------------
+						// Used by poster file upload and description editor to register
+		 // a reference to each uploaded file. This reference list is used
+		 // by the server to connect the correct image uploads to this idea.
+			 var form = document.getElementById('js-form');
+		 form.addAttachmentRef = function( key ) {
+			 var input   = document.createElement('input');
+			 input.type  = 'hidden';
+			 input.name  = 'images[]';
+			 input.value = key;
+			 this.appendChild(input);
+		 };
+		 form.clearAttachmentRef = function() {
+			 var images = Array.prototype.slice.call(
+				 form.querySelectorAll('input[name="images[]"]'), 0
+			 );
+			 images.forEach(function( image ) {
+				 this.removeChild(image);
+			 }, this);
+		 };
+		 form.addEventListener('submit', function( event ) {
+			 var uploadForm = document.getElementById('posterImageUpload');
+			 if( !uploadForm ) return;
+			 
+			 if( uploadForm.classList.contains('uploading') ) {
+				 event.stopPropagation();
+				 event.preventDefault();
+				 alert(
+					 'De afbeelding upload is nog niet afgerond.\n\n'+
+					 'Hierdoor kan uw idee nog niet opgeslagen worden.'
+				 );
+			 }
+		 });
+		</script>	
+		<script>
+		 new LocationEditor(document.getElementById('locationField'));
+		</script>
+		<script>
+		 var currentImage;
+		 var form        = document.getElementById('js-form');
+		 var el          = document.getElementById('posterImageUpload');
+		 var button      = el.querySelector('button');
+		 var progressBar = el.querySelector('#posterImageUpload .progress .bar');
+		 
+		 button.addEventListener('click', function() {
+			 upload.removeFile(currentImage || {});
+		 });
+		 
+		 var upload = new Dropzone(el, {
+			 maxFiles             : 1,
+			 uploadMultiple       : false,
+			 
+			 maxFilesize          : 100,
+			 maxThumbnailFilesize : 10,
+			 thumbnailWidth       : 1800,
+			 thumbnailHeight      : null,
+			 
+			 addedfile: function( file ) {
+				 this.removeFile(currentImage || {});
+				 currentImage = file;
+				 
+				 el.classList.add('uploading');
+				 progressBar.style.width = 0;
+				 
+				 file.key = Date.now()+'-'+file.name;
+				 this.options.params['key'] = file.key;
+			 },
+			 removedfile: function( file ) {
+				 el.removeAttribute('style');
+				 el.classList.remove('uploading');
+				 form.clearAttachmentRef();
+			 },
+			 
+			 thumbnail: function( file, dataURL ) {
+				 el.setAttribute('style', 'background-image: url('+dataURL+')');
+			 },
+			 sending: function() {
+				 button.innerHTML = 'Annuleer upload';
+			 },
+			 uploadprogress: function( file, progress, bytesSent ) {
+				 progressBar.style.width = progress+'%';
+			 },
+			 
+			 success: function( file ) {
+				 el.classList.remove('uploading');
+				 form.addAttachmentRef(file.key);
+				 button.innerHTML = 'Verwijder afbeelding';
+			 },
+			 error: function( file, error ) {
+				 console.log('WTF')
+				 console.log(file,error)
+				 button.innerHTML = 'Verwijder afbeelding';
+				 this.removeFile(file);
+				 if( typeof error != 'string' ) {
+					 alert(error.message);
+				 } else {
+					 alert(error)
+				 }
+			 }
+		 });
+		</script>
+
+		<script src="/js/form.js"></script>
+		<script>
+		 window.addEventListener('load', function() {
+
+			 // summary
+			 var minLen = 20;
+			 var maxLen = 140;
+			 
+			 var textarea  = document.querySelector('textarea[name="summary"]');
+			 var charsLeft = document.querySelector('#charsLeftSummary');
+
+			 if( !charsLeft ) {
+				 return;
+			 }
+
+			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
+
+			 // description
+			 var minLen = 140;
+			 var maxLen = 4096;
+
+			 {% if useModernEditor %}
+			 var textarea  = document.getElementById('js-editor');
+			 document.querySelector('#charsLeftDescription').style.marginTop = '-20px';
+			 {% else %}
+			 var textarea  = document.querySelector('textarea[name="description"]');
+			 {% endif %}
+
+			 var charsLeft = document.querySelector('#charsLeftDescription');
+
+			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
+
 		});
-		
-		var upload = new Dropzone(el, {
-			maxFiles             : 1,
-			uploadMultiple       : false,
-			
-			maxFilesize          : 100,
-			maxThumbnailFilesize : 10,
-			thumbnailWidth       : 1800,
-			thumbnailHeight      : null,
-			
-			addedfile: function( file ) {
-				this.removeFile(currentImage || {});
-				currentImage = file;
-				
-				el.classList.add('uploading');
-				progressBar.style.width = 0;
-				
-				file.key = Date.now()+'-'+file.name;
-				this.options.params['key'] = file.key;
-			},
-			removedfile: function( file ) {
-				el.removeAttribute('style');
-				el.classList.remove('uploading');
-				form.clearAttachmentRef();
-			},
-			
-			thumbnail: function( file, dataURL ) {
-				el.setAttribute('style', 'background-image: url('+dataURL+')');
-			},
-			sending: function() {
-				button.innerHTML = 'Annuleer upload';
-			},
-			uploadprogress: function( file, progress, bytesSent ) {
-				progressBar.style.width = progress+'%';
-			},
-			
-			success: function( file ) {
-				el.classList.remove('uploading');
-				form.addAttachmentRef(file.key);
-				button.innerHTML = 'Verwijder afbeelding';
-			},
-			error: function( file, error ) {
-      console.log('WTF')
-      console.log(file,error)
-				button.innerHTML = 'Verwijder afbeelding';
-				this.removeFile(file);
-				if( typeof error != 'string' ) {
-					alert(error.message);
-				} else {
-	        alert(error)
-        }
-			}
-		});
-	</script>
-	<script>
-		// Summary
-		// -------
-		var maxLen    = 140;
-		var textarea  = document.querySelector('textarea[name="summary"]');
-		var charsLeft = document.querySelector('#charsLeft span');
-		
-		updateCharsLeft();
-		textarea.addEventListener('keydown', function( event ) {
-			var len = textarea.value.length;
-			var key = event.key.toLowerCase();
-			
-			// Prevent input when maximum is reached.
-			if( len == maxLen ) {
-				switch( key ) {
-					case 'delete': case 'backspace':
-					case 'arrowdown': case 'arrowup':
-					case 'arrowleft': case 'arrowright':
-						return;
-					default:
-						event.preventDefault();
-				}
-			}
-		});
-		textarea.addEventListener('keyup', updateCharsLeft);
-		
-		function updateCharsLeft() {
-			charsLeft.innerHTML = maxLen - textarea.value.length;
-		}
-	</script>
+		</script>
 	
 	{% if useModernEditor %}
 	<script>

@@ -19,7 +19,7 @@
 	// -----------------
 	.primary {
 		height: 100%;
-		height: 345px;
+		height: 375px;
 		position: relative;
 		
 		@media @primary100 {
@@ -41,11 +41,61 @@
 				margin-right: 0;
 			}
 		}
+
+		.statusbalk {
+			position: relative;
+			display: inline-block;
+			margin-top: 10px;
+			background-color: #164995;
+			background-repeat: no-repeat;
+			background-size: 12px 12px;
+			background-position: 11px 9px;
+			background-image: url('/img/idea/klok-wit.svg');
+			color: white;
+			padding: 6px 15px 5px 32px;
+			font-size: 14px;
+			font-weight: 600;
+			z-index: 100;
+
+			&.ACCEPTED {
+				background-image: url('/img/idea/calendar.svg');
+				background-color: #bdd131;
+			}
+
+			&.DONE {
+				background-size: 11px 10px;
+				background-position: 11px 9px;
+				background-image: url('/img/idea/star-fill.svg');
+				background-color: #003066;
+			}
+
+			&.BUSY {
+				background-size: 12px 11px;
+				background-image: url('/img/idea/star-border.svg');
+				background-color: #2b9ad6;
+			}
+
+			&.CLOSED {
+				background-color: #787979;
+				background-size: 8px 8px;
+				background-position: 13px 10px;
+				background-image: url('/img/idea/tijd-afgelopen.svg');
+			}
+
+			&.DENIED {
+				background-color: #434343;
+				background-size: 8px 8px;
+				background-position: 13px 10px;
+				background-image: url('/img/idea/afgewezen.svg');
+			}
+
+		}
+
 	}
 	// Vote/share controls
 	// -------------------
 	.secondary {
-		height: 345px;
+		height: 375px;
 		margin-top: 0 !important;
 		overflow: visible;
 		
@@ -54,14 +104,15 @@
 		}
 		
 		.controls {
-			border: 1px solid #EC0000;
+			height: 375px;
+			margin-left: -21px;
+			padding: 15px;
+			border: 3px solid #e8e8e8;
 			border-left-width: 0;
 			box-sizing: border-box;
-			height: 100%;
 			margin-left: -@hMargin;
-			padding: 20px 10px 60px @hMargin;
 			position: relative;
-			
+
 			@media @primary100 {
 				margin-left: 0;
 				padding-left: 10px;
@@ -69,122 +120,251 @@
 				border-top-width: 0;
 			}
 			
+			@media @phone {
+				padding: 15px 15px;
+				margin-left: 0;
+				border: 3px solid #e8e8e8;
+				border-top-width: 0;
+			}
+
 			h2:first-of-type {
 				margin-top: 0;
 			}
 			
+			h4 {
+				margin-top: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				margin-bottom: 6px;
+			}
+			
 			.vote {
-				overflow: hidden;
 				
 				button {
 					.appearance(none);
 					
-					background-color: #EC0000;
+					background: #004699;
 					background-repeat: no-repeat;
 					background-size: auto 28px;
 					background-position: center left 8px;
 					border: 0;
 					box-sizing: border-box;
-					color: #FFF;
+					font-size: 18px;
+					font-weight: 600;
+					color: #fff;
 					cursor: pointer;
 					display: block;
-					font-size: 1.1rem;
-					font-weight: bold;
-					height: 42px;
-					line-height: 42px;
-					margin: 0 0 10px 46px;
+					float: left;
+					height: 43px;
+					line-height: 43px;
+					margin: 0;
 					overflow: visible;
 					padding: 0 0 0 42px;
 					position: relative;
 					text-align: center;
-					width: calc(100% - 46px);
+					width: calc(100% - 92px);
+
+					&:hover {
+						background-color: #003066;
+					}
 					
 					&::before {
-						background-color: #FFF;
-						border: 1px solid #EC0000;
-						box-sizing: border-box;
-						color: #EC0000;
-						content: attr(data-count);
-						height: 42px;
-						left: -46px;
-						position: absolute;
-						top: 0;
-						width: 42px;
+						content: none;
 					}
+
 					&[value="yes"] {
-						background-image: url('/img/thumbsup_white_big.svg');
+						background-image: url('/img/thumbsup_white.svg');
 					}
 					&[value="no"] {
-						background-image: url('/img/thumbsdown_white_big.svg');
+						background-image: url('/img/thumbsdown_white.svg');
 					}
 					&:disabled {
-						background-color: gray;
+  					background-color: #bebebe;
 						cursor: default;
+						&:hover {
+  						background-color: #bebebe;
+						}
 					}
 					&:disabled::before {
-						border-color: gray;
-						color: gray;
+						content: none;
 					}
-					&.selected {
-						background-color: #009E3D;
+					&.selected[value="yes"] {
+						background-color: #bdd131;
+						&:disabled {
+  						background-color: #bebebe;
+						}
 					}
-					&.selected::before {
-						border-color: #009E3D;
-						color: #009E3D;
+					&.selected[value="no"] {
+						background-color: #ea1d25;
+						&:disabled {
+  						background-color: #bebebe;
+						}
 					}
 				}
+
 			}
-			div.duration {
-				font-weight: bold;
-				margin: 20px 0px 20px 25px;
+
+			.ideaProgress {
 				position: relative;
-				
-				&:before {
-					background-image: url('/img/clock_gray.svg');
-					background-repeat: no-repeat;
-					background-size: contain;
-					content: '';
-					height: 20px;
-					position: absolute;
-					left: -25px;
-					top: 0px;
-					width: 20px;
+				margin-top: 20px;
+
+				div.bar {
+					background: #004699;
+
+					&.CLOSED, &.DENIED {
+						background: #787979;
+					}
 				}
+
+
 			}
-			ul.share {
-				bottom: 20px;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-				position: absolute;
+
+			.ideaDuration {
 				
-				li {
-					display: inline;
-					margin: 0;
-					padding: 0;
-					
-					a {
-						background-position: center;
+				position: relative;
+				margin: 20px 0px 20px 0px;
+				font-size: 12px;
+				line-height: 1.33;
+
+				&.BUSY {
+					margin-top: 10px;
+				}
+
+				div.duration {
+
+					position: relative;
+					padding: 0 0px 20px 25px;
+					line-height: 20px;
+
+					&:before {
+						background-image: url('/img/klok.svg');
 						background-repeat: no-repeat;
 						background-size: contain;
-						display: inline-block;
-						font-size: 0;
-						height: 42px;
-						width: 42px;
-						
-						&.facebook { background-image: url('/img/share_facebook.svg'); }
-						&.twitter  { background-image: url('/img/share_twitter.svg'); }
-						&.email    { background-image: url('/img/share_email.svg'); }
+						background-size: contain;
+						content: '';
+						height: 18px;
+						position: absolute;
+						left: 0px;
+						top: 0px;
+						width: 18px;
 					}
 				}
+			}
+			
+			.no-of-votes-for,
+			.no-of-votes-against {
+				box-sizing: border-box;
+				text-decoration: none;
+				display: block;
+				margin-bottom: 20px;
+				height: 43px;
+				float: left;
+				margin-bottom: 4px;
+			}
+			
+			.no-of-votes-for-content,
+			.no-of-votes-against-content {
+				box-sizing: border-box;
+				width: 90px;
+				padding: 7px 6px 7px 10px;
+				background: #004699;
+				font-size: 18px;
+				font-weight: 600;
+				color: #fff;
+				display: block;
+				text-decoration: none;
+				height: 43px;
+				margin-right: 2px;
+			}
+
+			.no-of-votes-for-caption,
+			.no-of-votes-against-caption {
+				display: none;
+			}
+
+			.disabled .no-of-votes-for-content,
+			.disabled .no-of-votes-against-content {
+				background-color: #bebebe;
+			}
+			
+			.no-of-votes-for-content .number-plates,
+			.no-of-votes-against-content .number-plates {
+				font-size: 0px;
+				margin-right: 0px;
+			}
+			
+			.no-of-votes-for-content .number-plate,
+			.no-of-votes-against-content .number-plate {
+				margin-right: 4px;
+				display: inline-block;
+				font-size: 18px;
+				background: #e8e8e8;
+				background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+				padding: 0;
+				display: inline-block;
+				height: 29px;
+				line-height: 31px;
+				width: 20px;
+				text-align: center;
+				color: black;
+				border-radius: 3px;
+				font-weight: 800;
+				vertical-align: middle;
+			}
+
+			.share {
+
+        position: absolute;
+        bottom: 15px;
+
+				ul {
+					margin: 0;
+					padding: 0;
+					list-style-type: none;
+					
+					li {
+						display: inline;
+						height: 30px;
+						width: 30px;
+						margin: 0;
+						padding: 0;
+						
+						a {
+							background-position: center;
+							background-repeat: no-repeat;
+							background-size: 30px 30px;
+							display: block;
+							float: left;
+							font-size: 0;
+							line-height: 0;
+							margin: 0 3px 0 0;
+							height: 30px;
+							width: 30px;
+							
+							&.facebook {
+								background-image: url('/img/share-facebook.svg');
+							}
+							&.twitter {
+								background-image: url('/img/share-twitter.svg');
+							}
+							&.email {
+								background-image: url('/img/share-email.svg');
+							}
+						}
+					}
+				}
+
 			}
 		}
 	}
+	
 }
 
 // Idea content
 // ---------------
-#content.idea >.primary {
+/* #content.idea >.primary { */
+.pageContent.idea >.primary {
+	margin-top: 10px;
 	padding-right: @hMargin;
 	
 	@media @primary100 {
@@ -194,7 +374,9 @@
 	// Author information
 	// ------------------
 	#author {
-		font-style: italic;
+		font-size: 14px;
+		line-height: 20px;
+		font-style: normal;
 		margin-bottom: 20px;
 		
 		a {
@@ -210,11 +392,14 @@
 	// ---------
 	// Always displayed below the user content.
 	#modBreak {
-		border: 3px solid #FFE115;
-		margin: 35px 0px;
-		padding: 10px 20px;
 		position: relative;
-		
+		box-sizing: border-box;
+		width: 100%;
+		margin: 35px 0px;
+		padding: 10px 20px 0px 20px;
+		border: 3px solid #FFE115;
+
+
 		&::before,
 		&::after {
 			border-left: 30px solid #FFE115;
@@ -228,323 +413,51 @@
 			left: -3px;
 			bottom: -32px;
 		}
+		&::before {
+			box-sizing: border-box;
+			border: 0 none;
+			background-repeat: no-repeat;
+			background-size: 42px 24px;
+			background-position: right center;
+			background-image: url('/img/modbreak-arrow.png');
+			content: '';
+			width: calc(100% + 6px);
+			height: 24px;
+			right: 0px;
+			top: -24px;
+		}
 		&::after {
-			border-left: 30px solid #FFF;
+			border: 0 none;
 			bottom: -24px;
 			left: 0;
 		}
 		
 		b {
-			color: #EC0000;
+			color: black;
 		}
 		p {
 			margin: 0.5em 0 0;
 		}
 	}
 	#author + #modBreak {
-		margin-bottom: 50px;
+		margin-bottom: 20px;
 		margin-top: 0px;
 	}
+
+	.summary {
+		font-size: 18px;
+	}
+
 }
 
-// Arguments
-// ---------
-// Spans the full width below the idea's content.
-#arguments {
-	clear: both;
-	display: block;
-	overflow: hidden;
+// Action buttons
+// --------------
+// All idea mutation buttons on the right side of the idea's content.
+.pageContent.idea >.secondary {
+	margin-top: 10px;
 	
-	>h1 {
-		background-color: #F3F3F3;
-	  margin-bottom: 30px;
-	  
-	  div {
-	  	font-size: 1.4375rem;
-	  	line-height: 60px;
-	  	padding: 0;
-	  	text-align: center;
-	  }
+	h2:first-of-type {
+		margin-top: 0;
 	}
-	
-	div.argList {
-		box-sizing: border-box;
-		float: left;
-		width: 50%;
-		
-		&:nth-of-type(odd) {
-			padding-right: 15px;
-		}
-		&:nth-of-type(even) {
-			padding-left: 15px;
-		}
-		
-		@media @primary100 {
-			float: none;
-			margin-top: 20px;
-			padding: 0 !important;
-			width: 100%;
-		}
-		
-		// General form styling
-		// --------------------
-		// Both for new arguments and reactions
-		form {
-			div.charsLeft {
-				color: #9A9A9A;
-				display: none;
-				float: left;
-				font-size: 0.7rem;
-				
-				&.visible {
-					display: block;
-				}
-				
-				.min, .max {
-					display: none;
-				}
-				.min {
-					color: #EC0000;
-				}
-				.max {
-					color: #ABDE8D;
-				}
-				.visible {
-					display: block;
-				}
-			}
-			input[type="submit"]:disabled {
-				cursor: default;
-				opacity: 0.3;
-			}
-		}
-		
-		// General user styling
-		// --------------------
-		// Author styling is similar for arguments and reactions.
-		.argument,
-		.reaction {
-			p {
-				margin-top: 0.5em;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-			
-			.user {
-				overflow: hidden;
-				
-				&.admin {
-					background-image: url('/img/flag_small.svg');
-					background-size: auto 1em;
-					background-position: left top 3px;
-					background-repeat: no-repeat;
-					padding-left: 18px;
-				}
-				
-				a {
-					color: inherit;
-				}
-				form {
-					float: right;
-					line-height: 0;
-					
-					input.edit,
-					input.delete {
-						.appearance(none);
-						
-						background-position: center;
-						background-repeat: no-repeat;
-						background-size: 60%;
-						cursor: pointer;
-						font-size: 0;
-						height: 20px;
-						width: 20px;
-					}
-					input.edit {
-						background-color: #333;
-						background-image: url('/img/edit_white.svg');
-						margin-left: 4px;
-					}
-					input.delete {
-						background-color: #EC0000;
-						background-image: url('/img/delete_white.svg');
-					}
-				}
-			}
-		}
-		
-		// Argument
-		// --------
-		form.newArgument {
-			margin-bottom: 10px;
-			overflow: visible;
-			text-align: right;
-			
-			textarea {
-				.appearance(none);
-				
-				border: 1px solid #B6B7BA;
-				border-radius: 0;
-				box-sizing: border-box;
-				color: #B6B7BA;
-				cursor: pointer;
-				display: block;
-				font-family: inherit;
-				font-size: 1.5em;
-				font-weight: bold;
-				height: 55px;
-				margin-bottom: 5px;
-				outline: none;
-				padding: 10px;
-				position: relative;
-				resize: none;
-				width: 100%;
-				transition: color 0.2s, font-size 0.2s, height 0.2s 0.2s;
-				
-				&:not([data-disabled]):focus {
-					color: #000;
-					cursor: auto;
-					font-size: 0.875rem;
-					font-weight: normal;
-					height: 100px;
-				}
-			}
-		}
-		.argument {
-			background-color: #F6F6F6;
-			border-left: 3px solid #043287;
-			color: #666;
-			margin-bottom: 20px;
-			overflow: hidden;
-			padding: 15px;
-			
-			a.reply {
-				background-image: url('/img/arrow_right_red.svg');
-				background-position: top 3px right;
-				background-repeat: no-repeat;
-				background-size: auto 1em;
-				color: #000;
-				display: block;
-				float: right;
-				font-weight: 600;
-				line-height: 21px;
-				margin-top: 0px;
-				// icon width + 10px, like vote button.
-				padding-right: 15px;
-				text-decoration: none;
-			}
-			form.vote {
-				button {
-					.appearance(none);
-					cursor: pointer;
-					font-size: 0.75rem;
-					line-height: 21px;
-					outline: none;
-					padding-left: calc(1.5em + 10px);
-					position: relative;
-					
-					&:before {
-						content: '';
-						background-color: #656565;
-						background-image: url('/img/thumbsup_white.svg');
-						background-position: center;
-						background-repeat: no-repeat;
-						background-size: 75%;
-						height: 1.5em;
-						left: 0;
-						position: absolute;
-						top: -0.1em;
-						width: 1.5em;
-					}
-					&.voted {
-						font-weight: bold;
-					}
-					&.voted:before {
-						background-color: #B1CC06;
-					}
-					&:disabled {
-						cursor: default;
-						opacity: 0.5;
-					}
-				}
-			}
-		}
-		.reaction + .argument,
-		form + .argument {
-			margin-top: 20px;
-		}
-		
-		// Reaction form
-		// -------------
-		form.newReaction {
-			margin-left: 20px;
-			.reaction();
-			
-			textarea {
-				.appearance(none);
-				
-				border: 1px solid #B6B7BA;
-				border-radius: 0;
-				color: #666;
-				display: block;
-				font-family: inherit;
-				font-size: 1em;
-				margin-bottom: 5px;
-				outline: none;
-				overflow: hidden;
-				padding: 5px 10px;
-				resize: none;
-				width: calc(100% - 22px);
-				
-				@media @phone {
-					font-size: 16px; // To prevent zooming.
-				}
-			}
-			input[type="submit"] {
-				float: right;
-				line-height: 20px;
-				padding-right: 25px;
-			}
-		}
-		
-		.reaction {
-			border-left: 3px solid #B0B0B0;
-			color: #666;
-			margin-bottom: 5px;
-			margin-left: 20px;
-			overflow: hidden;
-			padding: 10px 15px;
-			
-			p {
-				margin-bottom: 0;
-			}
-		}
-		.argument + .reaction {
-			border-top: 0;
-			margin-top: -15px;
-		}
-		
-		.noArguments {
-			background-color: #F6F6F6;
-			font-style: italic;
-			margin-bottom: 20px;
-			margin-top: 20px;
-			padding: 20px 10px;
-			text-align: center;
-		}
-	} // .argList
 }
 
-// Add/edit argument
-// -----------------
-// This is a separate page from the idea details page.
-#content.argument {
-	textarea {
-		box-sizing: border-box;
-		height: 100px;
-		width: 100%;
-	}
-	input[type="submit"] {
-		float: right;
-	}
-}

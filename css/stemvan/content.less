@@ -126,40 +126,43 @@
 		text-align: center;
 		text-decoration: none !important;
 	}
+
 	// Red arrow links
 	// ---------------
 	a.readMore {
 		background-image: url('/img/arrow_right_red.svg');
 		background-repeat: no-repeat;
-		background-size: contain;
+		background-size: 11px 16px;
 		color: #000;
 		font-weight: 600;
-		line-height: 16px;
+		line-height: normal;
 		margin-top: 1em;
 		text-decoration: none;
 		display: block;
 		padding-left: 16px;
 	}
+
+	a.readMore:hover {
+		color: #EC0000;
+		text-decoration: underline;
+	}
+
 	// Default submit button
 	// ---------------------
 	// With red arrow.
 	input[type="submit"]:not(.default) {
 		.appearance(none);
-		
-		background-color: transparent;
-		background-image: url('/img/arrow_right_whiteonred.svg');
-		background-position: center right;
-		background-repeat: no-repeat;
-		background-size: contain;
+		width: 140px;
+		padding: 0;
 		border: 0;
 		border-radius: 0;
-		color: #000;
+		font-size: 16px;
+		font-weight: 600;
+		color: white;
+		background-color: #164995;
+		line-height: 40px;
+		text-align: center;
 		cursor: pointer;
-		font-size: inherit;
-		font-weight: bold;
-		line-height: 32px;
-		// outline: none;
-		padding: 0 40px 0 0;
 	}
 	
 	// Idea stats
@@ -232,23 +235,6 @@
 			background-color: #EC0000;
 			height: 12px;
 			width: 0;
-		}
-	}
-	
-	// Big image banner above text content
-	// -----------------------------------
-	#banner {
-		margin: 0 0 35px;
-		position: relative;
-		
-		.image {
-			background-position: center;
-			background-size: cover;
-			height: 360px;
-		}
-		.text {
-			// Current only used on index page (See `index.less`).
-			// Leaving it here for possible future use.
 		}
 	}
 	
@@ -364,6 +350,8 @@
 		// Is used to list news articles on the home page, and ideas
 		// on the ideas page.
 		.tile {
+			font-size: 14px;
+			line-height: normal;
 			box-sizing: border-box;
 			display: inline-block;
 			margin-bottom: @vMargin;
@@ -405,4 +393,35 @@
 			}
 		}
 	}
+
+	.primary {
+		.stadsdeelcommissieleden {
+			width: calc(100% - 50px);
+
+			@media @phone {
+				width: 100%;
+				margin-left: -15px;
+			}
+			
+
+			td {
+
+				img {
+					box-sizing: border-box;
+					height: 150px;
+					width: auto;
+					margin: 0 45px 0 0px;
+					
+					@media @phone {
+						height: 75px;
+						width: auto;
+						margin: 0 0 0 10px;
+					}
+
+				}
+
+			}
+		}
+	}
+	
 }

@@ -14,17 +14,14 @@ module.exports = function( app ) {
 	//       Limit number of uploads per user?
 	app.route('/image')
 	  .post(function( req, res, next ) {
-      console.log('1');
       next();
     })
 	.post(auth.can('image:upload'))
 	  .post(function( req, res, next ) {
-      console.log('2');
       next();
     })
 	.post(upload.single('file'))
 	  .post(function( req, res, next ) {
-      console.log('3');
       next();
     })
 	.post(function( req, res, next ) {

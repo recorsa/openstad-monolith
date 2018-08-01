@@ -1,0 +1,29 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image step-image-1"></div>
+					<div class="step-header">1.<br/>Insturen locatie met een verhaal</div>
+					<p>Upload een foto van je favoriete locatie. We zoeken een locatie met een verhaal. Voer campagne voor je locatie en haal zoveel mogelijk stemmen op.</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-2"></div>
+					<div class="step-header">2.<br/>Stem op locatie in de Baarsjes</div>
+					<p>Je kunt voor en tegen stemmen op een locatie én argumenten voor en tegen een locatie geven.</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-3"></div>
+					<div class="step-header">3.<br/>Haalbaarheid + keuze locatie</div>
+					<p>De locatie die na aftrek van tegenstemmen de meeste stemmen voor heeft, wordt als eerste onderzocht op haalbaarheid. Hier rolt uiteindelijk een winnende locatie uit.</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-4"></div>
+					<div class="step-header">4.<br/>Fase 2: Ontwerpwedstrijd</div>
+					<p>Alle Amsterdammers mogen een ontwerp insturen voor de quote op de gekozen locatie en stemmen op zijn of haar favoriete ontwerp. Het winnende ontwerp wordt uitgevoerd.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

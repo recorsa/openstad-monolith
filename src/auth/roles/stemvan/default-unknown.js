@@ -55,7 +55,7 @@ module.exports = function( helpers, role ) {
 		'arg:add'          : {
 			allow    : false,
 			resource : 'idea',
-			message  : 'Argument toevoegen niet toegestaan'
+			message  : 'Om een argument toe te voegen moet je ingelogd zijn'
 		},
 		'arg:reply:form'   : {
 			allow    : helpers.maySeeReplyForm,

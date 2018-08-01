@@ -11,6 +11,7 @@ module.exports = function( app ) {
 		var data = {
 			articles         : db.Article.getTilesForUser(user),
 			highlightedIdeas : db.Idea.getHighlighted(),
+			runningIdeas     : db.Idea.getRunning(),
 			upcomingMeetings : db.Meeting.getUpcoming()
 		};
 		

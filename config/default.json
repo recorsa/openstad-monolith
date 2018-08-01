@@ -50,29 +50,22 @@
 	
 	"mail": {
 		"from": "from@localhost",
-		"method": "smtp", // smtp, sendgrid
+		"method": "smtp",
 		
 		"transport": {
 			"smtp": {
-				"pool"       : false,
-				"direct"     : false,
-				
-				"port"       : 587,
-				"host"       : "smtp.host.name",
-				"requireTLS" : true,
-				
-				"name"       : "host.name",
-				"auth"       : {
-					"user": "user",
-					"pass": "pass"
-				}
-			},
-			"sendgrid": {
+				"pool": false,
+				"direct": false,
+				"port": 465,
+				"host": "smtp.sendgrid.net",
+				"requireSSL": true,
+				"name": "Sengrid",
 				"auth": {
-					// "api_user": "",
-					"api_key": ""
+					"user": "apikey",
+					"pass": "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"
 				}
 			}
+
 		}
 	},
 	
@@ -127,6 +120,16 @@
 		"anonimizeThreshold": 180,
 		// Minimum number of votes before it influences the date sorting of
 		// and idea's arguments.
+
+		"argumentVoteThreshold": 0,
+    "location": {
+			// Is location a mandatory field
+      "isMandatory": false
+    }
+	},
+	
+	"polls": {
+		"maxChoices": 3,
 		"argumentVoteThreshold": 0
 	}
 }

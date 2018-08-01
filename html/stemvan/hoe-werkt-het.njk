@@ -3,96 +3,62 @@
 {% set contentClass = 'newIdea' %}
 
 {% block content %}
-<div id="modBreak">   
-	<p>
-    <b>Let op:</b> {{SITENAME}} zit in een overgangsperiode. Na de
-		gemeenteraadsverkiezing op 21 maart 2018 is er geen Algemeen Bestuur meer.  Per
-		stadsdeel komt een stadsdeelcommissie, die adviseert aan het dagelijks bestuur
-		van het stadsdeel.
-	</p>
-	<p>
-		De stadsdeelcommissie besluit waarschijnlijk in april 2018 of
-		ze net als het Algemeen Bestuur de site willen blijven gebruiken om bewoners
-		voorstellen op de politieke agenda te laten zetten. Je kunt in de tussentijd nog
-		steeds jouw plannen voor de buurt uploaden. Plannen die nog campagnetijd hebben
-		in de tussenperiode, dingen nog steeds mee naar een plek op de agenda.
-	</p>
-	<p>
-		Mocht de stadsdeelcommissie besluiten {{SITENAME}} niet te
-		gebruiken, dan wordt het plan dat de meeste stemmen heeft op het moment dat de
-		stadsdeelcommissie dat besluit neemt, in elk geval besproken. Die datum geldt dan
-		als eerstvolgende peildatum.
-	</p>
-	<p>
-		Wanneer de stadsdeelcommissie de site wel in gebruik gaat nemen worden er nieuwe
-		peildata en vergaderdata vastgesteld waarop plannen met de meeste stemmen in de
-		stadsdeelcommissie worden geagendeerd. Deze data verschijnen dan in april op deze
-		site.
-	</p>
-</div>
 
-<div id="howDoesItWork">
-	<h2>Hoe werkt het?</h2>
-	
-	<div data-step="1">
-		<h1>Jouw Voorstel</h1>
-		<p>
-			Onze tips voor een goed voorstel:
-			<ul>
-				<li>Het is voor meerdere bewoners interessant</li>
-				<li>Formuleer je voorstel positief</li>
-				<li>Wees duidelijk in je uitleg</li>
-				<li>Houd het kort en bondig</li>
-			</ul>
-		</p>
-		<p>
-			Het idee mag voor je eigen buurt zijn, maar ook voor heel je stadsdeel!
-		</p>
-	</div>
-	
-	<div data-step="2">
-		<h1>Campagne</h1>
-		<p>
-			Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
-			op de agenda te krijgen van het Algemeen Bestuur. Verzamel tenminste 100 positieve
-			stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer gestemd
-			worden.
-		</p>
+	<div id="howDoesItWork">
+		<h2>Hoe werkt het?</h2>
 		
-		<p>
-			Dit kun je doen door:
-			<ul>
-				<li>Buurtgenoten uit te nodigen via Facebook of Twitter</li>
-				<li>Mails te versturen naar je buurtgenoten</li>
-				<li>Deur voor deur langs te gaan</li>
-				<li>Een bijeenkomst te organiseren</li>
-			</ul>
-		</p>
-	</div>
-	
-	<div data-step="3">
-		<h1>De Agenda</h1>
-		<p>
-			Het plan met de meeste stemmen komt op de agenda van het Algemeen Bestuur. Eén keer
-			per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft.
-			Je kunt drie peildata meedingen.
-		</p>
-		<p>
-			Heeft jouw voorstel de meeste stemmen? Dan krijg je per email een uitnodiging om je
-			voorstel toe te lichten in de vergadering van het Algemeen Bestuur. Daarna neemt het
-			bestuur een besluit over het voorstel.
-		</p>
-		<p>
-			Vragen? Check eerst <a href="/veelgestelde-vragen">veelgestelde vragen</a> en kijk of
-			je antwoord er tussen staat. Staat het antwoord op je vraag er niet bij, stuur dan een
-			email naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
-		</p>
+		<div data-step="1">
+			<h1>1. Jouw Voorstel</h1>
+			<p>
+				Onze tips voor een goed voorstel:
+				<ul>
+					<li>Het is voor meerdere bewoners interessant</li>
+					<li>Formuleer je voorstel positief</li>
+					<li>Wees duidelijk in je uitleg</li>
+					<li>Houd het kort en bondig</li>
+          <li>Het idee mag voor je eigen buurt zijn</li>
+				</ul>
+			</p>
+		</div>
 		
-		{% if user.isLoggedIn() %}
-			<a href="/plan/nieuw?help=0" class="big">Upload een voorstel!</a>
-		{% else %}
-			<a href="/account/register?ref=/idea/nieuw" class="big">Meld je aan!</a>
-		{% endif %}
+		<div data-step="2">
+			<h1>2. Campagne</h1>
+			<p>
+				Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
+				op de agenda te krijgen van de stadsdeelcommissie. Verzamel tenminste 100 (positieve)
+				stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer worden gestemd.
+			</p>
+			
+			<p>
+				Dit kun je doen door:
+				<ul>
+					<li>Buurtgenoten uit te nodigen via Facebook of Twitter</li>
+					<li>Mails te versturen naar je buurtgenoten</li>
+					<li>Deur voor deur langs te gaan</li>
+					<li>Een bijeenkomst te organiseren</li>
+				</ul>
+			</p>
+		</div>
+		
+		<div data-step="3">
+			<h1>3. De Agenda</h1>
+			<p>
+				Het plan met de meeste stemmen komt op de agenda van de stadsdeelcommissie. Een keer per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft. Je kunt drie peildata meedingen. 
+			</p>
+			<p>
+				Heeft jouw voorstel de meeste stemmen? Dan krijg je per mail een uitnodiging om je voorstel toe te lichten in de vergadering van de stadsdeelcommissie. Daarna neemt de stadsdeelcommissie een besluit over het voorstel. Binnenkort volgt meer informatie over de stadsdeel­commissie en vergaderdata.
+			</p>
+			<p>
+				Vragen? Check eerst <a href="/veelgestelde-vragen">veelgestelde vragen</a> en kijk of
+				je antwoord er tussen staat. Staat het antwoord op je vraag er niet bij, stuur dan een
+				email naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
+			</p>
+			
+			{% if user.isLoggedIn() %}
+				<a href="/plan/nieuw?help=0" class="button color-white background-blue">Upload een voorstel!</a>
+			{% else %}
+				<a href="/account/register?ref=/idea/nieuw" class="button color-white background-blue" style="color: white">Meld je aan!</a>
+			{% endif %}
+		</div>
 	</div>
-</div>
 {% endblock %}
