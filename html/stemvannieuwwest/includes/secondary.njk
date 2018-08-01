@@ -45,7 +45,8 @@ required. The speech bubble for example is also used in #primary.
 {% macro agenda( user, meetings ) %}
 	<div id="agenda" class="widget">
 		<h2>Agenda</h2>
-		De stadsdeelcommissie bespreekt één keer per maand het bewonersvoorstel met de meeste stemmen. Welk voorstel dit is, wordt op de peildatum om 16:00 uur vastgesteld.		
+		De stadsdeelcommissie vergadert iedere twee weken op dinsdagwoensdagavond in het Tuinstadhuis. Eén keer per maand bespreekt de stadsdeelcommissie het bewonersvoorstel met de meeste stemmen. Welk voorstel dit is, wordt op de peildatum om 16:00 uur vastgesteld.
+		
 		<div class="timeline">
 			{% for meeting in meetings %}
 				<div class="{{meeting.type}}">

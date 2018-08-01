@@ -58,12 +58,18 @@
 		h2 {
 			background-color: #164995;
 			color: #FFF;
-			font-size: 1rem;
+			font-size: 20px;
 			font-weight: 300;
-			line-height: 2.5em;
+			line-height: normal;
 			margin: 0;
 			text-align: center;
+
+			@media @primary100 {
+				padding: 0;
+			}
+
 		}
+
 		>div {
 			box-sizing: border-box;
 			float: left;
@@ -90,7 +96,7 @@
 					position: absolute;
 					height: 40px;
 					left: 10px;
-					top: 20px;
+					top: 42px;
 					width: 40px;
 				}
 			}

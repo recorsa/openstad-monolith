@@ -59,7 +59,7 @@
 			<tr>
 				<td></td>
 				<td width="560">
-					<h1>Zorg goed voor onze stad en voor elkaar</h1>
+					<h1>{{SITENAME}}</h1>
 					{% if assets.idea %}
 						<h2 class="blue">Nieuwe voorstel - {{date | date}}.</h2>
 					{% endif %}
@@ -81,7 +81,7 @@
 
 										<div style="padding: 20px;">
 
-											<img src="http://openstad-dev.francesco.denes.nl/image/1530287101340-Aerial_view_of_london.jpg" width="100%"/>
+											<img src="https://{{DOMAIN}}{{idea.instance.posterImageUrl}}" width="100%"/>
 
 											<br/>
 											<br/>
@@ -157,7 +157,7 @@
 			<tr>
 				<td></td>
 				<td style=" text-align: center; height: 15px;" width="560">
-          <h4><a href="{{fullHost}}" style="color: black; text-decoration: none;">{{DOMAIN}}</a></h4>
+          <h4><a href="https://{{DOMAIN}}" style="color: black; text-decoration: none;">{{DOMAIN}}</a></h4>
         </td>
 				<td></td>
       </tr>

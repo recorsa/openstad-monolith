@@ -12,7 +12,6 @@
 
 		#howDoesItWork,
 		#viewArchive {
-			border-radius: 4px;
 			display: block;
 			font-size: 1rem;
 			font-weight: 300;
@@ -79,51 +78,57 @@
 			font-size: 14px;
 			
 			// Remove clock icon for some labels.
-			&.BUSY,
-			&.ACCEPTED,
-			&.DONE {
-				.duration {
-				}
+			.duration {
+				background-repeat: no-repeat;
+				background-size: 12px 12px;
+				background-position: 8px 7px;
 			}
 			// Change color for some labels.
 			&.BUSY {
 				.duration {
-					background-color: #009DE6;
+					background-size: 11px 10px;
+					background-position: 9px 8px;
+					background-image: url('/img/idea/star-border.svg');
+					background-color: #2b9ad6;
 				}
 			}
 			&.ACCEPTED {
 				.duration {
-					background-size: 12px 12px;
-					background-position: 7px 7px;
-					background-image: url('/img/star.svg');
-					background-color: #00A03C;
+					background-size: 10px 10px;
+					background-position: 9px 8px;
+					background-image: url('/img/idea/calendar.svg');
+					background-color: #bdd131;
 				}
 			}
 			&.OPEN {
 				.duration {
-					background-size: 12px 12px;
-					background-position: 7px 7px;
-					background-image: url('/img/star.svg');
+					background-image: url('/img/idea/klok-wit.svg');
+					background-color: #164995;
 				}
 			}
 			&.DENIED {
 				opacity: 0.5;
-				
 				.duration {
-					background-color: #454545;
+					background-size: 6px 6px;
+					background-position: 11px 10px;
+					background-image: url('/img/idea/afgewezen.svg');
+					background-color: #434343;
 				}
 			}
 			&.CLOSED {
 				.duration {
-					background-color: #454545;
+					background-size: 6px 6px;
+					background-position: 11px 10px;
+					background-image: url('/img/idea/tijd-afgelopen.svg');
+					background-color: #787979;
 				}
 			}
 			&.DONE {
 				.duration {
-					background-size: 12px 12px;
-					background-position: 7px 7px;
-					background-image: url('/img/star.svg');
-					background-color: #9151C3;
+					background-size: 10.5px 10px;
+					background-position: 9px 7px;
+					background-image: url('/img/idea/star-fill.svg');
+					background-color: #003066;
 				}
 			}
 			&.USER {
@@ -147,21 +152,13 @@
 				box-sizing: border-box;
 				width: 100%;
 				left: 0;
-				padding: 1px 5px 1px 25px;
+				padding: 0 5px 0 27px;
 				top: 0px;
-				padding-left: 26px;
 
 				font-size: 12px;
 				font-weight: 600;
 				line-height: 26px;
 				color: #FFF;
-
-				background-color: #434343;
-				background-repeat: no-repeat;
-				background-size: 6px 6px;
-				background-position: 10px 10px;
-				background-image: url('/img/bullet.svg');
-				
 			}
 
 			.image {
@@ -181,7 +178,13 @@
 						background-color: #004699;
 						float: left;
 						height: 12px;
+
+						&.CLOSED, &.DENIED {
+							background: #787979;
+						}
+
 					}
+
 				}
 				.ideaStats {
 					margin-top: 12px;
@@ -193,7 +196,7 @@
 						width: calc(33%-20px);
 						height: 30px;
 						&.yes {
-						margin-right: 20px;
+							margin-right: 30px;
 							font-size: 14px;
 							line-height: 18px;
 							background-position: left 0px;
@@ -201,7 +204,7 @@
 							background-image: url('/img/thumbsup_gray_outline.svg');
 						}
 						&.no {
-						margin-right: 20px;
+							margin-right: 30px;
 							font-size: 14px;
 							line-height: 18px;
 							background-position: left 7px;
@@ -209,7 +212,7 @@
 							background-image: url('/img/thumbsdown_gray_outline.svg');
 						}
 						&.arguments {
-						margin-right: 20px;
+							margin-right: 0px;
 							font-size: 14px;
 							line-height: 18px;
 							background-position: left 5px;

@@ -34,7 +34,7 @@
 			<h1>Campagne</h1>
 			<p>
 				Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
-				op de agenda te krijgen van het Algemeen Bestuur. Verzamel tenminste 100 positieve
+				op de agenda te krijgen van de stadsdeelcommissie. Verzamel tenminste 100 positieve
 				stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer gestemd
 				worden.
 			</p>
@@ -53,13 +53,13 @@
 		<div data-step="3">
 			<h1>De Agenda</h1>
 			<p>
-				Het plan met de meeste stemmen komt op de agenda van het Algemeen Bestuur. Eén keer
+				Het plan met de meeste stemmen komt op de agenda van de stadsdeelcommissie. Eén keer
 				per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft.
 				Je kunt drie peildata meedingen.
 			</p>
 			<p>
 				Heeft jouw voorstel de meeste stemmen? Dan krijg je per email een uitnodiging om je
-				voorstel toe te lichten in de vergadering van het Algemeen Bestuur. Daarna neemt het
+				voorstel toe te lichten in de vergadering van de stadsdeelcommissie. Daarna neemt het
 				bestuur een besluit over het voorstel.
 			</p>
 			<p>
@@ -69,7 +69,7 @@
 			</p>
 			
 			{% if not user.isLoggedIn() %}
-				<a href="/account/register?ref=/idea/nieuw" class="big">Meld je aan!</a>
+				<a href="/account/register?ref=/idea/nieuw" class="button color-white background-blue" style="color: white">Meld je aan!</a>
 			{% endif %}
 		</div>
 	</div>
@@ -109,7 +109,7 @@
 			<ul>
 				<li>Beschrijft hoe je op het idee bent gekomen.
 				<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
-				<li>Waarom moet het Algemeen Bestuur jouw voorstel bespreken?
+				<li>Waarom moet de stadsdeelcommissie jouw voorstel bespreken?
 				<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
 				<li>Gebruik minimaal 140 tekens.</li>
 			</ul>
@@ -312,7 +312,7 @@
 		 window.addEventListener('load', function() {
 
 			 // summary
-			 var minLen = 0;
+			 var minLen = 20;
 			 var maxLen = 140;
 			 
 			 var textarea  = document.querySelector('textarea[name="summary"]');

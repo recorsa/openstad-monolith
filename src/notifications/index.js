@@ -57,7 +57,7 @@ if( adminEmail ) {
 			// Turn maps and sets into POJOs and arrays, get the relevant model instances
 			// so they can be used by nunjucks to render the email content.
 			assets.forEach(function( instances, assetName ) {
-				var Model = assetName == 'idea' ? db.Idea.scope('withUser') :
+				var Model = assetName == 'idea' ? db.Idea.scope('withUser', 'withPosterImage') :
 				            assetName == 'arg'  ? db.Argument :
 				                                  null;
 				var rows  = data.assets[assetName] = [];

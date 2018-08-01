@@ -33,17 +33,17 @@
 				
 				<div class="duration">
 					{% if idea.status == 'BUSY' %}
-						Dit plan is in behandeling
+						Dit voorstel is in behandeling
 					{% elif idea.status == 'ACCEPTED' %}
-						Dit plan wordt besproken
+						Dit voorstel wordt besproken
 					{% elif idea.status == 'DENIED' %}
-						Afgewezen
+						Dit voorstel is afgewezen
 					{% elif idea.status == 'DONE' %}
-						Afgerond
+						Dit voorstel is afgerond
 					{% elif idea.duration > 0 %}
-						Nog {{idea.duration | duration}}
+						Nog {{idea.duration | duration}} om te stemmen
 					{% else %}
-						Afgelopen
+						Je kunt niet meer stemmen
 					{% endif %}
 				</div>
 				
@@ -52,7 +52,7 @@
 					<p>{{idea.summary}}</p>
 					
 					<div class="ideaProgress">
-						<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
+						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
 					</div>
 					
 					<div class="ideaStats">
@@ -89,7 +89,7 @@
 		 var bounds;
 		 var map = initMap(document.getElementById('map'), {
 			 center            : {lat: 52.3732175, lng: 4.8495996},
-			 minZoom           : 13,
+			 minZoom           : 12,
 			 maxZoom           : 17,
 			 draggable         : true,
 			 keyboardShortcuts : false,
@@ -112,8 +112,8 @@
 		 
 		 var ideas = [
 			 // {% for idea in runningIdeas %}
-			 // {% if idea.isRunning() %}
-			 {id: {{idea.id}}, location: JSON.parse('{{idea.location | dump | safe}}' || null)},
+			 // {% if idea.status !=  'DENIED' %}
+			 {id: {{idea.id}}, status: '{{idea.status}}', location: JSON.parse('{{idea.location | dump | safe}}' || null)},
 			 // {% endif %}
 			 // {% endfor %}
 		 ];
@@ -122,13 +122,21 @@
 			 if( !bounds ) {
 				 bounds = new google.maps.LatLngBounds();
 			 }
+
+			 let flagImg = '/img/idea/flag-red.svg';
+			 if (idea.status == 'DONE' || idea.status == 'ACCEPTED' || idea.status == 'BUSY') {
+				 flagImg = '/img/idea/flag-blue.svg';
+			 }
+			 if (idea.status == 'CLOSED') {
+				 flagImg = '/img/idea/flag-gray.svg';
+			 }
 			 
 			 var point  = idea.location;
 			 var marker = initMarker({
 				 position : {lat: point.coordinates[0], lng: point.coordinates[1]},
 				 map      : map,
 				 icon     : {
-					 url    : '/img/flag_small.svg',
+					 url    : flagImg,
 					 size   : new google.maps.Size(22, 24),
 					 anchor : new google.maps.Point(4, 21)
 				 }

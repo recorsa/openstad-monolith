@@ -138,10 +138,10 @@ header {
 
 		@media @phone {
 			top: 0;
-			left: auto;
+			left: 120px;
 			right: 15px;
 			display: table;
-			width: auto;
+			width: calc(100% - 135px);
 			height: 100%;
 
 			span {
@@ -356,6 +356,12 @@ footer {
 						text-decoration: none;
 
 						&:hover {
+							color: #FFF;
+							text-decoration: underline;
+						}
+
+						&:visited {
+							color: #FFF;
 							text-decoration: underline;
 						}
 					}

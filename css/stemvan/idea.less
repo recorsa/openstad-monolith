@@ -46,42 +46,47 @@
 			position: relative;
 			display: inline-block;
 			margin-top: 10px;
-			background-color: #003066;
+			background-color: #164995;
 			background-repeat: no-repeat;
 			background-size: 12px 12px;
 			background-position: 11px 9px;
-			background-image: url('/img/star.svg');
+			background-image: url('/img/idea/klok-wit.svg');
 			color: white;
 			padding: 6px 15px 5px 32px;
 			font-size: 14px;
 			font-weight: 600;
 			z-index: 100;
 
-			&.CLOSED,
-			&.DENIED {
-				background-size: 8px 8px;
-				background-position: 13px 10px;
-				background-image: url('/img/bullet.svg');
-			}
-
 			&.ACCEPTED {
-				background-color: #787979;
+				background-image: url('/img/idea/calendar.svg');
+				background-color: #bdd131;
 			}
 
 			&.DONE {
-				background-color: #787979;
+				background-size: 11px 10px;
+				background-position: 11px 9px;
+				background-image: url('/img/idea/star-fill.svg');
+				background-color: #003066;
 			}
 
 			&.BUSY {
-				background-color: #787979;
+				background-size: 12px 11px;
+				background-image: url('/img/idea/star-border.svg');
+				background-color: #2b9ad6;
 			}
 
 			&.CLOSED {
-				background-color: #434343;
+				background-color: #787979;
+				background-size: 8px 8px;
+				background-position: 13px 10px;
+				background-image: url('/img/idea/tijd-afgelopen.svg');
 			}
 
 			&.DENIED {
 				background-color: #434343;
+				background-size: 8px 8px;
+				background-position: 13px 10px;
+				background-image: url('/img/idea/afgewezen.svg');
 			}
 
 		}
@@ -202,37 +207,46 @@
 			.ideaProgress {
 				position: relative;
 				margin-top: 20px;
-				
+
+				div.bar {
+					background: #004699;
+
+					&.CLOSED, &.DENIED {
+						background: #787979;
+					}
+				}
+
+
 			}
 
-			div.bar {
-				background: #004699;
-			}
-			
 			.ideaDuration {
 				
 				position: relative;
-				margin: 40px 0px 20px 0px;
-				font-size: 14px;
-				line-height: 20px;;
+				margin: 20px 0px 20px 0px;
+				font-size: 12px;
+				line-height: 1.33;
+
+				&.BUSY {
+					margin-top: 10px;
+				}
 
 				div.duration {
 
-					margin: 45px 0px 20px 25px;
-					font-size: 13px;
+					position: relative;
+					padding: 0 0px 20px 25px;
 					line-height: 20px;
 
 					&:before {
-						background-image: url('/img/clock_gray.svg');
+						background-image: url('/img/klok.svg');
 						background-repeat: no-repeat;
 						background-size: contain;
 						background-size: contain;
 						content: '';
-						height: 20px;
+						height: 18px;
 						position: absolute;
 						left: 0px;
 						top: 0px;
-						width: 20px;
+						width: 18px;
 					}
 				}
 			}

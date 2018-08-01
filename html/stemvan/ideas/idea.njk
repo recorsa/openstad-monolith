@@ -2,6 +2,7 @@
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/content.njk' as content %}
 {% import 'includes/arguments.njk' as arguments %}
+{% import 'includes/secondary.njk' as sec %}
 
 {% set pageTitle    = 'Idee: '+idea.title %}
 {% set contentClass = 'idea' %}
@@ -42,7 +43,7 @@
 				{% elif idea.status == 'DONE' %}
 					<div class="statusbalk {{idea.status}}">Dit voorstel is afgerond</div>
 				{% else %}
-					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
+					<div class="statusbalk {{idea.status}}">Je kunt nu op dit voorstel stemmen</div>
 				{% endif %}
 			</div>
 
@@ -84,17 +85,26 @@
 					{% endif %}
 					
 					<div class="ideaProgress">
-						<div class="progress"><div class="bar" style="width: {{idea.progress}}%;"></div></div>
+						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
 					</div>
 
-					<div class="ideaDuration">
-						{% if idea.status == 'ACCEPTED' %}
-							<div>Dit plan wordt besproken in de volgende vergadering!</div>
-						{% elif idea.isOpen() %}
-							<div class="duration">Nog {{idea.duration | duration}} om te stemmen</div>
-						{% else %}
-							<div>Stemmen op dit idee is niet meer mogelijk.</div>
-						{% endif %}
+					<div class="ideaDuration {{idea.status}}">
+						<h4>Status</h4>
+						<div class="duration">
+							{% if idea.status == 'CLOSED' %}
+								<div>De stemperiode is afgelopen</div>
+							{% elif idea.status == 'DENIED' %}
+								<div>Stemmen op dit voorstel is niet meer mogelijk.</div>
+							{% elif idea.status == 'ACCEPTED' %}
+								<div>Dit voorstel wordt besproken in de volgende vergadering!</div>
+							{% elif idea.status == 'BUSY' %}
+								<div>Dit voorstel wordt uitgevoerd. Lees op deze pagina over de voortgang.</div>
+							{% elif idea.status == 'DONE' %}
+								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
+							{% else %}
+								<div>Nog {{idea.duration | duration}} om te stemmen</div>
+							{% endif %}
+						</div>
 					</div>
 
 					<div class="share">
@@ -147,6 +157,9 @@
 	</div> <!-- #primary -->
 	
 	<div class="secondary">
+
+		{{sec.newIdeaBubble()}}
+
 		{# <h2>Volgen</h2>
 		
 		<form action="/plan/{{idea.id}}/notify">
@@ -331,7 +344,7 @@
 	<div id="modBreak">
 		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
 		<p>
-		{{idea.modBreak | safe | nl2br}}
+			{{idea.modBreak | safe | nl2br}}
 		</p>
 	</div>
 {% endmacro %}
