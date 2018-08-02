@@ -8,7 +8,7 @@
 		<h2>Hoe werkt het?</h2>
 		
 		<div data-step="1">
-			<h1>1. Jouw Voorstel</h1>
+			<h1>Jouw Voorstel</h1>
 			<p>
 				Onze tips voor een goed voorstel:
 				<ul>
@@ -16,17 +16,20 @@
 					<li>Formuleer je voorstel positief</li>
 					<li>Wees duidelijk in je uitleg</li>
 					<li>Houd het kort en bondig</li>
-          <li>Het idee mag voor je eigen buurt zijn</li>
 				</ul>
+			</p>
+			<p>
+				Het idee mag voor je eigen buurt zijn, maar ook voor heel je stadsdeel!
 			</p>
 		</div>
 		
 		<div data-step="2">
-			<h1>2. Campagne</h1>
+			<h1>Campagne</h1>
 			<p>
 				Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
-				op de agenda te krijgen van de stadsdeelcommissie. Verzamel tenminste 100 (positieve)
-				stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer worden gestemd.
+				op de agenda te krijgen van de stadsdeelcommissie. Verzamel tenminste 100 positieve
+				stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer gestemd
+				worden.
 			</p>
 			
 			<p>
@@ -41,21 +44,25 @@
 		</div>
 		
 		<div data-step="3">
-			<h1>3. De Agenda</h1>
+			<h1>De Agenda</h1>
 			<p>
-				Het plan met de meeste stemmen komt op de agenda van de stadsdeelcommissie. Een keer per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft. Je kunt drie peildata meedingen. 
+				Het plan met de meeste stemmen komt op de agenda van de stadsdeelcommissie. Eén keer
+				per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft.
+				Je kunt drie peildata meedingen.
 			</p>
 			<p>
-				Heeft jouw voorstel de meeste stemmen? Dan krijg je per mail een uitnodiging om je voorstel toe te lichten in de vergadering van de stadsdeelcommissie. Daarna neemt de stadsdeelcommissie een besluit over het voorstel. Binnenkort volgt meer informatie over de stadsdeel­commissie en vergaderdata.
+				Heeft jouw voorstel de meeste stemmen? Dan krijg je per email een uitnodiging om je
+				voorstel toe te lichten in de vergadering van de stadsdeelcommissie. Daarna neemt het
+				bestuur een besluit over het voorstel.
 			</p>
 			<p>
 				Vragen? Check eerst <a href="/veelgestelde-vragen">veelgestelde vragen</a> en kijk of
 				je antwoord er tussen staat. Staat het antwoord op je vraag er niet bij, stuur dan een
-				email naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
+				email naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
 			</p>
 			
 			{% if user.isLoggedIn() %}
-				<a href="/plan/nieuw?help=0" class="button color-white background-blue">Upload een voorstel!</a>
+				<a href="/plan/nieuw?help=0" class="button color-white background-blue" style="color: white">Upload een voorstel!</a>
 			{% else %}
 				<a href="/account/register?ref=/idea/nieuw" class="button color-white background-blue" style="color: white">Meld je aan!</a>
 			{% endif %}

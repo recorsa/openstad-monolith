@@ -24,8 +24,6 @@
 			<input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
 			<input type="submit" value="Verzenden">
 		</form>
-	{% else %}
-		<h2>{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}</h2>
 	{% endif %}
 
 	{% if propName == 'argumentsFor' %}

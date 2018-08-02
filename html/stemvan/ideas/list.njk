@@ -42,6 +42,8 @@
 						Dit voorstel is afgerond
 					{% elif idea.duration > 0 %}
 						Nog {{idea.duration | duration}} om te stemmen
+					{% elif idea.status == 'CLOSED' %}
+						De stemperiode is afgelopen
 					{% else %}
 						Je kunt niet meer stemmen
 					{% endif %}

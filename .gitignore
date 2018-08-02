@@ -1,4 +1,4 @@
 /node_modules
-/config/local.json
+/config/local.*
 /html/stemvanniels
 *.css
