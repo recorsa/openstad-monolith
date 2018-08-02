@@ -42,7 +42,7 @@ addApp('stemvan', [{
 	appName    : 'stem-zuid',
 	deployName : 'production_zuid',
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
-	ref        : 'origin/staging'
+	ref        : 'origin/production'
 }, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
