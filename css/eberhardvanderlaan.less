@@ -127,6 +127,7 @@
 		width: 100%;
 		position: relative;
 		height: 375px;
+		overflow: hidden;;
 
 		@media @phone {
 			display: block;
@@ -786,6 +787,17 @@ ul.share {
 		}
 	}
 }
+
+#mainMenu {
+	>div {
+		ul {
+			li:nth-child(2) a:before {
+				content: '';
+			}
+		}
+	}
+}
+
 
 #title {
 

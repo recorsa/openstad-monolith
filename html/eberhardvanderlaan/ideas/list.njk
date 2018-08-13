@@ -77,9 +77,13 @@
 					<p>{{idea.summary}}</p>
 					
 					<div class="ideaStats">
-						<div class="count yes">{{idea.yes}}</div>
-						<div class="count no">{{idea.no}}</div>
-						<div class="count arguments">{{idea.argCount}}</div>
+						<table width="100%" border="0" celpadding="0" cellspacing="0">
+							<tr>
+								<td align="left"><div class="count yes">{{idea.yes}}</div></td>
+								<td align="center"><div class="count no">{{idea.no}}</div></td>
+								<td align="right"><div class="count arguments">{{idea.argCount}}</div></td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</a>
