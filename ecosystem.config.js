@@ -105,7 +105,7 @@ function addApp( env, app ) {
 		path          : app.remotePath,
 		
 		ref           : app.ref,
-		repo          : 'ssh://git@git.daanmortier.nl/abtool',
+		repo          : 'git@github.com:Amsterdam/openstad-monolith.git',
 		
 		env           : env,
 		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
