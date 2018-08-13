@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>An HTML Document</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+		<script src="/js/custom-elements.min.js"></script>
+  </head>
+  <body>
+		<div style="width: 1000px; margin: 0 auto;">
+			<h1>
+				Een plan
+			</h1>
+			Dit is een voorbeeld met webcomponents
+			
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/elements.css"/>
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/idea.css"/>
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/argument.css"/>
+			<script>
+				let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
+        var url = "/widget/site/2/idea/" + id;
+				var script1 = document.createElement('script');
+        script1.src = url;
+        document.head.appendChild(script1)
+
+				var script2 = document.createElement('script');
+        script2.src = url + '/argument';
+				document.head.appendChild(script2)
+			</script>
+			<idea-widget>idea</idea-widget>
+			<arguments-widget>arguments</arguments-widget>
+
+			<script src="js/number-buttons.js"></script>
+			<script>
+			  window.addEventListener("load", function() {
+			    initNumberButton(document.getElementById('idea-votes-for-button'));
+					initNumberButton(document.getElementById('idea-votes-against-button'));
+  			}); 
+			</script>
+
+		</div>
+  </body>
+</html>

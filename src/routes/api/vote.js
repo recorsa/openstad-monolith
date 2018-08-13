@@ -41,9 +41,13 @@ router.route('/')
 	.post(function(req, res, next) {
 		console.log('VOTE ----------');
 		req.idea
-			.update(req.body)
-			.then(result => {
-				result = {"vote": req.body.opinion}
+			.addUserVote(req.user, req.body.opinion, req.ip)
+			.then(voteRemoved => {
+				let result = {
+					vote    : req.body.opinion,
+					voteRemoved,
+					message : !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken',
+				}
 				res.json(result);
 			})
 			.catch(next);

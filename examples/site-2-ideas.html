@@ -9,19 +9,15 @@
   <body>
 		<div style="width: 1000px; margin: 0 auto;">
 			<h1>
-				Een plan
+				Plannen
 			</h1>
 			Dit is een voorbeeld met webcomponents
 			
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/elements.css"/>
 			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/idea.css"/>
-			<script>
-				let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
-				var script = document.createElement('script');
-				script.src="/widget/site/2/idea/" + id
-				document.head.appendChild(script)
-			</script>
-			<idea-widget>XXX</idea-widget>
-
+			<script src="/widget/site/2/idea"></script>
+			<ideas-widget href="http://openstad-api.francesco.denes.nl/examples/site-2-idea.html?id=[[id]]">ideas</ideas-widget>
+			
 		</div>
   </body>
 </html>

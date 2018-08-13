@@ -51,6 +51,7 @@
     "sequelize": "^3.30.4",
     "sharp": "^0.17.1",
     "should": "^11.2.0",
+    "superagent": "^3.8.3",
     "umzug": "^2.0.1",
     "useragent": "^2.1.10"
   }

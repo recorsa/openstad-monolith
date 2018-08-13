@@ -1,0 +1,47 @@
+arguments-widget {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	width: 100%;
+	margin-bottom: 20px;
+
+	h2 {
+		font-size: 16px;
+	}
+
+	arguments-form-widget {
+		display: block;
+		width: 200px;
+		height: 50px;
+		background-color: red;
+	}
+
+	arguments-for, arguments-against {
+		width: calc(50% - 10px);
+	}
+
+	arguments-against {
+		margin-left: 20px;
+	}
+
+	argument {
+		display: block;
+		margin-bottom: 20px;
+		width: 100%;
+		
+		argument-username {
+			font-weight: 600;
+			display: block;
+		}
+		
+		argument-description {
+			display: block;
+		}
+
+	}
+
+}
+
+arguments-form-widget {
+	display: none;
+}

@@ -4,6 +4,7 @@ var db      = require('../db');
 
 var router = express.Router();
 router.get('*', function( req, res, next ) {
+
 	var siteId = parseInt(req.params.siteId) || 1;
 	db.Site.findById(siteId)
 		.then(function( site ) {
@@ -15,6 +16,7 @@ router.get('*', function( req, res, next ) {
 			}
 		})
 		.catch(next);
+
 });
 
 module.exports = router;
