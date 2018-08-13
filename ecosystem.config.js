@@ -47,7 +47,7 @@ addApp('stemvan', [{
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
-	ref        : 'origin/projects/eberhardvanderlaan'
+	ref        : 'origin/master'
 }]);
 
 addApp('stemtool', [{
