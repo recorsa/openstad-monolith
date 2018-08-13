@@ -12,11 +12,12 @@ var util         = require('../../util')
   , mail         = require('../../mail');
 
 
-const http = require('http');
+const request = require('superagent');
+const apiUrl = config.get('api.url');
 
 let router = express.Router({mergeParams: true});
 
-router.route('/')
+router.route('/idea')
 
 // list ideas
 // ----------
@@ -24,22 +25,17 @@ router.route('/')
 	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
 
-		// fetch ideas from api server
-		http.get('http://localhost:8084/api/site/'+req.params.siteId+'/idea?running=true&includePosterImage=true&includeVoteCount=true', (resp) => {
-			let data = '';
-			resp.on('data', (chunk) => {
-				data += chunk;
-			});
-			resp.on('end', () => {
-				req.ideas = JSON.parse(data);
+		let url = apiUrl + '/api/site/'+req.params.siteId+'/idea?running=true&includePosterImage=true&includeVoteCount=true';
+		request
+			.get( url )
+			.set('Cookie', req.headers['cookie'] || '')
+			.set('accept', 'json')
+			.end((err, res) => {
+				if (err) return next(err);
+				req.ideas = res.body;
 				next();
 			});
-			
-		}).on("error", (err) => {
-			console.log("Error: " + err.message);
-			next();
-		});		
-		
+
 	})
 	.get(function( req, res, next ) {
 
@@ -53,14 +49,12 @@ router.route('/')
 		}
 		
 		var data = {
-			runningIdeas     : req.ideas,
+			runningIdeas : req.ideas,
+			apiUrl       : apiUrl,
 		};
 		
-		Promise.props(data)
-		.then(function( result ) {
-			res.out('ideas/list', true, result);
-		})
-		.catch(next);
+		res.out('ideas/list-widget', true, data);
+
 	});
 
 router.route('/test')
@@ -74,49 +68,35 @@ router.route('/test')
 // view idea
 // ---------
 
-router.route('/:ideaId(\\d+)')
+router.route('/idea/:ideaId(\\d+)')
 	.all(auth.can('idea:view'))
 // list ideas
 // ----------
 	.get(auth.can('ideas:list'))
 	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
-
-		// fetch ideas from api server
-		http.get('http://localhost:8084/api/site/'+req.params.siteId+'/idea/'+req.params.ideaId+'?includePosterImage=true&includeVoteCount=true&includeUserVote=true', (resp) => {
-			let data = '';
-			resp.on('data', (chunk) => {
-				data += chunk;
-			});
-			resp.on('end', () => {
-				req.idea = JSON.parse(data);
+		// api call
+		let url = apiUrl + '/api/site/'+req.params.siteId+'/idea/'+req.params.ideaId+'?includePosterImage=true&includeVoteCount=true&includeUserVote=true';
+		request
+			.get( url )
+			.set('Cookie', req.headers['cookie'] || '')
+			.set('accept', 'json')
+			.end((err, res) => {
+				if (err) return next(err);
+				req.idea = res.body;
 				next();
 			});
-			
-		}).on("error", (err) => {
-			console.log("Error: " + err.message);
-			next();
-		});		
-		
 	})
 	.get(function( req, res, next ) {
 
 		var data = {
-			idea     : req.idea,
+			idea      : req.idea,
+			voteUrl   : `${config.url}/api/site/${req.params.siteId}/idea/${req.params.ideaId}/vote`,
+			csrfToken : req.csrfToken(),
 		};
-		
-		Promise.props(data)
-		.then(function( result ) {
-			res.out('ideas/idea', true, result);
-		})
-		.catch(next);
-	});
 
-router.route('/test')
-	.get(function( req, res, next ) {
-		res.status(200).end(`
-<h1>Test</h1>
-`)
+		res.out('ideas/idea.js', true, data);
+
 	});
 
 module.exports = router;

@@ -17,6 +17,7 @@ router.use( '/site/:siteId(\\d+)/idea', require('./idea.old') );
 router.use( '/site/:siteId(\\d+)/idea/:ideaId(\\d+)/vote', require('./vote') );
 
 // arguments
+router.use( '/site/:siteId(\\d+)(/idea/:ideaId(\\d+))?/argument', require('./argument') );
 router.use( '/site/:siteId(\\d+)/idea/:ideaId(\\d+)/argument', require('./argument.old') );
 
 module.exports = router;

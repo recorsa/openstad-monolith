@@ -470,7 +470,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				where: {
 					$or: [
 						{
-							status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY', 'DONE']}
+							status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY']}
 						}, {
 							$and: [
 								{status: 'DENIED'},
@@ -534,9 +534,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					as         : 'posterImage',
 					attributes : ['key'],
 					required   : false,
-					where      : {
-						sort: 0
-					}
+					where      : {},
+					order      : 'sort'
 				}]
 			},
 
