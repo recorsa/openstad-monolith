@@ -12,37 +12,37 @@ addApp('stemvan', [{
 	appName    : 'stem-prod',
 	deployName : 'production',
 	remotePath : '/var/www/stemvanwest.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-centrum',
 	deployName : 'production_centrum',
 	remotePath : '/var/www/stemvancentrum.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-oost',
 	deployName : 'production_oost',
 	remotePath : '/var/www/stemvanoost.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-nieuwwest',
 	deployName : 'production_nieuwwest',
 	remotePath : '/var/www/stemvannieuwwest.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-zuidoost',
 	deployName : 'production_zuidoost',
 	remotePath : '/var/www/stemvanzuidoost.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-noord',
 	deployName : 'production_noord',
 	remotePath : '/var/www/stemvannoord.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-zuid',
 	deployName : 'production_zuid',
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
@@ -59,7 +59,7 @@ addApp('stemtool', [{
 	appName    : 'stemtool-javabrug',
 	deployName : 'production_javabrug',
 	remotePath : '/var/www/javabrug.amsterdam.nl/www',
-	ref        : 'origin/production'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stemtool-kareldoorman',
 	deployName : 'production_kareldoorman',
