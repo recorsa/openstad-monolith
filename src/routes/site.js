@@ -3,7 +3,7 @@ var createError = require('http-errors')
 var db      = require('../db');
 
 var router = express.Router();
-router.get('*', function( req, res, next ) {
+router.all('/:siteId(\\d+)/*', function( req, res, next ) {
 
 	var siteId = parseInt(req.params.siteId) || 1;
 	db.Site.findById(siteId)

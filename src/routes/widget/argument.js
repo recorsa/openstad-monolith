@@ -42,7 +42,7 @@ router.route('(/idea/:ideaId(\\d+))?/argument')
 	.get(function( req, res, next ) {
 
 		// TODO: ja, ja, dit moet netter
-		console.log('--------------------');
+		// console.log('--------------------');
 
 		// api call
 		if (req.site.config.type == 'stemtool') {
@@ -91,7 +91,7 @@ router.route('(/idea/:ideaId(\\d+))?/argument')
 			argumentsAgainst : req.argumentsAgainst,
 		};
 		
-		res.out('arguments/list.js', true, data);
+		res.out('arguments/list-widget.njk', true, data);
 
 	});
 

@@ -29,8 +29,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 						value = JSON.parse(value);
 					}
 				} catch(err) {}
-				return value;
+				return this.parseConfig(value);
 			},
+			set          : function(value) {
+				this.setDataValue('config', this.parseConfig(value));
+			}
 		},
 
 	}, {
@@ -47,6 +50,28 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		instanceMethods: {
 
+			parseConfig: function(config) {
+
+				try {
+					if (typeof config == 'string') {
+						config = JSON.parse(config);
+					}
+				} catch(err) {
+					config = {};
+				}
+
+				// defaults
+				config.type = config.type || 'stemvan';
+
+				config.votes = config.votes || {};
+				config.votes.userRole = config.votes.userRole || 'anonymous';
+				config.votes.maxChoices = config.votes.maxChoices || ( config.type == 'stemvan' ? 1 : 3 );
+				config.votes.replaceOrError = config.votes.replaceOrError || 'replace';
+
+				return config;
+
+			}
+			
 		}
 
 	});

@@ -33,8 +33,8 @@ router.route('/')
 			})
 	})
 
-// one site
-// --------
+// one site routes: get site
+// -------------------------
 router.route('/:siteId(\\d+)')
 	.all(auth.can('site:view'))
 	.all(function(req, res, next) {

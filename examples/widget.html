@@ -1,0 +1,32 @@
+<template>
+	
+</template>
+		
+<script>
+
+ class IdeasWidget extends HTMLElement {
+
+   constructor() {
+     super();
+   }
+
+   connectedCallback () {
+     let href = this.getAttribute('href') || '';
+     this.innerHTML = `<idea id="idea-1">
+		 <idea-title>title 1</idea-title>
+		 </idea>
+<idea id="idea-2">
+ <idea-title>title 2</idea-title>
+ </idea>
+<idea id="idea-3">
+ <idea-title>title 3</idea-title>
+ </idea>
+		 `
+   }
+
+ }
+
+ customElements.define('ideas-widget', IdeasWidget);
+
+</script>
+

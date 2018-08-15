@@ -7,15 +7,42 @@ var auth = new RolePlay({
 
 var unknown   = auth.role('unknown');
 var anonymous = unknown.role('anonymous');
-var admin     = anonymous.role('admin');
+var member    = anonymous.role('member');
+var admin     = member.role('admin');
 
 var helpers = {
+	needsToCompleteRegistration: function( user ) {
+		return !user.hasCompletedRegistration();
+	},
+	
+	mayMutateIdea: function( user, idea ) {
+		if( !idea.isOpen() ) {
+			return false;
+		}
+		// TODO: Time sensitivity?
+		var isOwner   = helpers.isIdeaOwner(user, idea);
+		var voteCount = idea.no + idea.yes;
+		var argCount  = idea.argumentsFor.length + idea.argumentsAgainst.length;
+		return isOwner && !voteCount && !argCount;
+	},
+	
+	mayVoteIdea: function( user, idea,  site ) {
+		return idea.isOpen();
+	},
+	
+	maySeeArgForm: function( user, idea ) {
+		return idea.isRunning();
+	},
+	maySeeReplyForm: function( user, idea ) {
+		return idea.isRunning();
+	},
+	
 	mayAddArgument: function( user, idea ) {
 		return idea.isRunning();
 	},
 	mayReplyToArgument: function( user, idea, argument ) {
-		return idea.isRunning() &&
-		       !argument.parentId && user.can('idea:admin');
+		return !argument.parentId &&
+		       idea.isRunning();
 	},
 	// TODO: Deny when arg replies exist.
 	mayMutateArgument: function( user, idea, argument ) {
@@ -23,18 +50,17 @@ var helpers = {
 		       idea.isRunning();
 	},
 	mayVoteArgument: function( user, idea, argument ) {
-		return idea.isRunning() && !argument.parentId;
+		return !argument.parentId;
 	},
-	mayVotePoll: function( user, idea, poll ) {
-		return idea.isRunning() && poll.userVotes.length === 0;
-	},
-	mayViewUserVoteForPoll: function( user, poll ) {
-		return poll.userVotes.length > 0;
+	
+	isIdeaOwner: function( user, idea ) {
+		return user.id === idea.userId;
 	}
 };
 
 require('./default-unknown')(helpers, unknown);
 require('./anonymous')(helpers, anonymous);
+require('./member')(helpers, member);
 require('./admin')(helpers, admin);
 
 module.exports = auth;
