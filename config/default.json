@@ -61,8 +61,8 @@
 				"requireSSL": true,
 				"name": "Sengrid",
 				"auth": {
-					"user": "apikey",
-					"pass": "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"
+					"user": "USER",
+					"pass": "PASS"
 				}
 			}
 
