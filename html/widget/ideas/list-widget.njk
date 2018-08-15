@@ -1,15 +1,19 @@
-class IdeasWidget extends HTMLElement {
+<script>
 
-  constructor() {
-    super();
-  }
+ class IdeasWidget extends HTMLElement {
 
-  connectedCallback () {
-    let href = this.getAttribute('href') || '';
-    this.innerHTML = `{% include './list.njk' %}`
-  }
+   constructor() {
+     super();
+   }
 
-}
+   connectedCallback () {
+     let href = this.getAttribute('href') || '';
+     this.innerHTML = `{% include './list.njk' %}`
+   }
 
-customElements.define('ideas-widget', IdeasWidget);
+ }
 
+ customElements.define('ideas-widget', IdeasWidget);
+
+
+</script>

@@ -19,7 +19,12 @@ module.exports = function( app ) {
 		req.setSessionUser(userId);
 		res.success('/');
 	});
-	
+
+	router.get('/logout', function( req, res ) {
+		req.session.destroy();
+		res.success('/', true);
+	});
+
 	router.post('/reset_fixtures', auth.can('dev'), function( req, res, next ) {
 		db.sequelize.sync({force: true}).then(function() {
 			require('../../../fixtures')(db).then(function() {

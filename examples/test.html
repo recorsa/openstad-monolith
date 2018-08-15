@@ -13,16 +13,22 @@
 				Plannen
 			</h1>
 			Dit is een voorbeeld met webcomponents
+
+			<script>
+			 let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
+       var url = "/examples/widget.html?id=" + id;
+			 var script1 = document.createElement('link');
+       script1.rel="import";
+			 script1.href=url
+       document.head.appendChild(script1)
+			</script>
+
 			
 			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/elements.css"/>
 			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/idea.css"/>
-			<link rel="import" href="/widget/site/1/idea"/>
 			<ideas-widget href="javascript: alert('Doe iets leuks als je er op klikt')">ideas</ideas-widget>
 			
-			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/argument.css"/>
-			<script src="/widget/site/1/argument"></script>
-			<arguments-widget>arguments</arguments-widget>
-			
-		</div>
+	</div>
   </body>
 </html>
+

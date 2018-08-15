@@ -95,7 +95,7 @@ router.route('/idea/:ideaId(\\d+)')
 			csrfToken : req.csrfToken(),
 		};
 
-		res.out('ideas/idea.js', true, data);
+		res.out('ideas/idea-widget.njk', true, data);
 
 	});
 

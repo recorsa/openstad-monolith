@@ -15,10 +15,10 @@ router
 			.findById(ideaId)
 			.then(function( idea ) {
 				if( !idea ) {
-					next(createError(404, 'Idee niet gevonden'));
+					return next(createError(404, 'Idee niet gevonden'));
 				} else {
 					req.idea = idea;
-					next();
+					return next();
 				}
 			})
 			.catch(next);
@@ -26,12 +26,35 @@ router
 
 router.route('/')
 
-// anonymous
-// ---------
+// check user
+// ----------
 	.post(function(req, res, next) {
-		console.log('Add user --------------------');
-		let result = {result: 'user'};
-		next();
+
+		if (req.site.config.votes.userRole != 'anonymous') {
+			return next();
+		}			
+
+		if (req.user.id != 1) { // ToDo: blijkbaar krijgen anonieme requests deze gebruiker mee....
+			return next();
+		}			
+			
+		console.log('CREATE USER');
+		// anonymous is allowed and a user does not yet exist; create one
+		let zipCode = req.body.zipCode;
+		if (!zipCode) {
+			zipCode = '1234 EF'
+			// return next(createError(403, 'Bij anoniem stemmen is een postcode verplicht'));
+		}
+		db.User.registerAnonymous(zipCode)
+			.then(function( newUser ) {
+				req.setSessionUser(newUser.id);
+				req.user = newUser;
+				return next();
+			})
+			.catch(function( error ) {
+				return next(error);
+			});
+
 	})
 
 

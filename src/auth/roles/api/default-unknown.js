@@ -1,74 +1,28 @@
 module.exports = function( helpers, role ) {
 	role.action({
-		'dev'       : false,
-
-		'idea:admin': false,
-
-		'newsletter:signup' : {
-			allow    : true,
-			message  : 'U kunt zich niet aanmelden',
-			resource : 'user'
-		},
-
-		'poll:vote'         : {
-			allow    : helpers.mayVotePoll,
-			message  : 'Stemmen niet toegestaan',
-			resource : ['idea', 'poll']
-		},
-		'poll:result'      : {
-			allow    : helpers.mayViewUserVoteForPoll,
-			resource : 'poll'
-		},
-
-		'arguments:list'       : true,
-		'argument:view'        : true,
-
-		'argument:form'         : {
-			allow    : helpers.mayAddArgument,
-			resource : 'idea'
-		},
-		'argument:create'          : {
-			allow    : helpers.mayAddArgument,
-			resource : 'idea',
-			message  : 'Argument toevoegen niet toegestaan'
-		},
-		'argument:reply:form'   : {
-			allow    : helpers.mayReplyToArgument,
-			resource : ['idea', 'argument']
-		},
-		'argument:reply'        : {
-			allow    : helpers.mayReplyToArgument,
-			resource : ['idea', 'argument']
-		},
-		'argument:edit'         : {
-			allow    : helpers.mayMutateArgument,
-			resource : ['idea', 'argument'],
-			message  : 'Argument bewerken niet toegestaan'
-		},
-		'argument:delete'       : {
-			allow    : helpers.mayMutateArgument,
-			resource : ['idea', 'argument'],
-			message  : 'Argument verwijderen niet toegestaan'
-		},
-		'argument:vote'         : {
-			allow    : helpers.mayVoteArgument,
-			resource : ['idea', 'argument'],
-			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
-		},
+		'dev'              : false,
+		
+		'index:view'       : true,
+		
+		'account:register' : true,
+		'account:complete' : false,
+		
+		'agenda:admin'     : false,
 
 		'sites:list'       : true,
+		'sites:archive'    : true,
+		'site:admin'       : false,
 		'site:view'        : true,
 		'site:create'      : false,
 		'site:edit'        : {
 			allow    : false,
 			resource : 'site',
-			message  : 'Site bewerken niet toegestaan'
+			message  : 'Idee bewerken niet toegestaan'
 		},
 		'site:delete'      : {
 			allow    : false,
 			resource : 'site'
 		},
-		
 		
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
@@ -88,7 +42,63 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			resource : 'idea'
 		},
+		
+		'image:upload'     : {
+			allow    : false,
+			message  : 'Afbeelding uploaden niet toegestaan'
+		},
 
+		'arguments:list'   : true,
+
+		// articles
+		'article:view'     : true,
+		'article:create'   : false,
+		'article:edit'     : {
+			allow    : false,
+			message  : 'Artikel bewerken niet toegestaan'
+		},
+		'article:delete'   : {
+			allow    : false,
+			message  : 'Artikel verwijderen niet toegestaan'
+		},
+		
+		// Only used to determine whether to render the argument form.
+		// When a user is not allowed to add an argument, we still show
+		// the form, only disabled with login-on-focus.
+		'arg:form'         : {
+			allow    : helpers.maySeeArgForm,
+			resource : 'idea'
+		},
+		'arg:add'          : {
+			allow    : false,
+			resource : 'idea',
+			message  : 'Om een argument toe te voegen moet je ingelogd zijn'
+		},
+		'arg:reply:form'   : {
+			allow    : helpers.maySeeReplyForm,
+			resource : ['idea', 'argument']
+		},
+		'arg:reply'        : {
+			allow    : false,
+			resource : ['idea', 'argument']
+		},
+		'arg:edit'         : {
+			allow    : false,
+			resource : ['idea', 'argument'],
+			message  : 'Argument bewerken niet toegestaan'
+		},
+		'arg:delete'       : {
+			allow    : false,
+			resource : ['idea', 'argument'],
+			message  : 'Argument verwijderen niet toegestaan'
+		},
+		'arg:vote'         : {
+			allow    : false,
+			resource : ['idea', 'argument'],
+			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
+		},
+		
 		'user:mail'        : false
 	});
 };
+
