@@ -9,7 +9,7 @@
 {% block content %}
 	<div id="mapcontainer">
 		{{mapwithbaarsjesoverlay.map(runningIdeas, true)}}
-		<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
+		<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button">
 			Stuur locatie in
 		</a>
 		{{numberPlateButton.numberPlateButton('no-of-locations', 'locaties', runningIdeas.length, '/plannen')}}
