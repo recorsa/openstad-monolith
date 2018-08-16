@@ -211,31 +211,38 @@
 		position: relative;
 		
 		&:after {
-			background-image: url('/img/thumbsup_gray.svg');
+			background-image: url('/img/thumbsup-gray-new.svg');
 			background-repeat: no-repeat;
-			background-size: auto 18px;
+			background-size: 19px 16px;
 			background-position: top right 5px;
 			color: #676868;
 			content: '100';
-			font-size: 0.75rem;
-			line-height: 28px;
+			font-size: 12px;
+			line-height: 1.83;
 			position: absolute;
 			right: -5px;
-			top: -5px;
+			top: -2px;
 			width: 50px;
 		}
-	}
-	div.progress {
-		border: 1px solid #666767;
-		border-radius: 10px;
-		margin-right: 50px;
-		overflow: hidden;
-		
-		div.bar {
-			background-color: #EC0000;
-			height: 12px;
-			width: 0;
+
+		div.progress {
+			height: 16px;
+			border: 1px solid #434343;
+			border-radius: 10px;
+			margin-right: 50px;
+			overflow: hidden;
+			
+			div.bar {
+				height: 14px;
+				width: 0;
+				background: #004699;
+
+				&.CLOSED, &.DENIED {
+					background: #787979;
+				}
+			}
 		}
+
 	}
 	
 	// Cookie consent
