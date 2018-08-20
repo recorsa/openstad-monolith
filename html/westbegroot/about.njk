@@ -1,0 +1,86 @@
+{% extends 'base.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/watgebeurderalinwest.njk' as watgebeurderalinwest %}
+
+{% set activeMenu = 'about' %}
+
+{% block content %}
+	<div id="about">
+
+		<div id="header">
+			<div class="header-image">
+				<img src="/img/westbegroot/themas-banner.png"/>
+			</div>
+			<div class="header-text">
+				<h1>Jij verdeelt € 300.000,- van de gebiedsplannen!</h1>
+				<p>
+					Elk jaar worden er in de gemeente Amsterdam gebiedsplannen gemaakt waarin per gebied staat wat dat jaar concrete plannen zijn. Het gaat hierbij niet om reguliere acties zoals afval ophalen, maar om onderwerpen die extra aandacht verdienen. Voor stadsdeel West zijn 3 thema’s geselecteerd; bewoners sturen voor die thema’s hun plannen in en bepalen naar welke plannen het geld gaat.
+				</p>
+				<a href="??" id="gebiedsplannen-button" class="page-button page-button-grey" target="_blank">Lees meer over gebiedsplannen</a>
+			</div>
+		</div>
+
+		<h2>De 3 thema’s voor stadsdeel West</h2>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Thema: Groen</h3>
+				<p>
+					Hier iets meer uitleg over dit thema. Waar moet je aan denken bij dit thema? Groen in de openbare ruimte? Zelfbeheer of beheerd door de gemeente? Denk bijvoorbeeld aan Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque accumsan molestie odio in egestas. Curabitur dapibus sapien vel dictum elementum. Donec sed vulputate mi.
+				</p>
+				<p>
+					<strong>Bekijk de video voor meer uitleg over dit thema.</strong>
+				</p>
+				<ul>
+					<li><a href="#inspiration">Wat voor initiatieven zijn er al in mijn buurt?</a></li>
+				</ul>
+			</div>
+			<div class="thema-video">
+				<img src="/img/westbegroot/video-1.png"/>
+			</div>
+		</div>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Thema: Diversiteit & Inclusiviteit</h3>
+				<p>
+					Hier iets meer uitleg over dit thema. Waar moet je aan denken bij dit thema? Groen in de openbare ruimte? Zelfbeheer of beheerd door de gemeente? Denk bijvoorbeeld aan Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque accumsan molestie odio in egestas. Curabitur dapibus sapien vel dictum elementum. Donec sed vulputate mi.
+				</p>
+				<p>
+					<strong>Bekijk de video voor meer uitleg over dit thema.</strong>
+				</p>
+				<ul>
+					<li><a href="#inspiration">Wat voor initiatieven zijn er al in mijn buurt?</a></li>
+				</ul>
+			</div>
+			<div class="thema-video">
+				<img src="/img/westbegroot/video-2.png"/>
+			</div>
+		</div>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Thema: Duurzaamheid</h3>
+				<p>
+					Hier iets meer uitleg over dit thema. Waar moet je aan denken bij dit thema? Groen in de openbare ruimte? Zelfbeheer of beheerd door de gemeente? Denk bijvoorbeeld aan Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque accumsan molestie odio in egestas. Curabitur dapibus sapien vel dictum elementum. Donec sed vulputate mi.
+				</p>
+				<p>
+					<strong>Bekijk de video voor meer uitleg over dit thema.</strong>
+				</p>
+				<ul>
+					<li><a href="#inspiration">Wat voor initiatieven zijn er al in mijn buurt?</a></li>
+				</ul>
+			</div>
+			<div class="thema-video">
+				<img src="/img/westbegroot/video-3.png"/>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block page %}
+	{{watgebeurderalinwest.watgebeurderalinwest('white')}}
+{% endblock %}
+

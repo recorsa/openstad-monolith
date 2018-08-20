@@ -1,0 +1,133 @@
+{% extends 'base.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/watgebeurderalinwest.njk' as watgebeurderalinwest %}
+
+{% set contentClass = 'index' %}
+
+{% block content %}
+	<div id="banner">
+		<div id="homebanner">
+			<img id="homebanner-img" src="img/westbegroot/home-banner.png"/>
+			<div id="homebanner-title">
+				<h2>West Begroot!</h2>
+				<h3>Hoe zou jij € 300.000,- besteden in stadsdeel West? </h3>
+			</div>
+			<img id="homebanner-img-mobile" src="img/westbegroot/home-banner.png"/>
+			<div id="homebanner-text">
+				Stuur je plan in voor één van de 3 thema’s (Groen, Diversiteit en Duurzaamheid) en bepaal waar het geld naar toe gaat.
+				<br/>
+			</div>
+			<div id="homebanner-buttons">
+				<a href="/about" class="bekijk-de-themas">
+					Bekijk de thema's
+				</a>
+				<a href="/plan/nieuw" class="stuur-plan-in">
+					Stuur je plan in
+				</a>
+			</div>
+		</div>
+		<div id="controls">
+			<div class="speechBubble">
+				<h4>West Begroot:</h4>
+				Bewoners uit West verdelen zelf <strong>€ 300.000,-</strong> over ingestuurde plannen voor de buurt.
+			</div>
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
+			<a href="https://www.amsterdam.nl/zorggoedvooronzestad" class="page-button page-button-grey" target="_blank">
+				Lees meer op amsterdam.nl
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block howDoesItWork %}
+	{{howdoesitwork.howblock('open')}}
+{% endblock %}
+
+{% block content2 %}
+	
+	<div class="primary">
+
+		<div class="text" name="info" id="info">
+
+			<h3>Achtergrondinformatie</h3>
+			<p>Om de laatste boodschap van oud-burgemeester Eberhard van der Laan levend te houden, heeft Baarsjes bewoonster Liesbeth de Looper het idee bedacht om zijn oproep ‘Zorg goed voor onze stad en voor elkaar’, als muurtekst op een gebouw of muur aan te brengen. Haar voorstel was om de muurtekst te realiseren in de Baarsjes, omdat Van der Laan daar jarenlang heeft gewoond.</p>
+			<p>Het Algemeen Bestuur van West heeft in april dit jaar besloten om het plan van mevrouw De Looper te realiseren en Amsterdammers te vragen om suggesties aan te dragen voor een geschikte locatie voor de quote.  Amsterdammers kunnen vervolgens een ontwerp insturen voor de muurtekst en stemmen op hun favoriete ontwerp.</p>
+			<p>Mevrouw De Looper heeft dit plan ingebracht via het platform <a href="https://stemvanwest.amsterdam.nl/plan/96">Stem van West</a>. Op dit platform kunnen mensen plannen voor hun buurt indienen. Eens per maand bespreekt de stadsdeelcommissie het plan met de meeste stemmen.</p>
+			
+			<h3>Spelregels</h3>
+			<ul class="checkmark-list">
+				<li>Upload een (eigen) foto van een locatie in de Baarsjes.</li>
+				<li>We zoeken een gebouw of muur waar de quote op kan worden afgebeeld. Bijvoorbeeld in de vorm van een muurschildering, bedrukt op tegels, een banner of op een paneel.</li>
+				<li>Kies een muur of gebouw waar de quote tot zijn recht komt en mensen de tekst goed kunnen lezen.</li>
+				<li>Licht toe waarom dit jouw favoriete locatie is.</li>
+				<li>Voer campagne voor je locatie en probeer op Twitter, Facebook, of met email zoveel mogelijk stemmen te werven. Flyer in je buurt of organiseer een buurtbijeenkomst.</li>
+				<li>Je kunt argumenten voor/tegen plaatsen om aan te geven waarom je een locatie wel of niet een goede locatie vindt.</li>
+				<li>De locatie die na aftrek van tegenstemmen de meeste stemmen voor heeft, wordt als eerste op haalbaarheid onderzocht. Niet alle locaties zijn misschien mogelijk of geschikt. Ook moet de eigenaar van het pand zijn of haar toestemming geven. Mocht de locatie met de meeste stemmen om redenen niet haalbaar zijn, dan wordt de tweede onderzocht, de derde, etc. Hier rolt uiteindelijk een winnende locatie uit.</li>
+			</ul>
+
+			<div>
+				<a href="/plan/nieuw" class="stuur-plan-in">
+					Stuur je plan in
+				</a><a href="??" class="page-button page-button-grey" target="_blank">
+					Lees meer op amsterdam.nl
+				</a>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="secondary">
+		
+		<div id="agenda">
+			<h3>Tijdlijn</h3>
+			
+			<div class="agenda">
+
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>1 t/m 24 oktober 2018</h3>
+						Plannen insturen voor stadsdeel West.
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>1 t/m 31 oktober 2018r</h3>
+						Stemmen op bewonersplannen voor stadsdeel West.
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>1 november t/m 31 december 2018</h3>
+						Haalbaarheidscheck ingestuurde plannen.
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>Begin 2019</h3>
+						West Begroot: €&nbsp;300.000,- verdelen over bewonersplannen.
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+	</div>
+{% endblock %}
+
+{% block page %}
+	{{watgebeurderalinwest.watgebeurderalinwest()}}
+{% endblock %}
+
+{% block content3 %}
+	<ul class="share">
+		<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
+		<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
+		<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{url | urlencode}}">Email</a></li>
+	</ul>
+{% endblock %}
+

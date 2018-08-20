@@ -333,7 +333,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			updateIdea: function( idea, data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
+				var filtered  = pick(data, ['title', 'summary', 'description', 'extraData', 'location']);
 				
 				return idea.update(filtered)
 				.bind(this)

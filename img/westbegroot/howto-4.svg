@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="80" viewBox="0 0 108 80">
+    <g fill="none" fill-rule="nonzero" stroke="#000">
+        <g transform="translate(55)">
+            <rect width="15" height="15" x="7.5" y="25.5" rx="3"/>
+            <rect width="15" height="15" x="7.5" y="45.5" rx="3"/>
+            <rect width="15" height="15" x="30.5" y="25.5" rx="3"/>
+            <rect width="15" height="15" x="30.5" y="45.5" rx="3"/>
+            <rect width="52" height="67" x=".5" y=".5" rx="4"/>
+            <path fill="#FFF" d="M6.5 7.5h40v11h-40z"/>
+            <path d="M11 33h8"/>
+            <circle cx="38" cy="50" r="1"/>
+            <circle cx="38" cy="56" r="1"/>
+            <path d="M34 33h8M38 29v8M12.172 50.172l5.656 5.656M17.828 50.172l-5.656 5.656M34 53h8"/>
+        </g>
+        <g transform="translate(4 58)">
+            <path fill="#D8D8D8" d="M59.5 7.5H.5V15c0 3.4 13.282 6.5 29.5 6.5s29.5-3.1 29.5-6.5v-1.487-2.457-.423V7.5z"/>
+            <ellipse cx="30" cy="7" fill="#FFF" rx="29.5" ry="6.5"/>
+        </g>
+        <g transform="translate(0 45)">
+            <path fill="#D8D8D8" d="M59.5 7.5H.5V15c0 3.4 13.282 6.5 29.5 6.5s29.5-3.1 29.5-6.5v-1.487-2.457-.423V7.5z"/>
+            <ellipse cx="30" cy="7" fill="#FFF" rx="29.5" ry="6.5"/>
+        </g>
+        <g transform="translate(7 33)">
+            <path fill="#D8D8D8" d="M59.5 7.5H.5V15c0 3.4 13.282 6.5 29.5 6.5s29.5-3.1 29.5-6.5v-1.487-2.457-.423V7.5z"/>
+            <ellipse cx="30" cy="7" fill="#FFF" rx="29.5" ry="6.5"/>
+        </g>
+        <g transform="translate(0 20)">
+            <path fill="#D8D8D8" d="M59.5 7.5H.5V15c0 3.4 13.282 6.5 29.5 6.5s29.5-3.1 29.5-6.5v-1.487-2.457-.423V7.5z"/>
+            <ellipse cx="30" cy="7" fill="#FFF" rx="29.5" ry="6.5"/>
+        </g>
+    </g>
+</svg>
