@@ -134,7 +134,6 @@ module.exports = function( app ) {
 	})
 	.put(function( req, res, next ) {
 		req.body.location = JSON.parse(req.body.location || null);
-		
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
 			res.success('/plan/'+idea.id, {idea: idea});

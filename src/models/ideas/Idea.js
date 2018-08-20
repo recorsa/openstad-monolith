@@ -103,6 +103,41 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.content(text.trim()));
 			}
 		},
+
+		extraData: {
+			type         : DataTypes.JSON,
+			allowNull    : false,
+			defaultValue : {},
+			get          : function() {
+				// for some reaason this is not always done automatically
+				let value = this.getDataValue('extraData');
+        try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				return value;
+			},
+			set: function(value) {
+        try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				let newValue = {};
+				let configExtraData = config.ideas && config.ideas.extraData;
+				Object.keys(configExtraData).forEach((key) => {
+					if (configExtraData[key].allowNull === false && typeof value[key] === 'undefined') { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+						throw Error(`${key} is niet ingevuld`);
+					}
+					if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
+						newValue[key] = value[key];
+					}
+				});
+				this.setDataValue('extraData', newValue);
+			}
+		},
+
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
 			allowNull    : !config.get('ideas.location.isMandatory'),
