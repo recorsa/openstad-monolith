@@ -1,4 +1,5 @@
 {% extends 'ideas.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 {% set pageTitle = 'Nieuw idee' if not idea.id else 'Bewerk idee' %}
 {% set contentClass = 'newIdea' %}
 
@@ -177,6 +178,9 @@
 					om een vlaggetje te plaatsen. Versleep het vlaggetje om het te verplaatsen. Door erop te
 					klikken wordt het verwijderd.<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
+					<div id="mapcontainer">
+						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+					</div>
 				</div>
 				
 				{% if idea.posterImage %}
@@ -197,10 +201,8 @@
 
 {% block scripts %}
 	{% if showForm %}
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 		<script src="/lib/dropzone/dist/dropzone.js"></script>
 		<script src="/lib/trix/dist/trix.js"></script>
-		<script src="/js/map.js"></script>
 		<script src="/js/editor.js"></script>
 		
 		<script>
@@ -239,9 +241,6 @@
 			 }
 		 });
 		</script>	
-		<script>
-		 new LocationEditor(document.getElementById('locationField'));
-		</script>
 		<script>
 		 var currentImage;
 		 var form        = document.getElementById('js-form');

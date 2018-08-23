@@ -1,14 +1,17 @@
 {% extends 'ideas.njk' %}
-{% import 'includes/content.njk' as content %}
 {% import 'includes/secondary.njk' as sec %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 {% from 'partials/agenda-items.njk' import agenda %}
 
 {% set pageTitle    = 'Plannen' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
-	{{content.map(cookieConsent)}}
-	
+
+	<div id="mapcontainer">
+		{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+	</div>
+
 	<div id="ideas" class="primary">
 		{{sec.newIdeaBubble()}}
 		
@@ -87,85 +90,6 @@
 {% endblock %}
 
 {% block scripts %}
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
-	<script src="/js/map.js"></script>
-	<script>
-	 // Interactive map
-	 // ---------------
-	 (function() {
-		 var bounds;
-		 var map = initMap(document.getElementById('map'), {
-			 center            : {lat: 52.3732175, lng: 4.8495996},
-			 minZoom           : 12,
-			 maxZoom           : 17,
-			 draggable         : true,
-			 keyboardShortcuts : false,
-			 scrollwheel       : false,
-			 zoomControl       : true
-		 });
-		 function boundsLimiter() {
-			 google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
-				 if( map.getZoom() > 14 ) {
-					 map.setZoom(14);
-				 }
-			 });
-		 }
-		 window.addEventListener('resize', function() {
-			 if( bounds ){
-				 boundsLimiter();
-				 map.fitBounds(bounds);
-			 }
-		 });
-		 
-		 var ideas = [
-			 // {% for idea in runningIdeas %}
-			 // {% if idea.status !=  'DENIED' %}
-			 {id: {{idea.id}}, status: '{{idea.status}}', endDate: '{{idea.endDate}}', location: JSON.parse('{{idea.location | dump | safe}}' || null)},
-			 // {% endif %}
-			 // {% endfor %}
-		 ];
-		 ideas.forEach(function( idea ) {
-			 if( !idea.location ) return;
-			 if (idea.status ==  'CLOSED') {
-				 let datediff = new Date().getTime() - new Date(idea.endDate).getTime();
-				 if ( datediff > 1000 * 60 * 60 * 24 * 90 ) {
-					 return;
-				 }
-			 }
-			 
-			 if( !bounds ) {
-				 bounds = new google.maps.LatLngBounds();
-			 }
-
-			 let flagImg = '/img/idea/flag-red.svg';
-			 if (idea.status == 'DONE' || idea.status == 'ACCEPTED' || idea.status == 'BUSY') {
-				 flagImg = '/img/idea/flag-blue.svg';
-			 }
-			 if (idea.status == 'CLOSED') {
-				 flagImg = '/img/idea/flag-gray.svg';
-			 }
-			 
-			 var point  = idea.location;
-			 var marker = initMarker({
-				 position : {lat: point.coordinates[0], lng: point.coordinates[1]},
-				 map      : map,
-				 icon     : {
-					 url    : flagImg,
-					 size   : new google.maps.Size(22, 24),
-					 anchor : new google.maps.Point(4, 21)
-				 }
-			 });
-			 marker.addListener('click', function() {
-				 window.location.href = '/plan/'+idea.id;
-			 });
-			 bounds.extend(marker.getPosition());
-		 });
-		 if( bounds ) {
-			 boundsLimiter();
-			 map.fitBounds(bounds);
-		 }
-	 })();
-	</script>
 	<script>
 	 // Sorting dropdown
 	 // ----------------

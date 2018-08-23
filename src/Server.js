@@ -178,8 +178,9 @@ module.exports  = {
 		var env = nunjucks.configure(tplDirs, {
 			express    : this.app,
 			watch      : false,
-			autoescape : true
+			autoescape : true,
 		});
+		env.addGlobal('config', config)
 		nunjucksVars(this.app);
 		multiAccept(this.app);
 		

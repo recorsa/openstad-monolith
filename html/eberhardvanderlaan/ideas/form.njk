@@ -2,7 +2,7 @@
 {% set pageTitle = 'Nieuwe locatie insturen' if not idea.id else 'Bewerk locatie' %}
 {% set contentClass = 'newIdea' %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
-{% import 'includes/mapwithbaarsjesoverlay.njk' as mapwithbaarsjesoverlay %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 
 {% block head %}
 	{{ super() }}
@@ -108,6 +108,9 @@
 					<h2>Locatie</h2>
 					Klik op de kaart om een vlaggetje bij jouw locatie te plaatsen..<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
+					<div id="mapcontainer">
+						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+					</div>
 				</div>
 				
 				{% if idea.posterImage %}
@@ -141,10 +144,8 @@
 
 {% block scripts %}
 	{% if showForm %}
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 		<script src="/lib/dropzone/dist/dropzone.js"></script>
 		<script src="/lib/trix/dist/trix.js"></script>
-		<script src="/js/map.js"></script>
 		<script src="/js/editor.js"></script>
 		
 		<script>
@@ -183,10 +184,6 @@
 			 }
 		 });
 		</script>	
-		<script>
-		 var map = new LocationEditor(document.getElementById('locationField'), {});
-		 {{mapwithbaarsjesoverlay.addOverlayToLocationEditor(idea.location)}}
-		</script>
 		<script>
 		 var currentImage;
 		 var form        = document.getElementById('js-form');
