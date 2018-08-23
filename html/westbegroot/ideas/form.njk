@@ -2,7 +2,7 @@
 {% set pageTitle = 'Nieuwe locatie insturen' if not idea.id else 'Bewerk locatie' %}
 {% set contentClass = 'newIdea' %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
-{% import 'includes/mapwithwestoverlay.njk' as mapwithwestoverlay %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 
 {% block head %}
 	{{ super() }}
@@ -54,7 +54,7 @@
 					<br>
 					
 					<h2>Samenvatting</h2>
-					Vertel in maximaal 140 tekens iets meer over je locatie.<br>
+					Vertel in maximaal 140 tekens iets meer over je plan.<br>
 					<textarea name="summary">{{idea.summary}}</textarea>
 					<div id="charsLeft">Je hebt nog <span>140</span> tekens over.</div>
 				</div>
@@ -63,7 +63,7 @@
 					<h2>Beschrijving</h2>
 					Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
 					<ul>
-						<li>Wat is het verhaal achter jouw locatie?</li>
+						<li>Wat is het verhaal achter jouw plan?</li>
 						<li>Waarom is het een goede plek voor de boodschap van burgemeester van der Laan?</li>
 						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw voorstel te stemmen.</li>
 					</ul>
@@ -127,6 +127,9 @@
 					<h2>Locatie</h2>
 					Klik op de kaart om een vlaggetje bij jouw locatie te plaatsen..<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
+					<div id="mapcontainer">
+						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
+					</div>
 				</div>
 				
 				{% if idea.posterImage %}
@@ -160,10 +163,8 @@
 
 {% block scripts %}
 	{% if showForm %}
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
 		<script src="/lib/dropzone/dist/dropzone.js"></script>
 		<script src="/lib/trix/dist/trix.js"></script>
-		<script src="/js/map.js"></script>
 		<script src="/js/editor.js"></script>
 		
 		<script>
@@ -211,10 +212,6 @@
 
 		 });
 		</script>	
-		<script>
-		 var map = new LocationEditor(document.getElementById('locationField'), {});
-		 {{mapwithwestoverlay.addOverlayToLocationEditor(idea.location)}}
-		</script>
 		<script>
 		 var currentImage;
 		 var form        = document.getElementById('js-form');

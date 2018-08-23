@@ -1,14 +1,16 @@
 {% extends 'ideas.njk' %}
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
-{% import 'includes/mapwithwestoverlay.njk' as mapwithwestoverlay %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 
 {% set pageTitle    = 'Plannen' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
-	<div id="mapcontainer">
-		{{mapwithwestoverlay.map(runningIdeas, true)}}
+	<div id="map-with-buttons-container">
+		<div id="mapcontainer">
+			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+		</div>
 		<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
 			Stuur plan in
 		</a>
