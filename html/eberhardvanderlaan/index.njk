@@ -1,14 +1,16 @@
 {% extends 'base.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
-{% import 'includes/mapwithbaarsjesoverlay.njk' as mapwithbaarsjesoverlay %}
 
 {% set contentClass = 'index' %}
 
 {% block content %}
 	<div id="banner">
 		<div id="homemap">
-			{{mapwithbaarsjesoverlay.map(runningIdeas)}}
+			<div id="mapcontainer">
+				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+			</div>
 		</div>
 		<div class="text">
 			Doe mee! Op welke muur in de Baarsjes komt de laatste boodschap van oud-burgemeester Eberhard van der Laan?

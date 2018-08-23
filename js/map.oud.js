@@ -160,6 +160,7 @@ function initMap( el, options ) {
 	}
 	return new google.maps.Map(el, defaults);
 }
+
 function initMarker( options ) {
 	options.crossOnDrag = options.crossOnDrag || false;
 	options.icon        = options.icon || {
@@ -171,6 +172,7 @@ function initMarker( options ) {
 	return new google.maps.Marker(options);
 }
 
+// xxx
 function LocationEditor( input ) {
 	this.input = input;
 	var location = this.getLocation();
@@ -195,14 +197,17 @@ LocationEditor.prototype.onMapClick = function( event ) {
 	this.setMarker(event.latLng);
 	this.storeLocation();
 };
+
 LocationEditor.prototype.onMarkerClick = function() {
 	this.removeMarker();
 	this.storeLocation();
 };
+
 LocationEditor.prototype.onMarkerDrag = function( event ) {
 	this.storeLocation();
 };
 
+// TODO: why this translation? Maybe Sequelize fieldtype?
 LocationEditor.prototype.getLocation = function() {
 	var point = JSON.parse(this.input.value || null);
 	if( point ) {
@@ -211,6 +216,8 @@ LocationEditor.prototype.getLocation = function() {
 		return null;
 	}
 };
+
+// TODO: why this translation? Maybe Sequelize fieldtype?
 LocationEditor.prototype.storeLocation = function() {
 	var value;
 	if( this.marker ) {
@@ -234,6 +241,7 @@ LocationEditor.prototype.setMarker = function( latLng ) {
 		this.map.panTo(latLng);
 	}.bind(this), 350);
 };
+
 LocationEditor.prototype.removeMarker = function() {
 	this.marker.setMap(null);
 	this.marker = null;
@@ -250,6 +258,7 @@ LocationEditor.prototype._createMarker = function( latLng ) {
 	
 	return marker;
 };
+
 LocationEditor.prototype._moveMarker = function( latLng ) {
 	this.marker.setPosition(latLng);
 };

@@ -308,7 +308,7 @@
 
 	&.idea {
 
-		#mapcontainer {
+		#map-with-buttons-container {
 			margin-top: 35px;
 		}
 
@@ -942,10 +942,15 @@ ul.share {
 	
 }
 
-#mapcontainer {
+#map-with-buttons-container {
 
 	position: relative;
 	z-index: 1;
+
+	#mapcontainer {
+		width: 100%;
+		height: 375px;
+	}
 
 	a.page-button {
 		position: absolute;

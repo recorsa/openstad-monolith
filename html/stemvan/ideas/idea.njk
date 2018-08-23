@@ -1,6 +1,7 @@
 {% extends 'ideas.njk' %}
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/content.njk' as content %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
 {% import 'includes/arguments.njk' as arguments %}
 {% import 'includes/secondary.njk' as sec %}
 
@@ -47,8 +48,6 @@
 				{% endif %}
 			</div>
 
-
-			
 			<div class="secondary">
 				<div class="controls">
 					<h4>Stemmen</h4>
@@ -147,9 +146,9 @@
 		</div>
 		
 		{% if idea.location %}
+			<h2>Locatie</h2>
 			<div id="mapcontainer">
-				<h2>Locatie</h2>
-				{{content.map(cookieConsent)}}
+				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = [idea])}}
 			</div>
 		{% endif %}
 		
@@ -318,26 +317,6 @@
 	 }
 	</script>
 	
-	{% if idea.location %}
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCauwsJ_4I3ri0rI-O5-82ncLLO_Cji8YY"></script>
-		<script src="/js/map.js"></script>
-		<script>
-		 // Google map
-		 // ----------
-						var point  = JSON.parse('{{idea.location | dump | safe}}' || null);
-		 var latLng = {lat: point.coordinates[0], lng: point.coordinates[1]};
-		 var map    = initMap(document.getElementById('map'), {
-			 center      : latLng,
-			 zoom        : 14,
-			 zoomControl : true,
-			 scrollwheel : false
-		 });
-		 var marker = initMarker({
-			 position : latLng,
-			 map      : map
-		 });
-		</script>
-	{% endif %}
 {% endblock %}
 
 {% macro modBreak() %}
