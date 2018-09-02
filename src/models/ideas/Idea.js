@@ -291,7 +291,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					ranked.forEach(idea => {
 						idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
 					});
-					ranked.sort( (a, b) => a.ranking < b.ranking );
+					ranked.sort( (a, b) => b.ranking - a.ranking );
 					let rank = 1;
 					ranked.forEach(idea => {
 						idea.ranking = rank;
