@@ -110,6 +110,7 @@
 	},
 	
 	"ideas": {
+		"addNewIdeas": "open",
 		// Running duration in days.
 		"duration": 90,
 		// When an idea is closed, this threshold must be met or the idea

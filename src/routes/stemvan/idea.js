@@ -83,6 +83,13 @@ module.exports = function( app ) {
 	// -----------
 	router.route('(/new|/nieuw)')
 	.all(auth.can('idea:create', true))
+		.all(function( req, res, next ) {
+			if (config.ideas.addNewIdeas === 'closed') {
+				next(createError(404));
+			} else {
+				return next();
+			}
+		})
 	.get(function( req, res ) {
 		var help = req.query.help;
 		res.out('ideas/form', false, {
