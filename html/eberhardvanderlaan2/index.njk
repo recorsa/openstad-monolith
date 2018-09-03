@@ -6,14 +6,22 @@
 {% set contentClass = 'index' %}
 
 {% block content %}
-	<div id="banner">
-		<div class="banner-image">
-			<img src="/img/eberhardvanderlaan/banner-image.png"></img>
+	<div id="home-banner">
+		<div class="primary">
 			<div class="text">
-				De locatie is bekend!
+				<h2>Ontwerpwedstrijd muurtekst</h2>
+				Komt jouw ontwerp voor de laatste boodschap van oud-burgemeester Eberhard van der Laan op de muur in de Baarsjes?
+			</div>
+			<div class="buttons">
+				<a href="/locatie" class="page-button page-button-white bekijk-de-locatie-button">
+					Bekijk de locatie
+				</a>
+				<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
+					Stuur je ontwerp in
+				</a>
 			</div>
 		</div>
-		<div id="buttons">
+		<div class="secondary">
 			<div class="speechBubble">
 				“Zorg goed voor onze stad en voor elkaar.”
 				<div class="small">
@@ -21,15 +29,11 @@
 					Eberhard van der Laan
 				</div>
 			</div>
-			{{numberPlateButton.numberPlateButton('no-of-locations', 'locaties', runningIdeas.length, '/plannen')}}
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'ontwerpen', runningIdeas.length, '/plannen')}}
 			<a href="https://www.amsterdam.nl/zorggoedvooronzestad" class="page-button page-button-grey" target="_blank">
 				Lees meer op amsterdam.nl
 			</a>
 		</div>
-	</div>
-
-	<div class="header-extra-alinea">
-		In juli en augustus hebben Amsterdammers maar liefst 21 suggesties gedaan voor een muur of gebouw voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. De meeste stemmen kreeg het Mercatorplein. De zuil midden op het plein staat ter beschikking om hierop een ontwerp te maken.  Vanaf  22 oktober  kunnen mensen een eigen ontwerp indienen en stemmen op hun favoriete ontwerp.
 	</div>
 {% endblock %}
 
@@ -59,12 +63,12 @@
 				<li>De locatie die na aftrek van tegenstemmen de meeste stemmen voor heeft, wordt als eerste op haalbaarheid onderzocht. Niet alle locaties zijn misschien mogelijk of geschikt. Ook moet de eigenaar van het pand zijn of haar toestemming geven. Mocht de locatie met de meeste stemmen om redenen niet haalbaar zijn, dan wordt de tweede onderzocht, de derde, etc. Hier rolt uiteindelijk een winnende locatie uit.</li>
 			</ul>
 
-			<div>
-				<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button">
-					Stuur jouw locatie in
+			<div class="buttons">
+				<a href="/locatie" class="page-button page-button-grey bekijk-de-locatie-button">
+					Bekijk de locatie
 				</a>
-				<a href="??" class="page-button page-button-grey" target="_blank">
-					Lees meer op amsterdam.nl
+				<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
+					Stuur je ontwerp in
 				</a>
 			</div>
 			
@@ -87,42 +91,42 @@
 				
 				<div class="box-grey agenda-day">
 					<div>
-						<h3>5 oktober</h3>
+						<h3>28 september</h3>
 						Bekendmaking winnende locatie in de Baarsjes
 					</div>
 				</div>
 				
 				<div class="box-grey agenda-period">
 					<div>
-						<h3>22 oktober t/m 11 november</h3>
+						<h3>29 september tot 26 oktober</h3>
 						Start ontwerpwedstrijd: insturen ontwerpen
 					</div>
 				</div>
 				
 				<div class="box-grey agenda-period">
 					<div>
-						<h3>19 november t/m 7 december</h3>
+						<h3>26 oktober tot 16 november</h3>
 						Stemmen op ontwerpen
 					</div>
 				</div>
 				
 				<div class="box-grey agenda-day">
 					<div>
-						<h3>31 januari</h3>
+						<h3>21 december </h3>
 						Uitslag ontwerpwedstrijd
 					</div>
 				</div>
 				
 				<div class="box-grey agenda-period">
 					<div>
-						<h3>februari t/m april 2019</h3>
+						<h3>januari tot en met maart 2019</h3>
 						Realisatie kunstwerk
 					</div>
 				</div>
 				
 				<div class="box-grey agenda-day">
 					<div>
-						<h3>mei 2019</h3>
+						<h3>april 2019</h3>
 						Feestelijke onthulling van het winnende ontwerp
 					</div>
 				</div>

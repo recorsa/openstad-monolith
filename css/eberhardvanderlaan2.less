@@ -1,0 +1,841 @@
+@import 'stemvan/base';
+
+* {
+	box-sizing: border-box;
+}
+
+.pageContent {
+
+	a.page-button {
+		text-align: center;
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 46px;
+		text-decoration: none;
+		color: black;
+		border-radius: 0;
+	}
+
+	a.page-button-grey, a.page-button-grey:hover, a.page-button-grey:visited  {
+		color: black;
+		background: #e8e8e8;
+	}
+
+	a.page-button-blue, a.page-button-blue:hover, a.page-button-blue:visited  {
+		background-color: #164995;
+		color: white;
+	}
+
+	a.page-button-white, a.page-button-white:hover, a.page-button-white:visited  {
+		background-color: white;
+		color: #003066;
+	}
+
+	a.bekijk-de-locatie-button {
+		width: 179px;
+		max-width: 179px;
+		padding: 0 0 0 36px;
+		margin: 0 30px 0 0;
+		background-position: 12px 10px;
+		background-size: 14px 20px;
+		background-repeat: no-repeat;
+		background-image: url('/img/eberhardvanderlaan2/icon-locatie-blauw.svg');
+
+		@media @phone {
+			margin: 20px auto 0 auto;
+		}
+
+	}
+
+	a.stuur-je-ontwerp-button {
+		width: 203px;
+		max-width: 203px;
+		padding: 0 0 0 43px;
+		background-position: 12px 10px;
+		background-size: 20px 20px;
+		background-repeat: no-repeat;
+		background-image: url('/img/eberhardvanderlaan2/icon-stuur-in.svg');
+
+		@media @phone {
+			margin: 13px auto 0 auto;
+		}
+
+	}
+
+	a.ga-verder-button {
+		float: right;
+		width: 330px;
+		max-width: 330px;
+		padding: 0 15px;
+		margin: 0;
+		text-align: center;
+
+		@media @phone {
+			margin: 13px auto 0 auto;
+		}
+
+	}
+
+	.buttons {
+
+		margin: 50px 0 0 0;
+
+		a.page-button {
+			float: left;
+			display: block;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 40px;
+			text-align: left;
+			margin: 0 30px 0 0;
+			
+			@media @phone {
+				float: initial;
+				position: relative;
+				width: 100%;
+				margin: 20px auto 0 auto;
+			}
+
+		}
+
+	}
+
+	#home-banner {
+
+		width: 100%;
+		position: relative;
+		height: 375px;
+		margin-bottom: 35px;
+		overflow: hidden;;
+
+		@media @phone {
+			display: block;
+			width: calc(100% + 30px);
+			height: auto;
+			margin-left: -15px;
+		}
+
+		.primary {
+
+			position: relative;
+			float: left;
+			width: calc(100% - 240px);
+			height: 375px;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-image: url(/img/eberhardvanderlaan2/header-home.jpg);
+
+			@media @phone {
+				position: relative;
+				float: none;
+				width: 100%;
+				height: auto;
+				padding-top: 135%;
+				background-image: url(/img/eberhardvanderlaan2/header-home-mobile.png);
+			}
+
+			.text {
+				position: absolute;
+				padding: 20px 20px;
+				background-color: #164995;
+				left: 20px;
+				bottom: 80px;
+				width: calc(100% - 40px);
+				height: 147px;
+				font-size: 20px;
+				font-weight: 600;
+				font-style: normal;
+				font-stretch: normal;
+				line-height: 1.4;
+				letter-spacing: normal;
+				color: #ffffff;
+				z-index: 10000;
+
+				@media @phone {
+					width: auto;
+					height: auto;
+					top: 78px;
+					left: 15px;
+					right: 15px;
+					bottom: auto;
+					font-size: 18px;
+					line-height: normal;
+				}
+
+				h2 {
+					font-size: 29px;
+					margin: 0 0 11px 0;
+					padding: 0;
+
+					@media @phone {
+						font-size: 22px;
+					}
+					
+				}
+
+			}
+
+			.buttons {
+
+				position: absolute;
+				left: 0;
+				right: 0;
+
+				bottom: 12px;
+
+				a.page-button {
+					margin: 0 10px 0 20px;
+				}
+
+
+				a.bekijk-de-locatie-button {
+					@media @phone {
+						margin: 20px auto 0 auto;
+					}
+
+				}
+
+				a.stuur-je-ontwerp-button {
+					@media @phone {
+						margin: 13px auto 0 auto;
+					}
+
+				}
+
+			}
+			
+		}
+
+		.secondary {
+			position: relative;
+			float: left;
+			padding: 0;
+			margin: 0 0 0 20px;
+			width: 220px;
+			height: 375px;
+
+			@media @phone {
+				float: none;
+				display: block;
+				width: 100%;
+				height: auto;
+				margin: 0;
+			}
+
+			a.no-of-locations {
+				margin-top: -8px;
+				width: 200px;
+
+				.no-of-locations-content {
+					@media @phone {
+						width: auto;
+					}
+				}
+				
+				@media @phone {
+					display: block;
+					float: none;
+					width: 80%;
+					margin: 0 auto;
+				}
+
+			}
+
+			a.page-button {
+				display: block;
+				margin-top: 1px;
+				padding-top: 9px;
+				padding-left: 40px;
+				line-height: 24px;
+				height: 68px;
+				width: 220px;
+				background-position: 12px 14px;
+				background-size: 36px 40px;
+				background-repeat: no-repeat;
+				background-image: url('/img/info-pin.svg');
+				
+				@media @phone {
+					display: none;
+				}
+			}
+
+		}
+		
+	}
+
+	&.newIdea {
+		.secondary {
+			.speechBubble {
+				margin-top: 0;
+				margin-left: -15px;
+				width: 212px;
+			}
+		}
+	}
+
+	#list-banner {
+
+		position: relative;
+		width: 100%;
+		padding: 38px 0;
+		margin-bottom: 20px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(/img/eberhardvanderlaan2/header-list.jpg);
+
+		@media @phone {
+			display: block;
+			width: calc(100% + 30px);
+			margin-left: -15px;
+			background-image: url(/img/eberhardvanderlaan2/header-list-mobile.jpg);
+		}
+
+		.no-of-locations {
+			width: 205px;
+			margin: 0 auto;
+		}
+
+	}
+
+	#howDoesItWork {
+
+		ul {
+			
+			li {
+				background-image: url('/img/eberhardvanderlaan2/arrow_right_blue.svg');
+				background-position: top 6px left;
+				background-repeat: no-repeat;
+				background-size: auto 10px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding: 0 0 0 15px;
+
+				a {
+					position: relative;
+					color: #004699;
+					font-size: 16px;
+					font-weight: bold;
+					line-gheight: 18px;
+					text-decoration: underline;
+				}
+
+				a:visited {
+					color: #004699;
+				}
+
+			}
+		}
+		
+		.step {
+
+			.step-image-1 {
+				background-size: 140px 77px;
+				background-image: url(/img/eberhardvanderlaan2/howto-1.svg);
+			}
+
+			.step-image-2 {
+				background-size: 79px 76px;
+				background-image: url(/img/eberhardvanderlaan2/howto-2.svg);
+			}
+
+			.step-image-3 {
+				background-size: 99px 75px;
+				background-image: url(/img/eberhardvanderlaan2/howto-3.svg);
+			}
+
+			.step-image-4 {
+				background-size: 72px 74px;
+				background-image: url(/img/eberhardvanderlaan2/howto-4.svg);
+			}
+			
+		}
+		
+		&.closed {
+
+			.pageContent {
+				display: none
+			}
+
+			#arrow {
+				transform: rotate(0deg);
+			}
+
+		}
+
+		&.open {
+
+			.pageContent {
+				display: block
+			}
+
+			#arrow {
+				transform: rotate(180deg);
+			}
+
+		}
+
+	}
+
+	#about {
+
+		margin-bottom: -50px;
+
+		#header {
+			position: relative;
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			height: 344px;
+
+			@media @phone {
+				height: auto;
+			}
+
+			h1 {
+				margin-top: 0;
+			}
+
+			.header-image {
+				width: 540px;
+
+				@media @phone {
+					width: 100%;
+					height: auto;
+				}
+
+				img {
+					width: 100%;
+					height: auto;
+				}
+
+			}
+			
+			.header-text {
+				position: relative;
+				width: calc(100% - 540px);
+				padding: 0 0 0 20px;
+				font-size: 16px;
+				font-weight: normal;
+				line-height: 1.38;		
+
+				@media @phone {
+					width: 100%;
+					height: auto;
+					padding: 10px 0 0 0;
+				}
+
+				#gebiedsplannen-button {
+					position: absolute;
+					display: block;
+					width: 280px;
+					max-width: 280px;
+					left: 20px;
+					bottom: 7px;
+					margin: 0;
+					padding: 0 20px;
+					font-size: 16px;
+					line-height: 40px;
+					white-space: nowrap;
+
+					@media @phone {
+						position: relative;
+						left: 0;
+						width: 100%;
+						max-width: 100%;
+						height: auto;
+						margin: 0;
+						padding: 0;
+					}
+
+				}
+
+			}
+
+		}
+
+		h2 {
+			margin-top: 30px;
+		}
+
+		.thema-container {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			height: 328px;
+			margin-bottom: 30px;
+			background-color: #f3f3f3;
+
+			@media @phone {
+				height: auto;
+			}
+
+			.thema-text {
+				width: calc(100% - 540px);
+				padding: 20px;
+				font-size: 14px;
+				font-weight: normal;
+				line-height: 1.57;
+
+				@media @phone {
+					width: 100%;
+					height: auto;
+				}
+
+				h3 {
+					margin-top: 0;
+				}
+
+				ul {
+					padding: 0 15px 0 0;
+					
+					li {
+						background-image: url('/img/eberhardvanderlaan2/arrow_right_blue.svg');
+						background-position: top 6px left;
+						background-repeat: no-repeat;
+						background-size: auto 10px;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						padding: 0 0 0 15px;
+
+						a {
+							position: relative;
+							color: #004699;
+							font-size: 16px;
+							font-weight: bold;
+							line-gheight: 18px;
+							text-decoration: underline;
+						}
+
+						a:visited {
+							color: #004699;
+						}
+
+					}
+				}
+				
+				
+			}
+
+			.thema-video {
+				background-color: white;
+				width: 540px;
+
+				@media @phone {
+					width: 100%;
+					height: auto;
+				}
+
+				img {
+					width: 100%;
+					height: auto;
+				}
+
+			}
+
+		}
+
+	}
+
+	#ideas.primary {
+
+		.tile {
+			width: calc(33% - 21px);
+
+			.image {
+				height: 116px;
+			}
+
+			.username {
+				font-size: 12px;
+				font-weight: normal;
+				font-style: italic;
+				color: #787979;
+			}
+			
+		}
+
+	}
+
+	#idea {
+
+		.primary {
+
+			.image {
+				position: relative;
+				width: 700px;
+				height: 345px;
+				margin-bottom: 35px;
+				background-position: center;
+				background-size: cover;
+			}
+
+			#background {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			#uploadedImage {
+				position: absolute;
+				top: 72px;
+				left: 100px;
+				width: 500px;
+				height: 200px;
+				overflow: hidden;
+			}
+
+
+		}
+
+		.secondary {
+
+			h4:nth-child(1) {
+				margin-top: 0;
+			}
+
+			h4 {
+				margin-bottom: 20px;
+			}
+
+			select {
+				margin: 0 0 10px 0;
+			}
+			
+		}
+				
+	}
+
+}
+
+#mainMenu {
+
+	margin-bottom: 30px;
+	
+	>div {
+
+		@media @phone {
+			font-size: 16px;
+		}
+
+		ul {
+
+			li + li {
+				padding-left: 15px;
+			}
+			
+			li:nth-child(2) a:before {
+				content: 'Ontwerpwedstrijd';
+
+				@media @phone {
+					content: 'Wedstrijd';
+				}
+
+			}
+		}
+
+
+		a.page-button {
+			text-align: center;
+			font-size: 18px;
+			font-weight: 600;
+			line-height: 46px;
+			text-decoration: none;
+			color: black;
+			border-radius: 0;
+		}
+
+		a.page-button-blue, a.page-button-blue:hover, a.page-button-blue:visited  {
+			background-color: #164995;
+			color: white;
+		}
+
+		a.stuur-je-ontwerp-button {
+			float: right;
+			width: 152px;
+			margin-top: 0px;
+			margin-right: 40px;
+			padding: 0;
+			font-size: 16px;
+			text-shadow: none;
+			color: white;
+			background-image: none;
+
+			@media @phone {
+				display: none;
+			}
+
+		}
+		
+		a.stuur-je-ontwerp-button:hover {
+			color: white;
+			border-bottom: 0px none;
+		}
+
+		
+	}
+
+}
+
+.extraInfoBar {
+  width: 100%;
+	margin-bottom: 35px;
+  background-color: #164995;
+
+	.text {
+		width: 940px;
+		margin: 0 auto;
+		padding: 12px 0 12px  50px;
+		background-position: 0px 17px;
+		background-size: 24px 24px;
+		background-repeat: no-repeat;
+		background-image: url('/img/eberhardvanderlaan2/attention.svg');
+		font-size: 14px;
+		line-height: normal;
+		color: #ffffff;
+
+		@media @phone {
+			width: calc(100% - 30px);
+		}
+
+	}
+}
+
+
+
+#content.newArticle, #content.newIdea {
+
+	#image-editor {
+		position: relative;
+		display: table;
+		width: 100%;
+		height: 345px;
+		margin-bottom: 15px;
+		background-color: #f6f7f7;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		border: 1px solid #C0C0C0;
+		background-color: #f6f7f7;
+
+		#background {
+			position: absolute;
+			display: none;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		#image-cropper-container {
+			position: absolute;
+			top: 72px;
+			left: 100px;
+			width: 500px;
+			height: 200px;
+			overflow: hidden;
+		}
+
+		#image-cropper {
+			position: absolute;
+			top: 72px;
+			left: 100px;
+			width: 500px;
+			height: 200px;
+			cursor: move;
+		}
+
+		#image-cropper-container.hidden {
+			display: none;
+		}
+		#posterImageUpload {
+			position: absolute;
+			top: 72px;
+			left: 100px;
+			width: 500px;
+			height: 200px;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-color: #f6f7f7;
+			border: none;
+			cursor: pointer;
+
+			&.dz-clickable::before {
+				content: 'Let op: stuur alleen een ontwerp in dat je zelf gemaakt hebt! Afbeeldingen van anderen kunnen auteursrechtelijk beschermd zijn.';
+			}
+		}
+
+		message {
+			position: absolute;
+			display: block;
+			top: 15px;
+			width: 100%;
+			height: auto;
+			padding: 0;
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+			text-shadow: 0 0 4px #000;
+			color: #FFF;
+			display: none;
+		}
+
+		#zoombuttons {
+			position: absolute;
+			display: none;
+			right: 60px;
+			bottom: 72px;
+			width: 24px;
+			height: 47px;
+
+			#zoomIn,
+			#zoomOut {
+				position: absolute;
+				display: block;
+				top: 0;
+				left: 0;
+				width: 24px;
+				height: 24px;
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+			}
+
+			#zoomIn {
+				background-image: url(/img/eberhardvanderlaan2/zoom-in.png);
+			}
+
+			#zoomOut {
+				top: 24px;
+				background-image: url(/img/eberhardvanderlaan2/zoom-out.png);
+			}
+		}
+
+		#imageEditorButton {
+			display: block;
+			.appearance(none);
+			
+			background-color: #164995;
+			bottom: 10px;
+			color: #FFF;
+			cursor: pointer;
+			display: none;
+			font-size: inherit;
+			padding: 8px 0;
+			position: absolute;
+			left: 50%;
+			margin-left: -85px;
+			text-align: center;
+			white-space: nowrap;
+			width: 170px;
+		}
+
+		#imageEditorButton.hidden {
+			display: none;
+		}
+
+
+	}
+}

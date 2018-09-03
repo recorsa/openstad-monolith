@@ -1,0 +1,38 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle = 'Nieuwe locatie insturen' if not idea.id else 'Bewerk locatie' %}
+{% set contentClass = 'newIdea' %}
+
+{% block content %}
+
+	<div class="pageContent">
+
+		<div class="primary">
+
+			<div class="grey-text-block">
+				<ul class="links-list">
+					<li><a href="/wedstrijd">Lees de pagina 'Ontwerpwedstrijd' goed door</a></li>
+				</ul>
+			</div>
+			
+			{% include "includes/ontwerp-richtlijnen.html" ignore missing %}
+
+			<a href="?introread=true" class="page-button page-button-blue ga-verder-button">Ga verder naar ontwerp insturen</a>
+
+		</div>
+
+		<div class="secondary">
+			<div class="pageContent">
+				<div class="speechBubble">
+					“Zorg goed voor onze stad en voor elkaar.”
+					<div class="small">
+						Vaarwel,<br/><br/><br/><br/><br/>
+						Eberhard van der Laan
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}
+

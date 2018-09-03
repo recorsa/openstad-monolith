@@ -101,8 +101,8 @@ module.exports  = {
 		var cookieParser       = require('cookie-parser');
 		var methodOverride     = require('method-override');
 		
-		this.app.use(bodyParser.json());
-		this.app.use(bodyParser.urlencoded({extended: true}));
+		this.app.use(bodyParser.json({limit: '10mb'}));
+		this.app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 		this.app.use(cookieParser(config.get('security.sessions.secret')));
 		this.app.use(methodOverride(function( req, res ) {
 			var method;

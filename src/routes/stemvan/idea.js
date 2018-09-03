@@ -26,10 +26,15 @@ module.exports = function( app ) {
 				expires: 0
 			});
 		}
+
+		var extraScopes = [];
+		if (config.siteId == 'zorggoedvooronzestad2') {
+			extraScopes = ['withUser'];
+		}
 		
 		var data = {
 			sort             : sort,
-			runningIdeas     : db.Idea.getRunning(sort),
+			runningIdeas     : db.Idea.getRunning(sort, extraScopes),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			upcomingMeetings : db.Meeting.getUpcoming()
 		};
@@ -99,13 +104,22 @@ module.exports = function( app ) {
 			}
 		})
 	.get(function( req, res ) {
-		var help = req.query.help;
-		res.out('ideas/form', false, {
-			showHelp        : help != undefined ? !!Number(help) : true,
-			showForm        : req.can('idea:create'),
-			useModernEditor : isModernBrowser(req),
-			csrfToken       : req.csrfToken()
-		});
+		if (req.query.introread) {
+			var help = req.query.help;
+			res.out('ideas/form', false, {
+				showHelp				: help != undefined ? !!Number(help) : true,
+				showForm				: req.can('idea:create'),
+				useModernEditor : isModernBrowser(req),
+				csrfToken				: req.csrfToken()
+			});
+		} else {
+			res.out('ideas/form-intro', false, {
+				showHelp				: help != undefined ? !!Number(help) : true,
+				showForm				: req.can('idea:create'),
+				useModernEditor : isModernBrowser(req),
+				csrfToken				: req.csrfToken()
+			});
+		}
 	})
 	.post(function( req, res, next ) {
 		req.body.location = JSON.parse(req.body.location || null);
