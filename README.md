@@ -19,6 +19,7 @@ You should at least set the following parameters:
 2. `sentry.url`, or `sentry.active`  to `false` if you do not have an [sentry.io](//sentry.io) account.
 3. `notifications.admin.emailAddress`, even if you don't set up a mail server connection.
 4. `debug` to `true`. This enables the `dev/login/{userId}` route, so you can login as any user you like.
+5. rebuild superagent: `browserify browserify.js > js/superagent.js`
 
 ### 2. Install dependencies
 ```bash

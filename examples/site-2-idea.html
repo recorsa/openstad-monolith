@@ -4,8 +4,7 @@
     <title>An HTML Document</title>
     <link rel="shortcut icon" href="/favicon.ico"/>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
-		<script src="/examples/js/custom-elements.min.js"></script>
-		<script src="/examples/js/html-imports.min.js"></script>
+		<script src="/examples/js/webcomponents-hi-sd-ce.js"></script>
   </head>
   <body>
 		<div style="width: 1000px; margin: 0 auto;">
@@ -35,17 +34,20 @@
 
 			</script>
 
-			<idea-widget>idea</idea-widget>
+			<idea-widget afterFetchCallback="" afterVoteCallback="">idea</idea-widget>
 			<arguments-widget>arguments</arguments-widget>
 
 			<script src="js/number-buttons.js"></script>
 			<script>
+
+			 document.querySelector('idea-widget').setAttribute('data-id', id);
+			 
 			 window.addEventListener("load", function() {
-				 setTimeout(()=>{ // todo: waarom werkt onload niet goed?
-			     initNumberButton(document.getElementById('idea-votes-for-button'));
-					 initNumberButton(document.getElementById('idea-votes-against-button'));
-				 }, 1000);
-  			}); 
+				 setTimeout(()=>{ // TODO: waarom werkt onload niet goed?
+			     initNumberButton(document.querySelector('idea-widget').shadowRoot.querySelector('idea-votes-for-button'));
+					 initNumberButton(document.querySelector('idea-widget').shadowRoot.querySelector('idea-votes-against-button'));
+				 }, 2000);
+  		 }); 
 			</script>
 
 		</div>

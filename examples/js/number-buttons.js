@@ -1,6 +1,6 @@
 function initNumberButton(element) {
 
-	var amount = element.dataset.count;
+	var amount = parseInt(element.innerHTML);
 	var value000 = parseInt(amount/100) || 0;
 	var value00  = parseInt(amount/10) - value000;
 	var value0   = amount - value000 * 100 - value00 * 10;
@@ -32,4 +32,9 @@ function initNumberButton(element) {
 	parent.appendChild(container);
 	container.appendChild(element);
 
+}
+
+
+function updateNumberButton(element, value) {
+	
 }

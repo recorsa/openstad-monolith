@@ -92,6 +92,7 @@ router.route('/idea/:ideaId(\\d+)')
 		var data = {
 			idea      : req.idea,
 			voteUrl   : `${config.url}/api/site/${req.params.siteId}/idea/${req.params.ideaId}/vote`,
+			apiUrl    : config.url,
 			csrfToken : req.csrfToken(),
 		};
 
