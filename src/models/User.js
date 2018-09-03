@@ -328,7 +328,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					notifications.trigger(this.id, 'idea', idea.id, 'create');
 				})
 				.tap(function( idea ) {
-					return idea.updateImages(imageKeys);
+					return idea.updateImages(imageKeys, data.imageExtraData);
 				});
 			},
 			updateIdea: function( idea, data ) {
@@ -341,7 +341,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					notifications.trigger(this.id, 'idea', idea.id, 'update');
 				})
 				.tap(function() {
-					return idea.updateImages(imageKeys);
+					return idea.updateImages(imageKeys, data.imageExtraData);
 				});
 			},
 			

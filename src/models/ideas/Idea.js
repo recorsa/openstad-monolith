@@ -198,7 +198,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					limit : 3
 				});
 			},
-			getRunning: function( sort ) {
+			getRunning: function( sort, extraScopes ) {
 				var order;
 				switch( sort ) {
 					case 'votes_desc':
@@ -227,7 +227,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// Get all running ideas.
 				// TODO: Ideas with status CLOSED should automatically
 				//       become DENIED at a certain point.
-				return this.scope('summary', 'withPosterImage').findAll({
+				let scopes = ['summary', 'withPosterImage'];
+				if (extraScopes)  {
+					scopes = scopes.concat(extraScopes);
+				}
+				return this.scope(...scopes).findAll({
 					where: {
 						$or: [
 							{
@@ -371,7 +375,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 
-			updateImages: function( imageKeys ) {
+			updateImages: function( imageKeys, extraData ) {
+				console.log('====================');
+				console.log(imageKeys, extraData);
 				var self = this;
 				if( !imageKeys || !imageKeys.length ) {
 					imageKeys = [''];
@@ -389,6 +395,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					imageKeys.map(function( imageKey, sort ) {
 						return db.Image.update({
 							ideaId : ideaId,
+							extraData : extraData || null,
 							sort   : sort
 						}, {
 							where: {key: imageKey}
@@ -470,7 +477,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				include: [{
 					model      : db.Image,
 					as         : 'posterImage',
-					attributes : ['key'],
+					attributes : ['key', 'extraData'],
 					required   : false,
 					where      : {
 						sort: 0

@@ -27,10 +27,104 @@ a:visited {
 	color: white;
 }
 
+.color-blue {
+	color: #164995;
+}
+
 .background-blue {
 	background-color: #164995;
 }
 
+.grey-text-block {
+	margin-bottom: 20px;
+	padding: 20px;
+	background-color: #f6f7f7;
+
+	h1, h2 h3, h4 {
+		margin-top: 0;
+	}
+}
+
 .color-white {
 	color: white;
+}
+
+/* links met een arrow-right er voor */
+
+ul.links-list {
+
+  box-sizing: border-box;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+	li {
+		background-image: url('/img/eberhardvanderlaan2/arrow_right_blue.svg');
+		background-position: top 6px left;
+		background-repeat: no-repeat;
+		background-size: auto 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding: 0 0 0 15px;
+
+		a {
+			position: relative;
+			color: #004699;
+			font-size: 16px;
+			font-weight: bold;
+			line-gheight: 18px;
+			text-decoration: underline;
+		}
+
+		a:visited {
+			color: #004699;
+		}
+
+	}
+}
+
+
+/* lijst van punten met een checkmark er voor */
+
+ul.checkmark-list,
+ul.checkmark-dot-list {
+
+  box-sizing: border-box;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+	li {
+    position: relative;
+    padding-left: 41px;
+    margin: 16px 0;
+	}		
+
+	li {
+		&::before {
+			position: absolute;
+			content: '';
+			top: -3px;
+			left: 0;
+			width: 30px;
+			height: 30px;
+			background-image: url(/img/checkmark-dot-blue.svg);
+			background-repeat: no-repeat;
+		}
+	}
+
+}
+
+ul.checkmark-list {
+	li {
+    padding-left: 27px;
+
+		&::before {
+			top: 4px;
+			left: 0;
+			width: 15px;
+			height: 23px;
+			background-image: url(/img/checkmark-blue.svg);
+		}
+	}
 }

@@ -6,20 +6,22 @@
 {% set contentClass = 'index' %}
 
 {% block content %}
-	<div id="banner">
-		<div id="homemap">
-			<div id="mapcontainer">
-				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+	<div id="home-banner">
+		<div class="primary">
+			<div class="text">
+				<h2>Ontwerpwedstrijd muurtekst</h2>
+				Komt jouw ontwerp voor de laatste boodschap van oud-burgemeester Eberhard van der Laan op de muur in de Baarsjes?
+			</div>
+			<div class="buttons">
+				<a href="/locatie" class="page-button page-button-white bekijk-de-locatie-button">
+					Bekijk de locatie
+				</a>
+				<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
+					Stuur je ontwerp in
+				</a>
 			</div>
 		</div>
-		<div class="text">
-			Dank voor alle prachtige locatiesuggesties voor de laatste boodschap van oud-burgemeester Van der Laan!  
-			Vanaf 29 september kan je je eigen ontwerp van de tekst uploaden! Tot dan!  
-			<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button">
-				Stuur hier je locatie!<img id="arrow" src="/img/arrow_right_white.svg" width="9" heigh="16" style="display: inline-block; margin-left: 16px; margin-top: 2px;">
-			</a>
-		</div>
-		<div id="buttons">
+		<div class="secondary">
 			<div class="speechBubble">
 				“Zorg goed voor onze stad en voor elkaar.”
 				<div class="small">
@@ -27,7 +29,7 @@
 					Eberhard van der Laan
 				</div>
 			</div>
-			{{numberPlateButton.numberPlateButton('no-of-locations', 'locaties', runningIdeas.length, '/plannen')}}
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'ontwerpen', runningIdeas.length, '/plannen')}}
 			<a href="https://www.amsterdam.nl/zorggoedvooronzestad" class="page-button page-button-grey" target="_blank">
 				Lees meer op amsterdam.nl
 			</a>
@@ -45,8 +47,6 @@
 
 		<div class="text" name="info" id="info">
 
-			<p>In juli en augustus hebben Amsterdammers maar liefst 21 suggesties gedaan voor een muur of gebouw voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. De meeste stemmen kreeg het Mercatorplein gevolgd door het Witte de Withplein. De Maarten Harpertszoon Trompstraat, waar van der Laan heeft gewoond, is als derde locatie gekozen. Stadsdeel West is blij met de vele suggesties en stemmen. De komende maand gaan we uitzoeken of het mogelijk is om de tekst op een muur of gebouw op het Mercatorplein te realiseren. Op 28 september maken we bekend elke muur het wordt. Daarna kunnen mensen een eigen ontwerp indienen en stemmen op hun favoriete ontwerp.</p>
-
 			<h3>Achtergrondinformatie</h3>
 			<p>Om de laatste boodschap van oud-burgemeester Eberhard van der Laan levend te houden, heeft Baarsjes bewoonster Liesbeth de Looper het idee bedacht om zijn oproep ‘Zorg goed voor onze stad en voor elkaar’, als muurtekst op een gebouw of muur aan te brengen. Haar voorstel was om de muurtekst te realiseren in de Baarsjes, omdat Van der Laan daar jarenlang heeft gewoond.</p>
 			<p>Het Algemeen Bestuur van West heeft in april dit jaar besloten om het plan van mevrouw De Looper te realiseren en Amsterdammers te vragen om suggesties aan te dragen voor een geschikte locatie voor de quote.  Amsterdammers kunnen vervolgens een ontwerp insturen voor de muurtekst en stemmen op hun favoriete ontwerp.</p>
@@ -63,12 +63,12 @@
 				<li>De locatie die na aftrek van tegenstemmen de meeste stemmen voor heeft, wordt als eerste op haalbaarheid onderzocht. Niet alle locaties zijn misschien mogelijk of geschikt. Ook moet de eigenaar van het pand zijn of haar toestemming geven. Mocht de locatie met de meeste stemmen om redenen niet haalbaar zijn, dan wordt de tweede onderzocht, de derde, etc. Hier rolt uiteindelijk een winnende locatie uit.</li>
 			</ul>
 
-			<div>
-				<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button">
-					Stuur jouw locatie in
+			<div class="buttons">
+				<a href="/locatie" class="page-button page-button-grey bekijk-de-locatie-button">
+					Bekijk de locatie
 				</a>
-				<a href="??" class="page-button page-button-grey" target="_blank">
-					Lees meer op amsterdam.nl
+				<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
+					Stuur je ontwerp in
 				</a>
 			</div>
 			
