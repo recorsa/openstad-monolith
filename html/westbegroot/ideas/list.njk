@@ -96,7 +96,9 @@
 			<select class="default-select">
 				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
 				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+				<!--
 				<option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
+				-->
 			</select>
 		</div>
 		
@@ -105,7 +107,9 @@
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
 			<a href="/plan/{{idea.id}}">
 				{% if idea.status != 'DENIED' %}
+					<!--
 					<div class="ranking"><div class="label">{{idea.ranking}}</div></div>
+					-->
 				{% endif %}
 				
 				<div class="image"></div>
