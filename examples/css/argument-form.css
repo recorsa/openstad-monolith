@@ -1,0 +1,10 @@
+argument-form {
+	background-color: lightgreen;
+}
+
+argument-form input,
+argument-form textarea {
+	width: 100%;
+	max-width: 300px;
+}
+

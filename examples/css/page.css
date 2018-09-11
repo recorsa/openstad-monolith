@@ -1,0 +1,61 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+  font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.38;
+}
+
+openstad-map-widget {
+	display: block;
+	width: 100%;
+	height: 75px;
+	margin-top: 20px;
+}
+
+ideas-widget {
+	display: block;
+	width: 100%;
+	margin-top: 20px;
+}
+
+idea-widget {
+	display: block;
+  position: relative;
+  width: 940px;
+  margin-bottom: 20px;
+}
+
+arguments-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+arguments-container arguments-for-container,
+arguments-container arguments-against-container {
+  width: calc(50% - 10px);
+}
+
+arguments-container arguments-against-container {
+  margin-left: 20px;
+}
+
+argument-form-widget {
+	display: block;
+	width: 100%;
+	min-height: 50px;
+	margin-bottom: 20px;
+}
+
+arguments-widget {
+	display: block;
+	flex-wrap: wrap;
+  min-width: 100%;
+  width: 100%;
+}

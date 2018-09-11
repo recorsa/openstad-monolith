@@ -1,0 +1,86 @@
+idea {
+  position: relative;
+  width: 940px;
+	margin-top: 20px;
+}
+
+idea idea-image {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 393.75px;
+  /* 16:9 Aspect Ratio */
+  overflow: hidden;
+  background-color: #e7e7e7;
+  background-position: center;
+  background-size: cover;
+}
+
+idea idea-controls {
+  position: absolute;
+  top: 0;
+  left: 700px;
+  width: 240px;
+  height: 393.75px;
+  /* 16:9 Aspect Ratio */
+}
+
+idea idea-controls idea-votes-for-button,
+idea idea-controls idea-votes-against-button {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 43px;
+  margin: 0 0 4px 12px;
+}
+
+idea idea-controls idea-votes-for-button::after,
+idea idea-controls idea-votes-against-button::after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 90px;
+  height: 43px;
+  width: 113px;
+  padding: 0 0 0 37px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 43px;
+  text-align: center;
+  color: white;
+  background-repeat: no-repeat;
+  background-size: auto 28px;
+  background-position: center left 8px;
+  background-color: #164995;
+  cursor: pointer;
+}
+
+idea idea-controls idea-votes-for-button::after {
+  content: 'voor';
+  background-image: url('/img/thumbsup_white.svg');
+}
+
+idea idea-controls idea-votes-for-button.selected::after {
+  background-color: #bdd131;
+}
+
+idea idea-controls idea-votes-against-button::after {
+  content: 'tegen';
+  background-image: url('/img/thumbsdown_white.svg');
+}
+
+idea idea-controls idea-votes-against-button.selected::after {
+  background-color: #ea1d25;
+}
+
+idea idea-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+idea idea-controls .number-button {
+  margin: 0 0 8px 8px;
+}

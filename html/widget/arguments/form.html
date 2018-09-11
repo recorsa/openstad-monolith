@@ -16,19 +16,19 @@
  
 </style>
 
-Argumenten {{message}}<br/>
+<arguments-form>
+	Argumenten {{message}}<br/>
 
-{% if showForm %}
+	{% if showForm %}
 	<form id="new-argument-form" method="POST">
 		{% if extraFields %}
-			{% for field in extraFields %}
-				<input type="text" name="{{field}}" value="{{field}}"/><br/>
-			{% endfor %}
+		{% for field in extraFields %}
+		<input type="text" name="{{field}}" value="{{field}}"/><br/>
+		{% endfor %}
 		{% endif %}
-				<textarea name="description">{{argument.description}}</textarea><br/>
-				<input type="hidden" name="_csrf" value="{{csrf}}"/>
-				<input name="submitButton" type="button" value="Submit">
+		<textarea name="description">{{argument.description}}</textarea><br/>
+		<input type="hidden" name="_csrf" value="{{csrf}}"/>
+		<input name="submitButton" type="button" value="Submit">
 	</form>
-{% endif %}
-
-<arguments-form></arguments-form>
+	{% endif %}
+</arguments-form>
