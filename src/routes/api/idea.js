@@ -2,6 +2,7 @@ const Promise = require('bluebird');
 const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
+const config  = require('config');
 
 let router = express.Router({mergeParams: true});
 

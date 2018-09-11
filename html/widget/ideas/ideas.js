@@ -49,7 +49,7 @@ class IdeasWidget extends HTMLElement {
 					idea.posterImage && idea.posterImage.forEach( image => {
 						let imageElement = document.createElement('idea-image');
 						let imageDiv = document.createElement('div');
-						imageDiv.style.backgroundImage  = `url(/image/${image.key})`
+						imageDiv.style.backgroundImage  = `url({{imageUrl}}/image/${image.key})`
 						imageElement.appendChild(imageDiv);
 						imagesElement.appendChild(imageElement)
 					});

@@ -77,7 +77,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 					posterImage = posterImage[0];
 				}
 
-				return posterImage ? `/image/${posterImage.key}?thumb` :
+				// temp, want binnenkort hebben we een goed systeem voor images
+				let imageUrl = config.url || '';
+				
+				return posterImage ? `${imageUrl}/image/${posterImage.key}?thumb` :
 				       location    ? 'https://maps.googleapis.com/maps/api/streetview?'+
 				                     'size=800x600&'+
 				                     `location=${location.coordinates[0]},${location.coordinates[1]}&`+
