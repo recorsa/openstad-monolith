@@ -1,0 +1,90 @@
+<template id="idea-template">
+
+	<style>
+	 
+	</style>
+
+	<idea>
+		<a class="tile" href="{{href}}">
+			<idea-images></idea-images>
+			<idea-title></idea-title>
+			<idea-summary></idea-summary>
+			<idea-counters></idea-counters>
+		</a>
+	</idea>
+
+</template>
+
+<style>
+ * {
+	 box-sizing: border-box;
+ }
+
+ ideas {
+	 display: flex;
+	 flex-wrap: wrap;
+	 align-items: flex-start;
+	 width: calc( 100% + 20px );
+ }
+
+ ideas idea {
+	 display: block;
+	 flex-basis: auto;
+	 flex-grow: 1;
+	 max-width: calc( ( 100% / {{config.ideas.noOfColumsInList}} ) - 20px );
+	 min-width: calc( ( 100% / {{config.ideas.noOfColumsInList}} ) - 20px );
+	 margin: 0 20px 20px 0;
+	 font-size: 14px;
+	 line-height: normal;
+	 vertical-align: top;
+	 cursor: pointer;
+ }
+ 
+ ideas idea a {
+	 color: black;
+	 text-decoration: none;
+	 outline: 0;
+ }	 
+
+ ideas idea idea-image {
+	 display: block;
+	 position: relative;
+	 padding-top: 56.25%; /* 16:9 Aspect Ratio */
+	 overflow: hidden;
+	 background-color: #e7e7e7;
+	 margin-top: @margin;
+	 font-size: 14px;
+	 font-weight: normal;
+	 line-height: normal;
+ }
+
+ ideas idea idea-image div {
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 bottom: 0;
+	 right: 0;
+	 width: 100%;
+	 background-position: center;
+	 background-size: cover;
+ }
+ 
+ ideas idea idea-title {
+	 display: block;
+	 margin-top: 8px;
+	 margin-bottom: 5px;
+	 font-size: 16px;
+	 font-weight: 600;
+	 line-height: 1.25;
+	 overflow: hidden;
+	 text-overflow: ellipsis;
+ }
+
+ ideas idea idea-summary {
+	 display: block;
+ }
+
+</style>
+
+<ideas></ideas>
+

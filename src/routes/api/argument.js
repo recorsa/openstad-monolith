@@ -14,14 +14,18 @@ router.route('/')
 
 		let ideaId = parseInt(req.params.ideaId) || 0;
 		let where = {};
+		req.scope = ['defaultScope'];
 		if (ideaId) {
 			where.ideaId = ideaId;
+		} else {
+			req.scope.push({method: ['forSiteId', req.params.siteId]});
 		}
 		let sentiment = req.query.sentiment;
 		if (sentiment) {
 			where.sentiment = sentiment;
 		}
 		db.Argument
+			.scope(...req.scope)
 			.findAll({ where })
 			.then( found => {
 				return found.map( entry => entry.toJSON() );
@@ -35,10 +39,17 @@ router.route('/')
 
 // create argument
 // -----------
-	.post(auth.can('argument:create'))
+	// .post(auth.can('argument:create'))
 	.post(function(req, res, next) {
+
+		let data = {
+			description : req.body.description,
+			ideaId      : req.params.ideaId,
+			userId      : req.user.id,
+		}
+		
 		db.Argument
-			.create(req.body)
+			.create(data)
 			.then(result => {
 				res.json(result);
 			})

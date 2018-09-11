@@ -1,0 +1,34 @@
+<style>
+
+ * {
+	 box-sizing: border-box;
+ }
+
+ :host {
+ }
+ 
+ argument-form {
+	 display: block;
+	 width: 100%;
+ }
+
+ @import url("http://openstad-api.francesco.denes.nl/examples/css/argument-form.css") print;
+ 
+</style>
+
+Argumenten {{message}}<br/>
+
+{% if showForm %}
+	<form id="new-argument-form" method="POST">
+		{% if extraFields %}
+			{% for field in extraFields %}
+				<input type="text" name="{{field}}" value="{{field}}"/><br/>
+			{% endfor %}
+		{% endif %}
+				<textarea name="description">{{argument.description}}</textarea><br/>
+				<input type="hidden" name="_csrf" value="{{csrf}}"/>
+				<input name="submitButton" type="button" value="Submit">
+	</form>
+{% endif %}
+
+<arguments-form></arguments-form>

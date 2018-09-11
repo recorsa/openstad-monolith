@@ -12,4 +12,10 @@ router.use( '/site/:siteId(\\d+)', require('./idea') );
 // arguments
 router.use( '/site/:siteId(\\d+)', require('./argument') );
 
+// sites
+router.use( '/site', require('./site') );
+
+// elements
+router.use( '/', require('./elements') );
+
 module.exports = router;

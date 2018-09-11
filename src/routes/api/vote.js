@@ -64,14 +64,14 @@ router.route('/')
 	.post(function(req, res, next) {
 		console.log('VOTE ----------');
 		req.idea
-			.addUserVote(req.user, req.body.opinion, req.ip)
-			.then(voteRemoved => {
-				let result = {
+			.addUserVote(req.user, req.body.opinion, req.ip, true)
+			.then(result => {
+				let data = {
 					vote    : req.body.opinion,
-					voteRemoved,
-					message : !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken',
+					result,
+					message : result == 'cancelled' ? 'Uw stem is ingetrokken' : 'U heeft gestemd',
 				}
-				res.json(result);
+				res.json(data);
 			})
 			.catch(next);
 	})

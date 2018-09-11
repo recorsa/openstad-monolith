@@ -12,6 +12,8 @@ router.route('*')
 
 // dit is een kopie uit stemtool/arg. Voor nu laat ik het staan, maar raar is het wel...
 
+// todo: het moet met een api call gaan werken
+
 	.all(function(req, res, next){
 
 		var {user, body} = req;
@@ -42,5 +44,27 @@ router.route('*')
 			.catch(next);
 
 	})
+
+// get site
+
+router.route('/site/:siteId(\\d+)/*')
+
+	.all(function(req, res, next) {
+
+		// todo: dit moet een api call worden
+		var siteId = parseInt(req.params.siteId) || 1;
+		db.Site.findById(siteId)
+			.then(function( site ) {
+				if( !site ) {
+					next(createError(404, 'Site niet gevonden'));
+				} else {
+					req.site = site;
+					next();
+				}
+			})
+			.catch(next);
+		
+	})
+
 
 module.exports = router;

@@ -13,41 +13,75 @@
 			</h1>
 			Dit is een voorbeeld met webcomponents
 			
-			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/elements.css"/>
-			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/idea.css"/>
-			<link rel="stylesheet" type="text/css" media="all"   href="/css/examples/argument.css"/>
+			<link rel="stylesheet" type="text/css" media="all"   href="/examples/css/page.css"/>
+
 			<script>
 
-			 // idea widget met het juiste id
-			 let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
-       var url = "/widget/site/2/idea/" + id;
-			 var ideaWidget = document.createElement('link');
-       ideaWidget.rel = 'import';
-			 ideaWidget.href = url;
-       document.head.appendChild(ideaWidget)
+			 function afterRenderCallback(widget) {
+			   initNumberButton(widget.shadowRoot.querySelector('idea-votes-for-button'));
+				 initNumberButton(widget.shadowRoot.querySelector('idea-votes-against-button'));
+			 }
 
-			 // bijbehorende argumenten
-			 var argumentsWidget = document.createElement('link');
-       argumentsWidget.rel = 'import';
-			 argumentsWidget.href = url + '/argument';
-			 document.head.appendChild(argumentsWidget)
+			 function afterAttributeChangedCallback(widget, name, oldValue, newValue) {
+
+				 var numberButton;
+				 if (name == 'data-votes-yes') {
+					 numberButton = widget.shadowRoot.querySelector('idea-votes-for-button').querySelector('number-button-widget');
+				 } else {
+					 numberButton = widget.shadowRoot.querySelector('idea-votes-against-button').querySelector('number-button-widget');
+				 }
+				 if (numberButton) {
+					 numberButton.setAttribute('data-value', newValue);
+				 }
+
+			 }
+
+			 function initNumberButton(element) {
+
+				 var value = parseInt(element.getAttribute('data-value'));
+
+				 var widget = element.querySelector('number-button-widget');
+				 if (!widget) {
+					 var numberButton = document.createElement('number-button-widget');
+					 console.log('numberButton')
+					 var parent = element.parentNode
+					 console.log(2, element)
+					 element.appendChild(numberButton);
+					 console.log(3)
+					 numberButton.setAttribute('data-value', value);
+					 console.log(1, numberButton)
+				 }
+
+			 }
 
 			</script>
 
-			<idea-widget afterFetchCallback="" afterVoteCallback="">idea</idea-widget>
-			<arguments-widget>arguments</arguments-widget>
+			<script src="/widget/site/2/idea"></script>
+			<idea-widget afterRenderCallback="afterRenderCallback" afterAttributeChangedCallback="afterAttributeChangedCallback" data-css="/examples/css/idea.css">loading idea...</idea-widget>
 
-			<script src="js/number-buttons.js"></script>
+			<script src="/widget/site/2/argument/new"></script>
+			<script src="/widget/site/2/arguments"></script>
+			<arguments-container>
+				<arguments-for-container>
+					<h3>Argumenten voor</h3>
+					<argument-form-widget id="argument-for-form" data-css="/examples/css/argument-form.css">loading form...</argument-form-widget>
+					<arguments-widget sentiment="for" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+				</arguments-for-container>
+				<arguments-against-container>
+					<h3>Argumenten tegen</h3>
+					<argument-form-widget id="argument-against-form" data-css="/examples/css/argument-form.css">loading form...</argument-form-widget>
+					<arguments-widget sentiment="against" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+				</arguments-against-container>
+			</arguments>
+
+			<script src="/examples/elements/number-button.js"></script>
 			<script>
-
+			 let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
 			 document.querySelector('idea-widget').setAttribute('data-id', id);
-			 
-			 window.addEventListener("load", function() {
-				 setTimeout(()=>{ // TODO: waarom werkt onload niet goed?
-			     initNumberButton(document.querySelector('idea-widget').shadowRoot.querySelector('idea-votes-for-button'));
-					 initNumberButton(document.querySelector('idea-widget').shadowRoot.querySelector('idea-votes-against-button'));
-				 }, 2000);
-  		 }); 
+			 document.querySelector('#argument-for-form').setAttribute('data-idea-id', id);
+			 document.querySelector('#argument-against-form').setAttribute('data-idea-id', id);
+			 document.querySelector('arguments-widget[sentiment="for"]').setAttribute('data-idea-id', id);
+			 document.querySelector('arguments-widget[sentiment="against"]').setAttribute('data-idea-id', id);
 			</script>
 
 		</div>

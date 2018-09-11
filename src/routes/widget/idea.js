@@ -11,13 +11,9 @@ var util         = require('../../util')
   , auth         = require('../../auth')
   , mail         = require('../../mail');
 
-
-const request = require('superagent');
-const apiUrl = config.get('api.url');
-
 let router = express.Router({mergeParams: true});
 
-router.route('/idea')
+router.route('/ideas')
 
 // list ideas
 // ----------
@@ -25,78 +21,42 @@ router.route('/idea')
 	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
 
-		let url = apiUrl + '/api/site/'+req.params.siteId+'/idea?running=true&includePosterImage=true&includeVoteCount=true';
-		request
-			.get( url )
-			.set('Cookie', req.headers['cookie'] || '')
-			.set('accept', 'json')
-			.end((err, res) => {
-				if (err) return next(err);
-				req.ideas = res.body;
-				next();
-			});
-
-	})
-	.get(function( req, res, next ) {
-
 		// Figure out idea sorting, and store in the user's session.
-		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') ||
-		           req.cookies['idea_sort'];
-		if( sort ) {
-			res.cookie('idea_sort', sort, {
-				expires: 0
-			});
-		}
+		// var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') ||
+		//            req.cookies['idea_sort'];
+		// if( sort ) {
+		//  	res.cookie('idea_sort', sort, {
+		//  		expires: 0
+		//  	});
+		// }
 		
 		var data = {
-			runningIdeas : req.ideas,
-			apiUrl       : apiUrl,
+			apiUrl    : config.url,
+			config    : req.site.config,
+			siteId    : req.params.siteId,
 		};
 		
-		res.out('ideas/list-widget', true, data);
+		res.out('ideas/ideas.js', true, data);
 
 	});
-
-router.route('/test')
-	.get(function( req, res, next ) {
-		res.status(200).end(`
-<h1>Test</h1>
-`)
-	});
-
 
 // view idea
 // ---------
 
-router.route('/idea/:ideaId(\\d+)')
+router.route('/idea')
 	.all(auth.can('idea:view'))
-// list ideas
-// ----------
-	.get(auth.can('ideas:list'))
-	.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
-	.get(function( req, res, next ) {
-		// api call
-		let url = apiUrl + '/api/site/'+req.params.siteId+'/idea/'+req.params.ideaId+'?includePosterImage=true&includeVoteCount=true&includeUserVote=true';
-		request
-			.get( url )
-			.set('Cookie', req.headers['cookie'] || '')
-			.set('accept', 'json')
-			.end((err, res) => {
-				if (err) return next(err);
-				req.idea = res.body;
-				next();
-			});
-	})
+	.all(auth.can('ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
 
 		var data = {
-			idea      : req.idea,
-			voteUrl   : `${config.url}/api/site/${req.params.siteId}/idea/${req.params.ideaId}/vote`,
+			voteUrl   : `${config.url}/api/site/${req.params.siteId}/idea/[[id]]/vote`,
 			apiUrl    : config.url,
-			csrfToken : req.csrfToken(),
+			csrfToken : req.csrfToken(), // todo: deze moet je ophalen van de api server
+			config    : req.site.config,
+			siteId    : req.params.siteId,
 		};
 
-		res.out('ideas/idea-widget.njk', true, data);
+		res.out('ideas/idea.js', true, data);
 
 	});
 

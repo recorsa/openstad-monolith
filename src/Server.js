@@ -100,7 +100,7 @@ module.exports  = {
 		var headerOptions = {
 			setHeaders: function( res ) {
 				res.set({
-					'Cache-Control': 'private'
+					'Cache-Control': 'private',
 				});
 			}
 		};
@@ -113,7 +113,22 @@ module.exports  = {
 		var bodyParser         = require('body-parser');
 		var cookieParser       = require('cookie-parser');
 		var methodOverride     = require('method-override');
-		
+
+		this.app.use(function(req, res, next){
+
+			// TODO: dit kan natuurlijk niet; ik denk dat je hem kunt afschermen met locaties in de config
+      res.header('Access-Control-Allow-Origin', '*'); // Inject origin from request header
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-http-method-override, X-GRIP-Tenant-Id');
+
+			if (req.method == 'OPTIONS') {
+				res.end();
+			}
+
+			next()
+
+		});
+
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({extended: true}));
 		this.app.use(cookieParser(config.get('security.sessions.secret')));

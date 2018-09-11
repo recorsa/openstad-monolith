@@ -17,9 +17,16 @@ Als extra zit hier nog een index file in die de boel bij elkaar veegt.
 
 
 ## Site
-/site/:ID
+/api/site/:SITE_ID
 
 Momenteel alleen standaard CRUD.
+
+## Arguments
+
+/api/site/:SITE_ID/argument
+/api/site/:SITE_ID/idea/:IDEA_ID/argument
+
+De eerste versie is bedoeld voor de stemtool variant en geeft alle argumenten voor alle ideeen binnen de site. Dat is natuurlijk geen oplossing maar werkt voor nu zo ommdat we nog geen ideeen container in het datamodel kennen.
 
 ## Idea
 

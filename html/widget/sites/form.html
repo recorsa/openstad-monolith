@@ -1,0 +1,59 @@
+<style>
+ edit-site-widget {
+	 display: block;
+	 width: 100%;
+	 margin-top: 20px;
+ }
+</style>
+
+<form id="edit-site-form" method="POST" value="{{apiUrl}}/api/site/2">
+	<!-- TODO: dit is nu hardcoded, maar kan natuurlijk gegenereerd; in ieder geval de config -->
+
+	name:<br/>
+	<input type="text" name="name" value=""/><br/>
+
+	title:<br/>
+	<input type="text" name="title" value=""/><br/>
+	
+	<h2>config</h2>
+	
+	type:<br/>
+	<input type="text" name="type" value=""/><br/>
+	
+	url:<br/>
+	<input type="text" name="url" value=""/><br/>
+	
+	hostname:<br/>
+	<input type="text" name="hostname" value=""/><br/>
+	
+	<h4>config.ideas</h4>
+	
+	noOfColumsInList:<br/>
+	<input type="text" name="noOfColumsInList" value=""/><br/>
+	
+	<h4>config.arguments</h4>
+	
+	anonymousAllowed:<br/>
+	<input type="radio" name="anonymousAllowed" value="true"/>true
+	<input type="radio" name="anonymousAllowed" value="false"/> false
+	<br/>
+	showFields (comma seperated):<br/>
+	<input type="text" name="showFields" value=""/><br/>
+	
+	<h4>config.votes</h4>
+	
+	maxChoices:<br/>
+	<input type="text" name="maxChoices" value=""/><br/>
+	
+	replaceOrError:<br/>
+	<input type="text" name="replaceOrError" value=""/><br/>
+	
+	userRole:<br/>
+	<input type="text" name="userRole" value=""/><br/>
+
+	<input type="hidden" name="_csrf" value="{{csrf}}"/>
+
+	<br/>
+	<input name="submitButton" type="button" value="Submit">
+	
+</form>

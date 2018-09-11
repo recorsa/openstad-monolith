@@ -317,34 +317,53 @@ module.exports = function( db, sequelize, DataTypes ) {
 				       this.status === 'BUSY'
 			},
 
-			addUserVote: function( user, opinion, ip ) {
+			addUserVote: function( user, opinion, ip, extended ) {
 				var data = {
 					ideaId  : this.id,
 					userId  : user.id,
-					opinion : opinion,
 					ip      : ip
 				};
 
+				let found = false;
 				return db.Vote.findOne({where: data})
 				.then(function( vote ) {
-					if( vote ) {
+					if (vote) {
+						found = true;
+					}
+					if( vote && vote.opinion === opinion ) {
 						return vote.destroy();
 					} else {
 						// HACK: `upsert` on paranoid deleted row doesn't unset
 						//        `deletedAt`.
 						// TODO: Pull request?
 						data.deletedAt = null;
+						data.opinion = opinion;
 						return db.Vote.upsert(data);
 					}
 				})
 				.then(function( result ) {
-					// When the user double-voted with the same opinion, the vote
-					// is removed: return `true`. Otherwise return `false`.
-					//
-					// `vote.destroy` returns model when `paranoid` is `true`.
-					return result && !!result.deletedAt;
+					if (extended) {
+						// nieuwe versie, gebruikt door de api server
+						if (found) {
+							if (result && !!result.deletedAt) {
+								return 'cancelled';
+							} else {
+								return 'replaced';
+							}
+						} else {
+							return 'new';
+						}
+					} else {
+						// oude versie
+						// When the user double-voted with the same opinion, the vote
+						// is removed: return `true`. Otherwise return `false`.
+						//
+						// `vote.destroy` returns model when `paranoid` is `true`.
+						return result && !!result.deletedAt;
+					}
 				});
 			},
+
 			addUserArgument: function( user, data ) {
 				var filtered = pick(data, ['parentId', 'sentiment', 'description', 'label']);
 				filtered.ideaId = this.id;

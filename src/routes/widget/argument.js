@@ -11,97 +11,86 @@ var util         = require('../../util')
   , auth         = require('../../auth')
   , mail         = require('../../mail');
 
-
-const request = require('superagent');
-const apiUrl = config.get('api.url');
-
 let router = express.Router({mergeParams: true});
 
-// get site
-// --------
-router.all('*', function( req, res, next ) {
-
-	var siteId = parseInt(req.params.siteId) || 1;
-	db.Site.findById(siteId)
-		.then(function( site ) {
-			if( !site ) {
-				next(createError(404, 'Site niet gevonden'));
-			} else {
-				req.site = site;
-				next();
-			}
-		})
-		.catch(next);
-});
-
-router.route('(/idea/:ideaId(\\d+))?/argument')
+router.route('(/idea/:ideaId(\\d+))?/arguments')
 
 // list arguments
 // ----------
 	.get(auth.can('arguments:list'))
 	.get(function( req, res, next ) {
 
-		// TODO: ja, ja, dit moet netter
-		// console.log('--------------------');
-
-		// api call
+		// api url
+		let apiUrl;
 		if (req.site.config.type == 'stemtool') {
-			let url = apiUrl + '/api/site/' + req.params.siteId + '/idea/' + req.params.ideaId + '/argument';
-			if (!req.params.ideaId) {
-				url = apiUrl + '/api/site/' + req.params.siteId + '/argument';
+			if (req.params.ideaId) {
+				apiUrl = config.url + '/api/site/' + req.params.siteId + '/idea/[[id]]/argument';
+			} else {
+				apiUrl = config.url + '/api/site/' + req.params.siteId + '/argument';
 			}
-			request
-				.get( url )
-				.set('Cookie', req.headers['cookie'] || '')
-				.set('accept', 'json')
-				.end((err, res) => {
-					if (err) return next(err);
-					req.arguments = res.body;
-					next();
-				});
 		}
-		
 		if (req.site.config.type == 'stemvan') {
-			let url = apiUrl + '/api/site/'+req.params.siteId+'/idea/'+req.params.ideaId+'/argument?sentiment=for';
-			request
-				.get( url )
-				.set('Cookie', req.headers['cookie'] || '')
-				.set('accept', 'json')
-				.end((err, res) => {
-					if (err) return next(err);
-					req.argumentsFor = res.body;
-					url = apiUrl + '/api/site/'+req.params.siteId+'/idea/'+req.params.ideaId+'/argument?sentiment=against';
-					request
-						.get( url )
-						.set('Cookie', req.headers['cookie'] || '')
-						.set('accept', 'json')
-						.end((err, res) => {
-							req.argumentsAgainst = res.body;
-							return next();
-						});
-				});
+			apiUrl = config.url + '/api/site/'+req.params.siteId+'/idea/[[id]]/argument';
 		}
-	})
-	.get(function( req, res, next ) {
 
 		var data = {
-			config           : req.site.config,
-			arguments        : req.arguments,
-			argumentsFor     : req.argumentsFor,
-			argumentsAgainst : req.argumentsAgainst,
+			apiUrl,
+			type   : req.site.config.type,
+			config : req.site.config,
 		};
 		
-		res.out('arguments/list-widget.njk', true, data);
+		res.out('arguments/arguments.js', true, data);
 
 	});
 
-router.route('(/idea/:ideaId(\\d+))?/argument/form')
-	.get(auth.can('arguments:list'))
+router.route('(?:/idea/:ideaId(\\d+))?/argument(?:(?:/:argumentId(\\d+)/edit)|/new)')
+
+//  argument form
+// --------------
+
+	// .get(auth.can('argument:edit'))
+	// .get(auth.can('argument:create'))
 	.get(function( req, res, next ) {
 
+		let argument = {}; // TODO: edit
+
 		var data = {
+			apiUrl    : config.url,
+			site: req.site,
+			user: req.user,
+			csrf   : req.csrfToken(), // TDO: deze moet je ophalen met een api call
+			argument,
 		};
+
+		console.log(req.user);
+
+		if ( req.site.config.arguments.new.anonymousAllowed || ( !req.site.config.arguments.new.anonymousAllowed && req.user.id != 1 ) ) {
+			// the form
+			data.message = 'Formulier'
+
+			data.showForm = true;
+
+			if (req.site.config.arguments.new.anonymousAllowed) {
+				data.extraFields = [];
+				req.site.config.arguments.new.showFields.forEach((field) => {
+					data.extraFields.push(field)
+				});
+			}
+
+		} else {
+			// message
+			data.message = 'Je moet ingelogd zijn om een argument te kunnen plaatsen'
+		}
 		
+		if (req.user) {
+			// the form
+			
+		} else {
+			
+			
+			
+		}
+
 		res.out('arguments/form.js', true, data);
 		
 	});
