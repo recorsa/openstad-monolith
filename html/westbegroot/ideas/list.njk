@@ -85,8 +85,9 @@
 			<div class="divider"></div>
 			<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
 				<option value="0">Filter op gebied</option>
+				<option value="Oud-West">Oud-West</option>
 				<option value="Bos en Lommer">Bos en Lommer</option>
-				<option value="De Baarsjes / Oud-West">De Baarsjes / Oud-West</option>
+				<option value="De Baarsjes">De Baarsjes</option>
 				<option value="Westerpark">Westerpark</option>
 			</select>
 			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
@@ -97,7 +98,7 @@
 				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
 				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
 				<!--
-				<option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
+						 <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
 				-->
 			</select>
 		</div>
@@ -108,7 +109,7 @@
 			<a href="/plan/{{idea.id}}">
 				{% if idea.status != 'DENIED' %}
 					<!--
-					<div class="ranking"><div class="label">{{idea.ranking}}</div></div>
+							 <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
 					-->
 				{% endif %}
 				
