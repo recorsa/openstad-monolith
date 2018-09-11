@@ -318,7 +318,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// TODO: Move to `Idea` model.
 			createNewIdea: function( data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
+				var filtered  = pick(data, ['title', 'summary', 'description', 'extraData', 'location']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
 				
