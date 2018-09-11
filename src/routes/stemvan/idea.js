@@ -682,8 +682,8 @@ function sendThankYouMail( req, idea ) {
 			path     : 'img/eberhardvanderlaan/email.kaart.png',
 			cid      : 'kaart'
 		}, {
-			filename : 'logo.svg',
-			path     : 'img/logo-gemeenteams-webapplicaties.svg',
+			filename : 'logo.png',
+			path     : 'img/logo-gemeenteams-webapplicaties.png',
 			cid      : 'logo'
 		}, {
 			filename : 'howto-1.png',
@@ -708,8 +708,8 @@ function sendThankYouMail( req, idea ) {
 		}]
 	} else {
 		attachments = [{
-			filename : 'logo.svg',
-			path     : 'img/logo-gemeenteams-webapplicaties.svg',
+			filename : 'logo.png',
+			path     : 'img/logo-gemeenteams-webapplicaties.png',
 			cid      : 'logo'
 		}, {
 			filename : 'map.png',
