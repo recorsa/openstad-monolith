@@ -1,5 +1,5 @@
 {% extends 'ideas.njk' %}
-{% set pageTitle = 'Nieuw plan insturen' if not idea.id else 'Bewerk plan' %}
+{% set pageTitle = 'Jouw plan insturen' if not idea.id else 'Plan bewerken' %}
 {% set contentClass = 'newIdea' %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 {% import 'includes/openstad-map.njk' as openStadMap %}
@@ -65,8 +65,8 @@
 					Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
 					<ul>
 						<li>Wat is het verhaal achter jouw plan?</li>
-						<li>Waarom is het een goede plek voor de boodschap van burgemeester van der Laan?</li>
-						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw voorstel te stemmen.</li>
+						<li>Waarom past dit plan goed bij het thema dat je geselecteerd hebt?</li>
+						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.</li>
 					</ul>
 					{% if useModernEditor %}
 						<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
