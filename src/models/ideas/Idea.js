@@ -146,21 +146,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}, {
 		hooks: {
 			beforeValidate: co.wrap(function*( idea, options ) {
-				// Automatically determine `endDate`, and `meetingId`.
+				// Automatically determine `endDate`
 				if( idea.changed('startDate') ) {
 					var duration = config.get('ideas.duration');
 					var endDate  = moment(idea.startDate).add(duration, 'days').toDate();
-					var meeting  = yield sequelize.models.meeting.findOne({
-						where: {
-							date: {$gt: endDate}
-						},
-						order: 'date ASC'
-					});
-
 					idea.setDataValue('endDate', endDate);
-					if( meeting ) {
-						idea.setDataValue('meetingId', meeting.id);
-					}
 				}
 			})
 		},
