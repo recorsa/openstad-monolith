@@ -1,8 +1,7 @@
 {% extends 'ideas.njk' %}
-{% set pageTitle = 'Nieuwe locatie insturen' if not idea.id else 'Bewerk locatie' %}
+{% set pageTitle = 'Nieuw ontwerp insturen' if not idea.id else 'Bewerk ontwerp' %}
 {% set contentClass = 'newIdea' %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
-{% import 'includes/openstad-map.njk' as openStadMap %}
 
 {% block head %}
 	{{ super() }}
@@ -41,11 +40,11 @@
 					<h4>Naam</h4>
 					<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
 					
-					<h2>Naam van je locatie</h2>
+					<h2>Naam van je ontwerp</h2>
 					<input type="text" name="title" value="{{idea.title}}"><br>
 					
 					<h2>Samenvatting</h2>
-					Vertel in maximaal 140 tekens iets meer over je locatie.<br>
+					Vertel in maximaal 140 tekens iets meer over je ontwerp.<br>
 					<textarea name="summary">{{idea.summary}}</textarea>
 					<div id="charsLeft">Je hebt nog <span>140</span> tekens over.</div>
 				</div>
@@ -54,8 +53,8 @@
 					<h2>Beschrijving</h2>
 					Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
 					<ul>
-						<li>Wat is het verhaal achter jouw locatie?</li>
-						<li>Waarom is het een goede plek voor de boodschap van burgemeester van der Laan?</li>
+						<li>Wat is het verhaal achter jouw ontwerp?</li>
+						<li>Waarom is het een goede weergave voor de boodschap van burgemeester van der Laan?</li>
 						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw voorstel te stemmen.</li>
 					</ul>
 					{% if useModernEditor %}
@@ -114,15 +113,6 @@
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
 				</div>
 				
-				<div id="location">
-					<h2>Locatie</h2>
-					Klik op de kaart om een vlaggetje bij jouw locatie te plaatsen..<br>
-					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
-					<div id="mapcontainer">
-						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
-					</div>
-				</div>
-				
 				{% if idea.posterImage %}
 					<input type="hidden" id="images" name="images[]" value="{{idea.posterImage.key}}">
 					<input type="hidden" id="imageExtraData" name="imageExtraData" value="{{idea.posterImage.extraData | dump}}">
@@ -154,7 +144,7 @@
 {% block howDoesItWork %}
 	{% if not user.isLoggedIn() %}
 		{{howdoesitwork.howblock('open')}}
-		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld je aan om een locatie in te sturen</a>
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld je aan om een ontwerp in te sturen</a>
 	{% endif %}
 {% endblock %}
 
