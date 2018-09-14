@@ -206,6 +206,7 @@ module.exports = function( app ) {
 	.all(auth.can('account:complete'))
 	.get(function( req, res, next ) {
 		res.out('account/complete', false, {
+			addSignedupfornewsletter: config.users && config.users.addSignedupfornewsletter,
 			csrfToken : req.csrfToken()
 		});
 	})
