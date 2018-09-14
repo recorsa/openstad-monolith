@@ -259,7 +259,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			completeRegistration: function( data ) {
 				var self = this;
 				var filtered = pick(data, [
-					'firstName', 'lastName', 'zipCode', 'gender', 'password'
+					'firstName', 'lastName', 'zipCode', 'gender', 'password', 'signedUpForNewsletter'
 				]);
 				filtered.complete = true;
 				if (self.role === 'anonymous') {
