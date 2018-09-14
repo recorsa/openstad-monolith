@@ -20,6 +20,7 @@ class IdeasWidget extends HTMLElement {
 		// TODO: fetch is too modern, so change or polyfill
 		// TODO: CORS
 		let url = `{{apiUrl}}/api/site/{{siteId}}/idea/?running=true&includePosterImage=true&includeVoteCount=true`
+		url = url + '&access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 		fetch(url, {
 			method: 'get',
 			headers: {
@@ -56,7 +57,7 @@ class IdeasWidget extends HTMLElement {
 					template.querySelector('idea-images').innerHTML = imagesElement.innerHTML;
 					
 
-					self.shadowRoot.querySelector('ideas').appendChild(template)
+					self.shadowRoot.querySelector('ideas-list').appendChild(template)
 
 				})
 

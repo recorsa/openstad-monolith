@@ -25,7 +25,8 @@ class EditSiteWidget extends HTMLElement {
 
 		// TODO: fetch is too modern, so change or polyfill
 		// TODO: CORS
-		let url = '{{apiUrl}}/api/site/{{siteId}}'
+		let url = '/api/site/{{siteId}}'
+		url = url + '?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 		fetch(url, {
 			method: 'get',
 			headers: {
@@ -104,6 +105,7 @@ class EditSiteWidget extends HTMLElement {
 		// TODO: fetch is too modern, so change or polyfill
 		// TODO: CORS
 		let url = '{{apiUrl}}/api/site/{{siteId}}'
+		url = url + '?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 		fetch(url, {
 			method: 'put',
 			headers: {

@@ -10,15 +10,6 @@ class ArgumentsWidget extends HTMLElement {
 	connectedCallback () {
 
 		let self = this;
-
-		if (self.getAttribute('data-css')) {
-			var link  = document.createElement('link');
-			link.rel  = 'stylesheet';
-			link.type = 'text/css';
-			link.href = self.getAttribute('data-css');
-			self.shadowRoot.appendChild(link);
-		}
-
 		this.fetch();
 
 	}
@@ -30,11 +21,12 @@ class ArgumentsWidget extends HTMLElement {
 		// TODO: cleanup
 		// TODO: fetch is too modern, so change or polyfill
 		// TODO: CORS
-		let url = `{{apiUrl}}`;
+		let url = `{{apiUrl}}?`;
 		url = url.replace('[[id]]', self.getAttribute('data-idea-id'));
 		if (this.getAttribute('sentiment')) {
-			url = url + '?sentiment=' + this.getAttribute('sentiment')
+			url = url + 'sentiment=' + this.getAttribute('sentiment')
 		}
+		url = url + '&access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 		
 		fetch(url, {
 			method: 'get',

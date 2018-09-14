@@ -18,7 +18,6 @@ router.route('(?:/:siteId(\\d+)/edit)|(?:/new)')
 	.get(auth.can('site:create'))
 	.get(function( req, res, next ) {
 
-		console.log('==', req.params);
 		let data = {
 			apiUrl    : config.url,
 			siteId : req.params.siteId,

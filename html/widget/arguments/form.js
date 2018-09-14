@@ -12,18 +12,6 @@ class ArgumentFormWidget extends HTMLElement {
 	connectedCallback () {
 
 		var self = this;
-
-		// console.log('1',self.getAttribute('data-css'))
-
-		if (self.getAttribute('data-css')) {
-			var link  = document.createElement('link');
-			link.rel  = 'stylesheet';
-			link.type = 'text/css';
-			link.href = self.getAttribute('data-css');
-		  // console.log('2',link)
-			self.shadowRoot.appendChild(link);
-		}
-
 		self.shadowRoot.querySelector('input[name="submitButton"]').onclick = self.submit.bind(self);
 
 	}
@@ -55,6 +43,7 @@ class ArgumentFormWidget extends HTMLElement {
 			url += '/' + self.getAttribute('data-idea-id');
 		}
 		url += '/argument';
+		url = url + '?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 		// console.log(url)
 		
 		fetch(url, {

@@ -9,14 +9,6 @@ class IdeaWidget extends HTMLElement {
 
 	connectedCallback () {
 		let self = this;
-
-		if (self.getAttribute('data-css')) {
-			var link  = document.createElement('link');
-			link.rel  = 'stylesheet';
-			link.type = 'text/css';
-			link.href = self.getAttribute('data-css');
-			self.shadowRoot.appendChild(link);
-		}
 		
 		if (self.getAttribute('data-id')) {
 			self.fetch();
@@ -32,6 +24,7 @@ class IdeaWidget extends HTMLElement {
 		// TODO: fetch is too modern, so change or polyfill
 		// TODO: CORS
 		let url = `{{apiUrl}}/api/site/{{siteId}}/idea/${self.getAttribute('data-id')}?includePosterImage=true&includeVoteCount=true&includeUserVote=true`
+		url = url + '&access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 		
 		fetch(url, {
 			method: 'get',
@@ -82,27 +75,31 @@ class IdeaWidget extends HTMLElement {
 
 	}
 
-	/// todo: cleanup
 	static get observedAttributes() {return ['data-id', 'data-votes-yes', 'data-votes-no']; }
 
 	attributeChangedCallback(name, oldValue, newValue) {
 		let self = this;
 
-		if (name == 'data-id') {
+		switch(name) {
+
+		case 'data-id':
 			self.fetch();
-		}
+			break;
 
-		if (name == 'data-votes-yes') {
+		case 'data-votes-yes':
 			self.shadowRoot.querySelector('idea-votes-for-button').setAttribute("data-value", newValue);
-		}
+			break;
 
-		if (name == 'data-votes-no') {
+		case 'data-votes-no':
 			self.shadowRoot.querySelector('idea-votes-against-button').setAttribute("data-value", newValue);
+			break;
+
 		}
 
-		if (self.getAttribute('afterAttributeChangedCallback')) {
+		if ('afterAttributeChangedCallback') {
 			eval(`${self.getAttribute('afterAttributeChangedCallback')}(self, name, oldValue, newValue)`);
 		}
+
 
 	}
 
@@ -113,7 +110,7 @@ customElements.define('idea-widget', IdeaWidget);
 // vote function
 function doVote(what) {
 
-	// TODO: ik denk eigenlijk dat je een stem moet kunnen cancellen, zo werkt het nu tenminste
+	// TODO: gebruik fetch, zoals de anderen
 
 	let element = document.querySelector('idea-widget');
 	let root = element.shadowRoot;
@@ -165,6 +162,7 @@ function doVote(what) {
 	};
 
 	let url = '{{ voteUrl }}';
+	url = url + '?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40';
 	url = url.replace('[[id]]', element.getAttribute('data-id'))
 
 	xmlhttp.open("POST", url, true);

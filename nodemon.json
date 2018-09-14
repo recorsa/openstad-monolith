@@ -1,5 +1,5 @@
 {
 	"verbose": false,
-	"ext": "js,json,njk",
+	"ext": "js,json,njk,html",
 	"ignore": [ "/examples", "/js" ]
 }

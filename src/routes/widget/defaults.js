@@ -5,6 +5,22 @@ let router = express.Router({mergeParams: true});
 
 router.route('*')
 
+// hardcoded user op basis van access token
+
+	.all(function(req, res, next) {
+		console.log(req.query);
+		if ((!req.user || req.user.id == 1) && req.query.access_token && req.query.access_token == 'VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40') {
+			req.setSessionUser(32);
+			db.User.findById(32)
+				.then(user => {
+					req.user = user;
+					next();
+				})
+		} else {
+			next();
+		}
+	})
+
 // `updateUserSession` assure for both adding arguments/replies
 // that the user performing the action has an anonymous profile
 // with a `nickName`. This middleware is only relevant on POSt
