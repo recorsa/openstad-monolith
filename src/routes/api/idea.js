@@ -8,7 +8,7 @@ let router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 router
-	.get('*', function(req, res, next) {
+	.all('*', function(req, res, next) {
 
 		req.scope = ['api'];
 
@@ -82,11 +82,28 @@ router.route('/')
 // -----------
 	.post(auth.can('idea:create'))
 	.post(function(req, res, next) {
+		req.body.siteId = req.params.siteId;
+		req.body.userId = req.user.id;
+		req.body.startDate = new Date();
+		console.log(req.body);
 		db.Idea
 			.create(req.body)
 			.then(result => {
 				res.json(result);
 			})
+			.catch(function( error ) {
+				// todo: dit komt uit de oude routes; maak het generieker
+				if( error instanceof db.sequelize.ValidationError ) {
+					let errors = [];
+					error.errors.forEach(function( error ) {
+						// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
+						errors.push(error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
+					});
+					res.status(422).json(errors);
+				} else {
+					next(error);
+				}
+			});
 	})
 
 // one idea

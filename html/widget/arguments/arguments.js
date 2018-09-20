@@ -10,6 +10,16 @@ class ArgumentsWidget extends HTMLElement {
 	connectedCallback () {
 
 		let self = this;
+
+		if (self.getAttribute('data-css')) {
+			console.log('extra CSS')
+			let link = document.createElement('link');
+			link.rel = "stylesheet";
+			link.type = "text/css";
+			link.href = self.getAttribute('data-css');
+			self.shadowRoot.appendChild(link)
+		}
+
 		this.fetch();
 
 	}

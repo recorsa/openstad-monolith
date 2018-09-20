@@ -61,7 +61,32 @@ router.route('/idea')
 
 	});
 
+// idea form
+// ---------
+
+router.route('/idea(?:/edit|/new)$')
+	.all(auth.can('idea:view'))
+	.all(auth.can('ideas:archive', 'idea:create'))
+	.get(function( req, res, next ) {
+		let data = {
+			apiUrl : config.url,
+			siteId : req.params.siteId,
+			csrf   : req.csrfToken(), // TODO: deze moet je ophalen met een api call
+		}
+
+		res.out('ideas/form.js', true, data);
+
+	});
+
+
+
 module.exports = router;
+
+
+
+
+
+
 
 
 

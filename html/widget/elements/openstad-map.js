@@ -8,9 +8,10 @@
 	 }
 
 	 connectedCallback () {
-		 // this.shadowRoot.querySelector('idea-controls').innerHTML = 'Knoppen'
-		 // let href = this.getAttribute('href') || '';
-		 // this.fetch();
+		 let description = this.getAttribute('description');
+		 if (description) {
+			 this.shadowRoot.querySelector('openstad-map').innerHTML = description;
+		 }
 	 }
 
  }

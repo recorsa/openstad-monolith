@@ -13,6 +13,28 @@ var util         = require('../../util')
 
 let router = express.Router({mergeParams: true});
 
+// html-editor
+router.route('/html-editor')
+	.get(function( req, res, next ) {
+
+		var data = {
+		};
+
+		res.out('elements/html-editor.js', true, data);
+
+	});
+
+// image-container
+router.route('/image-container')
+	.get(function( req, res, next ) {
+
+		var data = {
+		};
+
+		res.out('elements/image-container.js', true, data);
+
+	});
+
 // map
 router.route('/openstad-map')
 	.get(function( req, res, next ) {

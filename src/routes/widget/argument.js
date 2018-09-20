@@ -62,18 +62,16 @@ router.route('(?:/idea/:ideaId(\\d+))?/argument(?:(?:/:argumentId(\\d+)/edit)|/n
 			argument,
 		};
 
-		console.log(req.user);
-
 		if ( req.site.config.arguments.new.anonymousAllowed || ( !req.site.config.arguments.new.anonymousAllowed && req.user.id != 1 ) ) {
 			// the form
 			data.message = 'Formulier'
 
 			data.showForm = true;
-
+			
 			if (req.site.config.arguments.new.anonymousAllowed) {
 				data.extraFields = [];
 				req.site.config.arguments.new.showFields.forEach((field) => {
-					data.extraFields.push(field)
+					data.extraFields.push({ name: field, value: req.user[field] })
 				});
 			}
 

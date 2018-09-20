@@ -8,9 +8,18 @@ class IdeasWidget extends HTMLElement {
 	}
 
 	connectedCallback () {
-		// this.shadowRoot.querySelector('idea-controls').innerHTML = 'Knoppen'
-		let href = this.getAttribute('href') || '';
-		this.fetch();
+		let self = this;
+
+		if (self.getAttribute('data-css')) {
+			console.log('extra CSS')
+			let link = document.createElement('link');
+			link.rel = "stylesheet";
+			link.type = "text/css";
+			link.href = self.getAttribute('data-css');
+			self.shadowRoot.appendChild(link)
+		}
+
+		self.fetch();
 	}
 
 	fetch() {

@@ -3,9 +3,6 @@
  * {
 	 box-sizing: border-box;
  }
-
- :host {
- }
  
  argument-form {
 	 display: block;
@@ -21,7 +18,7 @@
 	<form id="new-argument-form" method="POST">
 		{% if extraFields %}
 		{% for field in extraFields %}
-		<input type="text" name="{{field}}" value="{{field}}"/><br/>
+		<input type="text" name="{{field.name}}" placeholder="{{field.name}}" value="{{field.value}}"/><br/>
 		{% endfor %}
 		{% endif %}
 		<textarea name="description">{{argument.description}}</textarea><br/>
