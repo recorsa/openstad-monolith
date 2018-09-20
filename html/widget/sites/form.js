@@ -99,7 +99,6 @@ class EditSiteWidget extends HTMLElement {
 					userRole: self.shadowRoot.querySelector('input[name="userRole"]').value,
 				}
 			},
-			_csrf: self.shadowRoot.querySelector('input[name="_csrf"]').value,
 		}
 
 		// TODO: fetch is too modern, so change or polyfill

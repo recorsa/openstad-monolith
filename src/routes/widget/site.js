@@ -21,7 +21,6 @@ router.route('(?:/:siteId(\\d+)/edit)|(?:/new)')
 		let data = {
 			apiUrl    : config.url,
 			siteId : req.params.siteId,
-			csrf   : req.csrfToken(), // TDO: deze moet je ophalen met een api call
 		}
 
 		res.out('sites/form.js', true, data);

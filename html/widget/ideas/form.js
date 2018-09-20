@@ -79,7 +79,6 @@ class EditIdeaWidget extends HTMLElement {
 			title: self.shadowRoot.querySelector('input[name="title"]').value,
 			summary: self.shadowRoot.querySelector('textarea[name="summary"]').value,
 			description: self.shadowRoot.querySelector('html-editor-widget').getValue(),
-			_csrf: self.shadowRoot.querySelector('input[name="_csrf"]').value,
 		}
 
 		console.log(data);

@@ -109,7 +109,7 @@ router.route('/')
 // one idea
 // --------
 router.route('/:ideaId(\\d+)')
-	.all(auth.can('idea:view'))
+	// .all(auth.can('idea:view'))
 	.all(function(req, res, next) {
 		var ideaId = parseInt(req.params.ideaId) || 1;
 		
@@ -134,7 +134,7 @@ router.route('/:ideaId(\\d+)')
 
 // update idea
 // -----------
-	.put(auth.can('idea:edit'))
+	//.put(auth.can('idea:edit'))
 	.put(function(req, res, next) {
 		req.idea
 			.update(req.body)

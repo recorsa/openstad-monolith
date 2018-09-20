@@ -58,7 +58,6 @@ router.route('(?:/idea/:ideaId(\\d+))?/argument(?:(?:/:argumentId(\\d+)/edit)|/n
 			apiUrl    : config.url,
 			site: req.site,
 			user: req.user,
-			csrf   : req.csrfToken(), // TDO: deze moet je ophalen met een api call
 			argument,
 		};
 

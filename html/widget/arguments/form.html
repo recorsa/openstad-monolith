@@ -22,7 +22,6 @@
 		{% endfor %}
 		{% endif %}
 		<textarea name="description">{{argument.description}}</textarea><br/>
-		<input type="hidden" name="_csrf" value="{{csrf}}"/>
 		<input name="submitButton" type="button" value="Submit">
 	</form>
 	{% endif %}

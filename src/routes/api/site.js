@@ -59,7 +59,7 @@ router.route('/:siteId(\\d+)')
 
 // update site
 // -----------
-	.put(auth.can('site:edit'))
+	//.put(auth.can('site:edit'))
 	.put(function(req, res, next) {
 		req.site
 			.update(req.body)
@@ -71,7 +71,7 @@ router.route('/:siteId(\\d+)')
 
 // delete site
 // ---------
-	.delete(auth.can('site:delete'))
+	// .delete(auth.can('site:delete'))
 	.delete(function(req, res, next) {
 		req.site
 			.destroy()

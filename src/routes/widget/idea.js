@@ -52,7 +52,6 @@ router.route('/idea')
 		var data = {
 			voteUrl   : `${config.url}/api/site/${req.params.siteId}/idea/[[id]]/vote`,
 			apiUrl    : config.url,
-			csrfToken : req.csrfToken(), // todo: deze moet je ophalen van de api server
 			config    : req.site.config,
 			siteId    : req.params.siteId,
 		};
@@ -71,7 +70,6 @@ router.route('/idea(?:/edit|/new)$')
 		let data = {
 			apiUrl : config.url,
 			siteId : req.params.siteId,
-			csrf   : req.csrfToken(), // TODO: deze moet je ophalen met een api call
 		}
 
 		res.out('ideas/form.js', true, data);
@@ -154,7 +152,6 @@ let oud = function( app ) {
 				idea               : req.idea,
 				userVote           : req.vote,
 				selectableMeetings : meetings,
-				csrfToken          : req.csrfToken()
 			});
 		})
 		.catch(next);
@@ -170,7 +167,6 @@ let oud = function( app ) {
 			showHelp        : help != undefined ? !!Number(help) : true,
 			showForm        : req.can('idea:create'),
 			useModernEditor : isModernBrowser(req),
-			csrfToken       : req.csrfToken()
 		});
 	})
 	.post(function( req, res, next ) {
@@ -191,7 +187,6 @@ let oud = function( app ) {
 					showForm        : true,
 					useModernEditor : isModernBrowser(req),
 					idea            : req.body,
-					csrfToken       : req.csrfToken()
 				});
 			} else {
 				next(error);
@@ -210,7 +205,6 @@ let oud = function( app ) {
 			showForm        : true,
 			useModernEditor : isModernBrowser(req),
 			idea            : req.idea,
-			csrfToken       : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {
@@ -230,7 +224,6 @@ let oud = function( app ) {
 					showForm        : true,
 					useModernEditor : isModernBrowser(req),
 					idea            : req.idea,
-					csrfToken       : req.csrfToken()
 				});
 			} else {
 				next(error);
@@ -299,7 +292,6 @@ let oud = function( app ) {
 			res.format({
 				html: function() {
 					res.out('ideas/enter_zipcode', false, {
-						csrfToken : req.csrfToken(),
 						opinion   : getOpinion(req),
 						zipCode   : zipCode
 					});
@@ -402,7 +394,6 @@ let oud = function( app ) {
 	.get(function( req, res, next ) {
 		res.out('ideas/form_arg', false, {
 			argument  : req.argument,
-			csrfToken : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {
@@ -427,7 +418,6 @@ let oud = function( app ) {
 			});
 			res.out('ideas/form_arg', false, {
 				argument  : req.argument,
-				csrfToken : req.csrfToken()
 			});
 		})
 		.catch(next);
@@ -534,7 +524,6 @@ let oud = function( app ) {
 	.get(function( req, res, next ) {
 		res.out('ideas/form_mod_break', true, {
 			idea      : req.idea,
-			csrfToken : req.csrfToken()
 		});
 	})
 	.put(function( req, res, next ) {

@@ -16,13 +16,6 @@ Als extra zit hier nog een index file in die de boel bij elkaar veegt.
 
 Het is allemaal heel primitief. Afvangingen zitten er nauwelijks in. Het is allemaal ter proof of concept.
 
-Er zitten nog crsf tokens in omdat de hele site die gebruikt. Dat is voor een JSON api volgens mij flauwekul, maar dat moet ik nog even goed doordenken/nalezen. Je kunt een token ophalen met
-
-/api/csrf-token
-
-en dat is volgens mij nog erger dan flauwekul...
-
-
 ## Ingelogde users
 
 Als je bent ingelogd op de normale stemvan site dan kun je de api gewoon gebruiken. Maar dat werkt alleen op dev; normaal kun je helemaal niet inloggen want daar zijjn geen endpoints voor.
@@ -76,6 +69,5 @@ Breng een stem uit.
 ```
 {
   "opinion": "yes|no",
-  "_csrf": ":CSRF_TOKEN"
 }
 ```

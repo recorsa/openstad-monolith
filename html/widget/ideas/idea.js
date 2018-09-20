@@ -179,7 +179,6 @@ function doVote(what) {
 	xmlhttp.setRequestHeader('Accept', 'application/json');
 	xmlhttp.send(JSON.stringify({
 		"opinion": what,
-		"_csrf": "{{ csrfToken }}"
 	}));
 
 }

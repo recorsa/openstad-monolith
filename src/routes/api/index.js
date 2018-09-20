@@ -4,7 +4,6 @@ let router = express.Router({mergeParams: true});
 
 // defaults and general
 router.use( require('./defaults') );
-router.use( '/csrf-token', require('./csrf-token') );
 
 // sites
 router.use( '/site', require('./site') );
