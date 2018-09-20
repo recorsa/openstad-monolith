@@ -44,6 +44,7 @@ router.route('/')
 
 		let data = {
 			description : req.body.description,
+			sentiment   : req.body.sentiment,
 			ideaId      : req.params.ideaId,
 			userId      : req.user.id,
 		}

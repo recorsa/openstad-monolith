@@ -33,7 +33,8 @@ class ArgumentFormWidget extends HTMLElement {
 		self.shadowRoot.querySelector('input[name="submitButton"]').disabled = true;
 
 		let data = {
-			description: self.shadowRoot.querySelector('textarea[name="description"]').value
+			description: self.shadowRoot.querySelector('textarea[name="description"]').value,
+			sentiment: self.getAttribute('data-sentiment')
 		}
 
 		{% if extraFields %}
