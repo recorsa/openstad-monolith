@@ -15,7 +15,7 @@ let router = express.Router({mergeParams: true});
 router.route('(?:/:siteId(\\d+)/edit)|(?:/new)')
 	//.all(auth.can('site:view'))
 	//.get(auth.can('site:edit'))
-	.get(auth.can('site:create'))
+	//.get(auth.can('site:create'))
 	.get(function( req, res, next ) {
 
 		let data = {
