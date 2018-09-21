@@ -39,7 +39,7 @@
 					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
 				{% endif %}
 				<!--
-				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
+						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
 				-->
 			</div>
 			
@@ -206,10 +206,10 @@
 		
 		<div class="pageContent">
 			<div class="argList for">
-				{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
+				{{arguments.list(user, idea, config, csrfToken, 'argumentsFor')}}
 			</div>
 			<div class="argList against">
-				{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+				{{arguments.list(user, idea, config, csrfToken, 'argumentsAgainst')}}
 			</div>
 		</div>
 	</div>

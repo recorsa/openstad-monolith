@@ -4,7 +4,6 @@ module.exports = function( helpers, role ) {
 			allow   : helpers.needsToCompleteRegistration,
 			message : 'Registreren is onnodig als u bent ingelogd'
 		},
-		'account:complete' : helpers.needsToCompleteRegistration,
 		
 		'idea:view'        : true,
 		'idea:create'      : true,

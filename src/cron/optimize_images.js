@@ -11,7 +11,6 @@ module.exports = {
 	cronTime: '50 1 * * * *',
 	// cronTime: '50 * * * * *',
   onTick: function() {
-    console.log('------cron test');
 		// db.sequelize.query(`
 		//   DELETE FROM
 		//   	images

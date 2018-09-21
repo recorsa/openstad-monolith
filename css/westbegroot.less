@@ -169,6 +169,7 @@ header {
 		}
 
 		#homebanner {
+			position: relative;
 			width: calc(100% - 240px);
 			height: 340px;
 			margin-bottom: 20px;
@@ -187,7 +188,7 @@ header {
 			}
 
 			#homebanner-title {
-				width: calc(100% - 300px);
+				width: calc(100% - 380px);
 				margin-top: 20px;
 				margin-left: 30px;
 				border-bottom: 3px solid white;
@@ -229,7 +230,7 @@ header {
 				display: block;
 				width: 191;
 				height: 299;
-				margin: 20px 39px 0 0;
+				margin: 50px 39px 0 0;
 				float: right;
 				@media @phone {
 					display: none;
@@ -241,14 +242,14 @@ header {
 				@media @phone {
 					width: calc(30%);
 					height: auto;
-					margin: 20px 15px 0 15px;
+					margin: 30px 15px 30px 15px;
 					float: left;
 					display: block;
 				}
 			}
 			
 			#homebanner-text {
-				padding: 30px 260px 0 30px;
+				padding: 30px 350px 0 30px;
 				font-size: 16px;
 				font-weight: normal;
 
@@ -262,7 +263,10 @@ header {
 
 			#homebanner-buttons {
 
-				margin-left: 30px;
+				position: absolute;
+				left: 30px;
+				bottom: 25px;
+				width: 100%;
 
 				a.bekijk-de-themas,
 				a.stuur-plan-in {
@@ -287,8 +291,11 @@ header {
 				}
 
 				@media @phone {
+					position: relative;
 					clear: both;
-					width: 50%;
+					leftt: auto;
+					bottom: auto;
+					width: 70%;
 					height: auto;
 					margin: 10px auto;
 					padding-bottom: 20px;
@@ -890,7 +897,7 @@ header {
 		}
 
 		.step-image-3 {
-			background-size: 106px 74px;
+			background-size: 169.6px 100px;
 			background-image: url(/img/westbegroot/howto-3.svg);
 		}
 

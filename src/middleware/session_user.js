@@ -59,11 +59,13 @@ function setSessionUser( userId, originUrl ) {
 		this.session['ref'] = originUrl;
 	}
 }
+
 function unsetSessionUser() {
 	this.session.cookie.maxAge = null;
 	this.session[uidProperty]  = null;
 	this.session['ref']        = null;
 }
+
 function getUserInstance( userId ) {
 	var user = userCache.get(userId);
 	if( user ) {
@@ -71,12 +73,15 @@ function getUserInstance( userId ) {
 		userCache.ttl(userId);
 		return Promise.resolve(user);
 	} else {
+
 		return db.User.findById(userId).then(function( user ) {
 			if( !user ) {
 				throw new Error('User not found');
 			}
+
 			userCache.set(userId, user);
 			return user;
 		});
 	}
 }
+

@@ -1,5 +1,9 @@
 var sanitize = require('../../util/sanitize');
 
+// For detecting throwaway accounts in the email address validation.
+var emailBlackList = require('../../../config/mail_blacklist')
+  , emailDomain    = /^.+@(.+)$/;
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
 		parentId: {
@@ -13,6 +17,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 		userId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : false
+		},
+		confirmationRequired: {
+			type         : DataTypes.STRING(255),
+			allowNull    : true,
+			validate     : {
+				isEmail: {
+					msg: 'Geen geldig emailadres'
+				},
+				notBlackListed: function( email ) {
+					var domainName = emailDomain.exec(email)[1];
+					if( domainName in emailBlackList ) {
+						throw Error('Graag je eigen emailadres gebruiken; geen tijdelijk account');
+					}
+				}
+			}
 		},
 		sentiment: {
 			type         : DataTypes.ENUM('against', 'for'),

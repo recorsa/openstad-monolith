@@ -262,6 +262,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					'firstName', 'lastName', 'zipCode', 'gender', 'password'
 				]);
 				filtered.complete = true;
+				if (self.role === 'anonymous') {
+					filtered.complete = 'member';
+				}
 				return this.update(filtered)
 				.catch(function( error ) {
 					// We need to set `complete` initially for the `isValidMember`
@@ -287,7 +290,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			hasCompletedRegistration: function() {
-				return this.isMember() && this.email && this.complete;
+				return this.email && this.complete // && this.isMember();
 			},
 			isUnknown: function() {
 				return this.role === 'unknown';

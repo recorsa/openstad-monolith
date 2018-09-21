@@ -358,12 +358,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			addUserArgument: function( user, data ) {
-				var filtered = pick(data, ['parentId', 'sentiment', 'description', 'label']);
+				var filtered = pick(data, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']);
 				filtered.ideaId = this.id;
-				filtered.userId = user.id;
+				filtered.userId = data.userId || user.id;
 				return db.Argument.create(filtered)
-				.tap(function( argument ) {
-					notifications.trigger(user.id, 'arg', argument.id, 'create');
+					.tap(function( argument ) {
+						if (!data.confirmationRequired) {
+							notifications.trigger(user.id, 'arg', argument.id, 'create');
+						}
 				});
 			},
 			updateUserArgument: function( user, argument, description ) {
@@ -464,7 +466,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					arguments a
 				WHERE
 					a.deletedAt IS NULL AND
-					a.ideaId     = idea.id)
+					a.ideaId = idea.id AND
+          a.confirmationRequired IS NULL)
 			`), fieldName];
 		}
 
@@ -525,7 +528,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 						required : false,
 						where    : {
 							sentiment: 'against',
-							parentId : null
+							parentId : null,
+							confirmationRequired: null
 						}
 					}, {
 						model    : db.Argument.scope(
@@ -538,7 +542,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 						required : false,
 						where    : {
 							sentiment: 'for',
-							parentId : null
+							parentId : null,
+							confirmationRequired: null
 						}
 					}],
 					// HACK: Inelegant?
