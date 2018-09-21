@@ -48,7 +48,7 @@ module.exports = function( app ) {
 				.findAll({ where: { userId: req.user.id, confirmationRequired: req.user.email }})
 				.then(result => {
 					if (result.length > 0) {
-						res.out('ideas/arguments_confirm.njk', true, { result })
+						res.out('ideas/arguments_confirm.njk', true, { arguments: result })
 					} else {
 						next();
 					}
