@@ -46,9 +46,9 @@ module.exports = function( app ) {
 			console.log(JSON.stringify({ where: { userId: req.user.id, confirmationRequired: req.user.email }}, null, 2));
 			db.Argument
 				.findAll({ where: { userId: req.user.id, confirmationRequired: req.user.email }})
-				.then(arguments => {
-					if (arguments.length > 0) {
-						res.out('ideas/arguments_confirm.njk', true, { arguments })
+				.then(result => {
+					if (result.length > 0) {
+						res.out('ideas/arguments_confirm.njk', true, { result })
 					} else {
 						next();
 					}
