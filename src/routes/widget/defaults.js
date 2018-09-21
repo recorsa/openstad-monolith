@@ -1,4 +1,5 @@
 const express = require('express');
+const createError  = require('http-errors');
 const db = require('../../db');
 
 let router = express.Router({mergeParams: true});
@@ -66,6 +67,8 @@ router.route('*')
 router.route('/site/:siteId(\\d+)/*')
 
 	.all(function(req, res, next) {
+
+		console.log(req.params);
 
 		// todo: dit moet een api call worden
 		var siteId = parseInt(req.params.siteId) || 1;

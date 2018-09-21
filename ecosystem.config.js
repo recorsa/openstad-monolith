@@ -48,6 +48,11 @@ addApp('stemvan', [{
 	deployName : 'production_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
 	ref        : 'origin/master'
+},{
+	appName    : 'api-server',
+	deployName : 'production_api',
+	remotePath : '/var/www/api.openstadsdeel.nl/www',
+	ref        : 'origin/projects/monolith-as-api-server'
 }]);
 
 addApp('stemtool', [{
@@ -65,13 +70,6 @@ addApp('stemtool', [{
 	deployName : 'production_kareldoorman',
 	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
 	ref        : 'origin/staging'
-}]);
-
-addApp('api', [{
-	appName    : 'api-server',
-	deployName : 'production_api',
-	remotePath : '/var/www/api.openstadsdeel.nl/www',
-	ref        : 'origin/projects/monolith-as-api-server'
 }]);
 
 module.exports = config;

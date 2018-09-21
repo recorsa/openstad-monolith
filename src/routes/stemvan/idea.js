@@ -60,18 +60,18 @@ module.exports = function( app ) {
 			'withUser',
 			'withVoteCount',
 			'withPosterImage',
+			{ method: ['includeUserVote', req.user.id]},
 			{method: ['withArguments', req.user.id]}
 		);
 		middleware(req, res, next);
 	})
-	.all(fetchVoteForUser)
 	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
 	.get(function( req, res, next) {
 		db.Meeting.getSelectable(req.idea)
-		.then(function( meetings ) {
+			.then(function( meetings ) {
 			res.out('ideas/idea', true, {
 				idea               : req.idea,
-				userVote           : req.vote,
+				userVote           : req.idea.userVote,
 				selectableMeetings : meetings,
 				csrfToken          : req.csrfToken()
 			});
@@ -579,23 +579,6 @@ function fetchVote( req, res, next ) {
 		next();
 	})
 	.catch(next);
-}
-function fetchVoteForUser( req, res, next ) {
-	var user = req.user;
-	var idea = req.idea;
-	
-	if( !user.isUnknown() && idea ) {
-		idea.getUserVote(user)
-		.then(function( vote ) {
-			if( vote ) {
-				req.vote = vote;
-			}
-			next();
-		})
-		.catch(next);
-	} else {
-		next();
-	}
 }
 function fetchArgument( req, res, next ) {
 	// HACK: Mixing `req.params` and req.body`? Really? B-E-A-utiful...

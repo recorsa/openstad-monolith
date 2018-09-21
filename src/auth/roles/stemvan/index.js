@@ -26,7 +26,7 @@ var helpers = {
 		return isOwner && !voteCount && !argCount;
 	},
 	
-	mayVoteIdea: function( user, idea ) {
+	mayVoteIdea: function( user, idea,  site ) {
 		return idea.isOpen();
 	},
 	

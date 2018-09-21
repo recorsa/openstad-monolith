@@ -194,7 +194,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.belongsTo(models.Meeting);
 				this.belongsTo(models.User);
 				this.hasMany(models.Vote);
-				this.hasOne(models.Vote, {as: 'userVote'});
+				this.hasOne(models.Vote, {as: 'userVote', });
 				this.hasMany(models.Argument, {as: 'argumentsAgainst'});
 				this.hasMany(models.Argument, {as: 'argumentsFor'});
 				this.hasMany(models.Image);

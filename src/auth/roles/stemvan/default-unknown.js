@@ -8,6 +8,21 @@ module.exports = function( helpers, role ) {
 		'account:complete' : false,
 		
 		'agenda:admin'     : false,
+
+		'sites:list'       : true,
+		'sites:archive'    : true,
+		'site:admin'       : false,
+		'site:view'        : true,
+		'site:create'      : false,
+		'site:edit'        : {
+			allow    : false,
+			resource : 'site',
+			message  : 'Idee bewerken niet toegestaan'
+		},
+		'site:delete'      : {
+			allow    : false,
+			resource : 'site'
+		},
 		
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
@@ -32,6 +47,8 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			message  : 'Afbeelding uploaden niet toegestaan'
 		},
+
+		'arguments:list'   : true,
 
 		// articles
 		'article:view'     : true,
