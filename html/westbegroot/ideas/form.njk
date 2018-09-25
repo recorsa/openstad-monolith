@@ -4,6 +4,8 @@
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 {% import 'includes/openstad-map.njk' as openStadMap %}
 
+{% set summaryMaxLength = config.ideas.summaryMaxLength or 140 %}
+
 {% block head %}
 	{{ super() }}
 	<link rel="stylesheet" type="text/css" href="/lib/trix/dist/trix.css">
@@ -55,9 +57,9 @@
 					<br>
 					
 					<h2>Samenvatting</h2>
-					Vertel in maximaal 140 tekens iets meer over je plan.<br>
+					Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.<br>
 					<textarea name="summary">{{idea.summary}}</textarea>
-					<div id="charsLeft">Je hebt nog <span>140</span> tekens over.</div>
+					<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 				</div>
 				
 				<div id="description">
@@ -274,7 +276,7 @@
 		<script>
 		 // Summary
 		 // -------
-						var maxLen    = 140;
+		 var maxLen    = {{summaryMaxLength}};
 		 var textarea  = document.querySelector('textarea[name="summary"]');
 		 var charsLeft = document.querySelector('#charsLeft span');
 		 

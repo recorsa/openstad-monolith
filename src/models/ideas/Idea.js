@@ -10,6 +10,8 @@ var notifications = require('../../notifications');
 
 var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
+var summaryMaxLength = config.ideas.summaryMaxLength || 140;
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: {
@@ -55,8 +57,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [10,140],
-					msg  : 'Titel moet tussen 10 en 140 tekens lang zijn'
+					args : [10,summaryMaxLength],
+					msg  : `Titel moet tussen 10 en ${summaryMaxLength} tekens lang zijn`
 				}
 			},
 			set          : function( text ) {
@@ -82,8 +84,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [20,140],
-					msg  : 'Samenvatting moet tussen 20 en 140 tekens zijn'
+					args : [20,summaryMaxLength],
+					msg  : `Samenvatting moet tussen 20 en ${summaryMaxLength} tekens zijn`
 				}
 			},
 			set          : function( text ) {
