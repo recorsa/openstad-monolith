@@ -12,12 +12,12 @@
 
 		<script>
 
-		 var endDate1 = new Date('2018-10-24');
-		 var endDateText1 = '24 oktober 2018';
+		 var endDate1 = new Date('2018-10-31');
+		 var endDateText1 = '31 oktober 2018';
 		 var daysLeft1 = parseInt( ( endDate1.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
-		 var endDate2 = new Date('2018-10-31');
-		 var endDateText2 = '31 oktober 2018';
+		 var endDate2 = new Date('2018-11-07');
+		 var endDateText2 = '7 november 2018';
 		 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
 		</script>
@@ -41,9 +41,9 @@
 					<h1><span>{{SITENAME}}</span></h1>
 				</a>
 				<!--
-				<a href="javascript: alert('wat deze knop gaat doen is nog niet duidelijk')" class="page-button page-button-grey" target="_blank">
-					Wat kan ik nog meer doen in mijn buurt?
-				</a>
+						 <a href="javascript: alert('wat deze knop gaat doen is nog niet duidelijk')" class="page-button page-button-grey" target="_blank">
+						 Wat kan ik nog meer doen in mijn buurt?
+						 </a>
 				-->
 			</header>
 			
@@ -139,13 +139,12 @@
 							<h2>Over deze site</h2>
 							<ul>
 								<li><a href="/disclaimer">Disclaimer</a></li>
-								<li><a href="/faq">Veelgestelde vragen</a></li>
 							</ul>
 						</div>
 						<div>
 							<h2>Meer informatie</h2>
 							<ul>
-								<li><a href="https://www.amsterdam.nl/zorggoedvooronzestad">Volg de projectpagina op amsterdam.nl</a></li>
+								<li><a href="https://www.amsterdam.nl/westbegroot">Volg de projectpagina op amsterdam.nl</a></li>
 							</ul>
 						</div>
 						<div>
@@ -221,25 +220,25 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-						(function() {
-							var closeButtons = Array.prototype.slice.call(
-								document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-							);
-							closeButtons.forEach(function( a ) {
-								a.href = '';
-								a.addEventListener('click', function( event ) {
-									var message = a.parentNode;
-									message.parentNode.removeChild(message);
-									event.preventDefault();
+							(function() {
+								var closeButtons = Array.prototype.slice.call(
+									document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+								);
+								closeButtons.forEach(function( a ) {
+									a.href = '';
+									a.addEventListener('click', function( event ) {
+										var message = a.parentNode;
+										message.parentNode.removeChild(message);
+										event.preventDefault();
+									});
 								});
-							});
-						})();
+							})();
 		</script>
 		
 		{% block scripts %}{% endblock %}
 		
 		{% if ENV == 'production' %}
 			{% include 'includes/analytics.njk' %}
-	{% endif %}
-</body>
+		{% endif %}
+	</body>
 </html>
