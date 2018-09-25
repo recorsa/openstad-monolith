@@ -40,7 +40,7 @@
 					
 					<h2>Gebied</h2>
 					<select id="gebied" value="{% if idea.extraData %}{{idea.extraData.gebied}}{% endif %}">
-						<option value="West"></option>
+						<option value="">West</option>
 						<option value="Bos en Lommer" {% if (idea.extraData) and (idea.extraData.gebied == "Bos en Lommer") %}selected{% endif %}>Bos en Lommer</option>
 						<option value="De Baarsjes" {% if (idea.extraData) and (idea.extraData.gebied == "De Baarsjes") %}selected{% endif %}>De Baarsjes</option>
 						<option value="Oud-West" {% if (idea.extraData) and (idea.extraData.gebied == "Oud-West") %}selected{% endif %}>Oud-West</option>
@@ -50,7 +50,7 @@
 					
 					<h2>Thema</h2>
 					<select id="thema" value="{% if idea.extraData %}{{idea.extraData.thema}}{% endif %}">
-						<option value="Groen" {% if (idea.extraData) and (idea.extraData.thema == "Groen") %}selected{% endif %}>Groen</option>
+						<option value="Groen" {% if (idea.extraData) and (idea.extraData.thema == "Groen") %}selected{% endif %}>Groen & Openbare ruimte</option>
 						<option value="Diversiteit & Inclusiviteit" {% if (idea.extraData) and (idea.extraData.thema == "Diversiteit & Inclusiviteit") %}selected{% endif %}>Diversiteit & Inclusiviteit</option>
 						<option value="Duurzaam" {% if (idea.extraData) and (idea.extraData.thema == "Duurzaam") %}selected{% endif %}>Duurzaam</option>
 					</select>

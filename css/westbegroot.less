@@ -208,7 +208,7 @@ header {
 				h3 {
 					margin: 0;
 					padding: 15px 0;
-					font-size: 24px;
+					font-size: 22px;
 					font-weight: 600;
 
 					@media @phone {
@@ -515,6 +515,27 @@ header {
 			height: 30px;
 			background-image: url(/img/stemtool/check.svg);
 			background-repeat: no-repeat;
+		}
+
+		ul {
+			list-style: initial;
+			padding-left: 70px;
+
+			li {
+				position: relative;
+				padding-left: 0px;
+				margin: 5px 0;
+			}
+
+			li::before {
+				position: absolute;
+				content: '';
+				width: 0px;
+				height: 0px;
+				background-image: none;
+				background-repeat: no-repeat;
+			}
+
 		}
 		
 	}
@@ -965,7 +986,7 @@ a.meldjeaanknop {
 	#end-date-bar-start-text-2 {
 		text-align: left;
 		display: inline-block;
-		width: 580px;
+		width: 640px;
 		padding-right: 12px;
 
 		@media @phone {
@@ -1041,7 +1062,7 @@ a.meldjeaanknop {
 				width: calc(100% / 3 - 20px);
 				margin-right: 20px;
 				overflow: hidden;
-				height: 450px;
+				height: 480px;
 
 				@media @phone {
 					width: 100%;
@@ -1280,7 +1301,7 @@ ul.share {
 		a.stuur-plan-in {
 			margin-top: 0px;
 			margin-right: 40px;
-			width: 133px;
+			width: 143px;
 			float: right;
 			color: white;
 			text-shadow: none;
