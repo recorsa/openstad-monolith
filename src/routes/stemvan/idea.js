@@ -245,7 +245,7 @@ module.exports = function( app ) {
 		
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
-			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
+			req.flash('success', !voteRemoved ? 'Je hebt gestemd' : 'Je stem is ingetrokken');
 			res.success('/plan/'+idea.id, function json() {
 				return db.Idea.scope('withVoteCount').findById(idea.id)
 				.then(function( idea ) {

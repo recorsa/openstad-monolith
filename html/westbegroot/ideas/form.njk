@@ -12,13 +12,36 @@
 {% endblock %}
 
 {% block content %}
+
 	<h1>{{pageTitle}}</h1>
+	Lees eerst goed hoe het stadsdeel de inzendingen toetst, voordat je het <a href="#formulier-block">formulier hieronder</a> invult
+	
+	<h3>Hoe toetst het stadsdeel je plan?</h3>
+	<ul class="checkmark-list">
+		<li>Je plan draagt bij aan een van deze thema’s in West:</li>
+		<ul>
+			<li>Groen en Openbare ruimte</li>
+			<li>Duurzaamheid</li>
+			<li>Diversiteit & Inclusiviteit</li>
+		</ul>
+		<li>De kosten voor je plan kunnen variëren van heel weinig tot maximaal €300.000. We zijn op zoek naar grote en kleine plannen.
+		<li>Je plan is voor heel West dan wel voor een buurt of specifieke locatie in West en is bedoeld voor bewoners uit West.
+		<li>Je plan moet binnen redelijk korte termijn kunnen worden uitgevoerd (binnen twee jaar).
+		<li>Iedereen kan een voorstel indienen: bewoners, ondernemers en maatschappelijke instellingen, zowel uit stadsdeel West of daarbuiten.
+		<li>Bewoners of ondernemers kunnen zelf een plan uitvoeren. Je kan ook een plan uploaden dat door de gemeente of een organisatie wordt uitgevoerd.
+		<li>Een plan moet minimaal 50 positieve likes halen om in aanmerking te komen voor een eerste haalbaarheidscheck.
+		<li>Het stadsdeel toetst de plannen op haalbaarheid. Dit kan consequenties hebben voor je plan. In overleg met jou past het stadsdeel eventueel het plan aan. Zie voor meer informatie over de haalbaarheidscheck.
+		<li>De stadsdeelcommissie besluit op welke 30 plannen bewoners kunnen stemmen.  
+		<li>Bewoners uit West verdelen het geld over de plannen en bepalen zo welk plan wordt uitgevoerd.
+		<li>Het stadsdeel is gebonden aan aanbestedingsregels. Dit kan tot gevolg hebben dat de indiener van een plan niet vanzelfsprekend zelf het plan uitvoert.
+	</ul>
 
 	{% if showHelp %}
 	{% endif %}
 
 	{% if showForm %}
-		<div class="primary">
+		<div class="primary" id="formulier-block">
+			<br/><br/>
 			<form id="posterImageUpload" action="/image"
 	    {% if idea.posterImage %}
 	    style="background-image: url('/image/{{idea.posterImage.key}}');"
@@ -147,9 +170,6 @@
 
 		<div class="secondary">
 			<div class="pageContent">
-				<div class="speechBubble">
-					Heb jij een goed idee om stadsdeel West groener, diverser of duurzamer te maken? Stuur je plan in!
-				</div>
 			</div>
 		</div>
 	{% endif %}
