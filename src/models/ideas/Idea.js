@@ -10,6 +10,8 @@ var notifications = require('../../notifications');
 
 var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
+var summaryMaxLength = config.ideas.summaryMaxLength || 140;
+
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		meetingId: {
@@ -55,8 +57,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [10,140],
-					msg  : 'Titel moet tussen 10 en 140 tekens lang zijn'
+					args : [10,summaryMaxLength],
+					msg  : `Titel moet tussen 10 en ${summaryMaxLength} tekens lang zijn`
 				}
 			},
 			set          : function( text ) {
@@ -82,8 +84,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [20,140],
-					msg  : 'Samenvatting moet tussen 20 en 140 tekens zijn'
+					args : [20,summaryMaxLength],
+					msg  : `Samenvatting moet tussen 20 en ${summaryMaxLength} tekens zijn`
 				}
 			},
 			set          : function( text ) {
@@ -103,6 +105,41 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.content(text.trim()));
 			}
 		},
+
+		extraData: {
+			type         : DataTypes.JSON,
+			allowNull    : false,
+			defaultValue : {},
+			get          : function() {
+				// for some reaason this is not always done automatically
+				let value = this.getDataValue('extraData');
+        try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				return value;
+			},
+			set: function(value) {
+        try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				let newValue = {};
+				let configExtraData = config.ideas && config.ideas.extraData;
+				Object.keys(configExtraData).forEach((key) => {
+					if (configExtraData[key].allowNull === false && typeof value[key] === 'undefined') { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+						throw Error(`${key} is niet ingevuld`);
+					}
+					if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
+						newValue[key] = value[key];
+					}
+				});
+				this.setDataValue('extraData', newValue);
+			}
+		},
+
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
 			allowNull    : !config.get('ideas.location.isMandatory'),
@@ -313,12 +350,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				});
 			},
 			addUserArgument: function( user, data ) {
-				var filtered = pick(data, ['parentId', 'sentiment', 'description', 'label']);
+				var filtered = pick(data, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']);
 				filtered.ideaId = this.id;
-				filtered.userId = user.id;
+				filtered.userId = data.userId || user.id;
 				return db.Argument.create(filtered)
-				.tap(function( argument ) {
-					notifications.trigger(user.id, 'arg', argument.id, 'create');
+					.tap(function( argument ) {
+						if (!data.confirmationRequired) {
+							notifications.trigger(user.id, 'arg', argument.id, 'create');
+						}
 				});
 			},
 			updateUserArgument: function( user, argument, description ) {
@@ -419,7 +458,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					arguments a
 				WHERE
 					a.deletedAt IS NULL AND
-					a.ideaId     = idea.id)
+					a.ideaId = idea.id AND
+          a.confirmationRequired IS NULL)
 			`), fieldName];
 		}
 
@@ -480,7 +520,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 						required : false,
 						where    : {
 							sentiment: 'against',
-							parentId : null
+							parentId : null,
+							confirmationRequired: null
 						}
 					}, {
 						model    : db.Argument.scope(
@@ -493,7 +534,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 						required : false,
 						where    : {
 							sentiment: 'for',
-							parentId : null
+							parentId : null,
+							confirmationRequired: null
 						}
 					}],
 					// HACK: Inelegant?

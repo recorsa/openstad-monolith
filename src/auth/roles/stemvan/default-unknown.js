@@ -5,7 +5,7 @@ module.exports = function( helpers, role ) {
 		'index:view'       : true,
 		
 		'account:register' : true,
-		'account:complete' : false,
+		'account:complete' : helpers.needsToCompleteRegistration,
 		
 		'agenda:admin'     : false,
 		
@@ -53,7 +53,7 @@ module.exports = function( helpers, role ) {
 			resource : 'idea'
 		},
 		'arg:add'          : {
-			allow    : false,
+			allow: helpers.mayAddArgument,
 			resource : 'idea',
 			message  : 'Om een argument toe te voegen moet je ingelogd zijn'
 		},

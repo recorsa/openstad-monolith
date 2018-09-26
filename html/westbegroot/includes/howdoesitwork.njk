@@ -1,0 +1,39 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image step-image-1"></div>
+					<div class="step-header">1. Bekijk de 3 thema’s voor West</div>
+					<p>
+						Stadsdeel West stelt € 300.000,- beschikbaar om West groener, duurzamer en diverser te maken.
+						<ul>
+							<li><a href="/about">Lees meer over de thema’s</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-2"></div>
+					<div class="step-header">2. Stuur je plan in en voer campagne</div>
+					<p>
+						Iedereen mag een plan insturen. Voer in West campagne voor je plan en zorg dat je in elk geval 50 positieve likes haalt. Anderen kunnen stemmen én argumenten plaatsen.
+						<ul>
+							<li><a href="/plan/nieuw">Stuur je plan in</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-3"></div>
+					<div class="step-header">3. Haalbaarheidscheck door gemeente</div>
+					<p>Heeft je plan minimaal 50 voorstemmen dan toetst stadsdeel West of het uitvoerbaar is. Uit alle haalbare plannen kiest de stadsdeelcommissie de 30 beste plannen. </p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-4"></div>
+					<div class="step-header">4. Verdeel € 300.000,- over de plannen.</div>
+					<p>Bewoners van West verdelen het geld en bepalen zo welke van de 30 plannen uitgevoerd worden.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

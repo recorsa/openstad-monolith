@@ -44,11 +44,17 @@ addApp('stemvan', [{
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
 	ref        : 'origin/master'
 }, {
+	appName    : 'stem-westbegroot',
+	deployName : 'production_westbegroot',
+	remotePath : '/var/www/westbegroot.amsterdam.nl/www',
+	ref        : 'origin/projects/westbegroot'
+}, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
 	ref        : 'origin/master'
 }]);
+
 
 addApp('stemtool', [{
 	appName    : 'javabrug-staging',
@@ -106,3 +112,6 @@ function addApp( env, app ) {
 		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
 	};
 }
+
+
+

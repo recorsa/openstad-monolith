@@ -21,6 +21,7 @@
 			"afterSecurity": [
 				"./middleware/log",
 				"./middleware/force_registration",
+				"./middleware/confirm_arguments",
 				"./middleware/nocache",
 				"./routes/stemvan/default",
 				"./routes/stemvan/ab",

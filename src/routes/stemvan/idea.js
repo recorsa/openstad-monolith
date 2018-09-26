@@ -9,7 +9,8 @@ var config       = require('config')
 var util         = require('../../util')
   , db           = require('../../db')
   , auth         = require('../../auth')
-  , mail         = require('../../mail');
+  , mail         = require('../../mail')
+	, passwordless = require('../../auth/passwordless');
 
 module.exports = function( app ) {
 	// Idea index page
@@ -70,6 +71,7 @@ module.exports = function( app ) {
 		db.Meeting.getSelectable(req.idea)
 		.then(function( meetings ) {
 			res.out('ideas/idea', true, {
+				config             : config,
 				idea               : req.idea,
 				userVote           : req.vote,
 				selectableMeetings : meetings,
@@ -141,7 +143,6 @@ module.exports = function( app ) {
 	})
 	.put(function( req, res, next ) {
 		req.body.location = JSON.parse(req.body.location || null);
-		
 		req.user.updateIdea(req.idea, req.body)
 		.then(function( idea ) {
 			res.success('/plan/'+idea.id, {idea: idea});
@@ -244,7 +245,7 @@ module.exports = function( app ) {
 		
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
-			req.flash('success', !voteRemoved ? 'U heeft gestemd' : 'Uw stem is ingetrokken');
+			req.flash('success', !voteRemoved ? 'Je hebt gestemd' : 'Je stem is ingetrokken');
 			res.success('/plan/'+idea.id, function json() {
 				return db.Idea.scope('withVoteCount').findById(idea.id)
 				.then(function( idea ) {
@@ -271,18 +272,25 @@ module.exports = function( app ) {
 		router.route('/:ideaId/arg/new')
 		.all(fetchIdea())
 		.all(auth.can('arg:add'))
-		.post(function( req, res, next ) {
-			var idea = req.idea;
-			idea.addUserArgument(req.user, req.body)
-			.then(function( argument ) {
-				req.flash('success', 'Argument toegevoegd');
-				res.success(`/plan/${idea.id}#arg${argument.id}`, {
-					argument: argument
-				});
+		.post(updateUserSession)
+			.post(function( req, res, next ) {
+				var isConfirmed = false;
+				if (req.user && req.user.complete) {
+					isConfirmed = true;
+				} else {
+					req.body.confirmationRequired = req.user.email || req.body.email;
+				}
+				var idea = req.idea;
+				idea.addUserArgument(req.user, req.body)
+					.then(function( argument ) {
+						req.flash('success', isConfirmed ? 'Argument toegevoegd' : 'Argument opgeslagen. Bevestig je email om het argument zichtbaar te maken.');
+						res.success(`/plan/${idea.id}#arg${argument.id}`, {
+							argument: argument
+						});
+					})
+					.catch(next);
 			})
-			.catch(next);
-		})
-		.all(createArgumentError);
+			.all(createArgumentError);
 		
 		// Reply to argument.
 		router.route('/:ideaId/arg/reply')
@@ -683,8 +691,8 @@ function sendThankYouMail( req, idea ) {
 			path     : 'img/eberhardvanderlaan/email.kaart.png',
 			cid      : 'kaart'
 		}, {
-			filename : 'logo.svg',
-			path     : 'img/logo-gemeenteams-webapplicaties.svg',
+			filename : 'logo.png',
+			path     : 'img/logo-gemeenteams-webapplicaties.png',
 			cid      : 'logo'
 		}, {
 			filename : 'howto-1.png',
@@ -709,8 +717,8 @@ function sendThankYouMail( req, idea ) {
 		}]
 	} else {
 		attachments = [{
-			filename : 'logo.svg',
-			path     : 'img/logo-gemeenteams-webapplicaties.svg',
+			filename : 'logo.png',
+			path     : 'img/logo-gemeenteams-webapplicaties.png',
 			cid      : 'logo'
 		}, {
 			filename : 'map.png',
@@ -729,5 +737,113 @@ function sendThankYouMail( req, idea ) {
 		html        : html,
 		text        : text,
 		attachments : attachments,
+	});
+}
+
+// `updateUserSession` wordt gebruikt door de nieue argumenten route, en werkt alleen daarvoor.
+// Als je hem wilt gebruuiken voor andere dingen dan moet je de functionaliteit uitbreiden.
+// Todo: dit past in hoe de applicatie werkt, maar het is nogal een k-oplossing.
+function updateUserSession( req, res, next ) {
+
+	var {user, body} = req;
+
+	let data = {};
+	data.role     = user.role != 'unknown' ? user.role : 'anonymous';
+	data.email    = user.email    || body.email;
+	data.nickName = user.nickName || body.nickName;
+	data.zipCode  = user.zipCode  || body.zipCode;
+
+	if (data.role == 'anonymous' && !( config.arguments && config.arguments.user && config.arguments.user.anonymousAllowed )) {
+		// anonymous not allowed
+		return next(createError(401, 'Anoniem argumenten toevoegen is niet toegestaan'))
+	}
+
+	// check fields
+	let missingFields = [];
+	config.arguments.user.fieldsRequired.forEach((field) => {
+		if (!data[field]) missingFields.push(field);
+	});
+	if (missingFields.length > 0) {
+		return next(createError(missingFields.join(', ') + ' niet ingevuld'));
+	}
+
+	let promise;
+	let sendMailTo;
+	if (!user || user.id == 1) {
+		promise = db.User
+			.findOne({ where: { email: data.email } })
+			.then(found => {
+				if (found) {
+					data = undefined;
+					sendMailTo = found;
+					req.body.userId = found.id
+					return user;
+				}
+				return db.User.registerAnonymous()
+					.then(created => {
+						sendMailTo = created;
+						req.body.userId = created.id
+						return created;
+					})
+			})
+			.then(user => {
+				sendAuthToken( sendMailTo, req )
+				return user;
+			})
+			.catch(next);
+	} else {
+		promise = Promise.resolve(user);
+	}
+
+	promise
+		.tap(function( user ) {
+			if (data) {
+				return user.update(data);
+			} else {
+				return user;
+			}
+		})
+		.then(function( user ) {
+			req.setSessionUser(user.id);
+			req.user = user;
+			next();
+		})
+		.catch(next);
+}
+
+// TODO: gekopieerd uit auth; zet hem ergens generiek neer
+function sendAuthToken( user, req ) {
+	// if( !user.isMember() ) {
+	//  	throw createError(400, 'User is not a member');
+	// }
+	
+	var hasCompletedRegistration = user.hasCompletedRegistration();
+	var ref                      = req.query.ref;
+	
+	return passwordless.generateToken(user.id, ref)
+	.then(function( token ) {
+		var data = {
+			complete : hasCompletedRegistration,
+			date     : new Date(),
+			fullHost : req.protocol+'://'+req.hostname,
+			token    : token,
+			userId   : user.id,
+			ref      : ref
+		};
+		mail.sendMail({
+			to          : user.email,
+			subject     : hasCompletedRegistration ?
+			              'Inloggen' :
+			              'Registreren',
+			html        : nunjucks.render('email/login_link.njk', data),
+			text        : nunjucks.render('email/login_link_text.njk', data),
+			attachments : [{
+				filename : 'logo@2x.png',
+				path     : 'img/email/logo@2x.png',
+				cid      : 'logo'
+			}]
+		});
+		
+		return user;
 	});
 }

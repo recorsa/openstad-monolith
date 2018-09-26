@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="115" height="82" viewBox="0 0 115 82">
+    <g fill="none" fill-rule="evenodd">
+        <g fill="#000" fill-rule="nonzero">
+            <path d="M11 21h68v1H11zM11 29h68v1H11zM51 39h28v1H51zM51 47h28v1H51zM51 55h28v1H51zM51 63h28v1H51zM51 71h28v1H51z"/>
+        </g>
+        <path fill="#FFF" fill-rule="nonzero" stroke="#000" d="M.5.5h89v9H.5z"/>
+        <g fill="#FFF" fill-rule="nonzero" stroke="#000" transform="translate(68 3)">
+            <circle cx="1.584" cy="2.074" r="1.45"/>
+            <circle cx="8.832" cy="2.074" r="1.45"/>
+            <circle cx="16.081" cy="2.074" r="1.45"/>
+        </g>
+        <path stroke="#000" d="M.5.5h89v81H.5z"/>
+        <g stroke="#000">
+            <path fill="#FFF" d="M35.71 54.756a8.601 8.601 0 0 0 1.655-5.041c0-4.73-3.86-8.53-8.667-8.53-4.805 0-8.667 3.799-8.667 8.53 0 1.861.63 3.645 1.655 5.04l.078.078c.158.232.394.465.55.698 1.104 1.319 3.232 4.187 3.232 6.59h6.303c0-2.403 2.127-5.273 3.23-6.59.237-.233.395-.466.552-.698l.08-.077z"/>
+            <path d="M25 64.25h7.35M25 66.25h7.35M26 68.25h5.35"/>
+        </g>
+        <g fill-rule="nonzero" stroke="#000">
+            <path fill="#FFF" d="M103.79 10.243l6.364 6.364L69.85 56.912l-6.364-6.364z"/>
+            <path fill="#D8D8D8" d="M103.79 10.243l6.364 6.364 3.536-3.536-6.364-6.364z"/>
+            <path fill="#F2F2F2" d="M63.357 50.676l-3.953 10.317L69.72 57.04l.128-.128-6.364-6.364-.128.128z"/>
+            <path d="M61.364 56.205l2.828 2.828"/>
+        </g>
+        <path stroke="#000" d="M11.5 37.5h35v35h-35z"/>
+    </g>
+</svg>

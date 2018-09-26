@@ -1,4 +1,4 @@
-{% macro list( user, idea, csrfToken, propName ) %}
+{% macro list( user, idea, config, csrfToken, propName ) %}
 	{% set arguments     = idea[propName] %}
 	{% set isFor         = propName == 'argumentsFor' %}
 	
@@ -8,6 +8,12 @@
 	
 	{% if mayShowForm %}
 		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
+
+			{% if ((not user) or (user.id == 1)) and config.arguments and config.arguments.user and config.arguments.user.anonymousAllowed and 'email' in config.arguments.user.fieldsRequired %}
+				<h4>E-mailadres</h4>
+				<input type="text" name="email" value="{{user.emailaddress}}"/>
+			{% endif %}
+			
 			<textarea
 			name="description"
 			placeholder="{{'Ik ben voor, want...' if isFor else 'Ik ben tegen, want...'}}"
@@ -27,9 +33,9 @@
 	{% endif %}
 
 	{% if propName == 'argumentsFor' %}
-		<h2>Argumenten voor</h2>
+		<h2 style="clear: both;">Argumenten voor</h2>
 	{% else %}
-		<h2>Argumenten tegen</h2>
+		<h2 style="clear: both;">Argumenten tegen</h2>
 	{% endif %}
 
 	{% for arg in arguments %}
@@ -152,9 +158,10 @@
 	<script>
 	 // New argument form
 	 // -----------------
-	 // Go to login/register page when user clicks textarea, and is not logged in.
+	 // Go to login/register page when user clicks textarea, anonymous is not allowed, and is not logged in.
 	 $('{{cssQuery}} form:first-child textarea[data-disabled]').forEach(function( textarea ) {
 		 textarea.addEventListener('focus', function( event ) {
+			 console.log('xxxxxx')
 			 textarea.blur();
 			 document.location.href = '/plan/{{idea.id}}/arg/new';
 		 });
@@ -305,6 +312,11 @@
 		 textarea.addEventListener('keyup', function() {
 			 updateButton();
 		 });
+		 if ( document.querySelector('input[name="email"]') ) {
+			 document.querySelector('input[name="email"]').addEventListener('keyup', function() {
+				 updateButton();
+			 });
+		 }
 		 
 		 updateButton();
 
@@ -313,6 +325,10 @@
 		 function updateButton() {
 			 var len = textarea.value.length;
 			 var isValid = len >= minLen && len <= maxLen;
+			 if ( document.querySelector('input[name="email"]') ) {
+				 console.log('==', document.querySelector('input[name="email"]').value.match(/.+@.+\..+/))
+				 isValid = isValid && document.querySelector('input[name="email"]').value.match(/.+@.+\..+/)
+			 }
 			 button.disabled = !isValid;
 		 }
 

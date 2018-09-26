@@ -2,15 +2,20 @@
 {% set pageTitle = 'Vul postcode in' %}
 
 {% block content %}
-<h1>Vul postcode in</h1>
+	<div class="postcodecheck">
 
-Vul a.u.b. uw postcode in om uw stem uit te brengen.
-<p>
+		<h1>Vul je postcode in</h1>
 
-<form method="post">
-	Postcode: <input type="text" name="zipCode" value="{{zipCode}}" autofocus>
-	<input type="hidden" name="opinion" value="{{opinion}}">
-	<input type="hidden" name="_csrf" value="{{csrfToken}}">
-	<input type="submit" value="Stemmen">
-</form>
+		Vul je postcode in om je stem uit te brengen.
+		<p>
+
+			<form method="post">
+				<h4>Postcode</h4>
+				<input type="text" name="zipCode" value="{{zipCode}}" autofocus>
+				<input type="submit" value="Stemmen">
+				<input type="hidden" name="opinion" value="{{opinion}}">
+				<input type="hidden" name="_csrf" value="{{csrfToken}}">
+			</form>
+
+	</div>
 {% endblock %}
