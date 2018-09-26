@@ -808,7 +808,23 @@ function updateUserSession( req, res, next ) {
 			req.user = user;
 			next();
 		})
-		.catch(next);
+		.catch(error => {
+			if( error instanceof db.sequelize.ValidationError ) {
+				error.errors.forEach(function( error ) {
+					// unique errors zijn niet goed af te vangen in de huidige versie van Sequelize; zie https://github.com/sequelize/sequelize/issues/5033
+					req.flash('error', error.type === 'unique violation' && error.path === 'users_email' ? 'Dit e-mail adres is al in gebruik' : error.message);
+					req.user.email = null; // really? is dit nodig?
+				});
+				res.out('ideas/form', false, {
+					showForm        : true,
+					useModernEditor : isModernBrowser(req),
+					idea            : req.body,
+					csrfToken       : req.csrfToken()
+				});
+			} else {
+				next(error);
+			}
+		});
 }
 
 // TODO: gekopieerd uit auth; zet hem ergens generiek neer

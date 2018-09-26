@@ -6,7 +6,7 @@
 {% block content %}
 	<div id="errorMessage">
 	{% if status == 400 %}
-		Klik op 'vorige' in uw browser om het opnieuw te proberen.
+		Klik op 'vorige' in je browser om het opnieuw te proberen.
 	{% elif status == 403 %}
 		<h1>{{message}}</h1>
 		
@@ -16,21 +16,21 @@
 		
 		{% if not user.isLoggedIn() %}
 		<p>
-			U bent momenteel niet ingelogd. Als u normaal wel toegang heeft tot deze pagina,
+			Je bent momenteel niet ingelogd. Als je normaal wel toegang hebt tot deze pagina,
 			probeert u het dan na <a href="/account/register">inloggen</a> nogmaals.
 		</p>
 		{% endif %}
 	{% elif status == 404 %}
 		<h1>{{message}}</h1>
 		
-		<p>Het bestand dat u probeert te bekijken bestaat niet (meer).</p>
+		<p>Het bestand dat je probeert te bekijken bestaat niet (meer).</p>
 		
-		<p>Gebruik de vorige knop van uw browser of het menu bovenaan deze pagina om naar een andere pagina te navigeren.</p>
+		<p>Gebruik de vorige knop van je browser of het menu bovenaan deze pagina om naar een andere pagina te navigeren.</p>
 	{% elif status == 429 %}
 		<h1>Teveel pogingen</h1>
 		
 		<p>
-			Deze pagina is beschermd tegen teveel herhaalde bezoeken. U kunt het nogmaals
+			Deze pagina is beschermd tegen teveel herhaalde bezoeken. Je kunt het nogmaals
 			proberen om: {{nextValidRequestDate | date('HH:mm:ss')}} (over {{retryAfter | duration}})
 		</p>
 	{% elif status == 500 %}

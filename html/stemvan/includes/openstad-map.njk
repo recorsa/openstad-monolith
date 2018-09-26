@@ -8,11 +8,11 @@
 
 	 var markers = [
 		 // {% for idea in ideas %}
-		 // {% if (idea.location) and (idea.status !=  'DENIED') %}
+		 // {% if (idea.location) and (idea.status !=  'DENIED' or ideas.length == 1) %}
 		 {
 			 position: JSON.parse('{{idea.location | dump | safe}}' || null),
 			 icon     : {
-				 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'/img/idea/flag-blue.svg'{% elseif idea.status == 'CLOSED' %}'/img/idea/flag-gray.svg'{% else %}'/img/idea/flag-red.svg'{% endif %},
+				 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'/img/idea/flag-gray.svg'{% else %}'/img/idea/flag-red.svg'{% endif %},
 				 size   : [22, 24],
 				 anchor : [ 4, 21],
 			 },

@@ -5,7 +5,7 @@
 <h1>Inloggen</h1>
 
 {% if user.isLoggedIn() %}
-	U bent al ingelogd.
+	Je bent al ingelogd.
 {% else %}
 	<form method="post" action="?ref={{ref}}">
 		<input type="hidden" name="_csrf" value="{{csrfToken}}">

@@ -9,7 +9,7 @@
 	{% if mayShowForm %}
 		<form method="POST" action="/plan/{{idea.id}}/arg/new" class="newArgument">
 
-			{% if ((not user) or (user.id == 1)) and config.arguments and config.arguments.user and config.arguments.user.anonymousAllowed and 'email' in config.arguments.user.fieldsRequired %}
+			{% if ((not user) or (user.id == 1) or (not user.email)) and config.arguments and config.arguments.user and config.arguments.user.anonymousAllowed and 'email' in config.arguments.user.fieldsRequired %}
 				<h4>E-mailadres</h4>
 				<input type="text" name="email" value="{{user.emailaddress}}"/>
 			{% endif %}
@@ -325,9 +325,9 @@
 		 function updateButton() {
 			 var len = textarea.value.length;
 			 var isValid = len >= minLen && len <= maxLen;
-			 if ( document.querySelector('input[name="email"]') ) {
-				 console.log('==', document.querySelector('input[name="email"]').value.match(/.+@.+\..+/))
-				 isValid = isValid && document.querySelector('input[name="email"]').value.match(/.+@.+\..+/)
+			 console.log('==', form.querySelector('input[name="email"]'))
+			 if ( form.querySelector('input[name="email"]') ) {
+				 isValid = isValid && form.querySelector('input[name="email"]').value.match(/.+@.+\..+/)
 			 }
 			 button.disabled = !isValid;
 		 }

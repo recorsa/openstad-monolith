@@ -2,7 +2,7 @@ module.exports = function( helpers, role ) {
 	role.action({
 		'account:register' : {
 			allow   : helpers.needsToCompleteRegistration,
-			message : 'Registreren is onnodig als u bent ingelogd'
+			message : 'Registreren is onnodig als je bent ingelogd'
 		},
 		
 		'idea:view'        : true,
