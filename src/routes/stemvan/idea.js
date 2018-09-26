@@ -760,11 +760,13 @@ function updateUserSession( req, res, next ) {
 
 	// check fields
 	let missingFields = [];
-	config.arguments.user.fieldsRequired.forEach((field) => {
-		if (!data[field]) missingFields.push(field);
-	});
-	if (missingFields.length > 0) {
-		return next(createError(missingFields.join(', ') + ' niet ingevuld'));
+	if (config.arguments && config.arguments.user) {
+		config.arguments.user.fieldsRequired.forEach((field) => {
+			if (!data[field]) missingFields.push(field);
+		});
+		if (missingFields.length > 0) {
+			return next(createError(missingFields.join(', ') + ' niet ingevuld'));
+		}
 	}
 
 	let promise;

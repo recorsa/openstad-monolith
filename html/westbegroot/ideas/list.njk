@@ -181,14 +181,14 @@
 	 function activateTab(which) {
 		 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
 		 activeTab = which;
-		 document.cookie = `plannenActiveTab=${activeTab}`
+		 document.cookie = 'plannenActiveTab=' + activeTab;
 		 document.getElementById('themaSelector' + activeTab).className += ' active';
 		 updateDisplay();
 	 }
 
 	 function activateFilter(which) {
 		 activeFilter = which;
-		 document.cookie = `plannenActiveFilter=${activeFilter}`
+		 document.cookie = 'plannenActiveFilter=' + activeFilter;
 		 document.getElementById('filterSelector').selectedIndex = activeFilter;
 		 updateDisplay();
 	 }
@@ -203,7 +203,7 @@
 		 var activeGebied = document.getElementById('filterSelector').value;
 
 		 let elements = document.getElementsByClassName('tile');
-		 Array.prototype.forEach.call(elements, element => {
+		 Array.prototype.forEach.call(elements, function(element) {
 			 var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
 			 var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
 			 if ((( !activeTab || activeTab == 0 ) || activeThema == elementThema) && (( !activeFilter || activeFilter == 0 ) || activeGebied == elementGebied)) {
