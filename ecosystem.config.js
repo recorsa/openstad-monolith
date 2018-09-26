@@ -47,7 +47,7 @@ addApp('stemvan', [{
 	appName    : 'stem-westbegroot',
 	deployName : 'production_westbegroot',
 	remotePath : '/var/www/westbegroot.amsterdam.nl/www',
-	ref        : 'origin/projects/westbegroot'
+	ref        : 'origin/master'
 }, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
