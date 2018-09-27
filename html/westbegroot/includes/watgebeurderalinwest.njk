@@ -149,7 +149,7 @@
 					 3: 1
 				 }
 				 function moveInspiration(direction, which) {
-					 var element = document.getElementById(`inspiration-block-container-${which}`);
+					 var element = document.getElementById('inspiration-block-container-' + which);
 					 if (direction == 'right') {
 						 inspirationStatus[which]++;
 						 if ((which != 3 && inspirationStatus[which] == 4) || (which == 3 && inspirationStatus[which] == 5)) {
@@ -163,7 +163,7 @@
 						 }
 					 }
 					 console.log(inspirationStatus[which])
-					 element.style.left = `calc( -${inspirationStatus[which] - 1} * ( 100% + 20px ))`;
+					 element.style.left = 'calc( -' + (inspirationStatus[which] - 1) + ' * ( 100% + 20px ))';
 				 }
 				</script>
 

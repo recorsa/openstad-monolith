@@ -715,6 +715,16 @@ function sendThankYouMail( req, idea ) {
 			path     : 'img/eberhardvanderlaan/bullet.png',
 			cid      : 'bullet'
 		}]
+	} else if (site == 'westbegroot') {
+		attachments = [{
+			filename : 'logo.png',
+			path     : 'img/logo-gemeenteams-webapplicaties.png',
+			cid      : 'logo'
+		}, {
+			filename : 'map.png',
+			path     : 'img/email/map@2x.png',
+			cid      : 'map'
+		}]
 	} else {
 		attachments = [{
 			filename : 'logo.png',
