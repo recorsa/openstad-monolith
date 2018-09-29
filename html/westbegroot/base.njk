@@ -150,7 +150,7 @@
 						<div>
 							<h2>Contact</h2>
 							<p>
-								Heb je een vraag over het gebruik of de werking van deze site? Wij horen het graag!
+								Heb je een vraag over dit project of de werking van deze site? Wij horen het graag!
 							</p>
 							<ul>
 								<li><a href="mailto:{{EMAIL}}">Stuur een email</a></li>
@@ -220,19 +220,19 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-								(function() {
-									var closeButtons = Array.prototype.slice.call(
-										document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-									);
-									closeButtons.forEach(function( a ) {
-										a.href = '';
-										a.addEventListener('click', function( event ) {
-											var message = a.parentNode;
-											message.parentNode.removeChild(message);
-											event.preventDefault();
+									(function() {
+										var closeButtons = Array.prototype.slice.call(
+											document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+										);
+										closeButtons.forEach(function( a ) {
+											a.href = '';
+											a.addEventListener('click', function( event ) {
+												var message = a.parentNode;
+												message.parentNode.removeChild(message);
+												event.preventDefault();
+											});
 										});
-									});
-								})();
+									})();
 		</script>
 		
 		{% block scripts %}{% endblock %}
