@@ -118,7 +118,7 @@ OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAn
 
 	// set bounds and center
 	if (autoZoomAndCenter) {
-		var centerOn = markers || polygon;
+		var centerOn = markers && markers.length ? markers : polygon;
 		if (self.editorMarker) {
 			if (self.editorMarker.position) {
 				centerOn = [self.editorMarker];
