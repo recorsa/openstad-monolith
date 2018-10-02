@@ -21,6 +21,10 @@ router
 			req.scope.push({ method: ['sort', req.query.sort]});
 		}
 
+		if (req.query.mapMarkers) {
+			req.scope.push('mapMarkers');
+		}
+
 		if (req.query.running) {
 			req.scope.push('selectRunning');
 		}
@@ -85,7 +89,6 @@ router.route('/')
 		req.body.siteId = req.params.siteId;
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
-		console.log(req.body);
 		db.Idea
 			.create(req.body)
 			.then(result => {

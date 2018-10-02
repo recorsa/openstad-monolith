@@ -18,6 +18,11 @@
 			<script src="/widget/site/2/idea?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
 			<idea-widget afterRenderCallback="afterRenderCallback" afterAttributeChangedCallback="afterAttributeChangedCallback" data-css="/examples/css/idea.css">loading idea...</idea-widget>
 
+			<script src="/widget/openstad-map?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<openstad-map-widget style="display: none;">
+				<div slot="loading">De kaart wordt geladen</div>
+			</openstad-map-widget>
+
 			<script src="/widget/site/2/argument/new?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
 			<script src="/widget/site/2/arguments?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
 			<arguments-container>
@@ -37,6 +42,10 @@
 			<script>
 
 			 function afterRenderCallback(widget) {
+				 if (widget.data && widget.data.position) {
+					 document.querySelector('openstad-map-widget').style.display = 'block';
+				 }
+
 			   initNumberButton(widget.shadowRoot.querySelector('idea-votes-for-button'));
 				 initNumberButton(widget.shadowRoot.querySelector('idea-votes-against-button'));
 			 }
@@ -62,13 +71,9 @@
 				 var widget = element.querySelector('number-button-widget');
 				 if (!widget) {
 					 var numberButton = document.createElement('number-button-widget');
-					 console.log('numberButton')
 					 var parent = element.parentNode
-					 console.log(2, element)
 					 element.appendChild(numberButton);
-					 console.log(3)
 					 numberButton.setAttribute('data-value', value);
-					 console.log(1, numberButton)
 				 }
 
 			 }
@@ -79,6 +84,7 @@
 			 document.querySelector('#argument-against-form').setAttribute('data-idea-id', id);
 			 document.querySelector('arguments-widget[sentiment="for"]').setAttribute('data-idea-id', id);
 			 document.querySelector('arguments-widget[sentiment="against"]').setAttribute('data-idea-id', id);
+			 document.querySelector('openstad-map-widget').setAttribute('fetch-markers-url', "/api/site/2/idea/" + id + "?mapMarkers=true");
 			</script>
 
 		</div>

@@ -1,32 +1,31 @@
-<template>
-	
+<template id="test-template">
+	<p>zomaar wat tekst</p>
 </template>
-		
+
+<style>
+ p {
+	 font-weight: 600;
+ }
+</style>
+
 <script>
 
- class IdeasWidget extends HTMLElement {
+ class AWidget extends HTMLElement {
 
    constructor() {
      super();
+		 var template = document.getElementById('test-template');
+		 console.log(template)
+		 var shadowRoot = this.attachShadow({mode: 'open'}).appendChild(template.content.cloneNode(true));
    }
 
    connectedCallback () {
-     let href = this.getAttribute('href') || '';
-     this.innerHTML = `<idea id="idea-1">
-		 <idea-title>title 1</idea-title>
-		 </idea>
-<idea id="idea-2">
- <idea-title>title 2</idea-title>
- </idea>
-<idea id="idea-3">
- <idea-title>title 3</idea-title>
- </idea>
-		 `
+		 console.log(this.getAttribute('niels'))
    }
 
  }
 
- customElements.define('ideas-widget', IdeasWidget);
+ customElements.define('just-a-widget', AWidget);
 
 </script>
 

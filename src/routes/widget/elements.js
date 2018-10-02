@@ -1,15 +1,6 @@
-var config       = require('config')
-  , createError  = require('http-errors')
-  , htmlToText   = require('html-to-text')
-  , express      = require('express')
-  , moment       = require('moment-timezone')
-  , nunjucks     = require('nunjucks')
-  , Promise      = require('bluebird')
-  , csvStringify = Promise.promisify(require('csv-stringify'));
-var util         = require('../../util')
-  , db           = require('../../db')
-  , auth         = require('../../auth')
-  , mail         = require('../../mail');
+const config			 = require('config');
+const express			 = require('express');
+const nunjucks		 = require('nunjucks');
 
 let router = express.Router({mergeParams: true});
 
@@ -40,11 +31,26 @@ router.route('/openstad-map')
 	.get(function( req, res, next ) {
 
 		var data = {
-			apiUrl    : config.url,
+			apiUrl: config.url,
+			markerStyle: config.openStadMap.markerStyle ? JSON.stringify(config.openStadMap.markerStyle) : 'null',
+			polygonStyle: config.openStadMap.polygonStyle ? JSON.stringify(config.openStadMap.polygonStyle) : 'null',
+			config: config.openStadMap ? JSON.stringify(config.openStadMap) : 'null',
 		};
 
 		res.out('elements/openstad-map.js', true, data);
 
 	});
 
+// textarea-with-counter
+router.route('/textarea-with-counter')
+	.get(function( req, res, next ) {
+
+		var data = {
+		};
+
+		res.out('elements/textarea-with-counter.js', true, data);
+
+	});
+
 module.exports = router;
+

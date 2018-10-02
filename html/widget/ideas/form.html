@@ -23,13 +23,14 @@
 		<input type="text" name="title" value=""/><br/>
 		
 		<slot name="title-summary">Samenvatting:<br/></slot>
-		<textarea name="summary"></textarea><br/>
+		<summary-container></summary-container><br/>
 		
 		<slot name="title-description">Beschrijving:<br/></slot>
 		<html-editor-widget name="description"></html-editor-widget>
-		
+
 		<slot name="title-location">Locatie:<br/></slot>
-		<openstad-map-widget description="Dit is ook weer de map widget; die zou ook een editor variant moeten hebben"></openstad-map-widget>
+		<input type="hidden" name="position" value=""/><br/>
+		<openstad-map-container></openstad-map-container><br/>
 
 		<br/>
 		<input name="submitButton" type="button" value="Submit">

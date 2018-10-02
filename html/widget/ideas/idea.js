@@ -11,7 +11,6 @@ class IdeaWidget extends HTMLElement {
 		let self = this;
 
 		if (self.getAttribute('data-css')) {
-			console.log('extra CSS')
 			let link = document.createElement('link');
 			link.rel = "stylesheet";
 			link.type = "text/css";
@@ -46,6 +45,7 @@ class IdeaWidget extends HTMLElement {
 			})
 			.then(function (json) {
 				// console.log('Request succeeded with JSON response', json);
+				self.data = json;
 				self.render(json)
 
 				if (self.getAttribute('afterFetchCallback')) {

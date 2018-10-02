@@ -68,8 +68,9 @@ router.route('/idea(?:/edit|/new)$')
 	.all(auth.can('ideas:archive', 'idea:create'))
 	.get(function( req, res, next ) {
 		let data = {
-			apiUrl : config.url,
-			siteId : req.params.siteId,
+			widgetUrl : config.url,
+			apiUrl    : config.url,
+			siteId    : req.params.siteId,
 		}
 
 		res.out('ideas/form.js', true, data);

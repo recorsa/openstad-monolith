@@ -119,6 +119,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : !config.get('ideas.location.isMandatory'),
 		},
 
+		position: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var location    = this.get('location');
+				var position;
+				if (location && location.type && location.type == 'Point') {
+					position = {
+						lat: location.coordinates[0],
+						lng: location.coordinates[1],
+					};
+				}
+				return position
+			}
+		},
+
 		modBreak: {
 			type         : DataTypes.TEXT,
 			allowNull    : true,
@@ -485,6 +500,28 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 			// defaults
 			api: {
+			},
+			
+			mapMarkers: {
+				attributes: [
+					'id',
+					'status',
+					'location',
+					'position'
+				]
+				,
+				where: {
+					$or: [
+						{
+							status: {$in: ['OPEN', 'ACCEPTED', 'BUSY']}
+						}, {
+							$and: [
+								{status: 'CLOSED'},
+								sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 90`)
+							]
+						}
+					]
+				}
 			},
 			
 			// vergelijk getRunning()

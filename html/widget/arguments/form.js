@@ -15,7 +15,6 @@ class ArgumentFormWidget extends HTMLElement {
 		self.shadowRoot.querySelector('input[name="submitButton"]').onclick = self.submit.bind(self);
 
 		if (self.getAttribute('data-css')) {
-			console.log('extra CSS')
 			let link = document.createElement('link');
 			link.rel = "stylesheet";
 			link.type = "text/css";

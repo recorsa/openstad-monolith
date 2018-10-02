@@ -59,3 +59,7 @@ arguments-widget {
   min-width: 100%;
   width: 100%;
 }
+
+openstad-map-widget {
+	height: 375px;
+}
