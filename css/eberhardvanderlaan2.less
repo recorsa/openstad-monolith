@@ -539,10 +539,16 @@
 	#ideas.primary {
 
 		.tile {
+			position: relative;
 			width: calc(33% - 21px);
 
+			@media @phone {
+				width: 100%;
+				height: auto;
+			}
+
 			.image {
-				height: 116px;
+				width: 100%;
 			}
 
 			.username {
@@ -563,7 +569,7 @@
 			.image {
 				position: relative;
 				width: 700px;
-				height: 345px;
+				height: 980px;
 				margin-bottom: 35px;
 				background-position: center;
 				background-size: cover;
@@ -579,10 +585,10 @@
 
 			#uploadedImage {
 				position: absolute;
-				top: 72px;
-				left: 100px;
-				width: 500px;
-				height: 200px;
+				top: 125px;
+				left: 93px;
+				width: 518px;
+				height: 659px;
 				overflow: hidden;
 			}
 
@@ -710,7 +716,7 @@
 		position: relative;
 		display: table;
 		width: 100%;
-		height: 345px;
+		height: 980px;
 		margin-bottom: 15px;
 		background-color: #f6f7f7;
 		background-position: center;
@@ -730,10 +736,10 @@
 
 		#image-cropper-container {
 			position: absolute;
-			top: 72px;
-			left: 100px;
-			width: 500px;
-			height: 200px;
+			top: 125px;
+			left: 93px;
+			width: 518px;
+			height: 659px;
 			overflow: hidden;
 		}
 
@@ -786,7 +792,7 @@
 			position: absolute;
 			display: none;
 			right: 60px;
-			bottom: 72px;
+			bottom: 197px;
 			width: 24px;
 			height: 47px;
 
