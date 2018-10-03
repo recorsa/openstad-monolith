@@ -131,7 +131,7 @@
 						<div class="gebied">{{idea.extraData.gebied}}</div>
 					{% endif %}
 
-					<p>{{idea.summary}}</p>
+					<p>{{idea.summary | safe | nl2br}}</p>
 					
 					<div class="ideaProgress">
 						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
