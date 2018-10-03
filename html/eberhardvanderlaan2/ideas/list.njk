@@ -137,6 +137,7 @@
 								 extraData = JSON.parse(extraData);
 								 let image = tile.querySelector('.image');
 								 let factor = tile.offsetWidth / 500;
+								 image.style.height = (tile.offsetWidth * 1.2722) + 'px';
 								 image.style.backgroundSize = ( extraData.width * factor ) + 'px ' + ( extraData.height * factor ) + 'px';
 								 image.style.backgroundPosition = ( extraData.left * factor ) + 'px ' + ( extraData.top * factor ) + 'px';
 							 } catch(e) { console.log(e) }
