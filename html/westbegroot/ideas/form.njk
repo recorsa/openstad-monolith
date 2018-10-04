@@ -13,9 +13,13 @@
 
 {% block content %}
 
-	<h1>{{pageTitle}}</h1>
-	Lees eerst goed hoe het stadsdeel de inzendingen toetst, voordat je het <a href="#formulier-block">formulier hieronder</a> invult
-	
+	{% if not user.isLoggedIn() %}
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld je aan om een plan in te sturen</a>
+	{% else %}
+		<h1>{{pageTitle}}</h1>
+		Lees eerst goed hoe het stadsdeel de inzendingen toetst, voordat je het <a href="#formulier-block">formulier hieronder</a> invult
+	{% endif %}
+
 	<h3>Hoe toetst het stadsdeel je plan?</h3>
 	<ul class="checkmark-list">
 		<li>Het plan moet over een van de drie thema’s gaan. </li>
@@ -173,7 +177,7 @@
 {% block howDoesItWork %}
 	{% if not user.isLoggedIn() %}
 		{{howdoesitwork.howblock('open')}}
-		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld je aan om een locatie in te sturen</a>
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="margin-top: 100px; margin-bottom: 60px;">Meld je aan om een plan in te sturen</a>
 	{% endif %}
 {% endblock %}
 
