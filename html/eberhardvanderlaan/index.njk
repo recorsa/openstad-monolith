@@ -7,17 +7,9 @@
 
 {% block content %}
 	<div id="banner">
-		<div id="homemap">
-			<div id="mapcontainer">
-				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
-			</div>
-		</div>
+		<div class="banner-image" style="background-image: url('/img/eberhardvanderlaan/banner-image.png');"></div>
 		<div class="text">
-			Dank voor alle prachtige locatiesuggesties voor de laatste boodschap van oud-burgemeester Van der Laan!  
-			Vanaf 22 oktober kan je je eigen ontwerp van de tekst uploaden! Tot dan!  
-			<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag stuur-je-locatie-button">
-				Stuur hier je locatie!<img id="arrow" src="/img/arrow_right_white.svg" width="9" heigh="16" style="display: inline-block; margin-left: 16px; margin-top: 2px;">
-			</a>
+			De locatie is bekend!
 		</div>
 		<div id="buttons">
 			<div class="speechBubble">
@@ -32,6 +24,10 @@
 				Lees meer op amsterdam.nl
 			</a>
 		</div>
+	</div>
+
+	<div class="header-extra-alinea">
+		In juli en augustus hebben Amsterdammers maar liefst 21 suggesties gedaan voor een muur of gebouw voor de laatste boodschap van oud-burgemeester Eberhard van der Laan. De meeste stemmen kreeg het Mercatorplein  De zuil midden op het plein staat ter beschikking om hierop een ontwerp te maken.  Vanaf  22 oktober  kunnen mensen een eigen ontwerp indienen en stemmen op hun favoriete ontwerp.
 	</div>
 {% endblock %}
 
