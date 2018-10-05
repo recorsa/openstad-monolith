@@ -144,6 +144,12 @@
 			float: left;
 			background-position: center;
 			background-size: cover;
+
+			@media @phone {
+				float: none;
+				width: 100%;
+			}
+
 		}
 
 		#homemap {
@@ -233,6 +239,10 @@
 		width: calc(100% - 240px);
 		margin-top: 0px;
 		margin-bottom: 35px;
+
+		@media @phone {
+			width: 100%;
+		}
 	}
 	
 	&.index #banner .text {
@@ -252,13 +262,13 @@
 
 		@media @phone {
 			position: absolute;
-			top: 38px;
+			top: 250px;
 			left: 6%;
-			font-size: 18px;
+			font-size: 24px;
 			max-width: 88%;
 			width: 88%;
 			margin: 40px 0 -20px 0;
-			height: 272px;
+			height: 60px;
 			padding-bottom: 49px;
 		}
 
