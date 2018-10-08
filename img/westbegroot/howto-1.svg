@@ -1,40 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="165" height="85" viewBox="0 0 165 85">
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
     <g fill="none" fill-rule="nonzero">
-        <g stroke="#000">
-            <path d="M15.106 14.072L63.837 8.95l5.122 48.732-48.731 5.121z"/>
-            <g opacity=".85" transform="rotate(-6 227.692 -232.467)">
-                <circle cx="15" cy="15" r="15" fill="#FFF"/>
-                <path fill="#D8D8D8" d="M10.5 6.5l12 8.75-12 8.75z"/>
+        <path fill="#FFF" d="M0 0h220v220H0z"/>
+        <g stroke="#000" stroke-width="2">
+            <g fill="#F3F3F3">
+                <path d="M98 45v90h64V62.414L144.586 45H98z"/>
+                <path d="M146 46.414V61h14.586L146 46.414z"/>
             </g>
-        </g>
-        <path stroke="#000" d="M63.837 8.95l71.606-7.526 5.122 48.731-71.606 7.527z"/>
-        <g fill="#000">
-            <path d="M76.581 20.18l48.4-5.088.105.995-48.4 5.087zM77.73 31.12l48.401-5.088.105.995-48.4 5.087zM78.88 42.059l48.401-5.087.105.994-48.4 5.087z"/>
-        </g>
-        <g>
-            <g stroke="#000">
-                <path fill="#F3F3F3" d="M.5 35.5h49v49H.5z"/>
-                <g opacity=".85" transform="translate(10 45)">
-                    <circle cx="15" cy="15" r="15" fill="#FFF"/>
-                    <path fill="#D8D8D8" d="M10.5 6.5l12 8.75-12 8.75z"/>
-                </g>
+            <g fill="#F3F3F3">
+                <path d="M78 65v90h64V82.414L124.586 65H78z"/>
+                <path d="M126 66.414V81h14.586L126 66.414z"/>
             </g>
-            <path stroke="#000" d="M49.5 35.5h72v49h-72z"/>
-            <g fill="#000">
-                <path d="M61 48h48.667v1H61zM61 59h48.667v1H61zM61 70h48.667v1H61z"/>
+            <g fill="#F3F3F3">
+                <path d="M58 85v90h64v-72.586L104.586 85H58z"/>
+                <path d="M106 86.414V101h14.586L106 86.414z"/>
             </g>
-        </g>
-        <g>
-            <g stroke="#000">
-                <path fill="#D8D8D8" d="M41.517 28.74l48.97-1.71L92.197 76l-48.97 1.71z"/>
-                <g opacity=".85" transform="rotate(-2 1111.392 -1451.765)">
-                    <circle cx="15" cy="15" r="15" fill="#FFF"/>
-                    <path fill="#D8D8D8" d="M10.5 6.5l12 8.75-12 8.75z"/>
-                </g>
-            </g>
-            <path fill="#F3F3F3" stroke="#000" d="M90.487 27.03l71.956-2.513 1.71 48.97L92.198 76z"/>
-            <g fill="#000">
-                <path d="M102.417 39.121l48.637-1.699.035 1-48.638 1.698zM102.8 50.114l48.638-1.698.035 1-48.638 1.698zM103.184 61.108l48.638-1.699.035 1-48.638 1.698z"/>
+            <g transform="translate(68 114)">
+                <circle cx="22" cy="22" r="22" fill="#FFF"/>
+                <path fill="#D8D8D8" d="M18 11v22l13-11z"/>
             </g>
         </g>
     </g>
