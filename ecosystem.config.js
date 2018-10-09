@@ -50,7 +50,7 @@ addApp('stemvan', [{
 	ref        : 'origin/master'
 }, {
 	appName    : 'staging-zorggoedvooronzestad',
-	deployName : 'production_zorggoedvooronzestad_staging',
+	deployName : 'staging_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.openstadsdeel.nl/www',
 	ref        : 'origin/projects/eberhardvanderlaan2'
 }]);
