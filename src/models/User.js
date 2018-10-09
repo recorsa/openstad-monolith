@@ -262,6 +262,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					'firstName', 'lastName', 'zipCode', 'gender', 'password'
 				]);
 				filtered.complete = true;
+				if (self.role === 'anonymous') {
+					filtered.complete = 'member';
+				}
 				return this.update(filtered)
 				.catch(function( error ) {
 					// We need to set `complete` initially for the `isValidMember`
@@ -287,7 +290,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			hasCompletedRegistration: function() {
-				return this.isMember() && this.email && this.complete;
+				return this.email && this.complete // && this.isMember();
 			},
 			isUnknown: function() {
 				return this.role === 'unknown';
@@ -318,7 +321,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// TODO: Move to `Idea` model.
 			createNewIdea: function( data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
+				var filtered  = pick(data, ['title', 'summary', 'description', 'extraData', 'location']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
 				
@@ -333,7 +336,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			updateIdea: function( idea, data ) {
 				var imageKeys = data.images;
-				var filtered  = pick(data, ['title', 'summary', 'description', 'location']);
+				var filtered  = pick(data, ['title', 'summary', 'description', 'extraData', 'location']);
 				
 				return idea.update(filtered)
 				.bind(this)

@@ -3,7 +3,7 @@
 // TODO: more text
 // ----------------------------------------------------------------------------------------------------
 
-function OpenStadMap({ editorInputElement, editorMarker, markerStyle, polygonStyle }) {
+function OpenStadMap( markerStyle, polygonStyle, editorInputElement, editorMarker ) {
 
 	self = this;
 	self.markerStyle = markerStyle || {};
@@ -82,7 +82,11 @@ function OpenStadMap({ editorInputElement, editorMarker, markerStyle, polygonSty
 
 }
 
-OpenStadMap.prototype.createMap = function({ config, markers, polygon, autoZoomAndCenter = true }) {
+OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAndCenter ) {
+
+	if (typeof autoZoomAndCenter === 'undefined') {
+		autoZoomAndCenter = true
+	}
 
 	self = this;
 
@@ -94,18 +98,18 @@ OpenStadMap.prototype.createMap = function({ config, markers, polygon, autoZoomA
 
 	// add polygon
 	if (polygon) {
-		self.createCutoutPolygon({ polygon, center: config.center });
+		self.createCutoutPolygon( polygon );
 	}
 
 	// add markers
 	if (markers) {
-		self.createMarkers({ markers });
+		self.createMarkers( markers );
 	}
 
 	// editor?
 	if (self.editorInputElement) {
 		if (self.editorMarker) {
-			self.editorMarker = self.createMarker({ marker: self.editorMarker })
+			self.editorMarker = self.createMarker( self.editorMarker )
 			self.editorMarker.addListener('click', self.onMarkerClick.bind(self));
 			self.editorMarker.addListener('dragend', self.onMarkerDrag.bind(self));
 		}
@@ -114,7 +118,7 @@ OpenStadMap.prototype.createMap = function({ config, markers, polygon, autoZoomA
 
 	// set bounds and center
 	if (autoZoomAndCenter) {
-		var centerOn = markers || polygon;
+		var centerOn = markers && markers.length ? markers : polygon;
 		if (self.editorMarker) {
 			if (self.editorMarker.position) {
 				centerOn = [self.editorMarker];
@@ -123,13 +127,13 @@ OpenStadMap.prototype.createMap = function({ config, markers, polygon, autoZoomA
 			}
 		}
 		if (centerOn) {
-			self.setBoundsAndCenter({ points: centerOn }); // prefer markers
+			self.setBoundsAndCenter( centerOn ); // prefer markers
 		}
 	}
 
 }
 
-OpenStadMap.prototype.createCutoutPolygon = function({ polygon }) {
+OpenStadMap.prototype.createCutoutPolygon = function( polygon ) {
 
 	// polygon must defined from the south west corner to work with the outer box
 	var bounds = new google.maps.LatLngBounds();
@@ -139,7 +143,8 @@ OpenStadMap.prototype.createCutoutPolygon = function({ polygon }) {
 	var center = bounds.getCenter();
 
 	var smallest = 0; var index = 0;
-	polygon.forEach(( point, i ) => {
+	
+	polygon.forEach(function( point, i ) {
 		var y = Math.sin(point.lng-center.lng()) * Math.cos(point.lat);
 		var x = Math.cos(center.lat())*Math.sin(point.lat) - Math.sin(center.lat())*Math.cos(point.lat)*Math.cos(point.lng-center.lng());
 		var bearing = Math.atan2(y, x) * 180 / Math.PI;
@@ -170,8 +175,7 @@ OpenStadMap.prototype.createCutoutPolygon = function({ polygon }) {
 	];
 	
 	// polygon style
-	this.map.data.setStyle( Object.assign({
-	}, self.polygonStyle ));
+	this.map.data.setStyle( Object.assign({}, self.polygonStyle ));
 	
 	this.map.data.add({
 		geometry: new google.maps.Data.Polygon( [outerBox, polygon] )
@@ -179,27 +183,29 @@ OpenStadMap.prototype.createCutoutPolygon = function({ polygon }) {
 
 }
 
-OpenStadMap.prototype.createMarkers = function({ markers }) {
+OpenStadMap.prototype.createMarkers = function( markers ) {
 
 	self = this;
 
-	markers.forEach(marker => {
-		self.createMarker({ marker })
+	markers.forEach(function(marker) {
+		self.createMarker( marker )
 	})
 
 }
 
-OpenStadMap.prototype.createMarker = function({ marker }) {
+OpenStadMap.prototype.createMarker = function( marker ) {
 
 	if (marker.icon && marker.icon.size) {
-		marker.icon.size = new google.maps.Size(...marker.icon.size);
+		marker.icon.size = new google.maps.Size(marker.icon.size[0], marker.icon.size[1]);
 	}
 	if (marker.icon && marker.icon.anchor) {
-		marker.icon.anchor = new google.maps.Point(...marker.icon.anchor);
+		marker.icon.anchor = new google.maps.Point(marker.icon.anchor[0], marker.icon.anchor[1]);
 	}
 	if (marker.href) {
 		marker.icon.clickable = true;
 	}
+
+	marker.icon.url = marker.icon.url.replace(/\.svg/, '.png'); // IE can't handle svg icons
 
 	var options = {
 		position    : marker.position && marker.position.coordinates ? { lat: marker.position.coordinates[0], lng: marker.position.coordinates[1] } : marker.position,
@@ -219,7 +225,7 @@ OpenStadMap.prototype.createMarker = function({ marker }) {
 
 }
 
-OpenStadMap.prototype.setBoundsAndCenter = function({ points }) {
+OpenStadMap.prototype.setBoundsAndCenter = function( points ) {
 
 	self = this;
 	points = points || [];
@@ -237,7 +243,7 @@ OpenStadMap.prototype.setBoundsAndCenter = function({ points }) {
 
 	var bounds = new google.maps.LatLngBounds();
 
-	points.forEach(point => {
+	points.forEach(function(point) {
 		if (!point.position && !(point.lat)) return;
 		if (point.position) {
 			point = point.position.coordinates ? { lat: point.position.coordinates[0], lng: point.position.coordinates[1] }  : point.position;
@@ -248,3 +254,33 @@ OpenStadMap.prototype.setBoundsAndCenter = function({ points }) {
 
 }
 
+// polyfill Object.assign
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) { // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}

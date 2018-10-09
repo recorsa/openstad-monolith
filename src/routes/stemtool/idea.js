@@ -598,7 +598,6 @@ function getOpinion( req ) {
 function isModernBrowser( req ) {
 	var agent = util.userAgent(req.get('user-agent'));
 
-	// console.log(agent);
 	switch( agent.family.toLowerCase() ) {
 		case 'android':
 			return agent.satisfies('>= 4.4');

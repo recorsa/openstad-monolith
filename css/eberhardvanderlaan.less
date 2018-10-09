@@ -108,6 +108,7 @@
 		background-image: url('/img/eberhardvanderlaan/signature.png');
 		
 		@media @phone {
+			background-position: center 110px;
 			margin-top: 20px;
 			margin-left: 10%;
 			width: 80%;
@@ -133,6 +134,32 @@
 			display: block;
 			width: calc(100% + 30px);
 			height: auto;
+		}
+
+		.banner-image {
+			position: relative;
+			width: calc(100% - 240px);
+			padding-top: calc((100% - 240px) * 0.536);
+			margin-bottom: 20px;
+			margin-right: 20px;
+			box-sizing: border-box;
+			float: left;
+			background-position: center;
+			background-size: cover;
+
+			img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+			}
+
+			@media @phone {
+				width: 100%;
+				padding-top: calc(100% * 0.536);
+				float: none;
+			}
+
 		}
 
 		#homemap {
@@ -218,31 +245,43 @@
 		}
 	}
 
+	.header-extra-alinea {
+		width: calc(100% - 240px);
+		margin-top: 0px;
+		margin-bottom: 35px;
+
+		@media @phone {
+			width: 100%;
+		}
+	}
+	
 	&.index #banner .text {
-		padding: 25px 20px;
+		padding: 15px 20px;
 		background-color: #164995;
 		left: 20px;
-		width: 561px;
-		height: 184px;
+		width: 270px;
+		height: 60px;
 		font-size: 24px;
 		font-weight: 600;
 		font-style: normal;
 		font-stretch: normal;
-		line-height: 33px;
+		line-height: 34px;
 		letter-spacing: normal;
 		color: #ffffff;
 		z-index: 10000;
 
 		@media @phone {
 			position: absolute;
-			top: 38px;
+			bottom: 30px;
 			left: 6%;
-			font-size: 18px;
+			font-size: 20px;
 			max-width: 88%;
 			width: 88%;
 			margin: 40px 0 -20px 0;
-			height: 272px;
-			padding-bottom: 49px;
+			height: 20px;
+			padding: 5px 20px;
+			padding-bottom: 43px;
+			line-height: 40px;
 		}
 
 		a.page-button {

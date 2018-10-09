@@ -7,21 +7,20 @@ function initAttachmentManager( form, editor ) {
 		throw Error('initAttachmentManager: Form missing `addAttachmentRef` method');
 	}
 	
-	// document.addEventListener('trix-file-accept', function( event ) {
-	// 	// Prevent attaching .png files
-	// 	if( event.file.type === 'image/png' ) {
-	// 		event.preventDefault();
-	// 	}
-	// 	// Prevent attaching files > 1024 bytes
-	// 	if( event.file.size > 1024 ) {
-	// 		event.preventDefault();
-	// 	}
-	// });
+	document.addEventListener('trix-file-accept', function( event ) {
+		// afbeeldingen in de tekst kunnen niet langer
+		console.log('WTF');
+		event.preventDefault();
+	});
 	document.addEventListener('trix-attachment-add', function( event ) {
-		var attachment = event.attachment;
-		if( attachment.file ) {
-			return uploadAttachment(attachment);
-		}
+		// afbeeldingen in de tekst kunnen niet langer
+		console.log('WTF');
+		event.stopPropagation();
+		event.preventDefault();
+		// var attachment = event.attachment;
+		// if( attachment.file ) {
+		//  	return uploadAttachment(attachment);
+		// }
 	});
 	document.addEventListener('trix-attachment-remove', function( event ) {
 		var attachment = event.attachment;

@@ -47,7 +47,6 @@ module.exports = function( app ) {
 		.all(auth.can('agenda:admin'))
 		.all(fetchMeeting)
 		.put(function( req, res, next ) {
-			console.log('++++++++++', req.params.meetingId);
 			var forceShow = !req.meeting.forceShow;
 			req.meeting.update({forceShow})
 				.then(function( meeting ) {

@@ -44,6 +44,11 @@ addApp('stemvan', [{
 	remotePath : '/var/www/stemvanzuid.amsterdam.nl/www',
 	ref        : 'origin/master'
 }, {
+	appName    : 'stem-westbegroot',
+	deployName : 'production_westbegroot',
+	remotePath : '/var/www/westbegroot.amsterdam.nl/www',
+	ref        : 'origin/master'
+}, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
@@ -54,6 +59,7 @@ addApp('stemvan', [{
 	remotePath : '/var/www/api.openstadsdeel.nl/www',
 	ref        : 'origin/projects/monolith-as-api-server'
 }]);
+
 
 addApp('stemtool', [{
 	appName    : 'javabrug-staging',
@@ -69,7 +75,7 @@ addApp('stemtool', [{
 	appName    : 'stemtool-kareldoorman',
 	deployName : 'production_kareldoorman',
 	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
-	ref        : 'origin/staging'
+	ref        : 'origin/master'
 }]);
 
 module.exports = config;
@@ -111,3 +117,6 @@ function addApp( env, app ) {
 		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
 	};
 }
+
+
+
