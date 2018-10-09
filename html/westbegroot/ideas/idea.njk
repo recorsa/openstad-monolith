@@ -96,7 +96,10 @@
 							{% elif idea.status == 'DONE' %}
 								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
 							{% else %}
-								<div>Nog {{idea.duration | duration}} om te stemmen</div>
+								<div id ="nog-xxx-om-te-stemmen"></div>
+								<script>
+								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
+								</script>
 							{% endif %}
 						</div>
 					</div>
