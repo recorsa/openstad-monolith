@@ -548,6 +548,22 @@
 			}
 
 			.image {
+				position: relative;
+				width: 100%;
+				padding-top: 100%;
+			}
+
+			.image-background, .image-foreground {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+			}
+
+			.image-upload {
+				position: absolute;
+				top: 0;
+				left: 0;
 				width: 100%;
 			}
 
@@ -557,14 +573,15 @@
 				font-style: italic;
 				color: #787979;
 			}
-			
-		}
 
-		.USER {
-			.image {
-				margin-top: 0;
-				width: calc(100% - 0px);
+			&.USER {
+				.image {
+					margin-top: -3px;
+					margin-left: -3px;
+					width: calc(100% + 6px);
+				}
 			}
+
 		}
 		
 	}
