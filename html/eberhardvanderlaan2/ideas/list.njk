@@ -57,7 +57,11 @@
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}" {% if (idea.posterImage) and (idea.posterImage.extraData) %}data-poster-extraData="{{idea.posterImage.extraData | dump}}"{% endif %}>
 			<a {{'href=/plan/'+idea.id+'' if (user.role == 'admin') or (user.id == idea.userId)}}>
 				
-				<div class="image"></div>
+				<div class="image">
+					<img src="/img/eberhardvanderlaan2/image-background.png" class="image-background"/>
+					<div class="image-upload"></div>
+					<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground"/>
+				</div>
 
 				{% if idea.status == 'DENIED' %}
 					<div class="duration">
@@ -128,20 +132,25 @@
 					 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
 					 if( isOrWasInView ) {
 						 // Load actual image...
-							 var img = tile.querySelector('div.image');
-						 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
+							 var div = tile.querySelector('div.image');
+						 div.style.height = tile.offsetWidth + 'px';
+						 var img = div.querySelector('div.image-upload');
+						 img.style.backgroundImage = 'url(\'' + tile.getAttribute('data-poster-url') + '\')';
 
 						 var extraData = tile.getAttribute('data-poster-extraData');
 						 if (extraData) {
 							 try {
 								 extraData = JSON.parse(extraData);
-								 let image = tile.querySelector('.image');
-								 let horzSize = tile.className.match(/USER/) ? 409 : 415;
-								 let vertSize = tile.className.match(/USER/) ? 506 : 500;
-								 let factor = tile.offsetWidth / horzSize;
-								 image.style.height = (tile.offsetWidth * (vertSize / horzSize)) + 'px';
-								 image.style.backgroundSize = ( extraData.width * factor ) + 'px ' + ( extraData.height * factor ) + 'px';
-								 image.style.backgroundPosition = ( extraData.left * factor ) + 'px ' + ( extraData.top * factor ) + 'px';
+								 console.log(extraData)
+
+								 let factor = tile.offsetWidth / 300;
+								 img.style.top    = ( 30 * factor ) + 'px'; 	
+								 img.style.left   = ( 1 + 46 * factor ) + 'px'; 	
+								 img.style.width  = ( 210 * factor ) + 'px'; 	
+								 img.style.height = ( 253 * factor ) + 'px';
+
+								 img.style.backgroundSize = ( ( extraData.width / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.height / 500 ) * 253 * factor * factor ) + 'px';
+								 img.style.backgroundPosition = ( ( extraData.left / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.top / 500 ) * 253 * factor ) + 'px';
 							 } catch(e) { console.log(e) }
 						 }
 						 
