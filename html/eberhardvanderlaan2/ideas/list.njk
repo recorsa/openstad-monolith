@@ -136,8 +136,10 @@
 							 try {
 								 extraData = JSON.parse(extraData);
 								 let image = tile.querySelector('.image');
-								 let factor = tile.offsetWidth / 500;
-								 image.style.height = (tile.offsetWidth * 1.2722) + 'px';
+								 let horzSize = tile.className.match(/USER/) ? 409 : 415;
+								 let vertSize = tile.className.match(/USER/) ? 506 : 500;
+								 let factor = tile.offsetWidth / horzSize;
+								 image.style.height = (tile.offsetWidth * (vertSize / horzSize)) + 'px';
 								 image.style.backgroundSize = ( extraData.width * factor ) + 'px ' + ( extraData.height * factor ) + 'px';
 								 image.style.backgroundPosition = ( extraData.left * factor ) + 'px ' + ( extraData.top * factor ) + 'px';
 							 } catch(e) { console.log(e) }

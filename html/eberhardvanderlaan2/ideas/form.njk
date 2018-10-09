@@ -18,7 +18,7 @@
 		<div class="primary">
 
 			<div id="image-editor">
-				<img src="/img/eberhardvanderlaan2/uploaded-image-background.jpg" id="background"/>
+				<img src="/img/eberhardvanderlaan2/uploaded-image-background.png" id="background"/>
 				<form id="posterImageUpload" action="/image">
 					<div class="progress"><div class="bar"></div></div>
 				</form>
@@ -201,8 +201,8 @@
 		 var progressBar = el.querySelector('#posterImageUpload .progress .bar');
 		 var cropperStatus = {};
 
-		 var cropperWidth = 518;
-		 var cropperHeight = 659;
+		 var cropperWidth = 415;
+		 var cropperHeight = 500;
 
 		 var cropperContainer = document.getElementById('image-cropper-container');
 		 var cropper = document.getElementById('image-cropper');
@@ -322,6 +322,8 @@
 
 				 cropperStatus.zoom = parseInt( 1000 * cropperStatus.width / cropperStatus.orgWidth );
 
+				 console.log('----------')
+				 console.log(cropperStatus)
 			 }
 
 			 cropper.style.width  = cropperStatus.width + 'px';
