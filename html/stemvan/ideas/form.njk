@@ -77,10 +77,15 @@
 	{% endif %}
 
 	{% if showForm %}
+		{% set posterImage = idea.posterImage %}
+		{% if posterImage | isArr  %}
+			{% set posterImage = idea.posterImage[0] %}
+		{% endif %}
+
 		<div class="primary">
 			<form id="posterImageUpload" action="/image"
-	    {% if idea.posterImage %}
-	    style="background-image: url('/image/{{idea.posterImage.key}}');"
+	    {% if posterImage %}
+	    style="background-image: url('/image/{{posterImage.key}}');"
 	    {% endif %}
 			>
 				<div class="progress"><div class="bar"></div></div>
@@ -181,8 +186,8 @@
 					</div>
 				</div>
 				
-				{% if idea.posterImage %}
-					<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
+				{% if posterImage %}
+					<input type="hidden" name="images[]" value="{{posterImage.key}}">
 				{% endif %}
 				
 				<input type="submit" value="Plan opslaan">

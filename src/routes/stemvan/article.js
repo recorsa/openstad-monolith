@@ -158,7 +158,7 @@ function isModernBrowser( req ) {
 }
 
 function fetchArticle( req, res, next ) {
-	var scopes = Array.from(arguments);
+	var scopes = ['defaultScope'].concat( Array.from(arguments) );
 	return function( req, res, next ) {
 		var articleId = req.params.articleId;
 		db.Article.scope(scopes).findById(articleId)

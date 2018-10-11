@@ -4,10 +4,10 @@ module.exports = {
 	up: function() {
 		return db.query(`
       CREATE TABLE sites (
-      	'id' INT NOT NULL AUTO_INCREMENT,
-				'name' VARCHAR(255) NOT NULL,
-				'title' VARCHAR(255) NOT NULL,
-				'config' TEXT NOT NULL,
+      	id INT NOT NULL AUTO_INCREMENT,
+				name VARCHAR(255) NOT NULL,
+				title VARCHAR(255) NOT NULL,
+				config TEXT NOT NULL,
 				PRIMARY KEY ('id')) ENGINE = InnoDB;
       ALTER TABLE sites ADD createdAt DATETIME NOT NULL AFTER config,
                         ADD updatedAt DATETIME NOT NULL AFTER createdAt,

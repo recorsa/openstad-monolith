@@ -81,7 +81,7 @@ module.exports = function( app ) {
 };
 
 function fetchMeetings( req, res, next ) {
-	db.Meeting.scope('withIdea')
+	db.Meeting.scope('siteScope', 'withIdea')
 	.findAll({order: 'date'})
 	.then(function( meetings ) {
 		req.meetings = meetings;

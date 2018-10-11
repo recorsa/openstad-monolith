@@ -1,27 +1,11 @@
-// 14 februari 2017 - peildatum
-// 7 maart 2017 - vergaderdatum
-// 21 maart 2017 - peildatum
-// 4 april 2017 - vergaderdatum
-// 18 april 2017 - peildatum
-// 9 mei 2017 - vergaderdatum
-// 23 mei, 2017 - peildatum
-// 6 juni 2017 - vergaderdatum
-// 20 juni 2017 - peildatum
-// 4 juli 2017 - vergaderdatum & peildatum ?
-// 18 juli 2017 - vergaderdatum
-// 
-// begin september een peildatum afspreken?
-// 
-// 12 september 2017 - peildatum
-// 26 september 2017 - vergaderdatum
-// 10 oktober 2017 - peildatum
-// 31 oktober 2017 - vergaderdatum
-// 14 november 2017 - peildatum
-// 28 november 2017 - vergaderdatum + peildatum
-// 12 december 2017 - peildatum
+const config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
+		siteId: {
+			type         : DataTypes.INTEGER,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
+		},
 		type : DataTypes.ENUM('selection','meeting'),
 		date : DataTypes.DATE,
 		forceShow : DataTypes.BOOLEAN,
@@ -37,7 +21,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 				Meeting.hasMany(models.Idea);
 			},
 			scopes: function() {
+
+				let siteScope;
+				if (config.siteId && typeof config.siteId == 'number') {
+					siteScope = {
+						where: {
+							siteId: config.siteId,
+						}
+					}
+				}
+				
 				return {
+					siteScope,
 					withIdea: {
 						include: {
 							model: db.Idea,
@@ -49,9 +44,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			
 			getUpcoming: function( limit ) {
 				if( !limit ) limit = 4;
+
+				let where = {};
 				
-				return this.scope('withIdea')
+				return this.scope('siteScope', 'withIdea')
 				.findAll({
+					where: where,
 					order: 'date',
 				}).then(meetings => {
 					// limit

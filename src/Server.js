@@ -208,6 +208,7 @@ module.exports  = {
 			watch      : false,
 			autoescape : true,
 		});
+		env.addFilter('isArr', something => Array.isArray(something))
 		env.addGlobal('config', config)
 		nunjucksVars(this.app);
 		multiAccept(this.app);

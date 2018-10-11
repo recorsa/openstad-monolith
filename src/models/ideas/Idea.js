@@ -16,7 +16,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
 		siteId: {
 			type         : DataTypes.INTEGER,
-			allowNull    : false
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
 		},
 		meetingId: {
 			type         : DataTypes.INTEGER,
@@ -246,15 +246,28 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			getHighlighted: function() {
+
+				let where = {status: 'OPEN'};
+
+				// todo: dit kan mooier
+				if (config.siteId && typeof config.siteId == 'number') {
+					where = {
+						$and: [
+							{ siteId: config.siteId },
+							{ $or: where.$or },
+						]
+					}
+				}
+
 				return this.scope('summary').findAll({
-					where : {status: 'OPEN'},
+					where : where,
 					order : 'sort, endDate DESC',
 					limit : 3
 				});
 			},
 
 			// deze bestaat voor de oude sites; de api gebruikt hier scopes voor
-			getRunning: function( sort, options ) {
+			getRunning: function( sort ) {
 				var order;
 				switch( sort ) {
 					case 'votes_desc':
@@ -299,10 +312,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 				};
 
 				// todo: dit kan mooier
-				if (options && options.siteId) {
+				if (config.siteId && typeof config.siteId == 'number') {
 					where = {
 						$and: [
-							{ siteId: options.siteId },
+							{ siteId: config.siteId },
 							{ $or: where.$or },
 						]
 					}

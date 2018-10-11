@@ -1,8 +1,13 @@
-var sanitize   = require('../util/sanitize');
-var ImageOptim = require('../ImageOptim');
+const sanitize   = require('../util/sanitize');
+const ImageOptim = require('../ImageOptim');
+const config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Article = sequelize.define('article', {
+		siteId: {
+			type         : DataTypes.INTEGER,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
+		},
 		userId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : true
@@ -103,7 +108,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			getAllTiles: function() {
-				return this.scope('asTile').findAll();
+				return this.scope('defaultScope', 'asTile').findAll();
 			},
 			getTilesForUser: function( user ) {
 				if( user.can('article:edit') ) {
@@ -150,13 +155,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 	
 	function scopes() {
+
+		let defaultScope = {
+			include: [{
+				model      : db.User,
+				attributes : ['firstName', 'lastName']
+			}]
+		}
+
+		if (config.siteId && typeof config.siteId == 'number') {
+			defaultScope = {
+				where:
+				{
+					$and: [
+						{ siteId: config.siteId },
+					]
+				}
+			}
+		}
+		
 		return {
-			defaultScope: {
-				include: [{
-					model      : db.User,
-					attributes : ['firstName', 'lastName']
-				}]
-			},
+			defaultScope,
 			asTile: {
 				attributes: ['id', 'image', 'title', 'summary', 'isPublished', 'seqnr'],
 				include: [{

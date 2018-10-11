@@ -67,7 +67,13 @@ router.route('/')
 
 // list ideas
 // ----------
+	.get(function(req, res, next) {
+		next();
+	})
 	.get(auth.can('ideas:list'))
+	.get(function(req, res, next) {
+		next();
+	})
 	.get(function(req, res, next) {
 
 		db.Idea
