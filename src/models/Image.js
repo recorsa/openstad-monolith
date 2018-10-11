@@ -41,6 +41,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return value;
 			},
 			set: function(value) {
+				value = value || {};
         try {
 					if (typeof value == 'string') {
 						value = JSON.parse(value);

@@ -293,7 +293,7 @@
 
 			 if (document.getElementById('imageExtraData').value) {
 				 cropperStatus = JSON.parse(document.getElementById('imageExtraData').value)
-				 console.log(cropperStatus);
+				 console.log(cropperStatus)
 			 } else {
 
 				 var width = file.width;
@@ -407,20 +407,22 @@
 
 		 function doZoomOut() {
 
+			 var minSize = 75;
+
 			 var newZoom = parseInt( cropperStatus.zoom / 1.1 );
 
 			 var newWidth  = cropperStatus.orgWidth  * ( newZoom / 1000 );
 			 var newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
 
-			 if (newWidth < cropperWidth) {
-				 newZoom = parseInt( 1000 * cropperWidth / cropperStatus.orgWidth );
-				 newWidth  = cropperStatus.orgWidth  * ( newZoom / 1000 );
+			 if (newWidth < minSize) {
+				 newZoom = parseInt( 1000 * minSize / cropperStatus.orgWidth );
+				 newWidth	 = cropperStatus.orgWidth	 * ( newZoom / 1000 );
 				 newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
 			 }
 
-			 if (newHeight < cropperHeight) {
-				 newZoom = parseInt( 1000 * cropperHeight / cropperStatus.orgHeight );
-				 newWidth  = cropperStatus.orgWidth  * ( newZoom / 1000 );
+			 if (newHeight < minSize) {
+				 newZoom = parseInt( 1000 * minSize / cropperStatus.orgHeight );
+				 newWidth	 = cropperStatus.orgWidth	 * ( newZoom / 1000 );
 				 newHeight = cropperStatus.orgHeight * ( newZoom / 1000 );
 			 }
 
@@ -447,13 +449,16 @@
 
 		 function moveImage(diffX, diffY) {
 
+			 var minVisible = 75;
+
 			 var newTop = cropperStatus.top + diffY;
-			 if (newTop > 0) newTop = 0;
-			 if (newTop + cropperStatus.height < cropperHeight) newTop = cropperHeight - cropperStatus.height;
+			 console.log(cropperStatus);
+			 if (newTop > cropperHeight - minVisible) newTop = cropperHeight - minVisible;
+			 if (newTop + cropperStatus.height < minVisible) newTop = minVisible - cropperStatus.height;
 
 			 var newLeft = cropperStatus.left + diffX;
-			 if (newLeft > 0) newLeft = 0;
-			 if (newLeft + cropperStatus.width < cropperWidth) newLeft = cropperWidth - cropperStatus.width;
+			 if (newLeft > cropperWidth - minVisible) newLeft = cropperWidth - minVisible;
+			 if (newLeft + cropperStatus.width < minVisible) newLeft = minVisible - cropperStatus.width;
 
 			 cropperStatus.top  = newTop;
 			 cropperStatus.left = newLeft;
