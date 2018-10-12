@@ -136,6 +136,10 @@ module.exports = function( app ) {
 		.then(function( originUrl ) {
 			req.setSessionUser(uid, originUrl);
 			req.brute.reset(function() {
+				// make anonymous users members
+				if (req.user.email && req.user.role == 'anonymous') {
+					req.user.update({role: 'member'})
+				}
 				res.success(resolveURL(originUrl), true);
 			});
 		})
@@ -228,9 +232,9 @@ module.exports = function( app ) {
 }
 
 function sendAuthToken( user, req ) {
-	if( !user.isMember() ) {
-		throw createError(400, 'User is not a member');
-	}
+	// if( !user.isMember() ) {
+	//  	throw createError(400, 'User is not a member');
+	// }
 	
 	var hasCompletedRegistration = user.hasCompletedRegistration();
 	var ref                      = req.query.ref;

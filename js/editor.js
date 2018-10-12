@@ -3,25 +3,20 @@ function initAttachmentManager( form, editor ) {
 	// {key: true, ...}
 	var images = {};
 	
-	if( !form.addAttachmentRef ) {
-		throw Error('initAttachmentManager: Form missing `addAttachmentRef` method');
-	}
-	
-	// document.addEventListener('trix-file-accept', function( event ) {
-	// 	// Prevent attaching .png files
-	// 	if( event.file.type === 'image/png' ) {
-	// 		event.preventDefault();
-	// 	}
-	// 	// Prevent attaching files > 1024 bytes
-	// 	if( event.file.size > 1024 ) {
-	// 		event.preventDefault();
-	// 	}
-	// });
+	document.addEventListener('trix-file-accept', function( event ) {
+		// afbeeldingen in de tekst kunnen niet langer
+		console.log('WTF');
+		event.preventDefault();
+	});
 	document.addEventListener('trix-attachment-add', function( event ) {
-		var attachment = event.attachment;
-		if( attachment.file ) {
-			return uploadAttachment(attachment);
-		}
+		// afbeeldingen in de tekst kunnen niet langer
+		console.log('WTF');
+		event.stopPropagation();
+		event.preventDefault();
+		// var attachment = event.attachment;
+		// if( attachment.file ) {
+		//  	return uploadAttachment(attachment);
+		// }
 	});
 	document.addEventListener('trix-attachment-remove', function( event ) {
 		var attachment = event.attachment;
@@ -51,10 +46,6 @@ function initAttachmentManager( form, editor ) {
 		input.dispatchEvent(click);
 	});
 	form.addEventListener('submit', function( event ) {
-		var attachments = editor.getDocument().getAttachments();
-		attachments.forEach(function( attachment ) {
-			form.addAttachmentRef(attachment.getAttribute('key'));
-		});
 	});
 
 	function uploadAttachment( attachment ) {

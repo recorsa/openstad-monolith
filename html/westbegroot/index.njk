@@ -1,0 +1,160 @@
+{% extends 'base.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/watgebeurderalinwest.njk' as watgebeurderalinwest %}
+
+{% set contentClass = 'index' %}
+
+{% block content %}
+	<div id="banner">
+		<div id="homebanner">
+			<img id="homebanner-img" src="img/westbegroot/home-banner.png"/>
+			<div id="homebanner-title">
+				<h2>West Begroot!</h2>
+				<h3>Hoe zou jij € 300.000 besteden in stadsdeel West? </h3>
+			</div>
+			<img id="homebanner-img-mobile" src="img/westbegroot/home-banner.png"/>
+			<div id="homebanner-text">
+				Stuur je plan in voor één van de 3 thema’s (Groen en Openbare ruimte, Diversiteit en Duurzaamheid) en bepaal waar het geld naar toe gaat.
+				<br/>
+			</div>
+			<div id="homebanner-buttons">
+				<a href="/themas" class="bekijk-de-themas">
+					Bekijk de thema's
+				</a>
+				<a href="/plan/nieuw" class="stuur-plan-in">
+					Stuur je plan in
+				</a>
+			</div>
+		</div>
+		<div id="controls">
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
+			<a href="https://www.amsterdam.nl/westbegroot" class="page-button page-button-grey" target="_blank">
+				Lees meer op amsterdam.nl
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block howDoesItWork %}
+	{{howdoesitwork.howblock('open')}}
+{% endblock %}
+
+{% block content2 %}
+	
+	<div class="primary">
+
+		<div class="text" name="info" id="info">
+
+			<h3>Achtergrondinformatie</h3>
+			<p>
+				Stadsdeel West maakt elk jaar gebiedsplannen. In deze gebiedsplannen staat waar het stadsdeel dat jaar extra op investeert. In 2019 wil West meer doen met Groen en Openbare ruimte, Duurzaamheid en Diversiteit en Inclusiviteit. Het bestuur stelt € 300.000 van de gebiedsplan-gelden beschikbaar aan bewoners om zelf met plannen te komen en dit bedrag te begroten.
+			</p>
+			
+			<h3>Spelregels</h3>
+			<ul class="checkmark-list">
+				<li>Je plan draagt bij aan een van deze thema’s in West:</li>
+				<ul>
+					<li>Groen en Openbare ruimte</li>
+					<li>Duurzaamheid</li>
+					<li>Diversiteit en Inclusiviteit</li>
+				</ul>
+				<li>De kosten voor je plan kunnen variëren van heel weinig tot maximaal €300.000. We zijn op zoek naar grote en kleine plannen.</li>
+				<li>Je plan is voor heel West dan wel voor een buurt of specifieke locatie in West en is bedoeld voor bewoners uit West.</li>
+				<li>Je plan moet binnen een redelijk korte termijn kunnen worden uitgevoerd (binnen twee jaar).</li>
+				<li>Iedereen kan een voorstel indienen: bewoners, ondernemers en maatschappelijke instellingen, zowel uit stadsdeel West of daarbuiten.</li>
+				<li>Bewoners of ondernemers kunnen zelf een plan uitvoeren. Je kan ook een plan uploaden dat door de gemeente of een organisatie wordt uitgevoerd.</li>
+				<li>Een plan moet minimaal 50 positieve likes halen om in aanmerking te komen voor een eerste haalbaarheidscheck.</li>
+				<li>Het stadsdeel toetst de plannen op haalbaarheid. Dit kan consequenties hebben voor je plan. In overleg met jou past het stadsdeel eventueel het plan aan. </li>
+				<li>Uit de haalbare plannen kiest de stadsdeelcommissie de 30 beste plannen.</li>
+				<li>Bewoners uit West verdelen het geld over de 30 plannen en bepalen zo welk plan wordt uitgevoerd.</li>
+				<!--
+				<li>Het stadsdeel is gebonden aan aanbestedingsregels. Dit kan tot gevolg hebben dat de indiener van een plan niet vanzelfsprekend zelf het plan uitvoert.</li>
+				-->
+			</ul>
+
+			<ul class="arrowed-link" style="float: right">
+				<li><a href="/plan/nieuw">Bekijk hoe het stadsdeel de plannen toetst</a></li>
+			</ul>
+
+			<!--
+					 <div>
+					 <a href="/plan/nieuw" class="stuur-plan-in">
+					 Stuur je plan in
+					 </a><a href="??" class="page-button page-button-grey" target="_blank">
+					 Lees meer op amsterdam.nl
+					 </a>
+					 </div>
+			-->
+			
+		</div>
+	</div>
+	
+	<div class="secondary">
+		
+		<div id="agenda">
+			<h3>Tijdlijn</h3>
+			
+			<div class="agenda">
+
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>1 t/m 31 oktober 2018</h3>
+						Plannen insturen op de 3 thema’s
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>1 oktober t/m 7 november 2018</h3>
+						Campagne voeren en op plannen stemmen
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>8 november t/m 25 november 2018</h3>
+						Haalbaarheidscheck ingestuurde plannen
+					</div>
+				</div>
+				
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>Eind november 2018</h3>
+						Stadsdeelcommissie kiest 30 beste plannen
+					</div>
+				</div>
+
+				<div class="box-grey agenda-period">
+					<div>
+						<h3>16 januari t/m 6 februari 2019</h3>
+						West Begroot: bewoners verdelen € 300.000 over de 30 plannen
+					</div>
+				</div>
+
+				<div class="box-grey agenda-day">
+					<div>
+						<h3>8 februari 2019</h3>
+						Winnende plannen worden bekend gemaakt
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+	</div>
+{% endblock %}
+
+{% block page %}
+	{{watgebeurderalinwest.watgebeurderalinwest()}}
+{% endblock %}
+
+{% block content3 %}
+	<ul class="share">
+		<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
+		<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
+		<li><a class="email"    target="_blank" href="mailto:?subject=West Begroot">Email</a></li>
+	</ul>
+{% endblock %}
+

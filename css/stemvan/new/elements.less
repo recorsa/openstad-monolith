@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 a {
 	color: black;
 	text-decoration: none;
@@ -6,6 +10,10 @@ a {
 a:visited {
 	color: black;
 	text-decoration: underline;
+}
+
+strong, b {
+	font-weight: 600;
 }
 
 .button {
@@ -127,4 +135,25 @@ ul.checkmark-list {
 			background-image: url(/img/checkmark-blue.svg);
 		}
 	}
+
+}
+
+.default-select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	height: 44px;
+	padding: 0 20px;
+	border: solid 1px #434343;
+	outline: none;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 44px;
+	text-align: center;
+	background-color: #FFF;
+	background-image: url('/img/arrow_down_black.svg');
+	background-position: center right 10px;
+	background-repeat: no-repeat;
+	background-size: 13px auto;
+
 }

@@ -42,7 +42,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				       location    ? 'https://maps.googleapis.com/maps/api/streetview?'+
 				                     'size=800x600&'+
 				                     `location=${location.coordinates[0]},${location.coordinates[1]}&`+
-				                     'heading=151.78&pitch=-0.76&key=AIzaSyCrp_kqFQoKEaW5DOEBVjAu61cRl3-T0Lg'
+				                     'heading=151.78&pitch=-0.76&key={{config.openStadMap.googleKey}}'
 				                   : null;
 			}
 		},

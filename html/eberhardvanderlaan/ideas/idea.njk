@@ -202,10 +202,10 @@
 		
 		<div class="pageContent">
 			<div class="argList for">
-				{{arguments.list(user, idea, csrfToken, 'argumentsFor')}}
+				{{arguments.list(user, idea, config, csrfToken, 'argumentsFor')}}
 			</div>
 			<div class="argList against">
-				{{arguments.list(user, idea, csrfToken, 'argumentsAgainst')}}
+				{{arguments.list(user, idea, config, csrfToken, 'argumentsAgainst')}}
 			</div>
 		</div>
 	</div>
@@ -295,7 +295,7 @@
 	<div id="modBreak">
 		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
 		<p>
-		{{idea.modBreak | safe | nl2br}}
+			{{idea.modBreak | safe | nl2br}}
 		</p>
 	</div>
 {% endmacro %}

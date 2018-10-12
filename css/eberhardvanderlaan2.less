@@ -598,6 +598,14 @@
 				margin-bottom: 35px;
 				background-position: center;
 				background-size: cover;
+
+				@media @phone {
+					position: relative;
+					width: 100%;
+					height: auto;
+					padding-top: 100%;
+				}
+
 			}
 
 			#background {
@@ -751,6 +759,13 @@
 		border: 1px solid #C0C0C0;
 		background-color: #f6f7f7;
 
+		@media @phone {
+			position: relative;
+			width: 100%;
+			height: auto;
+			padding-top: 100%;
+		}
+
 		#background {
 			position: absolute;
 			display: none;
@@ -795,6 +810,13 @@
 			border: none;
 			cursor: pointer;
 
+			@media @phone {
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+			}
+
 			&.dz-clickable::before {
 				content: 'Let op: stuur alleen een ontwerp in dat je zelf gemaakt hebt! Afbeeldingen van anderen kunnen auteursrechtelijk beschermd zijn.';
 			}
@@ -818,8 +840,8 @@
 		#zoombuttons {
 			position: absolute;
 			display: none;
-			right: 100px;
-			bottom: 130px;
+			right: 10px;
+			bottom: 10px;
 			width: 24px;
 			height: 47px;
 
@@ -872,3 +894,4 @@
 
 	}
 }
+

@@ -1,0 +1,82 @@
+{% extends 'base.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/watgebeurderalinwest.njk' as watgebeurderalinwest %}
+
+{% set activeMenu = 'about' %}
+
+{% block content %}
+	<div id="about">
+
+		<div id="header">
+			<div class="header-image">
+				<img src="/img/westbegroot/themas-banner.png"/>
+			</div>
+			<div class="header-text">
+				<h1>Jij verdeelt € 300.000 over de 30 beste plannen</h1>
+				<p>
+					Stadsdeel West maakt elk jaar gebiedsplannen. In deze gebiedsplannen staat waar het stadsdeel dat jaar extra op investeert. In 2019 wil West meer doen met Groen, Duurzaamheid en Diversiteit. Het bestuur stelt €300.000 van de gebiedsplan-gelden beschikbaar aan bewoners om zelf met plannen te komen en dit bedrag te begroten.
+				</p>
+				<!--
+						 <a href="??" id="gebiedsplannen-button" class="page-button page-button-grey" target="_blank">Lees meer over gebiedsplannen</a>
+				-->
+			</div>
+		</div>
+
+		<h2>De 3 thema’s voor stadsdeel West</h2>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Thema: Groen en Openbare ruimte</h3>
+				<p>
+					De openbare ruimte van Stadsdeel West kan veel mooier en groener. Met wellicht meer speeltoestellen of bankjes. Bloemen en planten maken blij, trekken vogels en insecten aan, zorgen voor schonere lucht, brengen verkoeling in de zomer en bergen het regenwater. Dus kom maar op met je plan voor meer natuur of een leukere en mooiere openbare ruimte. Weet jij een mooie plek voor een moestuin? Of wil je bloemenweides op de daken, groene binnentuinen of een hek vervangen door een bloeiende haag? Misschien heb je wel een heel ander idee... Dien je plan in via West Begroot.
+				</p>
+			</div>
+			<div class="thema-video">
+				<video width="100%" height="100%" controls>
+					<source src="/img/westbegroot/videos/Jeroen van Berkel.mp4" type="video/mp4">
+					<source src="movie.ogg" type="video/ogg">
+					Your browser does not support the video tag.
+				</video> 
+			</div>
+		</div>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Thema: Diversiteit en Inclusiviteit</h3>
+				<p>
+					In West zijn we met veel verschillende mensen. Allemaal willen we de vrijheid om onszelf te kunnen zijn. Ongeacht sekse, afkomst, geloof, leeftijd of seksuele voorkeur. Wat is jouw plan voor het vergroten van wederzijds begrip en acceptatie? Denk je aan storytelling, socratische gesprekken of aan iets heel anders? We zijn benieuwd! 
+				</p>
+			</div>
+			<div class="thema-video">
+				<video width="100%" height="100%" controls>
+					<source src="/img/westbegroot/videos/Fenna Ulichki.mp4" type="video/mp4">
+					<source src="movie.ogg" type="video/ogg">
+					Your browser does not support the video tag.
+				</video> 
+			</div>
+		</div>
+
+		<div class="thema-container">
+			<div class="thema-text">
+				<h3>Thema: Duurzaamheid</h3>
+				<p>
+					Klimaatverandering is één van dé grootste uitdagingen van deze tijd. Daarom zijn we ook in West vol aan de slag met duurzaamheid. Maar dat kunnen we natuurlijk niet zonder ondernemers en bewoners. Dus heeft u een idee? Bijvoorbeeld op het gebied van energie opwekken of besparen, afval scheiden, klimaatbestendigheid of het verbeteren van luchtkwaliteit? Stimuleert je plan hergebruik van materialen of weet je hoe je consumenten beweegt tot duurzaam koopgedrag? Alle ideeën zijn welkom. Gebruik uw kennis en creativiteit. We zoeken het idee voor een duurzamer West.
+				</p>
+			</div>
+			<div class="thema-video">
+				<video width="100%" height="100%" controls>
+					<source src="/img/westbegroot/videos/Melanie van der Horst.mp4" type="video/mp4">
+					<source src="movie.ogg" type="video/ogg">
+					Your browser does not support the video tag.
+				</video> 
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block page %}
+	{{watgebeurderalinwest.watgebeurderalinwest('white')}}
+{% endblock %}
+

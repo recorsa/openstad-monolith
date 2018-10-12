@@ -1,0 +1,30 @@
+{% extends 'ideas.njk' %}
+{% set pageTitle    = 'Bevestig argumenten' %}
+
+{% block content %}
+
+	<style>
+	 .pageContent a.page-button {
+		 margin-right: 0;
+		 margin-left: 20px;
+		 width: 120px;
+	 }
+	</style>
+
+	<h1>{{pageTitle}}</h1>
+
+	Er zijn argumenten geplaatst met jouw email adres. Je kunt die hier bevestigen of verwijderen.
+	<br/><br/>
+
+	<table border="0" cellpadding="2" celspacing="0">
+		{% for argument in arguments %}
+			<tr>
+				<td>Argument: {{argument.description}}</td>
+				<td><a href="/arguments/{{argument.id}}/confirm" class="page-button page-button-blue">Bevestig</a></td>
+				<td><a href="/arguments/{{argument.id}}/delete" class="page-button page-button-blue">Verwijder</a></td>
+			</tr>
+		{% endfor %}
+	</table>
+
+{% endblock %}
+
