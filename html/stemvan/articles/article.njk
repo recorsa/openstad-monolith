@@ -21,14 +21,11 @@
 
 	<div id="banner">
 		{% if article.posterImage %}
-			<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
+			<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');">
+				<div class="imageCaption">{{article.imageCaption}}</div>
+			</div>
 		{% else %}
-			{% if article.posterImage %}
-				<div class="image" style="background-image: url('/image/{{article.posterImage.key}}');"></div>
-			{% else %}
-				<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
-			{% endif %}
-
+			<div class="image" style="background-image: url('/img/articles/{{article.id}}/{{article.image or 'thumbnail.jpg'}}');"></div>
 		{% endif %}
 
 		{% if not article.isPublished %}

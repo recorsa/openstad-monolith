@@ -3,14 +3,25 @@ var ImageOptim = require('../ImageOptim');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Article = sequelize.define('article', {
+
 		userId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : true
 		},
+
 		image: {
 			type         : DataTypes.STRING(255),
 			allowNull    : true
 		},
+
+		imageCaption: {
+			type         : DataTypes.STRING(255),
+			allowNull    : true,
+			set          : function( text ) {
+				this.setDataValue('imageCaption', sanitize.noTags(text));
+			}
+		},
+
 		video: {
 			type         : DataTypes.TEXT,
 			allowNull    : true,
@@ -32,6 +43,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('title', sanitize.noTags(text));
 			}
 		},
+
 		posterImageUrl: {
 			type         : DataTypes.VIRTUAL,
 			get          : function() {
