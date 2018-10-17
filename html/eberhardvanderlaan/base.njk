@@ -69,18 +69,18 @@
 						{% if type == 'error' %}
 							<h2>Er ging iets fout</h2>
 							<ul>
-								{% for message in list %}<li>{{message}}{% endfor %}
+								{% for message in list %}<li>{{message | safe}}{% endfor %}
 							</ul>
 						{% elif type == 'success' %}
 							<h2>Gelukt!</h2>
-							{% for message in list %}{{message}}<br>{% endfor %}
+							{% for message in list %}{{message | safe}}<br>{% endfor %}
 						{% elif type == 'include' %}
 							{% for file in list %}
 								{% include file %}
 							{% endfor %}
 						{% else %}
 							<h2>Informatie</h2>
-							{% for message in list %}{{message}}<br>{% endfor %}
+							{% for message in list %}{{message | safe}}<br>{% endfor %}
 						{% endif %}
 						
 						<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>

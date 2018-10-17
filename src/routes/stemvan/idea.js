@@ -69,14 +69,20 @@ module.exports = function( app ) {
 	.all(auth.can('idea:view', 'idea:*', 'user:mail'))
 	.get(function( req, res, next) {
 		db.Meeting.getSelectable(req.idea)
-		.then(function( meetings ) {
-			res.out('ideas/idea', true, {
-				config             : config,
-				idea               : req.idea,
-				userVote           : req.vote,
-				selectableMeetings : meetings,
-				csrfToken          : req.csrfToken()
-			});
+			.then(function( meetings ) {
+				var data = {
+					runningIdeas     : db.Idea.getRunning(),
+					config             : config,
+					idea               : req.idea,
+					userVote           : req.vote,
+					selectableMeetings : meetings,
+					csrfToken          : req.csrfToken()
+				}
+				Promise.props(data)
+					.then(function( result ) {
+						res.out('ideas/idea', true, result);
+					})
+					.catch(next);
 		})
 		.catch(next);
 	});
@@ -245,7 +251,7 @@ module.exports = function( app ) {
 		
 		idea.addUserVote(user, opinion, req.ip)
 		.then(function( voteRemoved ) {
-			req.flash('success', !voteRemoved ? 'Je hebt gestemd' : 'Je stem is ingetrokken');
+			req.flash('success', !voteRemoved ? 'Je hebt gestemd. Ga zo door!<br><br> Laat ook van de <a href="/plannen">andere plannen</a> weten wat je ervan vindt door te stemmen.' : 'Je stem is ingetrokken');
 			res.success('/plan/'+idea.id, function json() {
 				return db.Idea.scope('withVoteCount').findById(idea.id)
 				.then(function( idea ) {

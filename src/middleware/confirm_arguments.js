@@ -43,7 +43,7 @@ module.exports = function( app ) {
 	app.use(function( req, res, next ) {
 
 		if (req.user && req.user.complete) {
-			console.log(JSON.stringify({ where: { userId: req.user.id, confirmationRequired: req.user.email }}, null, 2));
+			// console.log(JSON.stringify({ where: { userId: req.user.id, confirmationRequired: req.user.email }}, null, 2));
 			db.Argument
 				.findAll({ where: { userId: req.user.id, confirmationRequired: req.user.email }})
 				.then(result => {
