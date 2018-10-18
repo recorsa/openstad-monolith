@@ -125,6 +125,11 @@
 			background-repeat: no-repeat;
 			background-image: url(/img/eberhardvanderlaan2/header-home.jpg);
 
+			@media @primary100 {
+				float: left;
+				width: calc(100% - 240px);
+			}
+
 			@media @phone {
 				position: relative;
 				float: none;
@@ -598,6 +603,14 @@
 				margin-bottom: 35px;
 				background-position: center;
 				background-size: cover;
+
+				@media @phone {
+					position: relative;
+					width: 100%;
+					height: auto;
+					padding-top: 100%;
+				}
+
 			}
 
 			#background {
@@ -802,6 +815,13 @@
 			border: none;
 			cursor: pointer;
 
+			@media @phone {
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+			}
+
 			&.dz-clickable::before {
 				content: 'Let op: stuur alleen een ontwerp in dat je zelf gemaakt hebt! Afbeeldingen van anderen kunnen auteursrechtelijk beschermd zijn.';
 			}
@@ -825,8 +845,8 @@
 		#zoombuttons {
 			position: absolute;
 			display: none;
-			right: 100px;
-			bottom: 130px;
+			right: 10px;
+			bottom: 10px;
 			width: 24px;
 			height: 47px;
 

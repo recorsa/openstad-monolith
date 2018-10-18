@@ -42,11 +42,16 @@
 				 var extraData = '{{idea.posterImage.extraData | dump | safe}}';
 				 if (extraData) {
 					 try {
-						 console.log(extraData)
 						 extraData = JSON.parse(extraData);
-						 let image = document.querySelector('#uploadedImage');
-						 image.style.backgroundSize = extraData.width + 'px ' + extraData.height + 'px';
-						 image.style.backgroundPosition = extraData.left + 'px ' + extraData.top + 'px';
+						 let container = document.querySelector('img#background');
+						 let factor = container.offsetWidth / 700;
+						 let image = document.querySelector('div#uploadedImage');
+						 image.style.top = (factor * image.offsetTop) + 'px';
+						 image.style.left = (factor * image.offsetLeft) + 'px';
+						 image.style.width = (factor * image.offsetWidth) + 'px';
+						 image.style.height = (factor * image.offsetHeight) + 'px';
+						 image.style.backgroundSize = (factor * extraData.width) + 'px ' + (factor * extraData.height) + 'px';
+						 image.style.backgroundPosition = (factor * extraData.left) + 'px ' + (factor * extraData.top) + 'px';
 					 } catch(e) { console.log(e) }
 				 }
 

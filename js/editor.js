@@ -3,10 +3,6 @@ function initAttachmentManager( form, editor ) {
 	// {key: true, ...}
 	var images = {};
 	
-	if( !form.addAttachmentRef ) {
-		throw Error('initAttachmentManager: Form missing `addAttachmentRef` method');
-	}
-	
 	document.addEventListener('trix-file-accept', function( event ) {
 		// afbeeldingen in de tekst kunnen niet langer
 		console.log('WTF');
@@ -50,10 +46,6 @@ function initAttachmentManager( form, editor ) {
 		input.dispatchEvent(click);
 	});
 	form.addEventListener('submit', function( event ) {
-		var attachments = editor.getDocument().getAttachments();
-		attachments.forEach(function( attachment ) {
-			form.addAttachmentRef(attachment.getAttribute('key'));
-		});
 	});
 
 	function uploadAttachment( attachment ) {

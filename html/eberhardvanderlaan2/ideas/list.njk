@@ -130,6 +130,7 @@
 					 // below the fold.
 						 var tileTop       = offsetTop(tile);
 					 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
+					 console.log(isOrWasInView)
 					 if( isOrWasInView ) {
 						 // Load actual image...
 							 var div = tile.querySelector('div.image');
@@ -149,15 +150,15 @@
 								 img.style.width  = ( 210 * factor ) + 'px'; 	
 								 img.style.height = ( 253 * factor ) + 'px';
 
-								 img.style.backgroundSize = ( ( extraData.width / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.height / 500 ) * 253 * factor * factor ) + 'px';
+								 img.style.backgroundSize = ( ( extraData.width / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.height / 500 ) * 253 * factor ) + 'px';
 								 img.style.backgroundPosition = ( ( extraData.left / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.top / 500 ) * 253 * factor ) + 'px';
 							 } catch(e) { console.log(e) }
 						 }
 						 
 						 // ... and remove tile from the checklist.
-							 tile.removeAttribute('data-poster-url');
-						 tiles.splice(i, 1);
-						 i--;
+						// 	 tile.removeAttribute('data-poster-url');
+						// tiles.splice(i, 1);
+						// i--;
 					 }
 				 }
 			 }
