@@ -6,6 +6,23 @@
 
 .pageContent {
 
+	a {
+		color: #164995;
+		text-decoration: none;
+		text-decoration: underline;
+
+		&:hover {
+			color: #164995;
+			text-decoration: underline;
+		}
+
+		&:visited {
+			color: #164995;
+			text-decoration: underline;
+		}
+	}
+
+
 	a.page-button {
 		text-align: center;
 		font-size: 18px;
@@ -31,7 +48,7 @@
 		color: #003066;
 	}
 
-	a.bekijk-de-locatie-button {
+	a.bekijk-de-locatie-button, a.bekijk-de-locatie-button:hover {
 		width: 179px;
 		max-width: 179px;
 		padding: 0 0 0 36px;
@@ -62,7 +79,7 @@
 
 	}
 
-	a.ga-verder-button {
+	a.ga-verder-button, a.ga-verder-button2 {
 		float: right;
 		width: 330px;
 		max-width: 330px;
@@ -71,11 +88,18 @@
 		text-align: center;
 
 		@media @phone {
-			margin: 13px auto 0 auto;
+			width: 100%;
+			line-height: 24px;
+			margin: 13px auto;
+			padding: 13px 11px;
 		}
 
 	}
 
+	a.ga-verder-button2 {
+		float: none;
+	}
+	
 	.buttons {
 
 		margin: 50px 0 0 0;
@@ -128,12 +152,14 @@
 			@media @primary100 {
 				float: left;
 				width: calc(100% - 240px);
+				min-width: auto;
 			}
 
 			@media @phone {
 				position: relative;
 				float: none;
 				width: 100%;
+				min-width: auto;
 				height: auto;
 				padding-top: 135%;
 				background-image: url(/img/eberhardvanderlaan2/header-home-mobile.png);
@@ -155,6 +181,15 @@
 				letter-spacing: normal;
 				color: #ffffff;
 				z-index: 10000;
+
+				@media @landscape {
+					width: auto;
+					height: auto;
+					top: auto;
+					left: 15px;
+					right: 15px;
+					bottom: 100px;;
+				}
 
 				@media @phone {
 					width: auto;
@@ -269,11 +304,29 @@
 	}
 
 	&.newIdea {
+		.primary {
+			min-width: 700px;
+			@media @phone {
+				min-width: initial;
+			}
+		}
+
 		.secondary {
+
+				@media @landscape {
+					width: 100%;
+					margin: 20px auto;
+				}
+
 			.speechBubble {
 				margin-top: 0;
 				margin-left: -15px;
 				width: 212px;
+
+				@media @phone {
+					width: 100%;
+					margin: 20px auto;
+				}
 			}
 		}
 	}
@@ -298,85 +351,6 @@
 		.no-of-locations {
 			width: 205px;
 			margin: 0 auto;
-		}
-
-	}
-
-	#howDoesItWork {
-
-		ul {
-			
-			li {
-				background-image: url('/img/eberhardvanderlaan2/arrow_right_blue.svg');
-				background-position: top 6px left;
-				background-repeat: no-repeat;
-				background-size: auto 10px;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				padding: 0 0 0 15px;
-
-				a {
-					position: relative;
-					color: #004699;
-					font-size: 16px;
-					font-weight: bold;
-					line-gheight: 18px;
-					text-decoration: underline;
-				}
-
-				a:visited {
-					color: #004699;
-				}
-
-			}
-		}
-		
-		.step {
-
-			.step-image-1 {
-				background-size: 140px 77px;
-				background-image: url(/img/eberhardvanderlaan2/howto-1.svg);
-			}
-
-			.step-image-2 {
-				background-size: 79px 76px;
-				background-image: url(/img/eberhardvanderlaan2/howto-2.svg);
-			}
-
-			.step-image-3 {
-				background-size: 99px 75px;
-				background-image: url(/img/eberhardvanderlaan2/howto-3.svg);
-			}
-
-			.step-image-4 {
-				background-size: 72px 74px;
-				background-image: url(/img/eberhardvanderlaan2/howto-4.svg);
-			}
-			
-		}
-		
-		&.closed {
-
-			.pageContent {
-				display: none
-			}
-
-			#arrow {
-				transform: rotate(0deg);
-			}
-
-		}
-
-		&.open {
-
-			.pageContent {
-				display: block
-			}
-
-			#arrow {
-				transform: rotate(180deg);
-			}
-
 		}
 
 	}
@@ -545,7 +519,8 @@
 
 		.tile {
 			position: relative;
-			width: calc(33% - 21px);
+			width: calc(33.333333333333% - 20px);
+			margin-right: 20px;
 
 			@media @phone {
 				width: 100%;
@@ -556,6 +531,7 @@
 				position: relative;
 				width: 100%;
 				padding-top: 100%;
+				z-index: 30;
 			}
 
 			.image-background, .image-foreground {
@@ -563,6 +539,11 @@
 				top: 0;
 				left: 0;
 				width: 100%;
+				z-index: 20;
+			}
+
+			.image-foreground {
+				z-index: 130;
 			}
 
 			.image-upload {
@@ -571,6 +552,7 @@
 				left: 0;
 				width: 100%;
 				background-repeat: no-repeat;
+				z-index: 30;
 			}
 
 			.username {
@@ -613,7 +595,7 @@
 
 			}
 
-			#background {
+			#background, #foreground {
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -626,7 +608,7 @@
 				top: 69px;
 				left: 151px;
 				width: 415px;
-				height: 500px;
+				height: 520px;
 				overflow: hidden;
 				background-repeat: no-repeat;
 			}
@@ -728,10 +710,18 @@
 	margin-bottom: 35px;
   background-color: #164995;
 
+	@media @landscape {
+		padding: 0 15px;
+	}
+
+	@media @phone {
+		padding: 0;
+	}
+
 	.text {
 		width: 940px;
 		margin: 0 auto;
-		padding: 12px 0 12px  50px;
+		padding: 12px 0 12px 50px;
 		background-position: 0px 17px;
 		background-size: 24px 24px;
 		background-repeat: no-repeat;
@@ -747,14 +737,13 @@
 	}
 }
 
-
-
 #content.newArticle, #content.newIdea {
 
 	#image-editor {
 		position: relative;
 		display: table;
 		width: 100%;
+		min-width: 700px;
 		height: 700px;
 		margin-bottom: 15px;
 		background-color: #f6f7f7;
@@ -766,6 +755,7 @@
 
 		@media @phone {
 			position: relative;
+			min-width: initial;;
 			width: 100%;
 			height: 1px;
 			padding-top: 100%;
@@ -773,11 +763,12 @@
 
 		#background {
 			position: absolute;
-			display: none;
+			display: block;
 			top: 0;
 			left: 0;
 			width: 100%;
 			height: 100%;
+			opacity: .5;
 		}
 
 		#image-cropper-container {
@@ -785,7 +776,7 @@
 			top: 69px;
 			left: 151px;
 			width: 415px;
-			height: 500px;
+			height: 520px;
 			overflow: hidden;
 		}
 
@@ -807,7 +798,7 @@
 			top: 69px;
 			left: 151px;
 			width: 415px;
-			height: 500px;
+			height: 520px;
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -845,8 +836,8 @@
 		#zoombuttons {
 			position: absolute;
 			display: none;
-			right: 10px;
-			bottom: 10px;
+			left: 575px;
+			top: 542px;
 			width: 24px;
 			height: 47px;
 
@@ -896,6 +887,268 @@
 			display: none;
 		}
 
+
+	}
+}
+
+#howDoesItWork {
+
+	ul {
+		
+		li {
+			background-image: url('/img/eberhardvanderlaan2/arrow_right_blue.svg');
+			background-position: top 6px left;
+			background-repeat: no-repeat;
+			background-size: auto 10px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			padding: 0 0 0 15px;
+
+			a {
+				position: relative;
+				color: #004699;
+				font-size: 16px;
+				font-weight: bold;
+				line-gheight: 18px;
+				text-decoration: underline;
+			}
+
+			a:visited {
+				color: #004699;
+			}
+
+		}
+	}
+	
+	.step {
+
+		.step-image-1 {
+			background-size: 140px 77px;
+			background-image: url(/img/eberhardvanderlaan2/howto-1.svg);
+		}
+
+		.step-image-2 {
+			background-size: 79px 76px;
+			background-image: url(/img/eberhardvanderlaan2/howto-2.svg);
+		}
+
+		.step-image-3 {
+			background-size: 99px 75px;
+			background-image: url(/img/eberhardvanderlaan2/howto-3.svg);
+		}
+
+		.step-image-4 {
+			background-size: 72px 74px;
+			background-image: url(/img/eberhardvanderlaan2/howto-4.svg);
+		}
+		
+	}
+	
+	&.closed {
+
+		.pageContent {
+			display: none
+		}
+
+		#arrow {
+			transform: rotate(0deg);
+		}
+
+	}
+
+	&.open {
+
+		.pageContent {
+			display: block
+		}
+
+		#arrow {
+			transform: rotate(180deg);
+		}
+
+	}
+
+}
+
+#ontwerprichtlijnen {
+
+	padding-top: 24px;
+	
+	h3 {
+		margin-top: 0;
+	}
+
+}
+
+.full-width-block.gray {
+
+	background-color: #f3f3f3;
+
+	ul.checkmark-dot-list {
+		li {
+			margin: 16px 0 23px 0;
+		}
+	}
+	
+}
+
+.info {
+	margin-right: 20px;
+
+	&.gray {
+		padding: 20px;
+		background-color: #f3f3f3;
+	}
+
+	img {
+		width: 100%;
+	}
+
+}
+
+ul.links-list {
+
+	li {
+		a {
+			text-decoration: none;
+		}
+	}
+
+	&.downloads {
+
+		li {
+			margin-bottom: 20px;
+			padding-left: 20px;
+			background-position: 2px 3px;
+			background-size: 10px 14px;
+			background-image: url('/img/icon-download.svg');
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+		}
+
+	}
+}
+
+#content.newIdea #posterImageUpload.dz-clickable::after {
+	top: 13%;
+	left: 10%;
+	width: 80%;
+	content: "Klik hier om een afbeelding te uploaden (jpeg of png). Aanbevolen minimale resolutie: 700 pixels breed en 877 pixels hoog. Maximale bestandsformaat: 8MB.";
+}
+
+#content.newIdea #posterImageUpload.dz-clickable {
+}
+
+#content.newArticle .secondary, #content.newIdea .secondary {
+	@media @phone {
+		display: block;
+	}
+}
+
+#content.newIdea #posterImageUpload.dz-clickable .progress {
+	postion: relative;
+	top: auto;
+	bottom: 45px;
+	height: 16px;
+	border: 1px solid #164995;
+	border-radius: 8px;
+	z-index: 100;
+	background-color: transparent;
+
+	&:after {
+		position: absolute;
+		top: 25px;
+		font-weight: bold;
+		text-align: center;
+		color: #000;
+		content: "Afbeelding uploaden...";
+	}
+
+	.bar {
+		border-radius: 8px 0 0 8px;
+		height: 100%;
+		width: 20%;
+		background-color: #164995;
+	}
+}
+
+.form-info, .form-warning {
+	position: relative;
+	margin: -16px 0 10px 30px;
+	padding: 0;
+
+	&:before {
+		position: absolute;
+		top: 0px;
+		left: -30px;
+		width: 30px;
+		height: 30px;
+		content: "";
+		background-position: 0px 0px;
+		background-size: 20px 22px;
+		background-repeat: no-repeat;
+		background-image: url('/img/info-pin.svg');
+	}
+}
+
+.form-warning {
+	display: none;
+	margin-bottom: -4px;
+	font-size: 14px;
+	color: red;
+	&:before {
+		background-image: url('/img/attention.svg');
+	}
+}
+
+
+.mobile-menu-item {
+	img {
+		padding-bottom: 5px;
+	}
+}
+
+#charsLeftMain {
+  color: rgb(154, 154, 154);
+  font-size: 0.7rem;
+}
+
+.empty-list {
+	position: relative;
+	width: 300px;
+	height: 300px;
+	border: 2px dashed #bebebe;
+	cursor: pointer;
+	
+	@media @phone {
+		margin-top: 50px;
+		width: 100%;
+	}
+
+	.empty-list-content {
+		position: absolute;
+		top: 50%;
+		width: 100%;
+		margin-top: -20px;
+		font-size: 16px;
+		font-weight: 600;
+		text-align: center;
+		color: #787979;
+	}
+
+}
+
+#idea {
+
+	.secondary {
+
+		@media @landscape {
+			width: 100%;
+			margin: 20px auto;
+		}
 
 	}
 }

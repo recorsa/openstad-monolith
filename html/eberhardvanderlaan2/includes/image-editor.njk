@@ -1,6 +1,6 @@
 {% macro createHTML(formId, imageFieldName, imageExtraDataFieldId) %}
 	<div id="image-editor">
-		<img src="/img/eberhardvanderlaan2/uploaded-image-background.png" id="background"/>
+		<img src="/img/eberhardvanderlaan2/uploaded-image-background.jpg" id="background"/>
 		<form id="posterImageUpload" action="/image">
 			<div class="progress"><div class="bar"></div></div>
 		</form>
@@ -71,6 +71,14 @@
 
 			 }
 
+			 if (warning) {
+				 if (cropperStatus.orgWidth < 700 || cropperStatus.orgHeight < 877) {
+					 warning.style.display = 'block'
+				 } else {
+					 warning.style.display = 'none'
+				 }
+			 }
+
 			 cropper.style.width  = cropperStatus.width + 'px';
 			 cropper.style.height = cropperStatus.height + 'px';
 			 cropper.style.top    = cropperStatus.top + 'px';
@@ -89,7 +97,7 @@
 		 imageEditor.removeCropper = function() {
 			 el.style.display = 'block';
 			 button.style.display = 'none';
-			 background.style.display = 'none';
+			 // background.style.display = 'none';
 			 zoombuttons.style.display = 'none';
 			 message.style.display = 'none';
 			 cropperContainer.className = 'hidden';
@@ -102,12 +110,14 @@
 			 container.style.top = (factor * 69) + 'px';
 			 container.style.left = (factor * 151) + 'px';
 			 container.style.width = (factor * 415) + 'px';
-			 container.style.height = (factor * 500) + 'px';
+			 container.style.height = (factor * 520) + 'px';
 			 let image = document.querySelector('img#image-cropper');
 			 image.style.top = (factor * cropperStatus.top) + 'px';
 			 image.style.left = (factor * cropperStatus.left) + 'px';
 			 image.style.width = (factor * cropperStatus.width) + 'px';
 			 image.style.height = (factor * cropperStatus.height) + 'px';
+			 zoombuttons.style.left = ( parseInt(container.style.width) + parseInt(container.style.left) + 10 ) + 'px';
+			 zoombuttons.style.top = ( parseInt(container.style.height) + parseInt(container.style.top) - 47 ) + 'px';
 		 }
 
 		 imageEditor.initDrag = function(event) {
@@ -235,13 +245,14 @@
 		 var form        = document.getElementById('{{formId}}');
 		 var el          = document.getElementById('posterImageUpload');
 		 var button      = imageEditor.querySelector('button');
-		 var background = imageEditor.querySelector('#background');
+		 var background  = imageEditor.querySelector('#background');
 		 var zoombuttons = imageEditor.querySelector('#zoombuttons');
-		 var message      = imageEditor.querySelector('message');
+		 var message     = imageEditor.querySelector('message');
 		 var progressBar = el.querySelector('#posterImageUpload .progress .bar');
+		 var warning     = document.querySelector('.form-warning');
 
 		 var cropperWidth = 415;
-		 var cropperHeight = 500;
+		 var cropperHeight = 520;
 
 		 var cropperContainer = document.getElementById('image-cropper-container');
 		 var cropper = document.getElementById('image-cropper');
@@ -284,6 +295,7 @@
 			 removedfile: function( file ) {
 				 el.removeAttribute('style');
 				 el.classList.remove('uploading');
+				 warning.style.display = 'none'
 				 form.clearAttachmentRef();
 			 },
 			 
@@ -304,6 +316,7 @@
 				 el.classList.remove('uploading');
 				 form.addAttachmentRef(file.key);
 				 button.innerHTML = 'Verwijder afbeelding';
+				 document.getElementById('{{imageExtraDataFieldId}}').value = '';
 				 imageEditor.initCropper(file);
 			 },
 
@@ -450,7 +463,6 @@
 			 input_event.target = target;
 			 input_event.clientX = event.touches[0].pageX;
 			 input_event.clientY = event.touches[0].pageY;
-			 console.log('start', input_event);
 			 imageEditor.initDrag(input_event);
 		 } 
 		 else {
@@ -478,7 +490,6 @@
 			 input_event.target = target;
 			 input_event.clientX = event.touches[0].pageX;
 			 input_event.clientY = event.touches[0].pageY;
-			 console.log('move', input_event);
 			 imageEditor.doDrag( input_event );
 
 		 } 
@@ -493,14 +504,12 @@
 	 function handleTouchcancel(event) {
 		 // disable the standard ability to select the touched object
 		 // event.preventDefault();
-		 console.log('cancel', event);
 
 		 imageEditor.endDrag();
 	 }
 
 	 function handleTouchend(event) {
 		 // disable the standard ability to select the touched object
-		 console.log('end', event);
 		 // event.preventDefault();
 
 		 imageEditor.endDrag();

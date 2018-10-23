@@ -10,7 +10,12 @@ var notifications = require('../../notifications');
 
 var argVoteThreshold = config.get('ideas.argumentVoteThreshold');
 
+var titleMinLength = config.ideas.titleMinLength || 10;
+var titleMaxLength = config.ideas.titleMaxLength || 140;
+var summaryMinLength = config.ideas.summaryMinLength || 20;
 var summaryMaxLength = config.ideas.summaryMaxLength || 140;
+var descriptionMinLength = config.ideas.descriptionMinLength || 140;
+var descriptionMaxLength = config.ideas.descriptionMaxLength || 2500;
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
@@ -57,8 +62,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [10,summaryMaxLength],
-					msg  : `Titel moet tussen 10 en ${summaryMaxLength} tekens lang zijn`
+					args : [titleMinLength,titleMaxLength],
+					msg  : `Titel moet tussen ${titleMinLength} en ${titleMaxLength} tekens lang zijn`
 				}
 			},
 			set          : function( text ) {
@@ -84,8 +89,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [20,summaryMaxLength],
-					msg  : `Samenvatting moet tussen 20 en ${summaryMaxLength} tekens zijn`
+					args : [summaryMinLength,summaryMaxLength],
+					msg  : `Samenvatting moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`
 				}
 			},
 			set          : function( text ) {
@@ -97,8 +102,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			validate     : {
 				len: {
-					args : [140,],
-					msg  : 'Beschrijving moet minimaal 140 tekens lang zijn'
+					args : [descriptionMinLength,descriptionMaxLength],
+					msg  : `Beschrijving moet  tussen ${descriptionMinLength} en ${descriptionMaxLength} tekens zijn`
 				}
 			},
 			set          : function( text ) {
@@ -579,3 +584,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	return Idea;
 };
+
+
+
+
+

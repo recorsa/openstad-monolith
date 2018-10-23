@@ -21,8 +21,8 @@
 {% block extraInfoBar %}
 	<div class="extraInfoBar">
 		<div class="text">
-			Let op: deze pagina is nu nog alleen voor jou zichtbaar.<br/>
-			Vanaf 1 nov, als de stemperiode begint, is deze pagina openbaar.
+			Let op: deze pagina is alleen voor jou zichtbaar.<br/>
+			Je kunt hier je inzending nog bewerken t/m 11 november.
 		</div>
 	</div>
 {% endblock %}
@@ -35,8 +35,9 @@
 
 			{% if idea.posterImage %}
 				<div class="image">
-					<img src="/img/eberhardvanderlaan2/uploaded-image-background.png" id="background"/>
+					<img src="/img/eberhardvanderlaan2/uploaded-image-background.jpg" id="background"/>
 					<div id="uploadedImage" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
+					<img src="/img/eberhardvanderlaan2/uploaded-image-foreground.png" id="foreground"/>
 				</div>
 				<script>
 				 var extraData = '{{idea.posterImage.extraData | dump | safe}}';
@@ -64,31 +65,22 @@
 				<div class="image"></div>
 			{% endif %}
 
-			<h1>{{idea.title}}</h1>
-			
-			<div id="author">
-				{% if can('user:mail') %}
-					<strong>Door: <a href="mailto:{{idea.user.email}}">
-						{{idea.user.firstName}} {{idea.user.lastName}}
-					</a></strong><br>
-				{% else %}
-					<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
-				{% endif %}
-				
+			<div id="author" style="margin-bottom: 20px;">
+				<strong style="margin-bottom: 4px;">Ontwerper(s):</strong>
+				<h1 style="margin-bottom: 0px;">{{idea.title}}</h1>
 				{{idea.startDate | date('LL')}}
 			</div>
-			
-			{{ modBreak() if idea.modBreak and not idea.isOpen() }}
+
+			{{ modBreak() if idea.modBreak }}
 			
 			<div class="userContent">
 				<p class="summary">
 					<strong>{{idea.summary | safe | nl2br}}</strong>
 				</p>
 				
-				{{idea.description | safe}}
+				{{idea.description | safe | nl2br}}
 			</div>
 			
-			{{ modBreak() if idea.modBreak and idea.isOpen() }}
 		</div> <!-- #primary -->
 		
 		<div class="secondary">
@@ -149,6 +141,7 @@
 		 
 		 // Wrapper for fetch to POST/PUT data
 		 global.send = function( method, url, data ) {
+
 			 data._csrf = csrfToken;
 			 
 			 return fetch(url, {
@@ -220,7 +213,7 @@
 	<div id="modBreak">
 		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
 		<p>
-		{{idea.modBreak | safe | nl2br}}
+			{{idea.modBreak | safe | nl2br}}
 		</p>
 	</div>
 {% endmacro %}

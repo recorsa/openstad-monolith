@@ -1,7 +1,8 @@
 var createError = require('http-errors')
   , express     = require('express')
   , mmm         = require('mmmagic')
-  , multer      = require('multer');
+  , multer      = require('multer')
+  , config      = require('config');
 var db          = require('../../db');
 var auth        = require('../../auth');
 
@@ -30,7 +31,14 @@ module.exports = function( app ) {
 			if( err ) {
 				return next(err);
 			} else if( !isValidMimeType(mimeType) ) {
-				return next(createError(415, 'Bestandstype niet toegestaan'));
+				let acceptedMimeTypes = (config.images && config.images.acceptedMimeTypes) || ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+				acceptedMimeTypes = acceptedMimeTypes.map( val => val.replace(/^[^/]+\//, '') );
+				if (acceptedMimeTypes.indexOf('jpeg') != -1 && acceptedMimeTypes.indexOf('jpg') != -1) {
+					var index = acceptedMimeTypes.indexOf('jpeg');
+					acceptedMimeTypes.splice(index, 1);
+				}
+				let allowed = acceptedMimeTypes.slice(0,acceptedMimeTypes.length - 1).join(', ') + ' of ' + acceptedMimeTypes[acceptedMimeTypes.length-1];
+				return next(createError(415, `Dit bestandstype is niet toegestaan. Upload een afbeelding in ${allowed} formaat.`));
 			} else {
 				db.Image.create({
 					userId   : req.user.id,
@@ -50,13 +58,13 @@ module.exports = function( app ) {
 };
 
 function isValidMimeType( mimeType ) {
-	switch( mimeType ) {
-		case 'image/png':
-		case 'image/jpg':
-		case 'image/jpeg':
-		case 'image/gif':
-			return true;
-		default:
-			return false;
+
+	let acceptedMimeTypes = (config.images && config.images.acceptedMimeTypes) || ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+
+	if (acceptedMimeTypes.indexOf(mimeType) != -1) {
+		return true;
+	} else {
+		return false;
 	}
+
 }

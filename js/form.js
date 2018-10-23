@@ -24,7 +24,13 @@ function initCharactersLeft(target, contentDiv, minLen, maxLen) {
 	});
 	
 	function updateCharsLeft() {
-		var len     = target.value.length;
+		console.log(target.value.length);
+
+		var value = target.value || '';
+
+		var num_newlines = value.split("\n").length - 1;
+		var len = value.length + num_newlines;
+
 		var enable  = len < minLen ? 'min' : 'max';
 		var disable = enable == 'max' ? 'min' : 'max';
 		var ok = enable == 'max' ? len < maxLen : len > minLen;

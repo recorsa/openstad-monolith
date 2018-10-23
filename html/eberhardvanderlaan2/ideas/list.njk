@@ -3,7 +3,7 @@
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 
-{% set pageTitle    = 'Plannen' %}
+{% set pageTitle    = 'Ingestuurde ontwerpen' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
@@ -44,7 +44,7 @@
 {% block content2 %}
 	<div id="ideas" class="primary">
 		<h1>
-			Locatie in de Baarsjes
+			Ingestuurde ontwerpen
 			<select>
 				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
 				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
@@ -58,7 +58,7 @@
 			<a {{'href=/plan/'+idea.id+'' if (user.role == 'admin') or (user.id == idea.userId)}}>
 				
 				<div class="image">
-					<img src="/img/eberhardvanderlaan2/image-background.png" class="image-background"/>
+					<img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>
 					<div class="image-upload"></div>
 					<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground"/>
 				</div>
@@ -71,14 +71,12 @@
 
 				<div class="info">
 					<h3>{{idea.title}}</h3>
-					<p>{{idea.summary}}</p>
-					<p class="username">{{idea.user.firstName}} {{idea.user.lastName}}</p>
 				</div>
 
 			</a>
 		</div>{%
 					else %}
-		<i>Wees de eerste met een goed plan voor jouw buurt!</i>
+		<div class="empty-list" onclick="document.location.href='/plan/nieuw';"><div class="empty-list-content"> Stuur als eerste een ontwerp in!</div></div>
 		{% endfor %}
 		
 		{# {% if can('ideas:archive') %}
@@ -145,20 +143,20 @@
 								 console.log(extraData)
 
 								 let factor = tile.offsetWidth / 300;
-								 img.style.top    = ( 30 * factor ) + 'px'; 	
-								 img.style.left   = ( 1 + 46 * factor ) + 'px'; 	
+								 img.style.top    = ( 23 * factor ) + 'px'; 	
+								 img.style.left   = ( 46 * factor ) + 'px'; 	
 								 img.style.width  = ( 210 * factor ) + 'px'; 	
-								 img.style.height = ( 253 * factor ) + 'px';
+								 img.style.height = ( 263 * factor ) + 'px';
 
-								 img.style.backgroundSize = ( ( extraData.width / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.height / 500 ) * 253 * factor ) + 'px';
-								 img.style.backgroundPosition = ( ( extraData.left / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.top / 500 ) * 253 * factor ) + 'px';
+								 img.style.backgroundSize = ( ( extraData.width / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.height / 520 ) * 263 * factor ) + 'px';
+								 img.style.backgroundPosition = ( ( extraData.left / 415 ) * 210 * factor ) + 'px ' + ( ( extraData.top / 520 ) * 263 * factor ) + 'px';
 							 } catch(e) { console.log(e) }
 						 }
 						 
 						 // ... and remove tile from the checklist.
-						// 	 tile.removeAttribute('data-poster-url');
-						// tiles.splice(i, 1);
-						// i--;
+							 // 	 tile.removeAttribute('data-poster-url');
+						 // tiles.splice(i, 1);
+						 // i--;
 					 }
 				 }
 			 }
