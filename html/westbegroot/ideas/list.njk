@@ -84,11 +84,12 @@
 			</ul>
 			<div class="divider"></div>
 			<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
-				<option value="0">Filter op gebied</option>
+				<option value="0">Alle gebieden</option>
 				<option value="Oud-West">Oud-West</option>
 				<option value="Bos en Lommer">Bos en Lommer</option>
 				<option value="De Baarsjes">De Baarsjes</option>
 				<option value="Westerpark">Westerpark</option>
+				<option value="West Algemeen">West Algemeen</option>
 			</select>
 			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
 		</div>
@@ -190,7 +191,12 @@
 		 activeFilter = which;
 		 document.cookie = 'plannenActiveFilter=' + activeFilter;
 		 document.getElementById('filterSelector').selectedIndex = activeFilter;
-		 updateDisplay();
+		 if (document.getElementById('filterSelector').selectedIndex == '0') {
+			 document.getElementById('filterSelector').options[0].innerHTML = 'Filter op gebied';
+		 } else {
+			 document.getElementById('filterSelector').options[0].innerHTML = 'Alle gebieden';
+		 }
+	 updateDisplay();
 	 }
 
 	 function deactivateAll() {

@@ -133,14 +133,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 				} catch(err) {}
 				let newValue = {};
 				let configExtraData = config.ideas && config.ideas.extraData;
-				Object.keys(configExtraData).forEach((key) => {
-					if (configExtraData[key].allowNull === false && typeof value[key] === 'undefined') { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
-						throw Error(`${key} is niet ingevuld`);
-					}
-					if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
-						newValue[key] = value[key];
-					}
-				});
+				if (configExtraData) {
+					Object.keys(configExtraData).forEach((key) => {
+						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+							// zie validExtraData hieronder
+							// throw db.sequelize.ValidationError(`${key} is niet ingevuld`);
+						}
+						if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
+							newValue[key] = value[key];
+						}
+					});
+				}
 				this.setDataValue('extraData', newValue);
 			}
 		},
@@ -205,6 +208,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 			validModBreak: function() {
 				if( this.modBreak && (!this.modBreakUserId || !this.modBreakDate) ) {
 					throw Error('Incomplete mod break');
+				}
+			},
+			validExtraData: function() {
+				let error = false
+				let value = this.extraData || {}
+				let newValue = {};
+				let configExtraData = config.ideas && config.ideas.extraData;
+				if (configExtraData) {
+					Object.keys(configExtraData).forEach((key) => {
+						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+							error = `${key} is niet ingevuld`;
+						}
+					});
+				}
+				if (error) {
+					throw Error(error);
 				}
 			}
 		},
@@ -410,8 +429,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			updateImages: function( imageKeys, extraData ) {
-				console.log('====================');
-				console.log(imageKeys, extraData);
 				var self = this;
 				if( !imageKeys || !imageKeys.length ) {
 					imageKeys = [''];

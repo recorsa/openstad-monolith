@@ -49,16 +49,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 				} catch(err) {}
 				let newValue = {};
 				let configExtraData = config.images && config.images.extraData;
-				Object.keys(configExtraData).forEach((key) => {
-					if (configExtraData[key].allowNull === false && typeof value[key] === 'undefined') { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
-						throw Error(`${key} is niet ingevuld`);
-					}
-					if (typeof value[key] == 'number') { // TODO: alles is nu int, maar dit is natuurlijk veel te simpel
-						newValue[key] = value[key];
-					}
-				});
-				console.log('==');
-				console.log(newValue);
+				if (configExtraData) {
+					Object.keys(configExtraData).forEach((key) => {
+						if (configExtraData[key].allowNull === false && typeof value[key] === 'undefined') { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+							throw Error(`${key} is niet ingevuld`);
+						}
+						if (typeof value[key] == 'number') { // TODO: alles is nu int, maar dit is natuurlijk veel te simpel
+							newValue[key] = value[key];
+						}
+					});
+				}
 				this.setDataValue('extraData', newValue);
 			}
 		},

@@ -104,7 +104,7 @@ module.exports = function( app ) {
 			}
 		})
 		.get(function( req, res ) {
-			if (req.query.introread) {
+			if (req.query.introread || !config.ideas || !config.ideas.showFormIntro ) {
 				var help = req.query.help;
 				res.out('ideas/form', false, {
 					showHelp				: help != undefined ? !!Number(help) : true,
@@ -124,7 +124,7 @@ module.exports = function( app ) {
 		.post(function( req, res, next ) {
 			req.body.location = JSON.parse(req.body.location || null);
 
-			if (config.ideas.image.isMandatory && ( !req.body.images || req.body.images == 0 )) {
+			if (config.ideas && config.ideas.image && config.ideas.image.isMandatory && ( !req.body.images || req.body.images == 0 )) {
 				req.flash('error', 'Je hebt geen ontwerp toegevoegd');
 				return res.out('ideas/form', false, {
 					showForm				: true,
@@ -174,7 +174,7 @@ module.exports = function( app ) {
 		.put(function( req, res, next ) {
 			req.body.location = JSON.parse(req.body.location || null);
 
-			if (config.ideas.image.isMandatory && ( !req.body.images || req.body.images == 0 )) {
+			if (config.ideas && config.ideas.image && config.ideas.image.isMandatory && ( !req.body.images || req.body.images == 0 )) {
 				req.flash('error', 'Je hebt geen ontwerp toegevoegd');
 				return res.out('ideas/form', false, {
 					showForm				: true,
@@ -190,6 +190,7 @@ module.exports = function( app ) {
 					res.success('/plan/'+idea.id, {idea: idea});
 				})
 				.catch(function( error ) {
+					console.log('???');
 					if( error instanceof db.sequelize.ValidationError ) {
 						error.errors.forEach(function( error ) {
 							// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
@@ -756,7 +757,7 @@ function sendThankYouMail( req, idea ) {
 	
 	mail.sendMail({
 		to          : req.user.email,
-		subject     : config.ideas.feedbackEmail.subject || 'Bedankt voor je voorstel',
+		subject     : (config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject) || 'Bedankt voor je voorstel',
 		html        : html,
 		text        : text,
 		attachments : attachments,

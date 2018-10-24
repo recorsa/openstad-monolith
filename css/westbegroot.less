@@ -463,6 +463,8 @@ header {
 			left: 0;
 			width: 30px;
 			height: 30px;
+			background-position: 0 0;
+			background-size: 30px 30px;
 			background-image: url(/img/stemtool/check.svg);
 			background-repeat: no-repeat;
 		}
@@ -1612,4 +1614,33 @@ ul.arrowed-link {
 		text-decoration: none;
 	}
 
+}
+
+.form-info, .form-warning {
+	position: relative;
+	margin: -16px 0 10px 30px;
+	padding: 0;
+
+	&:before {
+		position: absolute;
+		top: 0px;
+		left: -30px;
+		width: 30px;
+		height: 30px;
+		content: "";
+		background-position: 0px 0px;
+		background-size: 20px 22px;
+		background-repeat: no-repeat;
+		background-image: url('/img/info-pin.svg');
+	}
+}
+
+.form-warning {
+	display: none;
+	margin-bottom: -4px;
+	font-size: 14px;
+	color: red;
+	&:before {
+		background-image: url('/img/attention.svg');
+	}
 }

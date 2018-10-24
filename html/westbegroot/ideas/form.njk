@@ -63,17 +63,20 @@
 					<input type="hidden" id="extraData" name="extraData" value=""><br>
 					
 					<h2>Gebied</h2>
+					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor West Algemeen.</div>
 					<select id="gebied" value="{% if idea.extraData %}{{idea.extraData.gebied}}{% endif %}">
-						<option value="">West</option>
+						<option value="">Kies gebied</option>
 						<option value="Bos en Lommer" {% if (idea.extraData) and (idea.extraData.gebied == "Bos en Lommer") %}selected{% endif %}>Bos en Lommer</option>
 						<option value="De Baarsjes" {% if (idea.extraData) and (idea.extraData.gebied == "De Baarsjes") %}selected{% endif %}>De Baarsjes</option>
 						<option value="Oud-West" {% if (idea.extraData) and (idea.extraData.gebied == "Oud-West") %}selected{% endif %}>Oud-West</option>
 						<option value="Westerpark" {% if (idea.extraData) and (idea.extraData.gebied == "Westerpark") %}selected{% endif %}>Westerpark</option>
+						<option value="West Algemeen" {% if (idea.extraData) and (idea.extraData.gebied == "West Algemeen") %}selected{% endif %}>West Algemeen</option>
 					</select>
 					<br>
 					
 					<h2>Thema</h2>
 					<select id="thema" value="{% if idea.extraData %}{{idea.extraData.thema}}{% endif %}">
+						<option value="">Kies thema</option>
 						<option value="Groen" {% if (idea.extraData) and (idea.extraData.thema == "Groen") %}selected{% endif %}>Groen en Openbare ruimte</option>
 						<option value="Diversiteit & Inclusiviteit" {% if (idea.extraData) and (idea.extraData.thema == "Diversiteit & Inclusiviteit") %}selected{% endif %}>Diversiteit en Inclusiviteit</option>
 						<option value="Duurzaam" {% if (idea.extraData) and (idea.extraData.thema == "Duurzaam") %}selected{% endif %}>Duurzaam</option>
@@ -88,14 +91,16 @@
 				
 				<div id="description">
 					<h2>Beschrijving</h2>
-					Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
-					<ul>
-						<li>Wat is het verhaal achter jouw plan?</li>
-						<li>Waarom past dit plan goed bij het thema dat je geselecteerd hebt? </li>
-						<li>Is het een plan dat je zelf wil uitvoeren, een organisatie of de gemeente? </li>
-						<li>Wat wil je ermee bereiken? </li>
-						<li>Draag argumenten aan om mensen uit West te overtuigen op jouw plan te stemmen.</li>
-					</ul>
+					<div class="form-info">
+						Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
+						<ul>
+							<li>Wat is het verhaal achter jouw plan?</li>
+							<li>Waarom past dit plan goed bij het thema dat je geselecteerd hebt?</li>
+							<li>Is het een plan dat je zelf wilt uitvoeren, of moet het door een organisatie of de gemeente uitgevoerd worden?</li>
+							<li>Wat wil je ermee bereiken?</li>
+							<li>Draag argumenten aan om mensen uit West te overtuigen op jouw plan te stemmen. Je plan heeft minimaal 50 stemmen nodig om door te gaan naar de volgende fase.</li>
+						</ul>
+					</div>
 					{% if useModernEditor %}
 						<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
 						
@@ -152,7 +157,7 @@
 				
 				<div id="location">
 					<h2>Locatie</h2>
-					Klik op de kaart om een vlaggetje bij jouw locatie te plaatsen..<br>
+					<div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.</div>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
 						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
@@ -295,7 +300,7 @@
 		<script>
 		 // Summary
 		 // -------
-		 var maxLen    = {{summaryMaxLength}};
+						var maxLen    = {{summaryMaxLength}};
 		 var textarea  = document.querySelector('textarea[name="summary"]');
 		 var charsLeft = document.querySelector('#charsLeft span');
 		 
