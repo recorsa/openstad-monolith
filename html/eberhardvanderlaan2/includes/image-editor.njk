@@ -24,6 +24,11 @@
 
 	 function initImageEditor() {
 
+		 {% set acceptedMimeTypes = config.images.acceptedMimeTypes %}
+		 {% if not acceptedMimeTypes %}
+		 {% set acceptedMimeTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'] %}
+		 {% endif %}
+
 		 imageEditor.initCropper = function(file) {
 
 			 el.style.display = 'none';
@@ -271,6 +276,8 @@
 			 thumbnailWidth       : 1800,
 			 thumbnailHeight      : null,
 
+			 acceptedFiles        : '{{acceptedMimeTypes}}'.replace('jpg', 'jpeg'),
+
 			 init: function(x) {
 				 // todo: in de colde elders kunnen dit er meer zijn, maar hier is het er maar 1
 				 let imageElem = form.querySelector('input[name="{{imageFieldName}}"]')
@@ -498,8 +505,6 @@
 		 }
 
 	 }
-
-
 
 	 function handleTouchcancel(event) {
 		 // disable the standard ability to select the touched object

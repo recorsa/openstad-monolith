@@ -27,6 +27,7 @@ function initCharactersLeft(target, contentDiv, minLen, maxLen) {
 		console.log(target.value.length);
 
 		var value = target.value || '';
+		value = value.trim();
 
 		var num_newlines = value.split("\n").length - 1;
 		var len = value.length + num_newlines;
