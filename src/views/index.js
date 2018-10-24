@@ -11,7 +11,7 @@ var views = {
 			var processed = view(req, res, data);
 			res.json(processed);
 		} else {
-			res.json(data);
+			res.json(data || {});
 		}
 	}
 };

@@ -39,8 +39,12 @@ module.exports = function( app ) {
 				}
 				let allowed = acceptedMimeTypes.slice(0,acceptedMimeTypes.length - 1).join(', ') + ' of ' + acceptedMimeTypes[acceptedMimeTypes.length-1];
 				return next(createError(415, `Dit bestandstype is niet toegestaan. Upload een afbeelding in ${allowed} formaat.`));
+			} else if (file.buffer.length > 8084883 ) {
+				return next(createError(415, `Het bestand is te groot. De maximale bestandsgrootte is 8MB.`));
 			} else {
+				console.log(file.buffer.length);
 				db.Image.create({
+					
 					userId   : req.user.id,
 					key      : req.body.key,
 					mimeType : file.mimetype,
@@ -68,3 +72,4 @@ function isValidMimeType( mimeType ) {
 	}
 
 }
+
