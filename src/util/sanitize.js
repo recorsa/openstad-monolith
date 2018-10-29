@@ -46,7 +46,8 @@ var allSafeTags = {
 
 module.exports = {
 	title: function( text ) {
-		return sanitize(text, noTags);
+		// TODO: de replace is natuurlijk belachelijk, maar ik heb nergens een combi kunnen vinden waarin sanatize en nunjucks dit fatsoenlijk oplossen. Ik denk dat de weergaven van title naar |safe moeten, want ze zijn toch gesanatized, maar daar heb ik nu geen tijd voor
+		return sanitize(text, noTags).replace('&amp;', '&');
 	},
 	summary: function( text ) {
 		return sanitize(text, noTags);

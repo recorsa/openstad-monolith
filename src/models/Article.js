@@ -40,7 +40,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
 			set          : function( text ) {
-				this.setDataValue('title', sanitize.noTags(text));
+				console.log('--------------------');
+				console.log(text);
+				console.log(sanitize.noTags(text));
+				this.setDataValue('title', sanitize.title(text));
 			}
 		},
 
