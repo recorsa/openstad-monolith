@@ -24,7 +24,6 @@ class IdeasWidget extends HTMLElement {
 
 	fetch() {
 		let self = this;
-		let href = this.getAttribute('href') || '';
 
 		// TODO: fetch is too modern, so change or polyfill
 		// TODO: CORS
@@ -43,32 +42,8 @@ class IdeasWidget extends HTMLElement {
 
 				console.log('Request succeeded with JSON response', json);
 
-				json.forEach(idea => {
-
-					var template = self.shadowRoot.querySelector('#idea-template').content.cloneNode(true);
-					
-					template.querySelector('idea').id = idea.id;
-					template.querySelector('a').href = href.replace(/\[\[id\]\]/g, idea.id);
-					
-					template.querySelector('idea-title').innerHTML = idea.title;
-					template.querySelector('idea-summary').innerHTML = idea.summary;
-					template.querySelector('idea-counters').innerHTML = `${idea.yes}, ${idea.no}, ${idea.argCount}`;
-
-					// temp, want moet beter
-					let imagesElement = document.createElement('idea-images');
-					idea.posterImage && idea.posterImage.forEach( image => {
-						let imageElement = document.createElement('idea-image');
-						let imageDiv = document.createElement('div');
-						imageDiv.style.backgroundImage  = `url({{imageUrl}}/image/${image.key})`
-						imageElement.appendChild(imageDiv);
-						imagesElement.appendChild(imageElement)
-					});
-					template.querySelector('idea-images').innerHTML = imagesElement.innerHTML;
-					
-
-					self.shadowRoot.querySelector('ideas-list').appendChild(template)
-
-				})
+				self.data = json;
+				self.render(json)
 
 			})
 			.catch(function (error) {
@@ -76,6 +51,44 @@ class IdeasWidget extends HTMLElement {
 			});
 	}
 
+	render(data) {
+
+		let self = this;
+		let href = this.getAttribute('href') || '';
+
+		data.forEach(idea => {
+
+			var template = self.shadowRoot.querySelector('#idea-template').content.cloneNode(true);
+			
+			template.querySelector('idea').id = idea.id;
+			template.querySelector('a').href = href.replace(/\[\[id\]\]/g, idea.id);
+			
+			template.querySelector('idea-title').innerHTML = idea.title;
+			template.querySelector('idea-summary').innerHTML = idea.summary;
+			template.querySelector('idea-counters').innerHTML = `${idea.yes}, ${idea.no}, ${idea.argCount}`;
+
+			// temp, want moet beter
+			let imagesElement = document.createElement('idea-images');
+			idea.posterImage && idea.posterImage.forEach( image => {
+				let imageElement = document.createElement('idea-image');
+				let imageDiv = document.createElement('div');
+				imageDiv.style.backgroundImage  = `url({{imageUrl}}/image/${image.key})`
+				imageElement.appendChild(imageDiv);
+				imagesElement.appendChild(imageElement)
+			});
+			template.querySelector('idea-images').innerHTML = imagesElement.innerHTML;
+			
+
+			self.shadowRoot.querySelector('ideas-list').appendChild(template)
+
+		})
+
+		if (self.getAttribute('afterRenderCallback')) {
+			eval(`${self.getAttribute('afterRenderCallback')}(self)`);
+		}
+
+	}
+	
 }
 
 customElements.define('ideas-widget', IdeasWidget);
