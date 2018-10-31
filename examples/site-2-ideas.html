@@ -19,7 +19,12 @@
 			<openstad-map-widget fetch-markers-url="/api/site/2/idea?mapMarkers=true" icon-href="/examples/site-2-idea.html?id=[[id]]"></openstad-map-widget>
 
 			<script src="/widget/site/2/ideas?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
-			<ideas-widget href="/examples/site-2-idea.html?id=[[id]]">
+			<script>
+			 function testAfterRenderCallback() {
+				 console.log('======= afterRenderCallback')
+			 }
+			</script>
+			<ideas-widget href="/examples/site-2-idea.html?id=[[id]]" afterRenderCallback="testAfterRenderCallback()">
 				loading ideas...
 				<span slot="title"><h2>Plannen</h2></span>				
 			</ideas-widget>

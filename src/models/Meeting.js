@@ -22,7 +22,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			scopes: function() {
 
-				let siteScope;
+				let siteScope = {};
 				if (config.siteId && typeof config.siteId == 'number') {
 					siteScope = {
 						where: {

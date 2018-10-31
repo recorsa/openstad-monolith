@@ -83,6 +83,8 @@ class IdeasWidget extends HTMLElement {
 
 		})
 
+		console.log('xxxx');
+		console.log(self.getAttribute('afterRenderCallback'))
 		if (self.getAttribute('afterRenderCallback')) {
 			eval(`${self.getAttribute('afterRenderCallback')}(self)`);
 		}
