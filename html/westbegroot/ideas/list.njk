@@ -11,9 +11,11 @@
 		<div id="mapcontainer">
 			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
 		</div>
+		<!--
 		<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
 			Stuur je plan in!
 		</a>
+		-->
 		{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
 	</div>
 {% endblock %}
@@ -42,8 +44,10 @@
 		 document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
 		 document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
 	 } else {
-		 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen kon t/m ' + endDateText1;
-		 document.getElementById('number-plates-1').style.display = 'none';
+		 document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen kon t/m ' + endDateText1 + ': ';
+		 document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
+		 document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
+		 document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
 	 }
 	</script>
 

@@ -61,7 +61,9 @@
 						<a href="/account" id="account" data-initials="">Mijn account</a>
 					{% endif %}
 
-					<a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur je plan in</a>
+					<!--
+							 <a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur je plan in</a>
+					-->
 
 				</div>
 			</nav>
@@ -220,19 +222,19 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-										(function() {
-											var closeButtons = Array.prototype.slice.call(
-												document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-											);
-											closeButtons.forEach(function( a ) {
-												a.href = '';
-												a.addEventListener('click', function( event ) {
-													var message = a.parentNode;
-													message.parentNode.removeChild(message);
-													event.preventDefault();
+											(function() {
+												var closeButtons = Array.prototype.slice.call(
+													document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+												);
+												closeButtons.forEach(function( a ) {
+													a.href = '';
+													a.addEventListener('click', function( event ) {
+														var message = a.parentNode;
+														message.parentNode.removeChild(message);
+														event.preventDefault();
+													});
 												});
-											});
-										})();
+											})();
 		</script>
 		
 		{% block scripts %}{% endblock %}
