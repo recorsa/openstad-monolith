@@ -79,7 +79,9 @@ class IdeaWidget extends HTMLElement {
 		self.setAttribute('testValue', 'after')
 
 		if (self.getAttribute('afterRenderCallback')) {
-			eval(`${self.getAttribute('afterRenderCallback')}(self)`);
+			try {
+				eval(`${self.getAttribute('afterRenderCallback')}(self)`);
+			} catch(err) {}
 		}
 
 	}

@@ -11,7 +11,6 @@ class IdeasWidget extends HTMLElement {
 		let self = this;
 
 		if (self.getAttribute('data-css')) {
-			console.log('extra CSS')
 			let link = document.createElement('link');
 			link.rel = "stylesheet";
 			link.type = "text/css";
@@ -40,7 +39,7 @@ class IdeasWidget extends HTMLElement {
 			})
 			.then(function (json) {
 
-				console.log('Request succeeded with JSON response', json);
+				// console.log('Request succeeded with JSON response', json);
 
 				self.data = json;
 				self.render(json)
@@ -83,10 +82,10 @@ class IdeasWidget extends HTMLElement {
 
 		})
 
-		console.log('xxxx');
-		console.log(self.getAttribute('afterRenderCallback'))
 		if (self.getAttribute('afterRenderCallback')) {
-			eval(`${self.getAttribute('afterRenderCallback')}(self)`);
+			try {
+				eval(`${self.getAttribute('afterRenderCallback')}(self)`);
+			} catch(err) {}
 		}
 
 	}

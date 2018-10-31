@@ -241,7 +241,7 @@ class OpenStadMapWidget extends HTMLElement {
 
 		let self = this;
 
-		console.log('==', markers);
+		// console.log('==', markers);
 		if (!self.ready) {
 			self.todo.markers = markers;
 			return;
@@ -278,7 +278,7 @@ class OpenStadMapWidget extends HTMLElement {
 			marker.icon.clickable = true;
 		}
 
-		console.log(marker);
+		// console.log(marker);
 
 		var options = {
 			position    : marker.position && marker.position.coordinates ? { lat: marker.position.coordinates[0], lng: marker.position.coordinates[1] } : marker.position,
