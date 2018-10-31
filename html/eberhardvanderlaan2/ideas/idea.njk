@@ -80,7 +80,7 @@
 				
 				{{idea.description | safe | nl2br}}
 			</div>
-			
+
 		</div> <!-- #primary -->
 		
 		<div class="secondary">
@@ -120,6 +120,11 @@
 					<button type="submit" class="modBreak">Moderator reactie</button>
 				</form>
 
+			{% endif %}
+
+			{% if can('idea:admin') %}
+				<h4>Ingestuurd door</h4>
+				{{idea.user.fullName}} (<a href="mailto: {{idea.user.email}}">{{idea.user.email}}</a>)
 			{% endif %}
 
 		</div>
