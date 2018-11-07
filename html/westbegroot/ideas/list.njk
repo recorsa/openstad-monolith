@@ -70,8 +70,10 @@
 		 document.getElementById('end-date-number-plate-00-2').innerHTML = value00;
 		 document.getElementById('end-date-number-plate-0-2').innerHTML = value0;
 	 } else {
-		 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Stemmen kon t/m ' + endDateText2;
-		 document.getElementById('number-plates-2').style.display = 'none';
+		 document.getElementById('end-date-bar-start-text-2').innerHTML = 'Stemmen kon t/m ' + endDateText2 + ':';
+		 document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
+		 document.getElementById('end-date-number-plate-00-2').innerHTML = 0;
+		 document.getElementById('end-date-number-plate-0-2').innerHTML = 0;
 	 }
 	</script>
 {% endblock %}

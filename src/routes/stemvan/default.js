@@ -12,7 +12,7 @@ module.exports = function( app ) {
 			articles         : db.Article.getTilesForUser(user),
 			highlightedIdeas : db.Idea.getHighlighted(),
 			runningIdeas     : db.Idea.getRunning(),
-			upcomingMeetings : db.Meeting.getUpcoming()
+			upcomingMeetings : db.Meeting.getUpcoming(),
 		};
 		
 		Promise.props(data)
