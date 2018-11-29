@@ -119,6 +119,7 @@ module.exports = function( app ) {
 					useModernEditor : isModernBrowser(req),
 					csrfToken				: req.csrfToken()
 				});
+				
 			}
 		})
 		.post(function( req, res, next ) {
@@ -740,7 +741,7 @@ function sendThankYouMail( req, idea ) {
 			cid      : 'map'
 		}]
 	} else {
-		attachments = config.ideas.feedbackEmail.attachments || [{
+		attachments = ( config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments ) || [{
 			filename : 'logo.png',
 			path     : 'img/logo-gemeenteams-webapplicaties.png',
 			cid      : 'logo'
