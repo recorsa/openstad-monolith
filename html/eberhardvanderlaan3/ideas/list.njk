@@ -15,32 +15,32 @@
 	 csrfToken = '{{csrfToken}}';
 	</script>
 
-	<div id="end-date-bar">
-		<div id="ideas-anchor"></div>
-		<span id="end-date-bar-start-text" class="text"></span>
-		<span id="number-plates">
-			<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
-		</span>
-		<span id="end-date-bar-end-text" class="text"></span>
-	</div>
-	<script>
-	 if ( daysLeft > 0 ) {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kan t/m ' + endDateText + ': ';
-		 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
-		 var value000 = parseInt(daysLeft/100) || 0;
-		 var value00  = parseInt(daysLeft/10) - value000;
-		 var value0   = daysLeft - value000 * 100 - value00 * 10;
-		 document.getElementById('end-date-number-plate-00').innerHTML = value00;
-		 document.getElementById('end-date-number-plate-0').innerHTML = value0;
-	 } else {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kon t/m ' + endDateText;
-		 document.getElementById('end-date-number-plate-00').innerHTML = 0;
-		 document.getElementById('end-date-number-plate-0').innerHTML = 0;
-	 }
-	</script>
-
 	<div class="pageContent {{contentClass}}">
-		
+
+		<div id="end-date-bar">
+			<div id="ideas-anchor"></div>
+			<span id="end-date-bar-start-text" class="text"></span>
+			<span id="number-plates">
+				<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
+			</span>
+			<span id="end-date-bar-end-text" class="text"></span>
+		</div>
+		<script>
+		 if ( daysLeft > 0 ) {
+			 document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kan t/m ' + endDateText + ': ';
+			 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
+			 var value000 = parseInt(daysLeft/100) || 0;
+			 var value00  = parseInt(daysLeft/10) - value000;
+			 var value0   = daysLeft - value000 * 100 - value00 * 10;
+			 document.getElementById('end-date-number-plate-00').innerHTML = value00;
+			 document.getElementById('end-date-number-plate-0').innerHTML = value0;
+		 } else {
+			 document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kon t/m ' + endDateText;
+			 document.getElementById('end-date-number-plate-00').innerHTML = 0;
+			 document.getElementById('end-date-number-plate-0').innerHTML = 0;
+		 }
+		</script>
+
 		<div id="ideas" class="primary">
 			<h1>
 				Ingestuurde ontwerpen ({{runningIdeas.length}})
@@ -51,7 +51,7 @@
 				</select>
 			</h1>
 
-			{{ ideasList.showIdeasList(runningIdeas, user, userHasVoted, isAdmin) }}
+			{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
 
 		</div>
 

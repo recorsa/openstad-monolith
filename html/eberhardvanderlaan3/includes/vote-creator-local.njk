@@ -116,6 +116,14 @@
 	 for (var i=0; i<buttons.length; i++) {
 		 buttons[i].className += ' centered';
 	 }
+	 buttons = document.querySelectorAll('.vote-button-container.hasNotVoted');
+	 for (var i=0; i<buttons.length; i++) {
+		 buttons[i].className = buttons[i].className.replace('active', '');
+	 }
+	 buttons = document.querySelectorAll('.vote-button-container.hasVoted');
+	 for (var i=0; i<buttons.length; i++) {
+		 buttons[i].className += ' active';
+	 }
  }
 
  function setHasConfirmed() {

@@ -28,13 +28,12 @@ $(function() {
 var currentOverlay;
 function handleClick(event) {
 
-	console.log('CLICKED');
-
 	// search for the element clicked
   var target = event.target;
 	let isMouseOverLayer;
 	let ideaElement;
 	let button;
+
   while ( target.tagName != 'HTML' ) {
     if ( target.className.match(/gridder-mouse-over|info/) ) {
       isMouseOverLayer = target;

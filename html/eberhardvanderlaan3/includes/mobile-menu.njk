@@ -12,7 +12,7 @@
 			<img src="/img/eberhardvanderlaan2/mobiel-nav-ontwerpen.svg" style="width: 18px; height: 22px; min-width: 18px; min-height: 22px; transform: scale(1)" />
 			Ontwerpen
 		</a>
-		<a href="javascript: void (function() { if ( window.location.href.match(/\/stemmen[/?#]/) ) { showVoteCreator(); document.location.hash = 'vote-creator-anchor'; } else { window.location.href='/stemmen#vote-creator-anchor' }})()" class="mobile-menu-item scroll-link">
+		<a href="javascript: void (function() { if ( window.location.href.match(/\/stemmen(?:[/?#]|$)/) ) { console.log('xxx1'); showVoteCreator(); document.location.hash = 'vote-creator-anchor'; } else { console.log('xxx2'); window.location.href='/stemmen#vote-creator-anchor' }})()" class="mobile-menu-item scroll-link">
 			<img src="/img/eberhardvanderlaan3/mobiel-nav-stemmen.svg" style="width: 22px; height: 22px; min-width: 22px; min-height: 22px; transform: scale(1)" />
 			Stemmen
 		</a>

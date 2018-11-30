@@ -37,6 +37,7 @@ module.exports = function( app ) {
 				user             : req.user,
 				csrfToken        : req.csrfToken(),
 				isAdmin          : req.user.role == 'admin' ? true : '',
+				fullHost         : req.protocol+'://'+req.hostname
 			};
 
 			if (req.path.match(/\stemmen/)) {
