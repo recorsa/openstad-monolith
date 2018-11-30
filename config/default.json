@@ -86,6 +86,7 @@
 			"roles": "appName"
 		},
 		"sessions": {
+			"cookieName"   : "amsterdam.sid",
 			"onlySecure"   : true,
 			"secret"       : "e56789!ouAr-/t8ewHDyer90_",
 			// Default cookie is browser-session maxAge. This TTL is for logged in session

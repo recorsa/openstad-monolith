@@ -9,6 +9,7 @@ module.exports = function( helpers, role ) {
 		
 		'agenda:admin'     : false,
 		
+		'ideas:admin'      : false,
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
 		'idea:admin'       : false,

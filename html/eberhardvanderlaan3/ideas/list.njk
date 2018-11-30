@@ -15,7 +15,6 @@
 	 csrfToken = '{{csrfToken}}';
 	</script>
 
-
 	<div id="end-date-bar">
 		<div id="ideas-anchor"></div>
 		<span id="end-date-bar-start-text" class="text"></span>
@@ -52,7 +51,7 @@
 				</select>
 			</h1>
 
-			{{ ideasList.showIdeasList(runningIdeas, user, userHasVoted) }}
+			{{ ideasList.showIdeasList(runningIdeas, user, userHasVoted, isAdmin) }}
 
 		</div>
 
@@ -139,6 +138,14 @@
 		 setNextButton();
 
 	 }
+
+	 window.onload = function(){
+		 var match = window.location.search.match(/showIdea=(\d+)/);
+		 if (match) {
+			 document.querySelector('#idea-' + match[1]).click()
+		 };
+	 }
+
 	</script>
 
 {% endblock %}

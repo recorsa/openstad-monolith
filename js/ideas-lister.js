@@ -28,6 +28,8 @@ $(function() {
 var currentOverlay;
 function handleClick(event) {
 
+	console.log('CLICKED');
+
 	// search for the element clicked
   var target = event.target;
 	let isMouseOverLayer;

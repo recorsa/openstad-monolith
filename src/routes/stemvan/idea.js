@@ -36,6 +36,7 @@ module.exports = function( app ) {
 				userHasVoted     : req.user.hasVoted(),
 				user             : req.user,
 				csrfToken        : req.csrfToken(),
+				isAdmin          : req.user.role == 'admin' ? true : '',
 			};
 
 			if (req.path.match(/\stemmen/)) {
@@ -59,6 +60,15 @@ module.exports = function( app ) {
 	app.use('(/idea|/plan)', router);
 	
 	router.route('/:ideaId(\\d+)')
+	// some instance do not use the /idea/:id page but show the idea in the list only
+	// admins still need access vfor updates etc
+		.all(function( req, res, next ) {
+			if (config.ideas.onlyAdminsCanViewIdeaPage && req.user.role != 'admin') {
+				return res.redirect('/ideas');
+			} else {
+				return next();
+			}
+		})
 		.all(function( req, res, next ) {
 			// To be able to pass the user ID to the `withArguments` scope,
 			// we need to manually call the middleware created by `fetchIdea`.

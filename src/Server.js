@@ -128,7 +128,7 @@ module.exports  = {
 		var SequelizeStore = require('connect-session-sequelize')(session.Store);
 		var db             = require('./db');
 		this.app.use(session({
-			name              : 'amsterdam.sid',
+			name              : config.get('security.sessions.cookieName') || 'amsterdam.sid',
 			secret            : config.get('security.sessions.secret'),
 			proxy             : true, // Trust apache reverse proxy
 			resave            : false,

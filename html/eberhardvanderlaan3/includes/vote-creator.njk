@@ -173,16 +173,17 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							</div>
 							<div class="fields">
 								<div id="zipCode">
-									<label>Postcode: </label><span id="showZipCode3b"></span>
+									<label>Postcode: </label><span id="showZipCodeError"></span>
 								</div>
 								<div id="email">
-									<label>Emailadres:</label><span id="showEmail3b"></span>
+									<label>Emailadres:</label><span id="showEmailError"></span>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
+				<div style="height: 50px;"></div>
 				<div id="button-bar">
 					<div id="previous-button" onclick="previousStep();">
 						Vorige
@@ -229,6 +230,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 	 // last minute hardcoded ellende
 	 function previousStep() {
 		 hideStep(steps[currentStep]);
+		 hideStep({ barId: 'steps-bar-3', contentId: 'steps-content-error' }); // last minute hardcoded ellende
 		 currentStep = 0;
 		 var step = steps[currentStep];
 		 console.log(step)
@@ -253,11 +255,11 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		 updatePreview(document.querySelector(`#${step.contentId}`))
 	 }
 
-	 function setNextButton() {
+	 function setNextButton(showPrevious, hideNext) {
 		 var step = steps[currentStep];
 		 var isValid = step && step.validate ? steps[currentStep].validate() : true;
 		 if (steps[currentStep+1]) {
-			 if (isValid) {
+			 if (isValid && !hideNext) {
 				 activateNextButton()
 			 } else {
 				 deactivateNextButton()
@@ -267,7 +269,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		 }
 
 		 // last minute hardcoded ellende
-		 if (currentStep == 1) {
+		 if (currentStep == 1 || showPrevious) {
 			 document.querySelector('#previous-button').style.display = 'block';
 		 } else {
 			 document.querySelector('#previous-button').style.display = 'none';

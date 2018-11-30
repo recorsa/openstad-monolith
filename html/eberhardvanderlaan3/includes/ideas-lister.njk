@@ -1,6 +1,6 @@
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 
-{% macro showIdeasList(runningIdeas, user, userHasVoted) %}
+{% macro showIdeasList(runningIdeas, user, userHasVoted, isAdmin) %}
 
 	<!-- gridder: https://github.com/oriongunning/gridder -->
 	<script src="js/jquery-3.3.1.min.js"></script>
@@ -97,6 +97,9 @@
 				<h3 class="desktop">{{idea.title}}</h3>
 				<div class="summary">{{idea.summary}}</div>
 				<div class="description">{{idea.description | safe | nl2br}}</div>
+				{% if isAdmin %}
+					<div class="description"><a href="/plan/{{idea.id}}">Bewerk dit plan</a></div>
+				{% endif %}
 				<div class="share-spacer"></div>
 				<div class="share-buttons">
 					<div class="text">Deel dit ontwerp:</div>
