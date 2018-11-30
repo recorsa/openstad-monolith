@@ -150,8 +150,8 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 					<div class="checkmark-block-green">
 						<h4>Gelukt, je stem is opgeslagen!</h4>
 						</br>
-						Bedankt voor het stemmen. Hou deze website in de gaten voor<br/>
-						de uitslag. De uitslag wordt xxx gepubliceerd.
+						Bedankt voor het stemmen. Hou deze website<br/>
+						in de gaten voor de uitslag.
 					</div>
 				</div>
 
@@ -269,6 +269,13 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		 }
 
 		 // last minute hardcoded ellende
+		 if (currentStep == 1) {
+			 document.querySelector('#next-button').innerHTML = 'Verstuur';
+		 } else {
+			 document.querySelector('#next-button').innerHTML = 'Volgende';
+		 }
+
+		 // meer last minute hardcoded ellende
 		 if (currentStep == 1 || showPrevious) {
 			 document.querySelector('#previous-button').style.display = 'block';
 		 } else {
@@ -299,7 +306,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 	 setNextButton();
 	</script>
-		{% include "includes/vote-creator-local.njk" ignore missing %}
+	{% include "includes/vote-creator-local.njk" ignore missing %}
 
 {% endmacro %}
 

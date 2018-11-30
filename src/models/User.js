@@ -317,6 +317,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 					})
 			},
 
+			hasConfirmed: function() {
+				let self = this;
+				return db.Vote
+					.find({ where: { userId: self.id, confirmed: 1 }})
+					.then(vote => {
+						return vote ? true : false;
+					})
+			},
+
 			can: function( actionName /* [, resource...] */ ) {
 				var user = auth.user(this);
 				if( arguments.length > 1 ) {

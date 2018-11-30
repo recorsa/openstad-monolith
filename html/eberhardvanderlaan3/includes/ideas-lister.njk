@@ -79,17 +79,17 @@
 						</div>
 					</div>
 				</div>
-				<div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}" style="width: 187px; cursor: initial;">
-					{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes, '', '#bdd131')}}
-					<div class="vote-button" style="width: 93px; cursor: initial">
+				<div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}">
+					{{numberPlateButton.numberPlateButton('no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
+					<div class="vote-button" style="width: 130px; cursor: initial">
 						stemmen
 					</div>
 				</div>
 				<div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}" onclick="selectIdea({{idea.id}})">
+					{{numberPlateButton.numberPlateButton('no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
 					<div class="vote-button">
 						Stem op dit ontwerp
 					</div>
-					{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes, '', '#bdd131')}}
 				</div>
 			</div>
 			<div class="content">

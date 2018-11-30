@@ -755,11 +755,16 @@ and open the template in the editor.
 		.vote-button-container {
 
 			display: none;
-			width: 287px;
+			width: 320px;
 			height: 44px;
 			margin: 30px auto 0 auto;
 			cursor: pointer;
 
+			&.hasVoted {
+				width: 224px;
+				cursor: initial;
+			}
+			
 			&.active {
 				display: block;
 			}
@@ -773,20 +778,30 @@ and open the template in the editor.
 			
 			.vote-button {
 				float: left;
-				width: 193px;
+				width: 219px;
 				height: 43px;
-				margin-right: 2px;
 				padding: 11px;
 				font-size: 16px;
 				font-weight: 600;
 				line-height: 21px;
 				text-align: center;
-				background-color: @amsterdam-lightgreen;
+				background-color: @amsterdam-navyblue;
 				color: white;			
 				z-index: 1000;
 			}
 
-			.no-of-votes-for {
+			&.hasVoted {
+				.vote-button {
+					padding: 9px 11px 13px 11px;
+					font-size: 20px;
+					color: black;
+					background-color: @light-grey2;
+					border: 2px solid @amsterdam-navyblue;
+					border-left: none;
+				}
+			}
+
+			.no-of-votes-hasvoted {
 				float: left;
 			}
 
@@ -956,7 +971,7 @@ and open the template in the editor.
 		}
 
 		&.prev {
-			left: -90px;
+			left: -132px;
 			background-image: url(/img/prev-button-round.svg);
 
 			@media @phone {
@@ -971,7 +986,7 @@ and open the template in the editor.
 		}
 
 		&.next {
-			right: -90px;
+			right: -132px;
 			background-image: url(/img/next-button-round.svg);
 
 			@media @phone {
@@ -988,20 +1003,23 @@ and open the template in the editor.
 	}
 
 	.gridder-close {
-		display: none;
 		position: absolute;
-		top: 15px;
-		right: 15px;
-		width: 44px;
-		height: 44px;
+		top: 40px;
+		right: -115px;
+		width: 20px;
+		height: 20px;
 		background-size: cover;
 		background-repeat: no-repeat;
-		background-image: url(/img/close-button-red.svg);
+		background-image: url(/img/close-button-grey-on-transparent.svg);
 		cursor: pointer;
 		z-index: 20;
 		
 		@media @phone {
-			display: block;
+			top: 15px;
+			right: 0;
+			width: 44px;
+			height: 44px;
+			background-image: url(/img/close-button-red.svg);
 			right: 0;
 		}
 
@@ -1268,3 +1286,90 @@ and open the template in the editor.
 #share {
 	margin-bottom: 20px;
 }
+
+.no-of-votes-hasvoted,
+.no-of-votes-hasnotvoted {
+	position: relative;
+	float: left;
+  text-decoration: none;
+  display: block;
+  margin-right: 10px;
+  margin-bottom: 20px;
+	background-color: white;
+	border: 2px solid @amsterdam-navyblue;
+	border-right: 1px solid @amsterdam-navyblue;
+	height: 43px;
+
+	&:before {
+		position: absolute;
+		top: 18px;
+		left: 0px;
+		right: 0px;
+		height: 2px;
+		background-color: @amsterdam-lightgrey;
+		content: '';
+		z-index: 9;
+	}
+
+}
+
+.no-of-votes-hasvoted {
+	background-color: @light-grey2;
+}
+
+.no-of-votes-hasvoted {
+	margin-right: 0px;
+}
+
+.no-of-votes-hasvoted-content,
+.no-of-votes-hasnotvoted-content {
+  display: block;
+  padding: 0px;
+  text-decoration: none;
+}
+
+.no-of-votes-hasvoted-caption,
+.no-of-votes-hasnotvoted-caption {
+	display: none;
+}
+
+.no-of-locations-caption {
+	box-sizing: border-box;
+	float: left;
+	line-height: 31px;
+	margin-left: -5px;
+}
+
+.disabled .no-of-votes-hasvoted-content,
+.disabled .no-of-votes-hasnotvoted-content {
+	background-color: #bebebe;
+}
+
+.no-of-votes-hasvoted-content,
+.no-of-votes-hasnotvoted-content {
+	box-sizing: border-box;
+}
+
+.no-of-votes-hasvoted-content .number-plates,
+.no-of-votes-hasnotvoted-content .number-plates {
+	font-size: 0px;
+}
+
+.no-of-votes-hasvoted-content .number-plate,
+.no-of-votes-hasnotvoted-content .number-plate {
+	position: relative;
+	display: inline-block;
+  width: 29px;
+  height: 39px;
+	margin: 0;
+  padding: 2px 0 0 0;
+	font-size: 18px;
+  font-weight: 800;
+  line-height: 37px;
+	text-align: center;
+  color: black;
+	background-color: transparent;
+	border-right: 1px solid @amsterdam-navyblue;
+	z-index: 100;
+}
+

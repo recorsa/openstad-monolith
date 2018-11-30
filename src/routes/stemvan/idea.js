@@ -34,6 +34,7 @@ module.exports = function( app ) {
 				highlightedIdeas : db.Idea.getHighlighted(),
 				upcomingMeetings : db.Meeting.getUpcoming(),
 				userHasVoted     : req.user.hasVoted(),
+				userHasConfirmed : req.user.hasConfirmed(),
 				user             : req.user,
 				csrfToken        : req.csrfToken(),
 				isAdmin          : req.user.role == 'admin' ? true : '',

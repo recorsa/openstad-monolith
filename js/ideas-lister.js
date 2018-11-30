@@ -28,15 +28,16 @@ $(function() {
 var currentOverlay;
 function handleClick(event) {
 
+
 	// search for the element clicked
   var target = event.target;
-	let isMouseOverLayer;
+	let mouseOverLayer;
 	let ideaElement;
 	let button;
 
   while ( target.tagName != 'HTML' ) {
     if ( target.className.match(/gridder-mouse-over|info/) ) {
-      isMouseOverLayer = target;
+      mouseOverLayer = target;
     }
     if ( target.className.match(/button-more-info|button-vote/) ) {
       button = target;
@@ -47,6 +48,20 @@ function handleClick(event) {
     }
     target = target.parentNode || target.parentElement;
   }
+
+	let isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+	// on phone first click shows moseover, second acually shows something
+	if (isPhone) {
+		if (mouseOverLayer.className.match(/ showFirst/)) {
+			mouseOverLayer.className = mouseOverLayer.className.replace(' showFirst', '');
+			mouseOverLayer.style.display = 'none';
+		} else {
+			mouseOverLayer.className += ' showFirst';
+			event.stopPropagation()
+			event.stopImmediatePropagation()
+			return;
+		}
+	}
 
   if ( ideaElement && button ) {
 
@@ -63,7 +78,7 @@ function handleClick(event) {
 				selectIdea(match[1])
 
 				// cancel gridder
-				if (isMouseOverLayer) {
+				if (mouseOverLayer) {
 					event.stopPropagation()
 					event.stopImmediatePropagation()
 				}
@@ -74,7 +89,7 @@ function handleClick(event) {
 	}
 
 	// cancel gridder
-	// if (isMouseOverLayer) {
+	// if (mouseOverLayer) {
 	//  	event.stopPropagation()
 	//  	event.stopImmediatePropagation()
 	// }

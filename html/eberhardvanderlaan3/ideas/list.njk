@@ -82,7 +82,7 @@
 	 var zipCode	    = '{{user.zipCode}}'     || openstadGetCookie('zipCode')	    || '';
 	 var email		    = '{{user.email}}'	     || openstadGetCookie('email')		    || '';
 	 var hasVoted     = {{userHasVoted}}       || openstadGetCookie('hasVoted')     || '';
-	 var hasConfirmed =                           openstadGetCookie('hasConfirmed') || '';
+	 var hasConfirmed = {{userHasConfirmed}}   || openstadGetCookie('hasConfirmed') || '';
 
 	 // tmp
 	 // var match = window.location.search.match(/stepNo=(\d+)/);
