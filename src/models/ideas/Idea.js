@@ -317,8 +317,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 						idea.ranking = rank;
 						rank++;
 					});
-					return sort == 'ranking' ? ranked : ideas;
-				});
+					return sort == 'ranking' ? ranked : ( sort == 'rankinginverse' ? ranked.reverse() : ideas );
+				}).then((ideas) => {
+					if (sort != 'random') return ideas;
+					let randomized = ideas.slice();
+					randomized.forEach(idea => {
+						idea.random = Math.random();
+					});
+					randomized.sort( (a, b) => b.random - a.random );
+					return randomized;
+				})
 			},
 			getHistoric: function() {
 				return this.scope('summary').findAll({
@@ -349,7 +357,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 				       this.status === 'BUSY'
 			},
 
+			// standaard stemvan
 			addUserVote: function( user, opinion, ip ) {
+
 				var data = {
 					ideaId  : this.id,
 					userId  : user.id,
@@ -377,6 +387,37 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return result && !!result.deletedAt;
 				});
 			},
+
+			// stemtool stijl, voor eberhard3 - TODO: werkt nu alleen voor maxChoices = 1;
+			setUserVote: function( user, opinion, ip ) {
+				let self = this;
+				if (config.votes && config.votes.maxChoices) {
+
+					return db.Vote.find({ where: { userId: user.id } })
+						.then( vote => {
+							if (vote) {
+								if (config.votes.switchOrError == 'error') throw new Error('Je hebt al gestemd'); // waarmee de default dus switch is
+								return vote
+									.update({ ideaId: self.id, ip, confirmed: 0 })
+									.then(vote => true)
+							} else {
+								return db.Vote.create({
+									ideaId  : self.id,
+									userId  : user.id,
+									opinion : opinion,
+									ip      : ip
+								})
+									.then(vote => { return false })
+							}
+						})
+						.catch( err => { throw err } )
+
+				} else {
+					throw new Error('Idea.setUserVote: missing params');
+				}
+				
+			},
+
 			addUserArgument: function( user, data ) {
 				var filtered = pick(data, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']);
 				filtered.ideaId = this.id;
@@ -465,7 +506,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 	function scopes() {
 		// Helper function used in `withVoteCount` scope.
 		function voteCount( opinion ) {
-			return [sequelize.literal(`
+			if (config.votes && config.votes.confirmationRequired) {
+				return [sequelize.literal(`
+				(SELECT
+					COUNT(*)
+				FROM
+					votes v
+				WHERE
+          v.confirmed = 1 AND 
+					v.deletedAt IS NULL AND (
+						v.checked IS NULL OR
+						v.checked  = 1
+					) AND
+					v.ideaId     = idea.id AND
+					v.opinion    = "${opinion}")
+			`), opinion];
+			} else {
+				return [sequelize.literal(`
 				(SELECT
 					COUNT(*)
 				FROM
@@ -478,6 +535,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					v.ideaId     = idea.id AND
 					v.opinion    = "${opinion}")
 			`), opinion];
+			}
 		}
 		function argCount( fieldName ) {
 			return [sequelize.literal(`
@@ -500,7 +558,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						voteCount('no'),
 						argCount('argCount')
 					],
-					exclude: ['description', 'modBreak']
+					exclude: ['modBreak']
 				}
 			},
 			withUser: {

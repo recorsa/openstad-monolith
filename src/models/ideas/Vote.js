@@ -10,6 +10,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.INTEGER,
 			allowNull    : false
 		},
+		confirmed: {
+			type         : DataTypes.BOOLEAN,
+			allowNull    : true,
+			defaultValue : null
+		},
 		ip: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true,

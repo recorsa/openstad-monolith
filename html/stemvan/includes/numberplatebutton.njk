@@ -1,10 +1,10 @@
-{% macro numberPlateButton(name, caption, value, href) %}
+{% macro numberPlateButton(name, caption, value, href, color="#004699") %}
 	{% if href %}
 		<a href="/plannen" class="{{name}}">
 	{% else %}
 			<div class="{{name}}">
 	{% endif %}
-	<div class="{{name}}-content">
+	<div class="{{name}}-content" style="background-color: {{color}}">
 		<div class="number-plates">
 			<div id="{{name}}-number-plate-000" class="number-plate"> 0 </div>
 			<div id="{{name}}-number-plate-00" class="number-plate"> 0 </div>

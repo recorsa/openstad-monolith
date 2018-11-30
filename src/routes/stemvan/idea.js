@@ -15,29 +15,36 @@ var util         = require('../../util')
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.route('(/ideas|/plannen)')
+	app.route('(/ideas|/plannen|/stemmen)')
 		.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 		.get(function( req, res, next ) {
 			// Figure out idea sorting, and store in the user's session.
-			var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') ||
-		      req.cookies['idea_sort'];
-			if( sort ) {
-				res.cookie('idea_sort', sort, {
-					expires: 0
-				});
-			}
-
+			var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || req.cookies['idea_sort'] || config.ideas.defaultSort;
+			res.cookie('idea_sort', sort, {
+				expires: 0
+			});
 			var extraScopes = [];
 			if (config.siteId == 'zorggoedvooronzestad2') {
-				extraScopes = ['withUser'];
+				extraScopes.push('withUser');
 			}
-			
+
 			var data = {
 				sort             : sort,
 				runningIdeas     : db.Idea.getRunning(sort, extraScopes),
 				highlightedIdeas : db.Idea.getHighlighted(),
-				upcomingMeetings : db.Meeting.getUpcoming()
+				upcomingMeetings : db.Meeting.getUpcoming(),
+				userHasVoted     : req.user.hasVoted(),
+				user             : req.user,
+				csrfToken        : req.csrfToken(),
 			};
+
+			if (req.path.match(/\stemmen/)) {
+				data.stepNo   = '';
+				data.ideaId   = '';
+				data.zipCode  = '';
+				data.email    = '';
+				data.hasVoted = '';
+			}
 			
 			Promise.props(data)
 				.then(function( result ) {
@@ -191,7 +198,6 @@ module.exports = function( app ) {
 					res.success('/plan/'+idea.id, {idea: idea});
 				})
 				.catch(function( error ) {
-					console.log('???');
 					if( error instanceof db.sequelize.ValidationError ) {
 						error.errors.forEach(function( error ) {
 							// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
@@ -231,6 +237,7 @@ module.exports = function( app ) {
 	// via the POST error handler. After the user submits his zipcode,
 	// a new anonymous member is created, and the normal POST handler
 	// is called.
+	// Addendum: 'zipCode' is now 'required fields' from the config
 	router.route('/:ideaId/vote')
 		.all(fetchIdea())
 		.all(auth.can('idea:vote'))
@@ -238,13 +245,19 @@ module.exports = function( app ) {
 			if( err.status != 403 || !req.idea.isOpen() ) {
 				return next(err);
 			}
-			
-			var zipCode        = req.body.zipCode;
+
+			var complete = true;
+			var userValues = {};
+			config.votes.requiredUser.fields.forEach((field) => {
+				if (req.body[field.name]) userValues[field.name] = req.body[field.name];
+				else complete = false;
+			});
+
+			var findUser = false;
 			var newUserCreated = false;
-			
-			if( zipCode ) {
-				// Register a new anonymous member and continue with the normal request.
-				newUserCreated = db.User.registerAnonymous(zipCode)
+
+			if( complete ) {
+				newUserCreated = db.User.registerAnonymous(userValues)
 					.then(function( newUser ) {
 						req.setSessionUser(newUser.id);
 						req.user = newUser;
@@ -261,18 +274,48 @@ module.exports = function( app ) {
 							next(error);
 						}
 					});
+				if (config.votes && config.votes.maxChoices) {
+					// in de eberhard3  versie kun je een stem aanpassen
+					// Register a new anonymous member and continue with the normal request.
+					findUser = db.User.find({ where: { email: userValues.email } })
+						.then(user => {
+							if (user) {
+								req.setSessionUser(user.id);
+								req.user = user;
+								// temp hardcoded ellende
+								if (req.body.zipCode) {
+									req.user.update({zipCode: req.body.zipCode})
+								}
+								next();
+								return true;
+							} else {
+								return newUserCreated;
+							}
+						})
+						.catch(function( error ) {
+							if( error instanceof db.sequelize.ValidationError ) {
+								error.errors.forEach(function( error ) {
+									req.flash('error', error.message);
+								});
+								return false;
+							} else {
+								next(error);
+							}
+						});
+				}
 			}
-			
-			Promise.resolve(newUserCreated)
-				.then(function( newUserCreated ) {
-					if( newUserCreated ) return;
+
+			Promise.resolve(findUser || newUserCreated)
+				.then(function( userDone ) {
+					if( userDone ) return;
 					
 					res.format({
 						html: function() {
 							res.out('ideas/enter_zipcode', false, {
+								config,
 								csrfToken : req.csrfToken(),
 								opinion   : getOpinion(req),
-								zipCode   : zipCode
+								values    : userValues
 							});
 						},
 						json: function() {
@@ -287,17 +330,37 @@ module.exports = function( app ) {
 			var idea    = req.idea;
 			var opinion = getOpinion(req);
 			
-			idea.addUserVote(user, opinion, req.ip)
-				.then(function( voteRemoved ) {
-					req.flash('success', !voteRemoved ? 'Je hebt gestemd. Ga zo door!<br><br> Laat ook van de <a href="/plannen">andere plannen</a> weten wat je ervan vindt door te stemmen.' : 'Je stem is ingetrokken');
-					res.success('/plan/'+idea.id, function json() {
-						return db.Idea.scope('withVoteCount').findById(idea.id)
-							.then(function( idea ) {
-								return {idea: idea};
-							});
-					});
-				})
-				.catch(next);
+			// stemtool stijl, voor eberhard3 - TODO: werkt nu alleen voor maxChoices = 1;
+			if (config.votes && config.votes.maxChoices) {
+
+				idea.setUserVote(user, opinion, req.ip)
+					.then(function( isUpdate ) {
+						req.flash('success', (isUpdate ? 'Je stem is aangepast' : 'Je hebt gestemd') +  'We hebben je een email gestuurd. Bevestig je stem door op de link in email te klikken.');
+						res.success('/plan/'+idea.id, function json() {
+							return db.Idea.scope('withVoteCount').findById(idea.id)
+								.then(function( idea ) {
+									return {succes: { isUpdate }};
+								});
+						});
+						sendVoteConfirmationMail(req, req.idea);
+					})
+					.catch(next);
+
+			} else {
+
+				idea.addUserVote(user, opinion, req.ip)
+					.then(function( voteRemoved ) {
+						req.flash('success', voteRemoved ? 'Je stem is ingetrokken' : 'Je hebt gestemd. Ga zo door!<br><br> Laat ook van de <a href="/plannen">andere plannen</a> weten wat je ervan vindt door te stemmen.' );
+						res.success('/plan/'+idea.id, function json() {
+							return db.Idea.scope('withVoteCount').findById(idea.id)
+								.then(function( idea ) {
+									return {idea: idea};
+								});
+						});
+					})
+					.catch(next);
+
+			}
 		});
 	
 	// Create argument
@@ -691,7 +754,6 @@ function getOpinion( req ) {
 function isModernBrowser( req ) {
 	var agent = util.userAgent(req.get('user-agent'));
 	
-	// console.log(agent);
 	switch( agent.family.toLowerCase() ) {
 		case 'android':
 			return agent.satisfies('>= 4.4');
@@ -710,6 +772,43 @@ function isModernBrowser( req ) {
 		default:
 			return false;
 	}
+}
+
+function sendVoteConfirmationMail(req, idea) {
+
+	return passwordless.generateToken(req.user.id, `/stemmen?confirmed=true&ideaId=${req.params.ideaId}#vote-creator-anchor`)
+		.then(function( token ) {
+
+			var data    = {
+				date     : new Date(),
+				user     : req.user,
+				idea     : idea,
+				token    : token,
+				userId   : req.user.id,
+				fullHost : req.protocol+'://'+req.hostname
+			};
+
+			var html = nunjucks.render('email/confirm_vote.njk', data);
+
+			var text = htmlToText.fromString(html, {
+				ignoreImage              : true,
+				hideLinkHrefIfSameAsText : true,
+				uppercaseHeadings        : false
+			});
+
+			var attachments = config.ideas.confirmEmail.attachments;
+			
+			mail.sendMail({
+				to          : req.user.email,
+				subject     : 'Bevestig je stem',
+				html        : html,
+				text        : text,
+				
+				attachments : attachments,
+			});
+
+		});
+
 }
 
 function sendThankYouMail( req, idea ) {

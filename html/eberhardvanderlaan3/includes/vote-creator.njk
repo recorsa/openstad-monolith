@@ -1,0 +1,303 @@
+{#
+todo: steps zouden op id moeten, niet op nummer
+todo: showstep zou hidestep(current) moeten doen
+todo: ik ben begonnen met een generiek en een speciek deel maar het generieke deel is nog veel te specifiek
+#}
+
+{% macro showVoteCreator(openOrClosed, runningIdeas, user, userHasVoted) %}
+
+	{% set openOrClosed = 'closed' if not openOrClosed %}
+
+	<div class="pageContent {{contentClass}}">
+
+		<div id="vote-creator-anchor"></div>
+
+		<div id="vote-creator" class="{{openOrClosed}}">
+
+			{# TODO: naar config #}
+			<a id="vote-creator-button" href="javascript: void toggleVoteCreator()" style="outline: 0;">Stemmen<img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+			<script>
+			 function toggleVoteCreator() {
+				 // todo: real condition
+				 if (document.getElementById('vote-creator').className == 'open') {
+					 hideVoteCreator();
+				 } else if (document.getElementById('vote-creator').className == 'closed') {
+					 showVoteCreator();
+				 }
+			 }
+			 function showVoteCreator() {
+				 console.log('show')
+				 var doUpdateIdea = false;
+				 if (!document.getElementById('vote-creator').className.match('open')) {
+					 doUpdateIdea = true;
+				 }
+				 document.getElementById('vote-creator').className = 'open';
+				 if (ideaId && doUpdateIdea) selectIdea(ideaId, true);
+			 }
+			 function hideVoteCreator() {
+				 console.log('hide')
+				 document.getElementById('vote-creator').className = 'closed';
+			 }
+			</script>
+			
+			<div id="steps-bar">
+				<div id="steps-bar-1" class="step active">
+					<div class="content">1. Kies</div>
+				</div>
+				<div id="steps-bar-2" class="step">
+					<div class="content">2. Stem</div>
+				</div>
+				<div id="steps-bar-3" class="step">
+					<div class="content">3. Bevestig</div>
+				</div>
+			</div>
+			<div id="steps-content">
+
+				<div id="steps-content-1a" class="step active">
+					<div class="content">
+						Kies uit onderstaand overzicht jouw favoriete ontwerp voor de muurtekst ‘Zorg<br/>
+						goed voor onze stad en voor elkaar’, en vul in de volgende stap je gegevens in.
+						<input type="hidden" name="ideaId" value="">
+						<div class="preview-container" onclick="clickPreview(event)">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="preview-overlay" onclick="unSelectIdea(event)">
+								&times;
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="steps-content-2a" class="step">
+					<div class="content">
+						Vul hier je gegevens in. Wij willen graag weten waar de verschillende stemmen<br/>
+						vandaan komen, vul daarom ook je postcode in.
+						<div id="zipcode-and-email" class="form">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode">
+									<label>Postcode: </label>
+									<input type="text" name="zipCode" placeholder="1234AB" onchange="validateZipCode(true); setNextButton();"/>
+								</div>
+								<div id="email">
+									<label>Emailadres: </label>
+									<input type="text" name="email" placeholder="Emailadres" onchange="validateEmail(true); setNextButton();"/></br>
+								</div>
+								<div class="form-info">Je emailadres wordt alleen gebruikt om je stem te bevestigen.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="steps-content-3a" class="step">
+					<div class="content">
+						<h4 class="blue">Dankjewel voor je stem, je bent bijna klaar!</h4>
+						We hebben je een e-mail gestuurd zodat je je stem kunt bevestigen.
+						<div class="info-block">
+							Let op: pas na bevestiging is je stem geldig! Geen e-mail ontvangen? Bekijk of de e-mail in je spam-map terecht is gekomen.
+						</div>
+						<div id="zipcode-and-email">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode">
+									<label>Postcode: </label><span id="showZipCode3a"></span>
+								</div>
+								<div id="email">
+									<label>Emailadres:</label><span id="showEmail3a"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="steps-content-3c" class="step">
+					<div class="content">
+						<div id="zipcode-and-email">
+							<div class="preview" onclick="clickPreview(event)" style="margin-top: 0;">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode" style="margin-top: -25px;">
+									<label>Postcode: </label><span id="showZipCode3c"></span>
+								</div>
+								<div id="email">
+									<label>Emailadres:</label><span id="showEmail3c"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="checkmark-block-green">
+						<h4>Gelukt, je stem is opgeslagen!</h4>
+						</br>
+						Bedankt voor het stemmen. Hou deze website in de gaten voor<br/>
+						de uitslag. De uitslag wordt xxx gepubliceerd.
+					</div>
+				</div>
+
+				<div id="steps-content-error" class="step">
+					<div class="content">
+						<h4 class="error">Het opslaan van je stem is niet gelukt</h4>
+						
+						<div class="info-block error">
+							Er is iets misgegaan bij het opslaan van je stem.<br/>
+							Probeer het later nog eens of neem contatct op met de site beheerder.
+						</div>
+						<div id="zipcode-and-email">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode">
+									<label>Postcode: </label><span id="showZipCode3b"></span>
+								</div>
+								<div id="email">
+									<label>Emailadres:</label><span id="showEmail3b"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="button-bar">
+					<div id="previous-button" onclick="previousStep();">
+						Vorige
+					</div>
+					<div id="next-button" onclick="nextStep();">
+						Volgende
+					</div>
+				</div>
+			</div>
+			<div id="waitLayer"></div>
+		</div>
+
+	</div>
+	{% include "includes/vote-creator-config.njk" ignore missing %}
+
+	<script src="/js/cookies.js"></script>
+
+	<script>
+	 // als je dit in een losse js file stopt dan moet je wachten tot die geladen is en dat ziet er niet uit
+	 // vote-creator - generic
+
+	 var voteCreatorElement = document.querySelector('#vote-creator');
+	 var currentStep = 0;
+
+	 function nextStep(doBeforeNextIsDone) {
+		 var step = steps[currentStep];
+		 var isValid = step.validate ? steps[currentStep].validate(true) : true;
+		 if (isValid && steps[currentStep+1]) {
+			 if (step.doBeforeNext && !doBeforeNextIsDone) {
+				 step.doBeforeNext()
+			 } else {
+				 hideWaitLayer();
+				 // deactivate current step
+				 hideStep(step);
+				 // activate next step
+				 currentStep++;
+				 var step = steps[currentStep];
+				 showStep(step);
+			 }
+		 }
+		 setNextButton();
+	 }
+
+	 // last minute hardcoded ellende
+	 function previousStep() {
+		 hideStep(steps[currentStep]);
+		 currentStep = 0;
+		 var step = steps[currentStep];
+		 console.log(step)
+		 showStep(step);
+		 setNextButton();
+	 }
+	 
+	 function hideStep(step) {
+		 document.querySelector(`#${step.barId}`).className = document.querySelector(`#${step.barId}`).className.replace(' active', '');
+		 document.querySelector(`#${step.contentId}`).className = document.querySelector(`#${step.contentId}`).className.replace(' active', '');
+		 // activate next step
+	 }
+
+	 function showStep(step, doNotOpen) {
+		 if (!doNotOpen) showVoteCreator();
+		 if (step.doBeforeShow) {
+			 // todo: gebruik een doBeforeShowIsDone param zoals nextStep, zodat je hem kunt gebruiken met callbacks
+			 step.doBeforeShow();
+		 }
+		 document.querySelector(`#${step.barId}`).className = document.querySelector(`#${step.barId}`).className + ' active';
+		 document.querySelector(`#${step.contentId}`).className = document.querySelector(`#${step.contentId}`).className + ' active';
+		 updatePreview(document.querySelector(`#${step.contentId}`))
+	 }
+
+	 function setNextButton() {
+		 var step = steps[currentStep];
+		 var isValid = step && step.validate ? steps[currentStep].validate() : true;
+		 if (steps[currentStep+1]) {
+			 if (isValid) {
+				 activateNextButton()
+			 } else {
+				 deactivateNextButton()
+			 }
+		 } else {
+			 hideNextButton()
+		 }
+
+		 // last minute hardcoded ellende
+		 if (currentStep == 1) {
+			 document.querySelector('#previous-button').style.display = 'block';
+		 } else {
+			 document.querySelector('#previous-button').style.display = 'none';
+		 }
+
+	 }
+
+	 function activateNextButton() {
+		 if (!document.querySelector('#next-button').className.match(' active')) document.querySelector('#next-button').className = document.querySelector('#next-button').className + ' active';
+	 }
+
+	 function deactivateNextButton() {
+		 document.querySelector('#next-button').className = document.querySelector('#next-button').className.replace(' active', '');
+	 }
+
+	 function hideNextButton() {
+		 document.querySelector('#next-button').style.display = 'none';
+	 }
+
+	 function showWaitLayer() {
+		 document.querySelector('#waitLayer').style.display = 'block';
+	 }
+
+	 function hideWaitLayer() {
+		 document.querySelector('#waitLayer').style.display = 'none';
+	 }
+
+	 setNextButton();
+	</script>
+		{% include "includes/vote-creator-local.njk" ignore missing %}
+
+{% endmacro %}
+

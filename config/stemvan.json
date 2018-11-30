@@ -29,11 +29,26 @@
 				"./routes/stemvan/agenda",
 				"./routes/stemvan/article",
 				"./routes/stemvan/idea",
+				"./routes/stemvan/vote",
 				"./routes/stemvan/faq",
 				"./routes/cookies",
 				"./routes/dev"
 			]
 		}
+	},
+
+	"votes": {
+		"requiredUser": {
+			"header": "Vul je postcode in",
+			"text": "Vul je postcode in om je stem uit te brengen.",
+			"fields": [
+				{
+					"caption": "Postcode",
+					"name": "zipCode"
+				}
+			]
+		},
+		"confirmationRequired": false
 	},
 	
 	"security": {

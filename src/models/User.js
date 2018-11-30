@@ -32,6 +32,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		//              after the user has completed the registration. Until
 		//              then, the 'complete registration' form should be displayed
 		//              instead of any other content.
+		
 		complete: {
 			type         : DataTypes.BOOLEAN,
 			allowNull    : false,
@@ -210,6 +211,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				});
 			},
+
 			findMember: function( email ) {
 				if( !email ) {
 					return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
@@ -220,11 +222,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}});
 			},
 			
-			registerAnonymous: function( zipCode ) {
-				return this.create({
-					role    : 'anonymous',
-					zipCode : zipCode
-				});
+			registerAnonymous: function(values) {
+				values.role = 'anonymous';
+				return this.create(values);
 			},
 			// `currentUser` is the user instance that the system loaded for
 			// this session.
@@ -307,6 +307,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			isLoggedIn: function() {
 				return this.id && this.id !== 1 && this.isMember();
 			},
+
+			hasVoted: function() {
+				let self = this;
+				return db.Vote
+					.find({ where: { userId: self.id }})
+					.then(vote => {
+						return vote ? true : false;
+					})
+			},
+
 			can: function( actionName /* [, resource...] */ ) {
 				var user = auth.user(this);
 				if( arguments.length > 1 ) {

@@ -16,6 +16,20 @@ strong, b {
 	font-weight: 600;
 }
 
+.phone {
+	display: none;
+	@media @phone {
+		display: block;
+	}
+}
+
+.desktop {
+	display: block;
+	@media @phone {
+		display: none;
+	}
+}
+
 .button {
 	margin-top: 20px;
 	margin-right: 30px;

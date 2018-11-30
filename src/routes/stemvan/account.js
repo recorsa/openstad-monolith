@@ -161,7 +161,7 @@ module.exports = function( app ) {
 		req.session.destroy();
 		res.success('/', true);
 	});
-	
+
 	// Register new member
 	// -------------------
 	router.route('/register')
