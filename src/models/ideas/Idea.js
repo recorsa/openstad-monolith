@@ -398,7 +398,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							if (vote) {
 								if (config.votes.switchOrError == 'error') throw new Error('Je hebt al gestemd'); // waarmee de default dus switch is
 								return vote
-									.update({ ideaId: self.id, ip, confirmed: 0 })
+									.update({ ip, confirmIdeaId: self.id })
 									.then(vote => true)
 							} else {
 								return db.Vote.create({

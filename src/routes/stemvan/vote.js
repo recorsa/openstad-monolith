@@ -44,9 +44,16 @@ module.exports = function( app ) {
 				})
 				.then(function() {
 					if (!req.vote) throw new Error('Stem niet gevonden');
-					return req.vote.update({
-						confirmed: true
-					})
+					if (req.vote.confirmIdeaId) {
+						return req.vote.update({
+							ideaId: req.vote.confirmIdeaId,
+							confirmIdeaId: null,
+						})
+					} else {
+						return req.vote.update({
+							confirmed: true
+						})
+					}
 				})
 				.then(function() {
 					console.log(req.user.id, req.user.zipCode, req.user.email);

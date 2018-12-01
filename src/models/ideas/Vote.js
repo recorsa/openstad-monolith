@@ -15,6 +15,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : true,
 			defaultValue : null
 		},
+		confirmIdeaId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : true,
+			defaultValue : null
+		},
 		ip: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true,

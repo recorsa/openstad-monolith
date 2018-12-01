@@ -320,7 +320,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			hasConfirmed: function() {
 				let self = this;
 				return db.Vote
-					.find({ where: { userId: self.id, confirmed: 1 }})
+					.find({ where: { userId: self.id, confirmed: 1, confirmIdeaId: null }})
 					.then(vote => {
 						return vote ? true : false;
 					})

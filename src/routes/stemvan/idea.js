@@ -269,6 +269,7 @@ module.exports = function( app ) {
 			var newUserCreated = false;
 
 			if( complete ) {
+				// Register a new anonymous member and continue with the normal request.
 				newUserCreated = db.User.registerAnonymous(userValues)
 					.then(function( newUser ) {
 						req.setSessionUser(newUser.id);
@@ -288,7 +289,6 @@ module.exports = function( app ) {
 					});
 				if (config.votes && config.votes.maxChoices) {
 					// in de eberhard3  versie kun je een stem aanpassen
-					// Register a new anonymous member and continue with the normal request.
 					findUser = db.User.find({ where: { email: userValues.email } })
 						.then(user => {
 							if (user) {
@@ -351,10 +351,10 @@ module.exports = function( app ) {
 						res.success('/plan/'+idea.id, function json() {
 							return db.Idea.scope('withVoteCount').findById(idea.id)
 								.then(function( idea ) {
-									return {succes: { isUpdate }};
+									return {succes: { isUpdate: isUpdate }};
 								});
 						});
-						sendVoteConfirmationMail(req, req.idea);
+						sendVoteConfirmationMail(req, req.idea, isUpdate);
 					})
 					.catch(next);
 
@@ -786,7 +786,7 @@ function isModernBrowser( req ) {
 	}
 }
 
-function sendVoteConfirmationMail(req, idea) {
+function sendVoteConfirmationMail(req, idea, isUpdate) {
 
 	return passwordless.generateToken(req.user.id, `/stemmen?confirmed=true&ideaId=${req.params.ideaId}#vote-creator-anchor`)
 		.then(function( token ) {
@@ -797,7 +797,8 @@ function sendVoteConfirmationMail(req, idea) {
 				idea     : idea,
 				token    : token,
 				userId   : req.user.id,
-				fullHost : req.protocol+'://'+req.hostname
+				fullHost : req.protocol+'://'+req.hostname,
+				isUpdate,
 			};
 
 			var html = nunjucks.render('email/confirm_vote.njk', data);
@@ -812,7 +813,7 @@ function sendVoteConfirmationMail(req, idea) {
 			
 			mail.sendMail({
 				to          : req.user.email,
-				subject     : 'Bevestig je stem',
+				subject     : isUpdate ? 'Stem gewijzigd: Bevestig je stem' : 'Bevestig je stem',
 				html        : html,
 				text        : text,
 				
