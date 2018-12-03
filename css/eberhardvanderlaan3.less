@@ -773,7 +773,8 @@ and open the template in the editor.
 				position: relative;
 				margin-top: 20px;
 				margin-bottom: 40px;
-				width: 287px;
+				width: 300px;
+				z-index: 100;
 			}
 			
 			.vote-button {
@@ -788,6 +789,11 @@ and open the template in the editor.
 				background-color: @amsterdam-navyblue;
 				color: white;			
 				z-index: 1000;
+
+				@media @phone {
+					width: 199px;
+				}
+
 			}
 
 			&.hasVoted {
