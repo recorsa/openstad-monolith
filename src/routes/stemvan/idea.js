@@ -788,7 +788,7 @@ function isModernBrowser( req ) {
 
 function sendVoteConfirmationMail(req, idea, isUpdate) {
 
-	return passwordless.generateToken(req.user.id, `/stemmen?confirmed=true&ideaId=${req.params.ideaId}#vote-creator-anchor`)
+	return passwordless.generateToken(req.user.id, `/stemmen`)
 		.then(function( token ) {
 
 			var data    = {

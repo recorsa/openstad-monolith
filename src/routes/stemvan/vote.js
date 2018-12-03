@@ -56,8 +56,6 @@ module.exports = function( app ) {
 					}
 				})
 				.then(function() {
-					console.log(req.user.id, req.user.zipCode, req.user.email);
-					console.log(originUrl);
 					res.success(resolveURL(originUrl), true);
 				})
 				.catch(next);

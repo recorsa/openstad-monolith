@@ -70,6 +70,9 @@
 			 // Replace current `sort=x` with new choice.
 				 var pathName = location.pathname;
 			 var search   = location.search.replace(/sort=[a-z_]*/i, '') || '?';
+			 if (search.match(/[^?&]$/)) {
+				 search += '&';
+			 }
 			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
 		 });
 	 })();
@@ -104,11 +107,11 @@
 	 // }
 	 document.querySelector('input[name=email]').value = email;
 
-	 var match = window.location.search.match(/ideaId=(\d+)/);
-	 if (match) {
-		 ideaId = match[1];
-	 }
-	 document.querySelector('input[name=ideaId]').value = ideaId;
+	 // var match = window.location.search.match(/ideaId=(\d+)/);
+	 // if (match) {
+	 //  	 ideaId = match[1];
+	 // }
+	 // document.querySelector('input[name=ideaId]').value = ideaId;
 
 	 var match = window.location.hash.match(/closed/);
 	 if (match) {
@@ -116,8 +119,7 @@
 		 console.log('doClose')
 	 } else {
 
-		 var match = window.location.search.match(/confirmed=true/);
-		 if (match || hasConfirmed) {
+		 if (hasConfirmed) {
 			 setHasConfirmed();
 		 } else {
 			 if (hasVoted) {
@@ -149,3 +151,5 @@
 	</script>
 
 {% endblock %}
+
+
