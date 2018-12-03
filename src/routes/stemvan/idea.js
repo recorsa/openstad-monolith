@@ -33,8 +33,8 @@ module.exports = function( app ) {
 				runningIdeas     : db.Idea.getRunning(sort, extraScopes),
 				highlightedIdeas : db.Idea.getHighlighted(),
 				upcomingMeetings : db.Meeting.getUpcoming(),
-				userVoteIdeaId   : req.user.hasVoted(),
-				userHasVoted     : req.user.hasVoted() ? true : false,
+				userVoteIdeaId   : req.user.getUserVoteIdeaId(),
+				userHasVoted     : req.user.hasVoted(),
 				userHasConfirmed : req.user.hasConfirmed(),
 				user             : req.user,
 				csrfToken        : req.csrfToken(),
@@ -52,7 +52,7 @@ module.exports = function( app ) {
 			
 			Promise.props(data)
 				.then(function( result ) {
-					console.log(result, result.userVoteIdeaId);
+					console.log(result.userVoteIdeaId, result.userHasVoted);
 					res.out('ideas/list', true, result);
 				})
 				.catch(next);

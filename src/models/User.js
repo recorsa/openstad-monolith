@@ -308,12 +308,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.id && this.id !== 1 && this.isMember();
 			},
 
+			getUserVoteIdeaId: function() {
+				let self = this;
+				return db.Vote
+					.find({ where: { userId: self.id }})
+					.then(vote => {
+						return vote ? vote.ideaId : undefined;
+					})
+			},
+
 			hasVoted: function() {
 				let self = this;
 				return db.Vote
 					.find({ where: { userId: self.id }})
 					.then(vote => {
-						return vote ? vote.ideaId : false;
+						return vote ? true : false;
 					})
 			},
 
