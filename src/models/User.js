@@ -313,7 +313,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return db.Vote
 					.find({ where: { userId: self.id }})
 					.then(vote => {
-						return vote ? true : false;
+						return vote ? vote.ideaId : false;
 					})
 			},
 

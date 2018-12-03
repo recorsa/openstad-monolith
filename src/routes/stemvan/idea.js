@@ -33,7 +33,8 @@ module.exports = function( app ) {
 				runningIdeas     : db.Idea.getRunning(sort, extraScopes),
 				highlightedIdeas : db.Idea.getHighlighted(),
 				upcomingMeetings : db.Meeting.getUpcoming(),
-				userHasVoted     : req.user.hasVoted(),
+				userVoteIdeaId   : req.user.hasVoted(),
+				userHasVoted     : req.user.hasVoted() ? true : false,
 				userHasConfirmed : req.user.hasConfirmed(),
 				user             : req.user,
 				csrfToken        : req.csrfToken(),
@@ -51,6 +52,7 @@ module.exports = function( app ) {
 			
 			Promise.props(data)
 				.then(function( result ) {
+					console.log(result, result.userVoteIdeaId);
 					res.out('ideas/list', true, result);
 				})
 				.catch(next);
