@@ -123,7 +123,10 @@
 			{{ mobileMenu() }}
 
 		</div>
-		
+
+		<div id="logoutButton"></div>
+
+		<script src="/js/cookies.js"></script>
 		<script>
 		 // Preload class is defined in `all.less` to disable all animations.
 			 document.body.className = '';
@@ -140,19 +143,38 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-							(function() {
-								var closeButtons = Array.prototype.slice.call(
-									document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-								);
-								closeButtons.forEach(function( a ) {
-									a.href = '';
-									a.addEventListener('click', function( event ) {
-										var message = a.parentNode;
-										message.parentNode.removeChild(message);
-										event.preventDefault();
-									});
-								});
-							})();
+													(function() {
+														var closeButtons = Array.prototype.slice.call(
+															document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+														);
+														closeButtons.forEach(function( a ) {
+															a.href = '';
+															a.addEventListener('click', function( event ) {
+																var message = a.parentNode;
+																message.parentNode.removeChild(message);
+																event.preventDefault();
+															});
+														});
+													})();
+		 // logout button
+		 // -------------
+						if (document.cookie.search(/showLogoutButton=true/) != -1) {
+							var button = document.createElement('a');
+							button.href = 'javascript: void doLogout();';
+							button.textContent = "Start nieuwe sessie";
+							document.getElementById('logoutButton').appendChild(button);
+						}
+
+		 function doLogout() {
+			 openstadEraseCookie('stepNo');
+			 openstadEraseCookie('ideaId');
+			 openstadEraseCookie('zipCode');
+			 openstadEraseCookie('email');
+			 openstadEraseCookie('hasVoted');
+			 openstadEraseCookie('hasConfirmed');
+			 window.location.href= "/logout";
+		 }
+
 		</script>
 		
 		{% block scripts %}{% endblock %}
