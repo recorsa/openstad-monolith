@@ -23,9 +23,15 @@ $(function() {
 
 			window.history.replaceState({}, '', '#showidea-' + ideaId);
 
+			if (document.querySelector('#lightbox').style.display == 'block') {
+				updateLightbox(ideaId);
+			}
+
 			return false;
 		},
-    onClosed: function(){ }
+    onClosed: function(){
+			window.history.replaceState({}, '', '#');
+		}
   });
 });
 

@@ -25,17 +25,14 @@
 		 value = value - value00000 * 10000;
 	 } else {
 		 document.getElementById('{{id}}-number-plate-00000').style.display = 'none';
-		 console.log(1)
 	 }
 
 	 if (value > 1000) {
 		 var value0000 = parseInt(value/1000) || 0
 		 document.getElementById('{{id}}-number-plate-0000').innerHTML = value0000;
 		 value = value - value0000 * 1000;
-		 console.log(2)
 	 } else {
 		 document.getElementById('{{id}}-number-plate-0000').style.display = 'none';
-		 console.log(3)
 	 }
 	 
 	 var value000 = parseInt(value/100) || 0;
