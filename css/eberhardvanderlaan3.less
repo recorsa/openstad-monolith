@@ -355,23 +355,14 @@
 
 			&:before {
 				position: absolute;
-				top: 3px;
-				right: -10px;
-				width: 17px;
-				height: 26.5px;
-				background-color: @amsterdam-navyblue;
-				transform: rotate(-35deg);
-				content: '';
-			}
-
-			&:after {
-				position: absolute;
-				bottom: 3px;
-				right: -10px;
-				width: 17px;
-				height: 26.5px;
-				background-color: @amsterdam-navyblue;
-				transform: rotate(35deg);
+				border-left: 17px solid @amsterdam-navyblue;
+				border-top: 22px solid transparent;
+				border-bottom: 22px solid transparent;
+				border-right: 0;
+				top: 0px;
+				right: -17px;
+				width: 0px;
+				height: 0px;
 				content: '';
 			}
 
@@ -383,17 +374,11 @@
 				line-height: 19px;
 
 				&:before {
-					top: 3px;
-					right: -8.5px;
-					width: 17px;
-					height: 21.5px;
-				}
-
-				&:after {
-					bottom: 3px;
-					right: -8.5px;
-					width: 17px;
-					height: 21.5px;
+					border-left: 14px solid @amsterdam-navyblue;
+					border-top: 17px solid transparent;
+					border-bottom: 17px solid transparent;
+					border-right: 0;
+					right: -14px;
 				}
 
 			}
