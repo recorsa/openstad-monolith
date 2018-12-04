@@ -12,12 +12,12 @@ $(function() {
     prevText: "<span></span>", // Previous button text
     closeText: "", // Close button text                // Close button text
     onStart: function(target) {
-			let isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+			var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
 			this.scrollOffset = isPhone ? -40: 100;
 		},
     onContent: function(args){
 			var element = args[0];
-			let ideaId = element.querySelector('.thisIdeaId').innerHTML;
+			var ideaId = element.querySelector('.thisIdeaId').innerHTML;
 			doShowImage(ideaId, element.querySelector('.image-container'));
 			return false;
 		},
@@ -31,9 +31,9 @@ function handleClick(event) {
 
 	// search for the element clicked
   var target = event.target;
-	let mouseOverLayer;
-	let ideaElement;
-	let button;
+	var mouseOverLayer;
+	var ideaElement;
+	var button;
 
   while ( target.tagName != 'HTML' ) {
     if ( target.className.match(/gridder-mouse-over|info/) ) {
@@ -49,7 +49,7 @@ function handleClick(event) {
     target = target.parentNode || target.parentElement;
   }
 
-	let isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+	var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
 	// on phone first click shows moseover, second acually shows something
 	if (isPhone) {
 		if (mouseOverLayer.className.match(/ showFirst/)) {

@@ -25,7 +25,7 @@
 
  function openstadGetCookie(name) {
 
-	 var match = document.cookie.match(new RegExp(`(?:^|;\\s*)\\s*${name}=([^;]+)\\s*(?:;|$)`));
+	 var match = document.cookie.match(new RegExp("(?:^|;\\s*)\\s*" + name +"=([^;]+)\\s*(?:;|$)"));
 
 	 var value;
 	 if (match) {

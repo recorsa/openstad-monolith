@@ -15,7 +15,7 @@
 		 if (div) {
 			 div.style.height = target.offsetWidth + 'px';
 			 var img = div.querySelector('div.image-upload');
-			 img.style.backgroundImage = `url('${imageUrl[ideaId]}')`;
+			 img.style.backgroundImage = "url('" + imageUrl[ideaId] + "')";
 
 			 var factor = target.offsetWidth / 300;
 			 img.style.top    = ( 23 * factor ) + 'px'; 	
