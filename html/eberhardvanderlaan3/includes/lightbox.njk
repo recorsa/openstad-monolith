@@ -1,11 +1,11 @@
 <div id="lightbox">
-	<div id="lightbox-background"></div>
+	<div id="lightbox-background" onclick="hideLightbox()"></div>
 	<div id="lightbox-content">
 		<div id="lightbox-image">
 			<div class="image">
-				<img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>
+				<img src="/img/eberhardvanderlaan3/uploaded-image-background.png" class="image-background"/>
 				<div class="image-upload"></div>
-				<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground"/>
+				<img src="/img/eberhardvanderlaan3/uploaded-image-foreground.png" class="image-foreground"/>
 			</div>
 		</div>
 		<div id="lightbox-text">
@@ -20,12 +20,14 @@
  function showLightbox(ideaId) {
 	 document.querySelector('#lightbox').style.display = 'block';
 
-	 var width = document.querySelector('#lightbox-content').offsetHeight - 40;
+	 var width = Math.min(document.querySelector('#lightbox-content').offsetHeight - 40, 940);
 	 var left  = ( document.querySelector('#lightbox').offsetWidth - width ) / 2;
 	 document.querySelector('#lightbox-content').style.width = width + 'px';
 	 document.querySelector('#lightbox-content').style.left = left  + 'px';
 
 	 document.querySelector('#lightbox-image').style.height = width + 'px';
+
+	 document.getElementsByTagName("BODY")[0].style.overflow = 'hidden';
 
 	 updateLightbox(ideaId);
 
@@ -33,6 +35,7 @@
 
  function hideLightbox() {
 	 document.querySelector('#lightbox').style.display = 'none';
+	 document.getElementsByTagName("BODY")[0].style.overflow = 'auto';
  }
 
  function updateLightbox(ideaId) {

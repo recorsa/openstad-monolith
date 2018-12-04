@@ -18,13 +18,13 @@
 			 img.style.backgroundImage = "url('" + imageUrl[ideaId] + "')";
 
 			 var factor = target.offsetWidth / 300;
-			 img.style.top    = ( 23 * factor ) + 'px'; 	
-			 img.style.left   = ( 46 * factor ) + 'px'; 	
-			 img.style.width  = ( 210 * factor ) + 'px'; 	
-			 img.style.height = ( 263 * factor ) + 'px';
+			 img.style.top    = Math.round( 23 * factor ) + 'px'; 	
+			 img.style.left   = Math.round( 46 * factor ) + 'px'; 	
+			 img.style.width  = Math.round( 210 * factor ) + 'px'; 	
+			 img.style.height = Math.round( 263 * factor ) + 'px';
 
-			 img.style.backgroundSize = ( ( imageData[ideaId].width / 415 ) * 210 * factor ) + 'px ' + ( ( imageData[ideaId].height / 520 ) * 263 * factor ) + 'px';
-			 img.style.backgroundPosition = ( ( imageData[ideaId].left / 415 ) * 210 * factor ) + 'px ' + ( ( imageData[ideaId].top / 520 ) * 263 * factor ) + 'px';
+			 img.style.backgroundSize = Math.round( ( imageData[ideaId].width / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].height / 520 ) * 263 * factor ) + 'px';
+			 img.style.backgroundPosition = Math.round( ( imageData[ideaId].left / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].top / 520 ) * 263 * factor ) + 'px';
 		 }
 	 }
 	</script>
@@ -75,7 +75,8 @@
 						<div class="image">
 							<img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>
 							<div class="image-upload"></div>
-							<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground" style="cursor: url(/img/zoom.cursor.svg);" onclick="showLightbox({{idea.id}})"/>
+							<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground" style="cursor: pointer;" onclick="showLightbox({{idea.id}})" onmouseover="document.getElementById('mask-{{idea.id}}').style.display = 'block'"/>
+							<div id="mask-{{idea.id}}" style="position: absolute; width: 100%; height: 100%; background-color: black; opacity: 0.4; z-index: 30; display: none; cursor: pointer;" onmouseout="document.getElementById('mask-{{idea.id}}').style.display = 'none'" onclick="showLightbox({{idea.id}})"></div>
 						</div>
 					</div>
 				</div>
