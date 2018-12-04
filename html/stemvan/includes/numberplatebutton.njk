@@ -17,26 +17,6 @@
 
 	 var value = {{value}};
 
-	 if (value > 10000) {
-		 var val = parseInt(value/10000) || 0
-		 var div = document.createElement('div');
-		 div.id = '{{name}}-number-plate-00000';
-		 div.className = "number-plate";
-		 div.innerHTML = val;
-		 document.querySelector(".{{name}}-content").querySelector('.number-plates').insertBefore(div, document.getElementById('{{name}}-number-plate-000'));
-		 value = value - val * 10000;
-	 }
-
-	 if (value > 1000) {
-		 var val = parseInt(value/1000) || 0
-		 var div = document.createElement('div');
-		 div.id = '{{name}}-number-plate-0000';
-		 div.className = "number-plate";
-		 div.innerHTML = val;
-		 document.querySelector(".{{name}}-content").querySelector('.number-plates').insertBefore(div, document.getElementById('{{name}}-number-plate-000'));
-		 value = value - val * 1000;
-	 }
-
 	 var value000 = parseInt(value/100) || 0;
 	 var value00  = parseInt(( value - 100 * value000 )/10) || 0;
 	 var value0   = value - value000 * 100 - value00 * 10;
