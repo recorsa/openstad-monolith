@@ -88,6 +88,11 @@
 	 var hasVoted     = {{userHasVoted}}       || openstadGetCookie('hasVoted')     || '';
 	 var hasConfirmed = {{userHasConfirmed}}   || openstadGetCookie('hasConfirmed') || '';
 
+
+	 var match = window.location.hash.match(/showidea-(\d+)/);
+	 var showIdeaId = match ? match[1] : undefined;
+	 showIdeaId
+	 
 	 // tmp
 	 // var match = window.location.search.match(/stepNo=(\d+)/);
 	 // if (match) {
@@ -145,8 +150,11 @@
 	 window.onload = function(){
 		 var match = window.location.search.match(/showIdea=(\d+)/);
 		 if (match) {
-			 document.querySelector('#idea-' + match[1]).click()
+			 showIdeaId = match[1];
 		 };
+		 if (showIdeaId) {
+			 document.querySelector('#idea-' + showIdeaId).click()
+		 }
 	 }
 
 	</script>

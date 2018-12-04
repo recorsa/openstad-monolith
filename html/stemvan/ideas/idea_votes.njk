@@ -17,6 +17,9 @@
 			<th>Vote ID</th>
 			<th>User ID</th>
 			<th>Mening</th>
+			{% if showConfirmed %}
+				<th>Bevestigd</th>
+			{% endif%}				
 			<th>Postcode</th>
 			<th class="sorttable_alpha">IP</th>
 			<th>Datum</th>
@@ -24,11 +27,14 @@
 		</tr>
 	</thead>
 	<tbody>
-	{% for vote in idea.votes %}
-		<tr class="{{'rejected' if vote.checked === false}}">
-			<td>{{vote.id}}</td>
-			<td>{{vote.user.id}}</td>
-			<td>{{vote.opinion}}</td>
+		{% for vote in idea.votes %}
+			<tr class="{{'rejected' if vote.checked === false}}">
+				<td>{{vote.id}}</td>
+				<td>{{vote.user.id}}</td>
+				<td>{{vote.opinion}}</td>
+				{% if showConfirmed %}
+					<td>{{vote.confirmed}}</td>
+			{% endif%}				
 			<td>{{vote.user.zipCode}}</td>
 			<td>{{vote.ip}}</td>
 			<td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>

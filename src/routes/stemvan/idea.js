@@ -52,7 +52,6 @@ module.exports = function( app ) {
 			
 			Promise.props(data)
 				.then(function( result ) {
-					console.log(result.userVoteIdeaId, result.userHasVoted);
 					res.out('ideas/list', true, result);
 				})
 				.catch(next);
@@ -613,7 +612,8 @@ module.exports = function( app ) {
 			if( !asDownload ) {
 				// Display votes as interactive table.
 				res.out('ideas/idea_votes', true, {
-					idea : idea
+					idea : idea,
+					showConfirmed: config.votes && config.votes.confirmationRequired,
 				});
 			} else {
 				var votes_JSON = idea.votes.map(function( vote ) {

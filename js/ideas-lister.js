@@ -16,9 +16,13 @@ $(function() {
 			this.scrollOffset = isPhone ? -40: 100;
 		},
     onContent: function(args){
+
 			var element = args[0];
 			var ideaId = element.querySelector('.thisIdeaId').innerHTML;
 			doShowImage(ideaId, element.querySelector('.image-container'));
+
+			window.history.replaceState({}, '', '#showidea-' + ideaId);
+
 			return false;
 		},
     onClosed: function(){ }
