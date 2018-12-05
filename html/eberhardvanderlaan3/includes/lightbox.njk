@@ -18,6 +18,10 @@
 <script>
 
  function showLightbox(ideaId) {
+
+	 var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+	 if (isPhone) return;
+
 	 document.querySelector('#lightbox').style.display = 'block';
 
 	 var width = Math.min(document.querySelector('#lightbox-content').offsetHeight - 40, 940);
