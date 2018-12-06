@@ -612,25 +612,33 @@ module.exports = function( app ) {
 			if( !asDownload ) {
 				// Display votes as interactive table.
 				res.out('ideas/idea_votes', true, {
-					idea : idea,
+					idea: idea,
 					showConfirmed: config.votes && config.votes.confirmationRequired,
+					showEmail: config.siteId == 'zorggoedvooronzestad', // TODO: misschien moet er een config blok met velden komen
 				});
 			} else {
 				var votes_JSON = idea.votes.map(function( vote ) {
 					return vote.toJSON();
 				});
+				let columns = {
+					'user.id'      : 'userId',
+					'user.zipCode' : 'zipCode',
+					'ip'           : 'ip',
+					'opinion'      : 'opinion',
+					'createdAt'    : 'createdAt'
+				};
+				if ( config.votes && config.votes.confirmationRequired ) {
+					columns['confirmed'] = 'confirmed';
+				}
+				if ( config.siteId == 'zorggoedvooronzestad' ) { 	// TODO: misschien moet er een config blok met velden komen
+					columns['user.email'] = 'email';
+				}
 				// Download votes as CSV.
 				csvStringify(votes_JSON, {
 					header     : true,
 					delimiter  : ';',
 					quoted     : true,
-					columns    : {
-						'user.id'      : 'userId',
-						'user.zipCode' : 'zipCode',
-						'ip'           : 'ip',
-						'opinion'      : 'opinion',
-						'createdAt'    : 'createdAt'
-					},
+					columns,
 					formatters : {
 						date: function( value ) {
 							return moment(value)

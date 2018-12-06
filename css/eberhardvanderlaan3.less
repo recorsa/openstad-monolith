@@ -1321,43 +1321,52 @@ and open the template in the editor.
 
 	}
 
-	#home-banner .primary {
-
-		background-position: center;
-		background-repeat: no-repeat;
-    background-image: url(/img/eberhardvanderlaan3/header-home.png);
+	#home-banner {
 
 		@media @phone {
-			background-position: center;
+			margin-top: -10px;
+		}
+
+		.primary {
+
+			background-position: cover;
 			background-repeat: no-repeat;
 			background-image: url(/img/eberhardvanderlaan3/header-home.png);
-		}
 
-		.text {
 			@media @phone {
-				top: auto;
-				bottom: 70px;
-			}
-		}
-
-		.buttons {
-			.kies-een-ontwerp-button {
-				width: 197px;
-				padding-left: 45px;
-				background-position: 10px 10px;
-				background-size: 20px 20px;
+				height: 370px;
+				padding-top: 0;
+				background-position: cover;
 				background-repeat: no-repeat;
-				background-image: url(/img/checkmark-dot-blue.svg);
-
+				background-image: url(/img/eberhardvanderlaan3/header-home.png);
 			}
 
-			a.page-button {
+			.text {
 				@media @phone {
-					width: 197px;
-					margin: 0 auto;
+					top: auto;
+					bottom: 70px;
 				}
 			}
 
+			.buttons {
+				.kies-een-ontwerp-button {
+					width: 197px;
+					padding-left: 45px;
+					background-position: 10px 10px;
+					background-size: 20px 20px;
+					background-repeat: no-repeat;
+					background-image: url(/img/checkmark-dot-blue.svg);
+
+				}
+
+				a.page-button {
+					@media @phone {
+						width: 197px;
+						margin: 0 auto;
+					}
+				}
+
+			}
 		}
 	}
 

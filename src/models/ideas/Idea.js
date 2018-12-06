@@ -578,7 +578,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					model: db.Vote,
 					include: [{
 						model      : db.User,
-						attributes : ['id', 'zipCode']
+						attributes : ['id', 'zipCode', 'email']
 					}]
 				}],
 				order: 'createdAt'
