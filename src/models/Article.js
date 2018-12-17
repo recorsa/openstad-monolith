@@ -1,8 +1,14 @@
 var sanitize   = require('../util/sanitize');
 var ImageOptim = require('../ImageOptim');
+const config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Article = sequelize.define('article', {
+
+		siteId: {
+			type         : DataTypes.INTEGER,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
+		},
 
 		userId: {
 			type         : DataTypes.INTEGER,
@@ -162,13 +168,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 	
 	function scopes() {
+
+		let defaultScope = {
+			include: [{
+				model      : db.User,
+				attributes : ['firstName', 'lastName']
+			}]
+		}
+
+		if (config.siteId && typeof config.siteId == 'number') {
+			defaultScope = {
+				where:
+				{
+					$and: [
+						{ siteId: config.siteId },
+					]
+				}
+			}
+		}
+		
 		return {
-			defaultScope: {
-				include: [{
-					model      : db.User,
-					attributes : ['firstName', 'lastName']
-				}]
-			},
+			defaultScope,
 			asTile: {
 				attributes: ['id', 'image', 'title', 'summary', 'isPublished', 'seqnr'],
 				include: [{

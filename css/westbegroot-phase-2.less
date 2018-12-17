@@ -1,0 +1,639 @@
+@import 'stemvan/base';
+
+/* ----------------------------------------------------------------------------------------------------
+ * override openstad defaults */
+
+.pageContent {
+	overflow: visible;
+}
+
+#mainMenu {
+	margin-bottom: 0;
+	>div {
+		ul {
+			li:nth-child(2) a:before {
+				content: '';
+			}
+		}
+	}
+}
+
+/* ----------------------------------------------------------------------------------------------------
+ * budgeting block */
+
+#budget-block {
+
+	display: block;
+	position: relative;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 0;
+	background-color: @light-grey2;
+
+	@media @phone {
+		width: calc(100% + 30px);
+		margin-left: -15px;
+	}
+
+	#current-budget-bar {
+
+		width: 100%;
+		height: 34px;
+		border: 3px solid @amsterdam-navyblue;
+
+		.current-budget-images {
+
+			width: calc(100% + 3px);
+			height: 100%;
+			
+			.idea-image-mask {
+				display: block;
+				float: left;
+				position: relative;
+				overflow: hidden;
+				width: 40px;
+				height: 100%;
+				background-color: #e7e7e7;
+				border-right: 3px solid @amsterdam-navyblue;
+					
+				.idea-image {
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					width: 100%;
+					background-position: center;
+					background-size: cover;
+				}
+			}
+		}
+	}
+
+
+	
+	#steps-bar {
+
+		display: flex;
+
+		.step {
+
+			position: relative;
+			width: calc(100% / 3);
+			height: 90px;
+			background-color: @amsterdam-lightgrey;
+
+			@media @phone {
+				height: 71px;
+			}
+
+			.content {
+
+				width: 100%;
+				height: 100%;
+				padding-top: 59px;
+				font-size: 14px;
+				font-weight: 600;
+				text-align: center;
+
+				@media @phone {
+					padding-top: 46px;
+				}
+
+				&:before {
+					position: absolute;
+					top: 37px;
+					left: 0px;
+					right: 0px;
+					height: 6px;
+					background-color: white;
+					content: '';
+
+					@media @phone {
+						top: 24px;
+					}
+
+				}
+
+				&:after {
+					position: absolute;
+					top: 30px;
+					left: calc(50% - 10px);
+					width: 0px;
+					height: 0px;
+					border: 10px solid white;
+					border-radius: 10px;
+					content: '';
+
+					@media @phone {
+						top: 17px;
+					}
+
+				}
+				
+			}
+
+			&:first-child {
+				.content {
+					&:before {
+						left: 50%;
+					}
+				}
+			}
+
+			&:last-child {
+				.content {
+					&:before {
+						right: 50%;
+					}
+				}
+			}
+
+			&.active {
+				color: white;
+				background-color: @amsterdam-navyblue;
+
+				.content {
+					&:after {
+						position: absolute;
+						top: 26px;
+						left: calc(50% - 12px);
+						width: 10px;
+						height: 10px;
+						border: 9px solid white;
+						border-radius: 14px;
+						color: white;
+						background-color: @amsterdam-navyblue;
+						content: '';
+
+						@media @phone {
+							top: 13px;
+						}
+					}
+				}
+			
+			}
+			
+		}
+
+	}
+
+	#steps-content {
+
+		position: relative;
+
+		#current-step {
+
+			position: relative;
+			width: 100%;
+			min-height: 283px;
+			padding: 25px 44px 25px 30px;
+			background-color: @light-grey2;
+
+			&.active {
+				display: block;
+			}
+
+			@media @phone {
+				padding: 25px 15px 75px 15px;
+				min-height: auto;
+			}
+
+			#content {
+				float: left;
+				width: 594px;
+				font-size: 14px;
+				font-weight: normal;
+				line-height: 1.57;
+
+				@media @phone {
+					width: 100%;
+					font-size: 14px;
+					font-weight: normal;
+				}
+
+				#current-budget-preview {
+
+					overflow: auto;
+					
+					.current-budget-images {
+
+						&.hidden {
+							display: none;
+						}
+
+						.add-button {
+							display: block;
+							float: left;
+							width: 70px;
+							height: 70px;
+							margin-right: 15px;
+							background-color: white;
+							border: 2px dashed @amsterdam-lightgrey;
+							cursor: pointer;
+						}
+
+						.idea-image-mask {
+							display: block;
+							float: left;
+							position: relative;
+							overflow: hidden;
+							width: 70px;
+							height: 70px;
+							margin-right: 15px;
+							background-color: #e7e7e7;
+
+							.idea-image {
+								position: absolute;
+								top: 0;
+								left: 0;
+								bottom: 0;
+								right: 0;
+								width: 100%;
+								background-position: center;
+								background-size: cover;
+							}
+						}
+					}
+
+					.current-budget-table {
+
+						&.hidden {
+							display: none;
+						}
+
+						.overview {
+
+							width: 100%;
+							padding: 20px 25px;
+							border: 3px solid #434343;
+							overflow: auto;
+
+							.idea-image-mask {
+								display: block;
+								float: left;
+								position: relative;
+								overflow: hidden;
+								width: 44px;
+								height: 44px;
+								margin-bottom: 20px;
+								margin-right: 15px;
+								background-color: #e7e7e7;
+
+								.idea-image {
+									position: absolute;
+									top: 0;
+									left: 0;
+									bottom: 0;
+									right: 0;
+									width: 100%;
+									background-position: center;
+									background-size: cover;
+								}
+							}
+
+							.title {
+								display: block;
+								float: left;
+								width: 360px;
+								height: 44px;
+								margin: 0;
+								margin-bottom: 20px;
+								padding: 0;
+								font-size: 16px;
+								font-weight: normal;
+								line-height: 1.75;
+							}
+
+							.budget {
+								display: block;
+								float: left;
+								width: 119px;
+								height: 44px;
+								margin-bottom: 20px;
+								font-size: 16px;
+								font-weight: normal;
+								line-height: 1.75;
+								color: @amsterdam-navyblue;
+							}
+
+						}
+
+					}
+
+					&.editMode {
+						.current-budget-images {
+							.idea-image {
+								opacity: .5;
+								cursor: pointer;
+							}
+						}
+					}
+
+				}
+
+				#budgeting-edit-mode-container {
+					
+					&.hidden {
+						display: none;
+					}
+				}
+
+			}
+
+			#budget-text {
+				float: left;
+				width: 204px;
+				margin-left: 68px;
+				font-size: 15px;
+				font-weight: normal;
+				line-height: 1.57;
+
+				@media @phone {
+					width: 100%;
+					font-size: 14px;
+					font-weight: normal;
+				}
+
+			}
+
+		}
+
+		.step {
+			display: none;
+		}
+
+	}
+
+	#button-bar {
+
+		position: absolute;
+		width: 100%;
+		right: 0px;
+		bottom: 0px;
+		height: 10px;
+
+		@media @phone {
+			background-color: @amsterdam-lightgrey;
+		}
+
+		#previous-button {
+			position: absolute;
+			bottom: 25px;
+			left: 40px;
+			padding-left: 18px;
+			font-weight: 600;
+			color: #004699;
+			cursor: pointer;
+
+			&:before {
+				position: absolute;
+				top: 2px;
+				left: 0;
+				width: 8px;
+				height: 14px;
+				content: '';
+				background-size: 8px 14px;
+				background-repeat: no-repeat;
+				background-image: url('/img/arrow_left_blue.svg');
+			}
+
+			&.hidden {
+				display: none;
+			}
+
+			@media @phone {
+				font-size: 14px;
+				bottom: 15px;
+				left: 15px;
+				padding-left: 16px;
+
+				&:before {
+					top: 2px;
+					width: 7px;
+					height: 12px;
+					background-size: 7px 12px;
+				}
+			}
+
+		}
+
+		#next-button {
+			position: absolute;
+			bottom: 20px;
+			right: 57px;
+			padding: 11px 8px 11px 15px;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 22px;
+			color: white;
+			background-color: @amsterdam-navyblue;
+			cursor: pointer;
+			opacity: .5;
+			
+			&.active {
+				opacity: 1;
+
+				&:hover {
+					background-color: @amsterdam-navyblue-hover;
+					&:before {
+						border-left-color: @amsterdam-navyblue-hover;
+					}
+				}
+
+			}
+
+			&.hidden {
+				display: none;
+			}
+
+			&:before {
+				position: absolute;
+				border-left: 17px solid @amsterdam-navyblue;
+				border-top: 22px solid transparent;
+				border-bottom: 22px solid transparent;
+				border-right: 0;
+				top: 0px;
+				right: -17px;
+				width: 0px;
+				height: 0px;
+				content: '';
+			}
+
+			@media @phone {
+				bottom: 8px;
+				right: 30px;
+				padding: 8px 11px 7px 15px;
+				font-size: 14px;
+				line-height: 19px;
+
+				&:before {
+					border-left: 14px solid @amsterdam-navyblue;
+					border-top: 17px solid transparent;
+					border-bottom: 17px solid transparent;
+					border-right: 0;
+					right: -14px;
+				}
+
+			}
+
+		}
+
+	}
+
+	#waitLayer {
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: white;
+		opacity: .6;
+		z-index: 10000;
+	}
+	
+}
+
+
+/* ----------------------------------------------------------------------------------------------------
+ * tab selector */
+
+.tab-selector {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+
+/* ----------------------------------------------------------------------------------------------------
+ * sort */
+
+.sort-selector {
+	margin-bottom: 20px;
+}
+
+/* ----------------------------------------------------------------------------------------------------
+ * list ideas */
+
+.info-block {
+	position: relative;
+	margin-top: 20px;
+	margin-bottom: 0;
+	padding-right: 30px;
+	
+	.close-button {
+		position: absolute;
+		top: 14px;
+		right: 20px;
+		width: 18px;
+		height: 18px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(/img/close-button-white-on-transparent.svg);
+		cursor: pointer;
+		z-index: 20;
+	}
+}
+
+#info-bewoners-west {
+	display: none;
+}
+
+.budget {
+
+	&.unavailable {
+		opacity: .5;
+	}
+
+}
+
+.button-add-idea-to-budget {
+
+	display: block;
+	position: relative;
+	width: 148px;
+	height: 24px;
+	color: white;
+	background-color: @amsterdam-navyblue;
+
+	&:after {
+		content: "Voeg toe";
+	}
+
+	&.added {
+		&:after {
+			content: "Toegevoegd";
+			&:hover {
+				content: "Verwijder";
+			}
+		}
+	}
+
+	&.unavailable {
+		opacity: .5;
+		&:after {
+			content: "Geen budget";
+		}
+	}
+
+}
+
+/* ----------------------------------------------------------------------------------------------------
+ * gridder */
+
+.gridder {
+
+	.gridder-list {
+		cursor: auto;
+	}
+
+	.button-read-more {
+		cursor: pointer;
+	}
+
+	.button-add-idea-to-budget {
+		cursor: pointer;
+	}
+
+	.budget-value {
+		display: none;
+	}
+
+	.gridder-show {
+
+		.idea-image-container {
+
+			width: 380px;
+
+			.idea-image-mask {
+				display: block;
+				position: relative;
+				padding-top: 56.25%; /* 16:9 Aspect Ratio */
+				overflow: hidden;
+				font-size: 14px;
+				font-weight: normal;
+				line-height: normal;
+				background-color: #e7e7e7;
+
+
+				.idea-image {
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					width: 100%;
+					background-position: center;
+					background-size: cover;
+				}
+
+			}
+
+		}
+
+	}
+	
+}
+
+/* ----------------------------------------------------------------------------------------------------
+ * TAF */

@@ -1,0 +1,76 @@
+@import '../stemvan/base';
+
+@margin: 20px;
+@noOfColumsInList: 4;
+
+* {
+	box-sizing: border-box;
+}
+
+.ideas-list {
+	display: block;
+	width: calc( 100% + 20px );
+	font-size: 0px; // because of inline block
+
+	.idea {
+		display: inline-block;
+		max-width: calc( ( 100% / @noOfColumsInList ) - 20px );
+		min-width: calc( ( 100% / @noOfColumsInList ) - 20px );
+		margin: 0 20px 20px 0;
+		font-size: 14px;
+		line-height: normal;
+		vertical-align: top;
+		cursor: pointer;
+
+
+		a {
+			color: @amsterdam-textblue;
+			text-decoration: none;
+			outline: 0;
+		}	 
+
+		.idea-image {
+			display: block;
+			position: relative;
+			padding-top: 56.25%; /* 16:9 Aspect Ratio */
+			overflow: hidden;
+			background-color: #e7e7e7;
+			margin-top: @margin;
+			font-size: 14px;
+			font-weight: normal;
+			line-height: normal;
+		}
+
+		.idea-image div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			width: 100%;
+			background-position: center;
+			background-size: cover;
+		}
+
+		.idea-title {
+			display: block;
+			margin-top: 8px;
+			margin-bottom: 5px;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 1.25;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.idea-summary {
+			display: block;
+		}
+
+		.idea-budget {
+			display: block;
+		}
+
+	}
+
+}

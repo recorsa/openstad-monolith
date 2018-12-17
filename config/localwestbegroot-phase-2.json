@@ -1,0 +1,87 @@
+{
+  "siteId": 15,
+  "siteName": "West Begroot",
+  "pageNamePostfix": "West Begroot - Gemeente Amsterdam",
+
+	"domainName"      : "openstad.francesco.denes.nl",
+	"emailAddress"    : "niels@denes.nl",
+
+  "debug": true,
+  "logging": "app:*,-app:db:query",
+
+  "database": {
+    "user": "openstad",
+    "password": "drum50openstad",
+    "database": "openstad-westbegroot-phase-2-nieuw",
+    "host": "fabian",
+    "dialect": "mysql",
+    "multipleStatements": true
+  },
+
+  "express": {
+    "port": 8083,
+    "rendering": {
+      "templateDirs": [
+        "html/westbegroot-phase-2",
+        "html/stemvan"
+      ]
+    },
+		"middleware": {
+			"afterSecurity": [
+				"./middleware/log",
+				"./middleware/confirm_arguments",
+				"./middleware/nocache",
+				"./middleware/site",
+				"./routes/stemvan/default",
+				"./routes/stemvan/ab",
+				{ "route": "/oauth", "router": "./routes/oauth" },
+				{ "route": "/", "router": "./routes/budgeting" },
+				"./routes/cookies",
+				"./routes/dev"
+			]
+		}
+  },
+
+  "sentry": {
+    "active": false
+  },
+
+	"mail": {
+		"from": "niels@denes.nl",
+		"method": "smtp", // smtp, sendgrid
+		
+		"transport": {
+			"smtp": {
+				"pool"       : false,
+				"direct"     : false,
+				
+				"port"       : 587,
+				"host"       : "smtp.xs4all.nl",
+				"requireTLS" : true,
+				
+				"name"       : "smtp.xs4all",
+				"auth"       : {
+					"user": "nielsv",
+					"pass": "lul@8nov"
+				}
+			},
+			"sendgrid": {
+				"auth": {
+					// "api_user": "",
+					"api_key": ""
+				}
+			}
+		}
+	},
+
+	"openStadMap": {
+		"googleKey": "AIzaSyBUWkinf1yg1GpX71bv4zqx7icTxSX6oyU"
+	},
+
+  "notifications": {
+    "admin": {
+      "emailAddress": "niels@denes.nl"
+    }
+  }
+
+}
