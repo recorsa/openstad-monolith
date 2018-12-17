@@ -492,6 +492,22 @@
 		opacity: .6;
 		z-index: 10000;
 	}
+
+	.error {
+		padding-left: 15px;
+		color: @amsterdam-red;
+		border-left: 2px solid @amsterdam-red;
+
+		&:before {
+			display: block;
+			padding-bottom: 6px;
+			font-size: 13px;
+			font-weight: 600;
+			padding-bottom: 10px;
+			white-space: nowrap;
+			content: attr(data-error-content);
+		}
+	}
 	
 }
 

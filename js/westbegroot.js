@@ -95,6 +95,14 @@ function previousStep() {
 }
 
 function nextStep() {
+
+	if (currentStep == 1) {
+		if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
+			addError(document.querySelector('#current-budget-preview'), 'Je hebt nog niet voldoende plannen geselecteerd.')
+			return;
+		}
+	}
+	
 	currentStep++;
 	updateBudgetDisplay();
 
@@ -115,7 +123,10 @@ function nextStep() {
 		openstadEraseCookie('plannenActiveTab')
 		openstadEraseCookie('plannenActiveFilter')
 		openstadEraseCookie('sortOrder')
-		window.location.href = "/begroten";
+	}
+
+	if (currentStep == 7) {
+		window.location.href = '/begroten'
 	}
 	
 }
@@ -123,6 +134,8 @@ function nextStep() {
 function updateBudgetDisplay() {
 
 	// botte bijl - later een keer opschonen en generiek maken
+	// ToDo: wat nu gecopy-paste dingen samenvoegen
+	removeError(document.querySelector('#current-budget-preview'));
 
 	var budgetBar = document.querySelector('#current-budget-bar').querySelector('.current-budget-images');
 	var preview = document.querySelector('#current-budget-preview');
@@ -142,26 +155,24 @@ function updateBudgetDisplay() {
 	});
 	
 	budgetBar.innerHTML = '';
-			currentBudgetSelection.forEach((id) => {
-				var element = sortedElements.find( el => el.ideaId == id );
-				var width = ( totalWidth * ( element.budgetValue / initialAvailableBudget ));
-				var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
-				// todo: better width calculation
-				budgetBarImage.style.width = width + 'px';
-				budgetBar.appendChild(budgetBarImage)
-				var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
-				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
-				previewImages.appendChild(previewImage)
-			});
-			var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
-			previewImages.appendChild( addButton.cloneNode(true) )
+	currentBudgetSelection.forEach((id) => {
+		var element = sortedElements.find( el => el.ideaId == id );
+		var width = ( totalWidth * ( element.budgetValue / initialAvailableBudget ));
+		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
+		// todo: better width calculation
+		budgetBarImage.style.width = width + 'px';
+		budgetBar.appendChild(budgetBarImage)
+	});
+	var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
+	previewImages.appendChild( addButton.cloneNode(true) )
 
+
+	// text
+	document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-' + currentStep).querySelector('.text').innerHTML;
 	
 	switch(currentStep) {
 
 		case 1:
-
-			document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-1').querySelector('.text').innerHTML;
 
 			removeFromClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
@@ -191,8 +202,6 @@ function updateBudgetDisplay() {
 
 		case 2:
 
-			document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-2').querySelector('.text').innerHTML;
-
 			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
 			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
 
@@ -213,8 +222,6 @@ function updateBudgetDisplay() {
 
 		case 3:
 
-			document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-3').querySelector('.text').innerHTML;
-
 			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
 			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
 
@@ -226,8 +233,6 @@ function updateBudgetDisplay() {
 
 		case 4:
 
-			document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-4').querySelector('.text').innerHTML;
-
 			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
 			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
 
@@ -235,6 +240,12 @@ function updateBudgetDisplay() {
 			addToClassName(previewTable, 'hidden');
 			break;
 
+		case 5:
+			break;
+
+		case 6:
+			break;
+			
 
 	}
 
@@ -274,6 +285,15 @@ function updateBudgetNextButton() {
 			addToClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 			addToClassName(nextButton, 'active');
+
+		case 5:
+			break;
+
+		case 6:
+			nextButton.innerHTML = 'Klaar';
+			addToClassName(previousButton, 'hidden');
+			removeFromClassName(nextButton, 'hidden');
+			addToClassName(nextButton, 'active');
 	}
 	
 }
@@ -281,6 +301,16 @@ function updateBudgetNextButton() {
 function submitBudget() {
 	alert('ToDo');
 	nextStep();
+}
+
+function addError(element, text) {
+	addToClassName(element, 'error');
+	element.setAttribute('data-error-content', text);
+}
+
+function removeError(element, text) {
+	removeFromClassName(element, 'error');
+	element.setAttribute('data-error-content', '');
 }
 
 // end budgeting functions
@@ -552,6 +582,7 @@ function removeFromClassName(element, className) {
 }
 
 function formatEuros(amount) {
+	
 	// todo: nu hardcoded want max 300K
 	amount = parseInt(amount);
 	let thousends = parseInt(amount/1000);

@@ -21,8 +21,6 @@ $(function() {
 			var element = args[0];
 			var ideaId = element.querySelector('.this-idea-id').innerHTML;
 			 
-			console.log(ideaId)
-			 
 			window.history.replaceState({}, '', '#showidea-' + ideaId);
 			 
 			return false;
@@ -34,19 +32,3 @@ $(function() {
   });
 	} catch(err) {console.log(err);}
 });
-
-function scrollToIdeas() {
-  scrollToResolver(document.getElementById('ideas-anchor'));
-}
-
-function scrollToResolver(elem) {
-  var jump = parseInt(elem.getBoundingClientRect().top * .2);
-  document.body.scrollTop += jump;
-  document.documentElement.scrollTop += jump;
-  if (!elem.lastjump || elem.lastjump > Math.abs(jump)) {
-    elem.lastjump = Math.abs(jump);
-    setTimeout(function() { scrollToResolver(elem);}, 25);
-  } else {
-    elem.lastjump = null;
-  }
-}
