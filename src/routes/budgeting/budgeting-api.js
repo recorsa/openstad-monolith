@@ -17,10 +17,6 @@ router
 // -------------------------
 router
 	.route('/')
-	.get(function(req, res, next) {
-		console.log(req.body);
-		next();
-	})
 	.post(function( req, res, next ) {
 
 		if (!req.session.userAccessToken) return next(createError(403, 'Je bent niet ingelogd'));
@@ -63,17 +59,33 @@ router
 		// validation - vote must be a list of ints
 		let vote = req.body.budgetVote;
 		if (!Array.isArray(vote)) return next(createError(403, 'Budget klopt niet'))
+		if (vote.length == 0) return next(createError(403, 'Budget klopt niet'))
+		if (vote.find(entry => parseInt(entry) != entry)) return next(createError(403, 'Budget klopt niet'))
 
-		// TODO: meer validaties!!!
+		console.log(vote);
 
-		console.log('101');
-
-		// validation - fetch ideas
-		// TODO: dit moet uiteindelijk over http voordat het micorservices kunnen worden
+		// validation: check if budget ammount is high enough
 		db.Idea
-			.find({where: {id: vote}})
+			.findAll({where: {id: vote}})
 			.then(result => {
-				req.ideas = result;
+				if (!result) return next(createError(403, 'Budget klopt niet'))
+
+				let availableBudgetAmount = 300000;
+				let minimalBudgetAmmount = 200000;
+				let currentBudgetAmount = 0;
+				for (let i=0; i<result.length; i++) {
+					currentBudgetAmount += result[i].budget;
+					console.log(currentBudgetAmount);
+				}
+
+				if (currentBudgetAmount < minimalBudgetAmmount) {
+					return next(createError(403, 'Budget klopt niet'))
+				}
+
+				if (currentBudgetAmount > availableBudgetAmount) {
+					return next(createError(403, 'Budget klopt niet'))
+				}
+
 				return next();
 			})
 			.catch(next);

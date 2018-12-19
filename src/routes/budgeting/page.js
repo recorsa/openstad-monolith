@@ -13,36 +13,53 @@ router
 	.route('/$')
 	.get(function( req, res, next ) {
 
-			var data = {
-				siteId      : config.siteId, // temp
-				accessToken : req.session.userAccessToken, // temp voor dev opties
+		var data = {
+			siteId      : config.siteId, // temp
+			accessToken : req.session.userAccessToken, // temp voor dev opties
 
-				runningIdeas     : db.Idea.getRunning('random', ['withUser']),
+			runningIdeas     : db.Idea.getRunning('random', ['withUser']),
 
-				userVoteIdeaId   : req.user.getUserVoteIdeaId(),
-				userHasVoted     : req.user.hasVoted(),
-				userHasConfirmed : req.user.hasConfirmed(),
-				user             : req.user,
+			userIsLoggedIn   : req.session.userAccessToken ? true : false,
+			user             : req.user,
 
-				csrfToken        : req.csrfToken(),
-				isAdmin          : req.user.role == 'admin' ? true : '',
-				fullHost         : req.protocol+'://'+req.hostname
+			csrfToken        : req.csrfToken(),
+			fullHost         : req.protocol+'://'+req.hostname
 
-			};
+		};
 
-			if (req.path.match(/\stemmen/)) {
-				data.stepNo   = '';
-				data.ideaId   = '';
-				data.zipCode  = '';
-				data.email    = '';
-				data.hasVoted = '';
-			}
-			
-			Promise.props(data)
-				.then(function( result ) {
-					res.out('budgeting/index.njk', true, result);
-				})
-				.catch(next);
+		if (req.path.match(/\stemmen/)) {
+			data.stepNo   = '';
+			data.ideaId   = '';
+			data.zipCode  = '';
+			data.email    = '';
+			data.hasVoted = '';
+		}
+		
+		Promise.props(data)
+			.then(function( result ) {
+
+				// og meta tags for facebook c.s.
+				if (req.query.showIdea && result.runningIdeas.length) {
+					let idea;
+					for (let i=0; i<result.runningIdeas.length; i++ ) {
+						let idea = result.runningIdeas[i];
+						if (idea.id == req.query.showIdea) {
+							result.ogTitle = idea.title;
+							let imageUrl = '/img/placeholders/idea.jpg';
+							if (idea.posterImageUrl) {
+								imageUrl = idea.posterImageUrl;
+							}
+							if (imageUrl && !imageUrl.match(/^http/)) {
+								imageUrl = req.protocol + '://' + req.host + imageUrl
+							}
+							result.ogImage = imageUrl;
+						}
+					}
+				}
+
+				res.out('budgeting/index.njk', true, result);
+			})
+			.catch(next);
 
 	});
 

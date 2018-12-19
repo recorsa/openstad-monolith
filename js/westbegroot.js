@@ -7,11 +7,10 @@ var minimalBudgetSpent = 200000;
 
 // vars
 var availableBudgetAmount = initialAvailableBudget;
-var currentBudgetSelection = openstadGetCookie('currentBudgetSelection') || [];
+var currentBudgetSelection = openstadGetStorage('currentBudgetSelection') || [];
 
 var currentStep = 1;
-// TODO: dit is ff snel en moet anders
-if (window.location.search.match(/returnFromLogin=true/)) {
+if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
 	currentStep = 4;
 }
 
@@ -33,10 +32,8 @@ function addIdeaToBudget(id) {
 	}
 	recalculateAvailableBudgetAmount();
 
-	openstadSetCookie('currentBudgetSelection', currentBudgetSelection)
+	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
 
-	scrollToBudget()
-	
 	updateBudgetDisplay();
 	updateListElements();
 
@@ -50,7 +47,7 @@ function removeIdeaFromBudget(id) {
 	currentBudgetSelection.splice(index, 1);
 	recalculateAvailableBudgetAmount();
 
-	openstadSetCookie('currentBudgetSelection', currentBudgetSelection)
+	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
 
 	scrollToBudget()
 
@@ -115,14 +112,7 @@ function nextStep() {
 	}
 
 	if (currentStep == 6) {
-		// klaar, nu alles weggooien
-		currentBudgetSelection = [];
-		openstadEraseCookie('currentBudgetSelection')
-		openstadEraseCookie('hide-info-bewoners-west')
-		openstadEraseCookie('lastSorted')
-		openstadEraseCookie('plannenActiveTab')
-		openstadEraseCookie('plannenActiveFilter')
-		openstadEraseCookie('sortOrder')
+		setTimeout(nextStep, 10000);
 	}
 
 	if (currentStep == 7) {
@@ -144,30 +134,46 @@ function updateBudgetDisplay() {
 
 	// always update the budget bar
 	var borderWidth = 3;
-	var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - borderWidth * ( currentBudgetSelection.length - 1 );
-	currentBudgetSelection.forEach((id) => {
-		var element = sortedElements.find( el => el.ideaId == id );
-		var width = ( totalWidth * ( element.budgetValue / initialAvailableBudget ));
-		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
-		// todo: better width calculation
-		budgetBarImage.style.width = width + 'px';
-		budgetBar.appendChild(budgetBarImage)
-	});
-	
+	var minwidth = 20;
+	var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
+	var availableWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
+	var usedWidth = 0;
+	var currentBudgetSelectionForWidth = currentBudgetSelection.map( function(id) { return sortedElements.find( el => el.ideaId == id ); } )
+	currentBudgetSelectionForWidth
+		.sort(function (a, b) {
+			return a.budgetValue - b.budgetValue;
+		})
+		.forEach((element) => {
+			var width =  parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
+			if (width < minwidth) {
+				availableWidth = availableWidth - ( minwidth - width );
+				width = minwidth
+			}
+			usedWidth += width;
+			element.budgetBarWidth = width;
+		})
+	if (availableBudgetAmount == 0) {
+		if (usedWidth > totalWidth ) {
+			currentBudgetSelectionForWidth.budgetBarWidth -= usedWidth - totalWidth ;
+		}
+		if (usedWidth < totalWidth ) {
+			currentBudgetSelectionForWidth[currentBudgetSelectionForWidth.length-1].budgetBarWidth += totalWidth - usedWidth;
+		}
+	}
 	budgetBar.innerHTML = '';
 	currentBudgetSelection.forEach((id) => {
 		var element = sortedElements.find( el => el.ideaId == id );
-		var width = ( totalWidth * ( element.budgetValue / initialAvailableBudget ));
 		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
 		// todo: better width calculation
-		budgetBarImage.style.width = width + 'px';
+		budgetBarImage.style.width = element.budgetBarWidth + 'px';
 		budgetBar.appendChild(budgetBarImage)
 	});
+	
 	var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 	previewImages.appendChild( addButton.cloneNode(true) )
 
-
 	// text
+	removeFromClassName(document.querySelector('#current-step').querySelector('#text'), 'error-block');
 	document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-' + currentStep).querySelector('.text').innerHTML;
 	
 	switch(currentStep) {
@@ -253,22 +259,27 @@ function updateBudgetDisplay() {
 	
 }
 
-function updateBudgetNextButton() {
+function updateBudgetNextButton(isError) {
 
 	var previousButton = document.querySelector('#previous-button');
 	var nextButton = document.querySelector('#next-button');
+
+	if (isError) {
+		removeFromClassName(previousButton, 'hidden');
+		addToClassName(nextButton, 'hidden');
+		return;
+	}
 
 	switch(currentStep) {
 
 		case 1:
 			addToClassName(previousButton, 'hidden');
 			nextButton.innerHTML = 'Volgende';
-			if (initialAvailableBudget - availableBudgetAmount > minimalBudgetSpent) {
+			if (initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent) {
 				addToClassName(nextButton, 'active')
 			} else {
 				removeFromClassName(nextButton, 'active')
 			}
-			
 			break;
 
 		case 2:
@@ -294,15 +305,68 @@ function updateBudgetNextButton() {
 			addToClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 			addToClassName(nextButton, 'active');
+
 	}
 	
 }
 
 function submitBudget() {
-	alert('ToDo');
-	nextStep();
+
+	removeFromClassName(document.querySelector('#waitLayer'), 'hidden');
+
+	if (!userIsLoggedIn) {
+		addToClassName(document.querySelector('#waitLayer'), 'hidden');
+		currentStep = 4;
+		updateBudgetDisplay();
+		return;
+	}
+
+	let data = {
+		budgetVote: currentBudgetSelection,
+		_csrf: csrfToken,
+	}
+
+	// let url = '/begroten/stem';
+	let url = '/api/site/15/budgeting';
+	
+
+	fetch(url, {
+		method: 'post',
+		headers: {
+			"Content-type": "application/json",
+			"Accept": "application/json",
+		},
+		body: JSON.stringify(data),
+	})
+		.then( response => response.json() )
+		.then( function (json) {
+
+			if (json.status && json.status != 200) throw json.message;
+			
+			// na het stemmen bewaren we niets meer
+			currentBudgetSelection = [];
+			openstadRemoveStorage('currentBudgetSelection');
+			openstadRemoveStorage('hide-info-bewoners-west');
+			openstadRemoveStorage('lastSorted');
+			openstadRemoveStorage('plannenActiveTab');
+			openstadRemoveStorage('plannenActiveFilter');
+			openstadRemoveStorage('sortOrder');
+			availableBudgetAmount = initialAvailableBudget;
+
+			addToClassName(document.querySelector('#waitLayer'), 'hidden');
+			nextStep();
+
+			
+		})
+		.catch( function (error) {
+			addToClassName(document.querySelector('#waitLayer'), 'hidden');
+			console.log('Request failed', error);
+			showError('Het opslaan van je stem is niet gelukt: ' + ( error && error.message ? error.message : error ))
+		});
+
 }
 
+// error on field
 function addError(element, text) {
 	addToClassName(element, 'error');
 	element.setAttribute('data-error-content', text);
@@ -313,12 +377,23 @@ function removeError(element, text) {
 	element.setAttribute('data-error-content', '');
 }
 
+// error in budgeting window
+function showError(error) {
+	var previewImages = document.querySelector('#current-budget-preview').querySelector('.current-budget-images');
+	var previewTable = document.querySelector('#current-budget-preview').querySelector('.current-budget-table');
+	addToClassName(previewImages, 'hidden');
+	addToClassName(previewTable, 'hidden');
+	document.querySelector('#current-step').querySelector('#text').innerHTML = error;
+	addToClassName(document.querySelector('#current-step').querySelector('#text'), 'error-block');
+	updateBudgetNextButton(true);
+}
+
 // end budgeting functions
 // ----------------------------------------------------------------------------------------------------
 // sort functions
 
-var sortOrder = openstadGetCookie('sortOrder') || 'random';
-var lastSorted = openstadGetCookie('lastSorted');
+var sortOrder = openstadGetStorage('sortOrder') || 'random';
+var lastSorted = openstadGetStorage('lastSorted');
 
 var sortedElements = [];
 
@@ -347,7 +422,7 @@ function initSortedElements() {
 		sortedElements.forEach( element  => {
 			lastSorted.push(element.ideaId);
 		});
-		openstadSetCookie('lastSorted', lastSorted);
+		openstadSetStorage('lastSorted', lastSorted);
 	}
 
 	updateList();
@@ -357,7 +432,7 @@ function initSortedElements() {
 function doSort(which) {
 
 	sortOrder = which;
-	openstadSetCookie('sortOrder', sortOrder);
+	openstadSetStorage('sortOrder', sortOrder);
 
 	switch(sortOrder){
 		case 'random':
@@ -379,8 +454,8 @@ function doSort(which) {
 // ----------------------------------------------------------------------------------------------------
 // tab selector functions
 
-var activeTab = openstadGetCookie('plannenActiveTab') || 0;
-var activeFilter = openstadGetCookie('plannenActiveFilter') || 0;
+var activeTab = openstadGetStorage('plannenActiveTab') || 0;
+var activeFilter = openstadGetStorage('plannenActiveFilter') || 0;
 
 (function() {
 	activateTab(activeTab)
@@ -391,7 +466,7 @@ function activateTab(which) {
 	gridderClose();
 	removeFromClassName(document.getElementById('themaSelector' + activeTab), 'active');
 	activeTab = which;
-	openstadSetCookie('plannenActiveTab', activeTab);
+	openstadSetStorage('plannenActiveTab', activeTab);
 	addToClassName(document.getElementById('themaSelector' + activeTab), 'active');
 	updateList();
 }
@@ -399,7 +474,7 @@ function activateTab(which) {
 function activateFilter(which) {
 	gridderClose();
 	activeFilter = which;
-	openstadSetCookie('plannenActiveFilter', activeFilter);
+	openstadSetStorage('plannenActiveFilter', activeFilter);
 	document.getElementById('filterSelector').selectedIndex = activeFilter;
 	if (document.getElementById('filterSelector').selectedIndex == '0') {
 		document.getElementById('filterSelector').options[0].innerHTML = 'Filter op gebied';
@@ -554,11 +629,11 @@ function showInfoBewonersWest() {
 
 function hideInfoBewonersWest() {
 	document.querySelector('#info-bewoners-west').style.display = 'none';
-	openstadSetCookie('hide-info-bewoners-west', true);
+	openstadSetStorage('hide-info-bewoners-west', true);
 }
 
 (function() {
-	if (!openstadGetCookie('hide-info-bewoners-west')) {
+	if (!openstadGetStorage('hide-info-bewoners-west')) {
 		showInfoBewonersWest();
 	}
 })();
@@ -612,12 +687,42 @@ function scrollToResolver(elem) {
   }
 }
 
+ function openstadSetStorage(name, value) {
+
+	 if ( typeof name != 'string' ) return;
+
+	 if ( typeof value == 'undefined' ) value = "";
+	 if ( typeof value == 'object' ) {
+		 try {
+			 value = JSON.stringify(value);
+		 } catch(err) {}
+	 };
+
+	 sessionStorage.setItem( name, value );
+
+ }
+
+ function openstadGetStorage(name) {
+
+	 var value = sessionStorage.getItem(name);
+
+	 try {
+		 value = JSON.parse(value);
+	 } catch(err) {}
+
+	 return value;
+
+ }
+
+ function openstadRemoveStorage(name) {   
+   sessionStorage.removeItem(name)
+ }
+
 // end other
 // ----------------------------------------------------------------------------------------------------
 // init
 
 recalculateAvailableBudgetAmount();
-
 updateBudgetDisplay();
 
 // dev

@@ -1,6 +1,7 @@
 const express = require('express');
 const fetch = require('isomorphic-fetch');
 const nunjucks = require('nunjucks');
+const createError = require('http-errors');
 const config = require('config');
 const db = require('../../db');
 
@@ -11,6 +12,11 @@ let router = express.Router({mergeParams: true});
 router
 	.route('/login')
 	.get(function( req, res, next ) {
+
+		if (req.session.userAccessToken) {
+			// al ingelogd
+			return res.redirect(config.url + '/begroten')
+		}
 
 		if (req.query.redirect_uri) {
 			req.session.afterLoginRedirectUri = req.query.redirect_uri
@@ -36,7 +42,7 @@ router
 		let code = req.query.code;
 
 		// TODO: meer afvangingen en betere response
-		if (!code) return next(new Error('Inloggen niet gelukt: geen code'));
+		if (!code) return next(createError(403, 'Je bent niet ingelogd'));
 
 		let url = config.authorization['auth-server']
 		url += '/oauth/access_token'; // todo: naar config
@@ -59,7 +65,7 @@ router
 				json => {
 					
 					let accessToken = json.access_token;
-					if (!accessToken) return next(new Error('Inloggen niet gelukt: geen accessToken'));
+					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;

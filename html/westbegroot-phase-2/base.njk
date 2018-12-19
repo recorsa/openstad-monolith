@@ -5,6 +5,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+		{% if ogTitle %}
+			<meta property="og:title" content="{{ogTitle}}" />
+		{% endif %}
+		{% if ogImage %}
+			<meta property="og:image" content="{{ogImage}}" />
+		{% endif %}
 		
 		<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
 		
@@ -12,7 +19,6 @@
 
 		<script src="/js/cookies.js"></script>
 		<script src="/js/fetch.js"></script>
-		<script src="/js/webcomponents-bundle.js"></script>
 		
 		<meta name="viewport" content="initial-scale=1">
 		{% block head %}

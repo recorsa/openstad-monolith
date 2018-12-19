@@ -66,8 +66,11 @@
 					background-position: center;
 					background-size: cover;
 				}
+
 			}
+			
 		}
+
 	}
 
 
@@ -482,7 +485,7 @@
 	}
 
 	#waitLayer {
-		display: none;
+		display: block;
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -491,6 +494,11 @@
 		background-color: white;
 		opacity: .6;
 		z-index: 10000;
+
+		&.hidden {
+			display: none;
+		}
+		
 	}
 
 	.error {
@@ -508,7 +516,15 @@
 			content: attr(data-error-content);
 		}
 	}
-	
+
+	.error-block {
+		width: 100%;
+		padding: 15px 20px;
+		font-weight: 800;
+		color: white;
+		background-color: @amsterdam-red;
+	}
+
 }
 
 
