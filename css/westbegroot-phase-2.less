@@ -44,7 +44,19 @@
 		height: 34px;
 		border: 3px solid @amsterdam-navyblue;
 
+
+
 		.current-budget-images {
+			position: relative;
+			&:after {
+				content: " ";
+				width: 1px;
+				height: 100%;
+				position: absolute;
+				left: 66.6%;
+				top: 0;
+				border-left: 1px dashed #ea1d25;
+			}
 
 			width: calc(100% + 3px);
 			height: 100%;
@@ -331,6 +343,8 @@
 
 					&.editMode {
 						.current-budget-images {
+
+
 							.idea-image {
 								opacity: .5;
 								-webkit-transition: all 40ms; /* Safari */
