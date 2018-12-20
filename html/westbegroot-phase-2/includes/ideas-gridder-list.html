@@ -51,7 +51,6 @@
 								</div>
 							</div>
 							<br />
-
 							<div class="share-buttons">
 									<table class="table-center">
 										<tr>
@@ -85,7 +84,6 @@
 								<a href="{{fullUrl}}/originele-plannen/plan/{{idea.id}}" class="link-caret--blue">Bekijk het originele voorstel</a>
 							</div>
 							<br />
-
 							<div class="align-left">
 								<div class="budget">{{idea.budget}}</div>
 								<div class="button-add-idea-to-budget btn--blue" onclick="toggleIdeaInBudget({{idea.id}})"></div>
@@ -93,6 +91,9 @@
 						</div>
 						<div class="col-sm-6 col-xs-12">
 							<h3 class="grider-title">{{idea.title}}</h3>
+							<div class="intro">
+								{{idea.summary | safe}}
+							</div>
 							<div class="description">
 								{{idea.description | safe}}
 							</div>
