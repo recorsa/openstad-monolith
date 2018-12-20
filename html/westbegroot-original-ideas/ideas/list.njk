@@ -1,0 +1,268 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+
+{% set pageTitle    = 'Plannen' %}
+{% set contentClass = 'ideasList' %}
+
+{% block content %}
+
+	<style>
+	 a.terug-link {
+		 display: block;
+		 position: relative;
+		 padding-left: 15px;
+		 font-size: 14px;
+		 font-weight: 500;
+		 color: #787979;
+	 }
+	 a.terug-link:before {
+		 position: absolute;
+		 content: '';
+		 top: 3px;
+		 left: 0;
+		 width: 6px;
+		 height: 10px;
+		 background-position: 0 0;
+		 background-size: 6px 10px;
+		 background-image: url(/originele-plannen/img/arrow_left_black.svg);
+		 background-repeat: no-repeat;
+	 }
+	 a.terug-link:hover, a.terug-link:visited {
+		 underline: none;
+		 color: #787979;
+	 }
+	</style>
+	<a href="/begroten" class="terug-link">Terug</a>
+
+	<h2>Alle ingediende plannen voor West Begroot ({{runningIdeas.length}})</h2>
+		
+	<div id="map-with-buttons-container">
+		<div id="mapcontainer">
+			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
+		</div>
+		<!--
+				 <a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
+				 Stuur je plan in!
+				 </a>
+		-->
+		{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
+	</div>
+{% endblock %}
+
+{% block content2 %}
+	<div id="ideas" class="primary">
+
+		<div class="tab-selector">
+			<ul>
+				<li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>
+				<li><a id="themaSelector1" href="javascript: void activateTab(1)">Groen</a></li>
+				<li><a id="themaSelector2" href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</a></li>
+				<li><a id="themaSelector3" href="javascript: void activateTab(3)">Duurzaam</a></li>
+			</ul>
+			<div class="divider"></div>
+			<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+				<option value="0">Alle gebieden</option>
+				<option value="Oud-West">Oud-West</option>
+				<option value="Bos en Lommer">Bos en Lommer</option>
+				<option value="De Baarsjes">De Baarsjes</option>
+				<option value="Westerpark">Westerpark</option>
+				<option value="West Algemeen">West Algemeen</option>
+			</select>
+			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+		</div>
+
+		<div class="sort">
+			<select class="default-select">
+				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+				<!--
+						 <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
+				-->
+			</select>
+		</div>
+		
+		{# Weird formatting because of `display: inline-block` #}
+		{% for idea in runningIdeas
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
+			<a href="/originele-plannen/plan/{{idea.id}}">
+				{% if idea.status != 'DENIED' %}
+					<!--
+							 <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
+					-->
+				{% endif %}
+				
+				<div class="image"></div>
+
+				<div class="duration">
+					{% if idea.status == 'DENIED' %}
+						Dit voorstel is afgewezen
+					{% elif idea.status == 'CLOSED' %}
+						De stemperiode is afgelopen
+					{% endif %}
+				</div>
+
+				<div class="info">
+					<h3>{{idea.title}}</h3>
+
+					{% if idea.extraData %}
+						<div class="thema">{{idea.extraData.thema}}</div>
+						<div class="gebied">{{idea.extraData.gebied}}</div>
+					{% endif %}
+
+					<p>{{idea.summary | safe | nl2br}}</p>
+					
+					<div class="ideaProgress">
+						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
+					</div>
+					
+					<div class="ideaStats">
+						<table width="100%" border="0" celpadding="0" cellspacting="0">
+							<tr>
+								<td align="left"><div class="count yes">{{idea.yes}}</div></td>
+								<td align="center"><div class="count no">{{idea.no}}</div></td>
+								<td align="right"><div class="count arguments">{{idea.argCount}}</div></td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</a>
+		</div>{%
+					else %}
+		<i>Wees de eerste met een goed plan voor jouw buurt!</i>
+		{% endfor %}
+		
+		{# {% if can('ideas:archive') %}
+		<a href="/plannen/archief" id="viewArchive">Bekijk het archief</a>
+		{% endif %} #}
+	</div>
+	
+{% endblock %}
+
+{% block scripts %}
+	<script>
+
+	 // tab selector functions
+	 var activeTab = getCookie('plannenActiveTab') || 0;
+	 var activeFilter = getCookie('plannenActiveFilter') || 0;
+	 (function() {
+		 activateTab(activeTab)
+		 activateFilter(activeFilter)
+	 })();
+
+	 function getCookie(name) {
+		 var value = "; " + document.cookie;
+		 var parts = value.split("; " + name + "=");
+		 if (parts.length == 2) return parts.pop().split(";").shift();
+	 }
+
+	 function activateTab(which) {
+		 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
+		 activeTab = which;
+		 document.cookie = 'plannenActiveTab=' + activeTab;
+		 document.getElementById('themaSelector' + activeTab).className += ' active';
+		 updateDisplay();
+	 }
+
+	 function activateFilter(which) {
+		 activeFilter = which;
+		 document.cookie = 'plannenActiveFilter=' + activeFilter;
+		 document.getElementById('filterSelector').selectedIndex = activeFilter;
+		 if (document.getElementById('filterSelector').selectedIndex == '0') {
+			 document.getElementById('filterSelector').options[0].innerHTML = 'Filter op gebied';
+		 } else {
+			 document.getElementById('filterSelector').options[0].innerHTML = 'Alle gebieden';
+		 }
+	 updateDisplay();
+	 }
+
+	 function deactivateAll() {
+		 activateTab(0)
+		 activateFilter(0)
+	 }
+
+	 function updateDisplay() {
+		 var activeThema = document.getElementById('themaSelector' + activeTab).innerHTML;
+		 var activeGebied = document.getElementById('filterSelector').value;
+
+		 let elements = document.getElementsByClassName('tile');
+		 Array.prototype.forEach.call(elements, function(element) {
+			 var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
+			 var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
+			 if ((( !activeTab || activeTab == 0 ) || activeThema == elementThema) && (( !activeFilter || activeFilter == 0 ) || activeGebied == elementGebied)) {
+				 element.style.display = 'inline-block';
+			 } else {
+				 element.style.display = 'none';
+			 }
+		 });
+
+	 }
+
+	</script>
+	<script>
+	 // Sorting dropdown
+	 // ----------------
+	 (function() {
+		 var select = document.querySelector('#content2 > .primary > .sort > select');
+		 select.addEventListener('change', function() {
+			 // Replace current `sort=x` with new choice.
+				 var pathName = location.pathname;
+			 var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
+			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
+		 });
+	 })();
+	</script>
+	<script>
+	 // Progressive thumbnail loading
+	 // -----------------------------
+	 (function() {
+		 var tiles = $('#content2 > .primary > .tile:not([data-poster-url=""])');
+		 
+		 loadTileImages();
+		 window.addEventListener('scroll', loadTileImages);
+		 window.addEventListener('resize', loadTileImages);
+		 
+		 // Checks the current scroll position, and loads all tile image that are in
+		 // the range 'top of the page' to '50% viewport height below the current viewport'.
+			 function loadTileImages() {
+				 // Throttle checking to once every 100 ms.
+					 var now = +new Date;
+				 if( now - this.last < 100 ) return;
+				 this.last = now;
+				 
+				 var viewHeight = window.innerHeight;
+				 var scrollTop  = 'pageYOffset' in window            ? window.pageYOffset :
+													document.documentElement.scrollTop ? document.documentElement.scrollTop :
+			                    document.body.scrollTop;
+				 var tile;
+				 for( var i = 0; tile = tiles[i]; i++ ) {
+					 // Load in all tile that are in view, or are 50% of the view height
+					 // below the fold.
+						 var tileTop       = offsetTop(tile) || 0;
+					 var isOrWasInView = tileTop < (scrollTop + viewHeight * 1.5);
+					 if( isOrWasInView ) {
+						 // Load actual image...
+							 var img = tile.querySelector('div.image');
+						 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
+						 // ... and remove tile from the checklist.
+							 tile.removeAttribute('data-poster-url');
+						 tiles.splice(i, 1);
+						 i--;
+					 }
+				 }
+			 }
+		 
+		 // Element's vertical position, measured from the top of the page.
+			 function offsetTop( el, top ) {
+				 top = (top || 0) + el.offsetTop;
+				 return el && el.offsetParent && el.offsetParent != document.body ?
+								offsetTop(el.offsetParent, top) :
+								top;
+			 }
+	 })();
+	</script>
+{% endblock %}
+
+
