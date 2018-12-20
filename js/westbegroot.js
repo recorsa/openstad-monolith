@@ -99,7 +99,7 @@ function nextStep() {
 			return;
 		}
 	}
-	
+
 	currentStep++;
 	updateBudgetDisplay();
 
@@ -118,7 +118,7 @@ function nextStep() {
 	if (currentStep == 7) {
 		window.location.href = '/begroten'
 	}
-	
+
 }
 
 function updateBudgetDisplay() {
@@ -160,6 +160,17 @@ function updateBudgetDisplay() {
 			currentBudgetSelectionForWidth[currentBudgetSelectionForWidth.length-1].budgetBarWidth += totalWidth - usedWidth;
 		}
 	}
+
+	// var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - borderWidth * ( currentBudgetSelection.length - 1 );
+	// currentBudgetSelection.forEach((id) => {
+	//  	var element = sortedElements.find( el => el.ideaId == id );
+	//  	var width = ( totalWidth * ( element.budgetValue / initialAvailableBudget ));
+	//  	var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
+	//  	// todo: better width calculation
+	//  	budgetBarImage.style.width = width + 'px';
+	//  	budgetBar.appendChild(budgetBarImage)
+	// });
+
 	budgetBar.innerHTML = '';
 	currentBudgetSelection.forEach((id) => {
 		var element = sortedElements.find( el => el.ideaId == id );
@@ -175,7 +186,7 @@ function updateBudgetDisplay() {
 	// text
 	removeFromClassName(document.querySelector('#current-step').querySelector('#text'), 'error-block');
 	document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-' + currentStep).querySelector('.text').innerHTML;
-	
+
 	switch(currentStep) {
 
 		case 1:
@@ -183,8 +194,8 @@ function updateBudgetDisplay() {
 			removeFromClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
 
-			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
-			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
+			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
+		  $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			previewImages.innerHTML = '';
 			currentBudgetSelection.forEach((id) => {
@@ -208,28 +219,41 @@ function updateBudgetDisplay() {
 
 		case 2:
 
-			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
-			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
+			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
+			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			addToClassName(previewImages, 'hidden');
 			removeFromClassName(previewTable, 'hidden');
 			addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
 
 			var overview = previewTable.querySelector('.overview');
+			var $overviewContainer = $(previewTable).find('.overview');
+
 			overview.innerHTML = '';
+
+			var overviewHtml = ''
+
 			currentBudgetSelection.forEach((id) => {
 				var element = sortedElements.find( el => el.ideaId == id );
-				overview.appendChild(element.querySelector('.idea-image-mask').cloneNode(true));
-				overview.appendChild(element.querySelector('.title').cloneNode(true));
-				overview.appendChild(element.querySelector('.budget').cloneNode(true));
+				var imageEl = element.querySelector('.idea-image-mask').cloneNode(true).innerHTML;
+				var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
+				var budgetEl = element.querySelector('.budget').cloneNode(true).innerHTML;
+
+				overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td><td class="text-align-right primary-color">' +budgetEl+ '</td></tr>';
 			});
-			
+
+			overviewHtml = overviewHtml + '<tr class="line stretch"><td  colspan="3" ><hr /></td></tr>';
+			overviewHtml = overviewHtml + '<tr class="total-row primary-color"><td colspan="3"><div style="float:left;">Totaal gebruikt budget</div> <div style="float:right;">'+formatEuros(initialAvailableBudget - availableBudgetAmount, true)+'</div></td></tr>';
+			$overviewContainer.append('<table cellpadding="0" class="table-center stretch">' + overviewHtml + '</table>');
+			$overviewContainer.append('<hr class="fully"/>');
+			$overviewContainer.append('<div class="row bold leftovers"><div class="col-xs-6">Ongebruikt budget:</div><div class="col-xs-6 align-right">'+formatEuros(availableBudgetAmount, true)+'</div></div>');
+
 			break;
 
 		case 3:
 
-			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
-			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
+			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
+			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			addToClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
@@ -239,8 +263,8 @@ function updateBudgetDisplay() {
 
 		case 4:
 
-			document.querySelector('#current-budget-amount').innerHTML = formatEuros(initialAvailableBudget - availableBudgetAmount);
-			document.querySelector('#available-budget-amount').innerHTML = formatEuros(availableBudgetAmount);
+			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
+			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			addToClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
@@ -251,12 +275,12 @@ function updateBudgetDisplay() {
 
 		case 6:
 			break;
-			
+
 
 	}
 
 	updateBudgetNextButton();
-	
+
 }
 
 function updateBudgetNextButton(isError) {
@@ -307,7 +331,7 @@ function updateBudgetNextButton(isError) {
 			addToClassName(nextButton, 'active');
 
 	}
-	
+
 }
 
 function submitBudget() {
@@ -411,7 +435,7 @@ function initSortedElements() {
 		var id = element.id.match(/idea-(\d+)/)[1];
 		element.ideaId = parseInt(id);
 		element.budgetValue = parseInt( element.querySelector('.budget-value').innerHTML ); // easier to use later
-		element.querySelectorAll('.budget').forEach( el => el.innerHTML = formatEuros(el.innerHTML) );
+		element.querySelectorAll('.budget').forEach( el => el.innerHTML = formatEuros(el.innerHTML, true) );
 		sortedElements.push(element);
 	});
 
@@ -426,7 +450,7 @@ function initSortedElements() {
 	}
 
 	updateList();
-	
+
 }
 
 function doSort(which) {
@@ -510,7 +534,7 @@ function updateList() {
 	});
 
 	updateListElements()
-	
+
 }
 
 // update list elements after changes in budget
@@ -656,15 +680,16 @@ function removeFromClassName(element, className) {
 	// }
 }
 
-function formatEuros(amount) {
-	
+function formatEuros(amount, html) {
+	console.log('---> html');
 	// todo: nu hardcoded want max 300K
 	amount = parseInt(amount);
 	let thousends = parseInt(amount/1000);
 	let rest = ( amount - 1000 * thousends ).toString();
 	if (rest.length < 3) rest = '0' + rest;
 	if (rest.length < 3) rest = '0' + rest;
-	return '€ ' +  thousends + '.' + rest;
+
+	return html ? '<span class="eurosign">€ </span><span class="amount">' + thousends + '.' + rest + '</span>' : '€ ' +  thousends + '.' + rest;
 }
 
 function scrollToIdeas() {

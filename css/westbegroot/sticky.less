@@ -1,0 +1,51 @@
+.sticky-bar {
+	-webkit-transition: all 400ms; /* Safari */
+	transition: all 400ms;
+
+	.pageContent {
+		padding-bottom: 0;
+	}
+
+	.sticky-expand, .sticky-contract {
+		display: none;
+	}
+
+	&.sticky {
+		background-color: @light-grey2;
+		box-shadow: 0 6px 8px 4px rgba(0, 0, 0, 0.5);
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100003;
+		width: 100%;
+
+		&.closed {
+	    #steps-bar, #steps-content {
+	      display: none !important;
+	    }
+
+			.sticky-expand {
+				display: block;
+				color: #00479d;
+				margin: 10px 0;
+			}
+
+			.sticky-contract {
+				display: none;
+			}
+	  }
+
+
+		&.open {
+			.sticky-expand {
+				display: none;
+			}
+
+			.sticky-contract {
+				display: block;
+				margin: 10px 0;
+
+			}
+		}
+	}
+}
