@@ -179,7 +179,7 @@ function updateBudgetDisplay() {
 		budgetBarImage.style.width = element.budgetBarWidth + 'px';
 		budgetBar.appendChild(budgetBarImage)
 	});
-	
+
 	var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 	previewImages.appendChild( addButton.cloneNode(true) )
 
@@ -307,7 +307,7 @@ function updateBudgetNextButton(isError) {
 			break;
 
 		case 2:
-			nextButton.innerHTML = 'Vul je stemocode in';
+			nextButton.innerHTML = 'Vul je stemcode in';
 			removeFromClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 			break;
@@ -352,7 +352,7 @@ function submitBudget() {
 
 	// let url = '/begroten/stem';
 	let url = '/api/site/15/budgeting';
-	
+
 
 	fetch(url, {
 		method: 'post',
@@ -366,7 +366,7 @@ function submitBudget() {
 		.then( function (json) {
 
 			if (json.status && json.status != 200) throw json.message;
-			
+
 			// na het stemmen bewaren we niets meer
 			currentBudgetSelection = [];
 			openstadRemoveStorage('currentBudgetSelection');
@@ -380,7 +380,7 @@ function submitBudget() {
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
 			nextStep();
 
-			
+
 		})
 		.catch( function (error) {
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
@@ -739,7 +739,7 @@ function scrollToResolver(elem) {
 
  }
 
- function openstadRemoveStorage(name) {   
+ function openstadRemoveStorage(name) {
    sessionStorage.removeItem(name)
  }
 
