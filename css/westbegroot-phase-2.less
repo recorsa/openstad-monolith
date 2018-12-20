@@ -1,4 +1,9 @@
 @import 'stemvan/base';
+@import 'base/grid-bootstrap';
+@import 'base/helpers';
+@import 'base/buttons';
+@import 'base/links';
+@import 'base/layout';
 
 /* ----------------------------------------------------------------------------------------------------
  * override openstad defaults */
@@ -18,15 +23,14 @@
 	}
 }
 
+
 /* ----------------------------------------------------------------------------------------------------
  * budgeting block */
 
 #budget-block {
-
 	display: block;
 	position: relative;
 	width: 100%;
-	margin-top: 20px;
 	margin-bottom: 0;
 	background-color: @light-grey2;
 
@@ -36,7 +40,6 @@
 	}
 
 	#current-budget-bar {
-
 		width: 100%;
 		height: 34px;
 		border: 3px solid @amsterdam-navyblue;
@@ -45,7 +48,7 @@
 
 			width: calc(100% + 3px);
 			height: 100%;
-			
+
 			.idea-image-mask {
 				display: block;
 				float: left;
@@ -55,7 +58,7 @@
 				height: 100%;
 				background-color: #e7e7e7;
 				border-right: 3px solid @amsterdam-navyblue;
-					
+
 				.idea-image {
 					position: absolute;
 					top: 0;
@@ -71,7 +74,7 @@
 	}
 
 
-	
+
 	#steps-bar {
 
 		display: flex;
@@ -130,7 +133,7 @@
 					}
 
 				}
-				
+
 			}
 
 			&:first-child {
@@ -171,9 +174,9 @@
 						}
 					}
 				}
-			
+
 			}
-			
+
 		}
 
 	}
@@ -200,8 +203,6 @@
 			}
 
 			#content {
-				float: left;
-				width: 594px;
 				font-size: 14px;
 				font-weight: normal;
 				line-height: 1.57;
@@ -215,7 +216,7 @@
 				#current-budget-preview {
 
 					overflow: auto;
-					
+
 					.current-budget-images {
 
 						&.hidden {
@@ -223,14 +224,22 @@
 						}
 
 						.add-button {
-							display: block;
 							float: left;
-							width: 70px;
-							height: 70px;
+							width: 65px;
+							height: 65px;
 							margin-right: 15px;
 							background-color: white;
-							border: 2px dashed @amsterdam-lightgrey;
 							cursor: pointer;
+							text-align: center;
+							outline: 2px dashed  @amsterdam-lightgrey;
+							border: 4px solid #f6f7f7;
+							margin-top: 3px;
+							font-size: 12px;
+							font-weight: normal;
+							font-style: normal;
+							font-stretch: normal;
+							line-height: 1.6;
+							padding-top: 10px;
 						}
 
 						.idea-image-mask {
@@ -255,18 +264,15 @@
 							}
 						}
 					}
-
 					.current-budget-table {
-
 						&.hidden {
 							display: none;
 						}
 
 						.overview {
-
 							width: 100%;
-							padding: 20px 25px;
-							border: 3px solid #434343;
+							padding: 20px 25px 10px;
+							border: 2px solid #434343;
 							overflow: auto;
 
 							.idea-image-mask {
@@ -333,7 +339,7 @@
 				}
 
 				#budgeting-edit-mode-container {
-					
+
 					&.hidden {
 						display: none;
 					}
@@ -366,25 +372,26 @@
 	}
 
 	#button-bar {
-
-		position: absolute;
-		width: 100%;
-		right: 0px;
-		bottom: 0px;
-		height: 10px;
-
+		position: relative;
+    width: 100%;
+    right: 0px;
+    bottom: 0px;
+    height: 65px;
+    margin-bottom: 24px;
 		@media @phone {
 			background-color: @amsterdam-lightgrey;
 		}
 
 		#previous-button {
 			position: absolute;
-			bottom: 25px;
-			left: 40px;
-			padding-left: 18px;
-			font-weight: 600;
-			color: #004699;
-			cursor: pointer;
+	    bottom: 0;
+	    left: 40px;
+	    padding-left: 18px;
+	    font-weight: 600;
+	    color: #004699;
+	    cursor: pointer;
+	    top: 50%;
+	    margin-top: -20px;
 
 			&:before {
 				position: absolute;
@@ -420,7 +427,7 @@
 
 		#next-button {
 			position: absolute;
-			bottom: 20px;
+    	top: 0;
 			right: 57px;
 			padding: 11px 8px 11px 15px;
 			font-size: 16px;
@@ -430,7 +437,7 @@
 			background-color: @amsterdam-navyblue;
 			cursor: pointer;
 			opacity: .5;
-			
+
 			&.active {
 				opacity: 1;
 
@@ -508,7 +515,7 @@
 			content: attr(data-error-content);
 		}
 	}
-	
+
 }
 
 
@@ -536,7 +543,7 @@
 	margin-top: 20px;
 	margin-bottom: 0;
 	padding-right: 30px;
-	
+
 	.close-button {
 		position: absolute;
 		top: 14px;
@@ -564,29 +571,73 @@
 }
 
 .button-add-idea-to-budget {
-
-	display: block;
 	position: relative;
-	width: 148px;
-	height: 24px;
-	color: white;
-	background-color: @amsterdam-navyblue;
+	padding-left: 35px;
+	max-width: 100%;
+	min-width: 135px;
+	text-align: center;
+	-webkit-transition: all 400ms; /* Safari */
+	transition: all 400ms;
+
+	&:before {
+		content: " ";
+		background-image: url('../img/plus-icon.svg');
+		width: 18px;
+		height: 18px;
+		background-size: 100%;
+		position: absolute;
+    top: 12px;
+    left: 15px;
+	}
 
 	&:after {
 		content: "Voeg toe";
 	}
 
 	&.added {
+		background: white;
+    border: none;
+    color: #004699 !important;
+    outline: 2px #004699 solid;
+    outline-offset: -2px;
+    padding-left: 0;
+    text-align: center;
+    padding-right: 0;
+
+
 		&:after {
 			content: "Toegevoegd";
-			&:hover {
+		}
+
+		&:hover {
+			outline: 2px #434343 solid;
+			color: #434343 !important;
+			padding-left: 30px;
+
+			&:before {
+				background-image: url('../img/kruis.svg');
+				left: 18px;
+			}
+
+			&:after {
+				background-image: url('../img/checkmark.svg');
 				content: "Verwijder";
 			}
+		}
+
+		&:before {
+			background-image: url('../img/checkmark.svg');
 		}
 	}
 
 	&.unavailable {
 		opacity: .5;
+		padding-left: 0;
+		padding-right: 0;
+		text-align: center;
+		&:before {
+			background-image: none;
+		}
 		&:after {
 			content: "Geen budget";
 		}
@@ -601,6 +652,7 @@
 
 	.gridder-list {
 		cursor: auto;
+		background: #FFFFFF;
 	}
 
 	.button-read-more {
@@ -648,8 +700,13 @@
 		}
 
 	}
-	
+
 }
+
+@import 'westbegroot-overrides';
+@import 'westbegroot/sticky';
+@import 'westbegroot/checkbox-switch';
+
 
 /* ----------------------------------------------------------------------------------------------------
  * TAF */

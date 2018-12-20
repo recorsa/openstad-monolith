@@ -1,0 +1,167 @@
+{% macro showBudgetWindow() %}
+<div class="sticky-bar-container">
+	<div class="sticky-bar">
+		<div class="pageContent">
+			<div id="budget-block" >
+				<div id="budget-block">
+					<div id="steps-bar">
+						<div id="steps-bar-1" class="step active">
+							<div class="content">1. Kies</div>
+						</div>
+						<div id="steps-bar-2" class="step">
+							<div class="content">2. Overzicht</div>
+						</div>
+						<div id="steps-bar-3" class="step">
+							<div class="content">3. Stem</div>
+						</div>
+					</div>
+					<div id="current-budget-bar" class="sticky-visible">
+						<div class="current-budget-images"></div>
+					</div>
+					<div id="steps-content">
+						<div id="current-step">
+							<div class="row">
+								<div class="col-xs-8">
+									<div id="content">
+										<div id="text">
+											Kies uit onderstaand overzicht jouw favoriete plannen voor West.
+											Selecteer voor minimaal € 200.000 en maximaal € 300.000 aan plannen.
+											In stap 3 vul je om te stemmen jouw stemcode in die je per post hebt ontvangen.
+											<a href="javascript: void alert('todo')" class="link underline link-xs">
+												Geen stemcode ontvangen?
+											</a>
+										</div>
+										<br />
+										<div id="current-budget-preview">
+											<div class="current-budget-images"></div>
+											<div class="current-budget-table">
+												<h5 class="overview-title">Overzicht van mijn selectie</h5>
+												<div class="overview"></div>
+											</div>
+										</div>
+										<div id="budgeting-edit-mode-container" class="hidden">
+											<input id="budgeting-edit-mode" type="checkbox" onchange="setBudgetingEditMode()"> Bewerk selectie
+
+											<div class="onoffswitch">
+												<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+												<label class="onoffswitch-label" for="myonoffswitch">
+														<span class="onoffswitch-inner"></span>
+														<span class="onoffswitch-switch"></span>
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div id="budget-text">
+										<div>
+											<table class="primary-color stretch">
+												<tr >
+													<td><label>Budget gekozen:</label> </td>
+													<td><span class="current-budget-amount text-align-right block bold">0</span></td>
+												</tr>
+												<tr>
+													<td><label>Budget over:</label></td>
+													<td><span class="available-budget-amount  text-align-right block bold">0</span></td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="button-bar">
+							<div id="previous-button" onclick="previousStep();">
+								Vorige
+							</div>
+							<div id="next-button" onclick="nextStep();">
+								Volgende
+							</div>
+						</div>
+						<div id="steps-content-1" class="step">
+							<div class="text">
+								Kies uit onderstaand overzicht jouw favoriete plannen voor West. Selecteer voor minimaal € 200.000 en maximaal € 300.000 aan plannen. In stap 3 vul je om te stemmen jouw stemcode in die je per post hebt ontvangen. <a href="javascript: void alert('todo')" class="link underline link-xs">Geen stemcode ontvangen?</a>
+							</div>
+							<div class="add-button" onclick="scrollToIdeas();">
+								<div>
+									Voeg <br />toe
+								</div>
+							</div>
+						</div>
+
+						<div id="steps-content-2" class="step">
+							<div class="text">
+								Je bent bijna klaar! In de tabel hieronder kun je je selectie nog een keer controleren. Ben je tevreden? Klik dan onderaan de pagina door naar de plek waar je jouw stemcode in kunt vullen om je stem te versturen. Bewoners uit West hebben een stemcode ontvangen via de post. <a href="javascript: void alert('todo')" class="link underline link-xs">Geen stemcode ontvangen?</a>
+							</div>
+						</div>
+						<div id="steps-content-3" class="step">
+							<div class="text">
+								Je wordt nu doorgestuurd
+							</div>
+						</div>
+
+						<div id="steps-content-4" class="step">
+							<div class="text">
+								Je stemcode is gecontroleerd. Als laaste stap ga je nu je stem opsturen.
+							</div>
+						</div>
+
+						<div id="steps-content-5" class="step">
+							<div class="text">
+								&nbsp;
+							</div>
+						</div>
+
+						<div id="steps-content-6" class="step">
+							<div class="text">
+								Je hebt gestemd. Je wordt nu automatisch uitgelogd.
+							</div>
+						</div>
+
+						<div id="steps-content-7" class="step">
+							<div class="text">
+								&nbsp;
+							</div>
+						</div>
+
+					</div>
+
+					<div class="sticky-expand">
+						<div class="row">
+							<div class="col-xs-4">
+								<label>Budget gekozen:</label>
+								<span class="current-budget-amount bold">0</span>
+							</div>
+							<div class="col-xs-4">
+								<div class="text-center">
+									<label>Budget over:</label>
+									<span class="available-budget-amount bold">0</span>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="align-right">
+									<a href="#" class="expand link">
+										Uitklappen
+										<img src="/img/arrow_under_blue.svg" />
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="sticky-contract">
+						<div class="align-right">
+							<a href="#" class="contract link">
+								Inklappen
+								<img src="/img/arrow_up_blue.svg" />
+							</a>
+						</div>
+					</div>
+
+					<div id="waitLayer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endmacro %}

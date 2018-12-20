@@ -1,6 +1,6 @@
 {% extends 'ideas.njk' %}
-{% import 'includes/ideas-gridder-list.njk' as ideasList %}
-{% import 'includes/budgeting.njk' as budgeting %}
+{% import 'includes/ideas-gridder-list.html' as ideasList %}
+{% import 'includes/budgeting.html' as budgeting %}
 
 {% set pageTitle    = 'Ingestuurde ontwerpen' %}
 {% set contentClass = 'ideasList' %}
@@ -12,9 +12,10 @@
 			Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
 			<div class="close-button" onclick="hideInfoBewonersWest()"></div>
 		</div>
-
-		{{ budgeting.showBudgetWindow() }}
 	</div>
+
+	{{ budgeting.showBudgetWindow() }}
+
 
 	<script>
 	 csrfToken = '{{csrfToken}}';
@@ -47,21 +48,20 @@
 			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
 		</div>
 
-		Sorteer op:
-		<select id="selectSort" class="sort-selector" onchange="doSort(this.value)">
-			<option value="random">Willekeurig</option>
-			<option value="budget-down">Bedrag aflopend</option>
-			<option value="budget-up">Bedrag oplopend</option>
-		</select>
-
+		<div class="align-right">
+			<b> Sorteer op: </b>
+			<select id="selectSort" class="default-select sort-selector" onchange="doSort(this.value)">
+				<option value="random">Willekeurig</option>
+				<option value="budget-down">Bedrag aflopend</option>
+				<option value="budget-up">Bedrag oplopend</option>
+			</select>
+		</div>
 		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
-
-
 	</div>
-
 {% endblock %}
 
 {% block scripts %}
+	<script src="/js/sticky.js"></script>
 	<script>
 
 	 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
@@ -72,12 +72,12 @@
 	 // var email		    = '{{user.email}}'	     || openstadGetCookie('email')		    || '';
 	 // var hasVoted     = {{userHasVoted}}       || openstadGetCookie('hasVoted')     || '';
 	 // var hasConfirmed = {{userHasConfirmed}}   || openstadGetCookie('hasConfirmed') || '';
-	 //  	
-	 //  	
+	 //
+	 //
 	 // var match = window.location.hash.match(/showidea-(\d+)/);
 	 // var showIdeaId = match ? match[1] : undefined;
 	 // showIdeaId
-	 //  	
+	 //
 	 // // tmp
 	 // // var match = window.location.search.match(/stepNo=(\d+)/);
 	 // // if (match) {
@@ -85,31 +85,31 @@
 	 // //  	 hideStep(steps[0]);
 	 // //  	 showStep(steps[currentStep])
 	 // // }
-	 //  	
+	 //
 	 // // var match = window.location.search.match(/zipCode=([a-zA-Z0-9]{6})/);
 	 // // if (match) {
 	 // //  	 zipCode = match[1];
 	 // // }
 	 // document.querySelector('input[name=zipCode]').value = zipCode;
-	 //  	
+	 //
 	 // // var match = window.location.search.match(/email=([^&]+)/);
 	 // // if (match) {
 	 // //  	 email = match[1];
 	 // // }
 	 // document.querySelector('input[name=email]').value = email;
-	 //  	
+	 //
 	 // // var match = window.location.search.match(/ideaId=(\d+)/);
 	 // // if (match) {
 	 // //  	 ideaId = match[1];
 	 // // }
 	 // // document.querySelector('input[name=ideaId]').value = ideaId;
-	 //  	
+	 //
 	 // var match = window.location.hash.match(/closed/);
 	 // if (match) {
 	 //  	 hideVoteCreator();
 	 //  	 console.log('doClose')
 	 // } else {
-	 //  	
+	 //
 	 //  	 if (hasConfirmed) {
 	 //  		 setHasConfirmed();
 	 //  	 } else {
@@ -117,21 +117,21 @@
 	 //  			 setHasVoted();
 	 //  		 }
 	 //  	 }
-	 //  	
+	 //
 	 //  	 var match = window.location.hash.match(/vote-creator-anchor/);
 	 //  	 if (match) {
 	 //  		 showVoteCreator();
 	 //  	 }
-	 //  	
+	 //
 	 //  	 if (ideaId) {
 	 //  		 showVoteCreator()
 	 //  		 selectIdea(ideaId, true);
 	 //  	 }
-	 //  	
+	 //
 	 //  	 setNextButton();
-	 //  	
+	 //
 	 // }
-	 //  	
+	 //
 	 // window.onload = function(){
 	 //  	 var match = window.location.search.match(/showIdea=(\d+)/);
 	 //  	 if (match) {
@@ -145,5 +145,3 @@
 	</script>
 
 {% endblock %}
-
-

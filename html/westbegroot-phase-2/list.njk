@@ -20,17 +20,16 @@
 		{% include 'includes/end-date-bar' %}
 
 		<div id="ideas" class="primary">
-			<h1>
-				Ingestuurde ontwerpen ({{runningIdeas.length}})
-				<select id="selectSort">
+			<div class="align-right">
+				<h4> Ingestuurde ontwerpen ({{runningIdeas.length}}) </h4>
+				<select id="selectSort" class="default-select">
 					<option value="random">Sorteer</option>
 					<option {{'selected' if sort == 'ranking'}} value="ranking">Meeste stemmen</option>
 					<option {{'selected' if sort == 'rankinginverse'}} value="rankinginverse">Minste stemmen</option>
 				</select>
-			</h1>
+			</div>
 
 			{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
-
 		</div>
 
 	</div>
@@ -70,7 +69,7 @@
 	 var match = window.location.hash.match(/showidea-(\d+)/);
 	 var showIdeaId = match ? match[1] : undefined;
 	 showIdeaId
-	 
+
 	 // tmp
 	 // var match = window.location.search.match(/stepNo=(\d+)/);
 	 // if (match) {
@@ -138,5 +137,3 @@
 	</script>
 
 {% endblock %}
-
-
