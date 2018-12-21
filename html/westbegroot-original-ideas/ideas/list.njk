@@ -86,7 +86,7 @@
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
-		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="/originele-plannen{{idea.posterImageUrl}}">
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="originele-plannen{{idea.posterImageUrl}}">
 			<a href="/originele-plannen/plan/{{idea.id}}">
 				{% if idea.status != 'DENIED' %}
 					<!--
@@ -246,7 +246,7 @@
 					 if( isOrWasInView ) {
 						 // Load actual image...
 							 var img = tile.querySelector('div.image');
-						 img.style.backgroundImage = 'url(\''+tile.getAttribute('data-poster-url')+'\')';
+						 img.style.backgroundImage = 'url(\'/originele-plannen'+tile.getAttribute('data-poster-url')+'\')';
 						 // ... and remove tile from the checklist.
 							 tile.removeAttribute('data-poster-url');
 						 tiles.splice(i, 1);
