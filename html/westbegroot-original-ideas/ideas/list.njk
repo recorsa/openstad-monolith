@@ -86,7 +86,7 @@
 		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
-		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
+		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="/originele-plannen{{idea.posterImageUrl}}">
 			<a href="/originele-plannen/plan/{{idea.id}}">
 				{% if idea.status != 'DENIED' %}
 					<!--

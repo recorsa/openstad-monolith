@@ -14,7 +14,7 @@
 	<meta property="og:locale" content="nl_NL">
 	<meta property="og:site_name" content="{{SITENAME}}">
 	{% if idea.posterImage %}
-		<meta property="og:image" content="/image/{{idea.posterImage.key}}">
+		<meta property="og:image" content="/originele-plannen/image/{{idea.posterImage.key}}">
 	{% endif %}
 {% endblock %}
 
@@ -53,7 +53,7 @@
 		<div>
 			<div class="primary">
 				{% if idea.posterImage %}
-					<div class="image" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
+					<div class="image" style="background-image: url('/originele-plannen/image/{{idea.posterImage.key}}');"></div>
 				{% elif idea.location %}
 					<div class="image" style="background-image: url(
 					'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}'
