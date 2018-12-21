@@ -246,7 +246,13 @@
 					 if( isOrWasInView ) {
 						 // Load actual image...
 							 var img = tile.querySelector('div.image');
-						 img.style.backgroundImage = 'url(\'/originele-plannen'+tile.getAttribute('data-poster-url')+'\')';
+
+						 let src = tile.getAttribute('data-poster-url');
+						 if (src.match(/^\/image/)) {
+							 src = '/originele-plannen' + src;
+						 }
+						 
+						 img.style.backgroundImage = 'url(\''+src+'\')';
 						 // ... and remove tile from the checklist.
 							 tile.removeAttribute('data-poster-url');
 						 tiles.splice(i, 1);
