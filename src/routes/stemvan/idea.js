@@ -15,7 +15,7 @@ var util         = require('../../util')
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.route('(/originele-plannen/ideas|/originele-plannen/plannen)')
+	app.route('(/ideas|/plannen)')
 		.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 		.get(function( req, res, next ) {
 			// Figure out idea sorting, and store in the user's session.
@@ -60,7 +60,7 @@ module.exports = function( app ) {
 	// View idea
 	// ---------
 	var router = express.Router();
-	app.use('(/originele-plannen/idea|/originele-plannen/plan)', router);
+	app.use('(/idea|/plan)', router);
 	
 	router.route('/:ideaId(\\d+)')
 	// some instance do not use the /idea/:id page but show the idea in the list only
