@@ -15,7 +15,7 @@ var util         = require('../../util')
 module.exports = function( app ) {
 	// Idea index page
 	// ---------------
-	app.route('(/ideas|/plannen)')
+	app.route('(/|/ideas|/plannen)')
 		.all(auth.can('ideas:list', 'ideas:archive', 'idea:create'))
 		.get(function( req, res, next ) {
 			// Figure out idea sorting, and store in the user's session.
