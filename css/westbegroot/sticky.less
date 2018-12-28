@@ -20,7 +20,7 @@
 		width: 100%;
 
 		&.closed {
-	    #steps-bar, #steps-content {
+	    #steps-bar, #steps-content, #button-bar {
 	      display: none !important;
 	    }
 
@@ -28,6 +28,11 @@
 				display: block;
 				color: #00479d;
 				margin: 10px 0;
+
+				@media @xs {
+					margin: 0;
+				}
+
 			}
 
 			.sticky-contract {
@@ -47,5 +52,13 @@
 
 			}
 		}
+	}
+}
+
+.expand-bar {
+	@media @xs {
+		background: #e8e8e8;
+		text-align: center;
+		padding: 8px;
 	}
 }

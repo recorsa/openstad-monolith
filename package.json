@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "stemvan" : "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -35,7 +36,6 @@
     "less-middleware": "^3.0.1",
     "lodash": "^4.17.10",
     "method-override": "^2.3.7",
-    "mmmagic": "^0.4.5",
     "mocha": "^5.2.0",
     "moment-timezone": "^0.5.10",
     "multer": "^1.2.0",

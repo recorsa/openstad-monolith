@@ -2,7 +2,11 @@
 (function($) {
   var $stickyBar = $('.sticky-bar');
   var stickyBarOffset = $stickyBar.offset().top + $stickyBar.height();
-  $('.sticky-bar-container').css('min-height', $('.sticky-bar').height() + 'px');
+  function calculateContainerHeight() {
+    $('.sticky-bar-container').css('min-height', $('.sticky-bar').height() + 'px');
+  }
+
+  calculateContainerHeight();
   // When the user scrolls the page, execute myFunction
   window.onscroll = function () {
     if (window.pageYOffset > stickyBarOffset) {
@@ -28,4 +32,9 @@
     $stickyBar.addClass("closed");
     $stickyBar.removeClass("open");
   });
+
+  $('#next-button').on('click', function (ev) {
+    calculateContainerHeight();
+  });
+
 })(jQuery);

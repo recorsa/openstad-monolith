@@ -5,6 +5,13 @@
 @import 'base/links';
 @import 'base/layout';
 
+
+@m        		: ~'only screen and (max-width: 992px)';
+
+@gridderFull 	: ~'only screen and (max-width: 670px)';
+
+@xs        		: ~'only screen and (max-width: 772px)';
+
 /* ----------------------------------------------------------------------------------------------------
  * override openstad defaults */
 
@@ -35,8 +42,8 @@
 	background-color: @light-grey2;
 
 	@media @phone {
-		width: calc(100% + 30px);
-		margin-left: -15px;
+//		width: calc(100% + 30px);
+//		margin-left: -15px;
 	}
 
 	#current-budget-bar {
@@ -55,7 +62,7 @@
 				position: absolute;
 				left: 66.6%;
 				top: 0;
-				border-left: 1px dashed #ea1d25;
+				border-left: 1px dashed #05ab57;
 			}
 
 			width: calc(100% + 3px);
@@ -191,6 +198,9 @@
 
 		}
 
+	}
+	.step {
+		display: none;
 	}
 
 	#steps-content {
@@ -398,8 +408,6 @@
 
 			#budget-text {
 				float: left;
-				width: 204px;
-				margin-left: 68px;
 				font-size: 15px;
 				font-weight: normal;
 				line-height: 1.57;
@@ -414,9 +422,7 @@
 
 		}
 
-		.step {
-			display: none;
-		}
+
 
 	}
 
@@ -522,6 +528,7 @@
 				padding: 8px 11px 7px 15px;
 				font-size: 14px;
 				line-height: 19px;
+				height: 34px;
 
 				&:before {
 					border-left: 14px solid @amsterdam-navyblue;
@@ -702,6 +709,17 @@
 	.gridder-list {
 		cursor: auto;
 		background: #FFFFFF;
+
+		@media @m {
+			width: calc((100% / 2) - 20px);
+		}
+
+		@media @gridderFull {
+			width: 100%;
+			margin: 0 auto;
+		}
+
+
 	}
 
 	.button-read-more {
@@ -768,9 +786,10 @@
 
 	}
 
+
 }
 
-@import 'westbegroot-overrides';
+@import 'westbegroot-overwrites';
 @import 'westbegroot/sticky';
 @import 'westbegroot/checkbox-switch';
 
