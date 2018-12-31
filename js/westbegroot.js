@@ -95,17 +95,18 @@ function nextStep() {
 
 	if (currentStep == 1) {
 		if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
-			addError(document.querySelector('#current-budget-preview'), 'Je hebt nog niet voldoende plannen geselecteerd.')
+			addError(document.querySelector('#current-budget-preview'), 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
 			return;
 		}
 	}
 
+	if (currentStep == 3) {
+		// document.location.href = "/oauth/login?redirect_uri=/begroten";
+		return
+	}
+
 	currentStep++;
 	updateBudgetDisplay();
-
-	if (currentStep == 3) {
-		document.location.href = "/oauth/login?redirect_uri=/begroten?returnFromLogin=true";
-	}
 
 	if (currentStep == 5) {
 		submitBudget();
@@ -122,6 +123,12 @@ function nextStep() {
 }
 
 function updateBudgetDisplay() {
+
+	// stappen balk
+	removeFromClassName(document.querySelector('#steps-bar-1'), 'active')
+	removeFromClassName(document.querySelector('#steps-bar-2'), 'active')
+	removeFromClassName(document.querySelector('#steps-bar-3'), 'active')
+	removeFromClassName(document.querySelector('#steps-bar-4'), 'active')
 
 	// botte bijl - later een keer opschonen en generiek maken
 	// ToDo: wat nu gecopy-paste dingen samenvoegen
@@ -191,6 +198,8 @@ function updateBudgetDisplay() {
 
 		case 1:
 
+			addToClassName(document.querySelector('#steps-bar-1'), 'active')
+
 			removeFromClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
 
@@ -218,6 +227,8 @@ function updateBudgetDisplay() {
 			break;
 
 		case 2:
+
+			addToClassName(document.querySelector('#steps-bar-2'), 'active')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
@@ -252,6 +263,8 @@ function updateBudgetDisplay() {
 
 		case 3:
 
+			addToClassName(document.querySelector('#steps-bar-3'), 'active')
+
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
@@ -263,17 +276,33 @@ function updateBudgetDisplay() {
 
 		case 4:
 
+			addToClassName(document.querySelector('#steps-bar-4'), 'active')
+
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			addToClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
+
+			if (openstadGetCookie('openstad-error')) {
+
+				removeFromClassName(document.querySelector('#steps-bar-4'), 'active')
+				addToClassName(document.querySelector('#steps-bar-3'), 'active')
+
+				document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-4-error').querySelector('.text').innerHTML;
+
+				// TODO: loguit en delete session
+
+			}
+
 			break;
 
 		case 5:
+			addToClassName(document.querySelector('#steps-bar-4'), 'active')
 			break;
 
 		case 6:
+			addToClassName(document.querySelector('#steps-bar-4'), 'active')
 			break;
 
 
@@ -313,10 +342,13 @@ function updateBudgetNextButton(isError) {
 			break;
 
 		case 3:
+			nextButton.innerHTML = 'Stemmen';
+			removeFromClassName(nextButton, 'hidden');
+			removeFromClassName(nextButton, 'active')
 			break;
 
 		case 4:
-			nextButton.innerHTML = 'Stuur je stem op';
+			nextButton.innerHTML = 'Stemmen';
 			addToClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 			addToClassName(nextButton, 'active');
@@ -378,7 +410,26 @@ function submitBudget() {
 			availableBudgetAmount = initialAvailableBudget;
 
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
-			nextStep();
+
+			// uitloggen op mijnopenstad
+			fetch(authServerLogoutUrl, {
+				method: 'get',
+				headers: {
+					"Content-type": "application/json",
+					"Accept": "application/json",
+				},
+				credentials: 'include',
+			})
+				.then( response => {
+					// ignore response - TODO dus
+					nextStep();
+				})
+				.catch( function (error) {
+					console.log('Request failed', error);
+					// ignore response - TODO dus
+					nextStep();
+				});
+
 
 
 		})
@@ -463,10 +514,10 @@ function doSort(which) {
 			sortedElements = sortedElements.sort( (a,b) => lastSorted.indexOf(a.ideaId) - lastSorted.indexOf(b.ideaId) );
 			break;
 		case 'budget-up':
-			sortedElements = sortedElements.sort( (a,b) => b.querySelector('.budget-value').innerHTML - a.querySelector('.budget-value').innerHTML );
+			sortedElements = sortedElements.sort( (a,b) => a.querySelector('.budget-value').innerHTML - b.querySelector('.budget-value').innerHTML );
 			break;
 		case 'budget-down':
-			sortedElements = sortedElements.sort( (a,b) => a.querySelector('.budget-value').innerHTML - b.querySelector('.budget-value').innerHTML );
+			sortedElements = sortedElements.sort( (a,b) => b.querySelector('.budget-value').innerHTML - a.querySelector('.budget-value').innerHTML );
 			break;
 	}
 
@@ -681,7 +732,6 @@ function removeFromClassName(element, className) {
 }
 
 function formatEuros(amount, html) {
-	console.log('---> html');
 	// todo: nu hardcoded want max 300K
 	amount = parseInt(amount);
 	let thousends = parseInt(amount/1000);

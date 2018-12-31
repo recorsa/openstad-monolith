@@ -9,6 +9,8 @@
   "debug": true,
   "logging": "app:*,-app:db:query",
 
+	"url": "http://openstad-dev.francesco.denes.nl",
+
   "database": {
     "user": "openstad",
     "password": "drum50openstad",
@@ -29,7 +31,7 @@
 		"middleware": {
 			"afterSecurity": [
 				"./middleware/log",
-				"./middleware/confirm_arguments",
+				// "./middleware/x-no-frame-header",
 				"./middleware/nocache",
 				"./middleware/site",
 				"./routes/stemvan/default",
@@ -74,14 +76,37 @@
 		}
 	},
 
-	"openStadMap": {
-		"googleKey": "AIzaSyBUWkinf1yg1GpX71bv4zqx7icTxSX6oyU"
-	},
-
   "notifications": {
     "admin": {
       "emailAddress": "niels@denes.nl"
     }
-  }
+  },
+
+	"authorization": {
+		"auth-server-url": "https://mijnopenstad.staging.openstadsdeel.nl",
+		"auth-server-login-path": "/dialog/authorize?redirect_uri=[[redirectUrl]]&response_type=code&client_id=[[clientId]]&scope=offline",
+		"auth-server-exchange-code-path": "/oauth/token",
+		"auth-server-get-user-path": "/api/userinfo?client_id=[[clientId]]",
+		"auth-server-logout-path": "/logout?clientId=[[clientId]]",
+    "auth-client-id": "F9AfiPEfcXJZEQ6FyyG2CMSr4rN4cUYG",
+    "auth-client-secret": "rMz1iE24eGCCZ7S9RiSmbCUkE0xuiQz8"
+    // "auth-client-id": "WH5Cvt1YBfVaVDOzgKCeFmnMEN4acyOjP",
+    // "auth-client-secret": "MNtRQZYd48QttHGWWEAk7wC8GKzyZs8Cg"
+	},
+
+	"budgeting": {
+		"minNoOfIdeas": 3,
+		"minBudget": 200000,
+		"maxBudget": 300000,
+		"minAndOrOr": "and"
+	},
+
+	"api": {
+		"url": "http://localhost:8083"
+	},
+
+	"openStadMap": {
+		"googleKey": "AIzaSyBUWkinf1yg1GpX71bv4zqx7icTxSX6oyU"
+	}
 
 }

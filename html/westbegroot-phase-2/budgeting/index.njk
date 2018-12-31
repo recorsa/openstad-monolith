@@ -20,6 +20,7 @@
 	<script>
 	 var csrfToken = '{{csrfToken}}';
 	 var userIsLoggedIn = {{userIsLoggedIn}};
+	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
 	</script>
 
 	{% include 'includes/end-date-bar.njk' %}
@@ -66,7 +67,7 @@
 	<script src="/js/sticky.js"></script>
 	<script>
 
-		// todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
+	 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
 
 	 // var stepNo       = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
 	 // var ideaId		    = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
