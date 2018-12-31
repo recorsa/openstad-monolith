@@ -8,7 +8,6 @@
 	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
 		{% for idea in runningIdeas %}
 			<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#idea-content-{{idea.id}}">
-
 				{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 				<div class="idea-image-mask">
 					<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
@@ -24,16 +23,14 @@
 								<span class="gebied">{{idea.extraData.gebied}}</span>
 							</div>
 						{% endif %}
-
 					</div>
 					<div class="button-read-more link-caret--blue">Lees meer</div>
-
 					<div class="row">
 						<div class="col-xs-6">
 							<div class="budget">{{idea.budget}}</div> {# formatted in js #}
 						</div>
 						<div class="col-xs-6">
-							<div class="button-add-idea-to-budget btn--blue"></div>
+							<div class="button-add-idea-to-budget btn--blue stretch"></div>
 						</div>
 					</div>
 					<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
@@ -44,10 +41,22 @@
 					<div class="row">
 						<div class="col-sm-6 col-xs-12">
 							<div class="this-idea-id">{{idea.id}}</div>
+							<div class="visible-xs">
+								<h3 class="grider-title">{{idea.title}}</h3>
+							</div>
 							<div class="idea-image-container">
 								{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 								<div class="idea-image-mask">
 									<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
+								</div>
+							</div>
+							<div class="visible-xs">
+								<br />
+								<div class="intro">
+									{{idea.summary | safe}}
+								</div>
+								<div class="description">
+									{{idea.description | safe}}
 								</div>
 							</div>
 							<br />
@@ -90,12 +99,14 @@
 							</div>
 						</div>
 						<div class="col-sm-6 col-xs-12">
-							<h3 class="grider-title">{{idea.title}}</h3>
-							<div class="intro">
-								{{idea.summary | safe}}
-							</div>
-							<div class="description">
-								{{idea.description | safe}}
+							<div class="hidden-xs">
+								<h3 class="grider-title">{{idea.title}}</h3>
+								<div class="intro">
+									{{idea.summary | safe}}
+								</div>
+								<div class="description">
+									{{idea.description | safe}}
+								</div>
 							</div>
 						</div>
 					</div>
