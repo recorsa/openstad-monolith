@@ -51,8 +51,13 @@ header h1 {
 		width: 54px;
 	}
 
-	tr td:last-child{
+	tr td:last-child {
 		min-width: 154px;
+		white-space: nowrap;
+
+		@media @gridderFull {
+			min-width: 0;
+		}
 	}
 
 
@@ -128,6 +133,10 @@ header h1 {
 
 		.inner {
     	min-height: 100px;
+
+			@media @gridderFull {
+				min-height: none;
+			}
 		}
 
 		.thema-en-gebied {

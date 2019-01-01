@@ -1,9 +1,15 @@
 // Get the stickyBar
+
+
 (function($) {
   var $stickyBar = $('.sticky-bar');
   var stickyBarOffset = $stickyBar.offset().top + $stickyBar.height();
+
+
   function calculateContainerHeight() {
+    console.log($('.sticky-bar').height());
     $('.sticky-bar-container').css('min-height', $('.sticky-bar').height() + 'px');
+    stickyBarOffset = $stickyBar.offset().top + $stickyBar.height();
   }
 
   calculateContainerHeight();
@@ -33,8 +39,11 @@
     $stickyBar.removeClass("open");
   });
 
-  $('#next-button').on('click', function (ev) {
-    calculateContainerHeight();
+  $('#next-button, #previous-button').on('click', function (ev) {
+    console.log('click');
+    setTimeout(function () {
+      calculateContainerHeight();
+    }, 150)
   });
 
 })(jQuery);

@@ -82,10 +82,10 @@
 							</div>
 						</div>
 						<div id="button-bar">
-							<div id="previous-button" onclick="previousStep();">
+							<div id="previous-button" onclick="previousStep(); calculateContainerHeight();">
 								Vorige
 							</div>
-							<div id="next-button" onclick="nextStep();">
+							<div id="next-button" onclick="nextStep(); ">
 								Volgende
 							</div>
 						</div>
@@ -146,7 +146,7 @@
 								<span class="current-budget-amount bold">0</span>
 							</div>
 							<div class="col-sm-4 col-xs-6 budget-col">
-								<div class="text-center">
+								<div class="text-center">    
 									<span class="hidden-xs"> Budget over: </span>
 									<span class="visible-xs"> Over: </span>
 									<span class="available-budget-amount bold">0</span>
