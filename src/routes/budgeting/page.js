@@ -13,17 +13,21 @@ router
 	.route('/$')
 	.get(function( req, res, next ) {
 
+		var authServerLogoutUrl = config.authorization['auth-server-url'] + config.authorization['auth-server-logout-path'];
+		authServerLogoutUrl = authServerLogoutUrl.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+
 		var data = {
-			siteId      : config.siteId, // temp
-			accessToken : req.session.userAccessToken, // temp voor dev opties
+			siteId             : config.siteId, // temp
+			accessToken        : req.session.userAccessToken, // temp voor dev opties
 
-			runningIdeas     : db.Idea.getRunning('random', ['withUser']),
+			runningIdeas       : db.Idea.getRunning('random', ['withUser']),
 
-			userIsLoggedIn   : req.session.userAccessToken ? true : false,
-			user             : req.user,
+			userIsLoggedIn     : req.session.userAccessToken ? true : false,
+			user               : req.user,
 
-			csrfToken        : req.csrfToken(),
-			fullHost         : req.protocol+'://'+req.hostname
+			csrfToken          : req.csrfToken(),
+			fullHost           : req.protocol+'://'+req.hostname,
+			authServerLogoutUrl,
 
 		};
 
@@ -34,7 +38,7 @@ router
 			data.email    = '';
 			data.hasVoted = '';
 		}
-		
+
 		Promise.props(data)
 			.then(function( result ) {
 

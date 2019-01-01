@@ -60,14 +60,17 @@ module.exports = function( app ) {
 		.get(function( req, res, next ) {
 
 			if (!req.session.userAccessToken) return res.success('/begroten', true);
-
+			
 			// get the user info using the access token
-			let url = config.authorization['auth-server']
-			url += '/user?access_token=' + req.session.userAccessToken;
+			let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
+			url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
 
 			fetch(
 				url, {
 					method: 'get',
+					headers: {
+						authorization : 'Bearer ' + req.session.userAccessToken,
+					},
 					mode: 'cors',
 				})
 				.then(
@@ -76,17 +79,22 @@ module.exports = function( app ) {
 				)
 				.then(
 					json => {
-						req.userData = json.user;
+						req.userData = json;
 						return next()
 					}
-				);
-
+				)
+				.catch(err => {
+					console.log('DEV GET USER CATCH ERROR');
+					console.log(err);
+					next(err);
+				})
 		})
 		.get(function( req, res ) {
-			if (req.userData && req.userData.username) {
+			if (req.userData && req.userData.user_id) {
 				db.BudgetVote
-					.destroy({where:  {userId: req.userData.username }, force: true})
+					.destroy({where:  {userId: req.userData.user_id }, force: true})
 					.then(result => {
+						res.header('Set-Cookie', 'openstad-error=; Path=/');
 						res.success('/begroten', true);
 					})
 			} else {

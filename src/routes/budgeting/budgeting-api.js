@@ -22,12 +22,15 @@ router
 		if (!req.session.userAccessToken) return next(createError(403, 'Je bent niet ingelogd'));
 
 		// get the user info using the access token
-		let url = config.authorization['auth-server']
-		url += '/user?access_token=' + req.session.userAccessToken;
+		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
+		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
 
 		fetch(
 			url, {
 				method: 'get',
+				headers: {
+					authorization : 'Bearer ' + req.session.userAccessToken,
+				},
 				mode: 'cors',
 			})
 			.then(
@@ -36,17 +39,22 @@ router
 			)
 			.then(
 				json => {
-					req.userData = json.user;
+					req.userData = json;
 					return next()
 				}
-			);
+			)
+			.catch(err => {
+				console.log('BUDGET GET USER CATCH ERROR');
+				console.log(err);
+				next(err);
+			})
 
 	})
 	.post(function( req, res, next ) {
 
 		// validation - heb je al gestemd
 		db.BudgetVote
-			.find({where: {userId: req.userData.username}})
+			.find({where: {userId: req.userData.user_id}})
 			.then(result => {
 				if (result) return next(createError(403, 'Je hebt al gestemd'))
 				return next();
@@ -62,8 +70,6 @@ router
 		if (vote.length == 0) return next(createError(403, 'Budget klopt niet'))
 		if (vote.find(entry => parseInt(entry) != entry)) return next(createError(403, 'Budget klopt niet'))
 
-		console.log(vote);
-
 		// validation: check if budget ammount is high enough
 		db.Idea
 			.findAll({where: {id: vote}})
@@ -75,7 +81,6 @@ router
 				let currentBudgetAmount = 0;
 				for (let i=0; i<result.length; i++) {
 					currentBudgetAmount += result[i].budget;
-					console.log(currentBudgetAmount);
 				}
 
 				if (currentBudgetAmount < minimalBudgetAmmount) {
@@ -104,16 +109,10 @@ router
 			return next(err)
 		}
 
-		console.log('102');
-		console.log(req.userData);
 		let budgetVoteData = {
-			userId: req.userData.username,
+			userId: req.userData.user_id,
 			vote: vote
 		};
-
-		console.log('====================');
-		console.log('Ingelogde gebruiker');
-		console.log(budgetVoteData);
 
 		db.BudgetVote
 			.create(budgetVoteData)

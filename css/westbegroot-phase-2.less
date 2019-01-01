@@ -92,16 +92,15 @@
 		}
 	}
 
-
-
 	#steps-bar {
 
 		display: flex;
 
 		.step {
 
+			display: block !important;
 			position: relative;
-			width: calc(100% / 3);
+			width: calc(100% / 4);
 			height: 90px;
 			background-color: @amsterdam-lightgrey;
 
@@ -572,6 +571,15 @@
 		}
 	}
 
+	.error-block {
+		width: 100%;
+		margin-top: 30px;
+		padding: 9px 15px;
+		font-weight: normal;
+		color: @amsterdam-red;
+		border: 2px solid @amsterdam-red;
+	}
+	
 }
 
 
@@ -697,6 +705,69 @@
 		&:after {
 			content: "Geen budget";
 		}
+	}
+
+}
+
+.button-stemcode {
+
+	position: relative;
+	display: block;
+	width: 166px;
+	margin-top: 20px;
+	padding: 0;
+	background: white;
+	border: 2px #004699 solid;
+	background-color: white;
+	color: #004699;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 42px;
+
+	&.vul-je-stemcode-in {
+		cursor: pointer;
+	}
+
+	&.geldige-code {
+
+		width: 210px;
+		padding-left: 40px;
+		text-align: left;
+
+		&:before {
+			position: absolute;
+			top: 14px;
+			left: 15px;
+			width: 15px;
+			height: 10px;
+			content: '';
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-image: url('/img/checkmark-blue.svg');
+		}
+
+	}
+
+	&.ongeldige-code {
+		width: 210px;
+		padding-left: 40px;
+		text-align: left;
+		color: black;
+		border-color: black;
+
+		&:before {
+			position: absolute;
+			top: 12px;
+			left: 15px;
+			width: 14px;
+			height: 14px;
+			content: '';
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-image: url('/img/close.svg');
+		}
+		
 	}
 
 }

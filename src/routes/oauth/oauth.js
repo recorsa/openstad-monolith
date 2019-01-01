@@ -22,12 +22,13 @@ router
 			req.session.afterLoginRedirectUri = req.query.redirect_uri
 		}
 
-		let url = config.authorization['auth-server']
-		url += '/oauth/authorize?';
-		url += 'response_type=code';
-		url += '&client_id=' + config.authorization['auth-client-id'];
-		url += '&redirect_uri=' + config.url + '/oauth/digest-login';
+		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
+		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
+		//http://openstad-dev.francesco.denes.nl/begroten/oauth/digest-login
+
+		
 		res.redirect(url);
 
 	});
@@ -37,25 +38,32 @@ router
 router
 	.route('/digest-login')
 	.get(function( req, res, next ) {
+
 		// use the code to get an access token
 
 		let code = req.query.code;
 
 		// TODO: meer afvangingen en betere response
-		if (!code) return next(createError(403, 'Je bent niet ingelogd'));
+		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
-		let url = config.authorization['auth-server']
-		url += '/oauth/access_token'; // todo: naar config
+		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-exchange-code-path'];
 
-		let postData = `client_id=${config.authorization['auth-client-id']}&client_secret=${config.authorization['auth-client-secret']}&code=${code}&grant_type=authorization_code&redirect_uri=${config.url + '/oauth/digest-login'}`;
+		// let postData = `client_id=${config.authorization['auth-client-id']}&client_secret=${config.authorization['auth-client-secret']}&code=${code}&grant_type=authorization_code&redirect_uri=${config.url + '/oauth/digest-login'}`;
+		let postData = {
+			client_id: config.authorization['auth-client-id'],
+			client_secret: config.authorization['auth-client-secret'],
+			code: code,
+			grant_type: 'authorization_code',
+		}
+
 		fetch(
 			url, {
 				method: 'post',
 				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded'
+					'Content-Type': 'application/json'
 				},
 				mode: 'cors',
-				body: postData
+				body: JSON.stringify(postData)
 			})
 			.then(
 				response => response.json(),
@@ -63,21 +71,80 @@ router
 			)
 			.then(
 				json => {
-					
+
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
 
-					return next()
+					return next();
 				}
-			);
+			)
+			.catch(err => {
+				console.log('CATCH ERR');
+				console.log(err);
+				return next(err);
+			});
 		
 	})
 	.get(function( req, res, next ) {
+
+		// get user; zie volgende stap: check 'user heeft al gestemd'
+
+		// get the user info using the access token
+		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
+		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+
+		fetch(
+			url, {
+				method: 'get',
+				headers: {
+					authorization : 'Bearer ' + req.session.userAccessToken,
+				},
+				mode: 'cors',
+			})
+			.then(
+				response => response.json(),
+				error => { throw new Error('User niet bekend') }
+			)
+			.then(
+				json => {
+					req.userData = json;
+					return next()
+				}
+			).catch(err => {
+				console.log('OAUTH GET USER CATCH ERROR');
+				console.log(err);
+				throw err;
+			});
+					
+	})
+	.get(function( req, res, next ) {
+
+		// check op unique code: is die al gebruikt
+		// TODO: het is nogal waardeloos dat dat hier staat; dit zou generiek oauth moeten zijn
+
+		// validation - heb je al gestemd
+		db.BudgetVote
+			.find({where: {userId: req.userData.user_id}})
+			.then(result => {
+				if (result) throw createError(403, 'Je hebt al gestemd');
+				return next();
+			})
+			.catch( err => {
+				console.log('OAUTH CHECK VOTE ERR');
+				return next(err)
+			});
+
+	})
+	.get(function( req, res, next ) {
 		// login done
-		console.log('--------------------inloggen ok')
+		res.redirect(req.session.afterLoginRedirectUri || '/');
+	})
+	.get(function( error, req, res, next ) {
+		// de error wil je tonen in de pagina, en wordt daarom meegestuurd in plaats van getoond
+		res.header('Set-Cookie', 'openstad-error=' + ( error.message ? error.message : error ) + '; Path=/');
 		res.redirect(req.session.afterLoginRedirectUri || '/');
 	})
 
