@@ -13,8 +13,9 @@ router
 	.route('/$')
 	.get(function( req, res, next ) {
 
+
 		var authServerLogoutUrl = config.authorization['auth-server-url'] + config.authorization['auth-server-logout-path'];
-		authServerLogoutUrl = authServerLogoutUrl.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+		authServerLogoutUrl = authServerLogoutUrl ? authServerLogoutUrl.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']) : '';
 
 		var data = {
 			siteId             : config.siteId, // temp
