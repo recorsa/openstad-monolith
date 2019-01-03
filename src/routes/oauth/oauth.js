@@ -89,56 +89,6 @@ router
 		
 	})
 	.get(function( req, res, next ) {
-
-		// get user; zie volgende stap: check 'user heeft al gestemd'
-
-		// get the user info using the access token
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
-		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
-
-		fetch(
-			url, {
-				method: 'get',
-				headers: {
-					authorization : 'Bearer ' + req.session.userAccessToken,
-				},
-				mode: 'cors',
-			})
-			.then(
-				response => response.json(),
-				error => { throw new Error('User niet bekend') }
-			)
-			.then(
-				json => {
-					req.userData = json;
-					return next()
-				}
-			).catch(err => {
-				console.log('OAUTH GET USER CATCH ERROR');
-				console.log(err);
-				throw err;
-			});
-					
-	})
-	.get(function( req, res, next ) {
-
-		// check op unique code: is die al gebruikt
-		// TODO: het is nogal waardeloos dat dat hier staat; dit zou generiek oauth moeten zijn
-
-		// validation - heb je al gestemd
-		db.BudgetVote
-			.find({where: {userId: req.userData.user_id}})
-			.then(result => {
-				if (result) throw createError(403, 'Je hebt al gestemd');
-				return next();
-			})
-			.catch( err => {
-				console.log('OAUTH CHECK VOTE ERR');
-				return next(err)
-			});
-
-	})
-	.get(function( req, res, next ) {
 		// login done
 		res.redirect(req.session.afterLoginRedirectUri || '/');
 	})

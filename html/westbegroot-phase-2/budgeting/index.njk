@@ -1,9 +1,10 @@
-{% extends 'ideas.njk' %}
+{% extends 'base.njk' %}
 {% import 'includes/ideas-gridder-list.html' as ideasList %}
 {% import 'includes/budgeting.html' as budgeting %}
 
-{% set pageTitle    = 'Ingestuurde ontwerpen' %}
+{% set pageTitle    = 'Stemmen' %}
 {% set contentClass = 'ideasList' %}
+{% set activeMenu   = 'budget' %}
 
 {% block contentFullWidth %}
 
@@ -19,6 +20,7 @@
 
 	<script>
 	 var csrfToken = '{{csrfToken}}';
+	 var userHasVoted = {{userHasVoted}};
 	 var userIsLoggedIn = {{userIsLoggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
 	</script>
@@ -57,7 +59,7 @@
 		</div>
 
 		<div class="align-right">
-			<b> Sorteer op: </b>
+			<b>Sorteer op: </b>
 			<select id="selectSort" class="default-select sort-selector" onchange="doSort(this.value)">
 				<option value="random">Willekeurig</option>
 				<option value="budget-down">Bedrag aflopend</option>

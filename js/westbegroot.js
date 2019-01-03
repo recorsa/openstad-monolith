@@ -25,7 +25,7 @@ function toggleIdeaInBudget(id) {
 
 function addIdeaToBudget(id) {
 
-	var element = sortedElements.find( el => el.ideaId == id );
+	var element = sortedElements.find( function(el) { return el.ideaId == id } );
 
 	if (availableBudgetAmount >= element.budgetValue && currentBudgetSelection.indexOf(id) == -1) {
 		currentBudgetSelection.push(id);
@@ -41,7 +41,7 @@ function addIdeaToBudget(id) {
 
 function removeIdeaFromBudget(id) {
 
-	var element = sortedElements.find( el => el.ideaId == id );
+	var element = sortedElements.find( function(el) { return el.ideaId == id } );
 	var index = currentBudgetSelection.indexOf(id);
 
 	currentBudgetSelection.splice(index, 1);
@@ -58,8 +58,8 @@ function removeIdeaFromBudget(id) {
 
 function recalculateAvailableBudgetAmount() {
 	availableBudgetAmount = initialAvailableBudget;
-	currentBudgetSelection.forEach((id) => {
-		var element = sortedElements.find( el => el.ideaId == id );
+	currentBudgetSelection.forEach( function(id) {
+		var element = sortedElements.find( function(el) { return el.ideaId == id } );
 		availableBudgetAmount -= element.budgetValue;
 	});
 }
@@ -73,29 +73,36 @@ function setBudgetingEditMode() {
 
 	if (isChecked) {
 		addToClassName(preview, 'editMode');
-		preview.querySelectorAll('.idea-image-mask').forEach((image) => {
+		var images = preview.querySelectorAll('.idea-image-mask');
+		for (var i=0; i<images.length; i++) {
+			var image = images[i];
 			image.onclick = function() { removeIdeaFromBudget(image.ideaId) };
-		});
+		}
 	} else {
 		removeFromClassName(preview, 'editMode');
-		preview.querySelectorAll('.idea-image-mask').forEach((image) => {
+		var images = preview.querySelectorAll('.idea-image-mask');
+		for (var i=0; i<images.length; i++) {
+			var image = images[i];
 			image.onclick = '';
-		});
+		}
 	}
 
 }
 
 
 function previousStep() {
+	scrollToBudget()
 	currentStep--;
 	updateBudgetDisplay();
 }
 
 function nextStep() {
 
+	scrollToBudget()
+	
 	if (currentStep == 1) {
 		if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
-			addError(document.querySelector('#current-budget-preview'), 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
+			addError(document.querySelector('#current-budget-preview'), initialAvailableBudget - availableBudgetAmount == 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
 			return;
 		}
 	}
@@ -113,7 +120,7 @@ function nextStep() {
 	}
 
 	if (currentStep == 6) {
-		setTimeout(nextStep, 10000);
+		// setTimeout(nextStep, 10000);
 	}
 
 	if (currentStep == 7) {
@@ -145,12 +152,12 @@ function updateBudgetDisplay() {
 	var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
 	var availableWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
 	var usedWidth = 0;
-	var currentBudgetSelectionForWidth = currentBudgetSelection.map( function(id) { return sortedElements.find( el => el.ideaId == id ); } )
+	var currentBudgetSelectionForWidth = currentBudgetSelection.map( function(id) { return sortedElements.find( function(el) { return el.ideaId == id } ); } )
 	currentBudgetSelectionForWidth
 		.sort(function (a, b) {
 			return a.budgetValue - b.budgetValue;
 		})
-		.forEach((element) => {
+		.forEach( function(element) {
 			var width =  parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
 			if (width < minwidth) {
 				availableWidth = availableWidth - ( minwidth - width );
@@ -168,19 +175,9 @@ function updateBudgetDisplay() {
 		}
 	}
 
-	// var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - borderWidth * ( currentBudgetSelection.length - 1 );
-	// currentBudgetSelection.forEach((id) => {
-	//  	var element = sortedElements.find( el => el.ideaId == id );
-	//  	var width = ( totalWidth * ( element.budgetValue / initialAvailableBudget ));
-	//  	var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
-	//  	// todo: better width calculation
-	//  	budgetBarImage.style.width = width + 'px';
-	//  	budgetBar.appendChild(budgetBarImage)
-	// });
-
 	budgetBar.innerHTML = '';
-	currentBudgetSelection.forEach((id) => {
-		var element = sortedElements.find( el => el.ideaId == id );
+	currentBudgetSelection.forEach( function(id) {
+		var element = sortedElements.find( function(el) { return el.ideaId == id } );
 		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
 		// todo: better width calculation
 		budgetBarImage.style.width = element.budgetBarWidth + 'px';
@@ -207,8 +204,8 @@ function updateBudgetDisplay() {
 		  $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			previewImages.innerHTML = '';
-			currentBudgetSelection.forEach((id) => {
-				var element = sortedElements.find( el => el.ideaId == id );
+			currentBudgetSelection.forEach( function(id) {
+				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
 				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
 				previewImages.appendChild(previewImage)
@@ -244,8 +241,8 @@ function updateBudgetDisplay() {
 
 			var overviewHtml = ''
 
-			currentBudgetSelection.forEach((id) => {
-				var element = sortedElements.find( el => el.ideaId == id );
+			currentBudgetSelection.forEach(function(id) {
+				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var imageEl = element.querySelector('.idea-image-mask').cloneNode(true).innerHTML;
 				var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
 				var budgetEl = element.querySelector('.budget').cloneNode(true).innerHTML;
@@ -276,7 +273,7 @@ function updateBudgetDisplay() {
 
 		case 4:
 
-			addToClassName(document.querySelector('#steps-bar-4'), 'active')
+			addToClassName(document.querySelector('#steps-bar-3'), 'active')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
@@ -284,7 +281,7 @@ function updateBudgetDisplay() {
 			addToClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
 
-			if (openstadGetCookie('openstad-error')) {
+			if (userHasVoted) {
 
 				removeFromClassName(document.querySelector('#steps-bar-4'), 'active')
 				addToClassName(document.querySelector('#steps-bar-3'), 'active')
@@ -385,7 +382,6 @@ function submitBudget() {
 	// let url = '/begroten/stem';
 	let url = '/api/site/15/budgeting';
 
-
 	fetch(url, {
 		method: 'post',
 		headers: {
@@ -394,7 +390,7 @@ function submitBudget() {
 		},
 		body: JSON.stringify(data),
 	})
-		.then( response => response.json() )
+		.then( function(response) { return response.json()}  )
 		.then( function (json) {
 
 			if (json.status && json.status != 200) throw json.message;
@@ -420,7 +416,7 @@ function submitBudget() {
 				},
 				credentials: 'include',
 			})
-				.then( response => {
+				.then( function(response) {
 					// ignore response - TODO dus
 					nextStep();
 				})
@@ -480,21 +476,26 @@ var sortedElements = [];
 
 function initSortedElements() {
 
-	var elements = document.getElementsByClassName('gridder-list');
+	var elements = document.querySelectorAll('.gridder-list');
 
-	Array.prototype.forEach.call(elements, function(element) {
+	for (var i=0; i<elements.length; i++) {
+		var element = elements[i];
 		var id = element.id.match(/idea-(\d+)/)[1];
 		element.ideaId = parseInt(id);
 		element.budgetValue = parseInt( element.querySelector('.budget-value').innerHTML ); // easier to use later
-		element.querySelectorAll('.budget').forEach( el => el.innerHTML = formatEuros(el.innerHTML, true) );
+		var budgets = element.querySelectorAll('.budget');
+		for (var j=0; j<budgets.length; j++) {
+			var el = budgets[j];
+			el.innerHTML = formatEuros(el.innerHTML, true);
+		}
 		sortedElements.push(element);
-	});
+	};
 
 	if (lastSorted) {
-		sortedElements = sortedElements.sort( (a,b) => lastSorted.indexOf(a.ideaId) - lastSorted.indexOf(b.ideaId) );
+		sortedElements = sortedElements.sort( function(a,b) { return lastSorted.indexOf(a.ideaId) - lastSorted.indexOf(b.ideaId) } );
 	} else {
 		lastSorted = [];
-		sortedElements.forEach( element  => {
+		sortedElements.forEach( function(element) {
 			lastSorted.push(element.ideaId);
 		});
 		openstadSetStorage('lastSorted', lastSorted);
@@ -511,13 +512,13 @@ function doSort(which) {
 
 	switch(sortOrder){
 		case 'random':
-			sortedElements = sortedElements.sort( (a,b) => lastSorted.indexOf(a.ideaId) - lastSorted.indexOf(b.ideaId) );
+			sortedElements = sortedElements.sort( function(a,b) { return lastSorted.indexOf(a.ideaId) - lastSorted.indexOf(b.ideaId) });
 			break;
 		case 'budget-up':
-			sortedElements = sortedElements.sort( (a,b) => a.querySelector('.budget-value').innerHTML - b.querySelector('.budget-value').innerHTML );
+			sortedElements = sortedElements.sort( function(a,b) { return a.querySelector('.budget-value').innerHTML - b.querySelector('.budget-value').innerHTML });
 			break;
 		case 'budget-down':
-			sortedElements = sortedElements.sort( (a,b) => b.querySelector('.budget-value').innerHTML - a.querySelector('.budget-value').innerHTML );
+			sortedElements = sortedElements.sort( function(a,b) { return b.querySelector('.budget-value').innerHTML - a.querySelector('.budget-value').innerHTML });
 			break;
 	}
 
@@ -572,18 +573,25 @@ function deactivateAll() {
 function updateList() {
 
 	var activeThema = document.getElementById('themaSelector' + activeTab) ? document.getElementById('themaSelector' + activeTab).innerHTML : '';
+	// if (activeThema == 'Groen') activeThema = 'Groen en Openbare ruimte';
 	var activeGebied = document.getElementById('filterSelector').value ? document.getElementById('filterSelector').value : '';
 
 	// show only the selected elements; display: none does not work well with gridder
+
 	document.querySelector('#ideaList').innerHTML = '';
-	sortedElements.forEach( element => {
+	//var newList = document.createElement('ul');
+
+	sortedElements.forEach( function(element) {
 		var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
 		var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
 		if ((( !activeTab || activeTab == 0 ) || activeThema == elementThema) && (( !activeFilter || activeFilter == 0 ) || activeGebied == elementGebied)) {
 			document.querySelector('#ideaList').appendChild(element)
+			//newList.appendChild(element)
 		}
 	});
 
+  // document.querySelector('#ideaList').innerHTML = newList.innerHTML;
+	
 	updateListElements()
 
 }
@@ -592,7 +600,7 @@ function updateList() {
 function updateListElements() {
 
 	// update add and budget buttons in list
-	sortedElements.forEach( element => {
+	sortedElements.forEach( function(element) {
 		updateElement(element);
 	});
 
@@ -606,17 +614,41 @@ function updateListElements() {
 	function updateElement(element) {
 		// is added to the budgetting selection
 		if (currentBudgetSelection.indexOf( element.ideaId ) != -1) {
-			element.querySelectorAll('.button-add-idea-to-budget').forEach( el => addToClassName(el, 'added') );
+			var elements = element.querySelectorAll('.button-add-idea-to-budget');
+			for (var i=0; i<elements.length; i++) {
+				var el = elements[i];
+				addToClassName(el, 'added');
+			}
 		} else {
-			element.querySelectorAll('.button-add-idea-to-budget').forEach( el => removeFromClassName(el, 'added') );
+			var elements = element.querySelectorAll('.button-add-idea-to-budget');
+			for (var i=0; i<elements.length; i++) {
+				var el = elements[i];
+				removeFromClassName(el, 'added');
+			}
 
 			// is available, i.e. amount is smaller than the available budget
 			if (element.budgetValue > availableBudgetAmount) {
-				element.querySelectorAll('.budget').forEach( el => addToClassName(el, 'unavailable') );
-				element.querySelectorAll('.button-add-idea-to-budget').forEach( el => addToClassName(el, 'unavailable') );
+				var elements = element.querySelectorAll('.budget');
+				for (var i=0; i<elements.length; i++) {
+					var el = elements[i];
+					addToClassName(el, 'unavailable');
+				}
+				var elements = element.querySelectorAll('.button-add-idea-to-budget');
+				for (var i=0; i<elements.length; i++) {
+					var el = elements[i];
+					addToClassName(el, 'unavailable');
+				}
 			} else {
-				element.querySelectorAll('.budget').forEach( el => removeFromClassName(el, 'unavailable') );
-				element.querySelectorAll('.button-add-idea-to-budget').forEach( el => removeFromClassName(el, 'unavailable') );
+				var elements = element.querySelectorAll('.budget');
+				for (var i=0; i<elements.length; i++) {
+					var el = elements[i];
+					removeFromClassName(el, 'unavailable');
+				}
+				var elements = element.querySelectorAll('.button-add-idea-to-budget');
+				for (var i=0; i<elements.length; i++) {
+					var el = elements[i];
+					removeFromClassName(el, 'unavailable');
+				}
 			}
 		}
 	}
@@ -651,22 +683,17 @@ function handleClick(event) {
 
 	if (ideaElement) {
 
-		// if button == 'more info' use gridder
-		if (buttonReadMore) {
-			return;
-		}
-
 		// if button == 'add to budget'
 		if (buttonAddIdeaToBudget) {
 			var ideaId = ideaElement.ideaId;
 			if (ideaId) {
 				toggleIdeaInBudget(ideaId)
 			}
+			// cancel gridder
+			event.stopPropagation()
+			event.stopImmediatePropagation()
 		}
 
-		// cancel gridder
-		event.stopPropagation()
-		event.stopImmediatePropagation()
 
 	}
 
@@ -739,7 +766,16 @@ function formatEuros(amount, html) {
 	if (rest.length < 3) rest = '0' + rest;
 	if (rest.length < 3) rest = '0' + rest;
 
-	return html ? '<span class="eurosign">€ </span><span class="amount">' + thousends + '.' + rest + '</span>' : '€ ' +  thousends + '.' + rest;
+	if (thousends) {
+		thousends = thousends + '.'
+	} else {
+		thousends = '';
+		if ( rest == '000' ) {
+			rest = 0
+		}
+	}
+
+	return html ? '<span class="eurosign">€ </span><span class="amount">' + thousends + rest + '</span>' : '€ ' +  thousends + rest;
 }
 
 function scrollToIdeas() {
@@ -793,7 +829,59 @@ function scrollToResolver(elem) {
    sessionStorage.removeItem(name)
  }
 
+
 // end other
+// ----------------------------------------------------------------------------------------------------
+// polyfill
+
+// https://tc39.github.io/ecma262/#sec-array.prototype.find
+if (!Array.prototype.find) {
+  Object.defineProperty(Array.prototype, 'find', {
+    value: function(predicate) {
+     // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+
+      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+      var thisArg = arguments[1];
+
+      // 5. Let k be 0.
+      var k = 0;
+
+      // 6. Repeat, while k < len
+      while (k < len) {
+        // a. Let Pk be ! ToString(k).
+        // b. Let kValue be ? Get(O, Pk).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+        // d. If testResult is true, return kValue.
+        var kValue = o[k];
+        if (predicate.call(thisArg, kValue, k, o)) {
+          return kValue;
+        }
+        // e. Increase k by 1.
+        k++;
+      }
+
+      // 7. Return undefined.
+      return undefined;
+    },
+    configurable: true,
+    writable: true
+  });
+}
+
+// end polyfill
 // ----------------------------------------------------------------------------------------------------
 // init
 
