@@ -27,9 +27,46 @@
 }
 
 .margin-0 {
-//  margin: 0 !important
+  margin: 0;
 }
 
 .smaller {
   font-size: 14px;
+}
+
+.table-reset {
+  border-spacing: 0;
+
+  td {
+    padding: 5px;
+  }
+
+  tr:first-child {
+    td {
+      padding-top: 0;
+    }
+  }
+
+  tr:last-child {
+    td {
+      padding-bottom: 0;
+    }
+  }
+
+  td:first-child {
+    padding-left: 0
+  }
+
+  td:last-child {
+    padding-right: 0
+  }
+}
+
+.overstretch {
+  &--xs {
+    @media @phone {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+  }
 }
