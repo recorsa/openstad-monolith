@@ -19,15 +19,10 @@ header h1 {
 }
 
 .overview {
-
 	.idea-image {
 		width: 44px;
 		height: 44px;
 		background-size: cover;
-	}
-
-	.eurosign {
-
 	}
 
 	hr, .line {
@@ -35,6 +30,12 @@ header h1 {
 		border: none;
 		border-top: 1px solid #434343;
 		margin: 5px 0;
+
+		td {
+			@media @phone {
+				padding: 0 !important;
+			}
+		}
 	}
 
 	hr.fully {
@@ -45,29 +46,45 @@ header h1 {
 	tr td {
 		padding-bottom: 8px;
 		font-size: 16px;
+
+		@media @phone {
+			font-size: 14px;
+			padding-left: 15px;
+		}
 	}
 
 	tr td:first-child{
 		width: 54px;
+
+		@media @phone {
+		}
 	}
 
 	tr td:last-child {
 		min-width: 154px;
 		white-space: nowrap;
+		padding: 15px;
+
+		@media @phone {
+
+		}
 
 		@media @gridderFull {
 			min-width: 0;
 		}
 	}
 
-
 	.total-row td {
 		font-weight: bold;
+		@media @phone {
+			padding: 10px 15px 3px;
+		}
 	}
 
 	.leftovers {
 		font-size: 14px;
 	  color: #434343;
+		margin: 0;
 	}
 
 }
@@ -109,7 +126,7 @@ header h1 {
 }
 
 .sticky-bar-container {
-	min-height: 472px;
+	min-height: 300px;
 }
 
 .budget {
@@ -135,7 +152,7 @@ header h1 {
     	min-height: 100px;
 
 			@media @gridderFull {
-				min-height: none;
+				min-height: 0;
 			}
 		}
 
@@ -152,4 +169,9 @@ ul.share li {
 
 ul.share li a {
     display: block;
+}
+
+.mobile-menu-item {
+	width: 33%;
+	padding: 13px 0 10px;
 }
