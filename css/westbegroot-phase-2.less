@@ -33,6 +33,43 @@
 }
 
 
+
+#budget-block .idea-image-mask {
+	.idea-image {
+		transition: box-shadow 0.4s;
+	}
+
+	.idea-image:before{
+		content: " ";
+		transition: opacity 0.4s;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		position: absolute;
+		opacity: 0;
+		background: #000000;
+		z-index: 2;
+	}
+
+	&.active {
+		.idea-image {
+			box-shadow: 2px 2px 7px 1px rgba(0, 0, 0, 0.5) !important;
+			transform: scale(1.04, 1.04);
+			z-index: 1000;
+			position: relative;
+		}
+	}
+
+	&.greyed-out {
+		.idea-image:before{
+			transition: box-shadow 0.04s;
+			opacity: 0.5 !important;
+			z-index: 2;
+		}
+	}
+}
+
 /* ----------------------------------------------------------------------------------------------------
  * budgeting block */
 
@@ -84,6 +121,23 @@
 				background-color: #e7e7e7;
 				border-right: 3px solid @amsterdam-navyblue;
 
+				&:before {
+					content: " ";
+					top: 0
+					left: 0;
+					bottom: 0;
+					right: 0;
+					position: absolute;
+					opacity: 0.5;
+					background: #000000;
+					z-index: 1;
+					display: none;
+				}
+
+				&.greyed-out:before {
+					display: block;
+				}
+
 				.idea-image {
 					position: absolute;
 					top: 0;
@@ -112,14 +166,13 @@
 	}
 
 	#steps-bar {
-
 		display: flex;
 
 		.step {
 			display: block !important;
 			position: relative;
 			width: calc(100% / 4);
-			height: 90px;
+			height: 80px;
 			background-color: @amsterdam-lightgrey;
 
 			@media @phone {
@@ -129,7 +182,7 @@
 			.content {
 				width: 100%;
 				height: 100%;
-				padding-top: 59px;
+				padding-top: 57px;
 				font-size: 14px;
 				font-weight: 600;
 				text-align: center;
@@ -141,7 +194,7 @@
 
 				&:before {
 					position: absolute;
-					top: 37px;
+					top: 34px;
 					left: 0px;
 					right: 0px;
 					height: 6px;
@@ -156,7 +209,7 @@
 
 				&:after {
 					position: absolute;
-					top: 30px;
+					top: 27px;
 					left: calc(50% - 10px);
 					width: 0px;
 					height: 0px;
@@ -191,11 +244,13 @@
 			&.active {
 				color: white;
 				background-color: @amsterdam-navyblue;
+			}
 
+			&.active, &.passed {
 				.content {
 					&:after {
 						position: absolute;
-						top: 26px;
+						top: 23px;
 						left: calc(50% - 12px);
 						width: 10px;
 						height: 10px;
@@ -279,16 +334,16 @@
 					    font-style: normal;
 					    font-stretch: normal;
 					    line-height: 1.6;
-					    padding-top: 10px;
+					    padding-top: 12px;
 					    outline-offset: -2px;
-							    margin-bottom: 15px;
+							margin-bottom: 15px;
 						}
 
 						.idea-image-mask {
 							display: block;
 							float: left;
 							position: relative;
-							overflow: hidden;
+							overflow: visible;
 							width: 70px;
 							height: 70px;
 							margin-right: 15px;
@@ -410,6 +465,7 @@
 									left: 0;
 									right: 0;
 									z-index: 1;
+									color: #000;
 								}
 							}
 

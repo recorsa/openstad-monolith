@@ -30,6 +30,8 @@ jQuery( document ).ready(function( $ ) {
     $('.argument-textarea').attr('placeholder', placeholderTpl);
   }
 
+
+
   setTimeout(function() {
     //$('.fotorama').fotorama();
     $('.fotorama')
@@ -49,13 +51,6 @@ jQuery( document ).ready(function( $ ) {
         })
         .fotorama();
   }, 1400);
-
-
-  $('.add-button').click(function () {
-    if ($('#budgeting-edit-mode').prop('checked')) {
-      $('#budgeting-edit-mode').trigger('click');
-    }
-  });
 
 });
 

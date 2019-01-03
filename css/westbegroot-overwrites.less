@@ -4,6 +4,7 @@
 	img {
 		max-width: 100%;
 		display: block;
+		margin: 0 auto;
 	}
 }
 
@@ -63,10 +64,9 @@ header h1 {
 	tr td:last-child {
 		min-width: 154px;
 		white-space: nowrap;
-		padding: 15px;
 
 		@media @phone {
-
+			padding: 15px;
 		}
 
 		@media @gridderFull {
@@ -84,7 +84,10 @@ header h1 {
 	.leftovers {
 		font-size: 14px;
 	  color: #434343;
-		margin: 0;
+
+		@media @phone {
+			margin: 0;
+		}
 	}
 
 }
@@ -149,7 +152,7 @@ header h1 {
 		}
 
 		.inner {
-    	min-height: 100px;
+    min-height: 46px;
 
 			@media @gridderFull {
 				min-height: 0;

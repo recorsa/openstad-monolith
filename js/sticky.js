@@ -8,6 +8,7 @@
 
   function calculateContainerHeight() {
     console.log($('.sticky-bar').height());
+    var height = $('.sticky-bar-container .sticky-bar').height();
     $('.sticky-bar-container').css('min-height', $('.sticky-bar').height() + 'px');
     stickyBarOffset = $stickyBar.offset().top + $stickyBar.height();
   }
@@ -24,6 +25,11 @@
     } else {
       $stickyBar.removeClass("sticky");
       $stickyBar.removeClass("open closed");
+      setTimeout(function () {
+        if (!$stickyBar.hasClass('sticky')) {
+          calculateContainerHeight();
+        }
+      }, 500);
     }
   };
 
@@ -39,11 +45,12 @@
     $stickyBar.removeClass("open");
   });
 
-  $('#next-button, #previous-button').on('click', function (ev) {
-    console.log('click');
+  $('#next-button, #previous-button, .button-add-idea-to-budget').on('click', function (ev) {
     setTimeout(function () {
-      calculateContainerHeight();
-    }, 150)
+      if (!$stickyBar.hasClass('sticky')) {
+        calculateContainerHeight();
+      }
+    }, 50);
   });
 
 })(jQuery);
