@@ -77,7 +77,14 @@ module.exports  = {
 				strictMath : true
 			}
 		}));
+		this.app.use('/originele-plannen/css', less('css', {
+			render: {
+				compress   : !config.get('debug'),
+				strictMath : true
+			}
+		}));
 		this.app.use('/css', express.static('css'));
+		this.app.use('/originele-plannen/css', express.static('css'));
 		
 		this.app.use('/fonts', express.static('fonts', {
 			setHeaders: function( res ) {
@@ -95,6 +102,9 @@ module.exports  = {
 		this.app.use('/img', express.static('img', headerOptions));
 		this.app.use('/js',  express.static('js', headerOptions));
 		this.app.use('/lib', express.static('lib', headerOptions));
+		this.app.use('/originele-plannen/img', express.static('img', headerOptions));
+		this.app.use('/originele-plannen/js',  express.static('js', headerOptions));
+		this.app.use('/originele-plannen/lib', express.static('lib', headerOptions));
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');

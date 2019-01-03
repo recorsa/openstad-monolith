@@ -26,6 +26,7 @@
 		{% block head %}
 			<link rel="stylesheet" type="text/css" media="all"   href="/originele-plannen/css/stemvan/all.css">
 			<link rel="stylesheet" type="text/css" media="all"   href="/originele-plannen/css/westbegroot.css">
+			<link rel="stylesheet" type="text/css" media="all"   href="/originele-plannen/css/westbegroot-original-ideas.css">
 			<link rel="stylesheet" type="text/css" media="print" href="/originele-plannen/css/stemvan/print.css">
 		{% endblock %}
 	</head>
@@ -51,7 +52,7 @@
 				<div>
 					<ul>
 						<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
-						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/begroten">Begroten</a></li>
+						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/stemmen">Stemmen</a></li>
 					</ul>
 
 				</div>
@@ -158,19 +159,19 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-											(function() {
-												var closeButtons = Array.prototype.slice.call(
-													document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-												);
-												closeButtons.forEach(function( a ) {
-													a.href = '';
-													a.addEventListener('click', function( event ) {
-														var message = a.parentNode;
-														message.parentNode.removeChild(message);
-														event.preventDefault();
+												(function() {
+													var closeButtons = Array.prototype.slice.call(
+														document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+													);
+													closeButtons.forEach(function( a ) {
+														a.href = '';
+														a.addEventListener('click', function( event ) {
+															var message = a.parentNode;
+															message.parentNode.removeChild(message);
+															event.preventDefault();
+														});
 													});
-												});
-											})();
+												})();
 		</script>
 		
 		{% block scripts %}{% endblock %}

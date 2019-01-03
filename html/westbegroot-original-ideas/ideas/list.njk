@@ -76,7 +76,8 @@
 
 		<div class="sort">
 			<select class="default-select">
-				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+				<option {{'selected' if not sort or sort == 'random'}} value="random">Willekeurig</option>
+				<option {{'selected' if sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
 				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
 				<!--
 						 <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
@@ -97,10 +98,15 @@
 				<div class="image"></div>
 
 				<div class="duration">
-					{% if idea.status == 'DENIED' %}
-						Dit voorstel is afgewezen
-					{% elif idea.status == 'CLOSED' %}
-						De stemperiode is afgelopen
+					{# misbruiken van bestaande statussen #}
+					{% if idea.status == 'OPEN' %}
+						Dit voorstel is geselecteerd
+					{% elif idea.status == 'DONE' %}
+						Dit voorstel is niet haalbaar
+					{% elif idea.status == 'ACCEPTED' %}
+						Dit voorstel is niet geselecteerd
+					{% elif idea.status == 'BUSY' %}
+						Dit voorstel heeft <50 stemmen
 					{% endif %}
 				</div>
 

@@ -61,13 +61,18 @@
 				{% else %}
 					<div class="image"></div>
 				{% endif %}
-				{% if idea.status == 'CLOSED' %}
-					<div class="statusbalk {{idea.status}}">De stemperiode is afgelopen</div>
-				{% elif idea.status == 'DENIED' %}
-					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
-				{% else %}
-					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
+
+				{# misbruiken van bestaande statussen #}
+				{% if idea.status == 'OPEN' %}
+					<div class="statusbalk {{idea.status}}">Dit voorstel is geselecteerd</div>
+				{% elif idea.status == 'DONE' %}
+					<div class="statusbalk {{idea.status}}">Dit voorstel is niet haalbaar</div>
+				{% elif idea.status == 'ACCEPTED' %}
+					<div class="statusbalk {{idea.status}}">Dit voorstel is niet geselecteerd</div>
+				{% elif idea.status == 'BUSY' %}
+					<div class="statusbalk {{idea.status}}">Dit voorstel heeft <50 stemmen</div>
 				{% endif %}
+
 				<!--
 						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
 				-->
@@ -77,36 +82,18 @@
 				<div class="controls">
 					<h4>Stemmen</h4>
 					
-					{% if idea.isOpen() %}
-						<div class="vote">
-							<form method="POST" action="/plan/{{idea.id}}/vote">
-								<input type="hidden" name="_csrf" value="{{csrfToken}}">
-								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes, '', 'none')}}
-								<button class="{{'selected' if userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
-									voor
-								</button>
-								<div style="clear: both;"></div>
-								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no, '', 'none')}}
-								<button class="{{'selected' if userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
-									tegen
-								</button>
-								<div style="clear: both;"></div>
-							</form>
-						</div>
-					{% else %}
-						<div class="vote disabled">
-							{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes, '', 'none')}}
-							<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
-								voor
-							</button>
-							<div style="clear: both;"></div>
-							{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no, '', 'none')}}
-							<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
-								tegen
-							</button>
-							<div style="clear: both;"></div>
-						</div>
-					{% endif %}
+					<div class="vote disabled">
+						{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes, '', 'none')}}
+						<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
+							voor
+						</button>
+						<div style="clear: both;"></div>
+						{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no, '', 'none')}}
+						<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
+							tegen
+						</button>
+						<div style="clear: both;"></div>
+					</div>
 					
 					<div class="ideaProgress">
 						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
@@ -115,22 +102,7 @@
 					<div class="ideaDuration {{idea.status}}">
 						<h4>Status</h4>
 						<div class="duration">
-							{% if idea.status == 'CLOSED' %}
-								<div>De stemperiode is afgelopen</div>
-							{% elif idea.status == 'DENIED' %}
-								<div>Stemmen op dit voorstel is niet meer mogelijk.</div>
-							{% elif idea.status == 'ACCEPTED' %}
-								<div>Dit voorstel wordt besproken in de volgende vergadering!</div>
-							{% elif idea.status == 'BUSY' %}
-								<div>Dit voorstel wordt uitgevoerd. Lees op deze pagina over de voortgang.</div>
-							{% elif idea.status == 'DONE' %}
-								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
-							{% else %}
-								<div id ="nog-xxx-om-te-stemmen"></div>
-								<script>
-								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
-								</script>
-							{% endif %}
+							<div>De stemperiode is afgelopen</div>
 						</div>
 					</div>
 

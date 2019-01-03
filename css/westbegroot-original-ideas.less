@@ -1,0 +1,108 @@
+@import 'stemvan/base';
+
+* {
+	box-sizing: border-box;
+}
+
+#ideas.primary {
+
+	.tile {
+
+		.duration {
+			box-sizing: border-box;
+			position: relative;
+			margin-top: -6px;
+			width: 100%;
+			line-height: 26px;
+			font-size: 12px;
+			font-weight: 600;
+			background-color: #434343;
+			padding-left: 26px;
+			background-repeat: no-repeat;
+		}
+
+		&.OPEN {
+			.duration {
+				background-size: 10.5px 10px;
+				background-position: 10px 7px;
+				background-color: #bdd131;
+				background-image: url('/img/star.filled.svg');
+			}
+		}
+
+		&.DONE {
+			.duration {
+				background-size: 6px 6px;
+				background-position: 10px 10px;
+				background-image: url('/img/bullet.svg');
+				background-color: #787979;
+			}
+		}
+
+		&.ACCEPTED {
+			.duration {
+				background-size: 11px 10px;
+				background-position: 10px 8px;
+				background-image: url('/img/star.svg');
+				background-color: #164995;
+			}
+		}
+
+		&.BUSY {
+			.duration {
+				background-size: 6px 6px;
+				background-position: 10px 10px;
+				background-image: url('/img/bullet.open.svg');
+				background-color: #434343;
+			}
+		}
+
+	}
+
+
+}
+
+#title {
+	.primary {
+
+		.statusbalk {
+			position: relative;
+			display: inline-block;
+			margin-top: 10px;
+			color: white;
+			padding: 6px 15px 5px 32px;
+			font-size: 14px;
+			font-weight: 600;
+			z-index: 100;
+
+			&.OPEN {
+				background-size: 11px 10px;
+				background-position: 12px 9px;
+				background-color: #bdd131;
+				background-image: url('/img/star.filled.svg');
+			}
+
+			&.DONE {
+				background-size: 8px 8px;
+				background-position: 12px 11px;
+				background-image: url('/img/bullet.svg');
+				background-color: #787979;
+			}
+
+			&.ACCEPTED {
+				background-size: 12px 11px;
+				background-position: 12px 8px;
+				background-image: url('/img/star.svg');
+				background-color: #164995;
+			}
+
+			&.BUSY {
+				background-size: 8px 8px;
+				background-position: 12px 11px;
+				background-image: url('/img/bullet.open.svg');
+				background-color: #434343;
+			}
+
+		}
+	}
+}
