@@ -4,6 +4,7 @@
 	img {
 		max-width: 100%;
 		display: block;
+		margin: 0 auto;
 	}
 }
 
@@ -63,10 +64,9 @@ header h1 {
 	tr td:last-child {
 		min-width: 154px;
 		white-space: nowrap;
-		padding: 15px;
 
 		@media @phone {
-
+			padding: 15px;
 		}
 
 		@media @gridderFull {
@@ -84,7 +84,10 @@ header h1 {
 	.leftovers {
 		font-size: 14px;
 	  color: #434343;
-		margin: 0;
+
+		@media @phone {
+			margin: 0;
+		}
 	}
 
 }
@@ -97,32 +100,33 @@ header h1 {
 .grider-title {
 	margin-top: 0;
 	font-size: 24px;
-	font-weight: 600;
+	font-weight: 600; 
 	color: #000000;
 	margin-bottom: 10px;
 }
 
 .default-select {
 	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	height: 44px;
-	padding: 0 8px;
-	outline: solid 1px #434343;
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 44px;
-	text-align: center;
-	background-color: #FFF;
-	background-image: url(/img/arrow_down_black.svg);
-	background-position: center right 10px;
-	background-repeat: no-repeat;
-	background-size: 12px auto;
-	border: none;
-	border-radius: 0;
-	min-width: 177px;
-	font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
-	font-weight: 600 !important;
+	    -moz-appearance: none;
+	    appearance: none;
+	    height: 44px;
+	    padding: 0 8px;
+	    outline: solid 1px #434343;
+	    font-size: 16px;
+	    font-weight: 400;
+	    line-height: 47px;
+	    text-align: center;
+	    background-color: #FFF;
+	    background-image: url(/img/arrow_down_black.svg);
+	    background-position: center right 10px;
+	    background-repeat: no-repeat;
+	    background-size: 12px auto;
+	    border: none;
+	    border-radius: 0;
+	    min-width: 177px;
+	    font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+	    font-weight: 600 !important;
+	    padding-left: 15px;
 }
 
 .sticky-bar-container {
@@ -149,7 +153,7 @@ header h1 {
 		}
 
 		.inner {
-    	min-height: 100px;
+    min-height: 46px;
 
 			@media @gridderFull {
 				min-height: 0;

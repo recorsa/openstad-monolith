@@ -87,7 +87,7 @@ function setBudgetingEditMode() {
 		for (var i=0; i<images.length; i++) {
 			var image = images[i];
 			var ideaId = image.ideaId;
-			image.onclick = function(e) { document.querySelector('#idea-'+this.ideaId).click() };
+			image.onclick = ''; // function(e) { document.querySelector('#idea-'+this.ideaId).click() };
 		}
 	}
 
@@ -103,7 +103,7 @@ function previousStep() {
 function nextStep() {
 
 	scrollToBudget()
-	
+
 	if (currentStep == 1) {
 		if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 			addError(document.querySelector('#current-budget-preview'), initialAvailableBudget - availableBudgetAmount == 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
@@ -140,6 +140,11 @@ function updateBudgetDisplay() {
 	removeFromClassName(document.querySelector('#steps-bar-2'), 'active')
 	removeFromClassName(document.querySelector('#steps-bar-3'), 'active')
 	removeFromClassName(document.querySelector('#steps-bar-4'), 'active')
+	removeFromClassName(document.querySelector('#steps-bar-1'), 'passed');
+	removeFromClassName(document.querySelector('#steps-bar-2'), 'passed');
+	removeFromClassName(document.querySelector('#steps-bar-3'), 'passed');
+	removeFromClassName(document.querySelector('#steps-bar-4'), 'passed');
+
 
 	// botte bijl - later een keer opschonen en generiek maken
 	// ToDo: wat nu gecopy-paste dingen samenvoegen
@@ -186,10 +191,14 @@ function updateBudgetDisplay() {
 	currentBudgetSelection.forEach( function(id) {
 		var element = sortedElements.find( function(el) { return el.ideaId == id } );
 		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
+
+		budgetBarImage.setAttribute('data-idea-id', id);
+		budgetBarImage.className += ' idea-' + id;
+
 		// todo: better width calculation
 		budgetBarImage.style.width = element.budgetBarWidth + 'px';
 		budgetBarImage.ideaId = element.ideaId; // used by onclick
-		budgetBarImage.onclick = function(e) { document.querySelector('#idea-'+this.ideaId).click() };
+		// budgetBarImage.onclick = function(e) { document.querySelector('#idea-'+this.ideaId).click() };
 		budgetBar.appendChild(budgetBarImage)
 	});
 
@@ -216,8 +225,21 @@ function updateBudgetDisplay() {
 			currentBudgetSelection.forEach( function(id) {
 				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
-				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode and onclick
-				previewImages.appendChild(previewImage)
+// <<<<<<< HEAD
+//  				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode and onclick
+//  				previewImages.appendChild(previewImage)
+// =======
+				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
+				previewImage.setAttribute('data-idea-id', element.ideaId);
+				previewImage.className += ' idea-' + element.ideaId;
+
+
+				var linkToIdea = document.createElement("a");
+				linkToIdea.href = '#showidea-' + element.ideaId;
+				linkToIdea.appendChild(previewImage);
+
+				previewImages.appendChild(linkToIdea)
+//>>>>>>> 1cb19fde83f05b1d7330ee31f9be7ef1f57979ba
 			});
 			var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 			previewImages.appendChild( addButton.cloneNode(true) )
@@ -233,7 +255,7 @@ function updateBudgetDisplay() {
 			break;
 
 		case 2:
-
+			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'active')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
@@ -252,9 +274,14 @@ function updateBudgetDisplay() {
 
 			currentBudgetSelection.forEach(function(id) {
 				var element = sortedElements.find( function(el) { return el.ideaId == id } );
-				var imageEl = element.querySelector('.idea-image-mask').cloneNode(true).innerHTML;
+				var imageEl = element.querySelector('.idea-image-mask').cloneNode(true);//.innerHTML;
 				var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
 				var budgetEl = element.querySelector('.budget').cloneNode(true).innerHTML;
+
+				imageEl.setAttribute('data-idea-id', id);
+				imageEl.className += ' idea-' + id;
+				imageEl = imageEl.innerHTML;
+
 
 				overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td><td class="text-align-right primary-color">' +budgetEl+ '</td></tr>';
 			});
@@ -268,7 +295,8 @@ function updateBudgetDisplay() {
 			break;
 
 		case 3:
-
+			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-3'), 'active')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
@@ -281,6 +309,8 @@ function updateBudgetDisplay() {
 
 
 		case 4:
+			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
 
 			addToClassName(document.querySelector('#steps-bar-3'), 'active')
 
@@ -304,10 +334,18 @@ function updateBudgetDisplay() {
 			break;
 
 		case 5:
+			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-3'), 'passed')
+
 			addToClassName(document.querySelector('#steps-bar-4'), 'active')
 			break;
 
 		case 6:
+			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-3'), 'passed')
+
 			addToClassName(document.querySelector('#steps-bar-4'), 'active')
 			break;
 
@@ -342,9 +380,16 @@ function updateBudgetNextButton(isError) {
 			break;
 
 		case 2:
-			nextButton.innerHTML = 'Vul je stemcode in';
+			nextButton.innerHTML = 'Volgende';
 			removeFromClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
+
+			if (initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent) {
+				addToClassName(nextButton, 'active')
+			} else {
+				removeFromClassName(nextButton, 'active')
+			}
+
 			break;
 
 		case 3:
@@ -652,7 +697,7 @@ function updateList() {
 	});
 
   // document.querySelector('#ideaList').innerHTML = newList.innerHTML;
-	
+
 	updateListElements()
 
 }
@@ -768,6 +813,21 @@ function gridderClose() {
 }
 
 window.onload = function() { // using (function {} {})() happens too early
+	displayIdeaOnHash();
+};
+
+$(window).on('hashchange', function() {
+//	displayIdeaOnHash();
+});
+
+
+$(document).on('click', '.current-budget-images a', function (ev) {
+	setTimeout(function() {
+		displayIdeaOnHash();
+}, 1)
+});
+
+function displayIdeaOnHash () {
 	var showIdeaId;
 	var match = window.location.search.match(/showIdea=(\d+)/);
 	if (match) {
@@ -777,10 +837,20 @@ window.onload = function() { // using (function {} {})() happens too early
 	if (match) {
 		showIdeaId = match[1];
 	};
-	if (showIdeaId && document.querySelector('#idea-' + showIdeaId) && document.querySelector('#idea-' + showIdeaId).querySelector('.button-read-more')) {
-		document.querySelector('#idea-' + showIdeaId).querySelector('.button-read-more').click()
+
+	var isOpen =  $('#idea-' + showIdeaId).hasClass('selectedItem');
+
+	if (isOpen) {
+		$([document.documentElement, document.body]).animate({
+        scrollTop: $('#idea-' + showIdeaId).offset().top
+    }, 200);
+	} else {
+		if (showIdeaId && document.querySelector('#idea-' + showIdeaId) && document.querySelector('#idea-' + showIdeaId).querySelector('.button-read-more')) {
+			document.querySelector('#idea-' + showIdeaId).querySelector('.button-read-more').click();
+		}
 	}
-};
+//	return false;
+}
 
 // end gridder / list functions
 // ----------------------------------------------------------------------------------------------------
