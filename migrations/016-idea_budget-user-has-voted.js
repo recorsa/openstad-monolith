@@ -7,7 +7,6 @@ module.exports = {
         id int(11) NOT NULL,
         siteId int(11) NOT NULL,
         userId varchar(64) NOT NULL,
-        vote text NOT NULL,
         createdAt datetime NOT NULL,
         updatedAt datetime NOT NULL,
         deletedAt datetime DEFAULT NULL
@@ -29,3 +28,5 @@ module.exports = {
 		`);
 	}
 }
+
+			
