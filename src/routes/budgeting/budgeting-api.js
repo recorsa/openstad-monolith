@@ -53,7 +53,7 @@ router
 	.post(function( req, res, next ) {
 
 		// validation - heb je al gestemd
-		db.BudgetVote
+		db.BudgetUserHasVoted
 			.find({where: {userId: req.userData.user_id}})
 			.then(result => {
 				if (result) return next(createError(403, 'Je hebt al gestemd'))
@@ -70,7 +70,7 @@ router
 		if (vote.length == 0) return next(createError(403, 'Budget klopt niet'))
 		if (vote.find(entry => parseInt(entry) != entry)) return next(createError(403, 'Budget klopt niet'))
 
-		// validation: check if budget ammount is high enough
+		// validation: check if budget ammount is ok
 		db.Idea
 			.findAll({where: {id: vote}})
 			.then(result => {
@@ -97,9 +97,6 @@ router
 
 	})
 	.post(function( req, res, next ) {
-		next();
-	})
-	.post(function( req, res, next ) {
 
 		let vote;
 		try {
@@ -110,7 +107,6 @@ router
 		}
 
 		let budgetVoteData = {
-			userId: req.userData.user_id,
 			vote: vote
 		};
 
@@ -118,13 +114,31 @@ router
 			.create(budgetVoteData)
 			.then( budgetVote => {
 
-				// na het stemmen wordt je automatisch uitgelogd
-				req.session.destroy();
-				
-				// TODO: dit is niet consistent
-				res.json({message: 'stemmen gelukt'});
+				let BudgetUserHasVotedData = {
+					userId: req.userData.user_id,
+				};
+				db.BudgetUserHasVoted
+					.create(BudgetUserHasVotedData)
+					.then( BudgetUserHasVoted => {
+
+						// na het stemmen wordt je automatisch uitgelogd
+						req.session.destroy();
+						
+						// TODO: dit is niet consistent
+						res.json({message: 'stemmen gelukt'});
+					})
+					.catch(err => {
+						console.log('SAVE USER HAS VOTED ERROR');
+						console.log(err);
+						next(err);
+					});
+
 			})
-			.catch(next);
+			.catch(err => {
+				console.log('SAVE VOTE ERROR');
+				console.log(err);
+				next(err);
+			});
 
 	})
 
