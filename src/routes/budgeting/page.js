@@ -38,9 +38,7 @@ router
 			)
 			.then(
 				json => {
-					console.log('1', req.userData);
 					req.userData = json;
-					console.log('2', req.userData);
 					return next()
 				}
 			).catch(err => {
@@ -60,10 +58,9 @@ router
 
 		// check op unique code: is die al gebruikt
 		// TODO: het is nogal waardeloos dat dat hier staat; dit zou alleen generiek oauth moeten zijn
-		console.log('3', req.userData);
 
 		// validation - heb je al gestemd
-		db.BudgetVote
+		db.BudgetUserHasVoted
 			.find({where: {userId: req.userData.user_id}})
 			.then(result => {
 				if (result) req.userHasVoted = true;
@@ -71,6 +68,7 @@ router
 			})
 			.catch( err => {
 				console.log('OAUTH CHECK VOTE ERR');
+				console.log(err);
 				return next(err)
 			});
 

@@ -34,6 +34,9 @@ function addIdeaToBudget(id) {
 
 	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
 
+	document.querySelector('#budgeting-edit-mode').checked = false;
+	addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
+
 	updateBudgetDisplay();
 	updateListElements();
 
@@ -83,7 +86,8 @@ function setBudgetingEditMode() {
 		var images = preview.querySelectorAll('.idea-image-mask');
 		for (var i=0; i<images.length; i++) {
 			var image = images[i];
-			image.onclick = '';
+			var ideaId = image.ideaId;
+			image.onclick = ''; // function(e) { document.querySelector('#idea-'+this.ideaId).click() };
 		}
 	}
 
@@ -180,7 +184,10 @@ function updateBudgetDisplay() {
 		}
 	}
 
-	budgetBar.innerHTML = '';
+	while(budgetBar.hasChildNodes()) {
+		budgetBar.removeChild(budgetBar.childNodes[0])
+	}
+
 	currentBudgetSelection.forEach( function(id) {
 		var element = sortedElements.find( function(el) { return el.ideaId == id } );
 		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
@@ -190,6 +197,8 @@ function updateBudgetDisplay() {
 
 		// todo: better width calculation
 		budgetBarImage.style.width = element.budgetBarWidth + 'px';
+		budgetBarImage.ideaId = element.ideaId; // used by onclick
+		// budgetBarImage.onclick = function(e) { document.querySelector('#idea-'+this.ideaId).click() };
 		budgetBar.appendChild(budgetBarImage)
 	});
 
@@ -216,6 +225,10 @@ function updateBudgetDisplay() {
 			currentBudgetSelection.forEach( function(id) {
 				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
+// <<<<<<< HEAD
+//  				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode and onclick
+//  				previewImages.appendChild(previewImage)
+// =======
 				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
 				previewImage.setAttribute('data-idea-id', element.ideaId);
 				previewImage.className += ' idea-' + element.ideaId;
@@ -226,6 +239,7 @@ function updateBudgetDisplay() {
 				linkToIdea.appendChild(previewImage);
 
 				previewImages.appendChild(linkToIdea)
+//>>>>>>> 1cb19fde83f05b1d7330ee31f9be7ef1f57979ba
 			});
 			var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 			previewImages.appendChild( addButton.cloneNode(true) )
@@ -419,22 +433,68 @@ function submitBudget() {
 		_csrf: csrfToken,
 	}
 
-	// let url = '/begroten/stem';
+	
 	let url = '/api/site/15/budgeting';
 
-	fetch(url, {
-		method: 'post',
-		headers: {
-			"Content-type": "application/json",
-			"Accept": "application/json",
-		},
-		body: JSON.stringify(data),
-	})
-		.then( function(response) { return response.json()}  )
-		.then( function (json) {
+	//fetch(url, {
+	// 	method: 'post',
+	// 	headers: {
+	// 		"Content-type": "application/json",
+	// 		"Accept": "application/json",
+	// 	},
+	// 	body: JSON.stringify(data),
+	//})
+	// 	.then( function(response) { return response.json()}  )
+	// 	.then( function (json) {
+	// 
+	// 		if (json.status && json.status != 200) throw json.message;
+	// 
+	// 		// na het stemmen bewaren we niets meer
+	// 		currentBudgetSelection = [];
+	// 		openstadRemoveStorage('currentBudgetSelection');
+	// 		openstadRemoveStorage('hide-info-bewoners-west');
+	// 		openstadRemoveStorage('lastSorted');
+	// 		openstadRemoveStorage('plannenActiveTab');
+	// 		openstadRemoveStorage('plannenActiveFilter');
+	// 		openstadRemoveStorage('sortOrder');
+	// 		availableBudgetAmount = initialAvailableBudget;
+	// 
+	// 		addToClassName(document.querySelector('#waitLayer'), 'hidden');
+	// 
+	// 		// uitloggen op mijnopenstad
+	// 		fetch(authServerLogoutUrl, {
+	// 			method: 'get',
+	// 			headers: {
+	// 				"Content-type": "application/json",
+	// 				"Accept": "application/json",
+	// 			},
+	// 			credentials: 'include',
+	// 		})
+	// 			.then( function(response) {
+	// 				// ignore response - TODO dus
+	// 				nextStep();
+	// 			})
+	// 			.catch( function (error) {
+	// 				console.log('Request failed', error);
+	// 				// ignore response - TODO dus
+	// 				nextStep();
+	// 			});
+	// 
+	// 
+	// 
+	// 	})
+	// 	.catch( function (error) {
+	// 		addToClassName(document.querySelector('#waitLayer'), 'hidden');
+	// 		console.log('Request failed', error);
+	// 		showError('Het opslaan van je stem is niet gelukt: ' + ( error && error.message ? error.message : error ))
+	// 	});
 
-			if (json.status && json.status != 200) throw json.message;
-
+	$.ajax({
+    url: url,
+		type: 'post',
+		dataType: 'json',
+		data: data,
+    success: function(data) {
 			// na het stemmen bewaren we niets meer
 			currentBudgetSelection = [];
 			openstadRemoveStorage('currentBudgetSelection');
@@ -444,36 +504,38 @@ function submitBudget() {
 			openstadRemoveStorage('plannenActiveFilter');
 			openstadRemoveStorage('sortOrder');
 			availableBudgetAmount = initialAvailableBudget;
-
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
 
-			// uitloggen op mijnopenstad
-			fetch(authServerLogoutUrl, {
-				method: 'get',
-				headers: {
-					"Content-type": "application/json",
-					"Accept": "application/json",
+			$.ajax({
+				url: authServerLogoutUrl,
+				dataType: "json",
+				xhrFields: {
+					withCredentials: true
 				},
-				credentials: 'include',
-			})
-				.then( function(response) {
-					// ignore response - TODO dus
+				crossDomain: true,
+				beforeSend: function(request) {
+					request.setRequestHeader("Content-type", "application/json");
+					request.setRequestHeader("Accept", "application/json");
+				},
+				success: function(data) {
 					nextStep();
-				})
-				.catch( function (error) {
+				},
+				error: function(error) {
 					console.log('Request failed', error);
 					// ignore response - TODO dus
 					nextStep();
-				});
+				}
+			});
 
-
-
-		})
-		.catch( function (error) {
+    },
+    error: function(error) {
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
 			console.log('Request failed', error);
-			showError('Het opslaan van je stem is niet gelukt: ' + ( error && error.message ? error.message : error ))
-		});
+			showError('Het opslaan van je stem is niet gelukt: ' + ( error && error.responseJSON && error.responseJSON.message ? error.responseJSON.message : error ))
+    }
+  });
+
+	return;
 
 }
 
@@ -618,14 +680,18 @@ function updateList() {
 
 	// show only the selected elements; display: none does not work well with gridder
 
-	document.querySelector('#ideaList').innerHTML = '';
+	var list = document.querySelector('#ideaList');
+	while(list.hasChildNodes()) {
+		list.removeChild(list.childNodes[0])
+	}
+
 	//var newList = document.createElement('ul');
 
 	sortedElements.forEach( function(element) {
 		var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
 		var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
 		if ((( !activeTab || activeTab == 0 ) || activeThema == elementThema) && (( !activeFilter || activeFilter == 0 ) || activeGebied == elementGebied)) {
-			document.querySelector('#ideaList').appendChild(element)
+			list.appendChild(element)
 			//newList.appendChild(element)
 		}
 	});

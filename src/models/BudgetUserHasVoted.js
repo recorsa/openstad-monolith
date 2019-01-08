@@ -2,7 +2,7 @@ const config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
 
-	var BudgetVote = sequelize.define('budgetVote', {
+	var BudgetUserHasVoted = sequelize.define('budgetUserHasVoted', {
 
 		siteId: {
 			type         : DataTypes.INTEGER,
@@ -10,9 +10,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 		},
 
-		vote: {
+		userId: {
 			type         : DataTypes.STRING,
-			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
 			allowNull    : false,
 		},
 
@@ -21,7 +20,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		classMethods: {
 
 			associate: function( models ) {
-				// BudgetVote.hasMany(models.Idea);
+				// BudgetUserHasVoted.hasMany(models.Idea);
 			},
 
 			scopes: function() {
@@ -53,6 +52,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	});
 	
-	return BudgetVote;
+	return BudgetUserHasVoted;
 
 };
