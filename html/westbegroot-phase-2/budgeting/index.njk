@@ -8,15 +8,16 @@
 
 {% block contentFullWidth %}
 
-	<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
-		<div id="info-bewoners-west" class="info-block green">
-			Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
-			<div class="close-button" onclick="hideInfoBewonersWest()"></div>
+	{% if config.budgeting.isActive %}
+		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
+			<div id="info-bewoners-west" class="info-block green">
+				Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
+				<div class="close-button" onclick="hideInfoBewonersWest()"></div>
+			</div>
 		</div>
-	</div>
 
-	{{ budgeting.showBudgetWindow() }}
-
+		{{ budgeting.showBudgetWindow() }}
+	{% endif %}
 
 	<script>
 	 var csrfToken = '{{csrfToken}}';
@@ -27,7 +28,7 @@
 
 	{% include 'includes/end-date-bar.njk' %}
 
-	<div class="pageContent {{contentClass}}">
+	<div id="ideasList" class="pageContent {{contentClass}}">
 
 		<h1>
 			Plannen voor West ({{runningIdeas.length}})

@@ -5,7 +5,7 @@ const express = require('express');
 let router = express.Router({mergeParams: true});
 
 // the page
-router.use( '(?:/budgeting|/begroten|/stemmen)', require('./page') );
+router.use( '(?:/budgeting|/begroten|/stemmen|/plannen)', require('./page') );
 
 // vote routes
 // router.use( '(?:/budgeting|/begroten)', require('./vote') );

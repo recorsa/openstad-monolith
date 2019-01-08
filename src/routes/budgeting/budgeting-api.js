@@ -18,6 +18,13 @@ router
 router
 	.route('/')
 	.post(function( req, res, next ) {
+		if (config.budgeting && config.budgeting.isActive) {
+			return next();
+		} else {
+			return next(createError(404, 'Niet gevonden'))
+		}
+	})
+	.post(function( req, res, next ) {
 
 		if (!req.session.userAccessToken) return next(createError(403, 'Je bent niet ingelogd'));
 

@@ -92,9 +92,11 @@ router
 			fullHost           : req.protocol+'://'+req.hostname,
 			authServerLogoutUrl,
 
+			config,
+
 		};
 
-		if (req.path.match(/\stemmen/)) {
+		if (req.path.match(/stemmen|plannen/)) {
 			data.stepNo   = '';
 			data.ideaId   = '';
 			data.zipCode  = '';

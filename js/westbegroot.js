@@ -1,6 +1,14 @@
 // ----------------------------------------------------------------------------------------------------
 // budgeting functions
 
+// stap 1: kies plannen
+// stap 2: overzicht van je gekozen plannen
+// stap 3: vul je stemcode in, met knop naar mijnopenstad
+// stap 4: resultaat van het invullen van je stemcode
+// stap 5: stem nu, met knop
+// stap 6: resultaat van het stemmen; logt je ook direct uit
+// stap 7: doorverwijzing naar /begroten, dwz. begin opnieuw
+
 // config
 var initialAvailableBudget = 300000;
 var minimalBudgetSpent = 200000;
@@ -11,7 +19,11 @@ var currentBudgetSelection = openstadGetStorage('currentBudgetSelection') || [];
 
 var currentStep = 1;
 if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
-	currentStep = 4;
+	if (userHasVoted) {
+		currentStep = 3;
+	} else {
+		currentStep = 4;
+	}
 }
 
 function toggleIdeaInBudget(id) {
@@ -97,6 +109,14 @@ function setBudgetingEditMode() {
 function previousStep() {
 	scrollToBudget()
 	currentStep--;
+
+	if (currentStep == 3) {
+		if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+			// user is al ingelogd
+			currentStep = 2;
+		}
+	}
+
 	updateBudgetDisplay();
 }
 
@@ -112,11 +132,19 @@ function nextStep() {
 	}
 
 	if (currentStep == 3) {
-		// document.location.href = "/oauth/login?redirect_uri=/begroten";
-		return
+		// in stap 3 doet de knop niets
+		return;
 	}
 
 	currentStep++;
+
+	if (currentStep == 3) {
+		if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+			// user is al ingelogd en kan gaan stemmen
+			currentStep = 4;
+		}
+	}
+
 	updateBudgetDisplay();
 
 	if (currentStep == 5) {
@@ -214,6 +242,7 @@ function updateBudgetDisplay() {
 		case 1:
 
 			addToClassName(document.querySelector('#steps-bar-1'), 'active')
+			removeFromClassName(document.querySelector('#ideasList'), 'hidden')
 
 			removeFromClassName(previewImages, 'hidden');
 			addToClassName(previewTable, 'hidden');
@@ -257,6 +286,7 @@ function updateBudgetDisplay() {
 		case 2:
 			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'active')
+			removeFromClassName(document.querySelector('#ideasList'), 'hidden')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
@@ -298,21 +328,7 @@ function updateBudgetDisplay() {
 			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-3'), 'active')
-
-			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
-			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
-
-			addToClassName(previewImages, 'hidden');
-			addToClassName(previewTable, 'hidden');
-
-			break;
-
-
-		case 4:
-			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
-			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
-
-			addToClassName(document.querySelector('#steps-bar-3'), 'active')
+			addToClassName(document.querySelector('#ideasList'), 'hidden')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
@@ -321,15 +337,25 @@ function updateBudgetDisplay() {
 			addToClassName(previewTable, 'hidden');
 
 			if (userHasVoted) {
-
-				removeFromClassName(document.querySelector('#steps-bar-4'), 'active')
-				addToClassName(document.querySelector('#steps-bar-3'), 'active')
-
-				document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-4-error').querySelector('.text').innerHTML;
-
-				// TODO: loguit en delete session
-
+				removeFromClassName(document.querySelector('.error-block'), 'hidden');
+			} else {
+				addToClassName(document.querySelector('.error-block'), 'hidden');
 			}
+
+			break;
+
+
+		case 4:
+			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
+			addToClassName(document.querySelector('#steps-bar-3'), 'active')
+			addToClassName(document.querySelector('#ideasList'), 'hidden')
+
+			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
+			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
+
+			addToClassName(previewImages, 'hidden');
+			addToClassName(previewTable, 'hidden');
 
 			break;
 
@@ -337,16 +363,17 @@ function updateBudgetDisplay() {
 			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-3'), 'passed')
-
 			addToClassName(document.querySelector('#steps-bar-4'), 'active')
+			addToClassName(document.querySelector('#ideasList'), 'hidden')
+
 			break;
 
 		case 6:
 			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-3'), 'passed')
-
 			addToClassName(document.querySelector('#steps-bar-4'), 'active')
+			addToClassName(document.querySelector('#ideasList'), 'hidden')
 			break;
 
 
@@ -394,13 +421,14 @@ function updateBudgetNextButton(isError) {
 
 		case 3:
 			nextButton.innerHTML = 'Stemmen';
+			removeFromClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 			removeFromClassName(nextButton, 'active')
 			break;
 
 		case 4:
 			nextButton.innerHTML = 'Stemmen';
-			addToClassName(previousButton, 'hidden');
+			removeFromClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 			addToClassName(nextButton, 'active');
 
@@ -415,6 +443,10 @@ function updateBudgetNextButton(isError) {
 
 	}
 
+}
+
+function login() {
+	window.location.href = '/oauth/login?redirect_uri=/begroten'
 }
 
 function submitBudget() {
@@ -435,59 +467,6 @@ function submitBudget() {
 
 	
 	let url = '/api/site/15/budgeting';
-
-	//fetch(url, {
-	// 	method: 'post',
-	// 	headers: {
-	// 		"Content-type": "application/json",
-	// 		"Accept": "application/json",
-	// 	},
-	// 	body: JSON.stringify(data),
-	//})
-	// 	.then( function(response) { return response.json()}  )
-	// 	.then( function (json) {
-	// 
-	// 		if (json.status && json.status != 200) throw json.message;
-	// 
-	// 		// na het stemmen bewaren we niets meer
-	// 		currentBudgetSelection = [];
-	// 		openstadRemoveStorage('currentBudgetSelection');
-	// 		openstadRemoveStorage('hide-info-bewoners-west');
-	// 		openstadRemoveStorage('lastSorted');
-	// 		openstadRemoveStorage('plannenActiveTab');
-	// 		openstadRemoveStorage('plannenActiveFilter');
-	// 		openstadRemoveStorage('sortOrder');
-	// 		availableBudgetAmount = initialAvailableBudget;
-	// 
-	// 		addToClassName(document.querySelector('#waitLayer'), 'hidden');
-	// 
-	// 		// uitloggen op mijnopenstad
-	// 		fetch(authServerLogoutUrl, {
-	// 			method: 'get',
-	// 			headers: {
-	// 				"Content-type": "application/json",
-	// 				"Accept": "application/json",
-	// 			},
-	// 			credentials: 'include',
-	// 		})
-	// 			.then( function(response) {
-	// 				// ignore response - TODO dus
-	// 				nextStep();
-	// 			})
-	// 			.catch( function (error) {
-	// 				console.log('Request failed', error);
-	// 				// ignore response - TODO dus
-	// 				nextStep();
-	// 			});
-	// 
-	// 
-	// 
-	// 	})
-	// 	.catch( function (error) {
-	// 		addToClassName(document.querySelector('#waitLayer'), 'hidden');
-	// 		console.log('Request failed', error);
-	// 		showError('Het opslaan van je stem is niet gelukt: ' + ( error && error.message ? error.message : error ))
-	// 	});
 
 	$.ajax({
     url: url,
@@ -538,6 +517,7 @@ function submitBudget() {
 	return;
 
 }
+
 
 // error on field
 function addError(element, text) {
@@ -850,6 +830,17 @@ function displayIdeaOnHash () {
 		}
 	}
 //	return false;
+}
+
+function toggleImageLocation(id) {
+	var element = document.querySelector('.gridder-expanded-content').querySelector('.image-location-toggable');
+	console.log(id, element);
+	if (element.className.match('show-location')) {
+		removeFromClassName(element, 'show-location');
+	} else {
+		addToClassName(element, 'show-location');
+	}
+	console.log(element.className);
 }
 
 // end gridder / list functions

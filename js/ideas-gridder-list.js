@@ -22,7 +22,13 @@ $(function() {
 			var ideaId = element.querySelector('.this-idea-id').innerHTML;
 			 
 			window.history.replaceState({}, '', '#showidea-' + ideaId);
-			 
+
+			// todo: dit moet natuurlijk inde css, maar ik weet zo ff niet hoe
+			var el = element.querySelector('#image-location-toggable-' + ideaId);
+			if (el) {
+			  el.style.height = ( 9 * el.querySelector('.idea-image-container').offsetWidth / 16 ) + 'px';
+			}
+
 			return false;
 
 		},

@@ -4,15 +4,28 @@
 			<div class="">
 				<img src="/img/westbegroot/main-money.svg" />
 			</div>
-			<h3>
-				Verdeel € 300.000 over jouw favoriete plannen
-			</h3>
-			<p>
-				Woon je in West en ben je 18 jaar of ouder? Alle bewoners uit West van 18 jaar en ouder ontvangen per post een stemcode om tussen 16 januari en 13 februari 2019 te kunnen stemmen op plannen op West Begroot.
-			</p>
-			<a href="/begroten" class="btn--blue ">
-				Begin meteen met stemmen
-			</a>
+			{% if config.budgeting.isActive %}
+				<h3>
+					Verdeel € 300.000 over jouw favoriete plannen
+				</h3>
+				<p>
+					Woon je in West en ben je 18 jaar of ouder? Alle bewoners uit West van 18 jaar en ouder ontvangen per post een stemcode om tussen 16 januari en 13 februari 2019 te kunnen stemmen op plannen op West Begroot.
+				</p>
+				<a href="/begroten" class="btn--blue ">
+					Begin meteen met stemmen
+				</a>
+			{% else %}
+				<h3>
+					Welke plannen zijn geselecteerd voor West Begroot?
+				</h3>
+				<p>
+					Vanaf 16 januari kunnen alle bewoners uit West van 18 jaar en ouder stemmen met de stemcode die zij per post ontvangen. Bekijk nu alvast op welke plannen je kunt stemmen.
+				</p>
+				<a href="/begroten" class="btn--blue ">
+					Bekijk de geselecteerde plannen
+				</a>
+				
+			{% endif %}
     </div>
     <br class="visible-xs" />
     <br class="visible-xs" />

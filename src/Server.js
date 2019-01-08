@@ -113,7 +113,7 @@ module.exports  = {
 		var cookieParser       = require('cookie-parser');
 		var methodOverride     = require('method-override');
 
-		this.app.use(function(req, res, next){
+		this.app.use(function(req, res, next) {
 
 			// TODO: ik denk dat je hem beter kunt afschermen met locaties in de config
       res.header('Access-Control-Allow-Origin', config.url || ( req.protocol + '://' + req.hostname ));
