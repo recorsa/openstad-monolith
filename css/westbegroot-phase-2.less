@@ -354,7 +354,7 @@ phone
 							margin-bottom: 15px;
 							background-color: #e7e7e7;
 							cursor: pointer;
-							
+
 							.idea-image {
 								position: absolute;
 								top: 0;
@@ -747,12 +747,14 @@ phone
 
 .button-add-idea-to-budget {
 	position: relative;
-	padding-left: 35px;
 	max-width: 100%;
 	min-width: 135px;
 	text-align: center;
 	-webkit-transition: all 400ms; /* Safari */
 	transition: all 400ms;
+	    font-size: 18px;
+	padding: 10px 13px;
+	padding-left: 38px;
 
 	&:before {
 		content: " ";
@@ -886,6 +888,10 @@ phone
 /* ----------------------------------------------------------------------------------------------------
  * gridder */
 
+ .ideasList {
+	 overflow: visible;
+ }
+
 .gridder {
 
 	@media @xs {
@@ -954,7 +960,7 @@ phone
 			font-weight: 600;
 			line-height: 1.5;
 			color: #434343;
-			margin-bottom: 10px;
+			margin: 20px 0;
 		}
 
 		.description {
@@ -968,7 +974,7 @@ phone
 			}
 
 			li {
-				margin: 4px 0;
+				margin: 10px 0;
 			}
 		}
 
