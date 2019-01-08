@@ -10,9 +10,14 @@
 
 @m        		: ~'only screen and (max-width: 992px)';
 
-@gridderFull 	: ~'only screen and (max-width: 670px)';
+@gridderFull 	: ~'only screen and (max-width: 768px)';
 
-@xs        		: ~'only screen and (max-width: 772px)';
+@xs        		: ~'only screen and (max-width: 768px)';
+
+@phone				: ~'only screen and (max-width: 768px)';
+
+
+phone
 
 /* ----------------------------------------------------------------------------------------------------
  * override openstad defaults */
@@ -914,7 +919,9 @@
 
 	.gridder-show {
 		.idea-image-container {
-			width: 380px;
+			max-width: 380px;
+			width: 100%;
+			margin-bottom: 6px;
 
 			.idea-image-mask {
 				display: block;
