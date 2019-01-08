@@ -264,6 +264,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 					case 'date_desc':
 					default:
 						order = `
+							CASE status
+								WHEN 'OPEN'     THEN 4
+								WHEN 'ACCEPTED' THEN 3
+								WHEN 'DONE'     THEN 2
+								WHEN 'BUSY'     THEN 1
+								                ELSE 0
+							END DESC,
 							endDate DESC
 						`;
 				}

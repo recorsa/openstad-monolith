@@ -29,8 +29,8 @@ module.exports = function( app ) {
 			}
 
 			var data = {
-				sort             : sort,
-				runningIdeas     : db.Idea.getRunning(sort, extraScopes),
+				sort             : undefined,
+				runningIdeas     : db.Idea.getRunning(undefined, extraScopes),
 				highlightedIdeas : db.Idea.getHighlighted(),
 				upcomingMeetings : db.Meeting.getUpcoming(),
 				userVoteIdeaId   : req.user.getUserVoteIdeaId(),

@@ -73,18 +73,8 @@
 			</select>
 			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
 		</div>
+		<br/><br/>
 
-		<div class="sort">
-			<select class="default-select">
-				<option {{'selected' if not sort or sort == 'random'}} value="random">Willekeurig</option>
-				<option {{'selected' if sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
-				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
-				<!--
-						 <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
-				-->
-			</select>
-		</div>
-		
 		{# Weird formatting because of `display: inline-block` #}
 		{% for idea in runningIdeas
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
@@ -207,19 +197,6 @@
 
 	 }
 
-	</script>
-	<script>
-	 // Sorting dropdown
-	 // ----------------
-	 (function() {
-		 var select = document.querySelector('#content2 > .primary > .sort > select');
-		 select.addEventListener('change', function() {
-			 // Replace current `sort=x` with new choice.
-				 var pathName = location.pathname;
-			 var search   = location.search.replace(/sort=[a-z_]+/i, '') || '?';
-			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
-		 });
-	 })();
 	</script>
 	<script>
 	 // Progressive thumbnail loading
