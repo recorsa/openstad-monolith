@@ -819,15 +819,34 @@ function displayIdeaOnHash () {
 	};
 
 	var isOpen =  $('#idea-' + showIdeaId).hasClass('selectedItem');
+	var scrollToTop;
+	var stickyHeight = $(window).width() > 767 ? 76 : 109;
 
 	if (isOpen) {
+		scrollToTop = $('.gridder-show').offset().top - stickyHeight - 12;
+
 		$([document.documentElement, document.body]).animate({
-        scrollTop: $('#idea-' + showIdeaId).offset().top
+        scrollTop: scrollToTop
     }, 200);
 	} else {
 		if (showIdeaId && document.querySelector('#idea-' + showIdeaId) && document.querySelector('#idea-' + showIdeaId).querySelector('.button-read-more')) {
 			document.querySelector('#idea-' + showIdeaId).querySelector('.button-read-more').click();
+
+
+
+			setTimeout(function() {
+				scrollToTop = $('.gridder-show').offset().top - stickyHeight - 12;
+				console.log('----> scrollToTop', scrollToTop);
+
+				$([document.documentElement, document.body]).stop().animate({
+						scrollTop: scrollToTop
+				}, 100);
+
+			})
+
 		}
+
+
 	}
 //	return false;
 }

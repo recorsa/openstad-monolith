@@ -10,7 +10,6 @@
 	font-size: 0; // wegens inline-blocks
 
 	.gridder-list {
-
 		display: inline-block;
 		position: relative;
 		width: calc((100% / @numberOfColumns) - 20px);
@@ -18,7 +17,11 @@
 		margin-bottom: 20px;
 		font-size: 14px;
 		background-color: @light-grey2;
-		cursor: pointer;
+
+		&:hover {
+			cursor: pointer;
+
+		}
 
 		@media @phone {
 			width: 100%;
@@ -71,12 +74,11 @@
 }
 
 .gridder-show {
-
 	float: left;
 	position: relative;
 	display: block;
 	margin: 20px 0 40px 0;
-	padding: 40px 0;
+	padding: 40px 0 25px;
 	width: calc(100% - 20px);
 	font-size: 16px;
 	background-color: @light-grey2;
@@ -95,7 +97,7 @@
 	}
 
 	.content {
-		
+
 		@media @phone {
 		}
 
@@ -136,14 +138,14 @@
 				padding: 0;
 				height: 30px;
 				list-style-type: none;
-				
+
 				li {
 					display: inline;
 					height: 30px;
 					width: 30px;
 					margin: 0;
 					padding: 0;
-					
+
 					a {
 						background-position: center;
 						background-repeat: no-repeat;
@@ -155,7 +157,7 @@
 						margin: 0 3px 0 0;
 						height: 30px;
 						width: 30px;
-						
+
 						&.facebook {
 							background-image: url('/img/share-facebook.svg');
 							&:hover {
@@ -180,7 +182,7 @@
 			}
 
 		}
-		
+
 	}
 
 	&:before {
@@ -209,16 +211,17 @@
 
 	.gridder-nav {
 		position: absolute;
-		display: block;
-		top: 180px;
-		width: 50px;
-		height: 50px;
-		padding: 0;
-		border: none;
-		outline: 0;
-		box-shadow: none;
-		cursor: pointer !important;
-		z-index: 1;
+    display: block;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border: none;
+    outline: 0;
+    box-shadow: none;
+    cursor: pointer !important;
+    z-index: 1;
+    margin-top: -25px;
 
 		@media @phone {
 			width: 15px;
@@ -284,7 +287,7 @@
 		background-image: url(/img/close-button-grey-on-transparent.svg);
 		cursor: pointer;
 		z-index: 20;
-		
+
 		@media @phone {
 			top: 15px;
 			right: 0;
@@ -351,7 +354,7 @@
 		color: white;
 	}
 
-	
+
 	.button-more-info {
 		top: 61px;
 		width: 176px;
@@ -376,7 +379,7 @@
 		color: white;
 		background-color: @amsterdam-navyblue;
 
-		
+
 		&.hasVoted {
 			display: none;
 		}

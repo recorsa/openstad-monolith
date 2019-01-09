@@ -12,14 +12,14 @@
 		{% if ogImage %}
 			<meta property="og:image" content="{{ogImage}}" />
 		{% endif %}
-		
+
 		<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
-		
+
 		<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
 
 		<script src="/js/cookies.js"></script>
 		<script src="/js/fetch2.js"></script>
-		
+
 		<meta name="viewport" content="initial-scale=1">
 		{% block head %}
 			<link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
@@ -44,7 +44,6 @@
 						 </a>
 				-->
 			</header>
-			
 			<nav id="mainMenu" role="navigation" class="menuBar">
 				<div>
 					<ul>
@@ -65,10 +64,9 @@
 
 					<a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur je plan in</a>
 					#}
-
 				</div>
 			</nav>
-			
+
 			<nav id="subMenu" class="" role="navigation">
 				<div>
 					<ul>
@@ -81,7 +79,7 @@
 					</ul>
 				</div>
 			</nav>
-			
+
 			<div id="content" class="pageContent {{contentClass}}">
 				{% for type,list in messages %}
 					<div class="flashMessage {{type}}">
@@ -101,7 +99,7 @@
 							<h2>Informatie</h2>
 							{% for message in list %}{{message}}<br>{% endfor %}
 						{% endif %}
-						
+
 						<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
 					</div>
 				{% endfor %}
@@ -148,7 +146,7 @@
 			{{ mobileMenu() }}
 
 		</div>
-		
+
 		<script>
 		 // Preload class is defined in `all.less` to disable all animations.
 			 document.body.className = '';
@@ -175,24 +173,24 @@
 		 // 							hideMenu(event);
 		 // 						}
 		 // 					});
-		 // 					
+		 //
 		 // 					function showMenu( event ) {
 		 // 						event.preventDefault();
 		 // 						event.stopPropagation();
-		 // 						
+		 //
 		 // 						document.body.addEventListener('click', hideMenu);
 		 // 						subMenu.addEventListener('click', menuClick);
-		 // 						
+		 //
 		 // 						subMenu.className += ' active';
 		 // 						active = true;
 		 // 					}
 		 // 					function hideMenu( event ) {
 		 // 						event.preventDefault();
 		 // 						event.stopPropagation();
-		 // 						
+		 //
 		 // 						document.body.removeEventListener('click', hideMenu);
 		 // 						subMenu.removeEventListener('click', menuClick);
-		 // 						
+		 //
 		 // 						subMenu.className = subMenu.className.replace(/ ?active/, '');
 		 // 						active = false;
 		 // 					}
@@ -219,9 +217,9 @@
 																});
 															})();
 		</script>
-		
+
 		{% block scripts %}{% endblock %}
-		
+
 		{% if ENV == 'production' %}
 			{% include 'includes/analytics.njk' %}
 		{% endif %}
