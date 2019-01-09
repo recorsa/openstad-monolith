@@ -47,7 +47,7 @@ addApp('stemvan', [{
 	appName    : 'stem-westbegroot',
 	deployName : 'production_westbegroot',
 	remotePath : '/var/www/westbegroot.amsterdam.nl/www',
-	ref        : 'origin/master'
+	ref        : 'origin/projects/westbegroot-phase-2'
 }, {
 	appName    : 'stem-westbegroot-staging',
 	deployName : 'staging_westbegroot',
