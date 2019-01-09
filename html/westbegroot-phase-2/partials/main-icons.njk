@@ -28,7 +28,7 @@
 						Bekijk de geselecteerde plannen
 					</a>
 				</div>
-		
+				
 			{% endif %}
     </div>
     <br class="visible-xs" /> 
@@ -46,7 +46,7 @@
 				Hoe ziet het stemproces eruit en hoe wordt bepaald welke plannen uiteindelijk uitgevoerd worden?
 			</p>
       <div class="row-footer--desktop text-center">
-  			<a href="#achtergrondinformatie" class="btn--blue scroll-link">
+  			<a href="#howDoesItWork" class="btn--blue scroll-link">
   				Lees hier hoe het werkt
   			</a>
       </div>
@@ -63,7 +63,7 @@
         Hoe zijn de ingestuurde plannen beoordeeld?
       </h3>
       <p>
-        Van de 210 ingestuurde plannen zijn er 30 geselecteerd voor de stemfase van West Begroot. Zit jouw plan er niet bij de geselecteerde plannen op de pagina “Stemmen”? Lees hier hoe de plannen zijn beoordeeld.
+        Van de 210 ingestuurde plannen zijn er 30 geselecteerd voor de stemfase van West Begroot. Zit jouw plan niet bij de geselecteerde plannen op de pagina '{% if config.budgeting.isActive %}Stemmen{% else %}Plannen{% endif %}'? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
       </p>
       <div class="row-footer--desktop text-center">
         <a href="/originele-plannen" class="btn--blue">
