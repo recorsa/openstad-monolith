@@ -185,7 +185,7 @@
 									Wij controleren je stemcode op geldigheid. Als dat gelukt is kun je stemmen.
 								</div>
 							</div>
-							<div onclick="login();" class="button-stemcode vul-je-stemcode-in">Vul je stemcode in</div>
+							<div onclick="login();" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">Vul je stemcode in</div>
 							<div class="error-block">Deze stemcode is al gebruikt om te stemmen op West Begroot. Een stemcode kan maar één keer gebruikt worden. </div>
 							{% if 1 %}
 							<br/></br><a href="/dev/delete-user-budget-vote">Dev optie: gooi eerst je oude stem weg</a>

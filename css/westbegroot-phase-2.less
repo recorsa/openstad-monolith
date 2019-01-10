@@ -653,7 +653,7 @@
 	}
 
 	#waitLayer {
-		display: none;
+		display: block;
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -662,6 +662,11 @@
 		background-color: white;
 		opacity: .6;
 		z-index: 10000;
+
+		&.hidden {
+			display: none;
+		}
+
 	}
 
 	.checkmark-block-green {
@@ -849,10 +854,21 @@
 	text-align: center;
 	font-size: 16px;
 	font-weight: 600;
-	line-height: 42px;
+	line-height: 40px;
 
 	&.vul-je-stemcode-in {
 		cursor: pointer;
+		padding: 1px;
+		border-width: 1px;
+
+		&:hover {
+			padding: 0;
+			border-width: 2px;
+		}
+
+		&.do-this-first {
+			border-color: red;
+		}
 	}
 
 	&.geldige-code {
