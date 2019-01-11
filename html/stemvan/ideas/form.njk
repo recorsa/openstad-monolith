@@ -309,8 +309,8 @@
 		 window.addEventListener('load', function() {
 
 			 // summary
-			 var minLen = 20;
-			 var maxLen = 140;
+			 var minLen = parseInt({{config.ideas.summaryMinLength}}) || 20;
+			 var maxLen = parseInt({{config.ideas.summaryMaxLength}}) || 140;
 			 
 			 var textarea  = document.querySelector('textarea[name="summary"]');
 			 var charsLeft = document.querySelector('#charsLeftSummary');
@@ -322,8 +322,8 @@
 			 initCharactersLeft(textarea, charsLeft, minLen, maxLen);
 
 			 // description
-			 var minLen = 140;
-			 var maxLen = 4096;
+			 var minLen = parseInt({{config.ideas.descriptionMinLength}}) || 140;
+			 var maxLen = parseInt({{config.ideas.descriptionMaxLength}}) || 5000;
 
 			 {% if useModernEditor %}
 			 var textarea  = document.getElementById('js-editor');
