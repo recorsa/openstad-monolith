@@ -66,6 +66,11 @@ addApp('stemtool', [{
 	remotePath : '/var/www/javabrug.amsterdam.nl/www',
 	ref        : 'origin/master'
 }, {
+	appName    : 'stemtool-kademuren',
+	deployName : 'production_kademuren',
+	remotePath : '/var/www/kademuren.amsterdam.nl/www',
+	ref        : 'origin/master'
+}, {
 	appName    : 'kademuren-staging',
 	deployName : 'staging_kademuren',
 	remotePath : '/var/www/kademuren.staging.openstadsdeel.nl/www',
