@@ -37,6 +37,35 @@
 /* ----------------------------------------------------------------------------------------------------
  * override openstad defaults */
 
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+#page {
+	min-height: 100%;
+}
+
+
+footer-spacer {
+	height: 200px;
+}
+
+footer {
+	position: relative;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 1400px;
+	min-height: 200px;
+
+	@media @phone {
+		padding-bottom: 60px;
+	}
+}
+
 .pageContent {
 	overflow: visible;
 }
@@ -463,7 +492,7 @@
 
 
 							.idea-image {
-								opacity: .5;
+								opacity: .4;
 								-webkit-transition: all 40ms; /* Safari */
 								transition: all 40ms;
 							}
@@ -479,7 +508,9 @@
 									top: 50%;
 									margin-top: -6px;
 									font-size: 12px;
+									font-weight: 600;
 									line-height: 1;
+									text-shadow: 0 0 2px #fff;
 									text-align: center;
 									left: 0;
 									right: 0;
@@ -874,6 +905,8 @@
 	&.geldige-code {
 
 		width: 210px;
+		margin-top: 0px;
+		margin-bottom: 20px;
 		padding-left: 40px;
 		text-align: left;
 

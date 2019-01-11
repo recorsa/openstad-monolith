@@ -819,6 +819,7 @@ function handleClick(event) {
 			if (ideaId) {
 				toggleIdeaInBudget(ideaId)
 			}
+
 			// cancel gridder
 			event.stopPropagation()
 			event.stopImmediatePropagation()
@@ -826,6 +827,10 @@ function handleClick(event) {
 
 
 	}
+
+	document.querySelector('#budgeting-edit-mode').checked = false;
+	// addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
+	setBudgetingEditMode()
 
 }
 
