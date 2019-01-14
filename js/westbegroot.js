@@ -280,7 +280,7 @@ function updateBudgetDisplay() {
 		case 2:
 			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'active')
-			removeFromClassName(document.querySelector('#ideasList'), 'hidden')
+			addToClassName(document.querySelector('#ideasList'), 'hidden')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
