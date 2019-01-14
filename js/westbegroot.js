@@ -233,6 +233,7 @@ function updateBudgetDisplay() {
 	// text
 	removeFromClassName(document.querySelector('#current-step').querySelector('#text'), 'error-block');
 	document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-' + currentStep).querySelector('.text').innerHTML;
+	$('#current-step').removeClass().addClass('active-step-' + currentStep);
 
 	switch(currentStep) {
 
@@ -971,7 +972,7 @@ function scrollToIdeas() {
 }
 
 function scrollToBudget() {
-  scrollToResolver(document.querySelector('#budget-block'));
+  scrollToResolver(document.querySelector('#main-budget-block'));
 }
 
 function scrollToResolver(elem) {
