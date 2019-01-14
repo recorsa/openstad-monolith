@@ -98,4 +98,15 @@ router
 		res.redirect(req.session.afterLoginRedirectUri || '/');
 	})
 
+// uitloggen
+// ---------
+router
+	.route('/logout')
+	.get(function( req, res, next ) {
+
+		req.session.destroy();
+		res.success('/', true);
+
+	});
+
 module.exports = router;

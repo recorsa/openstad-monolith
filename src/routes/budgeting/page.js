@@ -42,9 +42,9 @@ router
 					return next()
 				}
 			).catch(err => {
-				console.log('OAUTH GET USER CATCH ERROR');
+				console.log('PAGE GET USER CATCH ERROR');
 				console.log(err);
-				throw err;
+				return next(err);
 			});
 					
 	})
@@ -67,7 +67,7 @@ router
 				return next();
 			})
 			.catch( err => {
-				console.log('OAUTH CHECK VOTE ERR');
+				console.log('PAGE CHECK VOTE ERR');
 				console.log(err);
 				return next(err)
 			});

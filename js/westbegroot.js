@@ -18,13 +18,6 @@ var availableBudgetAmount = initialAvailableBudget;
 var currentBudgetSelection = openstadGetStorage('currentBudgetSelection') || [];
 
 var currentStep = 1;
-if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
-	if (userHasVoted) {
-		currentStep = 3;
-	} else {
-		currentStep = 4;
-	}
-}
 
 function toggleIdeaInBudget(id) {
 	var index = currentBudgetSelection.indexOf(id);
@@ -137,6 +130,7 @@ function nextStep() {
 
 	if (currentStep == 3) {
 		// in stap 3 doet de knop niets
+		addToClassName(document.querySelector('.button-stemcode.vul-je-stemcode-in'), 'do-this-first');
 		return;
 	}
 
@@ -290,7 +284,7 @@ function updateBudgetDisplay() {
 		case 2:
 			addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			addToClassName(document.querySelector('#steps-bar-2'), 'active')
-			removeFromClassName(document.querySelector('#ideasList'), 'hidden')
+			addToClassName(document.querySelector('#ideasList'), 'hidden')
 
 			$('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			$('.available-budget-amount').html(formatEuros(availableBudgetAmount));
@@ -450,7 +444,67 @@ function updateBudgetNextButton(isError) {
 }
 
 function login() {
-	window.location.href = '/oauth/login?redirect_uri=/begroten'
+
+	logout({
+		success: function(data) {
+			console.log('=3');
+
+			window.location.href = '/oauth/login?redirect_uri=/begroten'
+		},
+		error: function(error) {
+			console.log('Request failed', error);
+			// ignore response - TODO dus
+			console.log('=4');
+			window.location.href = '/oauth/login?redirect_uri=/begroten'
+		}
+	});
+
+}
+
+
+function logout(options) {
+	
+	$.ajax({
+		url: '/oauth/logout',
+		dataType: "json",
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		beforeSend: function(request) {
+			request.setRequestHeader("Content-type", "application/json");
+			request.setRequestHeader("Accept", "application/json");
+		},
+		success: function(data) {
+			console.log('=1');
+			logoutMijnOpenstad();
+		},
+		error: function(error) {
+			console.log('Request failed', error);
+			// ignore response - TODO dus
+			console.log('=2');
+			logoutMijnOpenstad();
+		}
+	});
+
+	function logoutMijnOpenstad() {
+		$.ajax({
+			url: authServerLogoutUrl,
+			dataType: "json",
+			xhrFields: {
+				withCredentials: true
+			},
+			crossDomain: true,
+			beforeSend: function(request) {
+				request.setRequestHeader("Content-type", "application/json");
+				request.setRequestHeader("Accept", "application/json");
+			},
+			success: options.sucess,
+			error: options.error,
+		});
+
+	}
+
 }
 
 function submitBudget() {
@@ -489,17 +543,7 @@ function submitBudget() {
 			availableBudgetAmount = initialAvailableBudget;
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
 
-			$.ajax({
-				url: authServerLogoutUrl,
-				dataType: "json",
-				xhrFields: {
-					withCredentials: true
-				},
-				crossDomain: true,
-				beforeSend: function(request) {
-					request.setRequestHeader("Content-type", "application/json");
-					request.setRequestHeader("Accept", "application/json");
-				},
+			logout({
 				success: function(data) {
 					nextStep();
 				},
@@ -779,6 +823,7 @@ function handleClick(event) {
 			if (ideaId) {
 				toggleIdeaInBudget(ideaId)
 			}
+
 			// cancel gridder
 			event.stopPropagation()
 			event.stopImmediatePropagation()
@@ -786,6 +831,10 @@ function handleClick(event) {
 
 
 	}
+
+	document.querySelector('#budgeting-edit-mode').checked = false;
+	// addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
+	setBudgetingEditMode()
 
 }
 
@@ -1031,6 +1080,17 @@ if (!Array.prototype.find) {
 // init
 
 recalculateAvailableBudgetAmount();
+
+if (initialAvailableBudget - availableBudgetAmount > minimalBudgetSpent) {
+	if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
+		if (userHasVoted) {
+			currentStep = 3;
+		} else {
+			currentStep = 4;
+		}
+	}
+}
+
 updateBudgetDisplay();
 
 // dev

@@ -185,9 +185,9 @@
 									Wij controleren je stemcode op geldigheid. Als dat gelukt is kun je stemmen.
 								</div>
 							</div>
-							<div onclick="login();" class="button-stemcode vul-je-stemcode-in">Vul je stemcode in</div>
-							<div class="error-block">Deze stemcode is al gebruikt om te stemmen op West Begroot. Een stemcode kan maar één keer gebruikt worden. </div>
-							{% if 1 %}
+							<div onclick="login();" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">Vul je stemcode in</div>
+							<div class="error-block">Met deze stemcode is al gestemd op West Begroot. Een stemcode kan maar één keer gebruikt worden. Je eerst verstuurde stem blijft bewaard.</div>
+							{% if 0 %}
 							<br/></br><a href="/dev/delete-user-budget-vote">Dev optie: gooi eerst je oude stem weg</a>
 							{% endif %}
 							<br class="visible-xs" />
@@ -196,6 +196,7 @@
 
 					<div id="steps-content-4" class="step">
 						<div class="text">
+							<div class="button-stemcode geldige-code">Geldige stemcode</div>
 							<div class="mobile-accordion overstretch--xs">
 								<a href="#" class="mobile-accordion-header">
 									<div class="mobile-accordion-header-open">
@@ -212,11 +213,9 @@
 									</div>
 								</a>
 								<div class="mobile-accordion-body">
-									Om te kunnen stemmen vul je je stemcode in. Alle bewoners van West hebben een stemcode per post ontvangen. Wij controleren je stemcode op geldigheid. Als dat gelukt is kun je stemmen.
-									TODO: ik denk dat de tekst hier moet veranderen. Iets met: Je stemcode is gecontroleerd. Als laaste stap ga je nu je stem opsturen.
+									Het controleren van je stemcode is gelukt! Je bent bijna klaar. Klik op onderstaande knop om je stem te versturen.
 								</div>
 							</div>
-							<div class="button-stemcode geldige-code">Geldige stemcode</div>
 						</div>
 					</div>
 
@@ -231,7 +230,7 @@
 							<div class="checkmark-block-green">
 								<h4>Gelukt, je hebt gestemd!</h4>
 								<br/>
-								Bedankt voor het stemmen op West Begroot. De stemperiode loopt van 16 januari t/m 13 februari 2019. De uitslag wordt op 15 februari 2019 gepubliceerd op <a href="https://westbegroot.amsterdam.nl">westbegroot.amsterdam.nl</a>.
+								Bedankt voor het stemmen op West Begroot. De stemperiode loopt van 16 januari t/m 13 februari 2019. Wil je weten welke plannen het vaakst zijn gekozen en uitgevoerd worden? De uitslag wordt op 15 februari 2019 gepubliceerd op <a href="https://westbegroot.amsterdam.nl">westbegroot.amsterdam.nl</a>.
 							</div>
 						</div>
 					</div>
