@@ -91,7 +91,11 @@ function setBudgetingEditMode() {
 		var images = preview.querySelectorAll('.idea-image-mask');
 		for (var i=0; i<images.length; i++) {
 			var image = images[i];
-			image.onclick = function() { removeIdeaFromBudget(image.ideaId) };
+			$(image).on('click', function () {
+				var ideaId = $(this).attr('data-idea-id');
+				console.log('---> ideaId', ideaId)
+				removeIdeaFromBudget(ideaId)
+			});
 		}
 	} else {
 		removeFromClassName(preview, 'editMode');
@@ -465,7 +469,7 @@ function submitBudget() {
 		_csrf: csrfToken,
 	}
 
-	
+
 	let url = '/api/site/15/budgeting';
 
 	$.ajax({
