@@ -60,7 +60,7 @@ router
 	.post(function( req, res, next ) {
 
 		// validation - heb je al gestemd
-		db.BudgetUserHasVoted
+		db.BudgetVote
 			.find({where: {userId: req.userData.user_id}})
 			.then(result => {
 				if (result) return next(createError(403, 'Je hebt al gestemd'))
@@ -108,37 +108,25 @@ router
 		let vote;
 		try {
 			vote = JSON.stringify(req.body.budgetVote || req.session.userFormData.budgetVote);
-			// TODO: hashen
+			// TODO: hashen?
 		} catch(err) {
 			return next(err)
 		}
 
 		let budgetVoteData = {
-			vote: vote
+			vote: vote,
+			userId: req.userData.user_id,
+			userIp: req.ip,
 		};
 
 		db.BudgetVote
 			.create(budgetVoteData)
 			.then( budgetVote => {
 
-				let BudgetUserHasVotedData = {
-					userId: req.userData.user_id,
-				};
-				db.BudgetUserHasVoted
-					.create(BudgetUserHasVotedData)
-					.then( BudgetUserHasVoted => {
-
-						// na het stemmen wordt je automatisch uitgelogd
-						req.session.destroy();
-						
-						// TODO: dit is niet consistent
-						res.json({message: 'stemmen gelukt'});
-					})
-					.catch(err => {
-						console.log('SAVE USER HAS VOTED ERROR');
-						console.log(err);
-						next(err);
-					});
+				// na het stemmen wordt je automatisch uitgelogd
+				req.session.destroy();
+				
+				res.json({message: 'stemmen gelukt'});
 
 			})
 			.catch(err => {

@@ -33,7 +33,10 @@ router
 				mode: 'cors',
 			})
 			.then(
-				response => response.json(),
+				response => {
+					if (response.status != 200) throw new Error('Het controleren van de stemcode is niet gelukt. Sluit uw browser af en probeer het nog eens.')
+					return response.json();
+				},
 				error => { throw new Error('User niet bekend') }
 			)
 			.then(
@@ -60,7 +63,7 @@ router
 		// TODO: het is nogal waardeloos dat dat hier staat; dit zou alleen generiek oauth moeten zijn
 
 		// validation - heb je al gestemd
-		db.BudgetUserHasVoted
+		db.BudgetVote
 			.find({where: {userId: req.userData.user_id}})
 			.then(result => {
 				if (result) req.userHasVoted = true;
