@@ -85,8 +85,7 @@ function setBudgetingEditMode() {
 		for (var i=0; i<images.length; i++) {
 			var image = images[i];
 			$(image).on('click', function () {
-				var ideaId = $(this).attr('data-idea-id');
-				console.log('---> ideaId', ideaId)
+				var ideaId = parseInt($(this).attr('data-idea-id'), 10);
 				removeIdeaFromBudget(ideaId)
 			});
 		}
@@ -447,14 +446,9 @@ function login() {
 
 	logout({
 		success: function(data) {
-			console.log('=3');
-
 			window.location.href = '/oauth/login?redirect_uri=/begroten'
 		},
 		error: function(error) {
-			console.log('Request failed', error);
-			// ignore response - TODO dus
-			console.log('=4');
 			window.location.href = '/oauth/login?redirect_uri=/begroten'
 		}
 	});
@@ -463,7 +457,7 @@ function login() {
 
 
 function logout(options) {
-	
+
 	$.ajax({
 		url: '/oauth/logout',
 		dataType: "json",
