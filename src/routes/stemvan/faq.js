@@ -32,7 +32,7 @@ var questionsData = [{
 	question: `Hoe veilig is deze site?`,
 	answer: `
 		<p>{{SITENAME}} neemt beveiligingsmaatregelen om misbruik van en ongeautoriseerde toegang tot persoonsgegevens te beperken.</p>
-		<p>Meer weten over privacy en beveiliging van persoonsgegevens? Lees dan onze <a href="/disclaimer">disclaimer</a>.</p>
+		<p>Meer weten over privacy en beveiliging van persoonsgegevens? Lees dan onze <a href="/privacyverklaring">Privacyverklaring</a>.</p>
 	`
 }, {
 	id: 4,
