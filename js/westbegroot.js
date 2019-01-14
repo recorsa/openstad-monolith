@@ -84,7 +84,10 @@ function setBudgetingEditMode() {
 		var images = preview.querySelectorAll('.idea-image-mask');
 		for (var i=0; i<images.length; i++) {
 			var image = images[i];
-			image.onclick = function() { removeIdeaFromBudget(image.ideaId) };
+			$(image).on('click', function () {
+				var ideaId = parseInt($(this).attr('data-idea-id'), 10);
+				removeIdeaFromBudget(ideaId)
+			});
 		}
 	} else {
 		removeFromClassName(preview, 'editMode');
@@ -444,14 +447,9 @@ function login() {
 
 	logout({
 		success: function(data) {
-			console.log('=3');
-
 			window.location.href = '/oauth/login?redirect_uri=/begroten'
 		},
 		error: function(error) {
-			console.log('Request failed', error);
-			// ignore response - TODO dus
-			console.log('=4');
 			window.location.href = '/oauth/login?redirect_uri=/begroten'
 		}
 	});
@@ -460,7 +458,7 @@ function login() {
 
 
 function logout(options) {
-	
+
 	$.ajax({
 		url: '/oauth/logout',
 		dataType: "json",
@@ -520,7 +518,7 @@ function submitBudget() {
 		_csrf: csrfToken,
 	}
 
-	
+
 	let url = '/api/site/15/budgeting';
 
 	$.ajax({
