@@ -91,7 +91,7 @@ module.exports = function( app ) {
 		})
 		.get(function( req, res ) {
 			if (req.userData && req.userData.user_id) {
-				db.BudgetUserHasVoted
+				db.BudgetVote
 					.destroy({where:  {userId: req.userData.user_id }, force: true})
 					.then(result => {
 						res.header('Set-Cookie', 'openstad-error=; Path=/');

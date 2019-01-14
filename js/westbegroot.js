@@ -182,7 +182,8 @@ function updateBudgetDisplay() {
 
 	// always update the budget bar
 	var borderWidth = 3;
-	var minwidth = 20;
+	var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+	var minwidth = isPhone ? 10 : 20;
 	var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
 	var availableWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
 	var usedWidth = 0;
@@ -472,17 +473,17 @@ function logout(options) {
 		},
 		success: function(data) {
 			console.log('=1');
-			logoutMijnOpenstad();
+			logoutMijnOpenstad(options);
 		},
 		error: function(error) {
 			console.log('Request failed', error);
 			// ignore response - TODO dus
 			console.log('=2');
-			logoutMijnOpenstad();
+			logoutMijnOpenstad(options);
 		}
 	});
 
-	function logoutMijnOpenstad() {
+	function logoutMijnOpenstad(options) {
 		$.ajax({
 			url: authServerLogoutUrl,
 			dataType: "json",

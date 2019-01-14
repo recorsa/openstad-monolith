@@ -10,6 +10,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 		},
 
+		userId: {
+			type         : DataTypes.STRING,
+			defaultValue : null,
+			allowNull    : false,
+		},
+
+		userIp: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			validate     : {
+				isIP: true
+			}
+		},
+
 		vote: {
 			type         : DataTypes.STRING,
 			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
