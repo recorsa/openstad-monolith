@@ -18,9 +18,10 @@ router
 			return res.redirect(config.url + '/begroten')
 		}
 
-		if (req.query.redirect_uri) {
-			req.session.afterLoginRedirectUri = req.query.redirect_uri
-		}
+		// TODO: het is nu hardcoded voor WB; voor generiek zou het onderstaande moeten werken, maar daar moet dan wel een controle op
+		// if (req.query.redirect_uri) {
+		//  	req.session.afterLoginRedirectUri = req.query.redirect_uri
+		// }
 
 		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
 		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
@@ -90,12 +91,16 @@ router
 	})
 	.get(function( req, res, next ) {
 		// login done
-		res.redirect(req.session.afterLoginRedirectUri || '/');
+		// TODO: zie /login
+		// res.redirect(req.session.afterLoginRedirectUri || '/stemmen');
+		res.redirect('/stemmen');
 	})
 	.get(function( error, req, res, next ) {
 		// de error wil je tonen in de pagina, en wordt daarom meegestuurd in plaats van getoond
 		res.header('Set-Cookie', 'openstad-error=' + ( error.message ? error.message : error ) + '; Path=/');
-		res.redirect(req.session.afterLoginRedirectUri || '/');
+		// TODO: zie /login
+		// res.redirect(req.session.afterLoginRedirectUri || '/stemmen');
+		res.redirect('/stemmen');
 	})
 
 // uitloggen

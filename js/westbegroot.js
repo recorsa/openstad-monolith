@@ -57,7 +57,7 @@ function removeIdeaFromBudget(id) {
 
 	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
 
-	scrollToBudget()
+	// scrollToBudget()
 
 	updateBudgetDisplay();
 	updateListElements();
@@ -253,10 +253,6 @@ function updateBudgetDisplay() {
 			currentBudgetSelection.forEach( function(id) {
 				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
-// <<<<<<< HEAD
-//  				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode and onclick
-//  				previewImages.appendChild(previewImage)
-// =======
 				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
 				previewImage.setAttribute('data-idea-id', element.ideaId);
 				previewImage.className += ' idea-' + element.ideaId;
@@ -267,7 +263,6 @@ function updateBudgetDisplay() {
 				linkToIdea.appendChild(previewImage);
 
 				previewImages.appendChild(linkToIdea)
-//>>>>>>> 1cb19fde83f05b1d7330ee31f9be7ef1f57979ba
 			});
 			var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 			previewImages.appendChild( addButton.cloneNode(true) )
