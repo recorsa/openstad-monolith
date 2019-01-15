@@ -1082,6 +1082,7 @@ if (initialAvailableBudget - availableBudgetAmount > minimalBudgetSpent) {
 	}
 }
 
+
 updateBudgetDisplay();
 
 // dev
