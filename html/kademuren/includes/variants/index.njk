@@ -1,0 +1,39 @@
+<div class="mobile-accordion">
+	<h2 class="mobile-accordion-opener margin-top-0">De ontwerpen</h2>
+
+	<div class="col-container">
+		{% for option in poll.options
+		%}<div class="col-3 col-sm-6 col-xs-12 margin-bottom-m">
+				<div class="concept-card concept-card-{{loop.index}} clearfix">
+					<a
+						href="#variant-modal-{{option.order}}"
+						class="concept-card-image"
+						style="background-image: url('https://via.placeholder.com/250x200');"
+					>
+						{% if option.order %}
+						<div class="concept-card-number concept-card-number-{{loop.index}}">
+							{{option.order}}
+						</div>
+						{% endif %}
+						<div class="concept-card-title">
+							{{option.title}}
+						</div>
+					</a>
+					<div class="concept-action-links">
+						<div class="concept-card-title-xs">
+							{{option.title}}
+						</div>
+						<div>
+							<a href="#variant-modal-{{option.order}}"  class="concept-card-link caret-link">
+								Lees meer
+							</a>
+							<a href="#arguments" onClick="argumentsLinkClick('{{option.order}}')" class="concept-card-link caret-link scroll-link">
+								Lees reacties
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>{%
+		endfor %}
+	</div>
+</div>

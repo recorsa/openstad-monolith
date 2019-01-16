@@ -168,7 +168,7 @@
 					 var form          = this;
 					 var lessThenStars = hasClass(form, lessThenStarsClassName);
 					 var checkedCount  = getGiveVoteCount();
-					 
+
 					 $('#vote-form .validate-postcode').forEach(function( inputContainer ) {
 						 if( !validatePostcodeFormField(inputContainer) ) {
 							 validated = false;
@@ -195,34 +195,43 @@
 				 $('#vote-form .concept-label').forEach(function( label, i ) {
 
 					 var checkBox = document.getElementById(label.getAttribute('for'));
-					 
-					 checkBox.addEventListener('change', function( event ) {
-						 addUnavailableClass();
-						 clearClassesVoteForm();
-					 });
-					 label.addEventListener('click', function( event ) {
 
-						 // deselect existing; TODO: wat doe je hier als aantal groter dan 1
-						 if (switchOrError == 'switch') {
-							 $('#vote-form input[type="checkbox"]').forEach(function(checkbox) {
-								 checkbox.checked = false;
-							 })
-						 }
+           if (checkBox) {
+  					 checkBox.addEventListener('change', function( event ) {
+  						 addUnavailableClass();
+  						 clearClassesVoteForm();
+  					 });
+           }
 
-						 var checkedCount = getGiveVoteCount();
-						 
-						 // Respond to voting error.
-							 if( !checkBox.checked && checkedCount >= maxChecked ) {
-								 event.preventDefault();
-								 clearVoteErrors();
-								 label.classList.add('error');
-							 } else {
-								 clearVoteErrors();
-							 }
-					 })
+           if (label) {
+  					 label.addEventListener('click', function( event ) {
+  						 // deselect existing; TODO: wat doe je hier als aantal groter dan 1
+  						 if (switchOrError == 'switch') {
+  							 $('#vote-form input[type="checkbox"]').forEach(function(checkbox) {
+  								 checkbox.checked = false;
+  							 })
+  						 }
+
+  						 var checkedCount = getGiveVoteCount();
+
+  						 // Respond to voting error.
+
+                console.log('checkedCount', checkedCount);
+                console.log('maxChecked', maxChecked);
+
+  							 if( !checkBox.checked && checkedCount >= maxChecked ) {
+  								 event.preventDefault();
+  								 clearVoteErrors();
+  								 label.classList.add('error');
+  							 } else {
+  								 clearVoteErrors();
+  							 }
+  					 });
+           }
+
 				 });
 		 }
-		 
+
 		 // New argument form
 		 // -----------------
 																								 // - Character count on 'new argument' forms.
@@ -232,7 +241,7 @@
 		 // `arguments.renderLists()` above.
 			 $('#arguments form.newArgument').forEach(function( form ) {
 				 renderForm(form);
-				 
+
 				 form.addEventListener('submit', function( event ) {
 					 var validated = true;
 
@@ -254,7 +263,7 @@
 					 }
 				 });
 			 });
-		 
+
 		 // Field error clearing
 		 // --------------------
 																								 // Clear the visual field errors when the user has corrected
@@ -273,30 +282,30 @@
 				 }
 			 });
 		 });
-		 
+
 		 // Functions called from the HTML
 		 // ------------------------------
-																								 global.argumentsLinkClick = function( order ) {
-																									 document.getElementById('filter-arguments-option-'+order).click();
-																								 }
-		 
+		 global.argumentsLinkClick = function( order ) {
+			 document.getElementById('filter-arguments-option-'+order).click();
+		 }
+
 		 // Helper functions
 		 // ----------------
-																																						 
-																																						 function validatePostcodeFormField( inputContainer ){
-																																							 var inputEl = inputContainer.querySelector('input');
-																																							 if( validatePostcode(inputEl.value) ) {
-																																								 if( hasClass(inputContainer, 'error') ) {
-																																									 inputContainer.classList.remove('error');
-																																									 inputContainer.classList.add('success');
-																																								 }
-																																								 return true;
-																																							 } else {
-																																								 inputContainer.classList.add('error');
-																																								 inputContainer.classList.remove('success');
-																																								 return false;
-																																							 }
-																																						 }
+
+		 function validatePostcodeFormField( inputContainer ){
+			 var inputEl = inputContainer.querySelector('input');
+			 if( validatePostcode(inputEl.value) ) {
+				 if( hasClass(inputContainer, 'error') ) {
+					 inputContainer.classList.remove('error');
+					 inputContainer.classList.add('success');
+				 }
+				 return true;
+			 } else {
+				 inputContainer.classList.add('error');
+				 inputContainer.classList.remove('success');
+				 return false;
+			 }
+		 }
 
 		 function validatePostcode( postcode ) {
 			 var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
@@ -344,7 +353,7 @@
 				 var itsCheckbox  = document.getElementById(label.getAttribute('for'));
 
 				 /** Add class for when it's unavailable for voting. **/
-				 if( (checkedCount ) >= maxChecked && !itsCheckbox.checked && switchOrError != 'switch' ) {
+				 if( itsCheckbox && (checkedCount ) >= maxChecked && !itsCheckbox.checked && switchOrError != 'switch' ) {
 					 label.classList.add('unavailable');
 				 } else {
 					 label.classList.remove('unavailable');
