@@ -24,6 +24,13 @@ router
 		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
 		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
 
+		console.log({
+			url,
+			headers: {
+				authorization : 'Bearer ' + req.session.userAccessToken,
+			},
+		});
+
 		fetch(
 			url, {
 				method: 'get',
@@ -34,7 +41,7 @@ router
 			})
 			.then(
 				response => {
-					if (response.status != 200) throw new Error('Het controleren van de stemcode is niet gelukt. Sluit uw browser af en probeer het nog eens.')
+					if (response.status != 200) { console.log(response); throw new Error('Het controleren van de stemcode is niet gelukt. Sluit uw browser af en probeer het nog eens.') }
 					return response.json();
 				},
 				error => { throw new Error('User niet bekend') }

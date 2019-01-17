@@ -549,7 +549,9 @@ function submitBudget() {
     error: function(error) {
 			addToClassName(document.querySelector('#waitLayer'), 'hidden');
 			console.log('Request failed', error);
-			showError('Het opslaan van je stem is niet gelukt: ' + ( error && error.responseJSON && error.responseJSON.message ? error.responseJSON.message : error ))
+			var message = 'Het opslaan van je stem is niet gelukt: ' + ( error && error.responseJSON && error.responseJSON.message ? error.responseJSON.message : error );
+			if (error && typeof error.status != 'undefined' && ( error.status == 0 || error.status == 502 ) ) message = 'Er is iets mis gegaan bij het opslaan van je stem.<br/>Klik op \'Vorige\' en probeer het nog eens.';
+			showError(message)
     }
   });
 
