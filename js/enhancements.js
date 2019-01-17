@@ -14,16 +14,16 @@ jQuery( document ).ready(function( $ ) {
     var variantValue = $(this).attr('data-variant-value');
     $('.variant-selector').val(variantValue);
     $('#filter-arguments-option-' + variantValue).trigger('click');
-    updateVariantTextareaPlaceholder();
+    //updateVariantTextareaPlaceholder();
   });
 
   $('.for-or-against-selector, .variant-selector').on('change', function() {
-    updateVariantTextareaPlaceholder();
+    //updateVariantTextareaPlaceholder();
   });
 
 
   function updateVariantTextareaPlaceholder() {
-    var placeholderTpl = "Ik heb gestemd op {{variant}}, omdat..";
+    var placeholderTpl = "Mijn voorkeur heeft {{variant}}, omdat..";
     var forLabel = $('.for-or-against-selector').val() === 'against' ? 'tegen' : 'voor';
     placeholderTpl = placeholderTpl.replace('{{forOrAgainst}}', forLabel);
     placeholderTpl = placeholderTpl.replace('{{variant}}', $('.variant-selector').val());

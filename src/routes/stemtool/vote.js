@@ -29,7 +29,9 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 
 module.exports = function( app ) {
 	app.route('/vote')
-	.post(function( req, res, next ) {		
+	.post(function( req, res, next ) {
+		console.log('vote user user user');
+
 		if (req.cookies && req.cookies.showLogoutButton == 'true') {
 			return next();
 		} else {
@@ -77,6 +79,8 @@ module.exports = function( app ) {
 		})
 		.then(function( user ) {
 			req.setSessionUser(user.id);
+
+			console.log('vote user', user);
 
 			// Store vote.
 			return poll.addVote(user, choices, req.ip)

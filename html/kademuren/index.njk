@@ -153,6 +153,17 @@
 	{{ renderArgumentLists(user, idea, '#arguments .argList') }}
 
 	<script>
+  function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    console.log('name', value);
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
 	 (function( global ) {
 		 var lessThenStarsClassName = 'less-then-stars-error';
 		 var noStarsErrorClassName  = 'no-stars-error';
@@ -202,6 +213,8 @@
   					 checkBox.addEventListener('change', function( event ) {
   						 addUnavailableClass();
   						 clearClassesVoteForm();
+               var currentValue = parseInt(jQuery('.checkbox-choice:checked').val(), 10);
+               setCookie('checkedOptionId', currentValue);
   					 });
            }
 

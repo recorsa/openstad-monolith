@@ -11,7 +11,7 @@ module.exports = function( app ) {
 
 	router.route('/')
 	.get(function( req, res, next ) {
-		req.session.destroy();
+		//req.session.destroy();
 		res.success('/', true);
 	});
 };
@@ -19,7 +19,7 @@ module.exports = function( app ) {
 function setLogoutButtonCookie( bool ) {
 	var showButton = bool ? 'true' : 'false';
 	var secure     = config.get('security.sessions.onlySecure');
-	
+
 	return function( req, res, next ) {
 		res.cookie('showLogoutButton', showButton, {
 			maxAge   : 2592000000, // 30 days

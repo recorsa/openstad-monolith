@@ -10,34 +10,34 @@ var reportErrors = config.get('sentry.active');
 
 module.exports  = {
 	app: undefined,
-	
+
 	start: function( port ) {
 		log('initializing...');
-		
+
 		var Raven       = require('../config/raven');
 		var compression = require('compression');
 		// var cors        = require('cors');
-		
+
 		this.app = express();
 		this.app.disable('x-powered-by');
 		this.app.set('trust proxy', true);
 		this.app.set('view engine', 'njk');
 		this.app.set('env', process.env.NODE_APP_INSTANCE || 'development');
-		
+
 		if( reportErrors ) {
 			this.app.use(Raven.requestHandler());
 		}
 		this.app.use(compression());
 		// this.app.use(cors());
-		
+
 		// Register statics first...
 		this._initStatics();
-		
+
 		// ... then middleware everyone needs...
 		this._initRenderMiddleware();
 		this._initBasicMiddleware();
 		this._initSessionMiddleware();
-		
+
 		var middleware = config.get('express.middleware');
 		// ... load middleware/routes not compatible with CSRF security...
 		middleware.beforeSecurity.forEach(( filePath ) => {
@@ -46,9 +46,16 @@ module.exports  = {
 		// ... load security middleware (CSRF)...
 		this._initSecurityMiddleware();
 		// ... load middleware/routes that utilize CSRF security
-		middleware.afterSecurity.forEach(( filePath ) => {
-			require(filePath)(this.app);
-		});
+
+    middleware.afterSecurity.forEach(( entry ) => {
+      if (typeof entry == 'object' ) {
+        // nieuwe versie: use route
+        this.app.use(entry.route, require(entry.router));
+      } else {
+        // oude versie: de file doet de app.use
+        require(entry)(this.app);
+      }
+    });
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
 		// ... and error handlers always last.
@@ -56,19 +63,19 @@ module.exports  = {
 			this.app.use(Raven.errorHandler());
 		}
 		require('./middleware/error_handling')(this.app);
-		
+
 		this.app.listen(port, function() {
 		  log('listening on port %s', port);
 		});
 	},
-	
+
 	_initStatics: function() {
 		var less = require('less-middleware');
-		
+
 		require('./routes/media_get')(this.app);
 		// Requires custom change to less:
 		// https://github.com/less/less.js/pull/2866/files
-		// 
+		//
 		// Current release is 2.7.1, newer release should have a fix for
 		// the 'octals in strict mode' problem.
 		this.app.use('/css', less('css', {
@@ -78,13 +85,13 @@ module.exports  = {
 			}
 		}));
 		this.app.use('/css', express.static('css'));
-		
+
 		this.app.use('/fonts', express.static('fonts', {
 			setHeaders: function( res ) {
 				res.type('application/font-woff');
 			}
 		}));
-		
+
 		var headerOptions = {
 			setHeaders: function( res ) {
 				res.set({
@@ -100,7 +107,7 @@ module.exports  = {
 		var bodyParser         = require('body-parser');
 		var cookieParser       = require('cookie-parser');
 		var methodOverride     = require('method-override');
-		
+
 		this.app.use(bodyParser.json({limit: '10mb'}));
 		this.app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 		this.app.use(cookieParser(config.get('security.sessions.secret')));
@@ -133,7 +140,7 @@ module.exports  = {
 			proxy             : true, // Trust apache reverse proxy
 			resave            : false,
 			unset             : 'destroy',
-			saveUninitialized : false,
+			saveUninitialized : true,
 			store: new SequelizeStore({
 				db    : db.sequelize,
 				table : 'session'
@@ -148,7 +155,7 @@ module.exports  = {
 		require('./middleware/session_user')(this.app);
 		// Support for flash messages.
 		this.app.use(flash());
-		
+
 		// Cookie consent
 		// --------------
 		var cookieConsent  = require('./middleware/cookie_consent');
@@ -158,10 +165,12 @@ module.exports  = {
 		var csurf = require('csurf');
 		// `csurf` makes non-GET requests require a CSRF token. Use `req.csrfToken()`
 		// in form-rendering GET request in order to send the correct token.
-		// 
+		//
 		// TODO: Always sets a cookie for a user-specific token secret. Rewrite to use
 		//       in-memory store?
-		this.app.use(csurf());
+		this.app.use(csurf({
+      cookie: true
+    }));
 	},
 	_initRenderMiddleware: function() {
 		var moment       = require('moment-timezone');
@@ -174,7 +183,7 @@ module.exports  = {
 		var duration     = require('./nunjucks/duration');
 		// Used for fetching template files.
 		var tplDirs      = config.get('express.rendering.templateDirs');
-		
+
 		var env = nunjucks.configure(tplDirs, {
 			express    : this.app,
 			watch      : false,
@@ -183,18 +192,18 @@ module.exports  = {
 		env.addGlobal('config', config)
 		nunjucksVars(this.app);
 		multiAccept(this.app);
-		
+
 		dateFilter.setDefaultFormat('DD-MM-YYYY HH:mm');
 		env.addFilter('date', dateFilter);
 		env.addFilter('duration', duration);
-		
+
 		// Global variables.
 		env.addGlobal('ENV', this.app.get('env'));
 		env.addGlobal('DOMAIN', config.get('domainName'));
 		env.addGlobal('SITENAME', config.get('siteName'));
 		env.addGlobal('PAGENAME_POSTFIX', config.get('pageNamePostfix'));
 		env.addGlobal('EMAIL', config.get('emailAddress'));
-		
+
 		env.addGlobal('GLOBALS', config.get('express.rendering.globals'));
 	}
 };

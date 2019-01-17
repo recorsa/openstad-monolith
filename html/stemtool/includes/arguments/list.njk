@@ -27,7 +27,7 @@
 				{% endif %}
 			</div>
 			<div class="margin-hor-s">
-				<b> Ik heb gestemd op {{arg.label}}, omdat </b>
+				<b> Mijn voorkeur heeft {{arg.label}}, omdat </b>
 			</div>
 
 			<p>{{arg.description | urlize | nl2br | safe}}</p>
@@ -135,11 +135,11 @@
 	$('{{cssQuery}} form.vote').forEach(function( form ) {
 		var countBox = form.querySelector('button span');
 		var button   = countBox.parentNode;
-		
+
 		if( button.disabled ) {
 			return;
 		}
-		
+
 		form.addEventListener('submit', function( event ) {
 			var method = form.method;
 			var url    = form.action;

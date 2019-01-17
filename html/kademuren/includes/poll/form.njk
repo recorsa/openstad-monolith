@@ -27,7 +27,14 @@
 	#}
 	<div class="label-container">
 		{% for option in poll.options %}
-			<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
+			<input
+				id="checkbox-choice-{{option.id}}"
+				type="checkbox"
+				name="choices[]"
+				value="{{option.id}}"
+				class="checkbox-choice"
+				{% if checkedOptionId == option.id %} checked {% endif %}
+			/>
 
 			<label for="checkbox-choice-{{option.id}}" class="concept-label clearfix">
 				<div class="label-error">
@@ -72,6 +79,8 @@
 	</a>
 	{% else %}
 
+
+	<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verstuur stem" />
 
 	{% endif %}
 

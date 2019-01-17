@@ -23,7 +23,7 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 		res.header('Retry-After', retryAfter);
 		res.locals.nextValidRequestDate = nextValidRequestDate;
 		res.locals.retryAfter           = retryAfter;
-		
+
 		next(createError(429, {nextValidRequestDate: nextValidRequestDate}));
 	}
 });
@@ -31,7 +31,7 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 module.exports = function( app ) {
 	var router = express.Router();
 	app.use('/account', router);
-	
+
 	// Logging in by email
 	// -------------------
 	// Most people won't have a password set, so this route will
@@ -43,7 +43,7 @@ module.exports = function( app ) {
 		  , email      = req.body.email
 		  , password   = req.body.password
 		  , forceToken = !!req.body.forceToken;
-		
+
 		if( email && password ) {
 			// Login with email/password.
 			db.User.findByCredentials(email, password)
@@ -72,7 +72,7 @@ module.exports = function( app ) {
 				if( !user ) {
 					throw createError(404, 'Geen gebruiker met dit emailadres gevonden');
 				}
-				
+
 				// If this user has a password, display the password field.
 				// Otherwise, send a login link to the user's email address.
 				return !user.passwordHash || forceToken ?
@@ -106,7 +106,7 @@ module.exports = function( app ) {
 		) {
 			return next(err);
 		}
-		
+
 		req.flash('error', err.message);
 		res.out('account/register', false, {
 			ref         : req.query.ref,
@@ -114,7 +114,7 @@ module.exports = function( app ) {
 			csrfToken   : req.csrfToken()
 		});
 	});
-	
+
 	// Logging in by token
 	// -------------------
 	router.route('/login_token')
@@ -131,7 +131,7 @@ module.exports = function( app ) {
 		var token = req.body.token;
 		var uid   = req.body.uid;
 		var start = Date.now();
-		
+
 		passwordless.useToken(token, uid)
 		.then(function( originUrl ) {
 			req.setSessionUser(uid, originUrl);
@@ -154,7 +154,7 @@ module.exports = function( app ) {
 			next(err);
 		}
 	});
-	
+
 	// Logging out
 	// -----------
 	router.get('/logout', function( req, res ) {
@@ -196,14 +196,14 @@ module.exports = function( app ) {
 		} else {
 			req.flash('error', err.message);
 		}
-		
+
 		res.out('account/register', false, {
 			ref            : req.query.ref,
 			email_register : req.body.email,
 			csrfToken      : req.csrfToken()
 		});
 	});
-	
+
 	// Complete registration
 	// ---------------------
 	router.route('/complete')
@@ -235,10 +235,10 @@ function sendAuthToken( user, req ) {
 	// if( !user.isMember() ) {
 	//  	throw createError(400, 'User is not a member');
 	// }
-	
+
 	var hasCompletedRegistration = user.hasCompletedRegistration();
 	var ref                      = req.query.ref;
-	
+
 	return passwordless.generateToken(user.id, ref)
 	.then(function( token ) {
 		var data = {
@@ -262,7 +262,7 @@ function sendAuthToken( user, req ) {
 				cid      : 'logo'
 			}]
 		});
-		
+
 		return user;
 	});
 }

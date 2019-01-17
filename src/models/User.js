@@ -32,13 +32,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		//              after the user has completed the registration. Until
 		//              then, the 'complete registration' form should be displayed
 		//              instead of any other content.
-		
+
 		complete: {
 			type         : DataTypes.BOOLEAN,
 			allowNull    : false,
 			defaultValue : false
 		},
-		
+
 		email: {
 			type         : DataTypes.STRING(255),
 			allowNull    : true,
@@ -81,7 +81,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('passwordHash', hash);
 			}
 		},
-		
+
 		nickName: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true,
@@ -145,7 +145,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('zipCode', zipCode);
 			}
 		},
-		
+    externalUserId: {
+      type         : DataTypes.INTEGER,
+			allowNull    : true,
+			defaultValue : null
+    },
+
 		signedUpForNewsletter: {
 			type         : DataTypes.BOOLEAN,
 			allowNull    : false,
@@ -153,12 +158,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 	}, {
 		charset: 'utf8',
-		
+
 		indexes: [{
 			fields: ['email'],
 			unique: true
 		}],
-		
+
 		validate: {
 			hasValidUserRole: function() {
 				if( this.id !== 1 && this.role === 'unknown' ) {
@@ -201,7 +206,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( !email || !password ) {
 					return Promise.reject(createError(400, 'Incomplete credentials'));
 				}
-				
+
 				return this.findOne({where: {email: email}}).then(function( user ) {
 					if( !user || !user.authenticate(password) ) {
 						// TODO: AuthenticationError
@@ -216,12 +221,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( !email ) {
 					return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
 				}
-				
+
 				return this.findOne({where: {
 					email : email
 				}});
 			},
-			
+
 			registerAnonymous: function(values) {
 				values.role = 'anonymous';
 				return this.create(values);
@@ -233,7 +238,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					role  : 'member',
 					email : email
 				};
-				
+
 				return User.findMember(email)
 				.then(function( existingUser ) {
 					if( existingUser ) {
@@ -276,7 +281,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					throw error;
 				});
 			},
-			
+
 			authenticate: function( password ) {
 				var method = config.get('security.passwordHashing.currentMethod');
 				if( !this.passwordHash ) {
@@ -345,14 +350,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return user.can(actionName);
 				}
 			},
-			
+
 			// TODO: Move to `Idea` model.
 			createNewIdea: function( data ) {
 				var imageKeys = data.images;
 				var filtered  = pick(data, ['title', 'summary', 'description', 'extraData', 'location']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
-				
+
 				return db.Idea.create(filtered)
 				.bind(this)
 				.tap(function( idea ) {
@@ -365,7 +370,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			updateIdea: function( idea, data ) {
 				var imageKeys = data.images;
 				var filtered  = pick(data, ['title', 'summary', 'description', 'extraData', 'location']);
-				
+
 				return idea.update(filtered)
 				.bind(this)
 				.tap(function( idea ) {
@@ -375,13 +380,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return idea.updateImages(imageKeys, data.imageExtraData);
 				});
 			},
-			
+
 			createNewArticle: function( data ) {
 				var imageKeys = data.images;
 				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'seqnr', 'description', 'imageCaption', 'isPublished', 'date']);
 				filtered.userId    = this.id;
 				filtered.startDate = Date.now();
-				
+
 				return db.Article.create(filtered)
 				.bind(this)
 				.tap(function( article ) {
@@ -394,7 +399,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			updateArticle: function( article, data ) {
 				var imageKeys = data.images;
 				var filtered  = pick(data, ['title', 'summary', 'intro', 'quote', 'seqnr', 'description', 'imageCaption', 'isPublished', 'date']);
-				
+
 				return article.update(filtered)
 				.bind(this)
 				.tap(function( article ) {
@@ -406,6 +411,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 	});
-	
+
 	return User;
 };

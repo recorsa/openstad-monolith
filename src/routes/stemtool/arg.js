@@ -3,6 +3,8 @@ var createError  = require('http-errors')
 var Promise      = require('bluebird');
 var db           = require('../../db')
 var auth         = require('../../auth')
+var pick          = require('lodash/pick')
+
 
 module.exports = function( app ) {
 	// Create argument
@@ -21,13 +23,23 @@ module.exports = function( app ) {
 		app.route('/arg/new')
 		.all(fetchIdea())
 		.all(auth.can('arg:add'))
+		.all((req, res, next) => {
+			if (!req.session.userAccessToken){
+				req.session.onReturnSubmitcomment = true;
+				req.session.filledInComment = pick(req.body, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']);
+
+				res.redirect('/oauth/login');
+			} else {
+				next();
+			}
+		})
 		.post(updateUserSession)
 		.post(function( req, res, next ) {
 			var {body, user, idea} = req;
 
 			// in case nickname is already set to user add it to the body
-			if (user.nickName) {
-				body.nickName = user.nickName;
+			if (user.firstName) {
+				body.nickName = user.firstName + ' ' + user.lastName;
 			}
 
 			if( !user.zipCode ) {
