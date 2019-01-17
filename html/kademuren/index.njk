@@ -1,0 +1,371 @@
+{% extends 'base.njk' %}
+
+{% from 'includes/arguments/list.njk' import list as listArguments,
+                                             render as renderArgumentLists
+%}
+{% from 'includes/form-field-zipcode.njk' import formFieldZipcode %}
+{% from 'includes/number-plate.njk' import numberPlate %}
+
+{% set pageTitle    = 'Idee: '+idea.title %}
+{% set contentClass = 'idea' %}
+{% set alphabet     = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' , 'k'] %}
+
+{% block head %}
+	{{ super() }}
+
+	<title>{{SITENAME}}</title>
+
+	<meta property="og:title" content="{{idea.title}}">
+	<meta property="og:type" content="website">
+	<meta property="og:description" content="{{idea.summary}}">
+	<meta property="og:locale" content="nl_NL">
+	<meta property="og:site_name" content="{{SITENAME}}">
+	<meta property="og:image" content="/image/header.jpg">
+  <script src="/js/jquery-3.3.1.min.js"></script>
+
+{% endblock %}
+
+{% block page %}
+	<div id="summary" class="section-container">
+		<div class="col-container">
+			<div class="col-9 col-xs-12 col-sm-8">
+				<div id="banner">
+					{% include "includes/bannerimage.html" %}
+					<h1 class="overlay-title">
+						{{idea.title | safe }}
+					</h1>
+				</div>
+
+				<p class="side-padding-xs">
+					{{idea.summary | safe}}
+				</p>
+			</div>
+
+			<div class="col-3 controls col-xs-12 col-sm-4 side-padding-xs">
+				{% include 'includes/secondary/controls.njk' %}
+			</div>
+		</div>
+	</div>
+
+
+	<section id="designs" class="content-section">
+		<div class="section-container side-padding-xs">
+			{% include 'includes/variants/index.njk' %}
+		</div>
+	</section>
+
+	<section id="details" class="content-section section-container ">
+		<div class="col-container">
+			<div class="col-9 col-sm-8 col-xs-12">
+				<div class="side-padding-xs">
+					<div class="mobile-accordion">
+						<h2 class="mobile-accordion-opener">Achtergrondinformatie</h2>
+
+						<div class="userContent">
+							{{idea.description | safe}}
+						</div>
+					</div>
+
+					<div class="mobile-accordion">
+						{% include 'includes/rules.njk' %}
+					</div>
+				</div>
+
+				<br />
+				<br />
+
+				<div id="vote" class="vote-container container-grey container-grey-edges margin-hor-m side-padding-xs">
+					{% include 'includes/poll/index.njk' %}
+				</div>
+			</div>
+
+			<div class="col-3 col-sm-4 col-xs-12 side-padding-xs">
+				{% include 'includes/secondary/agenda-items.njk' %}
+				{% include 'includes/secondary/newsletter.njk' %}
+				{% include 'includes/secondary/questionnaire.njk' %}
+			</div>
+		</div>
+	</section>
+
+	<section id="arguments" class="margin-bottom-m">
+		{% include 'includes/arguments/index.njk' %}
+	</section>
+
+	{% include 'includes/variants/modals.njk' %}
+	{% include 'includes/mobile-menu.njk' %}
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/promise.js"></script>
+	<script src="/js/fetch.js"></script>
+	<script src="/js/fotorama-4.6.4.min.js"></script>
+	<script src="/js/scroll-link.js"></script>
+	<script src="/js/enhancements.js"></script>
+	<script src="/js/argument-tabs.js"></script>
+
+	<script>
+		$.noConflict();
+
+		// Helper for sending non-GET HTTP requests
+		// ----------------------------------------
+		// Used in progressive enhancement scripts to replace a 'old-school'
+		// request with a `fetch`/`XMLHTTPRequest` action.
+		(function( global ) {
+			var csrfToken = '{{csrfToken}}';
+
+			// Wrapper for fetch to POST/PUT data
+			global.send = function( method, url, data ) {
+				data._csrf = csrfToken;
+
+				return fetch(url, {
+					method      : method,
+					headers     : {
+						'Content-Type' : 'application/json',
+						'Accept'       : 'application/json'
+					},
+					credentials : 'same-origin',
+					body        : data ? JSON.stringify(data): null
+				})
+				.then(handleResponse)
+				.then(function( data ) {
+					if( 'csrfToken' in data ) {
+						csrfToken = data.csrfToken;
+
+						$('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+							input.value = csrfToken;
+						});
+					}
+					return data;
+				});
+			}
+
+			function handleResponse( response ) {
+				var json = response.json();
+				if( response.status >= 200 && response.status < 300 ) {
+					return json;
+				} else {
+					return json.then(function( data ) {throw data});
+				}
+			}
+		})(this);
+	</script>
+
+	{{ renderArgumentLists(user, idea, '#arguments .argList') }}
+
+	<script>
+	 (function( global ) {
+		 var lessThenStarsClassName = 'less-then-stars-error';
+		 var noStarsErrorClassName  = 'no-stars-error';
+		 var maxChecked             = {{config.poll.maxChoices}};
+		 var switchOrError          = '{{config.poll.switchOrError}}';
+     var theMainIsChecked       = false;
+
+		 // Voting form
+		 // -----------
+																	var voteForm = document.getElementById('vote-form');
+		 if( voteForm ) {
+			 // Validate...
+				 voteForm.addEventListener('submit', function( event ) {
+					 var validated     = true;
+					 var form          = this;
+					 var lessThenStars = hasClass(form, lessThenStarsClassName);
+					 var checkedCount  = getGiveVoteCount();
+
+					 $('#vote-form .validate-postcode').forEach(function( inputContainer ) {
+						 if( !validatePostcodeFormField(inputContainer) ) {
+							 validated = false;
+						 }
+					 });
+					 // Respond to voting errors.
+						 if( checkedCount === 0 ) {
+							 clearClassesVoteForm();
+							 form.classList.add(noStarsErrorClassName);
+							 validated = false;
+						 } else if( checkedCount < maxChecked && !lessThenStars ) {
+							 clearClassesVoteForm();
+							 form.classList.add(lessThenStarsClassName);
+							 validated = false;
+						 }
+
+					 if( !validated ) {
+						 event.preventDefault();
+					 } else {
+						 setFormSendingToDisabled(form);
+					 }
+				 });
+			 // ... and make voting options interactive.
+				 $('#vote-form .concept-label').forEach(function( label, i ) {
+
+					 var checkBox = document.getElementById(label.getAttribute('for'));
+
+           if (checkBox) {
+  					 checkBox.addEventListener('change', function( event ) {
+  						 addUnavailableClass();
+  						 clearClassesVoteForm();
+  					 });
+           }
+
+           if (label) {
+  					 label.addEventListener('click', function( event ) {
+  						 // deselect existing; TODO: wat doe je hier als aantal groter dan 1
+  						 if (switchOrError == 'switch') {
+  							 $('#vote-form input[type="checkbox"]').forEach(function(checkbox) {
+  								 checkbox.checked = false;
+  							 })
+  						 }
+
+  						 var checkedCount = getGiveVoteCount();
+
+  						 // Respond to voting error.
+
+                console.log('checkedCount', checkedCount);
+                console.log('maxChecked', maxChecked);
+
+  							 if( !checkBox.checked && checkedCount >= maxChecked ) {
+  								 event.preventDefault();
+  								 clearVoteErrors();
+  								 label.classList.add('error');
+  							 } else {
+  								 clearVoteErrors();
+  							 }
+  					 });
+           }
+
+				 });
+		 }
+
+		 // New argument form
+		 // -----------------
+																								 // - Character count on 'new argument' forms.
+			 // - Validation.
+			 //
+		 // HACK: `renderForm` is defined in the scripts coming from
+		 // `arguments.renderLists()` above.
+			 $('#arguments form.newArgument').forEach(function( form ) {
+				 renderForm(form);
+
+				 form.addEventListener('submit', function( event ) {
+					 var validated = true;
+
+					 $('.validate-text-required').forEach(function( inputContainer ) {
+						 if( !validateRequiredTextField(inputContainer) ) {
+							 validated = false;
+						 }
+					 });
+					 $('#new-argument-form .validate-postcode').forEach(function( inputContainer ) {
+						 if( !validatePostcodeFormField(inputContainer) ) {
+							 validated = false;
+						 }
+					 });
+
+					 if( !validated ) {
+						 event.preventDefault();
+					 } else {
+						 setFormSendingToDisabled(this);
+					 }
+				 });
+			 });
+
+		 // Field error clearing
+		 // --------------------
+																								 // Clear the visual field errors when the user has corrected
+		 // the mistake.
+			 $('.validate-text-required').forEach(function( inputContainer ) {
+				 inputContainer.addEventListener('keyup', function() {
+					 if( hasClass(inputContainer, 'error') ) {
+						 validateRequiredTextField(inputContainer);
+					 }
+				 });
+			 });
+		 $('.validate-postcode').forEach(function( inputContainer ) {
+			 inputContainer.addEventListener('keyup', function() {
+				 if( hasClass(inputContainer, 'error') ) {
+					 validatePostcodeFormField(inputContainer);
+				 }
+			 });
+		 });
+
+		 // Functions called from the HTML
+		 // ------------------------------
+		 global.argumentsLinkClick = function( order ) {
+			 document.getElementById('filter-arguments-option-'+order).click();
+		 }
+
+		 // Helper functions
+		 // ----------------
+
+		 function validatePostcodeFormField( inputContainer ){
+			 var inputEl = inputContainer.querySelector('input');
+			 if( validatePostcode(inputEl.value) ) {
+				 if( hasClass(inputContainer, 'error') ) {
+					 inputContainer.classList.remove('error');
+					 inputContainer.classList.add('success');
+				 }
+				 return true;
+			 } else {
+				 inputContainer.classList.add('error');
+				 inputContainer.classList.remove('success');
+				 return false;
+			 }
+		 }
+
+		 function validatePostcode( postcode ) {
+			 var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+			 return rege.test(postcode);
+		 }
+
+		 function validateRequiredTextField( inputContainer ){
+			 var inputEl = inputContainer.querySelector('input');
+			 if( inputEl.value.length > 0 ) {
+				 if( hasClass(inputContainer, 'error') ) {
+					 inputContainer.classList.remove('error');
+					 inputContainer.classList.add('success');
+				 }
+
+				 return true;
+			 } else {
+				 inputContainer.classList.add('error');
+				 inputContainer.classList.remove('success');
+				 return false;
+			 }
+		 }
+
+		 function getGiveVoteCount() {
+			 return $('#vote-form input[type="checkbox"]:checked').length;
+		 }
+
+		 function clearVoteErrors() {
+			 $('#vote-form .concept-label').forEach(function( label ) {
+				 label.classList.remove('error');
+			 });
+		 }
+
+		 function getVoteForm() {
+			 return document.getElementById('vote-form');
+		 }
+
+		 function clearClassesVoteForm() {
+			 getVoteForm().classList.remove(lessThenStarsClassName);
+			 getVoteForm().classList.remove(noStarsErrorClassName);
+		 }
+
+		 function addUnavailableClass() {
+			 $('#vote-form .concept-label').forEach(function( label ) {
+				 var checkedCount = getGiveVoteCount();
+				 var itsCheckbox  = document.getElementById(label.getAttribute('for'));
+
+				 /** Add class for when it's unavailable for voting. **/
+				 if (theMainIsChecked || (itsCheckbox && (checkedCount ) >= maxChecked && !itsCheckbox.checked && switchOrError != 'switch')) {
+					 label.classList.add('unavailable');
+				 } else {
+					 label.classList.remove('unavailable');
+				 }
+			 });
+		 }
+
+		 function hasClass( target, className ) {
+			 return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+		 }
+	 })(this);
+	</script>
+{% endblock %}

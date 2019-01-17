@@ -2,8 +2,6 @@
 	Mijn stem
 </h2>
 
-<hr class="hr-white margin-hor-m"></hr>
-
 <form id="vote-form" method="POST" action="/vote" class="">
 	<input type="hidden" name="_csrf" value="{{csrfToken}}">
 	<input type="hidden" name="pollId" value="{{poll.id}}">
@@ -11,38 +9,16 @@
 	<label class="block margin-bottom-s margin-top-0">
 
 	<div class="small">
-		Met de unieke code die je thuis gestuurd heeft gekregen kun je hieronder je stem uitbrengen. Stem op het uitgangspunt als je het eens bent met het plan van de gemeente, of laat ons weten wat je anders zou willen.
+		Met de unieke code die je per brief hebt gekregen kun je hier je voorkeur aangeven.
+		Kies voor ‘Het conceptontwerp’ als je het eens bent met het voorgestelde plan van de gemeente.
+		Of kies voor meer autoparkeerplekken, meer fietsparkeerplekken of meer bomen als je vindt dat voor één
+		van deze drie categorieën meer ruimte gereserveerd moet worden in het ontwerp.
 		</div>
 	</label>
 
 
-
-	<label class="h3 block margin-bottom-xs margin-top-m">
-		Stem op het originele plan:
-	</label>
-
-	<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
-
-	<label for="checkbox-choice-{{poll.options[0].id}}" class="concept-label clearfix">
-		<div class="label-error">
-			Je hebt het maximum aantal sterren uitgedeeld. Klik nogmaals op een ster om
-			hem te verwijderen. Hierna kun je een andere keuze maken.
-		</div>
-		<div class="relative clearfix">
-			<div
-				class="concept-card-image"
-				style="background-image: url('/image/variant_{{poll.options[0].id}}_klein.jpg');"
-			>
-			</div>
-
-			<div class="concept-card-title">
-				{{ poll.options[0].title }}
-			</div>
-		</div>
-	</label>
-
-	<label class="h3 block margin-bottom-xs margin-top-m">
-		Of verdeel je 2 stemmen
+	<label class="h3 block margin-bottom-s margin-top-m">
+		Mijn voorkeur heeft:
 	</label>
 
 	{#
@@ -50,13 +26,13 @@
 	--------------------
 	#}
 	<div class="label-container">
-		{% for option in poll.options.slice(1) %}
+		{% for option in poll.options %}
 			<input id="checkbox-choice-{{option.id}}" type="checkbox" name="choices[]" value="{{option.id}}" class="checkbox-choice">
 
 			<label for="checkbox-choice-{{option.id}}" class="concept-label clearfix">
 				<div class="label-error">
-					Je hebt het maximum aantal sterren uitgedeeld. Klik nogmaals op een ster om
-					hem te verwijderen. Hierna kun je een andere keuze maken.
+					Je kan maximaal 1 stem uitbengen. Klik op het geselecteerde plan om
+					je stem te verwijderen. Hierna kun je een andere keuze maken.
 				</div>
 				<div class="relative clearfix">
 					<div
@@ -86,12 +62,36 @@
 
 	<br>
 
-	<button type="submit" class="default btn btn-primary">
+
+
+	{% if not userData.user_id %}
+	<a href="/oauth/login?redirect_url=http://localhost:8106" type="submit" class="default btn btn-primary">
+			<span class="main-submit">
+				Verstuur stem
+			</span>
+	</a>
+	{% else %}
+
+
+	{% endif %}
+
+
+<!-- <button type="submit" class="default btn btn-primary">
 		<span class="main-submit">
 			Verstuur
 		</span>
 		<span class="confirm-submit">
 			Ja, verstuur
 		</span>
-	</button>
+	</button> !-->
 </form>
+
+{% if justLoggedIn %}
+	<script>
+		$('#vote-form').submit();
+	</script>
+	<div class="submitting-overlay">
+		Code gevalideerd. <br />
+		Stem aan het uitbrengen...
+	</div>
+{% endif  %}
