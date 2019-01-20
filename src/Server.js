@@ -47,6 +47,12 @@ module.exports  = {
 		this._initSecurityMiddleware();
 		// ... load middleware/routes that utilize CSRF security
 
+        // caching disabled for every route
+    this.app.use(function(req, res, next) {
+      res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+      next();
+    });
+
     middleware.afterSecurity.forEach(( entry ) => {
       if (typeof entry == 'object' ) {
         // nieuwe versie: use route

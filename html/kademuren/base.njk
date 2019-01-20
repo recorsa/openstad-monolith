@@ -35,9 +35,8 @@
 					{% if user.can('idea:admin') %}
 						{# <li><a href="/account">Mijn account</a></li> #}
 						<a href="/account/logout" id="account">{{user.nickName}}</a>
-					{% else %}
-						<!-- <a href="/account/logout" id="account">Account</a> !-->
-
+					{% elseif user.id > 1 %}
+					  <li><a href="/account/logout" class="menu-link--right">Uitloggen</a> </li>
 					{% endif %}
 				</div>
 			</nav>
@@ -75,7 +74,7 @@
 								<h2>Informatie</h2>
 								{% for message in list %}{{message | safe}}<br>{% endfor %}
 							{% endif %}
-							
+
 							<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
 						</div>
 					{% endfor %}
@@ -205,7 +204,7 @@
 						if (document.cookie.search(/showLogoutButton=true/) != -1) {
 							var button = document.createElement('a');
 							button.href = '/logout';
-							button.textContent = "Start nieuwe sessie";
+							button.textContent = "Uitloggen";
 							document.getElementById('logoutButton').appendChild(button);
 						}
 		</script>

@@ -154,8 +154,9 @@ module.exports = function( app ) {
 	// Logging out
 	// -----------
 	router.get('/logout', function( req, res ) {
-		req.session.destroy();
-		res.success('/', true);
+		req.session.destroy(() => {
+			res.success('/', true);
+		});
 	});
 
 	// Register new member
