@@ -93,6 +93,8 @@
 
 	{% include 'includes/variants/modals.njk' %}
 	{% include 'includes/mobile-menu.njk' %}
+  {% include 'includes/form-to-submit.njk' %}
+
 {% endblock %}
 
 {% block scripts %}
@@ -168,7 +170,7 @@
 		 var lessThenStarsClassName = 'less-then-stars-error';
 		 var noStarsErrorClassName  = 'no-stars-error';
 		 var maxChecked             = {{config.poll.maxChoices}};
-		 var switchOrError          = '{{config.poll.switchOrError}}';
+		 var switchOrError          = 'switch';//'{{config.poll.switchOrError}}';
      var theMainIsChecked       = false;
 
 		 // Voting form

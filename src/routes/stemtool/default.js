@@ -20,80 +20,48 @@ module.exports = function( app ) {
 
 		if (!req.session.userAccessToken){
 			 return next();
-
-		 }
-
-		if (req.session.justLoggedIn) {
-			res.locals.justLoggedIn = true;
-			req.session.justLoggedIn = false;
 		}
 
-		// get the user info using the access token
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
-		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+		loginUser(req, res, next);
 
-		console.log('req.session.userAccessToken', req.session.userAccessToken);
-
-		fetch(
-			url, {
-				method: 'get',
+/*		if (req.session.formToSubmit) {
+			const formToSubmit = req.session.formToSubmit;
+		//	const csrfToken = req.csrfToken();
+			const csrfToken = 'req.csrfToken()';
+			const fetchValues = {
+				method: formToSubmit.method,
 				headers: {
-					authorization : 'Bearer ' + req.session.userAccessToken,
+					'Content-Type': 'application/json'
 				},
 				mode: 'cors',
-			})
-			.then((response) => {
-					console.log('response', response);
+				body: JSON.stringify(formToSubmit.body)
+			};
+
+			console.log('===> fetchValues', fetchValues);
+
+			fetch(config.url + formToSubmit.url + '?_csrf=' + csrfToken, fetchValues)
+				.then((response) => {
+					console.log('===> response', response);
 					return response.json();
-				},
-				error => { return next(createError(403, 'User niet bekend')); }
-			)
-			.then(
-				json => {
-					req.userData = json;
-					res.locals.userData = json;
-
-					return db.User.findOne({where: {
-						externalUserId: req.userData.user_id
-					}})
-					.then((user) => {
-						if (user) {
-							req.setSessionUser(user.id);
-							return next();
-						} else {
-							const data = {
-								externalUserId: req.userData.user_id,
-								zipCode: req.userData.postcode,
-								firstName: req.userData.firstName,
-								lastName: req.userData.lastName,
-							}
-
-
-							console.log('===> data', data);
-
-							console.log('===> req.userData', req.userData);
-
-							return db.User.create(data)
-								.then((user) => {
-									req.setSessionUser(user.id);
-									next();
-								});
-						}
-					});
-				}
-			)
-			.catch(err => {
-				console.log('BUDGET GET USER CATCH ERROR');
-				console.log(err);
-				req.session.destroy();
-				next();
-			});
-
-
+				})
+				.then(() => {
+					loginUser(req, res, next);
+				})
+				.catch(err => {
+					console.log('CATCH ERREEEE');
+					console.log(err);
+					return next(err);
+				});
+		} else {
+			loginUser(req, res, next);
+		}*/
 	})
 	.all(fetchPoll)
 	.all(auth.can('idea:admin', 'poll:vote', 'poll:result', 'arg:form', 'arg:add', true))
 	.get(function( req, res, next) {
+
+		const formToSubmit = req.session ? req.session.formToSubmit : false;
+		req.session.formToSubmit = null;
 
 		res.out('index', true, {
 			userData  : req.userData,
@@ -103,9 +71,10 @@ module.exports = function( app ) {
 			userVote  : req.vote,
 			config    : config.get('stemtool'),
 			csrfToken : req.csrfToken(),
-			onReturnSubmitcomment: req.session.onReturnSubmitcomment,
-			filledInComment: req.session.filledInComment,
-			checkedOptionId: req.cookies.checkedOptionId
+			onReturnSubmitcomment: req.session ? req.session.onReturnSubmitcomment : false,
+			filledInComment:  req.session ? req.session.filledInComment : false,
+			checkedOptionId:  req.session ? req.cookies.checkedOptionId : false,
+			formToSubmit:  formToSubmit,
 		});
 	});
 };
@@ -183,4 +152,65 @@ function fetchPoll( req, res, next ) {
 		next();
 	})
 	.catch(next);
+}
+
+function loginUser(req, res, next) {
+	if (req.session.justLoggedIn) {
+		res.locals.justLoggedIn = true;
+		req.session.justLoggedIn = false;
+	}
+
+	// get the user info using the access token
+	let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
+	url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+
+	fetch(
+		url, {
+			method: 'get',
+			headers: {
+				authorization : 'Bearer ' + req.session.userAccessToken,
+			},
+			mode: 'cors',
+		})
+		.then((response) => {
+				console.log('response', response);
+				return response.json();
+			},
+			error => { return next(createError(403, 'User niet bekend')); }
+		)
+		.then(
+			json => {
+				req.userData = json;
+				res.locals.userData = json;
+
+				return db.User.findOne({where: {
+					externalUserId: req.userData.user_id
+				}})
+				.then((user) => {
+					if (user) {
+						req.setSessionUser(user.id);
+						return next();
+					} else {
+						const data = {
+							externalUserId: req.userData.user_id,
+							zipCode: req.userData.postcode,
+							firstName: req.userData.firstName,
+							lastName: req.userData.lastName,
+						}
+
+						return db.User.create(data)
+							.then((user) => {
+								req.setSessionUser(user.id);
+								next();
+							});
+					}
+				});
+			}
+		)
+		.catch(err => {
+			console.log('BUDGET GET USER CATCH ERROR');
+			console.log(err);
+			req.session.destroy();
+			next();
+		});
 }

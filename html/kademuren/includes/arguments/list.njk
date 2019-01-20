@@ -1,5 +1,6 @@
 {% macro list( user, idea, csrfToken, propName ) %}
 	{% set arguments     = idea[propName] %}
+	{% set variantNames   = config.variantNames %}
 	{% set isFor         = propName == 'argumentsFor' %}
 
 	{% for arg in arguments %}
@@ -27,7 +28,7 @@
 				{% endif %}
 			</div>
 			<div class="margin-hor-s">
-				<b> Mijn voorkeur heeft {{arg.label}}, omdat </b>
+				<b> Mijn voorkeur heeft {{variantNames[arg.label]}}, omdat </b>
 			</div>
 
 			<p>{{arg.description | urlize | nl2br | safe}}</p>

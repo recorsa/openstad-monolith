@@ -93,7 +93,7 @@ router
 
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
-					req.session.justLoggedIn = true;
+				//	req.session.justLoggedIn = true;
 
 					console.log('accessTokens session', req.session);
 					req.session.save((err) => {

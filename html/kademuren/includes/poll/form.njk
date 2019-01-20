@@ -69,30 +69,14 @@
 
 	<br>
 
-
-
-	{% if not userData.user_id %}
-	<a href="/oauth/login?redirect_url=http://localhost:8106" type="submit" class="default btn btn-primary">
-			<span class="main-submit">
-				Verstuur stem
-			</span>
-	</a>
-	{% else %}
-
-
-	<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verstuur stem" />
-
-	{% endif %}
-
-
-<!-- <button type="submit" class="default btn btn-primary">
+ <button type="submit" class="default btn btn-primary">
 		<span class="main-submit">
 			Verstuur
 		</span>
 		<span class="confirm-submit">
 			Ja, verstuur
 		</span>
-	</button> !-->
+	</button>
 </form>
 
 {% if justLoggedIn %}

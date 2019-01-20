@@ -23,10 +23,13 @@ module.exports = function( app ) {
 		app.route('/arg/new')
 		.all(fetchIdea())
 		.all(auth.can('arg:add'))
-		.all((req, res, next) => {
+		.post((req, res, next) => {
 			if (!req.session.userAccessToken){
-				req.session.onReturnSubmitcomment = true;
-				req.session.filledInComment = pick(req.body, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']);
+				req.session.formToSubmit = {
+					method: 'post',
+					body: pick(req.body, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']),
+					url: '/arg/new'
+				};
 
 				res.redirect('/oauth/login');
 			} else {
@@ -163,6 +166,19 @@ module.exports = function( app ) {
 			argument  : req.argument,
 			csrfToken : req.csrfToken()
 		});
+	})
+	.post((req, res, next) => {
+		if (!req.session.userAccessToken){
+			req.session.formToSubmit = {
+				method: 'post',
+				body: {'vote': 'yes'},
+				url: '/arg/'+req.params.argId+'/vote'
+			};
+
+			res.redirect('/oauth/login');
+		} else {
+			next();
+		}
 	})
 	.post(updateUserSession)
 	.post(function( req, res, next ) {

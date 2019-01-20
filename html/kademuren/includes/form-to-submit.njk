@@ -1,0 +1,20 @@
+{% if formToSubmit %}
+<form id="form-to-submit" method="{{formToSubmit.method}}" action="{{formToSubmit.url}}" class="">
+	<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+  {% for key, value in formToSubmit.body %}
+    <label> {{key}}: {{label}} </label>
+    <input type="hidden" name="{{key}}" value="{{ value }}" />
+  {% endfor %}
+</form>
+<script>
+window.onload = function(){
+  document.forms['form-to-submit'].submit();
+}
+</script>
+<div class="form-to-submit-loader">
+	<div class="inner">
+		Code aan het verwerken
+	</div>
+</div>
+{% endif %}

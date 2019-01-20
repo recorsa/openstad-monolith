@@ -4,7 +4,7 @@ var createError  = require('http-errors');
 var express      = require('express');
 var nunjucks     = require('nunjucks');
 var Promise      = require('bluebird');
-
+var pick          = require('lodash/pick')
 var auth         = require('../../auth');
 var db           = require('../../db');
 
@@ -12,7 +12,7 @@ var uidProperty    = config.get('security.sessions.uidProperty');
 var maxPollChoices = config.get('stemtool.poll.maxChoices');
 
 var bruteForce   = new Brute(new Brute.MemoryStore(), {
-	freeRetries  : 0,
+	freeRetries  : 100,
 	minWait      : 60000,
 	// minWait: 0,
 	maxWait      : 900000, // 15 min
@@ -30,12 +30,27 @@ var bruteForce   = new Brute(new Brute.MemoryStore(), {
 module.exports = function( app ) {
 	app.route('/vote')
 	.post(function( req, res, next ) {
-		console.log('vote user user user');
 
 		if (req.cookies && req.cookies.showLogoutButton == 'true') {
 			return next();
 		} else {
+//			return next();
 			return bruteForce.prevent( req, res, next );
+		}
+	})
+	.post((req, res, next) => {
+		if (!req.session.userAccessToken){
+			req.session.formToSubmit = {
+				method: 'post',
+				body: pick(req.body, ['choices', 'pollId']),
+				url: '/vote'
+			};
+
+			console.log("req.session.formToSubmit", req.session.formToSubmit);
+
+			res.redirect('/oauth/login');
+		} else {
+			next();
 		}
 	})
 	.post(fetchIdea)
