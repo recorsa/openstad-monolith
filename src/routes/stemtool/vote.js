@@ -95,7 +95,7 @@ module.exports = function( app ) {
 		.then(function( user ) {
 			req.setSessionUser(user.id);
 
-			console.log('vote user', user);
+			console.log('vote vote user', user.id);
 
 			// Store vote.
 			return poll.addVote(user, choices, req.ip)

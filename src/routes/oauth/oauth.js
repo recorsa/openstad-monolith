@@ -80,7 +80,6 @@ router
 			.then(
 				json => {
 					let accessToken = json.access_token;
-					console.log('accessToken', accessToken);
 
 
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
@@ -89,14 +88,11 @@ router
 					req.session.userAccessToken = accessToken;
 				//	req.session.justLoggedIn = true;
 
-					console.log('accessTokens session', req.session);
 					req.session.save((err) => {
                 if (!err) {
 									console.log('save callback session', req.session);
-
 									return next();
                 } else {
-									console.log('errr', err);
 								}
             });
 
