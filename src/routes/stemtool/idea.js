@@ -678,7 +678,6 @@ function fetchPoll( req, res, next ) {
 		}
 
     for(let vote of votes) {
-      console.log('vote.aaa', vote.poll_option);
     }
 
 

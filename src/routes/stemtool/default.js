@@ -70,9 +70,6 @@ module.exports = function( app ) {
 				req.session.formToSubmit = null;
 			}
 
-			console.log('====> req.session', req.session);
-			console.log('====> req.user', req.user);
-
 			res.out('index', true, {
 				userData  : req.userData,
 				user      : req.user,

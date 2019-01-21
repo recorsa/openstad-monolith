@@ -45,8 +45,6 @@ module.exports = function( app ) {
 				url: '/vote'
 			};
 
-			console.log("req.session.formToSubmit", req.session.formToSubmit);
-
 			res.redirect('/oauth/login');
 		} else {
 			next();
@@ -61,8 +59,6 @@ module.exports = function( app ) {
 
 		var zipCode = user.zipCode ? user.zipCode : req.body.zipCode;
 		var choices = req.body.choices && Array.isArray(req.body.choices) ? req.body.choices : [req.body.choices];
-
-		console.log("req.body.choices", choices);
 
 		// Validate. This needs to happen in the route, because
 		// an error needs to reset the brute force prevention. If
