@@ -130,10 +130,13 @@ router
 router
 	.route('/logout')
 	.get(function( req, res, next ) {
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-logout-path'];
-		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
-		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-		res.success(url, true);
+		req.session.destroy(() => {
+			let url = config.authorization['auth-server-url'] + config.authorization['auth-server-logout-path'];
+			url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+			url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+			res.success(url, true);
+		});
+
 	});
 
 module.exports = router;
