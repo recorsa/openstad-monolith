@@ -74,7 +74,7 @@ addApp('stemtool', [{
 	appName    : 'kademuren-staging',
 	deployName : 'staging_kademuren',
 	remotePath : '/var/www/kademuren.staging.openstadsdeel.nl/www',
-	ref        : 'origin/master'
+	ref        : 'origin/kademuren'
 }, {
 	appName    : 'stemtool-kareldoorman',
 	deployName : 'production_kareldoorman',
@@ -94,14 +94,14 @@ function addApp( env, app ) {
 	if( app.constructor !== Object ) {
 		return;
 	}
-	
+
 	var env = {
 		NODE_ENV                   : env,
 		NODE_APP_INSTANCE          : 'production',
 		BLUEBIRD_LONG_STACK_TRACES : 1,
 		BLUEBIRD_WARNINGS          : 0
 	};
-	
+
 	config.apps.push({
 		name         : app.appName,
 		script       : 'server.js',
@@ -113,14 +113,11 @@ function addApp( env, app ) {
 		user          : 'daan',
 		host          : '185.110.174.172',
 		path          : app.remotePath,
-		
+
 		ref           : app.ref,
 		repo          : 'git@github.com:Amsterdam/openstad-monolith.git',
-		
+
 		env           : env,
 		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
 	};
 }
-
-
-
