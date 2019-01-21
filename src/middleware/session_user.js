@@ -34,7 +34,7 @@ module.exports = function( app ) {
 	app.use(function getSessionUser( req, res, next ) {
 		req.setSessionUser   = setSessionUser.bind(req);
 		req.unsetSessionUser = unsetSessionUser.bind(req);
-		
+
 		if( !req.session ) {
 			next(Error('express-session middleware not loaded?'));
 		} else {
@@ -53,7 +53,6 @@ module.exports = function( app ) {
 function setSessionUser( userId, originUrl ) {
 	// The original `maxAge` is 'session', but now the user wants to
 	// stay logged in.
-	console.log('userId', userId);
 	this.session.cookie.maxAge = cookieTTL;
 	this.session[uidProperty] = userId;
 	if( originUrl ) {
@@ -86,4 +85,3 @@ function getUserInstance( userId ) {
 		});
 	}
 }
-

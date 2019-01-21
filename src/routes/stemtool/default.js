@@ -61,23 +61,40 @@ module.exports = function( app ) {
 
 		const formToSubmit = req.session ? req.session.formToSubmit : false;
 
-		if (req.session && req.session.formToSubmit) {
-			req.session.formToSubmit = null;
+
+
+		const output = (req, res) => {
+			var formToSubmit = req.session ? req.session.formToSubmit : false;
+
+			if (req.session && req.session.formToSubmit) {
+				req.session.formToSubmit = null;
+			}
+
+			console.log('====> req.session', req.session);
+			console.log('====> req.user', req.user);
+
+			res.out('index', true, {
+				userData  : req.userData,
+				user      : req.user,
+				idea      : req.idea,
+				poll      : req.poll,
+				userVote  : req.vote,
+				config    : config.get('stemtool'),
+				csrfToken : req.csrfToken(),
+				onReturnSubmitcomment: req.session ? req.session.onReturnSubmitcomment : false,
+				filledInComment:  req.session ? req.session.filledInComment : false,
+				checkedOptionId:  req.session ? req.cookies.checkedOptionId : false,
+				formToSubmit:  formToSubmit,
+			});
 		}
 
-		res.out('index', true, {
-			userData  : req.userData,
-			user      : req.user,
-			idea      : req.idea,
-			poll      : req.poll,
-			userVote  : req.vote,
-			config    : config.get('stemtool'),
-			csrfToken : req.csrfToken(),
-			onReturnSubmitcomment: req.session ? req.session.onReturnSubmitcomment : false,
-			filledInComment:  req.session ? req.session.filledInComment : false,
-			checkedOptionId:  req.session ? req.cookies.checkedOptionId : false,
-			formToSubmit:  formToSubmit,
-		});
+		if (req.session) {
+			req.session.save(() => {
+				output(req, res);
+			});
+		} else {
+			output(req, res);
+		}
 	});
 };
 
@@ -185,6 +202,7 @@ function loginUser(req, res, next) {
 				}})
 				.then((user) => {
 					if (user) {
+						req.user = user;
 						req.setSessionUser(user.id);
 						return next();
 					} else {
@@ -197,6 +215,8 @@ function loginUser(req, res, next) {
 
 						return db.User.create(data)
 							.then((user) => {
+								req.user = user;
+
 								req.setSessionUser(user.id);
 								return next();
 							});

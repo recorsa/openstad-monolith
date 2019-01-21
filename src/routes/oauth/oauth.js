@@ -36,7 +36,6 @@ router
 router
 	.route('/digest-login')
 	.get(function( req, res, next ) {
-		console.log('codea');
 
 		// use the code to get an access token
 
@@ -84,7 +83,6 @@ router
 
 					req.session.save((err) => {
                 if (!err) {
-									console.log('save callback session', req.session);
 									return next();
                 } else {
 								}
