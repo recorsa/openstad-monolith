@@ -62,6 +62,7 @@ module.exports = function( app ) {
 		var zipCode = user.zipCode ? user.zipCode : req.body.zipCode;
 		var choices = req.body.choices;
 
+		console.log("req.body.choices", req.body.choices);
 
 		// Validate. This needs to happen in the route, because
 		// an error needs to reset the brute force prevention. If
