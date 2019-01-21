@@ -118,7 +118,6 @@ router
 	//	res.redirect(config.authorization.afterLoginRedirectUri);
 	})
 	.get(function( error, req, res, next ) {
-		console.log('console.error();', error);
 		// de error wil je tonen in de pagina, en wordt daarom meegestuurd in plaats van getoond
 		res.header('Set-Cookie', 'openstad-error=' + ( error.message ? error.message : error ) + '; Path=/');
 		// TODO: zie /login
@@ -131,9 +130,10 @@ router
 router
 	.route('/logout')
 	.get(function( req, res, next ) {
-		console.log('destroy1');
-		req.session.destroy();
-		res.success('/', true);
+		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-logout-path'];
+		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+		res.success(url, true);
 	});
 
 module.exports = router;
