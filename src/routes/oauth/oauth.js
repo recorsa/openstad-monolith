@@ -13,8 +13,6 @@ router
 	.route('/login')
 	.get(function(req, res, next) {
 
-		console.log('req.session.userAccessToken 1', req.session.userAccessToken);
-
 		if (req.session.userAccessToken) {
 			// al ingelogd
 			return res.redirect(config.url)
@@ -30,11 +28,7 @@ router
 		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
 		//http://openstad-dev.francesco.denes.nl/begroten/oauth/digest-login
-
-		console.log('redirect to: ', url);
-
 		res.redirect(url);
-
 	});
 
 // inloggen 2

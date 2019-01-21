@@ -172,20 +172,22 @@
 		}
 	}
 
-	&::after {
-		background-size: 100%;
-    height: 50px;
-    width: 50px;
-    position: absolute;
-    right: -58px;
-    top: 16px;
-    content: '';
-    background: url(/img/stemtool/star-outline.svg);
+	&.with-star {
+			&::after {
+				background-size: 100%;
+		    height: 50px;
+		    width: 50px;
+		    position: absolute;
+		    right: -58px;
+		    top: 16px;
+		    content: '';
+		    background: url(/img/stemtool/star-outline.svg);
 
-		@media @phone {
-			height: 35px;
-	    width: 35px;
-	    right: -45px;
+				@media @phone {
+					height: 35px;
+			    width: 35px;
+			    right: -45px;
+				}
 		}
 	}
 

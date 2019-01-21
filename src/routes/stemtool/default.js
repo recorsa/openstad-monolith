@@ -60,7 +60,10 @@ module.exports = function( app ) {
 	.get(function( req, res, next) {
 
 		const formToSubmit = req.session ? req.session.formToSubmit : false;
-		req.session.formToSubmit = null;
+
+		if (req.session && req.session.formToSubmit) {
+			req.session.formToSubmit = null;
+		}
 
 		res.out('index', true, {
 			userData  : req.userData,
@@ -154,11 +157,6 @@ function fetchPoll( req, res, next ) {
 }
 
 function loginUser(req, res, next) {
-	if (req.session.justLoggedIn) {
-		res.locals.justLoggedIn = true;
-		req.session.justLoggedIn = false;
-	}
-
 	// get the user info using the access token
 	let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
 	url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
@@ -200,7 +198,7 @@ function loginUser(req, res, next) {
 						return db.User.create(data)
 							.then((user) => {
 								req.setSessionUser(user.id);
-								next();
+								return next();
 							});
 					}
 				});
