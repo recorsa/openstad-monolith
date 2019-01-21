@@ -34,7 +34,7 @@
 							 !-->
 					{% if user.can('idea:admin') %}
 						{# <li><a href="/account">Mijn account</a></li> #}
-						<a href="/account/logout" id="account">{{user.nickName}}</a>
+						<a href="/oauth/logout" id="account">{{user.nickName}}</a>
 					{% elseif user.id > 1 %}
 						<a href="/oauth/logout" class="menu-link--right">Uitloggen</a>
 					{% endif %}

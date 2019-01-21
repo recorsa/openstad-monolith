@@ -16,7 +16,6 @@ module.exports = function( app ) {
 		//req.session.destroy();
 		//res.success('/', true);
 
-		console.log('req.session', req.session);
 
 		if (!req.session.userAccessToken){
 			 return next();
