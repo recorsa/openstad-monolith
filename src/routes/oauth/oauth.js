@@ -11,7 +11,7 @@ let router = express.Router({mergeParams: true});
 // ----------
 router
 	.route('/login')
-	.get(function( req, res, next ) {
+	.get(function(req, res, next) {
 
 		console.log('req.session.userAccessToken 1', req.session.userAccessToken);
 
@@ -48,9 +48,6 @@ router
 
 		let code = req.query.code;
 
-		console.log('code', code);
-
-
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
@@ -63,9 +60,6 @@ router
 			code: code,
 			grant_type: 'authorization_code',
 		}
-
-		console.log('postData', postData);
-
 
 		fetch(
 			url, {
