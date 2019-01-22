@@ -69,7 +69,7 @@ addApp('stemtool', [{
 	appName    : 'stemtool-kademuren',
 	deployName : 'production_kademuren',
 	remotePath : '/var/www/kademuren.amsterdam.nl/www',
-	ref        : 'origin/master'
+	ref        : 'origin/kademuren'
 }, {
 	appName    : 'kademuren-staging',
 	deployName : 'staging_kademuren',
@@ -79,7 +79,7 @@ addApp('stemtool', [{
 	appName    : 'stemtool-kareldoorman',
 	deployName : 'production_kareldoorman',
 	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
-	ref        : 'origin/kademuren'
+	ref        : 'origin/master'
 }]);
 
 module.exports = config;
