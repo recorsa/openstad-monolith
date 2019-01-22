@@ -4,7 +4,10 @@ module.exports = function( helpers, role ) {
 		'poll:vote' : {
 			allow   : false,
 			message : 'Beheerders kunnen niet deelnemen'
-		}
+		},
+		'arg:add' : {
+			allow    : false,
+			message  : 'Argument toevoegen niet toegestaan voor beheerders, reageren is wel toegestaan'
+		},
 	});
 };
-

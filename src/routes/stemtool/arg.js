@@ -93,6 +93,12 @@ app.route('/arg/reply')
 	.all(auth.can('arg:reply'))
 	.post(function( req, res, next ) {
 		var idea = req.idea;
+
+		// in case nickname is already set to user add it to the body
+		if (req.user.nickName) {
+			req.body.nickName = user.nickName;
+		}
+
 		idea.addUserArgument(req.user, req.body)
 			.then(function( argument ) {
 				req.flash('success', 'Reactie toegevoegd');
