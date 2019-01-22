@@ -4,7 +4,7 @@
 
 		<div class="col-container">
 			<div class="col-12">
-				<h1 class="margin-hor-s">{{option.title}}{{':' if option.intro}} {{option.intro}}</h1>
+				<h1 class="margin-hor-s">{{option.order}}: {{option.intro}}</h1>
 				<hr class="margin-hor-m" />
 			</div>
 
@@ -18,9 +18,7 @@
 					data-thumbheight="105"
 					data-auto="true"
 				>
-					<a href="https://via.placeholder.com/772x345"></a>
-					<a href="https://via.placeholder.com/772x345"></a>
-					<a href="https://via.placeholder.com/772x345"></a>
+					<a href="/img/kademuren/popup-img-{{option.id}}.png"></a>
 				</div>
 			</div>
 			<div class="col-6 col-xs-12">
@@ -38,12 +36,13 @@
 						class="btn btn-primary btn--stretch scroll-link scroll-change-hash react-to-variant"
 						data-variant-value="{{option.order}}"
 					>
-						Reageer
+					Kies hiervoor
 					</a>
 				</div>
 				<div class="col-3 col-xs-6">
 					<a href="#vote" class="btn btn-primary btn--stretch scroll-link scroll-change-hash">
-						Stem
+					Geef uw mening
+
 					</a>
 				</div>
 

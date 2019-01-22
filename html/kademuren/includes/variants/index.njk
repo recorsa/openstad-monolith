@@ -1,5 +1,5 @@
 <div class="mobile-accordion">
-	<h2 class="mobile-accordion-opener margin-top-0">De ontwerpen</h2>
+	<h2 class="mobile-accordion-opener margin-top-0">De keuzes</h2>
 
 	<div class="col-container">
 		{% for option in poll.options
@@ -8,7 +8,7 @@
 					<a
 						href="#variant-modal-{{option.order}}"
 						class="concept-card-image"
-						style="background-image: url('https://via.placeholder.com/250x200');"
+						style="background-image: url('/img/kademuren/thumb-{{option.id}}.png');"
 					>
 						{% if option.order %}
 						<div class="concept-card-number concept-card-number-{{loop.index}}">

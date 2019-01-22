@@ -27,7 +27,7 @@ module.exports = function( app ) {
 			if (!req.session.userAccessToken){
 				req.session.formToSubmit = {
 					method: 'post',
-					body: pick(req.body, ['parentId', 'confirmationRequired', 'sentiment', 'description', 'label']),
+					body: pick(req.body, ['parentId', 'nickName', 'confirmationRequired', 'sentiment', 'description', 'label']),
 					url: '/arg/new'
 				};
 
@@ -41,8 +41,8 @@ module.exports = function( app ) {
 			var {body, user, idea} = req;
 
 			// in case nickname is already set to user add it to the body
-			if (user.firstName) {
-				body.nickName = user.firstName + ' ' + user.lastName;
+			if (user.nickName) {
+				body.nickName = user.nickName;
 			}
 
 			if( !user.zipCode ) {
@@ -62,7 +62,7 @@ module.exports = function( app ) {
 		})
 		.all(createArgumentError);
 
-		// Reply to argument.
+	/*	// Reply to argument.
 		app.route('/arg/reply')
 		.all(fetchIdea())
 		.all(fetchArgument)
@@ -83,6 +83,26 @@ module.exports = function( app ) {
 			.catch(next);
 		})
 		.all(createArgumentError);
+*/
+
+// Reply to argument.
+// Reply to argument.
+app.route('/arg/reply')
+	.all(fetchIdea())
+	.all(fetchArgument)
+	.all(auth.can('arg:reply'))
+	.post(function( req, res, next ) {
+		var idea = req.idea;
+		idea.addUserArgument(req.user, req.body)
+			.then(function( argument ) {
+				req.flash('success', 'Reactie toegevoegd');
+				res.success(`/#arg${argument.id}`, {
+					argument: argument
+				});
+			})
+			.catch(next);
+	})
+	.all(createArgumentError);
 
 		// Shared error handler.
 		function createArgumentError( err, req, res, next ) {
