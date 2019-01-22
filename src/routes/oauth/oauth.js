@@ -79,8 +79,11 @@ router
 
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
-				//	req.session.justLoggedIn = true;
 
+					if (req.session.formToSubmit ) {
+						req.session.formToSubmit.ready = true;
+					}
+					
 					req.session.save((err) => {
                 if (!err) {
 									return next();

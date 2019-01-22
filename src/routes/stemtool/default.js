@@ -59,12 +59,10 @@ module.exports = function( app ) {
 	.all(auth.can('idea:admin', 'poll:vote', 'poll:result', 'arg:form', 'arg:add', true))
 	.get(function( req, res, next) {
 
-		const formToSubmit = req.session ? req.session.formToSubmit : false;
-
-
-
 		const output = (req, res) => {
-			var formToSubmit = req.session ? req.session.formToSubmit : false;
+			// add form to submit, the ready flag is set only when one comes from the oauth api,
+			// in digest route, otherwise just empty formToSubmit,  otherwise it might cause loops.
+			var formToSubmit = req.session && req.session.formToSubmit && req.session.formToSubmit.ready ? req.session.formToSubmit : false;
 
 			if (req.session && req.session.formToSubmit) {
 				req.session.formToSubmit = null;
