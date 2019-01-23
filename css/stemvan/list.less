@@ -27,8 +27,14 @@
 		#howDoesItWork {
 			background-color: #164995;
 			color: #FFF;
+			width: calc(100% - 20px);
 			margin-bottom: 20px;
+
+			@media @phone {
+				width: 100%;
+			}
 		}
+
 		#viewArchive {
 			background-color: #f8f9f9;
 			border: 1px solid #CBCCCB;

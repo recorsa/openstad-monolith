@@ -4,7 +4,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	var Meeting = sequelize.define('meeting', {
 		siteId: {
 			type         : DataTypes.INTEGER,
-			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
 		},
 		type : DataTypes.ENUM('selection','meeting'),
 		date : DataTypes.DATE,

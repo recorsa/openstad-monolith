@@ -1,13 +1,13 @@
 
 var createError = require('http-errors')
   , express     = require('express')
-//  , mmm         = require('mmmagic')
+  , mmm         = require('mmmagic')
   , multer      = require('multer')
   , config      = require('config');
 var db          = require('../../db');
 var auth        = require('../../auth');
 
-//var magic = new mmm.Magic(mmm.MAGIC_MIME_TYPE);
+var magic = new mmm.Magic(mmm.MAGIC_MIME_TYPE);
 
 var upload = multer();
 
@@ -28,7 +28,7 @@ module.exports = function( app ) {
     })
 	.post(function( req, res, next ) {
 		var file = req.file;
-		//magic.detect(file.buffer, function( err, mimeType ) {
+		magic.detect(file.buffer, function( err, mimeType ) {
 			if( err ) {
 				return next(err);
 			} else if( !isValidMimeType(mimeType) ) {
@@ -58,7 +58,7 @@ module.exports = function( app ) {
 					next(createError(500, 'Bestand uploaden niet gelukt', error));
 				});
 			}
-		//});
+		});
 	});
 };
 

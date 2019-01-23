@@ -6,8 +6,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		siteId: {
 			type         : DataTypes.INTEGER,
-			defaultValue : config.siteId,
-			allowNull    : false,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
 		},
 
 		userId: {
@@ -40,24 +39,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 			scopes: function() {
 
-				let siteScope;
+				let scopes = {};
+
 				if (config.siteId && typeof config.siteId == 'number') {
-					siteScope = {
+					scopes.siteScope = {
 						where: {
 							siteId: config.siteId,
 						}
 					}
 				}
 				
-				return {
-					siteScope,
-					// withIdea: {
-					//  	include: {
-					//  		model: db.Idea,
-					//  		attributes: ['id', 'title']
-					//  	}
-					// }
-				};
+				return scopes;
 			},
 			
 		},

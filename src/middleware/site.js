@@ -25,10 +25,13 @@ module.exports = function( app ) {
 			.findOne({ where })
 			.then(function( found ) {
 				req.site = found;
-				// console.log(req.site && [req.site.id, req.site.name]);
+				//console.log('found', req.site && [req.site.id, req.site.name]);
 				next();
 			})
-			.catch(next);
+			.catch( err => {
+				console.log('site not found:', siteId);
+				next(err)
+			});
 	});
 
 };
