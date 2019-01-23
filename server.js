@@ -1,7 +1,7 @@
-if( !process.env.NODE_ENV ) {
+if (!process.env.NODE_ENV) {
 	return console.error('NODE_ENV environment variable not set');
 }
-if( !process.env.NODE_APP_INSTANCE ) {
+if (!process.env.NODE_APP_INSTANCE) {
 	return console.error('NODE_APP_INSTANCE environment variable not set');
 }
 

@@ -40,14 +40,26 @@ module.exports  = {
 		
 		var middleware = config.get('express.middleware');
 		// ... load middleware/routes not compatible with CSRF security...
-		middleware.beforeSecurity.forEach(( filePath ) => {
-			require(filePath)(this.app);
+		middleware.beforeSecurity.forEach(( entry ) => {
+			if (typeof entry == 'object' ) {
+				// nieuwe versie: use route
+				this.app.use(entry.route, require(entry.router));
+			} else {
+				// oude versie: de file doet de app.use
+				require(entry)(this.app);
+			}
 		});
 		// ... load security middleware (CSRF)...
 		this._initSecurityMiddleware();
 		// ... load middleware/routes that utilize CSRF security
-		middleware.afterSecurity.forEach(( filePath ) => {
-			require(filePath)(this.app);
+		middleware.afterSecurity.forEach(( entry ) => {
+			if (typeof entry == 'object' ) {
+				// nieuwe versie: use route
+				this.app.use(entry.route, require(entry.router));
+			} else {
+				// oude versie: de file doet de app.use
+				require(entry)(this.app);
+			}
 		});
 		// ... static page fallback...
 		require('./middleware/static_page')(this.app);
@@ -100,7 +112,22 @@ module.exports  = {
 		var bodyParser         = require('body-parser');
 		var cookieParser       = require('cookie-parser');
 		var methodOverride     = require('method-override');
-		
+
+		this.app.use(function(req, res, next) {
+
+			// TODO: ik denk dat je hem beter kunt afschermen met locaties in de config
+      res.header('Access-Control-Allow-Origin', config.url || ( req.protocol + '://' + req.hostname ));
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-http-method-override, X-GRIP-Tenant-Id');
+
+			if (req.method == 'OPTIONS') {
+				res.end();
+			}
+
+			next()
+
+		});
+
 		this.app.use(bodyParser.json({limit: '10mb'}));
 		this.app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 		this.app.use(cookieParser(config.get('security.sessions.secret')));
@@ -180,6 +207,7 @@ module.exports  = {
 			watch      : false,
 			autoescape : true,
 		});
+		env.addFilter('isArr', something => Array.isArray(something))
 		env.addGlobal('config', config)
 		nunjucksVars(this.app);
 		multiAccept(this.app);

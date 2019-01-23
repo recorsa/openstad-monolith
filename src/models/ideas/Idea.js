@@ -19,6 +19,10 @@ var descriptionMaxLength = config.ideas.descriptionMaxLength || 5000;
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
+		siteId: {
+			type         : DataTypes.INTEGER,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : null,
+		},
 		meetingId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : true
@@ -113,6 +117,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.content(text.trim()));
 			}
+		},
+
+		budget: {
+			type         : DataTypes.INTEGER,
+			allowNull    : true
 		},
 
 		extraData: {
@@ -247,8 +256,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			getHighlighted: function() {
+
+				let where = {status: 'OPEN'};
+
+				// todo: dit kan mooier
+				if (config.siteId && typeof config.siteId == 'number') {
+					where = {
+						$and: [
+							{ siteId: config.siteId },
+							{ $or: where.$or },
+						]
+					}
+				}
+
+
 				return this.scope('summary').findAll({
-					where : {status: 'OPEN'},
+					where,
 					order : 'sort, endDate DESC',
 					limit : 3
 				});
@@ -286,8 +309,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if (extraScopes)  {
 					scopes = scopes.concat(extraScopes);
 				}
-				return this.scope(...scopes).findAll({
-					where: {
+
+				let where = {
 						$or: [
 							{
 								status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY', 'DONE']}
@@ -303,7 +326,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 								]
 							}
 						]
-					},
+				};
+
+				// todo: dit kan mooier
+				if (config.siteId && typeof config.siteId == 'number') {
+					where = {
+						$and: [
+							{ siteId: config.siteId },
+							{ $or: where.$or },
+						]
+					}
+				}
+
+				return this.scope(...scopes).findAll({
+					where,
 					order   : order,
 					include : [{
 						model: db.Meeting,
@@ -555,6 +591,200 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 		return {
+
+			// nieuwe scopes voor de api
+			// -------------------------
+
+			// defaults
+			api: {
+			},
+			
+			mapMarkers: {
+				attributes: [
+					'id',
+					'status',
+					'location',
+					'position'
+				]
+				,
+				where: {
+					$or: [
+						{
+							status: {$in: ['OPEN', 'ACCEPTED', 'BUSY']}
+						}, {
+							$and: [
+								{status: 'CLOSED'},
+								sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 90`)
+							]
+						}
+					]
+				}
+			},
+			
+			// vergelijk getRunning()
+			selectRunning: {
+				where: {
+					$or: [
+						{
+							status: {$in: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY']}
+						}, {
+							$and: [
+								{status: 'DENIED'},
+								sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 7`)
+							]
+						}
+					]
+				}
+			},
+			
+			includeArguments: function( userId ) {
+				return {
+					include: [{
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsAgainst']},
+							{method: ['withUserVote', 'argumentsAgainst', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsAgainst',
+						required : false,
+						where    : {
+							sentiment: 'against',
+							parentId : null
+						}
+					}, {
+						model    : db.Argument.scope(
+							'defaultScope',
+							{method: ['withVoteCount', 'argumentsFor']},
+							{method: ['withUserVote', 'argumentsFor', userId]},
+							'withReactions'
+						),
+						as       : 'argumentsFor',
+						required : false,
+						where    : {
+							sentiment: 'for',
+							parentId : null
+						}
+					}],
+					// HACK: Inelegant?
+					order: [
+						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
+						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
+						'argumentsAgainst.parentId',
+						'argumentsFor.parentId',
+						'argumentsAgainst.createdAt',
+						'argumentsFor.createdAt'
+					]
+				};
+			},
+
+			includeMeeting: {
+				include : [{
+					model: db.Meeting,
+				}]
+			},
+
+			includePosterImage: {
+				include: [{
+					model      : db.Image,
+					as         : 'posterImage',
+					attributes : ['key'],
+					required   : false,
+					where      : {},
+					order      : 'sort'
+				}]
+			},
+
+			includeRanking: {
+// 				}).then((ideas) => {
+// 					// add ranking
+// 					let ranked = ideas.slice();
+// 					ranked.forEach(idea => {
+// 						idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
+// 					});
+// 					ranked.sort( (a, b) => a.ranking < b.ranking );
+// 					let rank = 1;
+// 					ranked.forEach(idea => {
+// 						idea.ranking = rank;
+// 						rank++;
+// 					});
+// 					return sort == 'ranking' ? ranked : ideas;
+// 				});
+			},
+			
+			includeVoteCount: {
+				attributes: {
+					include: [
+						voteCount('yes'),
+						voteCount('no'),
+						argCount('argCount')
+					]
+				}
+			},
+			
+			includeUser: {
+				include: [{
+					model      : db.User,
+					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+				}]
+			},
+			
+			includeUserVote: function(userId) {
+				let result = {
+					include: [{
+						model    : db.Vote,
+						as       : 'userVote',
+						required : false,
+						where    : {
+							userId : userId
+						}
+					}]
+				};
+				return result;
+			},
+			
+			// vergelijk getRunning()
+			sort: function (sort) {
+
+				let result = {};
+
+				var order;
+				switch( sort ) {
+					case 'votes_desc':
+						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+						order = 'yes DESC';
+						break;
+					case 'votes_asc':
+						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+						order = 'yes ASC';
+						break;
+					case 'date_asc':
+						order = 'endDate ASC';
+						break;
+					case 'date_desc':
+					default:
+						order = `
+							CASE status
+								WHEN 'ACCEPTED' THEN 4
+								WHEN 'OPEN'     THEN 3
+								WHEN 'BUSY'     THEN 2
+								WHEN 'DENIED'   THEN 0
+								                ELSE 1
+							END DESC,
+							endDate DESC
+						`;
+				}
+
+				result.order = order;
+
+				return result;
+
+      },
+
+			// oude scopes
+			// -----------
+			
+
 			summary: {
 				attributes: {
 					include: [

@@ -19,7 +19,12 @@ module.exports = function( app ) {
 		req.setSessionUser(userId);
 		res.success('/');
 	});
-	
+
+	router.get('/logout', function( req, res ) {
+		req.session.destroy();
+		res.success('/', true);
+	});
+
 	router.post('/reset_fixtures', auth.can('dev'), function( req, res, next ) {
 		db.sequelize.sync({force: true}).then(function() {
 			require('../../../fixtures')(db).then(function() {
@@ -50,6 +55,52 @@ module.exports = function( app ) {
 	router.get('/fonts', function( req, res, next ) {
 		res.out('test/fonts', false);
 	});
+	router
+		.route('/delete-user-budget-vote')
+		.get(function( req, res, next ) {
+
+			if (!req.session.userAccessToken) return res.success('/begroten', true);
+			
+			// get the user info using the access token
+			let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
+			url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+
+			fetch(
+				url, {
+					method: 'get',
+					headers: {
+						authorization : 'Bearer ' + req.session.userAccessToken,
+					},
+					mode: 'cors',
+				})
+				.then(
+					response => response.json(),
+					error => { return next(new Error('User niet bekend')); }
+				)
+				.then(
+					json => {
+						req.userData = json;
+						return next()
+					}
+				)
+				.catch(err => {
+					console.log('DEV GET USER CATCH ERROR');
+					console.log(err);
+					next(err);
+				})
+		})
+		.get(function( req, res ) {
+			if (req.userData && req.userData.user_id) {
+				db.BudgetVote
+					.destroy({where:  {userId: req.userData.user_id }, force: true})
+					.then(result => {
+						res.header('Set-Cookie', 'openstad-error=; Path=/');
+						res.success('/begroten', true);
+					})
+			} else {
+				res.success('/begroten', true);
+			}
+		});
 	
 	router.get('/email/:page', function( req, res, next ) {
 		var fs       = require('fs');

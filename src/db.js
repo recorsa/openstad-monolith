@@ -4,6 +4,7 @@ var util      = require('./util');
 
 var config    = require('config');
 var dbConfig  = config.get('database');
+
 var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
 	dialect        : dbConfig.dialect,
 	host           : dbConfig.host,
@@ -14,6 +15,7 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 	},
 	timeZone       : config.timeZone,
 	logging        : require('debug')('app:db:query'),
+	// logging: console.log,
 	typeValidation : true,
 	
 	define: {

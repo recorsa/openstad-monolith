@@ -1,0 +1,77 @@
+<div class="row row-eq-height--desktop relative padding-bottom-l">
+  <div class="col-sm-4 col-xs-12 text-center">
+    <div>
+			<div class="">
+				<img src="/img/westbegroot/main-money.svg" />
+			</div>
+			{% if config.budgeting.isActive %}
+				<h3>
+					Verdeel € 300.000 over jouw favoriete plannen
+				</h3>
+				<p>
+					Woon je in West en ben je 18 jaar of ouder? Alle bewoners uit West van 18 jaar en ouder ontvangen per post een stemcode om tussen 16 januari en 13 februari 2019 te kunnen stemmen op plannen op West Begroot.
+				</p>
+				<div class="row-footer--desktop text-center">
+					<a href="/stemmen" class="btn--blue ">
+						Begin meteen met stemmen
+					</a>
+				</div>
+			{% else %}
+				<h3>
+					Welke plannen zijn geselecteerd voor West Begroot?
+				</h3>
+				<p>
+					Vanaf 16 januari kunnen alle bewoners uit West van 18 jaar en ouder stemmen met de stemcode die zij per post ontvangen. Bekijk nu alvast op welke plannen je kunt stemmen.
+				</p>
+				<div class="row-footer--desktop text-center">
+					<a href="/stemmen#end-date-bar" class="btn--blue ">
+						Bekijk de geselecteerde plannen
+					</a>
+				</div>
+				
+			{% endif %}
+    </div>
+    <br class="visible-xs" /> 
+    <br class="visible-xs" />
+  </div>
+  <div class="col-sm-4 col-xs-12 text-center">
+    <div>
+			<div>
+				<img src="/img/westbegroot/main-info.svg" />
+			</div>
+			<h3>
+				Wil je meer informatie over West Begroot?
+			</h3>
+			<p>
+				Hoe ziet het stemproces eruit en hoe wordt bepaald welke plannen uiteindelijk uitgevoerd worden?
+			</p>
+      <div class="row-footer--desktop text-center">
+  			<a href="#howDoesItWork" class="btn--blue scroll-link">
+  				Lees hier hoe het werkt
+  			</a>
+      </div>
+    </div>
+    <br class="visible-xs" />
+    <br class="visible-xs" />
+  </div>
+  <div class="col-sm-4 col-xs-12 text-center">
+    <div>
+      <div class="">
+        <img src="/img/westbegroot/main-hammer.svg" />
+      </div>
+      <h3>
+        Hoe zijn de ingestuurde plannen beoordeeld?
+      </h3>
+      <p>
+        Van de 209 ingestuurde plannen zijn er 30 geselecteerd voor de stemfase van West Begroot. Zit jouw plan niet bij de geselecteerde plannen op de pagina '{% if config.budgeting.isActive %}Stemmen{% else %}Plannen{% endif %}'? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
+      </p>
+      <div class="row-footer--desktop text-center">
+        <a href="/originele-plannen" class="btn--blue">
+          Bekijk alle ingestuurde plannen
+        </a>
+      </div>
+    </div>
+    <br class="visible-xs" />
+    <br class="visible-xs" />
+  </div>
+</div>
