@@ -126,6 +126,10 @@
 
 		<div id="logoutButton"></div>
 
+		{% if gaId %}
+			{% include 'includes/analytics.njk' %}
+		{% endif %}
+
 		<script>
 		 // Preload class is defined in `all.less` to disable all animations.
 			 document.body.className = '';
@@ -211,8 +215,6 @@
 
 		{% block scripts %}{% endblock %}
 
-		{% if ENV == 'production' %}
-			{% include 'includes/analytics.njk' %}
-		{% endif %}
+
 </body>
 </html>

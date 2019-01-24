@@ -16,6 +16,8 @@ module.exports = function( app ) {
 		//req.session.destroy();
 		//res.success('/', true);
 
+		res.locals.gaId = config.gaId;
+
 
 		if (!req.session.userAccessToken){
 			 return next();
