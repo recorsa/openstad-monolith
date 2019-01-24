@@ -41,6 +41,7 @@ module.exports  = {
 		var middleware = config.get('express.middleware');
 		// ... load middleware/routes not compatible with CSRF security...
 		middleware.beforeSecurity.forEach(( entry ) => {
+			console.log(entry);
 			if (typeof entry == 'object' ) {
 				// nieuwe versie: use route
 				this.app.use(entry.route, require(entry.router));
@@ -107,6 +108,7 @@ module.exports  = {
 		this.app.use('/img', express.static('img', headerOptions));
 		this.app.use('/js',  express.static('js', headerOptions));
 		this.app.use('/lib', express.static('lib', headerOptions));
+		this.app.use('/examples', express.static('examples', headerOptions));
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');

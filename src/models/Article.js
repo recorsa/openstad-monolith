@@ -46,7 +46,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
 			set          : function( text ) {
-				this.setDataValue('title', sanitize.title(text));
+				this.setDataValue('title', sanitize.noTags(text));
 			}
 		},
 
@@ -121,7 +121,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			getAllTiles: function() {
-				return this.scope('asTile').findAll();
+				return this.scope('defaultScope', 'asTile').findAll();
 			},
 			getTilesForUser: function( user ) {
 				if( user.can('article:edit') ) {

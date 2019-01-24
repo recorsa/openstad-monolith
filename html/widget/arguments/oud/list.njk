@@ -1,0 +1,33 @@
+{% if arguments %}
+	<h2>Argumenten</h2>
+	{% for argument in arguments %}
+		<argument id="argument-{{argument.id}}">
+			<argument-username>{{argument.user.nickName or argument.user.fullName}}</argument-username>
+			<argument-description>{{argument.description}}</argument-description>
+		</argument>
+	{% endfor %}
+{% endif %}
+
+{% if argumentsFor %}
+	<arguments-for>
+		<h2>Argumenten voor</h2>
+		{% for argument in argumentsFor %}
+			<argument id="argument-{{argument.id}}">
+				<argument-username>{{argument.user.nickName or argument.user.fullName}}</argument-username>
+				<argument-description>{{argument.description}}</argument-description>
+			</argument>
+		{% endfor %}
+	</arguments-for>
+{% endif %}
+
+{% if argumentsAgainst %}
+	<arguments-against>
+		<h2>Argumenten tegen</h2>
+		{% for argument in argumentsAgainst %}
+			<argument id="argument-{{argument.id}}">
+				<argument-username>{{argument.user.nickName or argument.user.fullName}}</argument-username>
+				<argument-description>{{argument.description}}</argument-description>
+			</argument>
+		{% endfor %}
+	</arguments-against>
+{% endif %}

@@ -1,0 +1,40 @@
+<style>
+
+ edit-idea-widget {
+	 display: block;
+ }
+
+ edit-idea {
+	 display: block;
+ }
+ 
+</style>
+
+<edit-idea>
+
+	<form id="edit-idea-form" method="POST" value="{{apiUrl}}/example-api/site/idea/edit">
+
+		<!-- TODO: dit is nu hardcoded, maar kan natuurlijk gegenereerd -->
+		
+		<slot name="title-image">Image:<br/></slot>
+		<image-container-widget></image-container-widget>
+
+		<slot name="title-header">Titel:<br/></slot>
+		<input type="text" name="title" value=""/><br/>
+		
+		<slot name="title-summary">Samenvatting:<br/></slot>
+		<summary-container></summary-container><br/>
+		
+		<slot name="title-description">Beschrijving:<br/></slot>
+		<html-editor-widget name="description"></html-editor-widget>
+
+		<slot name="title-location">Locatie:<br/></slot>
+		<input type="hidden" name="position" value=""/><br/>
+		<openstad-map-container></openstad-map-container><br/>
+
+		<br/>
+		<input name="submitButton" type="button" value="Submit">
+		
+	</form>
+
+</edit-idea>

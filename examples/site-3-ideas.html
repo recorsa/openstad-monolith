@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>An HTML Document</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+		<script src="/examples/js/webcomponents-hi-sd-ce.js"></script>
+  </head>
+  <body>
+		<div style="width: 1000px; margin: 0 auto;">
+			<h1>
+				Plannen
+			</h1>
+			Dit is een voorbeeld met webcomponents
+			
+			<link rel="stylesheet" type="text/css" media="all"   href="/examples/css/page.css"/>
+
+			<script src="/example-widget/site/3/ideas?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<ideas-widget href="javascript: alert('Doe iets leuks als je er op klikt')">
+				<template slot="custom-idea-template">
+					<idea>
+						<a class="tile" href="{{href}}">
+							<idea-images></idea-images>
+							<idea-title></idea-title>
+							<idea-summary></idea-summary>
+						</a>
+					</idea>
+				</template>
+			</ideas-widget>
+			
+			<script src="/example-widget/site/3/argument/new?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<script src="/example-widget/site/3/arguments?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+
+			<arguments-container>
+				<h3>Argumenten</h3>
+				<argument-form-widget data-css="/examples/css/argument-form.css">loading form...</argument-form-widget>
+				<arguments-widget data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+			</arguments-container>
+			
+		</div>
+  </body>
+</html>

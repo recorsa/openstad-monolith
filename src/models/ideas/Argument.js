@@ -6,18 +6,22 @@ var emailBlackList = require('../../../config/mail_blacklist')
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
+
 		parentId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : true
 		},
+
 		ideaId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : false
 		},
+
 		userId: {
 			type         : DataTypes.INTEGER,
 			allowNull    : false
 		},
+
 		confirmationRequired: {
 			type         : DataTypes.STRING(255),
 			allowNull    : true,
@@ -33,11 +37,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			}
 		},
+
 		sentiment: {
 			type         : DataTypes.ENUM('against', 'for'),
 			defaultValue : 'for',
 			allowNull    : false
 		},
+
 		description: {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
@@ -51,17 +57,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('description', sanitize.argument(text));
 			}
 		},
+
 		label: {
 			type         : DataTypes.STRING,
 			allowNull    : true
 		},
 		// Counts set in `withVoteCount` scope.
+
 		yes: {
 			type         : DataTypes.VIRTUAL
 		},
+
 		hasUserVoted: {
 			type         : DataTypes.VIRTUAL
 		}
+
 	}, {
 		classMethods: {
 			scopes: scopes,
@@ -124,12 +134,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 		
 		return {
+
 			defaultScope: {
 				include: [{
 					model      : db.User,
 					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
 				}]
 			},
+
+			forSiteId: function( siteId ) {
+				return {
+					where: {
+						ideaId: [ sequelize.literal(`select id FROM ideas WHERE siteId = ${siteId}`) ]
+					}
+				};
+			},
+
 			withVoteCount: function( tableName ) {
 				return {
 					attributes: Object.keys(this.attributes).concat([
@@ -137,6 +157,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					])
 				};
 			},
+
 			withUserVote: function( tableName, userId ) {
 				userId = Number(userId);
 				if( !userId ) return {};
@@ -159,6 +180,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					])
 				};
 			},
+
 			withReactions: {
 				include: [{
 					model      : db.Argument,

@@ -269,6 +269,8 @@ module.exports = function( app ) {
 			var findUser = false;
 			var newUserCreated = false;
 
+			console.log('???', complete, userValues);
+
 			if( complete ) {
 				// Register a new anonymous member and continue with the normal request.
 				newUserCreated = db.User.registerAnonymous(userValues)

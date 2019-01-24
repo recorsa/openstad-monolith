@@ -1,0 +1,37 @@
+<style>
+ * {
+	 box-sizing: border-box;
+ }
+
+ idea {
+	 display: block;
+ }
+
+ idea idea-image {
+	 display: block;
+ }
+
+ idea idea-controls {
+	 display: block;
+ }
+
+ idea idea-title {
+	 display: block;
+ }
+
+ idea idea-summary {
+	 display: block;
+ }
+ 
+</style>
+
+<idea>
+	<idea-image></idea-image>
+	<idea-controls>
+		<idea-votes-for-button id="idea-votes-for-button" onclick="doVote('yes')"></idea-votes-for-button>
+		<idea-votes-against-button id="idea-votes-against-button" onclick="doVote('no')"></idea-votes-against-button>
+	</idea-controls>
+	<idea-title></idea-title>
+	<idea-description></idea-description>
+	<idea-counters></idea-counters>
+</idea>

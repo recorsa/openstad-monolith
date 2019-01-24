@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>An HTML Document</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+		<script src="/examples/js/webcomponents-hi-sd-ce.js"></script>
+  </head>
+  <body>
+		<div style="width: 1000px; margin: 0 auto;">
+			<h1>
+				Een plan
+			</h1>
+			Dit is een voorbeeld met webcomponents
+			
+			<link rel="stylesheet" type="text/css" media="all"   href="/examples/css/page.css"/>
+
+			<script src="/example-widget/site/2/idea?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<idea-widget afterRenderCallback="afterRenderCallback" afterAttributeChangedCallback="afterAttributeChangedCallback" data-css="/examples/css/idea.css">loading idea...</idea-widget>
+
+			<script src="/example-widget/openstad-map?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<openstad-map-widget style="display: none;">
+				<div slot="loading">De kaart wordt geladen</div>
+			</openstad-map-widget>
+
+			<script src="/example-widget/site/2/argument/new?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<script src="/example-widget/site/2/arguments?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<arguments-container>
+				<arguments-for-container>
+					<h3>Argumenten voor</h3>
+					<argument-form-widget id="argument-for-form" data-sentiment="for" data-css="/examples/css/argument-form.css">loading form...</argument-form-widget>
+					<arguments-widget sentiment="for" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+				</arguments-for-container>
+				<arguments-against-container>
+					<h3>Argumenten tegen</h3>
+					<argument-form-widget id="argument-against-form" data-sentiment="against" data-css="/examples/css/argument-form.css">loading form...</argument-form-widget>
+					<arguments-widget sentiment="against" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+				</arguments-against-container>
+			</arguments>
+
+			<script src="/examples/elements/number-button.js"></script>
+			<script>
+
+			 function afterRenderCallback(widget) {
+				 if (widget.data && widget.data.position) {
+					 document.querySelector('openstad-map-widget').style.display = 'block';
+				 }
+
+			   initNumberButton(widget.shadowRoot.querySelector('idea-votes-for-button'));
+				 initNumberButton(widget.shadowRoot.querySelector('idea-votes-against-button'));
+			 }
+
+			 function afterAttributeChangedCallback(widget, name, oldValue, newValue) {
+
+				 var numberButton;
+				 if (name == 'data-votes-yes') {
+					 numberButton = widget.shadowRoot.querySelector('idea-votes-for-button').querySelector('number-button-widget');
+				 } else {
+					 numberButton = widget.shadowRoot.querySelector('idea-votes-against-button').querySelector('number-button-widget');
+				 }
+				 if (numberButton) {
+					 numberButton.setAttribute('data-value', newValue);
+				 }
+
+			 }
+
+			 function initNumberButton(element) {
+
+				 var value = parseInt(element.getAttribute('data-value'));
+
+				 var widget = element.querySelector('number-button-widget');
+				 if (!widget) {
+					 var numberButton = document.createElement('number-button-widget');
+					 var parent = element.parentNode
+					 element.appendChild(numberButton);
+					 numberButton.setAttribute('data-value', value);
+				 }
+
+			 }
+
+			 let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
+			 document.querySelector('idea-widget').setAttribute('data-id', id);
+			 document.querySelector('#argument-for-form').setAttribute('data-idea-id', id);
+			 document.querySelector('#argument-against-form').setAttribute('data-idea-id', id);
+			 document.querySelector('arguments-widget[sentiment="for"]').setAttribute('data-idea-id', id);
+			 document.querySelector('arguments-widget[sentiment="against"]').setAttribute('data-idea-id', id);
+			 document.querySelector('openstad-map-widget').setAttribute('fetch-markers-url', "/example-api/site/2/idea/" + id + "?mapMarkers=true");
+			</script>
+
+		</div>
+  </body>
+</html>

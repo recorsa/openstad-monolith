@@ -80,7 +80,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				var posterImage = this.get('posterImage');
 				var location    = this.get('location');
 
-				return posterImage ? `/image/${posterImage.key}?thumb` :
+				if ( Array.isArray(posterImage) ) {
+					posterImage = posterImage[0];
+				}
+
+				// temp, want binnenkort hebben we een goed systeem voor images
+				let imageUrl = config.url || '';
+				
+				return posterImage ? `${imageUrl}/image/${posterImage.key}?thumb` :
 				       location    ? 'https://maps.googleapis.com/maps/api/streetview?'+
 				                     'size=800x600&'+
 				                     `location=${location.coordinates[0]},${location.coordinates[1]}&`+
@@ -166,6 +173,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : !config.get('ideas.location.isMandatory'),
 		},
 
+		position: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var location    = this.get('location');
+				var position;
+				if (location && location.type && location.type == 'Point') {
+					position = {
+						lat: location.coordinates[0],
+						lng: location.coordinates[1],
+					};
+				}
+				return position
+			}
+		},
+
 		modBreak: {
 			type         : DataTypes.TEXT,
 			allowNull    : true,
@@ -248,9 +270,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.belongsTo(models.User);
 				this.hasMany(models.Vote);
 				this.hasMany(models.Argument, {as: 'argumentsAgainst'});
+				// this.hasOne(models.Vote, {as: 'userVote', });
 				this.hasMany(models.Argument, {as: 'argumentsFor'});
 				this.hasMany(models.Image);
-				this.hasOne(models.Image, {as: 'posterImage'});
+				// this.hasOne(models.Image, {as: 'posterImage'});
+				this.hasMany(models.Image, {as: 'posterImage'});
 				this.hasOne(models.Poll);
 				this.hasMany(models.AgendaItem, {as: 'agenda'});
 			},
@@ -397,7 +421,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			// standaard stemvan
-			addUserVote: function( user, opinion, ip ) {
+			addUserVote: function( user, opinion, ip, extended ) {
 
 				var data = {
 					ideaId  : this.id,
@@ -406,24 +430,44 @@ module.exports = function( db, sequelize, DataTypes ) {
 					ip      : ip
 				};
 
+				var found;
+
 				return db.Vote.findOne({where: data})
 				.then(function( vote ) {
-					if( vote ) {
+					if (vote) {
+						found = true;
+					}
+					if( vote && vote.opinion === opinion ) {
 						return vote.destroy();
 					} else {
 						// HACK: `upsert` on paranoid deleted row doesn't unset
 						//        `deletedAt`.
 						// TODO: Pull request?
 						data.deletedAt = null;
+						data.opinion = opinion;
 						return db.Vote.upsert(data);
 					}
 				})
 				.then(function( result ) {
-					// When the user double-voted with the same opinion, the vote
-					// is removed: return `true`. Otherwise return `false`.
-					//
-					// `vote.destroy` returns model when `paranoid` is `true`.
-					return result && !!result.deletedAt;
+					if (extended) {
+						// nieuwe versie, gebruikt door de api server
+						if (found) {
+							if (result && !!result.deletedAt) {
+								return 'cancelled';
+							} else {
+								return 'replaced';
+							}
+						} else {
+							return 'new';
+						}
+					} else {
+						// oude versie
+						// When the user double-voted with the same opinion, the vote
+						// is removed: return `true`. Otherwise return `false`.
+						//
+						// `vote.destroy` returns model when `paranoid` is `true`.
+						return result && !!result.deletedAt;
+					}
 				});
 			},
 
@@ -729,6 +773,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			includeUserVote: function(userId) {
+				this.hasOne(db.Vote, {as: 'userVote', });
 				let result = {
 					include: [{
 						model    : db.Vote,

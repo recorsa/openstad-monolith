@@ -25,7 +25,12 @@
 		<div>
 			<div class="primary">
 				{% if idea.posterImage %}
-					<div class="image" style="background-image: url('/image/{{idea.posterImage.key}}');"></div>
+					{% if idea.posterImage | isArr %}
+						{% set posterImage = idea.posterImage[0] %}
+					{% else %}
+						{% set posterImage = idea.posterImage %}
+					{% endif %}
+					<div class="image" style="background-image: url('/image/{{posterImage.key}}');"></div>
 				{% elif idea.location %}
 					<div class="image" style="background-image: url(
 					'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{config.openStadMap.googleKey}}'

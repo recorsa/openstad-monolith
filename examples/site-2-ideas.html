@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>An HTML Document</title>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+		<script src="/examples/js/webcomponents-hi-sd-ce.js"></script>
+  </head>
+  <body>
+		<div style="width: 1000px; margin: 0 auto;">
+			<h1>
+				Plannen
+			</h1>
+			Dit is een voorbeeld met webcomponents
+			
+			<link rel="stylesheet" type="text/css" media="all"   href="/examples/css/page.css"/>
+
+			<script src="/example-widget/openstad-map?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<openstad-map-widget fetch-markers-url="/example-api/site/2/idea?mapMarkers=true" icon-href="/examples/site-2-idea.html?id=[[id]]"></openstad-map-widget>
+
+			<script src="/example-widget/site/2/ideas?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<script>
+			 function testAfterRenderCallback(data) {
+				 console.log(data)
+				 console.log('======= afterRenderCallback')
+			 }
+			</script>
+			<ideas-widget href="/examples/site-2-idea.html?id=[[id]]" afterRenderCallback="testAfterRenderCallback">
+				loading ideas...
+				<span slot="title"><h2>Plannen</h2></span>				
+			</ideas-widget>
+			
+		</div>
+  </body>
+</html>

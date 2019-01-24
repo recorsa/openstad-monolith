@@ -1,0 +1,28 @@
+<style>
+
+ * {
+	 box-sizing: border-box;
+ }
+ 
+ argument-form {
+	 display: block;
+	 width: 100%;
+ }
+
+</style>
+
+<argument-form>
+	Argumenten {{message}}<br/>
+
+	{% if showForm %}
+	<form id="new-argument-form" method="POST">
+		{% if extraFields %}
+		{% for field in extraFields %}
+		<input type="text" name="{{field.name}}" placeholder="{{field.name}}" value="{{field.value}}"/><br/>
+		{% endfor %}
+		{% endif %}
+		<textarea name="description">{{argument.description}}</textarea><br/>
+		<input name="submitButton" type="button" value="Submit">
+	</form>
+	{% endif %}
+</argument-form>

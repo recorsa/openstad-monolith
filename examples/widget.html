@@ -1,0 +1,31 @@
+<template id="test-template">
+	<p>zomaar wat tekst</p>
+</template>
+
+<style>
+ p {
+	 font-weight: 600;
+ }
+</style>
+
+<script>
+
+ class AWidget extends HTMLElement {
+
+   constructor() {
+     super();
+		 var template = document.getElementById('test-template');
+		 console.log(template)
+		 var shadowRoot = this.attachShadow({mode: 'open'}).appendChild(template.content.cloneNode(true));
+   }
+
+   connectedCallback () {
+		 console.log(this.getAttribute('niels'))
+   }
+
+ }
+
+ customElements.define('just-a-widget', AWidget);
+
+</script>
+

@@ -79,8 +79,13 @@
 	{% if showForm %}
 		<div class="primary">
 			<form id="posterImageUpload" action="/image"
-	    {% if idea.posterImage %}
-	    style="background-image: url('/image/{{idea.posterImage.key}}');"
+			{% if idea.posterImage | isArr %}
+			{% set posterImage = idea.posterImage[0] %}
+			{% else %}
+			{% set posterImage = idea.posterImage %}
+			{% endif %}
+	    {% if posterImage %}
+	    style="background-image: url('/image/{{posterImage.key}}');"
 	    {% endif %}
 			>
 				<div class="progress"><div class="bar"></div></div>

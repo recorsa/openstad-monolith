@@ -226,6 +226,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				values.role = 'anonymous';
 				return this.create(values);
 			},
+
 			// `currentUser` is the user instance that the system loaded for
 			// this session.
 			registerMember: function( currentUser, email ) {
