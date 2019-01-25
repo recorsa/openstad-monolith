@@ -91,7 +91,7 @@ module.exports = function( app ) {
 			middleware(req, res, next);
 		})
 		.all(fetchVoteForUser)
-		.all(auth.can('idea:view', 'idea:*', 'user:mail'))
+		.all(auth.can('idea:view', 'idea:*'))
 		.get(function( req, res, next) {
 			db.Meeting.getSelectable(req.idea)
 				.then(function( meetings ) {

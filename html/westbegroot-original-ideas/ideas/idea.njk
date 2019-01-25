@@ -114,7 +114,16 @@
 					<div class="ideaDuration {{idea.status}}">
 						<h4>Status</h4>
 						<div class="duration">
-							<div>De stemperiode is afgelopen</div>
+							{% if idea.status == 'OPEN' %}
+								<div>Dit plan is geselecteerd voor West Begroot. <a href="/stemmen">Klik hier</a> om te stemmen.</div>
+							{% elif idea.status == 'ACCEPTED' %}
+								<div>Dit plan is niet geselecteerd voor West Begroot. <a href="/stemmen">Klik hier</a> om op de geselecteerde plannen te stemmen.</div>
+							{% elif idea.status == 'DONE' %}
+								<div>Dit plan is niet geselecteerd voor West Begroot. <a href="/stemmen">Klik hier</a> om op de geselecteerde plannen te stemmen.</div>
+							{% elif idea.status == 'BUSY' %}
+								<div>Dit plan is niet geselecteerd voor West Begroot. <a href="/stemmen">Klik hier</a> om op de geselecteerde plannen te stemmen.</div>
+							{% endif %}
+
 						</div>
 					</div>
 
@@ -128,13 +137,7 @@
 		<h1>{{idea.title}}</h1>
 		
 		<div id="author">
-			{% if can('user:mail') %}
-				<strong>Door: <a href="mailto:{{idea.user.email}}">
-					{{idea.user.firstName}} {{idea.user.lastName}}
-				</a></strong><br>
-			{% else %}
-				<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
-			{% endif %}
+			<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
 			
 			{{idea.startDate | date('LL')}}
 		</div>
