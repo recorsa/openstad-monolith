@@ -80,9 +80,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 								new: {
 									type: 'object',
 									subset: {
-										anonymousAllowed: {
-											type: 'boolean',
-											default: false,
+										anonymous: {
+											type: 'object',
+											subset: {
+												redirect: {
+													type: 'string',
+													default: null,
+												},
+												notAllowedMessage: {
+													type: 'string',
+													default: null,
+												}
+											}
 										},
 										showFields: {
 											type: 'arrayOfStrings', // eh...
@@ -159,7 +168,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 							if (options[key].type && options[key].type === 'enum' && options[key].values && options[key].values.indexOf(value[key]) == -1) {
 								throw new Error(`site.config: ${key} has an invalid value`);
 							}
-							// console.log(key, value[key])
 							return newValue[key] = value[key];
 
 						}

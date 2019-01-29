@@ -70,7 +70,7 @@ module.exports = function( app ) {
 		(
 			user.isAnonymous() ?
 			Promise.resolve(user) :
-			db.User.registerAnonymous(null)
+				db.User.registerAnonymous({})
 		)
 		.then(function( user ) {
 			return user.update({zipCode});
