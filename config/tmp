@@ -1,0 +1,99 @@
+{
+  "siteId": "api",
+  "siteName": "API server",
+  "pageNamePostfix": "API - Gemeente Amsterdam",
+
+	"domainName"      : "api.staging.openstadsdeel.nl/",
+	"url"             : "https://api.staging.openstadsdeel.nl/",
+
+	"emailAddress"    : "niels@denes.nl",
+
+  "debug": true,
+  "logging": "app:*,-app:db:query",
+
+  "database": {
+		"dialect"            : "mysql",
+		"host"               : "localhost",
+		"user"               : "openstadapi",
+		"password"           : "6rTxpmzYm80qpJ9fjB1VZK76x70bxB",
+		"database"           : "openstadapi-staging",
+		"multipleStatements" : true
+  },
+
+  "express": {
+    "port": 8108,
+		"middleware": {
+			"beforeSecurity": [
+				{ "route": "/api", "router": "./routes/api" },
+				"./routes/stemvan/media_upload"
+			],
+			"afterSecurity": [
+				"./middleware/log",
+
+				{ "route": "/oauth", "router": "./routes/oauth" },
+				{ "route": "/", "router": "./routes/api/home" },
+
+				"./routes/stemvan/logout",
+				"./routes/cookies",
+				"./routes/dev"
+
+			]
+		},
+    "rendering": {
+      "templateDirs": [
+        "html/api",
+        "html/stemvan",
+        "html/widget"
+      ],
+      "globals": {
+        "administration": "https://www.amsterdam.nl/bestuur-organisatie/stadsdeelcommissies/stadsdeelniels/",
+        "facebook": "https://www.facebook.com/NielsAmsterdamNL",
+        "twitter": "https://twitter.com/020niels"
+      }
+    }
+  },
+
+  "sentry": {
+    "active": false
+  },
+
+	"mail": {
+		"from": "niels@denes.nl",
+	  "transport": {
+			"smtp": {
+		    "auth": {
+					"user": "apikey",
+			    "pass": "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"
+		    }
+			}
+		}
+	},
+
+  "notifications": {
+    "admin": {
+      "emailAddress": "niels@denes.nl"
+    }
+  },
+
+	"authorization": {
+
+		"jwt-secret": "YT1QIyN3SYgjVPr4s8r4I5CXeraOQhQfzPZRqeOY0fzc1KL6l8",
+
+		"auth-server-url": "https://mijnopenstad.staging.openstadsdeel.nl",
+    "auth-client-id": "HDM86N44va5vIxhJggYBnb68Y8EG8q",
+    "auth-client-secret": "Lr3PxPJvubXtwoJu5R9zgQJMhmdQV2",
+
+		"auth-server-login-path": "/dialog/authorize?redirect_uri=[[redirectUrl]]&response_type=code&client_id=[[clientId]]&scope=offline",
+		"auth-server-exchange-code-path": "/oauth/token",
+		"auth-server-get-user-path": "/api/userinfo?client_id=[[clientId]]",
+		"auth-server-logout-path": "/logout?clientId=[[clientId]]",
+
+		"after-login-redirect-uri": "/?jwt=[[jwt]]"
+		
+	},
+
+	"openStadMap": {
+		"googleKey": "AIzaSyBUWkinf1yg1GpX71bv4zqx7icTxSX6oyU"
+	}
+
+}

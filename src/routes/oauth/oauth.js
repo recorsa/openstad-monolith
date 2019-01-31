@@ -14,11 +14,6 @@ router
 	.route('/login')
 	.get(function( req, res, next ) {
 
-		if (req.session.userAccessToken) {
-			// al ingelogd
-			return res.redirect(config.url + '/')
-		}
-
 		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
 		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
 		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
@@ -115,7 +110,7 @@ router
 	.get(function( req, res, next ) {
 
 		let data = {
-			externalUserId: req.userData.user_id,
+			externalUserId: parseInt(req.userData.user_id),
 			email: req.userData.email,
 			firstName: req.userData.firstName,
 			zipCode: req.userData.postcode,
@@ -123,6 +118,7 @@ router
 		}
 
 		// TODO: validate data
+		console.log(data);
 
 		// find or create the user
 		db.User

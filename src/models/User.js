@@ -15,6 +15,12 @@ var emailBlackList = require('../../config/mail_blacklist')
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
+    externalUserId: {
+      type         : DataTypes.INTEGER,
+			allowNull    : true,
+			defaultValue : null
+    },
+
 		role: {
 			type         : DataTypes.STRING(32),
 			allowNull    : false,
