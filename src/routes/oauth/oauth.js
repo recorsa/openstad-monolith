@@ -159,7 +159,7 @@ router
 		redirectUrl = redirectUrl || '/';
 
 		if (redirectUrl.match('[[jwt]]')) {
-			jwt.sign({userId: req.user.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+			jwt.sign({userId: req.userData.user_id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
 				if (err) return next(err)
 				req.redirectUrl = redirectUrl.replace('[[jwt]]', token)
 				return next();
