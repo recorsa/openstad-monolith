@@ -1,6 +1,7 @@
 var config       = require('config');
 var NodeCache    = require('node-cache');
 var pmx          = require('pmx');
+var jwt          = require('jsonwebtoken');
 
 var db           = require('../db');
 
@@ -31,14 +32,29 @@ db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) 
 });
 
 module.exports = function( app ) {
+
 	app.use(function getSessionUser( req, res, next ) {
 		req.setSessionUser   = setSessionUser.bind(req);
 		req.unsetSessionUser = unsetSessionUser.bind(req);
 		
 		if( !req.session ) {
-			next(Error('express-session middleware not loaded?'));
-		} else {
-			getUserInstance(req.session[uidProperty] || 1)
+			return next(Error('express-session middleware not loaded?'));
+		}
+
+		let userId = req.session[uidProperty];
+
+		// jwt overrules other settings
+		console.log(req.headers);
+		if (req.headers['x-authorization']) {
+			let token = req.headers['x-authorization'].replace(/^Bearer /, '');
+			let data = jwt.verify(token, config.authorization['jwt-secret'])
+			console.log(data);
+			if (data && data.userId) {
+				userId = data.userId
+			}
+		}
+			
+		getUserInstance(userId || 1)
 			.then(function( user ) {
 				req.user = user;
 				// Pass user entity to template view.
@@ -46,7 +62,7 @@ module.exports = function( app ) {
 				next();
 			})
 			.catch(next);
-		}
+
 	});
 };
 

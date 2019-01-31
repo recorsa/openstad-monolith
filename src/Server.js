@@ -41,7 +41,6 @@ module.exports  = {
 		var middleware = config.get('express.middleware');
 		// ... load middleware/routes not compatible with CSRF security...
 		middleware.beforeSecurity.forEach(( entry ) => {
-			console.log(entry);
 			if (typeof entry == 'object' ) {
 				// nieuwe versie: use route
 				this.app.use(entry.route, require(entry.router));

@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "stemvan" : "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
+    "stemvan": "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -33,9 +33,12 @@
     "http-errors": "^1.5.1",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^11.12.0",
+    "jsonwebtoken": "^8.4.0",
     "less-middleware": "^3.0.1",
     "lodash": "^4.17.10",
+    "markdown": "^0.5.0",
     "method-override": "^2.3.7",
+    "mmmagic": "^0.5.2",
     "mocha": "^5.2.0",
     "moment-timezone": "^0.5.10",
     "multer": "^1.2.0",

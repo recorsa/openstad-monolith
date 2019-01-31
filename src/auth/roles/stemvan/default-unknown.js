@@ -10,7 +10,6 @@ module.exports = function( helpers, role ) {
 		'agenda:admin'     : false,
 
 		'sites:list'       : true,
-		'sites:archive'    : true,
 		'site:admin'       : false,
 		'site:view'        : true,
 		'site:create'      : false,
@@ -50,6 +49,7 @@ module.exports = function( helpers, role ) {
 		},
 
 		'arguments:list'   : true,
+		'argument:create'  : false,
 
 		// articles
 		'article:view'     : true,

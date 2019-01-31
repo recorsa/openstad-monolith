@@ -51,12 +51,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// todo: formaat gelijktrekken met sequelize defs
 				// todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
 				return {
-					type: { // this a temporary catch-all-and-set-defaults
-						type: 'enum',
-						values: ['stemtool', 'stemvan'],
-						default: 'stemvan',
-						allowNull: false,
-					},
 					url: {
 						type: 'string',
 						default: 'https://openstad-api.amsterdam.nl',
@@ -64,6 +58,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 					hostname: {
 						type: 'string',
 						default: 'openstad-api.amsterdam.nl',
+					},
+					'after-login-redirect-uri': {
+						type: 'string',
+						default: '/',
 					},
 					ideas: {
 						type: 'object',
