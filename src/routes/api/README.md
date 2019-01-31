@@ -65,8 +65,6 @@ delete one idea
 
 GET request zijn public, POST is alleen toegankelijk voor admin, de anderen alleen voor admin en de eigenaar
 
-Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
-
 Je kunt aan de GETs query parameters meegeven. Die werken als scopes voor Sequelize; dat komt uit de bestaande app. Bestaande scopes zijn:
 
 `selectRunning`
@@ -76,6 +74,11 @@ Je kunt aan de GETs query parameters meegeven. Die werken als scopes voor Sequel
 `includeUser`
 `includeVoteCount`
 `includeUserVote`
+
+#### TODO
+- Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
+- Ik denk dat er een overkoepelend idea zou moeten zijn, maar even overleggen
+
 
 ##Vote
 
@@ -93,4 +96,4 @@ In ontwikkeling
 
 
 
-Ik zag nog een minor dingetje mijnopenstad: een email aan een nog niet bestaande gebruiker wordt verstuurd naar 'undefined undefined <email@adres>'
+
