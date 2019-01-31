@@ -131,6 +131,7 @@ router
 					console.log('USER FOUND', user.id);
 					user.update(data);
 					req.setSessionUser(user.id, '');
+					req.userData.id = user.id;
 					return next();
 				} else {
 					// user not found; create
@@ -142,6 +143,7 @@ router
 						.then(result => {
 							console.log('USER CREATED', result.id);
 							req.setSessionUser(result.id, '');
+							req.userData.id = result.id;
 							return next();
 						})
 						.catch(err => {
@@ -159,7 +161,7 @@ router
 		redirectUrl = redirectUrl || '/';
 
 		if (redirectUrl.match('[[jwt]]')) {
-			jwt.sign({userId: req.userData.user_id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+			jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
 				if (err) return next(err)
 				req.redirectUrl = redirectUrl.replace('[[jwt]]', token)
 				return next();
