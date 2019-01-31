@@ -63,6 +63,11 @@ addApp('stemvan', [{
 	deployName : 'staging_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.openstadsdeel.nl/www',
 	ref        : 'origin/master'
+}, {
+	appName    : 'stem-api-staging',
+	deployName : 'staging_api',
+	remotePath : '/var/www/api.staging.openstadsdeel.nl/www',
+	ref        : 'origin/projects/json-api'
 }]);
 
 addApp('stemtool', [{
