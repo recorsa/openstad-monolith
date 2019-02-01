@@ -9,7 +9,14 @@ module.exports = function( helpers, role ) {
 		'idea:create'      : true,
 		'idea:edit'        : helpers.mayMutateIdea,
 		'idea:delete'      : helpers.mayMutateIdea,
-		
+
+		'argument:view'    : true,
+		'argument:create'	 : true,
+		'argument:edit'		 : helpers.mayMutateArgument,
+		'argument:delete'	 : helpers.mayMutateArgument,
+
+		'ideavote:create'	 : true,
+
 		'image:upload'     : true,
 		
 		'arg:add'          : helpers.mayAddArgument,

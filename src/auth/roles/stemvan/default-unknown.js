@@ -49,7 +49,16 @@ module.exports = function( helpers, role ) {
 		},
 
 		'arguments:list'   : true,
+		'argument:view'    : true,
 		'argument:create'  : false,
+		'argument:edit'    : false,
+		'argument:delete'  : false,
+
+		'ideavotes:list'	 : true,
+		'ideavote:view'		 : true,
+		'ideavote:create'	 : false,
+		'ideavote:edit'		 : false,
+		'ideavote:delete'	 : false,
 
 		// articles
 		'article:view'     : true,

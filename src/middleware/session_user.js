@@ -44,11 +44,9 @@ module.exports = function( app ) {
 		let userId = req.session[uidProperty];
 
 		// jwt overrules other settings
-		console.log(req.headers);
 		if (req.headers['x-authorization']) {
 			let token = req.headers['x-authorization'].replace(/^Bearer /, '');
 			let data = jwt.verify(token, config.authorization['jwt-secret'])
-			console.log(data);
 			if (data && data.userId) {
 				userId = data.userId
 			}
@@ -69,7 +67,6 @@ module.exports = function( app ) {
 function setSessionUser( userId, originUrl ) {
 	// The original `maxAge` is 'session', but now the user wants to
 	// stay logged in.
-	console.log('userId', userId);
 	this.session.cookie.maxAge = cookieTTL;
 	this.session[uidProperty] = userId;
 	if( originUrl ) {

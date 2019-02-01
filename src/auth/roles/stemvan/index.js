@@ -31,6 +31,11 @@ var helpers = {
 		return idea.isOpen();
 	},
 	
+	mayMutateArgument: function( user, argument ) {
+		var isOwner   = helpers.isArgumentOwner(user, argument);
+		return isOwner;
+	},
+	
 	maySeeArgForm: function( user, idea ) {
 		return idea.isRunning();
 	},
@@ -60,6 +65,10 @@ var helpers = {
 	
 	isIdeaOwner: function( user, idea ) {
 		return user.id === idea.userId;
+	},
+	
+	isArgumentOwner: function( user, argument ) {
+		return user.id === argument.userId;
 	},
 
 };

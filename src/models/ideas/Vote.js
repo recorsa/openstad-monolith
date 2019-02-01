@@ -28,7 +28,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		opinion: {
-			type         : DataTypes.ENUM('no','yes','abstain'),
+			type         : DataTypes.STRING(64),
 			allowNull    : false
 		},
 		// This will be true if the vote validation CRON determined this

@@ -79,14 +79,53 @@ Je kunt aan de GETs query parameters meegeven. Die werken als scopes voor Sequel
 - Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
 - Ik denk dat er een overkoepelend idea zou moeten zijn, maar even overleggen
 
-
 ##Vote
 
+`GET /api/site/:SITE_ID/vote`
+list all votes for a site
+
+`GET /api/site/:SITE_ID/idea/:IDEA_ID/vote`
+list all votes for one idea
+
+`GET /api/site/:SITE_ID/idea/:IDEA_ID/vote?opinion=no`
+list all votes for one idea where opinion is 'no'
+
 In ontwikkeling
+
+#### TODO
+- Je moet nu member zijn om te mogen stemmen. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.
+- Dit is nog heel simpel en straightforward; je moet dit met de site coonfiguratie kunnen sturen
+- POST is nog niet uitgewerkt; deze versie werkt als stem van: je kunt 1 stem uitbrengen op een idee; als je een andere opinion stuurt dan wordt e stem vervangen; als je dezelfde stuurt dan wordt hij ingetrokken. Ik hoop daar dit weekend een stemtool variant van te maken.
 
 ##Argument
 
-In ontwikkeling
+`GET /api/site/:SITE_ID/argument`
+list all arguments for a site
+
+`GET /api/site/:SITE_ID/idea/:IDEA_ID/argument`
+list all arguments for one idea
+
+`GET /api/site/:SITE_ID/idea/:IDEA_ID/argument?sentiment=for`
+list all arguments for one idea where sentiment is 'for'
+
+`GET /api/site/:SITE_ID/idea/:IDEA_ID/argument/:ARG_ID`
+view one argument
+
+`POST /api/site/:SITE_ID/idea/:IDEA_ID/argument`
+create an argument
+
+`PUT /api/site/:SITE_ID/idea/:IDEA_ID/argument/:ARG_ID`
+update one argument
+
+`DELETE /api/site/:SITE_ID/idea/:IDEA_ID/argument/:ARG_ID`
+delete one argument
+
+GET request zijn public, de anderen alleen voor admin en de eigenaar
+
+#### TODO
+- Je moet nu member zijn om argumenten te mogen maken. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.
+- Dit is nog heel simpel en straightforward; je moet dit met de site coonfiguratie kunnen sturen
+- Stemmen op argumenen moet nog
 
 ## Algemeen TODO
 - Error handling loopt nog via de standaards van de monolith. Dat moet anders want ze zijn nu niet in JSON.
