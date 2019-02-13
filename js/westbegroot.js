@@ -153,7 +153,7 @@ function nextStep() {
 	}
 
 	if (currentStep == 7) {
-		window.location.href = '/begroten'
+		window.location.href = authServerLogoutUrl ? authServerLogoutUrl : '/begroten';
 	}
 
 }

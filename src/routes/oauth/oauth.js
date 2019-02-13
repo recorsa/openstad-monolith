@@ -13,6 +13,8 @@ router
 	.route('/login')
 	.get(function( req, res, next ) {
 
+		req.session.userAccessToken = null;
+
 		if (req.session.userAccessToken) {
 			// al ingelogd
 			return res.redirect(config.url + '/begroten')
@@ -29,7 +31,7 @@ router
 
 		//http://openstad-dev.francesco.denes.nl/begroten/oauth/digest-login
 
-		
+
 		res.redirect(url);
 
 	});
@@ -43,6 +45,7 @@ router
 		// use the code to get an access token
 
 		let code = req.query.code;
+
 
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
@@ -87,7 +90,7 @@ router
 				console.log(err);
 				return next(err);
 			});
-		
+
 	})
 	.get(function( req, res, next ) {
 		// login done
@@ -109,8 +112,9 @@ router
 	.route('/logout')
 	.get(function( req, res, next ) {
 
-		req.session.destroy();
-		res.success('/', true);
+		req.session.destroy(() => {
+			res.success('/', true);
+		});
 
 	});
 

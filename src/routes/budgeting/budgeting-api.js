@@ -67,7 +67,7 @@ router
 				return next();
 			})
 			.catch(next);
-		
+
 	})
 	.post(function( req, res, next ) {
 
@@ -124,9 +124,13 @@ router
 			.then( budgetVote => {
 
 				// na het stemmen wordt je automatisch uitgelogd
-				req.session.destroy();
-				
-				res.json({message: 'stemmen gelukt'});
+			//	req.session.destroy();
+
+				req.session.destroy(() => {
+				//	res.success('/', true);
+					res.json({message: 'stemmen gelukt'});
+				});
+
 
 			})
 			.catch(err => {
