@@ -1,14 +1,14 @@
 <div class="pageContent">
-<div id="end-date-bar">
-	<div id="ideas-anchor"></div>
-	<span id="end-date-bar-start-text" class="text"></span>
-	{% if config.budgeting.isActive %}
-		<span id="number-plates">
-			<span id="end-date-number-plate-00" class="number-plate">0</span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
-		</span>
-		<span id="end-date-bar-end-text" class="text"></span>
-	{% endif %}
-</div>
+	<div id="end-date-bar">
+		<div id="ideas-anchor"></div>
+		<span id="end-date-bar-start-text" class="text"></span>
+		{% if config.budgeting.isActive %}
+			<span id="number-plates">
+				<span id="end-date-number-plate-00" class="number-plate">0</span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
+			</span>
+			<span id="end-date-bar-end-text" class="text"></span>
+		{% endif %}
+	</div>
 </div>
 
 <script>
@@ -33,7 +33,7 @@
  var endDate = new Date('2019-01-16');
  var endDateText = '16 februari 2019';
  var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
- document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kon t/m ' + endDateText + '';
+ document.getElementById('end-date-bar-start-text').innerHTML = 'De stemperiode is afgelopen. De uitslag wordt op 16 februari 2019 gepubliceerd.';
  document.getElementById('end-date-bar-end-text').innerHTML = '';
  {% endif %}
 </script>
