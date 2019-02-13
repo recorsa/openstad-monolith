@@ -32,9 +32,16 @@ db.BudgetVote
 					voteResult[idea.id] = {
 						title: idea.title,
 						noOfVotes: voteResult[idea.id],
+						budget: idea.budget,
 					}
 				});
-				console.log(voteResult);
+
+				let total = 0;
+				Object.keys(voteResult).sort((a,b) => { return voteResult[b].noOfVotes - voteResult[a].noOfVotes }).forEach((id) => {
+					total = total + voteResult[id].budget;
+					console.log(`"${id}","${voteResult[id].title}","${voteResult[id].noOfVotes}","${voteResult[id].budget}","${total}"`);
+				});
+				
 				process.exit();
 			})
 			.catch(err => {

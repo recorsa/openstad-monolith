@@ -21,7 +21,7 @@ router
 		if (config.budgeting && config.budgeting.isActive) {
 			return next();
 		} else {
-			return next(createError(404, 'Niet gevonden'))
+			return next(createError(403, 'de stemperiode is geëindigd.'))
 		}
 	})
 	.post(function( req, res, next ) {
