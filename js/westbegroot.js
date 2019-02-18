@@ -586,7 +586,7 @@ function showError(error) {
 // ----------------------------------------------------------------------------------------------------
 // sort functions
 
-var sortOrder = openstadGetStorage('sortOrder') || 'random';
+var sortOrder = openstadGetStorage('sortOrder') || 'ranglijst';
 var lastSorted = openstadGetStorage('lastSorted');
 
 var sortedElements = [];
@@ -636,6 +636,9 @@ function doSort(which) {
 	switch(sortOrder){
 		case 'random':
 			sortedElements = sortedElements.sort( function(a,b) { return lastSorted.indexOf(a.ideaId) - lastSorted.indexOf(b.ideaId) });
+			break;
+		case 'ranking':
+			sortedElements = sortedElements.sort( function(a,b) { return a.querySelector('.ranking-value').innerHTML - b.querySelector('.ranking-value').innerHTML });
 			break;
 		case 'budget-up':
 			sortedElements = sortedElements.sort( function(a,b) { return a.querySelector('.budget-value').innerHTML - b.querySelector('.budget-value').innerHTML });
@@ -913,7 +916,7 @@ function toggleImageLocation(id) {
 // infoblock
 
 function showInfoBewonersWest() {
-	document.querySelector('#info-bewoners-west').style.display = 'block';
+	// document.querySelector('#info-bewoners-west').style.display = 'block';
 }
 
 function hideInfoBewonersWest() {
