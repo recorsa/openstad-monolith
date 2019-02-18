@@ -586,7 +586,7 @@ function showError(error) {
 // ----------------------------------------------------------------------------------------------------
 // sort functions
 
-var sortOrder = openstadGetStorage('sortOrder') || 'ranglijst';
+var sortOrder = openstadGetStorage('sortOrder') || 'ranking';
 var lastSorted = openstadGetStorage('lastSorted');
 
 var sortedElements = [];
