@@ -14,12 +14,15 @@ router
 	.route('/login')
 	.get(function( req, res, next ) {
 
+		if (req.query.redirectUrl) {
+			req.session.returnTo = req.query.redirectUrl;
+		}
+
 		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
 		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
 		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
 		res.redirect(url);
-
 	});
 
 // inloggen 2
@@ -41,7 +44,7 @@ router
 			client_id: config.authorization['auth-client-id'],
 			client_secret: config.authorization['auth-client-secret'],
 			code: code,
-			grant_type: 'authorization_code',
+			grant_type: 'authorization_code'
 		}
 
 		fetch(
@@ -59,13 +62,11 @@ router
 			)
 			.then(
 				json => {
-
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
-
 					return next();
 				}
 			)
@@ -74,7 +75,7 @@ router
 				console.log(err);
 				return next(err);
 			});
-		
+
 	})
 	.get(function( req, res, next ) {
 
@@ -97,7 +98,7 @@ router
 			.then(
 				json => {
 					req.userData = json;
-					return next()
+					return next();
 				}
 			)
 			.catch(err => {
@@ -108,17 +109,13 @@ router
 
 	})
 	.get(function( req, res, next ) {
-
 		let data = {
 			externalUserId: parseInt(req.userData.user_id),
 			email: req.userData.email,
 			firstName: req.userData.firstName,
 			zipCode: req.userData.postcode,
-			lastName: req.userData.lastName,
+			lastName: req.userData.lastName
 		}
-
-		// TODO: validate data
-		console.log(data);
 
 		// find or create the user
 		db.User
@@ -128,14 +125,14 @@ router
 				if (result && result.length == 1) {
 					// user found; update and use
 					let user = result[0];
-					console.log('USER FOUND', user.id);
+
 					user.update(data);
 					req.setSessionUser(user.id, '');
 					req.userData.id = user.id;
 					return next();
 				} else {
 					// user not found; create
-					console.log('USER NOT FOUND');
+
 					data.role = 'member';
 					data.complete = true;
 					db.User
@@ -156,20 +153,24 @@ router
 	})
 	.get(function( req, res, next ) {
 
-		let redirectUrl = req.site && req.site.config['after-login-redirect-uri'];
+		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
+		redirectUrl = redirectUrl || req.site && req.site.config['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
-		if (redirectUrl.match('[[jwt]]')) {
-			jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
-				if (err) return next(err)
-				req.redirectUrl = redirectUrl.replace('[[jwt]]', token)
+		req.session.returnTo = '';
+		req.session.save(() => {
+			if (redirectUrl.match('[[jwt]]')) {
+				jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+					if (err) return next(err)
+					req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
+					return next();
+				});
+			} else {
+				req.redirectUrl = redirectUrl;
 				return next();
-			});
-		} else {
-			req.redirectUrl = redirectUrl;
-			return next();
-		}
+			}
+		});
 
 	})
 	.get(function( req, res, next ) {
