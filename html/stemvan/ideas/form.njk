@@ -186,8 +186,13 @@
 					</div>
 				</div>
 				
-				{% if idea.posterImage %}
-					<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
+				{% if idea.posterImage | isArr %}
+					{% set posterImage = idea.posterImage[0] %}
+				{% else %}
+					{% set posterImage = idea.posterImage %}
+				{% endif %}
+				{% if posterImage %}
+					<input type="hidden" name="images[]" value="{{posterImage.key}}">
 				{% endif %}
 				
 				<input type="submit" value="Plan opslaan">
