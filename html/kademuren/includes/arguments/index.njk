@@ -8,7 +8,7 @@
 
 <div class="content-section section-container">
 		<div class="col-9 col-sm-8 col-xs-12">
-			{% if can('arg:form') %}
+		{% if idea.status === 'ACCEPTED' %}
 				{% include 'includes/arguments/form.njk' %}
 			{% endif %}
 		</div>

@@ -1,5 +1,5 @@
 <div class="vote-inner-container">
-{% if can('poll:vote') %}
+{% if idea.status === 'ACCEPTED' %}
 	{% include 'includes/poll/form.njk' %}
 {% elseif can('poll:result') %}
 	{% include 'includes/poll/result.njk' %}
