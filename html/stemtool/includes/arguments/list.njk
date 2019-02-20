@@ -35,13 +35,13 @@
 			{% if mayVote %}
 				<form class="action vote" method="POST" action="/arg/{{arg.id}}/vote">
 					<input type="hidden" name="_csrf" value="{{csrfToken}}">
-					<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+					<button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted || idea.status === 'CLOSED'}}">
 						Mee eens (<span>{{arg.yes}}</span>)
 					</button>
 				</form>
 			{% else %}
 				<form class="action vote">
-					<button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+					<button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted || idea.status === 'CLOSED'}}">
 						Mee eens (<span>{{arg.yes}}</span>)
 					</button>
 				</form>
