@@ -11,11 +11,11 @@
 		<div id="mapcontainer">
 			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
 		</div>
-		<!--
-				 <a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
-				 Stuur je plan in!
-				 </a>
-		-->
+		{% if (config.ideas.addNewIdeas != 'closed') %}
+			<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
+				Stuur je plan in!
+			</a>
+		{% endif %}
 		{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
 	</div>
 {% endblock %}
