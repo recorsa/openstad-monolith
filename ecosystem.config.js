@@ -53,6 +53,11 @@ addApp('stemvan', [{
 	deployName : 'production_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.amsterdam.nl/www',
 	ref        : 'origin/master'
+}, {
+	appName    : 'demo-westbegroot-phase-1',
+	deployName : 'demo_westbegroot_phase_1',
+	remotePath : '/var/www/westbegroot-phase-1.demo.openstadsdeel/www',
+	ref        : 'origin/projects/westbegroot'
 }]);
 
 
