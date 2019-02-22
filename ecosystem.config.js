@@ -56,7 +56,7 @@ addApp('stemvan', [{
 }, {
 	appName    : 'demo-westbegroot-phase-1',
 	deployName : 'demo_westbegroot_phase_1',
-	remotePath : '/var/www/westbegroot-phase-1.demo.openstadsdeel/www',
+	remotePath : '/var/www/westbegroot-phase-1.demo.openstadsdeel.nl/www',
 	ref        : 'origin/projects/westbegroot'
 }]);
 
