@@ -586,7 +586,7 @@ function showError(error) {
 // ----------------------------------------------------------------------------------------------------
 // sort functions
 
-var sortOrder = openstadGetStorage('sortOrder') || 'ranking';
+var sortOrder = openstadGetStorage('sortOrder') || defaultSort;
 var lastSorted = openstadGetStorage('lastSorted');
 
 var sortedElements = [];
@@ -916,7 +916,7 @@ function toggleImageLocation(id) {
 // infoblock
 
 function showInfoBewonersWest() {
-	// document.querySelector('#info-bewoners-west').style.display = 'block';
+	document.querySelector('#info-bewoners-west').style.display = 'block';
 }
 
 function hideInfoBewonersWest() {

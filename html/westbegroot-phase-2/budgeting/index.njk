@@ -24,6 +24,8 @@
 	 var userHasVoted = {{userHasVoted}};
 	 var userIsLoggedIn = {{userIsLoggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
+	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
+
 	</script>
 
 	{% include 'includes/end-date-bar.njk' %}
@@ -62,7 +64,11 @@
 		<div class="align-right">
 			<b>Sorteer op: </b>
 			<select id="selectSort" class="default-select sort-selector" onchange="doSort(this.value)">
+				{% if config.budgeting.isActive %}
+					<option value="random">Willekeurig</option>
+				{% else %}
 				<option value="ranking">Ranglijst</option>
+				{% endif %}
 				<option value="budget-down">Bedrag aflopend</option>
 				<option value="budget-up">Bedrag oplopend</option>
 			</select>
