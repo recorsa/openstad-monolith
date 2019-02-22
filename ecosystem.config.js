@@ -63,6 +63,16 @@ addApp('stemvan', [{
 	deployName : 'staging_zorggoedvooronzestad',
 	remotePath : '/var/www/zorggoedvooronzestad.openstadsdeel.nl/www',
 	ref        : 'origin/master'
+}, {
+	appName    : 'demo-westbegroot-phase-3',
+	deployName : 'demo_westbegroot_phase_3',
+	remotePath : '/var/www/westbegroot-phase-3.demo.openstadsdeel.nl/www',
+	ref        : 'origin/projects/westbegroot-phase-2'
+}, {
+	appName    : 'demo-westbegroot-phase-4',
+	deployName : 'demo_westbegroot_phase_4',
+	remotePath : '/var/www/westbegroot-phase-4.demo.openstadsdeel.nl/www',
+	ref        : 'origin/projects/westbegroot-phase-2'
 }]);
 
 addApp('stemtool', [{
