@@ -15,7 +15,7 @@ var titleMaxLength = config.ideas.titleMaxLength || 140;
 var summaryMinLength = config.ideas.summaryMinLength || 20;
 var summaryMaxLength = config.ideas.summaryMaxLength || 140;
 var descriptionMinLength = config.ideas.descriptionMinLength || 140;
-var descriptionMaxLength = config.ideas.descriptionMaxLength || 2500;
+var descriptionMaxLength = config.ideas.descriptionMaxLength || 5000;
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Idea = sequelize.define('idea', {
@@ -104,7 +104,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				len: {
 					args : [descriptionMinLength,descriptionMaxLength],
 					msg  : `Beschrijving moet  tussen ${descriptionMinLength} en ${descriptionMaxLength} tekens zijn`
-				}
+				},
+				// textLength(value) {
+				//  	let x = sanitize.summary(value.trim()).length;
+				//  	console.log(sanitize.summary(value.trim()), x, value.length);
+				// }
 			},
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.content(text.trim()));

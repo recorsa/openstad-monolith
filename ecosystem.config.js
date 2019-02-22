@@ -61,14 +61,19 @@ addApp('stemvan', [{
 }]);
 
 addApp('stemtool', [{
-	appName    : 'javabrug-staging',
-	deployName : 'staging_javabrug',
-	remotePath : '/var/www/javabrug.openstadsdeel.nl/www',
-	ref        : 'origin/staging'
-}, {
 	appName    : 'stemtool-javabrug',
 	deployName : 'production_javabrug',
 	remotePath : '/var/www/javabrug.amsterdam.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'stemtool-kademuren',
+	deployName : 'production_kademuren',
+	remotePath : '/var/www/kademuren.amsterdam.nl/www',
+	ref        : 'origin/master'
+}, {
+	appName    : 'kademuren-staging',
+	deployName : 'staging_kademuren',
+	remotePath : '/var/www/kademuren.staging.openstadsdeel.nl/www',
 	ref        : 'origin/master'
 }, {
 	appName    : 'stemtool-kareldoorman',
