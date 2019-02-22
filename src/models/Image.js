@@ -1,4 +1,5 @@
 var path = require('path');
+var config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Image = sequelize.define('image', {
@@ -24,6 +25,42 @@ module.exports = function( db, sequelize, DataTypes ) {
 		mimeType: {
 			type      : DataTypes.STRING(32),
 			allowNull : false
+		},
+		extraData: {
+			type         : DataTypes.JSON,
+			allowNull    : false,
+			defaultValue : {},
+			get          : function() {
+				// for some reaason this is not always done automatically
+				let value = this.getDataValue('extraData');
+        try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				return value;
+			},
+			set: function(value) {
+				value = value || {};
+        try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				let newValue = {};
+				let configExtraData = config.images && config.images.extraData;
+				if (configExtraData) {
+					Object.keys(configExtraData).forEach((key) => {
+						if (configExtraData[key].allowNull === false && typeof value[key] === 'undefined') { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+							throw Error(`${key} is niet ingevuld`);
+						}
+						if (typeof value[key] == 'number') { // TODO: alles is nu int, maar dit is natuurlijk veel te simpel
+							newValue[key] = value[key];
+						}
+					});
+				}
+				this.setDataValue('extraData', newValue);
+			}
 		},
 		sort: {
 			type         : DataTypes.INTEGER,
