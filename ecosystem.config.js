@@ -105,6 +105,11 @@ addApp('stemtool', [{
 	deployName : 'production_kareldoorman',
 	remotePath : '/var/www/kareldoorman.amsterdam.nl/www',
 	ref        : 'origin/master'
+}, {
+	appName    : 'demo-kareldoorman',
+	deployName : 'demo_kareldoorman',
+	remotePath : '/var/www/kareldoorman.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
 }]);
 
 module.exports = config;
