@@ -146,7 +146,7 @@
 		{% if idea.location %}
 			<h2>Locatie</h2>
 			<div id="mapcontainer">
-				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = [idea])}}
+				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideaId = idea.id)}}
 			</div>
 		{% endif %}
 		

@@ -1,0 +1,651 @@
+diff --git a/html/stemvan/base.njk b/html/stemvan/base.njk
+index 5f6bd9f..174b382 100644
+--- a/html/stemvan/base.njk
++++ b/html/stemvan/base.njk
+@@ -13,6 +13,12 @@
+ 			<link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
+ 			<link rel="stylesheet" type="text/css" media="print" href="/css/stemvan/print.css">
+ 		{% endblock %}
++
++		<script src="/js/jquery-3.3.1.min.js"></script>
++		<script>
++		 var siteId = '{{site.id}}';
++		</script>
++
+ 	</head>
+ 	<body class="preload">
+ 		<div id="page">
+@@ -192,19 +198,19 @@
+ 		 // Flash messages
+ 		 // --------------
+ 						// Make close buttons interactive.
+-			(function() {
+-				var closeButtons = Array.prototype.slice.call(
+-					document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+-				);
+-				closeButtons.forEach(function( a ) {
+-					a.href = '';
+-					a.addEventListener('click', function( event ) {
+-						var message = a.parentNode;
+-						message.parentNode.removeChild(message);
+-						event.preventDefault();
++				(function() {
++					var closeButtons = Array.prototype.slice.call(
++						document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
++					);
++					closeButtons.forEach(function( a ) {
++						a.href = '';
++						a.addEventListener('click', function( event ) {
++							var message = a.parentNode;
++							message.parentNode.removeChild(message);
++							event.preventDefault();
++						});
+ 					});
+-				});
+-			})();
++				})();
+ 		</script>
+ 		
+ 		{% block scripts %}{% endblock %}
+diff --git a/html/stemvan/ideas/idea.njk b/html/stemvan/ideas/idea.njk
+index 2b431a4..153f1fd 100644
+--- a/html/stemvan/ideas/idea.njk
++++ b/html/stemvan/ideas/idea.njk
+@@ -146,7 +146,7 @@
+ 		{% if idea.location %}
+ 			<h2>Locatie</h2>
+ 			<div id="mapcontainer">
+-				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = [idea])}}
++				{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideaId = idea.id)}}
+ 			</div>
+ 		{% endif %}
+ 		
+diff --git a/html/stemvan/includes/openstad-map.njk b/html/stemvan/includes/openstad-map.njk
+index 8ab3477..c5fdd4b 100755
+--- a/html/stemvan/includes/openstad-map.njk
++++ b/html/stemvan/includes/openstad-map.njk
+@@ -1,4 +1,4 @@
+-{% macro map( googleKey='', ideas=[], editorInputElementId='' ) %}
++{% macro map( googleKey='', ideaId, editorInputElementId='' ) %}
+ 	
+ 	<script src="https://maps.googleapis.com/maps/api/js?key={{googleKey}}"></script>
+ 	<script src="/js/openstad-map.js"></script>
+@@ -6,43 +6,6 @@
+ 
+ 	<script>
+ 
+-	 var markers = [
+-		 // {% for idea in ideas %}
+-		 // {% if (idea.location) and (idea.status !=  'DENIED' or ideas.length == 1) %}
+-		 {
+-			 position: JSON.parse('{{idea.location | dump | safe}}' || null),
+-			 icon     : {
+-				 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'/img/idea/flag-gray.svg'{% else %}'/img/idea/flag-red.svg'{% endif %},
+-				 size   : [22, 24],
+-				 anchor : [ 4, 21],
+-			 },
+-			 href: '/plan/{{idea.id}}',
+-			 status: '{{idea.status}}',
+-			 endDate: '{{idea.endDate}}',
+-		 },
+-		 // {% endif %}
+-		 // {% endfor %}
+-	 ]
+-
+-	 // delete old markers when there are too many
+-	 let selectedMarkers = [];
+-	 if (markers.length > 20) {
+-		 markers.forEach(function(marker) {
+-			 let select = true;
+-			 if (marker.status ==  'CLOSED') {
+-				 let datediff = new Date().getTime() - new Date(marker.endDate).getTime();
+-				 if ( datediff > 1000 * 60 * 60 * 24 * 90 ) {
+-					 select = false;
+-				 }
+-			 }
+-			 if (select) {
+-				 selectedMarkers.push(marker);
+-			 }
+-		 });
+-	 } else {
+-		 selectedMarkers = markers
+-	 }
+-
+ 	 if ('{{editorInputElementId}}') {
+ 		 var editorInputElement = document.getElementById('{{editorInputElementId}}');
+ 		 var editorMarker = {
+@@ -55,16 +18,13 @@
+ 	 }
+ 
+ 	 var map = new OpenStadMap(
++		 {% if config.openStadMap.defaults %}{{ config.openStadMap.defaults | dump | safe }}{% else %}null{% endif %},
++		 {% if ideaId %}{{ideaId}}{% else %}null{% endif %},
+ 		 {% if config.openStadMap.markerStyle %}{{ config.openStadMap.markerStyle | dump | safe }}{% else %}null{% endif %},
+ 		 {% if config.openStadMap.polygonStyle %}{{ config.openStadMap.polygonStyle | dump | safe }}{% else %}null{% endif %},
+ 		 editorInputElement,
+ 		 editorMarker
+ 	 );
+-	 map.createMap(
+-		 {% if config.openStadMap.defaults %}{{ config.openStadMap.defaults | dump | safe }}{% else %}null{% endif %},
+-		 selectedMarkers,
+-		 {% if config.openStadMap.polygons and config.siteId and config.openStadMap.polygons[config.siteId] %}{{ config.openStadMap.polygons[config.siteId] | dump | safe }}{% else %}null{% endif %}
+-	 )
+ 	 
+ 	</script>
+ 
+diff --git a/js/openstad-map.js b/js/openstad-map.js
+index 5009695..8596abe 100755
+--- a/js/openstad-map.js
++++ b/js/openstad-map.js
+@@ -3,19 +3,24 @@
+ // TODO: more text
+ // ----------------------------------------------------------------------------------------------------
+ 
+-function OpenStadMap( markerStyle, polygonStyle, editorInputElement, editorMarker ) {
++function OpenStadMap( config, ideaId, markerStyle, polygonStyle, editorInputElement, editorMarker ) {
+ 
+ 	self = this;
++	self.ideaId = ideaId;
+ 	self.markerStyle = markerStyle || {};
+ 	self.polygonStyle = polygonStyle || {};
+ 
+ 	self.defaultConfig = {
+-		center           : {lat: 52.3732175, lng: 4.8495996},
+-		zoom             : 14,
+-		zoomControl      : true,
+-		disableDefaultUI : true,
++		center            : {lat: 52.3732175, lng: 4.8495996},
++		zoom              : 14,
++		zoomControl       : true,
++		disableDefaultUI  : true,
++		autoZoomAndCenter : true,
+ 	};
+ 
++	// merge config
++	self.config = Object.assign(self.defaultConfig, config)
++
+ 	// is editor
+ 	if (editorInputElement) {
+ 
+@@ -78,32 +83,37 @@ function OpenStadMap( markerStyle, polygonStyle, editorInputElement, editorMarke
+ 		self.editorMarker = editorMarker;
+ 		self.editorMarker.position = self.getLocation();
+ 
+-	}
++		self.createMap()
+ 
+-}
++	} else {
+ 
+-OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAndCenter ) {
++		self.createMap()
++		if (siteId) {
++			self.getMarkers(siteId)
++			self.getPolygon(siteId)
++		}
+ 
+-	if (typeof autoZoomAndCenter === 'undefined') {
+-		autoZoomAndCenter = true
+ 	}
+ 
+-	self = this;
++}
+ 
+-	// merge config
+-	config = Object.assign(self.defaultConfig, config)
++OpenStadMap.prototype.createMap = function( markers, polygon ) {
++
++	self = this;
++	self.markers = markers;
++	self.polygon = polygon;
+ 
+ 	// init map
+-	self.map = new google.maps.Map(document.getElementById('map'), config);
++	self.map = new google.maps.Map(document.getElementById('map'), self.config);
+ 
+ 	// add polygon
+-	if (polygon) {
+-		self.createCutoutPolygon( polygon );
++	if (self.polygon) {
++		self.createCutoutPolygon( self.polygon );
+ 	}
+ 
+ 	// add markers
+-	if (markers) {
+-		self.createMarkers( markers );
++	if (self.markers) {
++		self.createMarkers( self.markers );
+ 	}
+ 
+ 	// editor?
+@@ -117,19 +127,44 @@ OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAn
+ 	}
+ 
+ 	// set bounds and center
+-	if (autoZoomAndCenter) {
+-		var centerOn = markers && markers.length ? markers : polygon;
+-		if (self.editorMarker) {
+-			if (self.editorMarker.position) {
+-				centerOn = [self.editorMarker];
+-			} else {
+-				centerOn = polygon;
++	if (self.config.autoZoomAndCenter) {
++		self.setBoundsAndCenter();
++	}
++
++}
++
++OpenStadMap.prototype.getPolygon = function(siteId) {
++
++	// get locations
++	$.ajax({
++		url: '/api/site/' + siteId + '/openstad-map/polygon',
++		dataType: "json",
++		xhrFields: {
++			withCredentials: true
++		},
++		crossDomain: true,
++		beforeSend: function(request) {
++			request.setRequestHeader("Content-type", "application/json");
++			request.setRequestHeader("Accept", "application/json");
++		},
++		success: function(data) {
++
++			// store result
++			self.polygon = data;
++
++			// draw the polygon
++			self.createCutoutPolygon(self.polygon);
++
++			// set bounds and center
++			if (self.config.autoZoomAndCenter) {
++				self.setBoundsAndCenter();
+ 			}
++
++		},
++		error: function(error) {
++			console.log('Request failed', error);
+ 		}
+-		if (centerOn) {
+-			self.setBoundsAndCenter( centerOn ); // prefer markers
+-		}
+-	}
++	});
+ 
+ }
+ 
+@@ -183,6 +218,46 @@ OpenStadMap.prototype.createCutoutPolygon = function( polygon ) {
+ 
+ }
+ 
++OpenStadMap.prototype.getMarkers = function(siteId) {
++
++	let url = '/api/site/' + siteId + '/openstad-map/idea-marker';
++	if (self.ideaId) url = url + '/' + self.ideaId;
++
++	// get locations
++	$.ajax({
++		url: url,
++		dataType: "json",
++		xhrFields: {
++			withCredentials: true
++		},
++		crossDomain: true,
++		beforeSend: function(request) {
++			request.setRequestHeader("Content-type", "application/json");
++			request.setRequestHeader("Accept", "application/json");
++		},
++		success: function(data) {
++
++			// store result
++			if (!Array.isArray(data)) data = [data];
++			self.markers = data;
++
++			// draw the markers
++			self.createMarkers(self.markers);
++
++			// set bounds and center
++			if (self.config.autoZoomAndCenter) {
++				self.setBoundsAndCenter();
++			}
++
++		},
++		error: function(error) {
++			console.log('Request failed', error);
++		}
++	});
++
++}
++
++
+ OpenStadMap.prototype.createMarkers = function( markers ) {
+ 
+ 	self = this;
+@@ -201,12 +276,13 @@ OpenStadMap.prototype.createMarker = function( marker ) {
+ 	if (marker.icon && marker.icon.anchor) {
+ 		marker.icon.anchor = new google.maps.Point(marker.icon.anchor[0], marker.icon.anchor[1]);
+ 	}
++	if (marker.icon && marker.icon.url) {
++		marker.icon.url = marker.icon.url.replace(/\.svg/, '.png'); // IE can't handle svg icons
++	}
+ 	if (marker.href) {
+ 		marker.icon.clickable = true;
+ 	}
+ 
+-	marker.icon.url = marker.icon.url.replace(/\.svg/, '.png'); // IE can't handle svg icons
+-
+ 	var options = {
+ 		position    : marker.position && marker.position.coordinates ? { lat: marker.position.coordinates[0], lng: marker.position.coordinates[1] } : marker.position,
+ 		map         : self.map,
+@@ -225,62 +301,75 @@ OpenStadMap.prototype.createMarker = function( marker ) {
+ 
+ }
+ 
+-OpenStadMap.prototype.setBoundsAndCenter = function( points ) {
++OpenStadMap.prototype.setBoundsAndCenter = function() {
+ 
+ 	self = this;
+-	points = points || [];
+ 
+-	if (self.map.minZoom) {
+-		google.maps.event.addListenerOnce(self.map, 'bounds_changed', function() {
+-			if( self.map.getZoom() > self.map.maxZoom - 1 ) {
+-				self.map.setZoom( self.map.maxZoom - 1 );
+-			}
+-			if( self.map.getZoom() < self.map.minZoom + 1 ) {
+-				self.map.setZoom( self.map.minZoom + 1 );
+-			}
+-		});
++	var centerOn = self.markers && self.markers.length ? self.markers : self.polygon;
++	if (self.editorMarker) {
++		if (self.editorMarker.position) {
++			centerOn = [self.editorMarker];
++		} else {
++			centerOn = self.polygon;
++		}
+ 	}
++	if (centerOn) {
++
++		var points = centerOn
++
++		if (self.map.minZoom) {
++			google.maps.event.addListenerOnce(self.map, 'bounds_changed', function() {
++				if( self.map.getZoom() > self.map.maxZoom - 1 ) {
++					self.map.setZoom( self.map.maxZoom - 1 );
++				}
++				if( self.map.getZoom() < self.map.minZoom + 1 ) {
++					self.map.setZoom( self.map.minZoom + 1 );
++				}
++			});
++		}
+ 
+-	var bounds = new google.maps.LatLngBounds();
++		var bounds = new google.maps.LatLngBounds();
+ 
+-	points.forEach(function(point) {
+-		if (!point.position && !(point.lat)) return;
+-		if (point.position) {
+-			point = point.position.coordinates ? { lat: point.position.coordinates[0], lng: point.position.coordinates[1] }  : point.position;
+-		}
+-		bounds.extend(point);
+-	})
+-	self.map.fitBounds(bounds);
++		points.forEach(function(point) {
++			if (!point.position && !(point.lat)) return;
++			if (point.position) {
++				point = point.position.coordinates ? { lat: point.position.coordinates[0], lng: point.position.coordinates[1] }  : point.position;
++			}
++			bounds.extend(point);
++		})
++		self.map.fitBounds(bounds);
+ 
+-}
++	}
++
++	// polyfill Object.assign
++	if (typeof Object.assign != 'function') {
++		// Must be writable: true, enumerable: false, configurable: true
++		Object.defineProperty(Object, "assign", {
++			value: function assign(target, varArgs) { // .length of function is 2
++				'use strict';
++				if (target == null) { // TypeError if undefined or null
++					throw new TypeError('Cannot convert undefined or null to object');
++				}
++
++				var to = Object(target);
++
++				for (var index = 1; index < arguments.length; index++) {
++					var nextSource = arguments[index];
++
++					if (nextSource != null) { // Skip over if undefined or null
++						for (var nextKey in nextSource) {
++							// Avoid bugs when hasOwnProperty is shadowed
++							if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
++								to[nextKey] = nextSource[nextKey];
++							}
++						}
++					}
++				}
++				return to;
++			},
++			writable: true,
++			configurable: true
++		});
++	}
+ 
+-// polyfill Object.assign
+-if (typeof Object.assign != 'function') {
+-  // Must be writable: true, enumerable: false, configurable: true
+-  Object.defineProperty(Object, "assign", {
+-    value: function assign(target, varArgs) { // .length of function is 2
+-      'use strict';
+-      if (target == null) { // TypeError if undefined or null
+-        throw new TypeError('Cannot convert undefined or null to object');
+-      }
+-
+-      var to = Object(target);
+-
+-      for (var index = 1; index < arguments.length; index++) {
+-        var nextSource = arguments[index];
+-
+-        if (nextSource != null) { // Skip over if undefined or null
+-          for (var nextKey in nextSource) {
+-            // Avoid bugs when hasOwnProperty is shadowed
+-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+-              to[nextKey] = nextSource[nextKey];
+-            }
+-          }
+-        }
+-      }
+-      return to;
+-    },
+-    writable: true,
+-    configurable: true
+-  });
+ }
+diff --git a/migrations/021-stemvanoost_id.js b/migrations/021-stemvanoost_id.js
+new file mode 100755
+index 0000000..166a1ec
+--- /dev/null
++++ b/migrations/021-stemvanoost_id.js
+@@ -0,0 +1,15 @@
++var db = require('../src/db').sequelize;
++
++module.exports = {
++	up: function() {
++		return db.query(`
++      INSERT INTO sites VALUES (3, 'stemvanoost', 'Stem van Oost', '{}', '2019-01-01 00:00:00', '2019-01-01 00:00:00', NULL);
++      UPDATE ideas SET siteId = 3;
++      UPDATE meetings SET siteId = 3;
++      UPDATE articles SET siteId = 3;
++		`);
++	},
++	down: function() {
++		return;
++	}
++}
+diff --git a/src/middleware/multi_accept.js b/src/middleware/multi_accept.js
+index 127cf3b..5ab4ecc 100644
+--- a/src/middleware/multi_accept.js
++++ b/src/middleware/multi_accept.js
+@@ -9,6 +9,11 @@ module.exports = function( app ) {
+ };
+ 
+ function out( req, res, next, viewPath, allowJSON, data ) {
++
++	if (req.site) {
++		data.site = req.site;
++	}
++
+ 	if( typeof allowJSON !== 'boolean' ) {
+ 		throw new Error('req.out: allowJSON argument must be boolean');
+ 	}
+@@ -76,4 +81,4 @@ function _resolve( req, data ) {
+ 		}
+ 		return data;
+ 	});
+-}
+\ No newline at end of file
++}
+diff --git a/src/models/ideas/Idea.js b/src/models/ideas/Idea.js
+index ab90a87..73f4cb3 100644
+--- a/src/models/ideas/Idea.js
++++ b/src/models/ideas/Idea.js
+@@ -802,6 +802,12 @@ module.exports = function( db, sequelize, DataTypes ) {
+ 						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+ 						order = 'yes ASC';
+ 						break;
++					case 'createdate_asc':
++						order = 'createdAt ASC';
++						break;
++					case 'createdate_desc':
++						order = 'createdAt DESC';
++						break;
+ 					case 'date_asc':
+ 						order = 'endDate ASC';
+ 						break;
+diff --git a/src/routes/api/index.js b/src/routes/api/index.js
+index 0511ece..e6f6f35 100755
+--- a/src/routes/api/index.js
++++ b/src/routes/api/index.js
+@@ -21,4 +21,7 @@ router.use( '/site/:siteId(\\d+)/idea/:ideaId(\\d+)/vote', require('./vote') );
+ // arguments
+ router.use( '/site/:siteId(\\d+)(/idea/:ideaId(\\d+))?/argument', require('./argument') );
+ 
++// openstad-map
++router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
++
+ module.exports = router;
+diff --git a/src/routes/api/openstad-map.js b/src/routes/api/openstad-map.js
+new file mode 100755
+index 0000000..c2d1e02
+--- /dev/null
++++ b/src/routes/api/openstad-map.js
+@@ -0,0 +1,107 @@
++const Promise = require('bluebird');
++const express = require('express');
++const db      = require('../../db');
++const auth    = require('../../auth');
++const config  = require('config');
++
++let router = express.Router({mergeParams: true});
++
++// scopes: for all get requests
++router
++	.all('*', function(req, res, next) {
++		req.scope = ['api'];
++		req.scope.push('mapMarkers');
++		req.scope.push('selectRunning');
++		req.scope.push({ method: ['sort', 'createdate_desc']});
++		next();
++	})
++
++router.route('/idea-marker')
++
++// list ideas as map markers
++// -------------------------
++	.get(auth.can('ideas:list'))
++	.get(function(req, res, next) {
++
++		db.Idea
++			.scope(...req.scope)
++			.findAll({ where: { siteId: req.params.siteId } })
++			.then( found => {
++				let maxMarkers = ( req.site && req.site.config.openStadMap && req.site.config.openStadMap.maxMarkers ) || ( config.openStadMap && config.openStadMap.maxMarkers ) || 20;
++				if (found.length > maxMarkers) found = found.slice(0, maxMarkers)
++				return found.map( entry => createMarker(entry) );
++			})
++			.then(function( found ) {
++				res.json(found);
++			})
++			.catch(next);
++	})
++
++// one idea as map marker
++// ----------------------
++router.route('/idea-marker/:ideaId(\\d+)')
++
++	.all(function(req, res, next) {
++		var ideaId = parseInt(req.params.ideaId) || 1;
++		
++		db.Idea
++			.scope(...req.scope)
++			.find({
++				where: { id: ideaId, siteId: req.params.siteId }
++			})
++			.then(found => {
++				if ( !found ) throw new Error('Idea not found');
++				req.idea = found;
++				next();
++			})
++			.catch(next);
++	})
++
++// view idea
++// ---------
++	.get(auth.can('idea:view'))
++	.get(function(req, res, next) {
++		res.json(createMarker(req.idea));
++	})
++
++// polygon
++
++router.route('/polygon')
++
++// the polygon as defined for this site
++// ------------------------------------
++	.get(auth.can('ideas:list'))
++	.get(function(req, res, next) {
++
++		// use from site config
++		let polygon = req.site && req.site.config.openStadMap && req.site.config.openStadMap.polygon;
++
++		// tmp: fallback to generic config 
++		polygon = polygon || ( config.openStadMap && config.openStadMap.polygons && config.siteId && config.openStadMap.polygons[config.siteId] );
++		
++		res.json(polygon || null);
++
++	})
++
++
++// helper functions
++// ----------------
++
++function createMarker(idea) {
++	return {
++		id: idea.id,
++		location: idea.location,
++		position: idea.position,
++		icon     : {
++			url    : idea.status == 'DONE' || idea.status == 'ACCEPTED' || idea.status == 'BUSY' ? '/img/idea/flag-blue.svg' : ( idea.status == 'CLOSED' || idea.status == 'DENIED' ? '/img/idea/flag-gray.svg' : '/img/idea/flag-red.svg' ),
++			size   : [22, 24],
++			anchor : [ 4, 21],
++		},
++		href: `/plan/${idea.id}`,
++		status: idea.status,
++		endDate: idea.endDate,
++	}
++
++}
++
++module.exports = router;

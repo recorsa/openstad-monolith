@@ -3,18 +3,23 @@
 // TODO: more text
 // ----------------------------------------------------------------------------------------------------
 
-function OpenStadMap( markerStyle, polygonStyle, editorInputElement, editorMarker ) {
+function OpenStadMap( config, ideaId, markerStyle, polygonStyle, editorInputElement, editorMarker ) {
 
 	self = this;
+	self.ideaId = ideaId;
 	self.markerStyle = markerStyle || {};
 	self.polygonStyle = polygonStyle || {};
 
 	self.defaultConfig = {
-		center           : {lat: 52.3732175, lng: 4.8495996},
-		zoom             : 14,
-		zoomControl      : true,
-		disableDefaultUI : true,
+		center            : {lat: 52.3732175, lng: 4.8495996},
+		zoom              : 14,
+		zoomControl       : true,
+		disableDefaultUI  : true,
+		autoZoomAndCenter : true,
 	};
+
+	// merge config
+	self.config = Object.assign(self.defaultConfig, config)
 
 	// is editor
 	if (editorInputElement) {
@@ -78,32 +83,37 @@ function OpenStadMap( markerStyle, polygonStyle, editorInputElement, editorMarke
 		self.editorMarker = editorMarker;
 		self.editorMarker.position = self.getLocation();
 
+		self.createMap()
+
+	} else {
+
+		self.createMap()
+		if (siteId) {
+			self.getMarkers(siteId)
+			self.getPolygon(siteId)
+		}
+
 	}
 
 }
 
-OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAndCenter ) {
-
-	if (typeof autoZoomAndCenter === 'undefined') {
-		autoZoomAndCenter = true
-	}
+OpenStadMap.prototype.createMap = function( markers, polygon ) {
 
 	self = this;
-
-	// merge config
-	config = Object.assign(self.defaultConfig, config)
+	self.markers = markers;
+	self.polygon = polygon;
 
 	// init map
-	self.map = new google.maps.Map(document.getElementById('map'), config);
+	self.map = new google.maps.Map(document.getElementById('map'), self.config);
 
 	// add polygon
-	if (polygon) {
-		self.createCutoutPolygon( polygon );
+	if (self.polygon) {
+		self.createCutoutPolygon( self.polygon );
 	}
 
 	// add markers
-	if (markers) {
-		self.createMarkers( markers );
+	if (self.markers) {
+		self.createMarkers( self.markers );
 	}
 
 	// editor?
@@ -117,19 +127,44 @@ OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAn
 	}
 
 	// set bounds and center
-	if (autoZoomAndCenter) {
-		var centerOn = markers && markers.length ? markers : polygon;
-		if (self.editorMarker) {
-			if (self.editorMarker.position) {
-				centerOn = [self.editorMarker];
-			} else {
-				centerOn = polygon;
-			}
-		}
-		if (centerOn) {
-			self.setBoundsAndCenter( centerOn ); // prefer markers
-		}
+	if (self.config.autoZoomAndCenter) {
+		self.setBoundsAndCenter();
 	}
+
+}
+
+OpenStadMap.prototype.getPolygon = function(siteId) {
+
+	// get locations
+	$.ajax({
+		url: '/api/site/' + siteId + '/openstad-map/polygon',
+		dataType: "json",
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		beforeSend: function(request) {
+			request.setRequestHeader("Content-type", "application/json");
+			request.setRequestHeader("Accept", "application/json");
+		},
+		success: function(data) {
+
+			// store result
+			self.polygon = data;
+
+			// draw the polygon
+			self.createCutoutPolygon(self.polygon);
+
+			// set bounds and center
+			if (self.config.autoZoomAndCenter) {
+				self.setBoundsAndCenter();
+			}
+
+		},
+		error: function(error) {
+			console.log('Request failed', error);
+		}
+	});
 
 }
 
@@ -183,6 +218,47 @@ OpenStadMap.prototype.createCutoutPolygon = function( polygon ) {
 
 }
 
+OpenStadMap.prototype.getMarkers = function(siteId) {
+
+	// gebruik de locale servers als API server
+	let url = '/api/site/' + siteId + '/openstad-map/idea-marker';
+	if (self.ideaId) url = url + '/' + self.ideaId;
+
+	// get locations
+	$.ajax({
+		url: url,
+		dataType: "json",
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		beforeSend: function(request) {
+			request.setRequestHeader("Content-type", "application/json");
+			request.setRequestHeader("Accept", "application/json");
+		},
+		success: function(data) {
+
+			// store result
+			if (!Array.isArray(data)) data = [data];
+			self.markers = data;
+
+			// draw the markers
+			self.createMarkers(self.markers);
+
+			// set bounds and center
+			if (self.config.autoZoomAndCenter) {
+				self.setBoundsAndCenter();
+			}
+
+		},
+		error: function(error) {
+			console.log('Request failed', error);
+		}
+	});
+
+}
+
+
 OpenStadMap.prototype.createMarkers = function( markers ) {
 
 	self = this;
@@ -201,11 +277,12 @@ OpenStadMap.prototype.createMarker = function( marker ) {
 	if (marker.icon && marker.icon.anchor) {
 		marker.icon.anchor = new google.maps.Point(marker.icon.anchor[0], marker.icon.anchor[1]);
 	}
+	if (marker.icon && marker.icon.url) {
+		marker.icon.url = marker.icon.url.replace(/\.svg/, '.png'); // IE can't handle svg icons
+	}
 	if (marker.href) {
 		marker.icon.clickable = true;
 	}
-
-	marker.icon.url = marker.icon.url.replace(/\.svg/, '.png'); // IE can't handle svg icons
 
 	var options = {
 		position    : marker.position && marker.position.coordinates ? { lat: marker.position.coordinates[0], lng: marker.position.coordinates[1] } : marker.position,
@@ -225,62 +302,75 @@ OpenStadMap.prototype.createMarker = function( marker ) {
 
 }
 
-OpenStadMap.prototype.setBoundsAndCenter = function( points ) {
+OpenStadMap.prototype.setBoundsAndCenter = function() {
 
 	self = this;
-	points = points || [];
 
-	if (self.map.minZoom) {
-		google.maps.event.addListenerOnce(self.map, 'bounds_changed', function() {
-			if( self.map.getZoom() > self.map.maxZoom - 1 ) {
-				self.map.setZoom( self.map.maxZoom - 1 );
+	var centerOn = self.markers && self.markers.length ? self.markers : self.polygon;
+	if (self.editorMarker) {
+		if (self.editorMarker.position) {
+			centerOn = [self.editorMarker];
+		} else {
+			centerOn = self.polygon;
+		}
+	}
+	if (centerOn) {
+
+		var points = centerOn
+
+		if (self.map.minZoom) {
+			google.maps.event.addListenerOnce(self.map, 'bounds_changed', function() {
+				if( self.map.getZoom() > self.map.maxZoom - 1 ) {
+					self.map.setZoom( self.map.maxZoom - 1 );
+				}
+				if( self.map.getZoom() < self.map.minZoom + 1 ) {
+					self.map.setZoom( self.map.minZoom + 1 );
+				}
+			});
+		}
+
+		var bounds = new google.maps.LatLngBounds();
+
+		points.forEach(function(point) {
+			if (!point.position && !(point.lat)) return;
+			if (point.position) {
+				point = point.position.coordinates ? { lat: point.position.coordinates[0], lng: point.position.coordinates[1] }  : point.position;
 			}
-			if( self.map.getZoom() < self.map.minZoom + 1 ) {
-				self.map.setZoom( self.map.minZoom + 1 );
-			}
+			bounds.extend(point);
+		})
+		self.map.fitBounds(bounds);
+
+	}
+
+	// polyfill Object.assign
+	if (typeof Object.assign != 'function') {
+		// Must be writable: true, enumerable: false, configurable: true
+		Object.defineProperty(Object, "assign", {
+			value: function assign(target, varArgs) { // .length of function is 2
+				'use strict';
+				if (target == null) { // TypeError if undefined or null
+					throw new TypeError('Cannot convert undefined or null to object');
+				}
+
+				var to = Object(target);
+
+				for (var index = 1; index < arguments.length; index++) {
+					var nextSource = arguments[index];
+
+					if (nextSource != null) { // Skip over if undefined or null
+						for (var nextKey in nextSource) {
+							// Avoid bugs when hasOwnProperty is shadowed
+							if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+								to[nextKey] = nextSource[nextKey];
+							}
+						}
+					}
+				}
+				return to;
+			},
+			writable: true,
+			configurable: true
 		});
 	}
 
-	var bounds = new google.maps.LatLngBounds();
-
-	points.forEach(function(point) {
-		if (!point.position && !(point.lat)) return;
-		if (point.position) {
-			point = point.position.coordinates ? { lat: point.position.coordinates[0], lng: point.position.coordinates[1] }  : point.position;
-		}
-		bounds.extend(point);
-	})
-	self.map.fitBounds(bounds);
-
-}
-
-// polyfill Object.assign
-if (typeof Object.assign != 'function') {
-  // Must be writable: true, enumerable: false, configurable: true
-  Object.defineProperty(Object, "assign", {
-    value: function assign(target, varArgs) { // .length of function is 2
-      'use strict';
-      if (target == null) { // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object');
-      }
-
-      var to = Object(target);
-
-      for (var index = 1; index < arguments.length; index++) {
-        var nextSource = arguments[index];
-
-        if (nextSource != null) { // Skip over if undefined or null
-          for (var nextKey in nextSource) {
-            // Avoid bugs when hasOwnProperty is shadowed
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-              to[nextKey] = nextSource[nextKey];
-            }
-          }
-        }
-      }
-      return to;
-    },
-    writable: true,
-    configurable: true
-  });
 }

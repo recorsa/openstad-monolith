@@ -21,4 +21,7 @@ router.use( '/site/:siteId(\\d+)/idea/:ideaId(\\d+)/vote', require('./vote') );
 // arguments
 router.use( '/site/:siteId(\\d+)(/idea/:ideaId(\\d+))?/argument', require('./argument') );
 
+// openstad-map
+router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
+
 module.exports = router;

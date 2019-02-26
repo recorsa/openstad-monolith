@@ -802,6 +802,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
 						order = 'yes ASC';
 						break;
+					case 'createdate_asc':
+						order = 'createdAt ASC';
+						break;
+					case 'createdate_desc':
+						order = 'createdAt DESC';
+						break;
 					case 'date_asc':
 						order = 'endDate ASC';
 						break;
