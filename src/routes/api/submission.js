@@ -7,23 +7,15 @@ let router = express.Router({mergeParams: true});
 
 router.route('/')
 
-// list arguments
+// list submissions
 // --------------
-	.get(auth.can('arguments:list'))
+	.get(auth.can('submissions:list'))
 	.get(function(req, res, next) {
-
-		let ideaId = parseInt(req.params.ideaId) || 0;
 		let where = {};
 		req.scope = ['defaultScope'];
 		req.scope.push({method: ['forSiteId', req.params.siteId]});
-		if (ideaId) {
-			where.ideaId = ideaId;
-		}
-		let sentiment = req.query.sentiment;
-		if (sentiment) {
-			where.sentiment = sentiment;
-		}
-		db.Argument
+
+		db.Submission
 			.scope(...req.scope)
 			.findAll({ where })
 			.then( found => {
@@ -33,68 +25,62 @@ router.route('/')
 				res.json(found);
 			})
 			.catch(next);
-
 	})
 
-// create argument
+// create submission
 // ---------------
-	//.post(auth.can('argument:create'))
+  .post(auth.can('submissions:create'))
 	.post(function(req, res, next) {
 		let data = {
-			description : req.body.description,
-			sentiment   : req.body.sentiment || 'for',
-			ideaId      : req.params.ideaId,
+			info        : req.body.info,
+			siteId      : req.params.siteId,
 			userId      : req.user.id,
-		}
+		};
 
-		db.Argument
+
+		db.Submission
 			.create(data)
 			.then(result => {
 				res.json(result);
 			})
 	})
 
-	// with one existing argument
+	// with one existing submission
 	// --------------------------
-	router.route('/:argumentId(\\d+)')
+	router.route('/:submissionId(\\d+)')
 		.all(function(req, res, next) {
-			var argumentId = parseInt(req.params.argumentId) || 1;
+			var submissionId = parseInt(req.params.submissionId);
 
 			req.scope = ['defaultScope'];
 			req.scope.push({method: ['forSiteId', req.params.siteId]});
-			let ideaId = parseInt(req.params.ideaId) || 0;
-			let sentiment = req.query.sentiment;
-			let where = { ideaId, id: argumentId }
 
-			if (sentiment) {
-				where.sentiment = sentiment;
-			}
+		//	let where = { siteId }
 
-			db.Argument
+
+			db.Submission
 				.scope(...req.scope)
-				.find({
-					where
-				})
+		//		.find({ where })
+        .find()
 				.then(found => {
-					if ( !found ) throw new Error('Argument not found');
-					req.argument = found;
+					if ( !found ) throw new Error('Submission not found');
+					req.submission = found;
 					next();
 				})
 				.catch(next);
 		})
 
-	// view argument
+	// view submission
 	// -------------
-		.get(auth.can('argument:view'))
+		.get(auth.can('submissions:view'))
 		.get(function(req, res, next) {
-			res.json(req.argument);
+			res.json(req.submission);
 		})
 
-	// update argument
+	// update submission
 	// ---------------
-		.put(auth.can('argument:edit'))
+		.put(auth.can('submissions:edit'))
 		.put(function(req, res, next) {
-			req.argument
+			req.submission
 				.update(req.body)
 				.then(result => {
 					res.json(result);
@@ -102,14 +88,14 @@ router.route('/')
 				.catch(next);
 		})
 
-	// delete argument
+	// delete submission
 	// ---------------
-		.delete(auth.can('argument:delete'))
+		.delete(auth.can('submissions:delete'))
 		.delete(function(req, res, next) {
-			req.argument
+			req.submission
 				.destroy()
 				.then(() => {
-					res.json({ "argument": "deleted" });
+					res.json({ "submission": "deleted" });
 				})
 				.catch(next);
 		})
