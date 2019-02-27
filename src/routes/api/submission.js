@@ -13,7 +13,7 @@ router.route('/')
 	.get(function(req, res, next) {
 		let where = {};
 		req.scope = ['defaultScope'];
-		req.scope.push({method: ['forSiteId', req.params.siteId]});
+	//	req.scope.push({method: ['forSiteId', req.params.siteId]});
 
 		db.Submission
 			.scope(...req.scope)
@@ -32,11 +32,12 @@ router.route('/')
   .post(auth.can('submissions:create'))
 	.post(function(req, res, next) {
 		let data = {
-			info        : req.body.info,
-			siteId      : req.params.siteId,
-			userId      : req.user.id,
+			submittedData     : req.body.submittedData,
+			siteId      			: req.params.siteId,
+			userId      			: req.user.id,
 		};
 
+		console.log('data', data);
 
 		db.Submission
 			.create(data)

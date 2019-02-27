@@ -1,96 +1,84 @@
 const config = require('config');
 
 module.exports = function( db, sequelize, DataTypes ) {
-	var Meeting = sequelize.define('meeting', {
+	var Submission = sequelize.define('submission', {
 		siteId: {
 			type         : DataTypes.INTEGER,
 			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
 		},
-		type : DataTypes.ENUM('selection','meeting'),
-		date : DataTypes.DATE,
-		forceShow : DataTypes.BOOLEAN,
-		finished: {
-			type: DataTypes.VIRTUAL,
-			get: function() {
-				return this.date - new Date <= -86400000;
+		userId: {
+			type         : DataTypes.INTEGER,
+			allowNull    : true
+		},
+		status: {
+			type         : DataTypes.ENUM('approved','pending','unapproved'),
+			defaultValue : 'pending',
+			allowNull    : false
+		},
+		submittedData: {
+			type         : DataTypes.JSON,
+			allowNull    : false,
+			defaultValue : {},
+			get          : function() {
+				// for some reaason this is not always done automatically
+				let value = this.getDataValue('submittedData');
+				try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				return value;
+			},
+			set: function(value) {
+				try {
+					if (typeof value == 'string') {
+						value = JSON.parse(value);
+					}
+				} catch(err) {}
+				let newValue = {};
+
+				value = value;
+
+				/*
+				const configExtraData = [];
+				if (configExtraData) {
+					Object.keys(configExtraData).forEach((key) => {
+						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+							// zie validExtraData hieronder
+							// throw db.sequelize.ValidationError(`${key} is niet ingevuld`);
+						}
+						if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
+							newValue[key] = value[key];
+						}
+					});
+				}
+				*/
+
+				this.setDataValue('submittedData', value);
 			}
-		}
+		},
 	}, {
 		classMethods: {
-			associate: function( models ) {
-				Meeting.hasMany(models.Idea);
-			},
 			scopes: function() {
-
-				let siteScope = {};
-				if (config.siteId && typeof config.siteId == 'number') {
-					siteScope = {
-						where: {
-							siteId: config.siteId,
-						}
-					}
-				}
-				
 				return {
-					siteScope,
-					withIdea: {
-						include: {
-							model: db.Idea,
-							attributes: ['id', 'title']
-						}
-					}
+					defaultScope: {
+						/*include: [{
+							model      : db.User,
+							attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+						}]*/
+					},
+					withUser: {
+						include: [{
+							model      : db.User,
+							attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+						}]
+					},
 				};
 			},
-			
-			getUpcoming: function( limit ) {
-				if( !limit ) limit = 4;
 
-				let where = {};
-				
-				return this.scope('siteScope', 'withIdea')
-				.findAll({
-					where: where,
-					order: 'date',
-				}).then(meetings => {
-					// limit
-					let limited = [];
-					for(var i = 0; i < meetings.length; i++) {
-						if (meetings[i].forceShow || ( new Date(meetings[i].date).getTime() > Date.now() && limit > 0 )) {
-							limited.push( meetings[i] );
-						}
-						if (!meetings[i].forceShow && new Date(meetings[i].date).getTime() > Date.now()) {
-							limit--;
-						}
-					}
-					return limited;
-				})
-			},
-			// Use `idea.meetingId` to include the already connected meeting as well.
-			// Otherwise, it may not show up because the meeting's type is changed to
-			// 'selection'.
-			// 
-			// Also include meetings held in the last 2 months.
-			getSelectable: function( idea ) {
-				var now          = new Date;
-				var twoMonthsAgo = new Date(now.getFullYear(), now.getMonth()-2, now.getDate());
-				
-				return this.findAll({
-					where: {
-						$or: [
-							{
-								$and: [
-									{type: 'meeting'},
-									{date: {$gte: twoMonthsAgo}}
-								]
-							},
-							{id: idea.meetingId}
-						]
-					},
-					order: 'date'
-				});
-			}
+
 		}
 	});
-	
-	return Meeting;
+
+	return Submission;
 };
