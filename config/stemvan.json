@@ -16,10 +16,12 @@
 		},
 		"middleware": {
 			"beforeSecurity": [
+				{ "route": "/api", "router": "./routes/api" },
 				"./routes/stemvan/media_upload"
 			],
 			"afterSecurity": [
 				"./middleware/log",
+				{ "route": "*", "router": "./middleware/site" },
 				"./middleware/force_registration",
 				"./middleware/confirm_arguments",
 				"./middleware/nocache",

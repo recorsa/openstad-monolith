@@ -95,6 +95,8 @@ function OpenStadMap( config, ideaId, markerStyle, polygonStyle, editorInputElem
 
 	}
 
+	console.log('??', siteId);
+	
 }
 
 OpenStadMap.prototype.createMap = function( markers, polygon ) {
@@ -222,6 +224,7 @@ OpenStadMap.prototype.getMarkers = function(siteId) {
 
 	// gebruik de locale servers als API server
 	let url = '/api/site/' + siteId + '/openstad-map/idea-marker';
+	console.log(url);
 	if (self.ideaId) url = url + '/' + self.ideaId;
 
 	// get locations

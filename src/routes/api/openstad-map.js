@@ -76,8 +76,8 @@ router.route('/polygon')
 		// use from site config
 		let polygon = req.site && req.site.config.openStadMap && req.site.config.openStadMap.polygon;
 
-		// tmp: fallback to generic config 
-		polygon = polygon || ( config.openStadMap && config.openStadMap.polygons && config.siteId && config.openStadMap.polygons[config.siteId] );
+		// fallback to generic config 
+		polygon = polygon || ( config.openStadMap && config.openStadMap.polygons && ( ( config.openStadMap.usePolygon && config.openStadMap.polygons[config.openStadMap.usePolygon] ) || ( config.siteId && config.openStadMap.polygons[config.siteId] ) ) );
 		
 		res.json(polygon || null);
 
