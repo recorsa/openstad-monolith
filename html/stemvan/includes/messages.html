@@ -1,0 +1,35 @@
+<div id="clientSideFlashMessage" class="flashMessage clientSide">
+	<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
+</div>
+<script>
+ function showFlashMessage(message, type) {
+
+	 if ( !Array.isArray(message) ) message = [message];
+
+	 var html = '<a href="javascript: void hideFlashMessage();" class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>';
+	 var className = '';
+	 switch(type) {
+		 case 'error':
+			 html += '<h2>Er ging iets fout</h2>';
+			 className = 'error';
+			 break;
+		 case 'success':
+			 html += '<h2>Gelukt!</h2>';
+			 className = 'success';
+			 break;
+		 default:
+			 html += '<h2>Informatie</h2>';
+	 }
+	 html += message.map(elem => elem + '<br/>').join();
+
+	 document.querySelector('#clientSideFlashMessage').innerHTML = html;
+	 document.querySelector('#clientSideFlashMessage').className += ' ' + className;
+	 document.querySelector('#clientSideFlashMessage').style.display = 'block';
+
+ }
+ function hideFlashMessage() {
+	 document.querySelector('#clientSideFlashMessage').innerHTML = 'flashMessage clientSide';
+	 document.querySelector('#clientSideFlashMessage').className = 'flashMessage clientSide';
+	 document.querySelector('#clientSideFlashMessage').style.display = 'none';
+ }
+</script>
