@@ -3,10 +3,16 @@ var _      = require('lodash')
   , moment = require('moment-timezone')
 var log    = require('debug')('app:db');
 
+var sites = require('./data/sites');
 var meetings = require('./data/meetings');
 var articles = require('./data/articles');
 
 module.exports = co.wrap(function*( db ) {
+	log('generating site...');
+	yield sites.map(function( siteData ) {
+		return db.Site.create(siteData);
+	});
+
 	log('generating articles...');
 	yield articles.map(function( articleData ) {
 		return db.Article.create(articleData);
@@ -48,6 +54,7 @@ var users = [
 	{id : 2 , complete : 1 , role : 'admin' ,      email: 'tjoekbezoer@gmail.com'         , password : 'password'        , firstName : 'Bastard Operator' , lastName : 'from Hell' , gender : 'male' , ideas : [
 		{
 			id               : 1,
+			siteId           : 1,
 			startDate        : moment(today).subtract(1, 'days'),
 			title            : 'Metro naar stadsdeel West',
 			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein om sneller thuis te zijn.',
@@ -73,6 +80,7 @@ var users = [
 			]
 		}, {
 			id               : 2,
+			siteId           : 1,
 			startDate        : moment(today).subtract(10, 'days'),
 			title            : 'Boomloze wijk',
 			summary          : 'Bomen geven troep en nemen licht weg. Uit de grond ermee!',
@@ -102,6 +110,7 @@ var users = [
 	{id : 3  , complete : 1 , role : 'member'   , email : 'tjoekbezoer+member@gmail.com'  , password : 'member'       , firstName : 'Jennifer'  , lastName : 'Alexander' , gender : 'female' ,  zipCode : null, ideas :[
 		{
 			id             : 3,
+			siteId           : 1,
 			startDate      : moment(today).subtract(6, 'days'),
 			title          : 'Markt uitbreiden',
 			summary        : 'Er moet plek zijn voor twee groentemannen!',
@@ -120,6 +129,7 @@ var users = [
 			]
 		}, {
 			id          : 4,
+			siteId           : 1,
 			startDate   : moment(today).subtract(16, 'days'),
 			title       : 'McDonalds in de bibliotheek',
 			summary     : 'Boeken lezen maakt hongerig.',
