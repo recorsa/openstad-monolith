@@ -106,14 +106,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 								type: 'int',
 								default: 1,
 							},
+							
 							userRole: {
 								type: 'string',
 								default: 'anonymous',
 							},
-							replaceOrError: {
-								type: 'string',
+							
+							widthExisting: {
+								type: 'enum',
+								values: ['error', 'replace', 'createOrCancel', 'replaceAll'],
 								default: 'replace',
 							},
+							
+							mustConfirm: {
+								type: 'boolean',
+								default: false,
+							}
+
 						},
 					},
 				}

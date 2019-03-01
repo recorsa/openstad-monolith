@@ -90,12 +90,65 @@ list all votes for one idea
 `GET /api/site/:SITE_ID/idea/:IDEA_ID/vote?opinion=no`
 list all votes for one idea where opinion is 'no'
 
-In ontwikkeling
+`POST /api/site/:SITE_ID/vote`
+`POST /api/site/:SITE_ID/idea/:IDEA_ID/vote`
+create or update votes
+
+Payload:
+```
+[
+  {
+    "ideaId": 7,
+    "opinion": "yes"
+  },
+  {
+    "ideaId": 8,
+    "opinion": "yes"
+  },
+  {
+    "ideaId": 9,
+    "opinion": "yes"
+  },
+  {
+    "ideaId": 10,
+    "opinion": "yes"
+  }
+]
+```
+
+Het laatste is ontwikkeling
+
+Ik denk dat de budgetVotes die we in westbegroot gebruiken ook simpele votes kunnen worden. In plaats van 1 record met ideaIds kan er een vote record per ideaId worden gemaakt.
+
+we hebben dan:
+- stemvan stemmen: je kunt op elk open plan een voor of tegen stem uitbrengen. Nog een keer stemmen vervangt of annuleert de oude.
+- westbegroot: in principe hetzelfde, maar dan in bulk. Je kunt bovendien niet meer wijzigen.
+- javabrug: ook in bulk, maar je kunt nog wel wijzigen
+- kareldoorman en kademuren: max 1 stem, die je nog kunt wijzigen
+- eberhard: max 1 stem, die je bovendien moet bevestigen
+
+Met andere woorden: het uitbrengen van een stem kan per ideaId of in bulk. Wat er gebeurd als je opnieuw iets instuurt is afhankelijk van de configuratie.
+Er moet ook iets komen om extra validaties te kunnen doen, zoals die bijvoorbeeld in westbegroot zitten
+
+Daarnaast zijn er wellicht nog wat frontend opties, zoals de sterren van javabrug
+
+```
+config: {
+  votes: {
+    maxChoices: int || null,
+    widthExisting: 'error' || 'replace' || 'createOrCancel' || 'replaceAll',
+    mustConfirm: true || false,
+    userRole: minimum role required
+  }
+}
+```
 
 #### TODO
-- Je moet nu member zijn om te mogen stemmen. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.
-- Dit is nog heel simpel en straightforward; je moet dit met de site coonfiguratie kunnen sturen
-- POST is nog niet uitgewerkt; deze versie werkt als stem van: je kunt 1 stem uitbrengen op een idee; als je een andere opinion stuurt dan wordt e stem vervangen; als je dezelfde stuurt dan wordt hij ingetrokken. Ik hoop daar dit weekend een stemtool variant van te maken.
+- config.votes.userRole doet nog niets. Je moet nu member zijn om te mogen stemmen. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.
+- config.votes.maxChoices doet nog niets.
+- config.votes.mustConfirm doet nog niets.
+- er is nu alleen db validatie
+
 
 ##Argument
 

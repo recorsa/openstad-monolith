@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "stemvan": "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js",
-    "api" : "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
+    "api": "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +38,7 @@
     "less-middleware": "^3.0.1",
     "lodash": "^4.17.10",
     "markdown": "^0.5.0",
+    "merge": "^1.2.1",
     "method-override": "^2.3.7",
     "mmmagic": "^0.5.2",
     "mocha": "^5.2.0",
