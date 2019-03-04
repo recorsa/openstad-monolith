@@ -183,7 +183,8 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 				// save
 				let promises = [];
 				toBeCreated.forEach((vote) => {
-					let promise = db.Vote.upsert({ ...vote, deletedAt: null }) // HACK: `upsert` on paranoid deleted row doesn't unset `deletedAt`.
+					vote.deleteAt = null;
+					let promise = db.Vote.upsert( vote ) // HACK: `upsert` on paranoid deleted row doesn't unset `deletedAt`.
 					promises.push( promise )
 				});
 				toBeUpdated.forEach((vote) => {
