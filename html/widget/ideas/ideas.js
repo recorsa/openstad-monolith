@@ -11,6 +11,7 @@ class IdeasWidget extends HTMLElement {
 		let self = this;
 
 		if (self.getAttribute('data-css')) {
+			console.log('CSS: ',self.getAttribute('data-css'));
 			let link = document.createElement('link');
 			link.rel = "stylesheet";
 			link.type = "text/css";

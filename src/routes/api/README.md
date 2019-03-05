@@ -10,7 +10,7 @@ Het onderscheid zit in de config. In de oude methode voeg je een route toe met a
 }
 ```
 
-Bijkomd voordeel is dan dat je ook relatieve paden kunt gebruiken.
+Bijkomendd voordeel is dan dat je ook relatieve paden kunt gebruiken.
 
 Als extra zit hier nog een index file in die de boel bij elkaar veegt.
 
@@ -21,7 +21,9 @@ Het is allemaal heel primitief. Afvangingen zitten er nauwelijks in. Het is alle
 Als je bent ingelogd op de normale stemvan site dan kun je de api gewoon gebruiken. Maar dat werkt alleen op dev; normaal kun je helemaal niet inloggen want daar zijjn geen endpoints voor.
 
 Omdat we uiteindelijk gaan werken met een losse user api en access keys is er voor nu een hardcoded accesstoken dat hij herkent als de ingelogde user _Niels Vegter_. Stuur daarvoor als queryparam mee
-```access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40```
+```
+access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40
+```
 Auth header moet nog.
 
 ## Site
