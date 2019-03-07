@@ -3,7 +3,7 @@ const config = require('config');
 module.exports = function( req, res, next ) {
 
 	let url = req.headers && req.headers.origin;
-	if ( !config.allowedOrigins.find( elem => elem == url ))
+	if ( !config.allowedOrigins || !config.allowedOrigins.find( elem => elem == url ))
 		url = config.url || req.protocol + '://' + req.hostname;
 		
   res.header('Access-Control-Allow-Origin', url );
