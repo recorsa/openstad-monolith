@@ -20,6 +20,11 @@ Dat heet `X-Authorization` omdat hij anders botst met de basic authentication
 
 Dat is denk ik hoe buurtbudget het doet? Over een oplossing voor de GET met JWT heb ik wel ideeen, maar moeten we denk ik even bespreken.
 
+```GET /oauth/me```
+Get the user for this JWT
+
+
+
 #### TODO
 - rollen moeten denk ik naar mijnoopenstad
 - flexibiliteit mbt. tot velden in mijnopenstad versus lokaal
