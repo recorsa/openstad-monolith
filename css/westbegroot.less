@@ -24,6 +24,7 @@ a.stuur-plan-in {
 a.stuur-plan-in:hover {
 	color: white;
 	border-bottom: 0px none;
+	background-color: #003066;
 }
 
 a.stuur-plan-in:visited {
@@ -235,6 +236,10 @@ header {
 
 				a.stuur-plan-in {
 					width: 170px;
+
+					&:hover {
+						background-color: #003066;
+					}
 
 					@media @phone {
 						margin-left: 10px;
@@ -893,6 +898,11 @@ a.meldjeaanknop, a.meldjeaanknop:hover, a.meldjeaanknop:visited {
 	line-height: 40px;
 	text-align: center;
 
+	&:hover {
+		text-decoration: underline;
+		background-color: #003066;
+	}
+
 }
 
 #end-date-bar-1,
@@ -904,7 +914,7 @@ a.meldjeaanknop, a.meldjeaanknop:hover, a.meldjeaanknop:visited {
 	z-index: 100;
 	line-height: 46px;
 	text-align: center;
-	margin-top: -10px;
+	margin-top: 0px;
 	padding: 0 15px;
 	font-size: 18px;
 	font-weight: 600;
@@ -1262,6 +1272,8 @@ ul.share {
 		a.stuur-plan-in:hover {
 			color: white;
 			border-bottom: 0px none;
+			text-decoration: underline;
+			background-color: #003066;
 		}
 
 		
@@ -1422,7 +1434,7 @@ ul.share {
 		left: 15px;
 		top: 243px;
 		line-height: 44px;
-		width: 215px;
+		width: 204px;
 		z-index: 10000;
 	}
 
@@ -1434,7 +1446,7 @@ ul.share {
 		position: absolute;
 		left: 15px;
 		top: 316px;
-		width: 215px;
+		width: 184px;
 		z-index: 10000;
 		border-radius: 2px;
 		background-color: #164995;
