@@ -51,13 +51,40 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// todo: formaat gelijktrekken met sequelize defs
 				// todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
 				return {
-					url: {
+					cmsurl: {
 						type: 'string',
 						default: 'https://openstad-api.amsterdam.nl',
 					},
-					hostname: {
+					cmshostname: {
 						type: 'string',
 						default: 'openstad-api.amsterdam.nl',
+					},
+					notifications: {
+						type: 'object',
+						subset: {
+							to: {
+								type: 'string', // todo: add type email/list of emails
+								default: 'EMAIL@NOT.DEFINED',
+							},
+						}
+					},
+					email: {
+						type: 'object',
+						subset: {
+							siteaddress: {
+								type: 'string', // todo: add type email/list of emails
+								default: 'EMAIL@NOT.DEFINED',
+							},
+							thankyoumail: {
+								type: 'object',
+								subset: {
+									from: {
+										type: 'string', // todo: add type email/list of emails
+										default: 'EMAIL@NOT.DEFINED',
+									},
+								}
+							}
+						}
 					},
 					'after-login-redirect-uri': {
 						type: 'string',
@@ -112,7 +139,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 								default: 'anonymous',
 							},
 							
-							widthExisting: {
+							withExisting: {
 								type: 'enum',
 								values: ['error', 'replace', 'createOrCancel', 'replaceAll'],
 								default: 'replace',
@@ -189,6 +216,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 							throw new Error(`site.config: $key must be defined`);
 						}
 
+					});
+					// voor nu mag je er in stoppen wat je wilt; uiteindelijk moet dat zo gaan werken dat je alleen bestaande opties mag gebruiken
+					// dit blok kan dan weg
+					Object.keys(value).forEach( key => {
+						if ( !newValue[key] ) {
+							newValue[key] = value[key];
+						}
 					});
 					return newValue;
 				}
