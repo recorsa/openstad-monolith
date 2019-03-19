@@ -8,18 +8,58 @@ const db = require('../../db');
 
 let router = express.Router({mergeParams: true});
 
+// all: add site
+// -------------
+router
+	.all('*', function(req, res, next) {
+
+		let siteId;
+
+		let match = req.path.match(/\/site\/(\d+)?/);
+		console.log(match);
+		if (match) {
+			siteId = parseInt(match[1]);
+		} else {
+			siteId = config.siteId;
+		}
+		if (!siteId) return next();
+
+		let where = {};
+		if (typeof siteId === 'number') {
+			where = { id: siteId }
+		} else {
+			where = { name: siteId }
+		}
+
+		db.Site
+			.findOne({ where })
+			.then(function( found ) {
+				req.site = found;
+				//console.log('found', req.site && [req.site.id, req.site.name]);
+				next();
+			})
+			.catch( err => {
+				console.log('site not found:', siteId);
+				next(err)
+			});
+
+	})
+
 // inloggen 1
 // ----------
 router
-	.route('/login')
+	.route('(/site/:siteId)?/login')
 	.get(function( req, res, next ) {
 
 		if (req.query.redirectUrl) {
 			req.session.returnTo = req.query.redirectUrl;
 		}
 
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
-		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let authServerLoginPath = ( req.site && req.site.config.oauth['auth-server-login-path'] ) || config.authorization['auth-server-login-path'];
+		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let url = authServerUrl + authServerLoginPath;
+		url = url.replace(/\[\[clientId\]\]/, authClientId);
 		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
 		res.redirect(url);
@@ -28,7 +68,7 @@ router
 // inloggen 2
 // ----------
 router
-	.route('/digest-login')
+	.route('(/site/:siteId)?/digest-login')
 	.get(function( req, res, next ) {
 
 		// use the code to get an access token
@@ -37,12 +77,15 @@ router
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-exchange-code-path'];
+		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let authServerExchangeCodePath = ( req.site && req.site.config.oauth['auth-server-exchange-code-path'] ) || config.authorization['auth-server-exchange-code-path'];
+		let url = authServerUrl + authServerExchangeCodePath;
 
-		// let postData = `client_id=${config.authorization['auth-client-id']}&client_secret=${config.authorization['auth-client-secret']}&code=${code}&grant_type=authorization_code&redirect_uri=${config.url + '/oauth/digest-login'}`;
+		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let authClientSecret = ( req.site && req.site.config.oauth['auth-client-secret'] ) || config.authorization['auth-client-secret'];
 		let postData = {
-			client_id: config.authorization['auth-client-id'],
-			client_secret: config.authorization['auth-client-secret'],
+			client_id: authClientId,
+			client_secret: authClientSecret,
 			code: code,
 			grant_type: 'authorization_code'
 		}
@@ -57,7 +100,7 @@ router
 				body: JSON.stringify(postData)
 			})
 			.then(
-				response => response.json(),
+				response => { console.log(response); return response.json() },
 				error => next // TODO: fatsoenlijke foutafvanging
 			)
 			.then(
@@ -80,8 +123,11 @@ router
 	.get(function( req, res, next ) {
 
 		// get the user info using the access token
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
-		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let authServerGetUserPath = ( req.site && req.site.config.oauth['auth-server-get-user-path'] ) || config.authorization['auth-server-get-user-path'];
+		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let url = authServerUrl + authServerGetUserPath;
+		url = url.replace(/\[\[clientId\]\]/, authClientId);
 
 		fetch(
 			url, {
@@ -153,24 +199,21 @@ router
 	})
 	.get(function( req, res, next ) {
 
-		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
-		redirectUrl = redirectUrl || req.site && req.site.config['after-login-redirect-uri'];
-		redirectUrl = redirectUrl || config.authorization['after-login-redirect-uri'];
+		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let redirectUrl = ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
+		console.log(redirectUrl);
 
-		req.session.returnTo = '';
-		req.session.save(() => {
-			if (redirectUrl.match('[[jwt]]')) {
-				jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
-					if (err) return next(err)
-					req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
-					return next();
-				});
-			} else {
-				req.redirectUrl = redirectUrl;
+		if (redirectUrl.match('[[jwt]]')) {
+			jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+				if (err) return next(err)
+				req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
 				return next();
-			}
-		});
+			});
+		} else {
+			req.redirectUrl = redirectUrl;
+			return next();
+		}
 
 	})
 	.get(function( req, res, next ) {
@@ -180,7 +223,7 @@ router
 // uitloggen
 // ---------
 router
-	.route('/logout')
+	.route('(/site/:siteId)?/logout')
 	.get(function( req, res, next ) {
 
 		req.session.destroy();
@@ -191,7 +234,7 @@ router
 // translate jwt to user data
 // --------------------------
 router
-	.route('/me')
+	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
 		res.json(req.user)
 	})

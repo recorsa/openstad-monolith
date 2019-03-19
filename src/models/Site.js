@@ -51,13 +51,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// todo: formaat gelijktrekken met sequelize defs
 				// todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
 				return {
-					cmsurl: {
-						type: 'string',
-						default: 'https://openstad-api.amsterdam.nl',
-					},
-					cmshostname: {
-						type: 'string',
-						default: 'openstad-api.amsterdam.nl',
+					cms: {
+						type: 'object',
+						subset: {
+							url: {
+								type: 'string',
+								default: 'https://openstad-api.amsterdam.nl',
+							},
+							hostname: {
+								type: 'string',
+								default: 'openstad-api.amsterdam.nl',
+							},
+							'after-login-redirect-uri': {
+								type: 'string',
+								default: '/oauth/login?jwt=[[jwt]]',
+							}
+						}
 					},
 					notifications: {
 						type: 'object',
@@ -86,9 +95,34 @@ module.exports = function( db, sequelize, DataTypes ) {
 							}
 						}
 					},
-					'after-login-redirect-uri': {
-						type: 'string',
-						default: '/',
+					'oauth': {
+						type: 'object',
+						subset: {
+							"auth-server-url": {
+								type: 'string',
+							},
+							"auth-client-id": {
+								type: 'string',
+							},
+							"auth-client-secret": {
+								type: 'string',
+							},
+							"auth-server-login-path": {
+								type: 'string',
+							},
+							"auth-server-exchange-code-path": {
+								type: 'string',
+							},
+							"auth-server-get-user-path": {
+								type: 'string',
+							},
+							"auth-server-logout-path": {
+								type: 'string',
+							},
+							"after-login-redirect-uri": {
+								type: 'string',
+							}
+						}
 					},
 					ideas: {
 						type: 'object',
