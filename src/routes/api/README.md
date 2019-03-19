@@ -4,14 +4,17 @@ Dit is een JSON API server
 
 ##Login:
 
-```GET /oauth/login```
+```GET /oauth/login``` en 
+```GET /oauth/site/:SITE_ID/login```
+
+Als je een site meestuurt dan haalt hij die site op en gebruikt de oauth config settings daarvan (waar gedefinieerd; zie onder Site) in plaats van de opties in de local.json config.
 
 Hij logt de gebruiker in als gewone, lokale, monolith user, en vanaf daar werkt dat als verwacht. Die user wordt zonodig aangemaakt.
 Voor nu ga ik er vanuit dat de required fields email, firstName, lastName en postcode beschikbaar zijn in mijnopenstad. Een nieuwe user heeft de role 'member'
 
-Hij redirect naar `xxx/?jwt=JWT`
+Hij redirect naar site.config.cms['after-login-redirect-uri'] of req.site.config.oauth['after-login-redirect-uri'] of authorization['after-login-redirect-uri'] uit de local.json
 
-xxx staat in local.json en is nu 
+Die redirect url zou `[[JWT]]` moeten bevatten. Op die plak wordt je JWT toegevoegd.
 
 Met die JWT kun je ook API calls doen. Die moet je meesturen als header:
 ```X-Authorization: Bearer JWT```
@@ -20,8 +23,10 @@ Dat heet `X-Authorization` omdat hij anders botst met de basic authentication
 
 Dat is denk ik hoe buurtbudget het doet? Over een oplossing voor de GET met JWT heb ik wel ideeen, maar moeten we denk ik even bespreken.
 
-```GET /oauth/me```
-Get the user for this JWT
+```GET /oauth/me``` en 
+```GET /oauth/site/:SITE_ID/me```
+
+Get the user for this JWT. Site ID wordt niet gebruikt maar de route bestaat wegens consistent.
 
 
 
@@ -50,6 +55,129 @@ update one site
 delete one site
 
 GET request zijn public, de anderen alleen toegankelijk voor admin
+
+#### config
+
+Sites hebben een veld config. Dat is een json veld.
+
+Uiteindelijk zal de API alleen config vars opslaan die zijn gedefineerd. Voor nu accpeteert hij alles om ontwikkelwerk eenvoudiger te maken.
+
+De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu zo uit (maar dat is volgende week vast weer anders):
+
+```{
+  "cms": {
+    "url": {
+      "type": "string",
+      "default": "https://openstad-api.amsterdam.nl"
+    },
+    "hostname": {
+      "type": "string",
+      "default": "openstad-api.amsterdam.nl"
+    },
+    "after-login-redirect-uri": {
+      "type": "string",
+      "default": "/oauth/login?jwt=[[jwt]]"
+    }
+  },
+  "notifications": {
+    "to": {
+      "type": "string",
+      "default": "EMAIL@NOT.DEFINED"
+    }
+  },
+  "email": {
+    "siteaddress": {
+      "type": "string",
+      "default": "EMAIL@NOT.DEFINED"
+    },
+    "thankyoumail": {
+      "from": {
+        "type": "string",
+        "default": "EMAIL@NOT.DEFINED"
+      }
+    }
+  },
+  "oauth": {
+    "auth-server-url": {
+      "type": "string"
+    },
+    "auth-client-id": {
+      "type": "string"
+    },
+    "auth-client-secret": {
+      "type": "string"
+    },
+    "auth-server-login-path": {
+      "type": "string"
+    },
+    "auth-server-exchange-code-path": {
+      "type": "string"
+    },
+    "auth-server-get-user-path": {
+      "type": "string"
+    },
+    "auth-server-logout-path": {
+      "type": "string"
+    },
+    "after-login-redirect-uri": {
+      "type": "string"
+    }
+  },
+  "ideas": {
+    "noOfColumsInList": {
+      "type": "int",
+      "default": 4
+    }
+  },
+  "arguments": {
+    "new": {
+      "anonymous": {
+        "type": "object",
+        "subset": {
+          "redirect": {
+            "type": "string",
+            "default": null
+          },
+          "notAllowedMessage": {
+            "type": "string",
+            "default": null
+          }
+        }
+      },
+      "showFields": {
+        "type": "arrayOfStrings",
+        "default": [
+          "zipCode",
+          "nickName"
+        ]
+      }
+    }
+  },
+  "votes": {
+    "maxChoices": {
+      "type": "int",
+      "default": 1
+    },
+    "userRole": {
+      "type": "string",
+      "default": "anonymous"
+    },
+    "withExisting": {
+      "type": "enum",
+      "values": [
+        "error",
+        "replace",
+        "createOrCancel",
+        "replaceAll"
+      ],
+      "default": "replace"
+    },
+    "mustConfirm": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}```
 
 ##Idea
 
