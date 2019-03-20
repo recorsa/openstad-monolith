@@ -2,9 +2,10 @@
 
 Dit is een JSON API server
 
-##Login:
+## Login
 
-```GET /oauth/login``` en 
+```GET /oauth/login```
+en 
 ```GET /oauth/site/:SITE_ID/login```
 
 Als je een site meestuurt dan haalt hij die site op en gebruikt de oauth config settings daarvan (waar gedefinieerd; zie onder Site) in plaats van de opties in de local.json config.
@@ -23,7 +24,8 @@ Dat heet `X-Authorization` omdat hij anders botst met de basic authentication
 
 Dat is denk ik hoe buurtbudget het doet? Over een oplossing voor de GET met JWT heb ik wel ideeen, maar moeten we denk ik even bespreken.
 
-```GET /oauth/me``` en 
+```GET /oauth/me```
+en 
 ```GET /oauth/site/:SITE_ID/me```
 
 Get the user for this JWT. Site ID wordt niet gebruikt maar de route bestaat wegens consistent.
@@ -37,7 +39,7 @@ Get the user for this JWT. Site ID wordt niet gebruikt maar de route bestaat weg
 - verzin iets beters dan X-Authorization
 
 
-##Site
+## Site
 
 `GET /api/site/`
 list all sites
@@ -177,9 +179,10 @@ De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu
       "default": false
     }
   }
-}```
+}
+```
 
-##Idea
+## Idea
 
 `GET /api/site/:SITE_ID/idea/`
 list all ideas
@@ -212,7 +215,7 @@ Je kunt aan de GETs query parameters meegeven. Die werken als scopes voor Sequel
 - Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
 - Ik denk dat er een overkoepelend idea zou moeten zijn, maar even overleggen
 
-##Vote
+## Vote
 
 `GET /api/site/:SITE_ID/vote`
 list all votes for a site
@@ -283,7 +286,7 @@ config: {
 - er is nu alleen db validatie
 
 
-##Argument
+## Argument
 
 `GET /api/site/:SITE_ID/argument`
 list all arguments for a site
