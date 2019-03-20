@@ -146,6 +146,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return value;
 			},
 			set: function(value) {
+
         try {
 					if (typeof value == 'string') {
 						value = JSON.parse(value);
@@ -155,34 +156,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 				let oldValue = this.getDataValue('extraData');
         try {
 					if (typeof oldValue == 'string') {
-						oldValue = JSON.parse(oldValue);
+						oldValue = JSON.parse(oldValue) || {};
 					}
 				} catch(err) {}
+
+				oldValue = oldValue || {}
+				Object.keys(oldValue).forEach((key) => {
+					if (!value[key]) {
+						value[key] = oldValue[key];
+					}
+				});
 				
-				let newValue = {};
-				let configExtraData = config.ideas && config.ideas.extraData;
-				if (configExtraData) {
-					Object.keys(configExtraData).forEach((key) => {
-						if (!value[key]) {
-							value[key] = oldValue[key];
-						}
-						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
-							// zie validExtraData hieronder
-						}
-						if (value[key]) {
-							if ( configExtraData[key].type == 'enum' && configExtraData[key].values.indexOf(value[key]) != -1) {
-								newValue[key] = value[key];
-							}
-							if ( configExtraData[key].type == 'string' && typeof value[key] == 'string' ) {
-								newValue[key] = value[key];
-							}
-							if ( configExtraData[key].type === 'arrayOfStrings' && typeof value[key] === 'object' && Array.isArray(value[key]) && !value[key].find(val => typeof val !== 'string') ) {
-								newValue[key] = value[key];
-							}
-						}
-					});
-				}
-				this.setDataValue('extraData', newValue);
+				this.setDataValue('extraData', value);
 			}
 		},
 
@@ -263,21 +248,40 @@ module.exports = function( db, sequelize, DataTypes ) {
 					throw Error('Incomplete mod break');
 				}
 			},
-			validExtraData: function() {
+			validExtraData: function(next) {
 				let error = false
 				let value = this.extraData || {}
 				let newValue = {};
-				let configExtraData = config.ideas && config.ideas.extraData;
-				if (configExtraData) {
-					Object.keys(configExtraData).forEach((key) => {
-						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
-							error = `${key} is niet ingevuld!`;
+
+				db.Site
+					.findById(this.siteId)
+					.then( site => {
+
+						let configExtraData = ( site.config && site.config.ideas && site.config.ideas.extraData ) || ( config.ideas && config.ideas.extraData );
+						console.log('==', value);
+						console.log('==', configExtraData);
+						if (configExtraData) {
+							Object.keys(configExtraData).forEach((key) => {
+
+								if (value[key]) {
+									if ( configExtraData[key].type == 'enum' && configExtraData[key].values.indexOf(value[key]) == -1) {
+										error = `Ongeldige waarde voor ${key}`;
+									}
+									if ( configExtraData[key].type == 'string' && typeof value[key] != 'string' ) {
+										error = `Ongeldige waarde voor ${key}`;
+									}
+									if ( configExtraData[key].type === 'arrayOfStrings' && (typeof value[key] !== 'object' || !Array.isArray(value[key]) || value[key].find(val => typeof val !== 'string') ) ) {
+										error = `Ongeldige waarde voor ${key}`;
+									}
+								}
+								if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
+									error = `${key} is niet ingevuld`;
+								}
+
+							});
 						}
-					});
-				}
-				if (error) {
-					throw Error(error);
-				}
+						return next(error);
+					})
 			}
 		},
 		classMethods: {

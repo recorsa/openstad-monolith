@@ -211,10 +211,32 @@ Je kunt aan de GETs query parameters meegeven. Die werken als scopes voor Sequel
 `includeVoteCount`
 `includeUserVote`
 
+#### extraData
+ideas hebben een extraData veld dat een JSON object bevat. De toegestane waarden daarin worden gedefinieerd in de config van de API danwel van de site:
+```
+  "ideas": {
+    "extraData": {
+      "gebied": {
+				"type": "enum",
+				"values": ["Oud-West", "Bos en Lommer", "De Baarsjes", "Westerpark", "West Algemeen"],
+				"allowNull": false,
+			},
+			"thema": {
+				"type": "enum",
+				"values": ["Groen", "Diversiteit & Inclusiviteit", "Duurzaam"],
+				"allowNull": false,
+			},
+			"images": {
+				"type": "arrayOfStrings",
+				"allowNull": true
+			}
+    }
+	}
+```
+
 #### TODO
 - Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
 - Ik denk dat er een overkoepelend idea zou moeten zijn, maar even overleggen
-- Het is nog niet moeglijk om de config van ideas uit local.json te overrulen met die in de site
 
 ## Vote
 
