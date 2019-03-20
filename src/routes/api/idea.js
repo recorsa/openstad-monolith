@@ -54,12 +54,39 @@ router
 			req.scope.push({ method: ['includeUserVote', req.user.id]});
 		}
 
-		// todo
+		// todo? volgens mij wordt dit niet meer gebruikt
 		// if (req.query.highlighted) {
 		//  	query = db.Idea.getHighlighted({ siteId: req.params.siteId })
 		// }
 
-		next();
+		return next();
+
+	})
+	.all('*', function(req, res, next) {
+
+		// extra validaties
+		if ( req.method === 'POST' || req.method === 'PUT' ) {
+
+			let filteredBody = {};
+
+			let keys;
+			if (req.user.isAdmin()) {
+				keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
+			} else {
+				keys = [ 'title', 'summary', 'description', 'budget', 'extraData', 'location' ];
+			}
+
+			keys.forEach((key) => {
+				if (req.body[key]) {
+					filteredBody[key] = req.body[key];
+				}
+			});
+
+			req.body = filteredBody;
+
+		}
+
+		return next();
 
 	})
 
@@ -144,6 +171,9 @@ router.route('/:ideaId(\\d+)')
 // -----------
 	.put(auth.can('idea:edit'))
 	.put(function(req, res, next) {
+
+		
+		
 		req.idea
 			.update(req.body)
 			.then(result => {

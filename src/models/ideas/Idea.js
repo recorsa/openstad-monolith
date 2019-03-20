@@ -151,16 +151,34 @@ module.exports = function( db, sequelize, DataTypes ) {
 						value = JSON.parse(value);
 					}
 				} catch(err) {}
+
+				let oldValue = this.getDataValue('extraData');
+        try {
+					if (typeof oldValue == 'string') {
+						oldValue = JSON.parse(oldValue);
+					}
+				} catch(err) {}
+				
 				let newValue = {};
 				let configExtraData = config.ideas && config.ideas.extraData;
 				if (configExtraData) {
 					Object.keys(configExtraData).forEach((key) => {
+						if (!value[key]) {
+							value[key] = oldValue[key];
+						}
 						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
 							// zie validExtraData hieronder
-							// throw db.sequelize.ValidationError(`${key} is niet ingevuld`);
 						}
-						if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
-							newValue[key] = value[key];
+						if (value[key]) {
+							if ( configExtraData[key].type == 'enum' && configExtraData[key].values.indexOf(value[key]) != -1) {
+								newValue[key] = value[key];
+							}
+							if ( configExtraData[key].type == 'string' && typeof value[key] == 'string' ) {
+								newValue[key] = value[key];
+							}
+							if ( configExtraData[key].type === 'arrayOfStrings' && typeof value[key] === 'object' && Array.isArray(value[key]) && !value[key].find(val => typeof val !== 'string') ) {
+								newValue[key] = value[key];
+							}
 						}
 					});
 				}
@@ -253,7 +271,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if (configExtraData) {
 					Object.keys(configExtraData).forEach((key) => {
 						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
-							error = `${key} is niet ingevuld`;
+							error = `${key} is niet ingevuld!`;
 						}
 					});
 				}

@@ -214,6 +214,7 @@ Je kunt aan de GETs query parameters meegeven. Die werken als scopes voor Sequel
 #### TODO
 - Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
 - Ik denk dat er een overkoepelend idea zou moeten zijn, maar even overleggen
+- Het is nog niet moeglijk om de config van ideas uit local.json te overrulen met die in de site
 
 ## Vote
 
