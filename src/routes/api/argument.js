@@ -1,9 +1,30 @@
 const Promise = require('bluebird');
 const express = require('express');
+const moment  = require('moment');
 const db      = require('../../db');
 const auth    = require('../../auth');
 
 let router = express.Router({mergeParams: true});
+
+// scopes: for all get requests
+router
+	.all('*', function(req, res, next) {
+
+		req.scope = ['defaultScope', 'withIdea'];
+		req.scope.push({method: ['forSiteId', req.params.siteId]});
+
+		if (req.query.withVoteCount) {
+			req.scope.push({method: ['withVoteCount', 'argument']});
+		}
+
+		if (req.query.withUserVote) {
+			req.scope.push({method: ['withUserVote', 'argument', req.user.id]});
+							
+		}
+
+		return next();
+
+	})
 
 router.route('/')
 
@@ -14,8 +35,6 @@ router.route('/')
 
 		let ideaId = parseInt(req.params.ideaId) || 0;
 		let where = {};
-		req.scope = ['defaultScope'];
-		req.scope.push({method: ['forSiteId', req.params.siteId]});
 		if (ideaId) {
 			where.ideaId = ideaId;
 		}
@@ -23,11 +42,28 @@ router.route('/')
 		if (sentiment) {
 			where.sentiment = sentiment;
 		}
+
 		db.Argument
 			.scope(...req.scope)
 			.findAll({ where })
 			.then( found => {
-				return found.map( entry => entry.toJSON() );
+				return found.map( entry => {
+				  let can = {
+						edit: req.user.can('arg:edit', entry.idea, entry),
+						delete: req.user.can('arg:delete', entry.idea, entry),
+					 	reply: req.user.can('arg:reply', entry.idea, entry),
+					};
+					entry = entry.toJSON();
+					entry.can = can;
+					entry.user = {
+						nickName: entry.user.nickName || entry.user.fullName,
+						isAdmin: entry.user.role == 'admin',
+						email: req.user.role == 'admin' ? entry.user.email : '',
+					};
+					entry.createdAtText = moment(entry.createdAt).format('LLL');
+					delete entry.idea;
+					return entry;
+				});
 			})
 			.then(function( found ) {
 				res.json(found);
@@ -44,10 +80,11 @@ router.route('/')
 		let data = {
 			description : req.body.description,
 			sentiment   : req.body.sentiment || 'for',
+			label       : req.body.label,
 			ideaId      : req.params.ideaId,
 			userId      : req.user.id,
 		}
-		
+
 		db.Argument
 			.create(data)
 			.then(result => {
@@ -61,8 +98,6 @@ router.route('/')
 		.all(function(req, res, next) {
 			var argumentId = parseInt(req.params.argumentId) || 1;
 
-			req.scope = ['defaultScope'];
-			req.scope.push({method: ['forSiteId', req.params.siteId]});
 			let ideaId = parseInt(req.params.ideaId) || 0;
 			let sentiment = req.query.sentiment;
 			let where = { ideaId, id: argumentId }
@@ -76,9 +111,24 @@ router.route('/')
 				.find({
 					where
 				})
-				.then(found => {
-					if ( !found ) throw new Error('Argument not found');
-					req.argument = found;
+				.then(entry => {
+					if ( !entry ) throw new Error('Argument not found');
+				  let can = {
+						edit: req.user.can('arg:edit', entry.idea, entry),
+						delete: req.user.can('arg:delete', entry.idea, entry),
+					 	reply: req.user.can('arg:reply', entry.idea, entry),
+					};
+					entry = entry.toJSON();
+					entry.can = can;
+					entry.user = {
+						nickName: entry.user.nickName || entry.user.fullName,
+						isAdmin: entry.user.role == 'admin',
+						email: req.user.role == 'admin' ? entry.user.email : '',
+					};
+					entry.createdAtText = moment(entry.createdAt).format('LLL');
+					delete entry.idea;
+
+					req.argument = entry;
 					next();
 				})
 				.catch(next);

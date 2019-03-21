@@ -39,6 +39,7 @@ var helpers = {
 	maySeeArgForm: function( user, idea ) {
 		return idea.isRunning();
 	},
+
 	maySeeReplyForm: function( user, idea ) {
 		return idea.isRunning();
 	},
@@ -50,15 +51,18 @@ var helpers = {
 			return idea.isRunning() && ( ( user && user.id != 1 ) || ( config.arguments && config.arguments.user && config.arguments.user.anonymousAllowed ) );
 		}
 	},
+
 	mayReplyToArgument: function( user, idea, argument ) {
 		return !argument.parentId &&
 		       idea.isRunning();
 	},
+
 	// TODO: Deny when arg replies exist.
 	mayMutateArgument: function( user, idea, argument ) {
 		return user.id === argument.userId &&
 		       idea.isRunning();
 	},
+
 	mayVoteArgument: function( user, idea, argument ) {
 		return !argument.parentId;
 	},

@@ -89,6 +89,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 		
 		instanceMethods: {
+
 			addUserVote: function( user, opinion, ip ) {
 				var data = {
 					argumentId : this.id,
@@ -111,7 +112,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				.then(function( result ) {
 					return result && !!result.deletedAt;
 				});
-			}
+			},
+			
 		}
 	});
 	
@@ -148,6 +150,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 						ideaId: [ sequelize.literal(`select id FROM ideas WHERE siteId = ${siteId}`) ]
 					}
 				};
+			},
+
+			withIdea: function() {
+				return {
+					include: [{
+						model      : db.Idea,
+						attributes : ['id', 'status']
+					}]
+				}
 			},
 
 			withVoteCount: function( tableName ) {
