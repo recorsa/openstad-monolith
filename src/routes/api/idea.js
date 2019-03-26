@@ -3,13 +3,13 @@ const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
 const config  = require('config');
+const pick    = require('lodash/pick');
 
 let router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 router
 	.all('*', function(req, res, next) {
-
 		req.scope = ['api'];
 
 		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || req.cookies['idea_sort'];
@@ -80,6 +80,8 @@ router.route('/')
 				res.json(found);
 			})
 			.catch(next);
+
+			console.log('===>>>> req.user', req.user);
 	})
 
 // create idea
@@ -94,6 +96,9 @@ router.route('/')
 		req.body.siteId = req.params.siteId;
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
+
+		req.body.location = JSON.parse(req.body.location || null);
+
 		db.Idea
 			.create(req.body)
 			.then(result => {
@@ -119,7 +124,7 @@ router.route('/')
 router.route('/:ideaId(\\d+)')
 	.all(function(req, res, next) {
 		var ideaId = parseInt(req.params.ideaId) || 1;
-		
+
 		db.Idea
 			.scope(...req.scope)
 			.find({
@@ -144,8 +149,12 @@ router.route('/:ideaId(\\d+)')
 // -----------
 	.put(auth.can('idea:edit'))
 	.put(function(req, res, next) {
+		req.body.location = JSON.parse(req.body.location || null);
+	//	req.user.updateIdea(req.idea, req.body)
+		//const keys = req.user.role === 'admin'
+
 		req.idea
-			.update(req.body)
+			.update(pick(req.body, ['title', 'summary', 'description', 'extraData', 'location']))
 			.then(result => {
 				res.json(result);
 			})

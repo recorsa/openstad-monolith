@@ -1,10 +1,11 @@
-const express = require('express');
-const fetch = require('isomorphic-fetch');
-const jwt = require('jsonwebtoken');
-const nunjucks = require('nunjucks');
+const express 		= require('express');
+const fetch 			= require('isomorphic-fetch');
+const jwt 				= require('jsonwebtoken');
+const nunjucks 		= require('nunjucks');
 const createError = require('http-errors');
-const config = require('config');
-const db = require('../../db');
+const config 			= require('config');
+const db 					= require('../../db');
+const url 				= require('url');
 
 let router = express.Router({mergeParams: true});
 
@@ -13,16 +14,17 @@ let router = express.Router({mergeParams: true});
 router
 	.route('/login')
 	.get(function( req, res, next ) {
-
 		if (req.query.redirectUrl) {
 			req.session.returnTo = req.query.redirectUrl;
 		}
 
-		let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
-		url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
-		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+		req.session.save(() => {
+			let url = config.authorization['auth-server-url'] + config.authorization['auth-server-login-path'];
+			url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
+			url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
-		res.redirect(url);
+			res.redirect(url);
+		});
 	});
 
 // inloggen 2
@@ -157,6 +159,9 @@ router
 		redirectUrl = redirectUrl || req.site && req.site.config['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
+
+		console.log('====> redirectUrl', redirectUrl);
+		console.log('====> req.session.returnTo', req.session.returnTo);
 
 		req.session.returnTo = '';
 		req.session.save(() => {

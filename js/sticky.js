@@ -1,6 +1,4 @@
 // Get the stickyBar
-
-
 (function($) {
   var $stickyBar = $('.sticky-bar');
   var stickyBarOffset = $stickyBar.offset().top + $stickyBar.height();

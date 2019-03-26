@@ -38,7 +38,7 @@ router.route('/')
 
 // create argument
 // ---------------
-	//.post(auth.can('argument:create'))
+	.post(auth.can('argument:create'))
 	.post(function(req, res, next) {
 		let data = {
 			description : req.body.description,
