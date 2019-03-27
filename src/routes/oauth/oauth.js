@@ -17,7 +17,6 @@ router
 		let siteId;
 
 		let match = req.path.match(/\/site\/(\d+)?/);
-		console.log(match);
 		if (match) {
 			siteId = parseInt(match[1]);
 		} else {
@@ -53,11 +52,8 @@ router
 	.get(function( req, res, next ) {
 
 		if (req.query.redirectUrl) {
-			console.log('set session');
 			req.session.returnTo = req.query.redirectUrl;
 		}
-		console.log('req.session.returnTo', req.session.returnTo);
-
 
 		req.session.save(() => {
 			let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
@@ -106,7 +102,7 @@ router
 				body: JSON.stringify(postData)
 			})
 			.then(
-				response => { console.log(response); return response.json() },
+				response => { return response.json() },
 				error => next // TODO: fatsoenlijke foutafvanging
 			)
 			.then(
@@ -212,9 +208,6 @@ router
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
 	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
-
-		console.log('redirectUrl', redirectUrl);
-
 
 		req.session.returnTo = '';
 
