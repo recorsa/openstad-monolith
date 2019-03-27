@@ -53,8 +53,11 @@ router
 	.get(function( req, res, next ) {
 
 		if (req.query.redirectUrl) {
+			console.log('set session');
 			req.session.returnTo = req.query.redirectUrl;
 		}
+		console.log('req.session.returnTo', req.session.returnTo);
+
 
 		req.session.save(() => {
 			let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
@@ -207,8 +210,11 @@ router
 		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
 		 */
 		let redirectUrl = req.session.returnTo;
-	  redirectUrl = redirectUrl | ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
+	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
+
+		console.log('redirectUrl', redirectUrl);
+
 
 		req.session.returnTo = '';
 
