@@ -209,7 +209,7 @@ router
 		/**
 		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
 		 */
-		let redirectUrl = req.session.returnTo;
+		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
 	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
