@@ -1,12 +1,12 @@
 module.exports = function( helpers, role ) {
 	role.action({
 		'dev'              : false,
-		
+
 		'index:view'       : true,
-		
+
 		'account:register' : true,
 		'account:complete' : helpers.needsToCompleteRegistration,
-		
+
 		'agenda:admin'     : false,
 
 		'sites:list'       : true,
@@ -22,7 +22,7 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			resource : 'site'
 		},
-		
+
 		'ideas:admin'      : false,
 		'ideas:list'       : true,
 		'ideas:archive'    : true,
@@ -42,7 +42,7 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			resource : 'idea'
 		},
-		
+
 		'image:upload'     : {
 			allow    : false,
 			message  : 'Afbeelding uploaden niet toegestaan'
@@ -60,6 +60,12 @@ module.exports = function( helpers, role ) {
 		'ideavote:edit'		 : false,
 		'ideavote:delete'	 : false,
 
+		//submissions
+		'submissions:list'    : true,
+		'submissions:view'    : true,
+		'submissions:create'  : true,
+		'submissions:edit'    : true,
+		'submissions:delete'  : true,
 		// articles
 		'article:view'     : true,
 		'article:create'   : false,
@@ -71,7 +77,7 @@ module.exports = function( helpers, role ) {
 			allow    : false,
 			message  : 'Artikel verwijderen niet toegestaan'
 		},
-		
+
 		// Only used to determine whether to render the argument form.
 		// When a user is not allowed to add an argument, we still show
 		// the form, only disabled with login-on-focus.
@@ -107,8 +113,7 @@ module.exports = function( helpers, role ) {
 			resource : ['idea', 'argument'],
 			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
 		},
-		
+
 		'user:mail'        : false
 	});
 };
-
