@@ -202,7 +202,12 @@ router
 	})
 	.get(function( req, res, next ) {
 		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-		let redirectUrl = ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
+
+		/**
+		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
+		 */
+		let redirectUrl = req.session.returnTo;
+	  redirectUrl = redirectUrl | ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
 		req.session.returnTo = '';
