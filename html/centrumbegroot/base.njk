@@ -14,18 +14,17 @@
 
 		 var months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
 
-		 var startDate = new Date('2019-10-01');
-		 // var startDate = new Date(); // demo versie
+		 var startDate = new Date('2019-04-10');
 		 var startDateText = startDate.getDate() + ' ' + months[ startDate.getMonth() ] + ' ' + ( 1900 + startDate.getYear() );
 
-		 var endDate1 = new Date('2019-10-30');
+		 var endDate1 = new Date('2019-05-08');
 		 // var endDate1 = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
-		 var endDateText1 = endDate1.getDate() + ' ' + months[ endDate1.getMonth() ] + ' ' + ( 1900 + endDate1.getYear() );
+		 var endDateText1 = endDate1.getDate() + ' ' + months[ endDate1.getMonth() ];
 		 var daysLeft1 = parseInt( ( endDate1.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
-		 var endDate2 = new Date('2019-11-07');
+		 var endDate2 = new Date('2019-05-15');
 		 // var endDate2 = new Date( Date.now() + 28 * 24 * 60 * 60 * 1000 ); // demo versie
-		 var endDateText2 = endDate2.getDate() + ' ' + months[ endDate2.getMonth() ] + ' ' + ( 1900 + endDate2.getYear() );
+		 var endDateText2 = endDate2.getDate() + ' ' + months[ endDate2.getMonth() ];
 		 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
 		</script>
@@ -55,7 +54,7 @@
 				<div>
 					<ul>
 						<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
-						<li class="{{'active' if activeMenu == 'about'}}"><a href="/themas">Thema's</a></li>
+						<li class="{{'active' if activeMenu == 'about'}}"><a href="/inspiratie">Inspiratie</a></li>
 						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Plannen</a></li>
 					</ul>
 					
@@ -226,19 +225,19 @@
 		 // Flash messages
 		 // --------------
 						// Make close buttons interactive.
-											(function() {
-												var closeButtons = Array.prototype.slice.call(
-													document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
-												);
-												closeButtons.forEach(function( a ) {
-													a.href = '';
-													a.addEventListener('click', function( event ) {
-														var message = a.parentNode;
-														message.parentNode.removeChild(message);
-														event.preventDefault();
-													});
-												});
-											})();
+													(function() {
+														var closeButtons = Array.prototype.slice.call(
+															document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+														);
+														closeButtons.forEach(function( a ) {
+															a.href = '';
+															a.addEventListener('click', function( event ) {
+																var message = a.parentNode;
+																message.parentNode.removeChild(message);
+																event.preventDefault();
+															});
+														});
+													})();
 		</script>
 		
 		{% block scripts %}{% endblock %}
