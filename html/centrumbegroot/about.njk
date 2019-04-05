@@ -1,7 +1,7 @@
 {% extends 'base.njk' %}
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
-{% import 'includes/watgebeurderalinwest.njk' as watgebeurderalinwest %}
+{% import 'includes/watgebeurderalincentrum.njk' as watgebeurderalincentrum %}
 
 {% set activeMenu = 'about' %}
 
@@ -10,7 +10,7 @@
 
 		<div id="header">
 			<div class="header-image">
-				<img src="/img/westbegroot/themas-banner.png"/>
+				<img src="img/centrumbegroot/home-banner.svg"/>
 			</div>
 			<div class="header-text">
 				<h1>Jij verdeelt € 200.000 over de beste plannen</h1>
@@ -74,6 +74,6 @@
 {% endblock %}
 
 {% block page %}
-	{{watgebeurderalinwest.watgebeurderalinwest('white')}}
+	{{watgebeurderalincentrum.watgebeurderalincentrum('white')}}
 {% endblock %}
 
