@@ -193,6 +193,18 @@
 				 this.removeChild(image);
 			 }, this);
 		 };
+		 window.addEventListener('load', function( event ) {
+			 var extraData = '{{idea.extraData}}';
+			 if (extraData.replace)
+				 extraData = extraData.replace(/&quot;/g, '"');
+			 try {
+				 extraData = JSON.parse(extraData)
+			 } catch(error) {}
+			 if ( extraData && extraData.gebied ) {
+				 document.getElementById('gebied').value = extraData.gebied;
+			 }
+			 
+		 });
 		 form.addEventListener('submit', function( event ) {
 
 			 var uploadForm = document.getElementById('posterImageUpload');
