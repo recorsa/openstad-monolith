@@ -161,9 +161,8 @@
 	 // New argument form
 	 // -----------------
 	 // Go to login/register page when user clicks textarea, anonymous is not allowed, and is not logged in.
-	 $('{{cssQuery}} form:first-child textarea[data-disabled]').forEach(function( textarea ) {
+	 $('{{cssQuery}} textarea[data-disabled]').forEach(function( textarea ) {
 		 textarea.addEventListener('focus', function( event ) {
-			 console.log('xxxxxx')
 			 textarea.blur();
 			 document.location.href = '/plan/{{idea.id}}/arg/new';
 		 });
