@@ -42,7 +42,7 @@ var helpers = {
 		if (process.NODE_ENV == 'stemtool') {
 			return idea.isRunning();
 		} else {
-			return idea.isRunning() && ( ( user && user.id != 1 ) || ( config.arguments && config.arguments.user && config.arguments.user.anonymousAllowed ) );
+			return idea.isRunning() && ( ( user && user.id != 1 && user.hasCompletedRegistration() ) || ( config.arguments && config.arguments.user && config.arguments.user.anonymousAllowed ) );
 		}
 	},
 	mayReplyToArgument: function( user, idea, argument ) {
