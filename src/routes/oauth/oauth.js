@@ -16,7 +16,6 @@ router
 		let siteId;
 
 		let match = req.path.match(/\/site\/(\d+)?/);
-		console.log(match);
 		if (match) {
 			siteId = parseInt(match[1]);
 		} else {
@@ -35,7 +34,6 @@ router
 			.findOne({ where })
 			.then(function( found ) {
 				req.site = found;
-				//console.log('found', req.site && [req.site.id, req.site.name]);
 				next();
 			})
 			.catch( err => {
@@ -63,6 +61,7 @@ router
 		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
 		res.redirect(url);
+
 	});
 
 // inloggen 2
@@ -100,7 +99,7 @@ router
 				body: JSON.stringify(postData)
 			})
 			.then(
-				response => { console.log(response); return response.json() },
+				response => response.json(),
 				error => next // TODO: fatsoenlijke foutafvanging
 			)
 			.then(
@@ -202,7 +201,6 @@ router
 		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
 		let redirectUrl = ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
-		console.log(redirectUrl);
 
 		if (redirectUrl.match('[[jwt]]')) {
 			jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
@@ -227,7 +225,14 @@ router
 	.get(function( req, res, next ) {
 
 		req.session.destroy();
-		res.success('/', true);
+
+		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let authServerGetUserPath = ( req.site && req.site.config.oauth['auth-server-logout-path'] ) || config.authorization['auth-server-logout-path'];
+		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let url = authServerUrl + authServerGetUserPath;
+		url = url.replace(/\[\[clientId\]\]/, authClientId);
+
+		res.redirect(url);
 
 	});
 

@@ -10,9 +10,9 @@ module.exports = function( app ) {
 
 function out( req, res, next, viewPath, allowJSON, data ) {
 
-	if (req.site) {
-		data.site = req.site;
-	}
+	// if (req.site) {
+	//  	data.site = req.site;
+	// }
 
 	if( typeof allowJSON !== 'boolean' ) {
 		throw new Error('req.out: allowJSON argument must be boolean');

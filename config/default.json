@@ -23,6 +23,7 @@
 		"database"           : "",
 		"multipleStatements" : true
 	},
+
 	"express": {
 		"port": 8082,
 		"rendering": {
@@ -43,6 +44,7 @@
 			"afterSecurity": []
 		}
 	},
+
 	"sentry": {
 		"active" : true,
 		"url"    : null

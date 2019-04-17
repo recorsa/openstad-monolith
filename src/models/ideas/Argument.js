@@ -19,7 +19,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		userId: {
 			type         : DataTypes.INTEGER,
-			allowNull    : false
+			allowNull    : false,
+			defaultValue: 0,
 		},
 
 		confirmationRequired: {
