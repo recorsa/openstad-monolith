@@ -76,7 +76,6 @@ router.route('/')
 // ---------------
 	.post(auth.can('argument:create'))
 	.post(function(req, res, next) {
-
 		let data = {
 			description : req.body.description,
 			sentiment   : req.body.sentiment || 'for',
@@ -101,7 +100,7 @@ router.route('/')
 			let ideaId = parseInt(req.params.ideaId) || 0;
 			let sentiment = req.query.sentiment;
 			let where = { ideaId, id: argumentId }
-			
+
 			if (sentiment) {
 				where.sentiment = sentiment;
 			}
@@ -133,14 +132,14 @@ router.route('/')
 				})
 				.catch(next);
 		})
-	 
+
 	// view argument
 	// -------------
 		.get(auth.can('argument:view'))
 		.get(function(req, res, next) {
 			res.json(req.argument);
 		})
-	 
+
 	// update argument
 	// ---------------
 		.put(auth.can('argument:edit'))
@@ -152,7 +151,7 @@ router.route('/')
 				})
 				.catch(next);
 		})
-	 
+
 	// delete argument
 	// ---------------
 		.delete(auth.can('argument:delete'))

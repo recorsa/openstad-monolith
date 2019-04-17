@@ -18,6 +18,9 @@ router.use( '/site/:siteId(\\d+)(/idea/:ideaId(\\d+))?/argument', require('./arg
 router.use( '/site/:siteId(\\d+)/idea', require('./idea') );
 //router.use( '/site/:siteId(\\d+)/idea', require('./idea.old') );
 
+// submissions
+router.use( '/site/:siteId(\\d+)/submission', require('./submission') );
+
 // vote
 router.use( '/site/:siteId(\\d+)', require('./vote') );
 

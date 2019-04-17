@@ -1,10 +1,11 @@
-const express = require('express');
-const fetch = require('isomorphic-fetch');
-const jwt = require('jsonwebtoken');
-const nunjucks = require('nunjucks');
+const express 		= require('express');
+const fetch 			= require('isomorphic-fetch');
+const jwt 				= require('jsonwebtoken');
+const nunjucks 		= require('nunjucks');
 const createError = require('http-errors');
-const config = require('config');
-const db = require('../../db');
+const config 			= require('config');
+const db 					= require('../../db');
+const url 				= require('url');
 
 let router = express.Router({mergeParams: true});
 
@@ -53,15 +54,17 @@ router
 			req.session.returnTo = req.query.redirectUrl;
 		}
 
-		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-		let authServerLoginPath = ( req.site && req.site.config.oauth['auth-server-login-path'] ) || config.authorization['auth-server-login-path'];
-		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
-		let url = authServerUrl + authServerLoginPath;
-		url = url.replace(/\[\[clientId\]\]/, authClientId);
-		url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+		req.session.save(() => {
+			let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+			let authServerLoginPath = ( req.site && req.site.config.oauth['auth-server-login-path'] ) || config.authorization['auth-server-login-path'];
+			let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+			let url = authServerUrl + authServerLoginPath;
+			url = url.replace(/\[\[clientId\]\]/, authClientId);
+			url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+			
+			res.redirect(url);
 
-		res.redirect(url);
-
+		});
 	});
 
 // inloggen 2
@@ -197,22 +200,29 @@ router
 			})
 	})
 	.get(function( req, res, next ) {
-
 		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-		let redirectUrl = ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
+
+		/**
+		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
+		 */
+		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
+	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
-		if (redirectUrl.match('[[jwt]]')) {
-			jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
-				if (err) return next(err)
-				req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
-				return next();
-			});
-		} else {
-			req.redirectUrl = redirectUrl;
-			return next();
-		}
+		req.session.returnTo = '';
 
+		req.session.save(() => {
+			if (redirectUrl.match('[[jwt]]')) {
+				jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+					if (err) return next(err)
+					req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
+					return next();
+				});
+			} else {
+				req.redirectUrl = redirectUrl;
+				return next();
+			}
+		});
 	})
 	.get(function( req, res, next ) {
 		res.redirect(req.redirectUrl);

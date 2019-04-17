@@ -5,6 +5,21 @@ var util      = require('./util');
 var config    = require('config');
 var dbConfig  = config.get('database');
 
+if (config.database.mysqlSTGeoMode) {
+	console.log('eeeee');
+	const Wkt = require('terraformer-wkt-parser')
+	Sequelize.GEOMETRY.prototype._stringify = function _stringify(value, options) {
+	  return 'ST_GeomFromText(' + options.escape(Wkt.convert(value)) + ')'
+	}
+	Sequelize.GEOGRAPHY.prototype._stringify = function _stringify(value, options) {
+	  return 'ST_GeomFromText(' + options.escape(Wkt.convert(value)) + ')'
+	}
+} else {
+	console.log('fffff');
+
+}
+
+
 var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
 	dialect        : dbConfig.dialect,
 	host           : dbConfig.host,
@@ -15,9 +30,9 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 	},
 	timeZone       : config.timeZone,
 	logging        : require('debug')('app:db:query'),
-	// logging: console.log,
+	//logging: console.log,
 	typeValidation : true,
-	
+
 	define: {
 		charset        : 'utf8mb4',
 		underscored    : false, // preserve columName casing.
