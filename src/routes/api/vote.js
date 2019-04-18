@@ -12,6 +12,8 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 
 // get idea, for all get requests
 	.all(function(req, res, next) {
+		console.log('req.body ', req.body );
+
 		var ideaId = parseInt(req.params.ideaId);
 		if (!ideaId) return next();
 		db.Idea
@@ -56,15 +58,15 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 // check user
 // ----------
 	// .post(function(req, res, next) {
-	//  
+	//
 	//  	if (req.site.config.votes.userRole != 'anonymous') {
 	//  		return next();
-	//  	}			
-	//  
+	//  	}
+	//
 	//  	if (req.user.id != 1) { // ToDo: blijkbaar krijgen anonieme requests deze gebruiker mee....
 	//  		return next();
-	//  	}			
-	//  		
+	//  	}
+	//
 	//  	console.log('CREATE USER');
 	//  	// anonymous is allowed and a user does not yet exist; create one
 	//  	let zipCode = req.body.zipCode;
@@ -81,7 +83,7 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 	//  		.catch(function( error ) {
 	//  			return next(error);
 	//  		});
-	//  
+	//
 	// })
 
 // add vote
@@ -121,8 +123,9 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 			.then(existingVotes => {
 
 				var result = {};
-				
+
 				let newVotes = Array.isArray(req.body) ? req.body : [req.body];
+				console.log('req.body ', req.body );
 
 				// zet ideaId en ip
 				if (req.params.ideaId) {
@@ -130,7 +133,7 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 						newVote.ideaId = req.params.ideaId;
 					});
 				}
-				
+
 				let toBeCreated = [];
 				let toBeUpdated = [];
 				let toBeDeleted = [];
@@ -139,10 +142,16 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 					// todo: validate
 				});
 
+				console.log('newVotes', newVotes);
+
 				newVotes.forEach((newVote, index) => {
 					let existingVote = existingVotes.find( existingVote => existingVote.userId == req.user.id && existingVote.ideaId == newVote.ideaId );
+					console.log('existingVote', existingVote);
+
 
 					if ( existingVote && ( req.voteConfig.widthExisting == 'replace' || req.voteConfig.widthExisting == 'replaceAll' ) ) {
+						console.log('toBeUpdated 1');
+
 						toBeUpdated.push({
 							id: existingVote.id,
 							ideaId: newVote.ideaId,
@@ -153,12 +162,16 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 					}
 
 					if ( existingVote && req.voteConfig.widthExisting == 'createOrCancel' ) {
+						console.log('toBeDeleted 1');
+
 						toBeDeleted.push({
 							id: existingVote.id,
 						});
 					}
 
 					if (!existingVote) {
+						console.log('toBeCreated 1');
+
 						toBeCreated.push({
 							ideaId: newVote.ideaId,
 							userId: req.user.id,
@@ -206,7 +219,7 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 								updated: toBeUpdated,
 								deleted: toBeDeleted,
 							};
-							
+
 							return next();
 						},
 						error => next(error)
@@ -223,7 +236,7 @@ router.route('(/idea/:ideaId(\\d+))?/vote')
 		let data = {
 			result  : req.result,
 		}
-		res.json(data)		
+		res.json(data)
 	})
 
 module.exports = router;

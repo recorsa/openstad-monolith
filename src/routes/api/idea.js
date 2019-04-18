@@ -70,10 +70,11 @@ router
 			let filteredBody = {};
 
 			let keys;
+
 			if (req.user.isAdmin()) {
-				keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
+				keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'opinion', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
 			} else {
-				keys = [ 'title', 'summary', 'description', 'budget', 'extraData', 'location' ];
+				keys = [ 'title', 'summary', 'description', 'budget', 'extraData', 'location', 'opinion' ];
 			}
 
 			keys.forEach((key) => {
