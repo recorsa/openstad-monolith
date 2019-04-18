@@ -35,7 +35,6 @@ router
 			.findOne({ where })
 			.then(function( found ) {
 				req.site = found;
-				//console.log('found', req.site && [req.site.id, req.site.name]);
 				next();
 			})
 			.catch( err => {
@@ -62,8 +61,9 @@ router
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-
+			
 			res.redirect(url);
+
 		});
 	});
 
@@ -102,7 +102,7 @@ router
 				body: JSON.stringify(postData)
 			})
 			.then(
-				response => { return response.json() },
+				response => response.json(),
 				error => next // TODO: fatsoenlijke foutafvanging
 			)
 			.then(
@@ -235,7 +235,14 @@ router
 	.get(function( req, res, next ) {
 
 		req.session.destroy();
-		res.success('/', true);
+
+		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let authServerGetUserPath = ( req.site && req.site.config.oauth['auth-server-logout-path'] ) || config.authorization['auth-server-logout-path'];
+		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let url = authServerUrl + authServerGetUserPath;
+		url = url.replace(/\[\[clientId\]\]/, authClientId);
+
+		res.redirect(url);
 
 	});
 

@@ -97,7 +97,6 @@ router.route('/')
 // ----------
 	.get(auth.can('ideas:list'))
 	.get(function(req, res, next) {
-
 		db.Idea
 			.scope(...req.scope)
 			.findAll({ where: { siteId: req.params.siteId } })
@@ -113,6 +112,10 @@ router.route('/')
 // create idea
 // -----------
 	.post(auth.can('idea:create'))
+	.post(function(req, res, next) {
+		if (!req.site) return next('Site niet gevonden');
+		return next();
+	})
 	.post(function(req, res, next) {
 		// TODO: ik wil hem nu niet openzetten; dit moet per site en met :can zoals hierboven
 		if (!(req.user && req.user.role == 'admin')) return next('Je kunt geen idee aanmaken')

@@ -12,7 +12,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		userId: {
 			type         : DataTypes.STRING,
 			defaultValue : null,
-			allowNull    : false,
+			allowNull    : 0,
 		},
 
 		userIp: {
