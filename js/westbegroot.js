@@ -493,7 +493,6 @@ function logout(options) {
 			success: options.sucess,
 			error: options.error,
 		});
-
 	}
 
 }
