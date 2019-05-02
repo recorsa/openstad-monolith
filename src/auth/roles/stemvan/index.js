@@ -54,7 +54,7 @@ var helpers = {
 		return user.id === argument.userId &&
 		       idea.isRunning();
 	},
-	mayVoteArgument: function( user, idea, argument ) {
+	mayVoteArgument: function( user, argument ) {
 		return !argument.parentId;
 	},
 	

@@ -41,23 +41,32 @@
 		<div id="article">
 
 
-			<h2>Ik ben geen bewoner van stadsdeel Centrum, maar wil wel graag een plan insturen. Kan dat?</h2>
-			Ja, dan kan. Iedereen mag een plan insturen als het een plan is voor Centrum. De bewoners van stadsdeel Centrum bepalen uiteindelijk welke plannen er in hun buurt worden uitgevoerd.
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<h2>Ik ben geen bewoner van stadsdeel Centrum, maar wil wel graag een plan insturen. Kan dat?</h2>
+				Ja, dan kan. Iedereen mag een plan insturen als het een plan is voor Centrum. De bewoners van stadsdeel Centrum bepalen uiteindelijk welke plannen er in hun buurt worden uitgevoerd.
+			{% endif %}
 
-			<h2>Ik ben niet zo handig met computers. Kan ik mijn plan op een andere manier indienen?</h2>
-			Ja dat kan! Vrijwilligers van Dock helpen je graag met het insturen van je plan. Dat kan op dinsdagmiddag 16 april, 23 april, 30 april en 7 mei in het Claverhuis en op donderdagochtend 11 april, 18 april, 25 april en 7 mei in de Witte Boei.<br/>
-			<br/>
-			Pluspunt Claverhuis<br/>
-			Elandsgracht 70<br/>
-			1016 TX Amsterdam<br/>
-			Dinsdag: 14.00 – 16.00 uur<br/>
-			16 april, 23 april, 30 april en 7 mei<br/>
-			<br/>
-			Pluspunt Witte Boei<br/>
-			Kleine Wittenburgerstraat 201<br/>
-			1018 LT Amsterdam<br/>
-			Donderdag 09:00 - 12:00 uur<br/>
-			11 april, 18 april, 25 april en 2 mei<br/>
+			{% if (config.ideas.voteForIdeas != 'closed') %}
+				{% if (config.ideas.addNewIdeas != 'closed') %}
+					<h2>Ik ben niet zo handig met computers. Kan ik mijn plan op een andere manier indienen?</h2>
+					Ja dat kan! Vrijwilligers van Dock helpen je graag met het insturen van je plan. Dat kan op dinsdagmiddag 16 april, 23 april, 30 april en 7 mei in het Claverhuis en op donderdagochtend 11 april, 18 april, 25 april en 7 mei in de Witte Boei.<br/>
+				{% else %}
+					<h2>Hulp bij het stemmen?</h2>
+					Ja dat kan! Vrijwilligers van Dock helpen je graag met het stemmen. Dat kan op dinsdagmiddag 16 april, 23 april, 30 april en 7 mei in het Claverhuis en op donderdagochtend 11 april, 18 april, 25 april en 7 mei in de Witte Boei.<br/>
+				{% endif %}
+				<br/>
+				Pluspunt Claverhuis<br/>
+				Elandsgracht 70<br/>
+				1016 TX Amsterdam<br/>
+				Dinsdag: 14.00 – 16.00 uur<br/>
+				16 april, 23 april, 30 april en 7 mei<br/>
+				<br/>
+				Pluspunt Witte Boei<br/>
+				Kleine Wittenburgerstraat 201<br/>
+				1018 LT Amsterdam<br/>
+				Donderdag 09:00 - 12:00 uur<br/>
+				11 april, 18 april, 25 april en 2 mei<br/>
+			{% endif %}
 
 			<h2>Ik heb een plan ingediend, maar ik wil mijn plan graag wijzigen. Kan dat?</h2>
 			Je kunt je plan aanpassen zolang er nog geen stem (voor of tegen) is uitgebracht of een argument bij is geplaatst. Je moet hiervoor ingelogd zijn met het emailadres waarmee je je plan hebt ingestuurd. Is er al wel op je plan gereageerd, maar wil je toch nog wat aanpassen? Mail je vraag dan naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> en dan kijken we hoe we je kunnen helpen.
@@ -68,13 +77,17 @@
 			<h2>Waarom heb ik 50 likes (voor-stemmen) nodig om mijn plan door te laten gaan naar de volgende ronde?</h2>
 			Stadsdeel Centrum vindt het belangrijk om te weten of er draagvlak in de buurt is voor een plan. Daarom vragen we bewoners ook te reageren op de plannen door middel van argumenten voor en tegen. De argumenten uit de buurt en de voor-stemmen geven ons een goed beeld van het draagvlak.
 
-			<h2>Waarom heb ik geen wachtwoord nodig?</h2>
-			Uit gebruiksvriendelijkheid werkt deze site zonder wachtwoorden. Je hoeft geen wachtwoord te onthouden om toegang te hebben tot de site. Bovendien vinden wij het veel veiliger om geen wachtwoorden op te slaan van onze gebruikers. Op die manier kunnen wij de privacy het beste waarborgen.<br/>
-			<br/>
-			Inloggen kan nu door via de knop ‘aanmelden’ direct recht onder de menubalk je emailadres in te vullen. Je ontvangt dan een e-mail met een link waarop je kunt klikken (een zogeheten login-token), waarna je ingelogd bent. Dit hoef je maar één keer te doen, want hierna blijf je bij elk volgend bezoek aan de site gewoon ingelogd!
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<h2>Waarom heb ik geen wachtwoord nodig?</h2>
+				Uit gebruiksvriendelijkheid werkt deze site zonder wachtwoorden. Je hoeft geen wachtwoord te onthouden om toegang te hebben tot de site. Bovendien vinden wij het veel veiliger om geen wachtwoorden op te slaan van onze gebruikers. Op die manier kunnen wij de privacy het beste waarborgen.<br/>
+				<br/>
+				Inloggen kan nu door via de knop ‘aanmelden’ direct recht onder de menubalk je emailadres in te vullen. Je ontvangt dan een e-mail met een link waarop je kunt klikken (een zogeheten login-token), waarna je ingelogd bent. Dit hoef je maar één keer te doen, want hierna blijf je bij elk volgend bezoek aan de site gewoon ingelogd!
+			{% endif%}
 
-			<h2>Waarom is de inlog/registratielink maar 48 uur geldig?</h2>
-			Voor je eigen veiligheid is de link in de ontvangen e-mail maar 48 uur geldig. Na registratie herkent onze server telkens wanneer je inlogt weer dat jij het bent. Wel zo makkelijk!
+			{% if (config.ideas.addNewIdeas != 'closed') %}
+				<h2>Waarom is de inlog/registratielink maar 48 uur geldig?</h2>
+				Voor je eigen veiligheid is de link in de ontvangen e-mail maar 48 uur geldig. Na registratie herkent onze server telkens wanneer je inlogt weer dat jij het bent. Wel zo makkelijk!
+			{% endif%}
 
 			<h2>Hoe veilig is deze site?</h2>
 			Centrum Begroot neemt beveiligingsmaatregelen om misbruik van en ongeautoriseerde toegang tot persoonsgegevens te beperken.<br/>

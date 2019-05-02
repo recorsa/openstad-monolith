@@ -8,9 +8,15 @@
 					<div class="step-header">1. Bekijk de inspiratieprojecten</div>
 					<div class="step-text">
 						Stadsdeel Centrum stelt € 200.000 beschikbaar voor projecten die de binnenstad leefbaar houden en de verbinding tussen buurtgenoten versterken. Bekijk hier naar welke soort plannen het stadsdeel op zoek is.
-						<ul>
-							<li><a href="/inspiratie">Inspiratie nodig?</a></li>
-						</ul>
+						{% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/inspiratie">Inspiratie nodig?</a></li>
+							</ul>
+						{% else %}
+							<ul>
+								<li><a href="/inspiratie">Bekijk de inspiratie projecten</a></li>
+							</ul>
+						{% endif %}
 					</div>
 				</div>
 				<div class="step">
@@ -43,15 +49,3 @@
 		</div>
 	</div>
 {% endmacro %}
-
-
-
-
-
-
-
-
-stap-1-inspiratie.svg        
-stap-2-stuur-plan-in.svg     
-stap-3-haalbaarheidscheck.svg
-stap-4-verdeel-geld.svg      
