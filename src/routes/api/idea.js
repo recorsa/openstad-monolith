@@ -181,7 +181,8 @@ router.route('/:ideaId(\\d+)')
 		req.body.location = JSON.parse(req.body.location || null);
 
 		req.idea
-			.update(pick(req.body, ['title', 'summary', 'description', 'extraData', 'location']))
+		//	.update(pick(req.body, ['title', 'summary', 'description', 'extraData', 'location']))
+			.update(req.body)
 			.then(result => {
 				res.json(result);
 			})
