@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "stemvan" : "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
+    "stemvan": "NODE_ENV=stemvan NODE_APP_INSTANCE=development nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -43,6 +43,7 @@
     "node-cache": "^4.1.0",
     "nodemailer": "^4.6.7",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "nodemon": "^1.19.0",
     "nunjucks": "^3.1.3",
     "passwordless-tokenstore": "0.0.10",
     "pmx": "^1.0.1",
