@@ -79,6 +79,18 @@ addApp('stemvan', [{
 	remotePath : '/var/www/westbegroot-phase-2.demo.openstadsdeel.nl/www',
 	ref        : 'origin/master'
 }, {
+}, {
+	appName    : 'demo-westbegroot-phase-3',
+	deployName : 'demo_westbegroot_phase_3',
+	remotePath : '/var/www/westbegroot-phase-3.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
+}, {
+	appName    : 'demo-westbegroot-phase-4',
+	deployName : 'demo_westbegroot_phase_4',
+	remotePath : '/var/www/westbegroot-phase-4.demo.openstadsdeel.nl/www',
+	ref        : 'origin/master'
+}, {
 	appName    : 'demo-zorggoedvooronzestad-phase-1',
 	deployName : 'demo_zorggoedvooronzestad_phase_1',
 	remotePath : '/var/www/zorggoedvooronzestad-phase-1.demo.openstadsdeel.nl/www',
