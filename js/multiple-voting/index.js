@@ -11,11 +11,13 @@
 
 // config
 
+var votingType = 'count'; //budgetting or count
+
+var maxIdeas = 5;
+var minIdeas = 5;
 
 var initialAvailableBudget = 300000;
 var minimalBudgetSpent = 200000;
-
-
 
 // vars
 var availableBudgetAmount = initialAvailableBudget;
@@ -26,19 +28,20 @@ var currentStep = 1;
 function toggleIdeaInBudget(id) {
 	var index = currentBudgetSelection.indexOf(id);
 	if (index == -1) {
-		addIdeaToBudget(id);
+		addIdeaToSelection(id);
 	} else {
-		removeIdeaFromBudget(id);
+		removeIdeaFromSelection(id);
 	}
 }
 
-function addIdeaToBudget(id) {
+function addIdeaToSelection(id) {
 
 	var element = sortedElements.find( function(el) { return el.ideaId == id } );
 
 	if (availableBudgetAmount >= element.budgetValue && currentBudgetSelection.indexOf(id) == -1) {
 		currentBudgetSelection.push(id);
 	}
+
 	recalculateAvailableBudgetAmount();
 
 	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
@@ -51,12 +54,13 @@ function addIdeaToBudget(id) {
 
 }
 
-function removeIdeaFromBudget(id) {
+function removeIdeaFromSelection(id) {
 
 	var element = sortedElements.find( function(el) { return el.ideaId == id } );
 	var index = currentBudgetSelection.indexOf(id);
 
 	currentBudgetSelection.splice(index, 1);
+
 	recalculateAvailableBudgetAmount();
 
 	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
@@ -90,7 +94,7 @@ function setBudgetingEditMode() {
 			var image = images[i];
 			$(image).on('click', function () {
 				var ideaId = parseInt($(this).attr('data-idea-id'), 10);
-				removeIdeaFromBudget(ideaId)
+				removeIdeaFromSelection(ideaId)
 			});
 		}
 	} else {
@@ -120,11 +124,23 @@ function previousStep() {
 	updateBudgetDisplay();
 }
 
+function isSelectionValidated() {
+	return voteType === 'count' ? getSelectionCount => minIdeas &&  : (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent)  ;
+}
+
+
+function isSelectionEmpty() {
+
+}
+
+function 
+
 function nextStep() {
 
 	scrollToBudget()
 
 	if (currentStep == 1) {
+
 		if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 			addError(document.querySelector('#current-budget-preview'), initialAvailableBudget - availableBudgetAmount == 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
 			return;
@@ -799,7 +815,7 @@ function handleClick(event) {
 	var target = event.target;
 	var ideaElement;
 	var buttonReadMore;
-	var buttonAddIdeaToBudget;
+	var buttonaddIdeaToSelection;
 
 	while ( target.tagName != 'HTML' ) {
 		if ( target.className.match('gridder-list') ) {
@@ -807,7 +823,7 @@ function handleClick(event) {
 			break;
 		}
 		if ( target.className.match(/button-add-idea-to-budget/) ) {
-			buttonAddIdeaToBudget = target;
+			buttonaddIdeaToSelection = target;
 		}
 		if ( target.className.match('button-read-more') ) {
 			buttonReadMore = target;
@@ -818,7 +834,7 @@ function handleClick(event) {
 	if (ideaElement) {
 
 		// if button == 'add to budget'
-		if (buttonAddIdeaToBudget) {
+		if (buttonaddIdeaToSelection) {
 			var ideaId = ideaElement.ideaId;
 			if (ideaId) {
 				toggleIdeaInBudget(ideaId)
@@ -1096,9 +1112,9 @@ updateBudgetDisplay();
 
 // dev
 // if (currentBudgetSelection.length == 0) {
-//  	addIdeaToBudget(17)
-//  	addIdeaToBudget(31)
-//  	addIdeaToBudget(30)
+//  	addIdeaToSelection(17)
+//  	addIdeaToSelection(31)
+//  	addIdeaToSelection(30)
 // }
 
 // end init

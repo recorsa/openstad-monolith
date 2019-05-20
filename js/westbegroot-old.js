@@ -10,12 +10,8 @@
 // stap 7: doorverwijzing naar /begroten, dwz. begin opnieuw
 
 // config
-
-
 var initialAvailableBudget = 300000;
 var minimalBudgetSpent = 200000;
-
-
 
 // vars
 var availableBudgetAmount = initialAvailableBudget;

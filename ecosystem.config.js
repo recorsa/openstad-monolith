@@ -73,7 +73,18 @@ addApp('stemvan', [{
 	deployName : 'demo_westbegroot_phase_4',
 	remotePath : '/var/www/westbegroot-phase-4.demo.openstadsdeel.nl/www',
 	ref        : 'origin/projects/westbegroot-phase-2'
-}]);
+},{
+	appName    : 'staging-molenwijkkiest',
+	deployName : 'staging_molenwijkkiest',
+	remotePath : '/var/www/molenwijkkiest.staging.openstadsdeel.nl/www',
+	ref        : 'origin/vote-on-multiple-plans'
+},{
+	appName    : 'molenwijkkiest',
+	deployName : 'production_molenwijkkiest',
+	remotePath : '/var/www/molenwijkkiest.amsterdam.nl/www',
+	ref        : 'origin/vote-on-multiple-plans'
+}
+]);
 
 addApp('stemtool', [{
 	appName    : 'javabrug-staging',
@@ -104,14 +115,14 @@ function addApp( env, app ) {
 	if( app.constructor !== Object ) {
 		return;
 	}
-	
+
 	var env = {
 		NODE_ENV                   : env,
 		NODE_APP_INSTANCE          : 'production',
 		BLUEBIRD_LONG_STACK_TRACES : 1,
 		BLUEBIRD_WARNINGS          : 0
 	};
-	
+
 	config.apps.push({
 		name         : app.appName,
 		script       : 'server.js',
@@ -123,14 +134,11 @@ function addApp( env, app ) {
 		user          : 'daan',
 		host          : '185.110.174.172',
 		path          : app.remotePath,
-		
+
 		ref           : app.ref,
 		repo          : 'git@github.com:Amsterdam/openstad-monolith.git',
-		
+
 		env           : env,
 		'post-deploy' : `git submodule init && git submodule update && npm install && node migrate.js && pm2 startOrRestart ecosystem.config.js --only ${app.appName} --update-env`
 	};
 }
-
-
-
