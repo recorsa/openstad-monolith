@@ -5,9 +5,9 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-		
+
 		<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
-		
+
 		<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
 
 		<script>
@@ -17,18 +17,18 @@
 		 var startDate = new Date('2019-04-10');
 		 var startDateText = startDate.getDate() + ' ' + months[ startDate.getMonth() ] + ' ' + ( 1900 + startDate.getYear() );
 
-		 var endDate1 = new Date('2019-05-08');
+		 var endDate1 = new Date('2019-05-15');
 		 // var endDate1 = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
 		 var endDateText1 = endDate1.getDate() + ' ' + months[ endDate1.getMonth() ];
 		 var daysLeft1 = parseInt( ( endDate1.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
-		 var endDate2 = new Date('2019-05-15');
+		 var endDate2 = new Date('2019-05-22');
 		 // var endDate2 = new Date( Date.now() + 28 * 24 * 60 * 60 * 1000 ); // demo versie
 		 var endDateText2 = endDate2.getDate() + ' ' + months[ endDate2.getMonth() ];
 		 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 
 		</script>
-		
+
 		<meta name="viewport" content="initial-scale=1">
 		{% block head %}
 			<link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
@@ -49,7 +49,7 @@
 					<h1><span>{{SITENAME}}</span></h1>
 				</a>
 			</header>
-			
+
 			<nav id="mainMenu" role="navigation" class="menuBar">
 				<div>
 					<ul>
@@ -57,7 +57,7 @@
 						<li class="{{'active' if activeMenu == 'about'}}"><a href="/inspiratie">Inspiratie</a></li>
 						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Plannen</a></li>
 					</ul>
-					
+
 					{% if user.hasCompletedRegistration() %}
 						<a href="/account" id="account" data-initials="{{user.initials}}">{{user.fullName}}</a>
 					{% else %}
@@ -70,7 +70,7 @@
 
 				</div>
 			</nav>
-			
+
 			<nav id="subMenu" class="" role="navigation">
 				<div>
 					<ul>
@@ -83,7 +83,7 @@
 					</ul>
 				</div>
 			</nav>
-			
+
 			<div id="content" class="pageContent {{contentClass}}">
 				{% for type,list in messages %}
 					<div class="flashMessage {{type}}">
@@ -103,11 +103,11 @@
 							<h2>Informatie</h2>
 							{% for message in list %}{{message | safe}}<br>{% endfor %}
 						{% endif %}
-						
+
 						<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
 					</div>
 				{% endfor %}
-				
+
 				{% block content %}
 					Standaard pagina.
 				{% endblock %}
@@ -123,7 +123,7 @@
 				{% block content2 %}
 				{% endblock %}
 			</div>
-			
+
 			{#
 			Extra page elements. E.g. used by idea.njk to render arguments which
 			has an extra header element that spans the entire `#page` width.
@@ -168,7 +168,7 @@
 			{{ mobileMenu() }}
 
 		</div>
-		
+
 		<script>
 		 // Preload class is defined in `all.less` to disable all animations.
 			 document.body.className = '';
@@ -195,24 +195,24 @@
 									hideMenu(event);
 								}
 							});
-							
+
 							function showMenu( event ) {
 								event.preventDefault();
 								event.stopPropagation();
-								
+
 								document.body.addEventListener('click', hideMenu);
 								subMenu.addEventListener('click', menuClick);
-								
+
 								subMenu.className += ' active';
 								active = true;
 							}
 							function hideMenu( event ) {
 								event.preventDefault();
 								event.stopPropagation();
-								
+
 								document.body.removeEventListener('click', hideMenu);
 								subMenu.removeEventListener('click', menuClick);
-								
+
 								subMenu.className = subMenu.className.replace(/ ?active/, '');
 								active = false;
 							}
@@ -239,9 +239,9 @@
 															});
 														})();
 		</script>
-		
+
 		{% block scripts %}{% endblock %}
-		
+
 		{% if ENV == 'production' %}
 			{% include 'includes/analytics.njk' %}
 		{% endif %}
