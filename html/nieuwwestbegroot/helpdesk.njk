@@ -1,0 +1,52 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+
+{% set pageTitle    = 'Helpdesk' %}
+{# {% set contentClass = 'article faq' %} #}
+
+{% block head %}
+	{{super()}}
+
+	<style type="text/css">
+	 .whatsapp-banner {
+        background-color: #E3E4E5;
+	 }
+     .arabic {
+         direction: rtl;
+     }
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="primary">
+		<h1>Helpdesk</h1>
+
+        <div class="whatsapp-banner">
+            WhatsApp banner
+        </div>
+
+        <div class="site-summary">
+            <h2>Nederlands</h2>
+            <p>Beschrijving van de website</p>
+        </div>
+
+        <div class="site-summary">
+            <h2>English</h2>
+            <p>Description of the website</p>
+        </div>
+
+        <div class="site-summary">
+            <h2>Türk</h2>
+            <p>Web sitesinin açıklaması</p>
+        </div>
+
+        <div class="site-summary arabic">
+            <h2>عربى</h2>
+            <p>وصف الموقع</p>
+        </div>
+
+	</div>
+
+	<div class="secondary">
+	</div>
+{% endblock %}
