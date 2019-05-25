@@ -31,6 +31,7 @@
 
 				@media @phone {
 					width: calc(70%);
+					max-width: 283px;
 					margin: 20px auto;
 					float: none;
 					display: block;
@@ -55,7 +56,7 @@
 			#homebanner-buttons {
 
 				@media @phone {
-					width: 141px;
+					width: 170px;
 				}
 
 				a.bekijk-de-themas,
@@ -68,21 +69,25 @@
 				a.bekijk-de-themas {
 					border: solid 1px #164995;
 					line-height: 42px;
-					width: 99px;
+					// width: 99px;
 
 					&:hover {
 						border: solid 2px #164995;
 						line-height: 40px;
 					}
 
-					@media @phone {
-						margin-left: 22px;
-					}
+					// @media @phone {
+					// 	margin-left: 22px;
+					// }
 
 				}
 
 				a.stuur-plan-in {
 					width: 141px;
+
+					@media @phone {
+						margin-left: 15px;
+					}
 				}
 
 			}
