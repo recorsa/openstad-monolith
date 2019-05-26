@@ -19,8 +19,7 @@
 {% block content %}
 	<div class="primary top-padding bottom-padding" style={% block direction %}"direction: ltr"{% endblock %}>
 		<h1>
-            {% block title %}
-                Buurtbudget Slotermeer Noordoost
+            {% block title %}   
             {% endblock %}
         </h1>
 
@@ -36,9 +35,30 @@
             </li>
         </ul> #}
 
-        <div class="whatsapp-banner">
-            WhatsApp banner
-        </div>
+        <div id="whatsapp-banner">
+            <div id="whatsapp-banner-description">
+                <h4>
+                    {% block whatsapptitle %}
+                        Stuur ons een (spraak) bericht via WhatsApp!
+                    {% endblock %}
+                </h4>
+                <p>
+                    {% block whatsappdescription %}
+                        Beschrijving jorg riejbger uieru bgehig brthg bthjg beghjkerbgjer kgert jgerjkgbrtjhg erbkg erjbg erkjgber kjgbrej gbnrgj rbngojer ngowjrg nwrojgn wrokgnero gkerng oekrkgner ok
+                    {% endblock %}
+                </p>
+            </div>
+            <div id="whatsapp-link">
+                <div><img src="/img/WhatsApp_Logo.svg" /></div>
+                <div id="whatsapp-link-description">
+                    <a href="https://wa.me/31612345678">
+                        {% block whatsapplink %}
+                            Stuur een (spraak)bericht naar 06-12345678
+                        {% endblock %}
+                    </a>
+                </div>
+            </div>
+		</div>
 
         <div class="site-summary">
             <h2>
