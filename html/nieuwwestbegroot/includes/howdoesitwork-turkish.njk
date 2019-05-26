@@ -1,0 +1,51 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWorkTurkish" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWorkTurkish').className = document.getElementById('howDoesItWorkTurkish').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">O nasıl çalışır? [TODO]<img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-1.svg" />
+					<div class="step-header">1. Slotermeer Noordoost için 3 tema hakkında bilgi edinin</div>
+					<div class="step-text">
+						Belediye, Slotermeer Noordoost sakinlerinin kendilerini nasıl 500.000 € harcayacaklarına karar verdiği bir pilotla başladı. Yetenek gelişimi ve buluşma, kültür ve etkinlikler ile güvenli ve yeşil çevre ile ilgili fikirleri arıyoruz.
+						{# {% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/inspiratie">Lees meer over de thema's</a></li>
+							</ul>
+						{% else %}
+							<ul>
+								<li><a href="/inspiratie">Lees meer over de thema's</a></li>
+							</ul>
+						{% endif %} #}
+					</div>
+				</div>
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-2.svg" />
+					<div class="step-header">2. Bir plan ve kampanya için gönderin</div>
+					<div class="step-text">
+						Herkes bir plan gönderebilir. Slotermeer Kuzeydoğu'daki planınız için kampanya yapın ve planınızda 30 beğeni topladığınızdan emin olun. Diğerleri, planınızı beğenebilir ve onlara karşı ya da aleyhindeki argümanlarla yorum yapabilir.
+						{# {% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/plan/nieuw">Stuur je plan in</a></li>
+							</ul>
+						{% endif %} #}
+					</div>
+				</div>
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-3.svg" />
+					<div class="step-header">3. Belediye tarafından fizibilite kontrolü</div>
+					<div class="step-text">
+						Planınızda 30 kişi beğenirse, belediye uygun olup olmadığını kontrol edecektir. Tüm uygulanabilir planlardan seçilen Stadsdeelcommissie sakinleri ile birlikte en iyi 40'ı seçecek.
+					</div>
+				</div>
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-4.svg" />
+					<div class="step-header">4. Planlar arasında 500.000 avroyu ayır</div>
+					<div class="step-text">
+						Slotermeer Noordoost sakinleri ve işletmeleri bütçeyi bölerek hangi planların gerçekleştirileceğine karar verir.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

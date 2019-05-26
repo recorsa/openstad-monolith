@@ -1,0 +1,51 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWorkEnglish" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWorkEnglish').className = document.getElementById('howDoesItWorkEnglish').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">How does it work? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-1.svg" />
+					<div class="step-header">1. Learn about the 3 themes for Slotermeer Northeast</div>
+					<div class="step-text">
+						The municipality has started with a pilot where residents of Slotermeer Northeast decide themselves how to spend € 500.000. We’re looking for ideas relating to talent development and meeting each other, culture and activities, and safe and green surroundings.
+						{# {% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/inspiratie">Lees meer over de thema's</a></li>
+							</ul>
+						{% else %}
+							<ul>
+								<li><a href="/inspiratie">Lees meer over de thema's</a></li>
+							</ul>
+						{% endif %} #}
+					</div>
+				</div>
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-2.svg" />
+					<div class="step-header">2. Send in a plan and campaign for it</div>
+					<div class="step-text">
+						Everyone can send in a plan. Campaign for your plan in Slotermeer Northeast and make sure that you get 30 likes on your plan. Others can like your plan and comment with arguments for or against.
+						{# {% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/plan/nieuw">Stuur je plan in</a></li>
+							</ul>
+						{% endif %} #}
+					</div>
+				</div>
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-3.svg" />
+					<div class="step-header">3. Feasibility check by municipality</div>
+					<div class="step-text">
+						If your plan has 30 likes then the municipality will check if it is feasible. Out of all of the feasible plans, the elected Stadsdeelcommissie will pick the best 40, together with residents.
+					</div>
+				</div>
+				<div class="step">
+					<img class="step-image" src="/img/centrumbegroot/howto-4.svg" />
+					<div class="step-header">4. Divide up 500.000 euros between the plans</div>
+					<div class="step-text">
+						Residents and businesses of Slotermeer Northeast divide the budget and therefore decide which plans will be realized.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}
