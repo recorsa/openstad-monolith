@@ -1,0 +1,23 @@
+{% extends 'helpdesk.njk' %}
+
+{% block direction %}
+"direction: rtl"
+{% endblock %}
+
+{% block title %}
+<div style="direction: rtl">
+    ميزانية الجوار لشمال Slotermeer
+</div>
+{% endblock %}
+
+{% block subtitle %}
+    تحديد المستقبل لحي الخاص بك!
+{% endblock %}
+
+{% block description %}
+    <p>أرسل خطتك لأحد الموضوعات الثلاثة (تنمية المواهب والمجتمع ، وأنشطة الثقافة والجوار ، والسلامة والأخضر) ، وقرر أين تنفق الأموال.</p>
+{% endblock %}
+
+{% block howDoesItWork %}
+    {{howdoesitworkArabic.howblock('open')}}
+{% endblock %}

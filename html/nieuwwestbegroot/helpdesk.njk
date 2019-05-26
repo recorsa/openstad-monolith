@@ -17,10 +17,14 @@
 {% endblock %} #}
 
 {% block content %}
-	<div class="primary top-padding">
-		<h1>Helpdesk</h1>
+	<div class="primary top-padding bottom-padding" style={% block direction %}"direction: ltr"{% endblock %}>
+		<h1>
+            {% block title %}
+                Buurtbudget Slotermeer Noordoost
+            {% endblock %}
+        </h1>
 
-        <ul class="arrowed-link">
+        {# <ul class="arrowed-link">
             <li>
                 <a href="#engels">Scroll down for English</a>
             </li>
@@ -30,59 +34,26 @@
             <li>
                 <a href="#arabisch">انتقل لأسفل للغة العربية</a>
             </li>
-        </ul>
+        </ul> #}
 
         <div class="whatsapp-banner">
             WhatsApp banner
         </div>
 
         <div class="site-summary">
-            <h2>Nederlands</h2>
-            <p>Beschrijving van de website</p>
+            <h2>
+                {% block subtitle %}
+                    Bepaal de toekomst van jouw buurt!
+                {% endblock %}
+            </h2>
+
+            {% block description %}
+            <p>Stuur je plan in voor één van de 3 thema’s (Talentontwikkeling & ontmoeting, Cultuur & buurtactiviteiten, Veilig & groen) en bepaal waar het geld naar toe gaat.</p>
+            {% endblock %}
         </div>
     </div>
 {% endblock %}
 
 {% block howDoesItWork %}
-    {{howdoesitwork.howblock('closed')}}
-{% endblock %}
-
-{% block content2 %}
-    <div class="primary">
-        <div class="site-summary" id="engels">
-            <h2>English</h2>
-            <p>Description of the website</p>
-        </div>
-    </div>
-{% endblock %}
-
-{% block howDoesItWorkEnglish %}
-    {{howdoesitworkEnglish.howblock('closed')}}
-{% endblock %}
-
-{% block content3 %}
-    <div class="primary">
-        <div class="site-summary" id="turks">
-            <h2>Türk</h2>
-            <p>Web sitesinin açıklaması</p>
-        </div>
-    </div>
-{% endblock %}
-
-{% block howDoesItWorkTurkish %}
-    {{howdoesitworkTurkish.howblock('closed')}}
-{% endblock %}
-
-{% block content4 %}
-    <div class="primary">
-        <div class="site-summary arabic" id="arabisch">
-            <h2>عربى</h2>
-            <p>وصف الموقع</p>
-        </div>
-
-	</div>
-{% endblock %}
-
-{% block howDoesItWorkArabic %}
-    {{howdoesitworkArabic.howblock('closed')}}
+    {{howdoesitwork.howblock('open')}}
 {% endblock %}
