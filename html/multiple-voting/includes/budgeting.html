@@ -56,6 +56,18 @@
 								<div class="col-sm-4  col-xs-12 ">
 									<div id="budget-text" class="stretch">
 										<div>
+											{% if config.budgeting.validateByIdeasCount %}
+											<table class="primary-color stretch table-reset">
+												<tr >
+													<td><label>Plannen gekozen:</label> </td>
+													<td><span class="current-ideas-count text-align-right block bold">0</span></td>
+												</tr>
+												<tr>
+													<td><label>Plannen over:</label></td>
+													<td><span class="available-ideas-count  text-align-right block bold">0</span></td>
+												</tr>
+											</table>
+											{% else %}
 											<table class="primary-color stretch table-reset">
 												<tr >
 													<td><label>Budget gekozen:</label> </td>
@@ -66,6 +78,7 @@
 													<td><span class="available-budget-amount  text-align-right block bold">0</span></td>
 												</tr>
 											</table>
+											{% endif %}
 										</div>
 									</div>
 								</div>
@@ -255,10 +268,19 @@
 
 				<div class="sticky-expand">
 					<div class="row">
-
 						{% if config.budgeting.validateByIdeasCount %}
-							<div class="col-sm-4 col-xs-6 budget-col"> 	&nbsp; </div>
-							<div class="col-sm-4 col-xs-6 budget-col">&nbsp;</div>
+							<div class="col-sm-4 col-xs-6 budget-col">
+								<label>
+									<span> Plannen gekozen: </span>
+								</label>
+								<span class="current-ideas-count bold">0</span>
+							</div>
+							<div class="col-sm-4 col-xs-6 budget-col">
+								<label>
+									<span> Plannen gekozen: </span>
+								</label>
+								<span class="available-ideas-count bold">0</span>
+							</div>
 						{% else %}
 						<div class="col-sm-4 col-xs-6 budget-col">
 							<label>

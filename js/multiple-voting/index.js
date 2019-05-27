@@ -34,15 +34,18 @@ function toggleIdeaInBudget(id) {
 	}
 }
 
-function addIdeaToSelection(id) {
 
+function addIdeaToSelection(id) {
 	var element = sortedElements.find( function(el) { return el.ideaId == id } );
 
-	if (availableBudgetAmount >= element.budgetValue && currentBudgetSelection.indexOf(id) == -1) {
+	if (votingType === 'count' && currentBudgetSelection.length < maxIdeas) {
+		currentBudgetSelection.push(id);
+	} else if (availableBudgetAmount >= element.budgetValue && currentBudgetSelection.indexOf(id) == -1) {
 		currentBudgetSelection.push(id);
 	}
 
 	recalculateAvailableBudgetAmount();
+//	recalculateAvailableIdeasCount();
 
 	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
 
@@ -51,7 +54,7 @@ function addIdeaToSelection(id) {
 
 	updateBudgetDisplay();
 	updateListElements();
-
+	updateIdeaCounters();
 }
 
 function removeIdeaFromSelection(id) {
@@ -69,7 +72,7 @@ function removeIdeaFromSelection(id) {
 
 	updateBudgetDisplay();
 	updateListElements();
-
+	updateIdeaCounters();
 }
 
 function recalculateAvailableBudgetAmount() {
@@ -133,15 +136,17 @@ function isSelectionEmpty() {
 
 }
 
-function 
+function
 
 function nextStep() {
 
 	scrollToBudget()
 
 	if (currentStep == 1) {
-
-		if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
+		if (votingType === 'count' && currentBudgetSelection.length < minIdeas) {
+			addError(document.querySelector('#current-budget-preview'), currentBudgetSelection.length  === 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet minimaal '+minIdeas+' plannen geselecteerd.')
+			return;
+		} else if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 			addError(document.querySelector('#current-budget-preview'), initialAvailableBudget - availableBudgetAmount == 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
 			return;
 		}
@@ -176,6 +181,11 @@ function nextStep() {
 		window.location.href = authServerLogoutUrl ? authServerLogoutUrl : '/begroten';
 	}
 
+}
+
+function updateIdeaCounters() {
+	$('.current-ideas-count').text(currentBudgetSelection.length);
+	$('.available-ideas-count').text(maxIdeas - currentBudgetSelection.length);
 }
 
 function updateBudgetDisplay() {
@@ -247,6 +257,8 @@ function updateBudgetDisplay() {
 		// budgetBarImage.onclick = function(e) { document.querySelector('#idea-'+this.ideaId).click() };
 		budgetBar.appendChild(budgetBarImage)
 	});
+
+
 
 	var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 	previewImages.appendChild( addButton.cloneNode(true) )
@@ -777,7 +789,10 @@ function updateListElements() {
 			}
 
 			// is available, i.e. amount is smaller than the available budget
-			if (element.budgetValue > availableBudgetAmount) {
+			if (
+				(votingType === 'count' && maxIdeas >= currentBudgetSelection.length)
+				|| element.budgetValue > availableBudgetAmount
+			) {
 				var elements = element.querySelectorAll('.budget');
 				for (var i=0; i<elements.length; i++) {
 					var el = elements[i];
@@ -905,7 +920,6 @@ function displayIdeaOnHash () {
 
 			setTimeout(function() {
 				scrollToTop = $('.gridder-show').offset().top - stickyHeight - 12;
-				console.log('----> scrollToTop', scrollToTop);
 
 				$([document.documentElement, document.body]).stop().animate({
 						scrollTop: scrollToTop
