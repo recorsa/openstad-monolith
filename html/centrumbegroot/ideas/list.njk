@@ -131,6 +131,10 @@
 						Dit voorstel is afgewezen
 					{% elif idea.status == 'CLOSED' %}
 						De stemperiode is afgelopen
+					{% elif idea.status == 'BUSY' %}
+						Minder dan 50 likes
+					{% elif idea.status == 'ACCEPTED' %}
+						Haalbaarheidstoets
 					{% endif %}
 				</div>
 

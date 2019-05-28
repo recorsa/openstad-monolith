@@ -31,6 +31,7 @@
 
 				@media @phone {
 					width: calc(70%);
+					max-width: 283px;
 					margin: 20px auto;
 					float: none;
 					display: block;
@@ -55,7 +56,7 @@
 			#homebanner-buttons {
 
 				@media @phone {
-					width: 141px;
+					width: 170px;
 				}
 
 				a.bekijk-de-themas,
@@ -68,21 +69,25 @@
 				a.bekijk-de-themas {
 					border: solid 1px #164995;
 					line-height: 42px;
-					width: 99px;
+					// width: 99px;
 
 					&:hover {
 						border: solid 2px #164995;
 						line-height: 40px;
 					}
 
-					@media @phone {
-						margin-left: 22px;
-					}
+					// @media @phone {
+					// 	margin-left: 22px;
+					// }
 
 				}
 
 				a.stuur-plan-in {
 					width: 141px;
+
+					@media @phone {
+						margin-left: 15px;
+					}
 				}
 
 			}
@@ -208,15 +213,15 @@
 			.inspiration-column {
 				height: 580px;
 				.inspiration-block-container {
-					top: 0;
-					.inspiration-block {
-						.button-left {
-							display: none;
-						}
-						.button-right {
-							display: none;
-						}
-					}
+					top: 70px;
+					// .inspiration-block {
+					// 	.button-left {
+					// 		display: none;
+					// 	}
+					// 	.button-right {
+					// 		display: none;
+					// 	}
+					// }
 				}
 			}
 		}
@@ -415,4 +420,22 @@
 			display: none;
 		}
 	}
+}
+
+#ideas.primary .tile.ACCEPTED .duration {
+	background-image: url('/img/idea/calendar.svg');
+	background-color: #bdd131;
+	background-size: 12px 12px;
+	background-position: 6px 7px;
+}
+
+#ideas.primary .tile.BUSY .duration {
+	background-color: #434343;
+}
+
+#title .primary .statusbalk.BUSY {
+ background-size: 8px 8px;
+ background-position: 13px 11px;
+ background-image: url('/img/bullet.svg');
+ background-color: #434343;
 }
