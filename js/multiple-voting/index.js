@@ -11,22 +11,25 @@
 
 // config
 
-var votingType = 'count'; //budgetting or count
+// config vars; overwritten in template
+var votingType = votingType || 'budgeting'; // budgetting or count
+var maxIdeas = maxIdeas || 5;
+var minIdeas = minIdeas || 5;
+var initialAvailableBudget = initialAvailableBudget || 300000;
+var minimalBudgetSpent = minimalBudgetSpent || 200000;
 
-var maxIdeas = 5;
-var minIdeas = 5;
-
-var initialAvailableBudget = 300000;
-var minimalBudgetSpent = 200000;
+// dit is een wat generiekere versie van westbegroot; ik ben begonnen om de term budget er uit te halen, maar dat is nog niet af
+// de config is wel bijgewerkt
 
 // vars
+var availableIdeas = 0;
 var availableBudgetAmount = initialAvailableBudget;
-var currentBudgetSelection = openstadGetStorage('currentBudgetSelection') || [];
+var currentSelection = openstadGetStorage('currentSelection') || [];
 
 var currentStep = 1;
 
-function toggleIdeaInBudget(id) {
-	var index = currentBudgetSelection.indexOf(id);
+function toggleIdeaInSelection(id) {
+	var index = currentSelection.indexOf(id);
 	if (index == -1) {
 		addIdeaToSelection(id);
 	} else {
@@ -34,53 +37,53 @@ function toggleIdeaInBudget(id) {
 	}
 }
 
-
 function addIdeaToSelection(id) {
 	var element = sortedElements.find( function(el) { return el.ideaId == id } );
 
-	if (votingType === 'count' && currentBudgetSelection.length < maxIdeas) {
-		currentBudgetSelection.push(id);
-	} else if (availableBudgetAmount >= element.budgetValue && currentBudgetSelection.indexOf(id) == -1) {
-		currentBudgetSelection.push(id);
+	if (votingType === 'count' && currentSelection.length < maxIdeas) {
+		currentSelection.push(id);
+	} else if (availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
+		currentSelection.push(id);
 	}
 
-	recalculateAvailableBudgetAmount();
-//	recalculateAvailableIdeasCount();
+	recalculateAvailableAmount();
 
-	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
+	openstadSetStorage('currentSelection', currentSelection)
 
 	document.querySelector('#budgeting-edit-mode').checked = false;
 	addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
 
 	updateBudgetDisplay();
 	updateListElements();
-	updateIdeaCounters();
 }
 
 function removeIdeaFromSelection(id) {
 
 	var element = sortedElements.find( function(el) { return el.ideaId == id } );
-	var index = currentBudgetSelection.indexOf(id);
+	var index = currentSelection.indexOf(id);
 
-	currentBudgetSelection.splice(index, 1);
+	currentSelection.splice(index, 1);
 
-	recalculateAvailableBudgetAmount();
+	recalculateAvailableAmount();
 
-	openstadSetStorage('currentBudgetSelection', currentBudgetSelection)
+	openstadSetStorage('currentSelection', currentSelection)
 
 	// scrollToBudget()
 
 	updateBudgetDisplay();
 	updateListElements();
-	updateIdeaCounters();
 }
 
-function recalculateAvailableBudgetAmount() {
-	availableBudgetAmount = initialAvailableBudget;
-	currentBudgetSelection.forEach( function(id) {
-		var element = sortedElements.find( function(el) { return el.ideaId == id } );
-		availableBudgetAmount -= element.budgetValue;
-	});
+function recalculateAvailableAmount() {
+	if (votingType == 'count') {
+		availableIdeas = sortedElements.length - currentSelection.length;
+	} else {
+		availableBudgetAmount = initialAvailableBudget;
+		currentSelection.forEach( function(id) {
+			var element = sortedElements.find( function(el) { return el.ideaId == id } );
+			availableBudgetAmount -= element.budgetValue;
+		});
+	}
 }
 
 var budgetingEditMode;
@@ -112,7 +115,6 @@ function setBudgetingEditMode() {
 
 }
 
-
 function previousStep() {
 	scrollToBudget()
 	currentStep--;
@@ -125,29 +127,30 @@ function previousStep() {
 	}
 
 	updateBudgetDisplay();
-}
 
-function isSelectionValidated() {
-	return voteType === 'count' ? getSelectionCount => minIdeas &&  : (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent)  ;
 }
-
 
 function isSelectionEmpty() {
-
+	return currentSelection.length == 0;
 }
 
-function
+function getSelectionCount() {
+	return currentSelection.length
+}
 
 function nextStep() {
 
 	scrollToBudget()
 
 	if (currentStep == 1) {
-		if (votingType === 'count' && currentBudgetSelection.length < minIdeas) {
-			addError(document.querySelector('#current-budget-preview'), currentBudgetSelection.length  === 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet minimaal '+minIdeas+' plannen geselecteerd.')
-			return;
-		} else if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
-			addError(document.querySelector('#current-budget-preview'), initialAvailableBudget - availableBudgetAmount == 0 ? 'Je hebt nog geen plannen geselecteerd.' : 'Je hebt nog niet voor € 200.000 aan plannen geselecteerd.')
+		if (!isSelectionValid()) {
+			var message;
+			if ((votingType === 'count' && currentSelection.length === 0) || initialAvailableBudget - availableBudgetAmount == 0) {
+				message = 'Je hebt nog geen plannen geselecteerd.'
+			} else {
+				message = ( votingType === 'count' ? 'Je moet minimaal ' + minIdeas + ' plannen selecteren.' : 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.' );
+			}
+			addError(document.querySelector('#current-budget-preview'), message)
 			return;
 		}
 	}
@@ -184,8 +187,10 @@ function nextStep() {
 }
 
 function updateIdeaCounters() {
-	$('.current-ideas-count').text(currentBudgetSelection.length);
-	$('.available-ideas-count').text(maxIdeas - currentBudgetSelection.length);
+	if (votingType === 'count') {
+		$('.current-ideas-count').text(currentSelection.length);
+		$('.available-ideas-count').text(maxIdeas - currentSelection.length);
+	}
 }
 
 function updateBudgetDisplay() {
@@ -199,7 +204,6 @@ function updateBudgetDisplay() {
 	removeFromClassName(document.querySelector('#steps-bar-2'), 'passed');
 	removeFromClassName(document.querySelector('#steps-bar-3'), 'passed');
 	removeFromClassName(document.querySelector('#steps-bar-4'), 'passed');
-
 
 	// botte bijl - later een keer opschonen en generiek maken
 	// ToDo: wat nu gecopy-paste dingen samenvoegen
@@ -217,13 +221,13 @@ function updateBudgetDisplay() {
 	var totalWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
 	var availableWidth = document.querySelector('#current-budget-bar').offsetWidth - 1 * borderWidth;
 	var usedWidth = 0;
-	var currentBudgetSelectionForWidth = currentBudgetSelection.map( function(id) { return sortedElements.find( function(el) { return el.ideaId == id } ); } )
-	currentBudgetSelectionForWidth
+	var currentSelectionForWidth = currentSelection.map( function(id) { return sortedElements.find( function(el) { return el.ideaId == id } ); } )
+	currentSelectionForWidth
 		.sort(function (a, b) {
 			return a.budgetValue - b.budgetValue;
 		})
 		.forEach( function(element) {
-			var width =  parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
+			var width = votingType === 'count' ? parseInt( availableWidth / maxIdeas ) : parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
 			if (width < minwidth) {
 				availableWidth = availableWidth - ( minwidth - width );
 				width = minwidth
@@ -233,10 +237,10 @@ function updateBudgetDisplay() {
 		})
 	if (availableBudgetAmount == 0) {
 		if (usedWidth > totalWidth ) {
-			currentBudgetSelectionForWidth.budgetBarWidth -= usedWidth - totalWidth ;
+			currentSelectionForWidth.budgetBarWidth -= usedWidth - totalWidth ;
 		}
 		if (usedWidth < totalWidth ) {
-			currentBudgetSelectionForWidth[currentBudgetSelectionForWidth.length-1].budgetBarWidth += totalWidth - usedWidth;
+			currentSelectionForWidth[currentSelectionForWidth.length-1].budgetBarWidth += totalWidth - usedWidth;
 		}
 	}
 
@@ -244,7 +248,7 @@ function updateBudgetDisplay() {
 		budgetBar.removeChild(budgetBar.childNodes[0])
 	}
 
-	currentBudgetSelection.forEach( function(id) {
+	currentSelection.forEach( function(id) {
 		var element = sortedElements.find( function(el) { return el.ideaId == id } );
 		var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
 
@@ -258,8 +262,6 @@ function updateBudgetDisplay() {
 		budgetBar.appendChild(budgetBarImage)
 	});
 
-
-
 	var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 	previewImages.appendChild( addButton.cloneNode(true) )
 
@@ -268,6 +270,8 @@ function updateBudgetDisplay() {
 	document.querySelector('#current-step').querySelector('#text').innerHTML = document.querySelector('#steps-content-' + currentStep).querySelector('.text').innerHTML;
 	$('#current-step').removeClass().addClass('active-step-' + currentStep);
 
+	updateIdeaCounters();
+	
 	switch(currentStep) {
 
 		case 1:
@@ -282,7 +286,7 @@ function updateBudgetDisplay() {
 		  $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			previewImages.innerHTML = '';
-			currentBudgetSelection.forEach( function(id) {
+			currentSelection.forEach( function(id) {
 				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
 				previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
@@ -299,7 +303,7 @@ function updateBudgetDisplay() {
 			var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 			previewImages.appendChild( addButton.cloneNode(true) )
 
-			if (currentBudgetSelection.length == 0) {
+			if (currentSelection.length == 0) {
 				document.querySelector('#budgeting-edit-mode').checked = false;
 				addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
 			} else {
@@ -328,25 +332,33 @@ function updateBudgetDisplay() {
 
 			var overviewHtml = ''
 
-			currentBudgetSelection.forEach(function(id) {
+			currentSelection.forEach(function(id) {
 				var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				var imageEl = element.querySelector('.idea-image-mask').cloneNode(true);//.innerHTML;
 				var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
-				var budgetEl = element.querySelector('.budget').cloneNode(true).innerHTML;
 
 				imageEl.setAttribute('data-idea-id', id);
 				imageEl.className += ' idea-' + id;
 				imageEl = imageEl.innerHTML;
 
+				overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td>';
+				if ( votingType === 'budgeting' ) {
+					var budgetEl = element.querySelector('.budget').cloneNode(true).innerHTML;
+					overviewHtml += '<td class="text-align-right primary-color">' +budgetEl+ '</td>'
+				}
+				overviewHtml += '</tr>';
 
-				overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td><td class="text-align-right primary-color">' +budgetEl+ '</td></tr>';
 			});
 
-			overviewHtml = overviewHtml + '<tr class="line stretch"><td  colspan="3" ><hr /></td></tr>';
-			overviewHtml = overviewHtml + '<tr class="total-row primary-color"><td colspan="3"><div style="float:left;">Totaal gebruikt budget</div> <div style="float:right;">'+formatEuros(initialAvailableBudget - availableBudgetAmount, true)+'</div></td></tr>';
+			if ( votingType === 'budgeting' ) {
+				overviewHtml = overviewHtml + '<tr class="line stretch"><td  colspan="3" ><hr /></td></tr>';
+				overviewHtml = overviewHtml + '<tr class="total-row primary-color"><td colspan="3"><div style="float:left;">Totaal gebruikt budget</div> <div style="float:right;">'+formatEuros(initialAvailableBudget - availableBudgetAmount, true)+'</div></td></tr>';
+			}
 			$overviewContainer.append('<table cellpadding="0" class="table-center stretch">' + overviewHtml + '</table>');
-			$overviewContainer.append('<hr class="fully"/>');
-			$overviewContainer.append('<div class="row bold leftovers"><div class="col-xs-6">Ongebruikt budget:</div><div class="col-xs-6 align-right">'+formatEuros(availableBudgetAmount, true)+'</div></div>');
+			if ( votingType === 'budgeting' ) {
+				$overviewContainer.append('<hr class="fully"/>');
+				$overviewContainer.append('<div class="row bold leftovers"><div class="col-xs-6">Ongebruikt budget:</div><div class="col-xs-6 align-right">'+formatEuros(availableBudgetAmount, true)+'</div></div>');
+			}
 
 			break;
 
@@ -409,6 +421,14 @@ function updateBudgetDisplay() {
 
 }
 
+function isSelectionValid() {
+	if (votingType === 'count') {
+		return currentSelection.length >= minIdeas && currentSelection.length <= maxIdeas;
+	} else {
+		return initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent && availableBudgetAmount >= 0 
+	}
+}
+
 function updateBudgetNextButton(isError) {
 
 	var previousButton = document.querySelector('#previous-button');
@@ -425,7 +445,7 @@ function updateBudgetNextButton(isError) {
 		case 1:
 			addToClassName(previousButton, 'hidden');
 			nextButton.innerHTML = 'Volgende';
-			if (initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent) {
+			if (isSelectionValid()) {
 				addToClassName(nextButton, 'active')
 			} else {
 				removeFromClassName(nextButton, 'active')
@@ -437,7 +457,7 @@ function updateBudgetNextButton(isError) {
 			removeFromClassName(previousButton, 'hidden');
 			removeFromClassName(nextButton, 'hidden');
 
-			if (initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent) {
+			if (isSelectionValid()) {
 				addToClassName(nextButton, 'active')
 			} else {
 				removeFromClassName(nextButton, 'active')
@@ -475,9 +495,11 @@ function login() {
 
 	logout({
 		success: function(data) {
+			console.log('xxx s');
 			window.location.href = '/oauth/login?redirect_uri=/begroten'
 		},
 		error: function(error) {
+			console.log('xxx e', error);
 			window.location.href = '/oauth/login?redirect_uri=/begroten'
 		}
 	});
@@ -486,6 +508,8 @@ function login() {
 
 
 function logout(options) {
+
+	console.log('Logout');
 
 	$.ajax({
 		url: '/oauth/logout',
@@ -511,6 +535,7 @@ function logout(options) {
 	});
 
 	function logoutMijnOpenstad(options) {
+		console.log('logout mijn open stad');
 		$.ajax({
 			url: authServerLogoutUrl,
 			dataType: "json",
@@ -542,7 +567,7 @@ function submitBudget() {
 	}
 
 	let data = {
-		budgetVote: currentBudgetSelection,
+		budgetVote: currentSelection,
 		_csrf: csrfToken,
 	}
 
@@ -556,8 +581,8 @@ function submitBudget() {
 		data: data,
     success: function(data) {
 			// na het stemmen bewaren we niets meer
-			currentBudgetSelection = [];
-			openstadRemoveStorage('currentBudgetSelection');
+			currentSelection = [];
+			openstadRemoveStorage('currentSelection');
 			openstadRemoveStorage('hide-info-bewoners-west');
 			openstadRemoveStorage('lastSorted');
 			openstadRemoveStorage('plannenActiveTab');
@@ -761,6 +786,8 @@ function updateList() {
 // update list elements after changes in budget
 function updateListElements() {
 
+	recalculateAvailableAmount();
+
 	// update add and budget buttons in list
 	sortedElements.forEach( function(element) {
 		updateElement(element);
@@ -775,7 +802,7 @@ function updateListElements() {
 
 	function updateElement(element) {
 		// is added to the budgetting selection
-		if (currentBudgetSelection.indexOf( element.ideaId ) != -1) {
+		if (currentSelection.indexOf( element.ideaId ) != -1) {
 			var elements = element.querySelectorAll('.button-add-idea-to-budget');
 			for (var i=0; i<elements.length; i++) {
 				var el = elements[i];
@@ -790,7 +817,7 @@ function updateListElements() {
 
 			// is available, i.e. amount is smaller than the available budget
 			if (
-				(votingType === 'count' && maxIdeas >= currentBudgetSelection.length)
+				(votingType === 'count' && maxIdeas <= currentSelection.length)
 				|| element.budgetValue > availableBudgetAmount
 			) {
 				var elements = element.querySelectorAll('.budget');
@@ -852,7 +879,7 @@ function handleClick(event) {
 		if (buttonaddIdeaToSelection) {
 			var ideaId = ideaElement.ideaId;
 			if (ideaId) {
-				toggleIdeaInBudget(ideaId)
+				toggleIdeaInSelection(ideaId)
 			}
 
 			// cancel gridder
@@ -1109,9 +1136,8 @@ if (!Array.prototype.find) {
 // ----------------------------------------------------------------------------------------------------
 // init
 
-recalculateAvailableBudgetAmount();
+recalculateAvailableAmount();
 
-if (initialAvailableBudget - availableBudgetAmount > minimalBudgetSpent) {
 	if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
 		if (userHasVoted) {
 			currentStep = 3;
@@ -1119,13 +1145,12 @@ if (initialAvailableBudget - availableBudgetAmount > minimalBudgetSpent) {
 			currentStep = 4;
 		}
 	}
-}
 
 
 updateBudgetDisplay();
 
 // dev
-// if (currentBudgetSelection.length == 0) {
+// if (currentSelection.length == 0) {
 //  	addIdeaToSelection(17)
 //  	addIdeaToSelection(31)
 //  	addIdeaToSelection(30)

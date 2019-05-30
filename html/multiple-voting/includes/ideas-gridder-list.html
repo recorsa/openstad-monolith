@@ -10,7 +10,7 @@
 		{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-			{% if not config.budgeting.isActive %}
+			{% if not config["voting"].isActive %}
 			<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 			<div class="statustext {{idea.status}} ">Dit voorstel wordt uitgevoerd</div>
 			{% endif %}
@@ -29,13 +29,13 @@
 			</div>
 			<div class="button-read-more link-caret--blue">Lees meer</div>
 			<div class="row">
-				{% if not config.budgeting.hideBudgetLabels %}
+				{% if not config["ideas-list"].hideBudgetLabels %}
 				<div class="col-xs-6">
 					<div class="budget">{{idea.budget}}</div> {# formatted in js #}
 				</div>
 				{% endif %}
 				<div class="col-xs-6">
-					{% if config.budgeting.isActive %}
+					{% if config["voting"].isActive %}
 					<div class="button-add-idea-to-budget btn--blue stretch"></div>
 					{% else %}
 					<div class="btn--blue noOfVotes stretch">{{idea.extraData.aantalStemmen}} stemmen</div>
@@ -60,7 +60,7 @@
 							{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-								{% if not config.budgeting.isActive %}
+								{% if not config["voting"].isActive %}
 								<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 								<div class="statustext {{idea.status}}">Dit voorstel wordt uitgevoerd</div>
 								{% endif %}
@@ -122,11 +122,11 @@
 					</div>
 					<br />
 					<div class="align-left">
-						{% if not config.budgeting.hideBudgetLabels %}
+						{% if not config["ideas-list"].hideBudgetLabels %}
 						<div class="budget">{{idea.budget}}</div>
 						{% endif %}
-						{% if config.budgeting.isActive %}
-						<div class="button-add-idea-to-budget btn--blue" onclick="toggleIdeaInBudget({{idea.id}})"></div>
+						{% if config["voting"].isActive %}
+						<div class="button-add-idea-to-budget btn--blue" onclick="toggleIdeaInSelection({{idea.id}})"></div>
 						{% endif %}
 					</div>
 				</div>
@@ -148,7 +148,7 @@
 </ul>
 
 <script src="/js/ideas-gridder-list.js"></script>
-<script src="/js/westbegroot.js?1.0.0"></script>
+<script src="/js/multiple-voting/index.js?1.0.0"></script>
 <script src="/js/westbegroot-enhancements.js"></script>
 
 {% endmacro %}

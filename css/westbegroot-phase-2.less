@@ -867,11 +867,28 @@ footer {
 			background-image: none;
 		}
 		&:after {
-			content: "Geen budget";
+			content: "N/A";
 		}
 	}
 
 }
+
+.count .button-add-idea-to-budget {
+	&.unavailable {
+		&:after {
+			content: "Geen ruimte";
+		}
+	}
+}
+
+.budgeting .button-add-idea-to-budget {
+	&.unavailable {
+		&:after {
+			content: "Geen budget";
+		}
+	}
+}
+
 
 .button-stemcode {
 	position: relative;

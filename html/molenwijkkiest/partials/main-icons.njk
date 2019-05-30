@@ -4,7 +4,7 @@
 			<div class="">
 				<img src="/img/westbegroot/main-money.svg" />
 			</div>
-			{% if config.budgeting.isActive %}
+			{% if config["voting"].isActive %}
 				<h3>
 					Verdeel € 300.000 over jouw favoriete plannen
 				</h3>
@@ -45,7 +45,7 @@
 			<h3>
 				Wil je meer informatie over West Begroot?
 			</h3>
-			{% if config.budgeting.isActive %}
+			{% if config["voting"].isActive %}
 				<p>
 					Hoe ziet het stemproces eruit en hoe wordt bepaald welke plannen uiteindelijk uitgevoerd worden?
 				</p>
@@ -71,9 +71,9 @@
       <h3>
         Hoe zijn de ingestuurde plannen beoordeeld?
       </h3>
-			{% if config.budgeting.isActive %}
+			{% if config["voting"].isActive %}
 				<p>
-					Van de 209 ingestuurde plannen zijn er 30 geselecteerd voor de stemfase van West Begroot. Zit jouw plan niet bij de geselecteerde plannen op de pagina '{% if config.budgeting.isActive %}Stemmen{% else %}Plannen{% endif %}'? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
+					Van de 209 ingestuurde plannen zijn er 30 geselecteerd voor de stemfase van West Begroot. Zit jouw plan niet bij de geselecteerde plannen op de pagina '{% if config["voting"].isActive %}Stemmen{% else %}Plannen{% endif %}'? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
 				</p>
 			{% else %}
 				<p>

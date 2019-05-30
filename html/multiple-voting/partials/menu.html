@@ -2,10 +2,10 @@
   <div>
     <ul>
       <li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
-      {% if config.budgeting.isActive %}
-        <li class="{{'active' if activeMenu == 'budget'}}"><a href="/stemmen">Stemmen</a></li>
+      {% if config["voting"].isActive %}
+      <li class="{{'active' if activeMenu == 'budget'}}"><a href="/stemmen">Stemmen</a></li>
       {% else %}
-        <li class="{{'active' if activeMenu == 'budget'}}"><a href="/plannen">Plannen</a></li>
+      <li class="{{'active' if activeMenu == 'budget'}}"><a href="/plannen">Plannen</a></li>
       {% endif %}
     </ul>
 
@@ -26,10 +26,10 @@
   <div>
     <ul>
       {% if user.isLoggedIn() %}
-        {# <li><a href="/account">Mijn account</a></li> #}
-        <li><a href="/account/logout">Uitloggen</a></li>
+      {# <li><a href="/account">Mijn account</a></li> #}
+      <li><a href="/account/logout">Uitloggen</a></li>
       {% else %}
-        <li><a href="/account/register">Aanmelden / inloggen</a></li>
+      <li><a href="/account/register">Aanmelden / inloggen</a></li>
       {% endif %}
     </ul>
   </div>

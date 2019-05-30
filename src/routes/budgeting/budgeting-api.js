@@ -18,7 +18,7 @@ router
 router
 	.route('/')
 	.post(function( req, res, next ) {
-		if (config.budgeting && config.budgeting.isActive) {
+		if (config.voting && config.voting.isActive || config.budgeting && config.budgeting.isActive) {
 			return next();
 		} else {
 			return next(createError(403, 'de stemperiode is geëindigd.'))
@@ -77,25 +77,31 @@ router
 		if (vote.length == 0) return next(createError(403, 'Budget klopt niet'))
 		if (vote.find(entry => parseInt(entry) != entry)) return next(createError(403, 'Budget klopt niet'))
 
-		// validation: check if budget ammount is ok
+		// validation: check if count or budget ammount is ok
 		db.Idea
 			.findAll({where: {id: vote}})
 			.then(result => {
 				if (!result) return next(createError(403, 'Budget klopt niet'))
 
-				let availableBudgetAmount = 300000;
-				let minimalBudgetAmmount = 200000;
-				let currentBudgetAmount = 0;
-				for (let i=0; i<result.length; i++) {
-					currentBudgetAmount += result[i].budget;
-				}
+				if ( config.voting && config.voting.votingType === 'count' ) {
+					if (config.voting.minIdeas > result.length || config.voting.maxIdeas < result.length) {
+						return next(createError(403, 'aantal geselecteerde plannen klopt niet'))
+					}
+				} else {
+					let availableBudgetAmount = ( config.voting && config.voting.maxBudget ) || '300000';
+					let minimalBudgetAmmount = ( config.voting && config.voting.minBudget ) || '200000';
+					let currentBudgetAmount = 0;
+					for (let i=0; i<result.length; i++) {
+						currentBudgetAmount += result[i].budget;
+					}
 
-				if (currentBudgetAmount < minimalBudgetAmmount) {
-					return next(createError(403, 'Budget klopt niet'))
-				}
+					if (currentBudgetAmount < minimalBudgetAmmount) {
+						return next(createError(403, 'Budget klopt niet'))
+					}
 
-				if (currentBudgetAmount > availableBudgetAmount) {
-					return next(createError(403, 'Budget klopt niet'))
+					if (currentBudgetAmount > availableBudgetAmount) {
+						return next(createError(403, 'Budget klopt niet'))
+					}
 				}
 
 				return next();

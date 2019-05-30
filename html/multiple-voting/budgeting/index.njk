@@ -8,15 +8,14 @@
 
 {% block contentFullWidth %}
 
-	{% if config.budgeting.isActive %}
+	{% if config["voting"].isActive %}
 		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
 			<div id="info-bewoners-west" class="info-block green">
 				Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
 				<div class="close-button" onclick="hideInfoBewonersWest()"></div>
 			</div>
 		</div>
-
-		{{ budgeting.showBudgetWindow() }}
+		{{ budgeting.showBudgetWindow(config) }}
 	{% endif %}
 
 	<script>
@@ -24,13 +23,13 @@
 	 var userHasVoted = {{userHasVoted}};
 	 var userIsLoggedIn = {{userIsLoggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
-	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
+	 var defaultSort = 	{% if config["voting"].isActive %}'random'{% else %}'ranking'{% endif %}
 
 	</script>
 
 	{% include 'includes/end-date-bar.njk' %}
 
-	<div id="ideasList" class="pageContent {{contentClass}}">
+	<div id="ideasList" class="pageContent {{contentClass}} {{config["voting"].votingType}}">
 
 		<h1>
 			Plannen voor West ({{runningIdeas.length}})
@@ -64,10 +63,10 @@
 		<div class="align-right">
 			<b>Sorteer op: </b>
 			<select id="selectSort" class="default-select sort-selector" onchange="doSort(this.value)">
-				{% if config.budgeting.isActive %}
+				{% if config["voting"].isActive %}
 					<option value="random">Willekeurig</option>
 				{% else %}
-				<option value="ranking">Ranglijst</option>
+					<option value="ranking">Ranglijst</option>
 				{% endif %}
 				<option value="budget-down">Bedrag aflopend</option>
 				<option value="budget-up">Bedrag oplopend</option>

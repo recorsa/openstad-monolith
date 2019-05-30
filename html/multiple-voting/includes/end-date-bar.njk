@@ -2,7 +2,7 @@
 	<div id="end-date-bar">
 		<div id="ideas-anchor"></div>
 		<span id="end-date-bar-start-text" class="text"></span>
-		{% if config.budgeting.isActive %}
+		{% if config["voting"].isActive %}
 			<span id="number-plates">
 				<span id="end-date-number-plate-00" class="number-plate">0</span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
 			</span>
@@ -12,7 +12,7 @@
 </div>
 
 <script>
- {% if config.budgeting.isActive %}
+ {% if config["voting"].isActive %}
  var months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
  var endDate = new Date('2018-11-30');
  var endDate = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
