@@ -16,35 +16,35 @@
 			<h2>Hoe werkt het?</h2>
 			
 			<div data-step="1">
-				<h1>1. Jouw Voorstel</h1>
+				<h1>1. Uw Voorstel</h1>
 				<p>
 					Onze tips voor een goed voorstel:
 					<ul>
 						<li>Het is voor meerdere bewoners interessant</li>
-						<li>Formuleer je voorstel positief</li>
-						<li>Wees duidelijk in je uitleg</li>
+						<li>Formuleer uw voorstel positief</li>
+						<li>Wees duidelijk in uw uitleg</li>
 						<li>Houd het kort en bondig</li>
 					</ul>
 				</p>
 				<p>
-					Het idee mag voor je eigen buurt zijn, maar ook voor heel je stadsdeel!
+					Het idee mag voor uw eigen buurt zijn, maar ook voor het hele stadsdeel!
 				</p>
 			</div>
 			
 			<div data-step="2">
 				<h1>2. Campagne</h1>
 				<p>
-					Voer campagne voor je plan en verzamel zoveel mogelijk stemmen om het voorstel
+					Voer campagne voor uw plan en verzamel zoveel mogelijk stemmen om het voorstel
 					op de agenda te krijgen van de stadsdeelcommissie. Verzamel tenminste 100 positieve
-					stemmen. Je hebt drie maanden de tijd voor je campagne, daarna kan er niet meer gestemd
+					stemmen. U hebt drie maanden de tijd voor uw campagne, daarna kan er niet meer gestemd
 					worden.
 				</p>
 				
 				<p>
-					Dit kun je doen door:
+					Dit kunt u doen door:
 					<ul>
 						<li>Buurtgenoten uit te nodigen via Facebook of Twitter</li>
-						<li>Mails te versturen naar je buurtgenoten</li>
+						<li>Mails te versturen naar uw buurtgenoten</li>
 						<li>Deur voor deur langs te gaan</li>
 						<li>Een bijeenkomst te organiseren</li>
 					</ul>
@@ -56,21 +56,21 @@
 				<p>
 					Het plan met de meeste stemmen komt op de agenda van de stadsdeelcommissie. Eén keer
 					per maand wordt op een vast moment gekeken welk voorstel de meeste stemmen heeft.
-					Je kunt drie peildata meedingen.
+					U kunt drie peildata meedingen.
 				</p>
 				<p>
-					Heeft jouw voorstel de meeste stemmen? Dan krijg je per email een uitnodiging om je
+					Heeft uw voorstel de meeste stemmen? Dan krijgt u per email een uitnodiging om uw
 					voorstel toe te lichten in de vergadering van de stadsdeelcommissie. Daarna neemt het
 					bestuur een besluit over het voorstel.
 				</p>
 				<p>
 					Vragen? Check eerst <a href="/veelgestelde-vragen">veelgestelde vragen</a> en kijk of
-					je antwoord er tussen staat. Staat het antwoord op je vraag er niet bij, stuur dan een
+					uw antwoord er tussen staat. Staat het antwoord op uw vraag er niet bij, stuur dan een
 					email naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
 				</p>
 				
 				{% if not user.isLoggedIn() %}
-					<a href="/account/register?ref=/idea/nieuw" class="button color-white background-blue" style="color: white">Meld je aan!</a>
+					<a href="/account/register?ref=/idea/nieuw" class="button color-white background-blue" style="color: white">Meld u aan!</a>
 				{% endif %}
 			</div>
 		</div>
@@ -90,28 +90,28 @@
 			<form method="post" id="js-form">
 				<div id="titleAndSummary">
 					<h4>Naam</h4>
-					<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
+					<p>{{user.fullName}} <em>(uw emailadres wordt nooit gepubliceerd)</em></p>
 					
 					<h2>Titel idee</h2>
 					<input type="text" name="title" value="{{idea.title}}"><br>
 					
 					<h2>Samenvatting</h2>
-					Vertel in maximaal 140 tekens wat je voorstel is.<br>
+					Vertel in maximaal 140 tekens wat uw voorstel is.<br>
 					<textarea name="summary">{{idea.summary}}</textarea>
 					<div id="charsLeftSummary" class="charsLeft">
 						<div class="min">Nog minimaal <span>0</span> tekens</div>
-						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						<div class="max">U hebt nog <span>0</span> tekens over.</div>
 					</div>
 				</div>
 				
 				<div id="description">
 					<h2>Beschrijving</h2>
-					Gebruik de ruimte hieronder om je voorstel uit te leggen. Een paar tips:
+					Gebruik de ruimte hieronder om uw voorstel uit te leggen. Een paar tips:
 					<ul>
-						<li>Beschrijft hoe je op het idee bent gekomen.
+						<li>Beschrijft hoe u op het idee bent gekomen.
 						<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?
-						<li>Waarom moet de stadsdeelcommissie jouw voorstel bespreken?
-						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.
+						<li>Waarom moet de stadsdeelcommissie uw voorstel bespreken?
+						<li>Draag argumenten aan om uw buurtgenoten te overtuigen op uw plan te stemmen.
 						<li>Gebruik minimaal 140 tekens.</li>
 					</ul>
 					{% if useModernEditor %}
@@ -160,7 +160,7 @@
 					{% endif %}
 					<div id="charsLeftDescription" class="charsLeft">
 						<div class="min">Nog minimaal <span>0</span> tekens</div>
-						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						<div class="max">U heeft nog <span>0</span> tekens over.</div>
 					</div>
 					
 					{% if idea.id %}
@@ -172,7 +172,7 @@
 				
 				<div id="location">
 					<h2>Locatie</h2>
-					Heeft jouw plan betrekking op een specifieke plek? Klik dan de juiste locatie in de kaart
+					Heeft uw plan betrekking op een specifieke plek? Klik dan de juiste locatie in de kaart
 					om een vlaggetje te plaatsen. Versleep het vlaggetje om het te verplaatsen. Door erop te
 					klikken wordt het verwijderd.<br>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>

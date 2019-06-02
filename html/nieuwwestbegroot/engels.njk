@@ -1,4 +1,5 @@
 {% extends 'helpdesk.njk' %}
+{% import 'includes/officehours.njk' as officehours %}
 
 {% block title %}
     Neighborhood Budget for Slotermeer Northeast
@@ -22,6 +23,9 @@
 
 {% block description %}
     <p>Send in your plan for one of the 3 themes (Talent development & community, Culture & neighborhood activities, Safety & green) and decide where to spend the money.</p>
+    <p>
+        {{ officehours.officehours('english') }}
+    </p>
 {% endblock %}
 
 {% block howDoesItWork %}

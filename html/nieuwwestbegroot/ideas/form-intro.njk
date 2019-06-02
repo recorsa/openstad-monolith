@@ -1,45 +1,45 @@
 {% extends 'ideas.njk' %}
 {% set pageTitle = 'Ontwerp insturen' if not idea.id else 'Bewerk ontwerp' %}
 {% set contentClass = 'newIdea' %}
+{% import 'includes/officehours.njk' as officehours %}
 
 {% block content %}
 
 	<div class="primary">
 
-		<h1>Voordat je je plan instuurt</h1>
+		<h1>Voordat u uw plan instuurt</h1>
 
-		Lees hieronder eerst goed hoe het stadsdeel de inzendingen toetst, voordat je doorgaat naar het <a href="?introread=true">formulier om je plan in te sturen</a>.<br/>
+		Lees hieronder eerst goed hoe het stadsdeel de inzendingen toetst, voordat u doorgaat naar het <a href="?introread=true">formulier om uw plan in te sturen</a>.<br/>
 		<br/>
 
 		<div class="grey-text-block">
-			<h3>Hoe toetst het stadsdeel je plan?</h3>
+			<h3>Hoe toetst het stadsdeel uw plan?</h3>
 			<ul class="checkmark-list">
 				<li>Het plan moet over een van de drie thema’s gaan.</li>
-				<li>Je plan is voor Slotermeer Noordoost (een buurt daarbinnen of een specifieke locatie in de wijk) en komt ten goede aan de inwoners van de wijk.</li>
+				<li>Uw plan is voor Slotermeer Noordoost (een buurt daarbinnen of een specifieke locatie in de wijk) en komt ten goede aan de inwoners van de wijk.</li>
 				<li>Plannen met een uitgesproken religieus, politiek of commercieel karakter, evenals projecten die fondsenwerving als doel hebben, zijn uitgesloten.</li>
 				<li>We schatten in wat het plan kost. Plannen die meer dan €500.000 bedragen kunnen niet worden uitgevoerd. (In overleg met de indiener kan het plan wel worden aangepast als het bedrag wordt overschreden). Eventuele loonkosten worden gebaseerd op een maatschappelijk tarief.</li>
 				<li>We kijken of een plan binnen een redelijke termijn van twee jaar kan worden uitgevoerd.</li>
 				<li>We toetsen of het plan kan worden uitgevoerd binnen de wettelijke regelgeving.</li>
-				<li>Bij een project in de openbare ruimte kan het zijn dat de eigenaar van de locatie toestemming moet geven. Dit kan consequenties hebben voor je plan.</li>
+				<li>Bij een project in de openbare ruimte kan het zijn dat de eigenaar van de locatie toestemming moet geven. Dit kan consequenties hebben voor uw plan.</li>
 			</ul>
 			<p>
-				Mocht een plan met enige aanpassing wel haalbaar zijn dan overlegt het stadsdeel met de indiener van het plan. Als het plan niet uitvoerbaar is, gaat het niet mee naar de volgende ronde. Daar krijg je dan uiteraard bericht over.
+				Mocht een plan met enige aanpassing wel haalbaar zijn dan overlegt het stadsdeel met de indiener van het plan. Als het plan niet uitvoerbaar is, gaat het niet mee naar de volgende ronde. Daar krijgt u dan uiteraard bericht over.
 			</p>
 			<p>
 				Het stadsdeel is gebonden aan (Europese) aanbestedingsregels. Dit kan tot gevolg hebben dat het stadsdeel meerdere offertes moet aanvragen voor de uitvoering van het plan en dat de indiener niet vanzelfsprekend de partij is die het plan kan gaan uitvoeren.
 			</p>
 			<h3>Hulp nodig voor indiening</h3>
 			<p>
-				Heb je een idee maar ben je minder goed met computers? Of wil je het idee samen met iemand uitwerken? Kom dan langs een spreekuur (of neem contact op!)
-				TODO [locaties & tijden]
+				Heeft u een idee maar bent u minder goed met computers? Of wilt u het idee samen met iemand uitwerken? Kom dan langs een spreekuur (of neem contact op!)
 			</p>
+				{{ officehours.officehours('dutch') }}
 		</div>
 
-		<a href="?introread=true" class="page-button page-button-blue ga-verder-button">Stuur je plan in</a>
+		<a href="?introread=true" class="page-button page-button-blue ga-verder-button">Stuur uw plan in</a>
 		<div style="clear: both;"></div>
 
 	</div>
 
 
 {% endblock %}
-

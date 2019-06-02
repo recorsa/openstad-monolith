@@ -1,0 +1,29 @@
+{% macro officehours(language) %}
+
+{% if language == 'english' %}
+<ul>
+    <li>Mondays (June 17th, 24th & July 1st, 8th) from 13.00-13.30 @ Wijkkantoor de Alliantie - Slotermeerlaan 150</li>
+    <li>Thursdays (June 13th, 20th, 27th & July 4th) from 14.00-15.30 @ Dobbepunt - Burgemeester de Vlugtlaan 43</li>
+    <li>Thursday June 13th from 12.00-15.00 @ Burgemeester de Vlugtlaan 125</li>
+</ul>
+{% elif language == 'turkish' %}
+<ul>
+    <li>Maandagen (17, 24 juni & 1, 8 juli) van 13.00-13.30 @ Wijkkantoor de Alliantie - Slotermeerlaan 150</li>
+    <li>Donderdagen (13, 20, 27 juni & 4 juli) van 14.00-15.30 @ Dobbepunt - Burgemeester de Vlugtlaan 43</li>
+    <li>Donderdag 13 juni van 12.00-15.00 @ Burgemeester de Vlugtlaan 125</li>
+</ul>
+{% elif language == 'arabic' %}
+<ul>
+    <li>Maandagen (17, 24 juni & 1, 8 juli) van 13.00-13.30 @ Wijkkantoor de Alliantie - Slotermeerlaan 150</li>
+    <li>Donderdagen (13, 20, 27 juni & 4 juli) van 14.00-15.30 @ Dobbepunt - Burgemeester de Vlugtlaan 43</li>
+    <li>Donderdag 13 juni van 12.00-15.00 @ Burgemeester de Vlugtlaan 125</li>
+</ul>
+{% else %}
+<ul>
+    <li>Maandagen (17, 24 juni & 1, 8 juli) van 13.00-13.30 @ Wijkkantoor de Alliantie - Slotermeerlaan 150</li>
+    <li>Donderdagen (13, 20, 27 juni & 4 juli) van 14.00-15.30 @ Dobbepunt - Burgemeester de Vlugtlaan 43</li>
+    <li>Donderdag 13 juni van 12.00-15.00 @ Burgemeester de Vlugtlaan 125</li>
+</ul>
+{% endif %}
+
+{% endmacro %}
