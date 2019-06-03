@@ -1,5 +1,5 @@
 {% extends 'ideas.njk' %}
-{% set pageTitle = 'Jouw plan insturen' if not idea.id else 'Plan bewerken' %}
+{% set pageTitle = 'Uw plan insturen' if not idea.id else 'Plan bewerken' %}
 {% set contentClass = 'newIdea' %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 {% import 'includes/openstad-map.njk' as openStadMap %}
@@ -14,7 +14,7 @@
 {% block content %}
 
 	{% if not user.isLoggedIn() %}
-		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld je aan om een plan in te sturen</a>
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop">Meld u aan om een plan in te sturen</a>
 	{% else %}
 		<h1>{{pageTitle}}</h1>
 	{% endif %}
@@ -36,16 +36,16 @@
 			<form method="post" id="js-form">
 				<div id="titleAndSummary">
 					<h4>Naam</h4>
-					<p>{{user.fullName}} <em>(je naam is zichtbaar bij je plan - je emailadres wordt nooit gepubliceerd)</em></p>
+					<p>{{user.fullName}} <em>(uw naam is zichtbaar bij uw plan - uw emailadres wordt nooit gepubliceerd)</em></p>
 					
 					<h2>Titel plan</h2>
-					<div class="form-info">Geef je voorstel een duidelijke naam, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
+					<div class="form-info">Geef uw voorstel een duidelijke naam, zodat anderen uw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
 					<input type="text" name="title" value="{{idea.title}}"><br>
 
 					<input type="hidden" id="extraData" name="extraData" value=""><br>
 					
 					<h2>Gebied</h2>
-					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor Centrum Algemeen.</div>
+					<div class="form-info">Selecteer het gebied waarop uw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor Centrum Algemeen.</div>
 					<select id="gebied" class="default-select" value="{% if idea.extraData %}{{idea.extraData.gebied}}{% endif %}">
 						<option value="">Kies gebied</option>
 						<option value="Centrum Algemeen" {% if (idea.extraData) and (idea.extraData.gebied == "Centrum Algemeen") %}selected{% endif %}>Centrum Algemeen</option>
@@ -63,21 +63,21 @@
 					<br>
 					
 					<h2>Samenvatting</h2>
-					<div class="form-info">Geef hier eerst een korte samenvatting van je plan. In de volgende stap kun je je voorstel uitgebreider uitleggen.</div>
+					<div class="form-info">Geef hier eerst een korte samenvatting van uw plan. In de volgende stap kunt u uw voorstel uitgebreider uitleggen.</div>
 					<textarea name="summary">{{idea.summary}}</textarea>
-					<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
+					<div id="charsLeft">U hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 				</div>
 				
 				<div id="description">
 					<h2>Beschrijving</h2>
 					<div class="form-info">
-						Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
+						Gebruik de ruimte hieronder om uw voorstel verder uit te leggen.
 						<ul>
-							<li>Wat is het verhaal achter jouw plan?</li>
-							<li>Wat wil je ermee bereiken?</li>
-							<li>Voor wie is je plan bedoeld?</li>
-							<li>Wie zou dit plan kunnen uitvoeren? Jijzelf, een organisatie of de gemeente?</li>
-							<li>Draag argumenten aan om mensen uit Centrum te overtuigen op jouw plan te stemmen. Je plan heeft minimaal 50 likes nodig om door te gaan naar de volgende fase.</li>
+							<li>Wat is het verhaal achter uw plan?</li>
+							<li>Waarom past dit plan goed bij het thema dat u geselecteerd heeft?</li>
+							<li>Is het een plan dat u zelf wilt uitvoeren, of moet het door een organisatie of de gemeente uitgevoerd worden?</li>
+							<li>Wat wilt u ermee bereiken?</li>
+							<li>Draag argumenten aan om mensen uit Slotermeer Noordoost te overtuigen op uw plan te stemmen. Uw plan heeft minimaal 30 likes nodig om door te gaan naar de volgende fase.</li>
 						</ul>
 					</div>
 					{% if useModernEditor %}
@@ -136,7 +136,7 @@
 				
 				<div id="location">
 					<h2>Locatie</h2>
-					<div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke locatie? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Klik nogmaals op het vlaggetje om hem weer te verwijderen.</div>
+					<div class="form-info" style="height: auto;">Heeft uw plan betrekking op een specifieke locatie? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Klik nogmaals op het vlaggetje om deze weer te verwijderen.</div>
 					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
 						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
@@ -161,7 +161,7 @@
 {% block howDoesItWork %}
 	{% if not user.isLoggedIn() %}
 		{{howdoesitwork.howblock('open')}}
-		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="margin-top: 100px; margin-bottom: 60px;">Meld je aan om een plan in te sturen</a>
+		<a href="/account/register?ref=/idea/nieuw" class="meldjeaanknop" style="margin-top: 100px; margin-bottom: 60px;">Meld u aan om een plan in te sturen</a>
 	{% endif %}
 {% endblock %}
 
