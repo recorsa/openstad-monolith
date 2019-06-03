@@ -501,7 +501,7 @@ nav {
 		ul {
 			position: absolute;
 			background-color: #f5f5f5;
-			z-index: 10;
+			z-index: 200;
 			width: 250px;
 			padding-left: 0;
 			li {
@@ -534,7 +534,7 @@ nav {
 	height: 44px;
 	background-color: #f5f5f5;
 	display: none;
-	z-index: 120;
+	z-index: 200;
 
 	@media @phone {
 		display: block;
@@ -565,13 +565,17 @@ nav {
 
 #dim-overlay {
 	position: absolute;
-	height: 100%;
+	height: 1000%;
 	display: block;
 	background-color: black;
 	opacity: 0.6;
-	top: 0;
+	top: 107px;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	z-index: 110;
+}
+
+#dim-overlay.menu-closed {
+	display: none;
 }

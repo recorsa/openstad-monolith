@@ -40,6 +40,7 @@
 	</head>
 	<body class="preload">
 		<div id="page">
+			<div id="dim-overlay" class="menu-closed"></div>
 			<header>
 				<a href="/">
 					<img src="/img/andreas.svg" width="24" alt=""/>
@@ -91,7 +92,8 @@
 			</nav> #}
 
 			<div id="mobile-menu-bar">
-				<div id="mobile-menu-toggle" onclick="document.getElementById('menuItems').classList.toggle('hidden-mobile');"></div>
+				{# <div id="mobile-menu-toggle" onclick="document.getElementById('menuItems').classList.toggle('hidden-mobile');"></div> #}
+				<div id="mobile-menu-toggle"></div>
 				{% if user.hasCompletedRegistration() %}
 					<a href="/account" id="account-mobile">{{user.initials}}</a>
 				{% else %}
@@ -141,7 +143,6 @@
 			
 
 			<div id="content" class="pageContent {{contentClass}}">
-				{# <div id="dim-overlay"></div> #}
 				{% for type,list in messages %}
 					<div class="flashMessage {{type}}">
 						{% if type == 'error' %}
@@ -301,6 +302,51 @@
 								event.stopPropagation();
 							}
 						})();
+		</script>
+		<script>
+		// Hamburger menu
+		 // ---------------
+		 	(function() {
+				var hamburgerButton = document.querySelector('#mobile-menu-toggle');
+				var menuItems = document.querySelector('#menuItems');
+				var dimOverlay = document.querySelector('#dim-overlay');
+				var active = false;
+				
+				hamburgerButton.addEventListener('click', function (event) {
+					if( !active ) {
+						showMenu(event);
+					} else {
+						hideMenu(event);
+					}
+				});
+
+				function showMenu( event ) {
+					event.preventDefault();
+					event.stopPropagation();
+
+					document.body.addEventListener('click', hideMenu);
+					menuItems.addEventListener('click', menuClick);
+					menuItems.className = menuItems.className.replace(/ ?hidden-mobile/, '');
+					dimOverlay.className = dimOverlay.className.replace(/ ?menu-closed/, '');
+
+					active = true;
+				}
+				function hideMenu( event ) {
+					event.preventDefault();
+					event.stopPropagation();
+
+					document.body.removeEventListener('click', hideMenu);
+					menuItems.removeEventListener('click', menuClick);
+
+					menuItems.className += ' hidden-mobile';
+					dimOverlay.className += ' menu-closed';
+
+					active = false;
+				}
+				function menuClick( event ) {
+					event.stopPropagation();
+				}
+			})();
 		</script>
 		<script>
 		 // Flash messages
