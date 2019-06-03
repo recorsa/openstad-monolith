@@ -1,5 +1,6 @@
 {% extends 'base.njk' %}
 {% import 'includes/secondary.njk' as sec %}
+{% import 'includes/officehours.njk' as officehours %}
 
 {% set pageTitle    = 'Veelgestelde vragen' %}
 {% set contentClass = 'article faq' %}
@@ -19,20 +20,20 @@
 
 {% block content %}
 	<div class="primary top-padding">
-		<h1>TODO Veelgestelde vragen</h1>
+		<h1>Veelgestelde vragen</h1>
 
 		<div id="summary">
-			<p>{{'2019-04-08' | date('LL')}}</p>
+			{# <p>{{'2019-04-08' | date('LL')}}</p> #}
 
 			<h3>In het kort</h3>
 			<p>
-				Heb je vragen over het gebruik van {{SITENAME}}? Bekijk dan
-				eerst eens of je vraag op deze pagina beantwoord wordt.
+				Heeft u vragen over het gebruik van {{SITENAME}}? Bekijk dan
+				eerst eens of uw vraag op deze pagina beantwoord wordt.
 			</p>
 			<p class="strong">
-				Staat het antwoord op je vraag er niet tussen? Stuur dan een
+				Staat het antwoord op uw vraag er niet tussen? Stuur dan een
 				e-mail naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
-				De beheerders van {{SITENAME}} zullen je vraag dan zo snel
+				De beheerders van {{SITENAME}} zullen uw vraag dan zo snel
 				mogelijk beantwoorden!
 			</p>
 			<hr>
@@ -40,8 +41,57 @@
 
 		<div id="article">
 
+			<h2>Wat is een buurtbudget?</h2>
+			Een buurtbudget, ook bekend als burgerbegroting, is een proces waar Amsterdammers direct inspraak hebben op wat er met een deel van de gemeentelijke begroting gebeurt. In 2019 vindt de eerste pilot in Nieuw-West plaat. Inwoners van Slotermeer Noordoost mogen zelf plannen bedenken en direct kiezen hoe het geld wordt besteed. Kijk ook naar <a href="#TODO">het animatie filmpje</a> voor een uitleg van het proces!
 
-			{% if (config.ideas.addNewIdeas != 'closed') %}
+			<h2>Ik ben geen bewoner van Slotermeer Noordoost maar wil wel graag een plan insturen, kan dat?</h2>
+			Jazeker! Iedereen kan plannen indienen, zolang het plaatsvindt in Slotermeer Noordoost en ten goede komt aan de buurt. (Kijk waar de grenzen van Slotermeer Noordoost zijn <a href="/plannen">op de plannen-pagina</a>)
+			</br>(Heeft u een idee maar gaat het niet over Slotermeer Noordoost? Kijk naar de opties genoemd in de vraag ‘Ik kon toch al eerder plannen indienen?’)
+
+			<h2>Waarom is dit buurtbudget alleen voor Slotermeer Noordoost?</h2>
+			Wij starten eerst met pilots buurtbudgetten in Nieuw-West, Zuidoost, en Noord. In Nieuw-West vindt het plaats in 2019 in Slotermeer Noordoost. Komende jaren volgen er mogelijk meer wijken in Amsterdam.
+
+			<h2>Ik kon toch al eerder plannen indienen?</h2>
+			Klopt. U kunt ideeën voor grote of kleine projecten altijd kenbaar maken bij de gebiedsmakelaar van uw buurt of bij de stadsdeelcommissie, ook via de <a href="https://stemvannieuwwest.amsterdam.nl/">Stem van Nieuw-West</a>. Daarnaast kunt u voor wijkgerichte activiteiten in Nieuw-West een bewonersinitiatief indienen bij <a href="https://www.eigenwijks.nl/slotermeer/bewonersinitiatieven-slmeer">Eigenwijks</a>. Voor wijk-overstijgende activiteiten kunt u zich wenden tot het <a href="https://www.fondsvoornieuwwest.nl/">fonds van Nieuw-West</a>. Maar nu is extra geld beschikbaar voor plannen waar bewoners uit Slotermeer Noordoost uiteindelijk zelf €500.000 over verdelen.
+
+			<h2>Ik ben niet zo goed met computers en websites. Hoe kan ik toch een plan indienen en likes verzamelen?</h2>
+			Kom vooral langs bij een van onze spreekuren:</br>
+			{{ officehours.officehours('dutch') }}
+			</br>
+			Of neem contact op via 06 39004343 of buurtbudgetSNO@amsterdam.nl 
+			</br>Wij helpen u graag verder! 
+
+			<h2>Ik heb een plan ingediend, maar ik wil mijn plan graag wijzigen. Kan dat?</h2>
+			U kunt uw plan aanpassen zolang er nog geen likes (of dislikes) zijn uitgebracht of een argument bij is geplaatst. U moet hiervoor ingelogd zijn met het e-mailadres waarmee u uw plan heeft ingestuurd. Is er al wel op je plan gereageerd, maar wil je toch nog wat aanpassen? Mail uw vraag dan naar buurtbudgetSNO@amsterdam.nl en dan kijken we hoe we u kunnen helpen.
+
+			<h2>Hoe kan ik mijn ingediende plan op Buurtbudget Slotermeer Noordoost delen op mijn Facebookpagina, Twitter, Whatsapp, etc.?</h2>
+			Op uw planpagina vindt u rechts bovenaan onder het kopje ‘Deel dit voorstel’ knoppen om uw plan te delen via Facebook, Twitter en e-mail. U kunt natuurlijk ook de URL van je planpagina kopiëren uit de adresbalk van uw internet browser, en deze zelf delen met buurtgenoten. Zorg dat uw plan minimaal 30 likes haalt om door te gaan naar de volgende ronde waarin uw plan wordt beoordeeld op haalbaarheid.
+
+			<h2>Waarom heb ik 30 likes nodig om mijn plan door te laten gaan naar de volgende ronde?</h2>
+			Stadsdeel Nieuw-West vindt het belangrijk om te weten of er draagvlak in de buurt is voor een plan. Daarom vragen we bewoners ook te reageren op de plannen door middel van argumenten voor en tegen. De argumenten uit de buurt en de likes geven ons een goed beeld van het draagvlak.
+
+			<h2>Kan ik mijn eigen plan liken?</h2>
+			Ja, u kunt eenmalig uw eigen plan een like geven.
+
+			<h2>Ik heb me vergist en wil mijn mening veranderen. Kan ik mijn stem en argument nog veranderen?</h2>
+			Ja hoor, dat kan. Door opnieuw op de stemknop ‘voor’ of ‘tegen’ (de like button) te klikken kunt u uw like aanpassen of ongedaan maken. Nadat u een argument geplaatst heeft, kunt u deze wijzigen of verwijderen via de iconen in de rechterbovenhoek.
+
+			<h2>Mag ik meerdere plannen indienen voor Slotermeer Noordoost?</h2>
+			Ja, dat kan. Alle plannen moeten wel voldoen aan de spelregels, natuurlijk.
+
+			<h2>De site werkt niet. Waar moet ik dit melden?</h2>
+			Het spijt ons dat u niet op de site kunt of dat bepaalde onderdelen niet werken. We willen dit snel oplossen. Graag ontvangen wij een e-mail via buurtbudgetSNO@amsterdam.nl met daarin een korte uitleg waar het mis gaat en eventueel de URL van de pagina waar het over gaat. Ons team zit paraat om problemen zo snel mogelijk op te lossen!
+
+			<h2>Hoe veilig is deze site?</h2>
+			Buurtbudget Slotermeer Noordoost neemt beveiligingsmaatregelen om misbruik van en ongeautoriseerde toegang tot persoonsgegevens te beperken. Meer weten over privacy en beveiliging van persoonsgegevens? Lees dan onze <a href="#TODO">privacyverklaring.</a>
+
+
+
+
+
+
+
+			{# {% if (config.ideas.addNewIdeas != 'closed') %}
 				<h2>Ik ben geen bewoner van stadsdeel Nieuw West, maar wil wel graag een plan insturen. Kan dat?</h2>
 				Ja, dan kan. Iedereen mag een plan insturen als het een plan is voor Centrum. De bewoners van stadsdeel Centrum bepalen uiteindelijk welke plannen er in hun buurt worden uitgevoerd.
 			{% endif %}
@@ -101,7 +151,7 @@
 			Ja, je kunt eenmalig stemmen op je eigen voorstel.
 
 			<h2>Ik heb me vergist en wil mijn mening veranderen. Kan ik mijn stem en argument nog veranderen?</h2>
-			Ja hoor, dat kan! Door opnieuw op de stemknop ‘voor’ of ‘tegen’ te klikken kun je je stem aanpassen of ongedaan maken. Nadat je een argument geplaatst hebt, kun je deze wijzigen of verwijderen via de iconen in de rechterbovenhoek.
+			Ja hoor, dat kan! Door opnieuw op de stemknop ‘voor’ of ‘tegen’ te klikken kun je je stem aanpassen of ongedaan maken. Nadat je een argument geplaatst hebt, kun je deze wijzigen of verwijderen via de iconen in de rechterbovenhoek. #}
 			
 
 			<br/>
