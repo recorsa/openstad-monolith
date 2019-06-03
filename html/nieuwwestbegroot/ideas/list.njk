@@ -13,7 +13,7 @@
 		</div>
 		{% if (config.ideas.addNewIdeas != 'closed') %}
 			<a href="/plan/nieuw" class="page-button page-button-blue page-button-flag">
-				Stuur je plan in!
+				Stuur uw plan in!
 			</a>
 		{% endif %}
 		{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
@@ -161,7 +161,7 @@
 			</a>
 		</div>{%
 					else %}
-		<i>Wees de eerste met een goed plan voor jouw buurt!</i>
+		<i>Wees de eerste met een goed plan voor uw buurt!</i>
 		{% endfor %}
 		
 		{# {% if can('ideas:archive') %}
