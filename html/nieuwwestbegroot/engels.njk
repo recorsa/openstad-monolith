@@ -5,29 +5,39 @@
     Neighborhood Budget for Slotermeer Northeast
 {% endblock %}
 
+{% block subtitle %}
+Determine the future for your own neighborhood!
+{% endblock %}
+
+{% block description %}
+    <p>Send in your plan for one of the 3 themes (Talent development & community, Culture & neighborhood activities, Safety & green) and decide where to spend the money.</p>
+{% endblock %}
+
+{% block howDoesItWork %}
+    {{howdoesitworkEnglish.howblock('open')}}
+{% endblock %}
+
+{% block description2 %}
+    <strong>Join us!</strong>
+    <p>The website is in Dutch, but we want everyone to be able to participate!</p>
+    <ul>
+        <li>Do you have an idea but can’t write it in Dutch? Record it for us in a Whatsapp audiomessage and we will translate and upload it to the website.</li>
+        <li>
+            Need a bit of help writing and uploading your plan in Dutch? Get in touch or come by one of our office hours:
+            {{ officehours.officehours('english') }}
+        </li>
+        <li>TODO Translate the website with a Google chrome extension. It’s not perfect but a pretty decent translation!</li>
+    </ul>
+    <p>Any other questions? Get in touch:</p>
+{% endblock %}
+
 {% block whatsapptitle %}
     Send us a (voice) message via WhatsApp!
 {% endblock %}
 
 {% block whatsappdescription %}
-    Description
 {% endblock %}
 
 {% block whatsapplink %}
-    Send a (voice) message to 06-12345678
-{% endblock %}
-
-{% block subtitle %}
-    Determine the future for your own neighborhood!
-{% endblock %}
-
-{% block description %}
-    <p>Send in your plan for one of the 3 themes (Talent development & community, Culture & neighborhood activities, Safety & green) and decide where to spend the money.</p>
-    <p>
-        {{ officehours.officehours('english') }}
-    </p>
-{% endblock %}
-
-{% block howDoesItWork %}
-    {{howdoesitworkEnglish.howblock('open')}}
+    Send a (voice) message to 06-39004343
 {% endblock %}

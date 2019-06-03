@@ -1,29 +1,49 @@
 {% extends 'helpdesk.njk' %}
+{% import 'includes/officehours.njk' as officehours %}
 
 {% block title %}
-    Slotermeer Kuzeydoğu için Mahalle Bütçesi
-{% endblock %}
-
-{% block whatsapptitle %}
-    Bize WhatsApp ile (sesli) mesaj gönderin!
-{% endblock %}
-
-{% block whatsappdescription %}
-    Açıklama
-{% endblock %}
-
-{% block whatsapplink %}
-    06-12345678'e (sesli) mesaj gönderin
+    Semt Bütçesi Slotermeer Noordoost
 {% endblock %}
 
 {% block subtitle %}
-    Kendi mahallen için geleceği belirle!
+Mahalle için hayalini gerçekleştir.
 {% endblock %}
 
 {% block description %}
-    <p>Planınızı 3 temadan birine gönderin (Yetenek geliştirme ve topluluk, Kültür ve çevre aktiviteleri, Güvenlik ve yeşil) ve parayı nereye harcayacağınıza karar verin.</p>
+    <p>Planiniz 3 temaden biri oluşturabilir. Planınızi belirleyin, bize gönderin ve semt bütcesinin nereye ve nasıl harcanacağını belirleyin.</p>
+    <p>Temalar:</p>
+    <ul>
+        <li>birlikte birşeyler yapmak</li>
+        <li>kültür ve firsatlar yaratmak</li>
+        <li>güvenli ve yeşil bir semt</li>
+    </ul>
 {% endblock %}
 
 {% block howDoesItWork %}
     {{howdoesitworkTurkish.howblock('open')}}
+{% endblock %}
+
+{% block description2 %}
+    <strong>Sende katıl!</strong>
+    <p>Web sitesi Hollandaca’da ancak herkesin katılabilmesini istiyoruz!</p>
+    <ul>
+        <li>Bir fikrin veya planın var mı ama Hollandaca yazamıyormusun? Bize bir sesli Whatsapp mesajı ile planı gönderebilirsiniz, sizin için Hollandaca'ya çevirelim ve web sitesine yerleştirelim.</li>
+        <li>
+            Hollandaca yazarken biraz yardıma ihtiyacınız mi var?  Bize ulaşın veya görüş saatlerimizden birini ziyaret edin?
+            {{ officehours.officehours('turkish') }}
+        </li>
+        <li>TODO Google-translate websitesi ile tercüme edebilirsiniz. Mükemmel bir tercüme değil ama iyi bir çeviri!</li>
+    </ul>
+    <p>Sorular ve irtibat icin:</p>
+{% endblock %}
+
+{% block whatsapptitle %}
+    TODO Send us a (voice) message via WhatsApp!
+{% endblock %}
+
+{% block whatsappdescription %}
+{% endblock %}
+
+{% block whatsapplink %}
+    TODO Send a (voice) message to 06-39004343
 {% endblock %}
