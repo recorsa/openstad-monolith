@@ -79,6 +79,11 @@ addApp('stemvan', [{
 	remotePath : '/var/www/molenwijkkiest.staging.openstadsdeel.nl/www',
 	ref        : 'origin/vote-on-multiple-plans'
 },{
+	appName    : 'staging-maakhetgroen',
+	deployName : 'staging_maakhetgroen',
+	remotePath : '/var/www/maakhetgroen.staging.openstadsdeel.nl/www',
+	ref        : 'origin/vote-on-multiple-plans'
+},{
 	appName    : 'molenwijkkiest',
 	deployName : 'production_molenwijkkiest',
 	remotePath : '/var/www/molenwijkkiest.amsterdam.nl/www',
