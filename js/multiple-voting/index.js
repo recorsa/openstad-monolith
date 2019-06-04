@@ -1138,6 +1138,8 @@ if (!Array.prototype.find) {
 
 recalculateAvailableAmount();
 
+if (isSelectionValid()) {
+
 	if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
 		if (userHasVoted) {
 			currentStep = 3;
@@ -1146,6 +1148,7 @@ recalculateAvailableAmount();
 		}
 	}
 
+}
 
 updateBudgetDisplay();
 
