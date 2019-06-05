@@ -36,7 +36,7 @@
 				{% elif idea.status == 'DENIED' %}
 					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
 				{% else %}
-					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
+					<div class="statusbalk {{idea.status}}">U kunt nu op dit plan stemmen</div>
 				{% endif %}
 				<!--
 						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
@@ -302,9 +302,9 @@
 	 var form = document.getElementById('deleteIdea');
 	 if( form ) {
 		 form.addEventListener('submit', function( event ) {
-			 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+			 var msg = 'Let op! U staat op het punt uw voorstel te verwijderen. '+
 				         'Dit kan niet ongedaan gemaakt worden.\n\n'+
-				         'Weet je het zeker?';
+				         'Weet u het zeker?';
 			 if( !confirm(msg) ) {
 				 event.preventDefault();
 			 }
