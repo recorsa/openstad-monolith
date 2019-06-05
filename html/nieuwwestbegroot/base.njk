@@ -327,7 +327,7 @@
 					event.stopPropagation();
 
 					document.body.addEventListener('click', hideMenu);
-					document.body.addEventListener('touchend', hideMenu);
+					dimOverlay.addEventListener('click', hideMenu);
 					menuItems.addEventListener('click', menuClick);
 					menuItems.className = menuItems.className.replace(/ ?hidden-mobile/, '');
 					dimOverlay.className = dimOverlay.className.replace(/ ?menu-closed/, '');
@@ -339,7 +339,7 @@
 					event.stopPropagation();
 
 					document.body.removeEventListener('click', hideMenu);
-					document.body.removeEventListener('touchend', hideMenu);
+					dimOverlay.removeEventListener('click', hideMenu);
 					menuItems.removeEventListener('click', menuClick);
 
 					menuItems.className += ' hidden-mobile';
