@@ -32,11 +32,11 @@
 					<div class="image"></div>
 				{% endif %}
 				{% if idea.status == 'CLOSED' %}
-					<div class="statusbalk {{idea.status}}">De stemperiode is afgelopen</div>
+					<div class="statusbalk {{idea.status}}">De periode om te liken is afgelopen</div>
 				{% elif idea.status == 'DENIED' %}
 					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
 				{% else %}
-					<div class="statusbalk {{idea.status}}">U kunt nu op dit plan stemmen</div>
+					<div class="statusbalk {{idea.status}}">U kunt dit plan nu liken</div>
 				{% endif %}
 				<!--
 						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
@@ -45,7 +45,7 @@
 
 			<div class="secondary">
 				<div class="controls">
-					<h4>Stemmen</h4>
+					<h4>Likes</h4>
 
 					{% if idea.isOpen() %}
 						<div class="vote">
@@ -86,9 +86,9 @@
 						<h4>Status</h4>
 						<div class="duration">
 							{% if idea.status == 'CLOSED' %}
-								<div>De stemperiode is afgelopen</div>
+								<div>De periode om te liken is afgelopen</div>
 							{% elif idea.status == 'DENIED' %}
-								<div>Stemmen op dit voorstel is niet meer mogelijk.</div>
+								<div>Het is niet meer mogelijk om dit voorstel te liken.</div>
 							{% elif idea.status == 'ACCEPTED' %}
 								<div>Dit voorstel wordt besproken in de volgende vergadering!</div>
 							{% elif idea.status == 'BUSY' %}
@@ -98,7 +98,7 @@
 							{% else %}
 								<div id ="nog-xxx-om-te-stemmen"></div>
 								<script>
-								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
+								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te liken`;
 								</script>
 							{% endif %}
 						</div>
