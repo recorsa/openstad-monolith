@@ -135,6 +135,8 @@ OpenStadMap.prototype.createMap = function( config, markers, polygon, autoZoomAn
 
 OpenStadMap.prototype.createCutoutPolygon = function( polygon ) {
 
+	console.log('=1', polygon.length);
+
 	// polygon must defined from the south west corner to work with the outer box
 	var bounds = new google.maps.LatLngBounds();
 	for (i = 0; i < polygon.length; i++) {
@@ -154,10 +156,12 @@ OpenStadMap.prototype.createCutoutPolygon = function( polygon ) {
 		}
 	});
 
-	let a = polygon.slice(0, index - 1);
-	let b = polygon.slice(index, polygon.length - 1);
+	let a = polygon.slice(0, index);
+	let b = polygon.slice(index, polygon.length);
 	polygon = b.concat(a);
-	
+
+	console.log('=2', polygon.length);
+
 	// outer box
 	// TODO: should be calculated dynamically from the center point
 	var delta1 = 0.01;
