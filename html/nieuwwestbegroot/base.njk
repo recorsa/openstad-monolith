@@ -325,6 +325,7 @@
 					event.stopPropagation();
 
 					document.body.addEventListener('click', hideMenu);
+					document.addEventListener('click', hideMenu);
 					menuItems.addEventListener('click', menuClick);
 					menuItems.className = menuItems.className.replace(/ ?hidden-mobile/, '');
 					dimOverlay.className = dimOverlay.className.replace(/ ?menu-closed/, '');
@@ -336,6 +337,7 @@
 					event.stopPropagation();
 
 					document.body.removeEventListener('click', hideMenu);
+					document.removeEventListener('click', hideMenu);
 					menuItems.removeEventListener('click', menuClick);
 
 					menuItems.className += ' hidden-mobile';
