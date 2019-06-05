@@ -35,8 +35,21 @@
 
 			<form method="post" id="js-form">
 				<div id="titleAndSummary">
-					<h4>Naam</h4>
-					<p>{{user.fullName}} <em>(uw naam is zichtbaar bij uw plan - uw emailadres wordt nooit gepubliceerd)</em></p>
+					<h2>Naam</h2>
+					{% if user and user.role and user.role == 'admin' %}
+						<div class="form-info">Toon deze naam bij dit plan</div>
+						<input type="text" id="inzenderNaam" value="{% if idea.extraData and idea.extraData.inzender %}{{idea.extraData.inzender.naam}}{% endif %}"><br>
+						<br/>
+					{% else %}
+						<p>{{user.fullName}} <em>(uw naam is zichtbaar bij uw plan - uw emailadres wordt nooit gepubliceerd)</em></p>
+					{% endif %}
+					
+					{% if user and user.role and user.role == 'admin' %}
+						<h2>Email</h2>
+						<div class="form-info">Toon dit email adres bij dit plan</div>
+						<input type="text" id="inzenderEmail" value="{% if idea.extraData and idea.extraData.inzender %}{{idea.extraData.inzender.email}}{% endif %}"><br>
+						<br/>
+					{% endif %}
 					
 					<h2>Titel plan</h2>
 					<div class="form-info">Geef uw voorstel een duidelijke naam, zodat anderen uw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
@@ -44,21 +57,13 @@
 
 					<input type="hidden" id="extraData" name="extraData" value=""><br>
 					
-					<h2>Gebied</h2>
-					<div class="form-info">Selecteer het gebied waarop uw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor Centrum Algemeen.</div>
-					<select id="gebied" class="default-select" value="{% if idea.extraData %}{{idea.extraData.gebied}}{% endif %}">
-						<option value="">Kies gebied</option>
-						<option value="Centrum Algemeen" {% if (idea.extraData) and (idea.extraData.gebied == "Centrum Algemeen") %}selected{% endif %}>Centrum Algemeen</option>
-						<option value="Burgwallen Nieuwe Zijde" {% if (idea.extraData) and (idea.extraData.gebied == "Burgwallen Nieuwe Zijde") %}selected{% endif %}>Burgwallen Nieuwe Zijde</option>
-						<option value="Burgwallen Oude Zijde" {% if (idea.extraData) and (idea.extraData.gebied == "Burgwallen Oude Zijde") %}selected{% endif %}>Burgwallen Oude Zijde</option>
-						<option value="Grachtengordel West" {% if (idea.extraData) and (idea.extraData.gebied == "Grachtengordel West") %}selected{% endif %}>Grachtengordel West</option>
-						<option value="Grachtengordel Zuid" {% if (idea.extraData) and (idea.extraData.gebied == "Grachtengordel Zuid") %}selected{% endif %}>Grachtengordel Zuid</option>
-						<option value="Haarlemmerbuurt" {% if (idea.extraData) and (idea.extraData.gebied == "Haarlemmerbuurt") %}selected{% endif %}>Haarlemmerbuurt</option>
-						<option value="Jordaan" {% if (idea.extraData) and (idea.extraData.gebied == "Jordaan") %}selected{% endif %}>Jordaan</option>
-						<option value="Nieuwmarkt/Lastage" {% if (idea.extraData) and (idea.extraData.gebied == "Nieuwmarkt/Lastage") %}selected{% endif %}>Nieuwmarkt/Lastage</option>
-						<option value="Oostelijke Eilanden/Kadijken" {% if (idea.extraData) and (idea.extraData.gebied == "Oostelijke Eilanden/Kadijken") %}selected{% endif %}>Oostelijke Eilanden/Kadijken</option>
-						<option value="Weesperbuurt/Plantage" {% if (idea.extraData) and (idea.extraData.gebied == "Weesperbuurt/Plantage") %}selected{% endif %}>Weesperbuurt/Plantage</option>
-						<option value="Weteringschans" {% if (idea.extraData) and (idea.extraData.gebied == "Weteringschans") %}selected{% endif %}>Weteringschans</option>
+					<h2>Thema</h2>
+					<div class="form-info">Selecteer het thema waarop uw plan betrekking heeft.</div>
+					<select id="thema" class="default-select" value="{% if idea.extraData %}{{idea.extraData.thema}}{% endif %}">
+						<option value="">Kies thema</option>
+						<option value="Samen dingen doen" {% if (idea.extraData) and (idea.extraData.thema == "Samen dingen doen") %}selected{% endif %}>Samen dingen doen</option>
+						<option value="Cultuur en kansen creëren" {% if (idea.extraData) and (idea.extraData.thema == "Cultuur en kansen creëren") %}selected{% endif %}>Cultuur en kansen creëren</option>
+						<option value="Veilige, groene en prettige buurt" {% if (idea.extraData) and (idea.extraData.thema == "Veilige, groene en prettige buurt") %}selected{% endif %}>Veilige, groene en prettige buurt</option>
 					</select>
 					<br>
 					
@@ -200,8 +205,14 @@
 			 try {
 				 extraData = JSON.parse(extraData)
 			 } catch(error) {}
-			 if ( extraData && extraData.gebied ) {
-				 document.getElementById('gebied').value = extraData.gebied;
+			 if ( extraData && extraData.thema ) {
+				 document.getElementById('thema').value = extraData.thema;
+			 }
+			 if ( extraData && extraData.inzender && extraData.inzender.naam ) {
+				 document.getElementById('inzenderNaam').value = extraData.inzender.naam;
+			 }
+			 if ( extraData && extraData.inzender && extraData.inzender.email ) {
+				 document.getElementById('inzenderEmail').value = extraData.inzender.email;
 			 }
 			 
 		 });
@@ -221,8 +232,13 @@
 
 			 // extra data
 			 var extraData = {
-				 gebied: document.getElementById('gebied').value,
+				 thema: document.getElementById('thema') && document.getElementById('thema').value,
+				 inzender: {
+					 naam: document.getElementById('inzenderNaam') && document.getElementById('inzenderNaam').value,
+					 email: document.getElementById('inzenderEmail') && document.getElementById('inzenderEmail').value,
+				 }
 			 }
+			 console.log(extraData)
 			 document.getElementById('extraData').value = JSON.stringify(extraData);
 
 		 });

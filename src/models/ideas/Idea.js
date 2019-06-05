@@ -143,7 +143,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							// zie validExtraData hieronder
 							// throw db.sequelize.ValidationError(`${key} is niet ingevuld`);
 						}
-						if (value[key] && configExtraData[key].values.indexOf(value[key]) != -1) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
+						if (value[key] && ( !configExtraData[key].values || configExtraData[key].values.indexOf(value[key]) != -1 )) { // TODO: alles is nu enum, maar dit is natuurlijk veel te simpel
 							newValue[key] = value[key];
 						}
 					});
