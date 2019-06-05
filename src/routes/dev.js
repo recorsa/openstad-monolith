@@ -88,7 +88,7 @@ module.exports = function( app ) {
 		if( 'send' in req.query ) {
 			mail.sendMail({
 				to          : 'tjoekbezoer@gmail.com',
-				subject     : 'Bedankt voor je voorstel',
+				subject     : 'Bedankt voor uw voorstel',
 				html        : content,
 				// text        : nunjucks.render('email/login_link_text.njk', data),
 				attachments : [{

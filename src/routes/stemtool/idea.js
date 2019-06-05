@@ -634,7 +634,7 @@ function sendThankYouMail( req, idea ) {
 
 	mail.sendMail({
 		to          : req.user.email,
-		subject     : 'Bedankt voor je voorstel',
+		subject     : 'Bedankt voor uw voorstel',
 		html        : html,
 		text        : text,
 		attachments : [{

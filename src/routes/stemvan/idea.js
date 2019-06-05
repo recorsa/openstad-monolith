@@ -880,7 +880,7 @@ function sendThankYouMail( req, idea ) {
 
 console.log(	{
 		to          : req.user.email,
-		subject     : (config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject) || 'Bedankt voor je voorstel',
+		subject     : (config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject) || 'Bedankt voor uw voorstel',
 		html        : html,
 		text        : text,
 		attachments : attachments,
@@ -889,7 +889,7 @@ console.log(	{
 	
 	mail.sendMail({
 		to          : req.user.email,
-		subject     : (config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject) || 'Bedankt voor je voorstel',
+		subject     : (config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject) || 'Bedankt voor uw voorstel',
 		html        : html,
 		text        : text,
 		attachments : attachments,
