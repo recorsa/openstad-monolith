@@ -311,6 +311,8 @@
 		 	(function() {
 				var hamburgerButton = document.querySelector('#mobile-menu-toggle');
 				var menuItems = document.querySelector('#menuItems');
+				var menuToggle = document.querySelector('#mobile-menu-toggle');
+				var accountMenuButton = document.querySelector('#account-mobile');
 				var dimOverlay = document.querySelector('#dim-overlay');
 				var active = false;
 				
@@ -328,9 +330,11 @@
 
 					document.body.addEventListener('click', hideMenu);
 					dimOverlay.addEventListener('click', hideMenu);
+					accountMenuButton.addEventListener('click', hideMenu);
 					menuItems.addEventListener('click', menuClick);
 					menuItems.className = menuItems.className.replace(/ ?hidden-mobile/, '');
 					dimOverlay.className = dimOverlay.className.replace(/ ?menu-closed/, '');
+					menuToggle.className += ' open';
 
 					active = true;
 				}
@@ -340,7 +344,9 @@
 
 					document.body.removeEventListener('click', hideMenu);
 					dimOverlay.removeEventListener('click', hideMenu);
+					accountMenuButton.removeEventListener('click', hideMenu);
 					menuItems.removeEventListener('click', menuClick);
+					menuToggle.className = menuToggle.className.replace(/ ?open/, '');
 
 					menuItems.className += ' hidden-mobile';
 					dimOverlay.className += ' menu-closed';
