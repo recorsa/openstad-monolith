@@ -284,7 +284,6 @@
 								event.stopPropagation();
 
 								document.body.addEventListener('click', hideMenu);
-								document.body.addEventListener('touchend', hideMenu);
 								subMenu.addEventListener('click', menuClick);
 
 								subMenu.className += ' active';
@@ -295,7 +294,6 @@
 								event.stopPropagation();
 
 								document.body.removeEventListener('click', hideMenu);
-								document.body.removeEventListener('touchend', hideMenu);
 								subMenu.removeEventListener('click', menuClick);
 
 								subMenu.className = subMenu.className.replace(/ ?active/, '');
