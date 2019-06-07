@@ -130,7 +130,8 @@
 					<h3>{{idea.title}}</h3>
 
 					{% if idea.extraData %}
-						<div class="gebied">{{idea.extraData.gebied}}</div>
+						{# <div class="gebied">{{idea.extraData.gebied}}</div> #}
+						<div class="thema">{{idea.extraData.thema}}</div>
 					{% endif %}
 
 					<p>{{idea.summary | safe | nl2br}}</p>
