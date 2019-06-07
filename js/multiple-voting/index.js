@@ -42,7 +42,7 @@ function addIdeaToSelection(id) {
 
 	if (votingType === 'count' && currentSelection.length < maxIdeas) {
 		currentSelection.push(id);
-	} else if (availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
+	} else if (votingType === 'budgetting' && availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
 		currentSelection.push(id);
 	}
 
@@ -360,6 +360,21 @@ function updateBudgetDisplay() {
 				$overviewContainer.append('<div class="row bold leftovers"><div class="col-xs-6">Ongebruikt budget:</div><div class="col-xs-6 align-right">'+formatEuros(availableBudgetAmount, true)+'</div></div>');
 			}
 
+			if ( document.querySelector('#selection-smaller-than-max-warning') ) {
+				var check = false;
+				if (votingType === 'count') {
+					check = currentSelection.length < maxIdeas;
+				} else {
+					check = availableBudgetAmount > 0 
+				}
+
+				if (check) {
+					removeFromClassName(document.querySelector('#selection-smaller-than-max-warning'), 'hidden');
+				} else {
+					addToClassName(document.querySelector('#selection-smaller-than-max-warning'), 'hidden');
+				}
+			}
+
 			break;
 
 		case 3:
@@ -650,7 +665,9 @@ var sortedElements = [];
 
 (function() {
 	initSortedElements()
-	document.querySelector('#selectSort').value = sortOrder;
+	if (document.querySelector('#selectSort')) {
+		document.querySelector('#selectSort').value = sortOrder;
+	}
 	doSort(sortOrder)
 })();
 
@@ -734,11 +751,13 @@ function activateFilter(which) {
 	gridderClose();
 	activeFilter = which;
 	openstadSetStorage('plannenActiveFilter', activeFilter);
-	document.getElementById('filterSelector').selectedIndex = activeFilter;
-	if (document.getElementById('filterSelector').selectedIndex == '0') {
-		document.getElementById('filterSelector').options[0].innerHTML = 'Filter op gebied';
-	} else {
-		document.getElementById('filterSelector').options[0].innerHTML = 'Alle gebieden';
+	if (document.getElementById('filterSelector')) {
+		document.getElementById('filterSelector').selectedIndex = activeFilter;
+		if (document.getElementById('filterSelector').selectedIndex == '0') {
+			document.getElementById('filterSelector').options[0].innerHTML = 'Filter op gebied';
+		} else {
+			document.getElementById('filterSelector').options[0].innerHTML = 'Alle gebieden';
+		}
 	}
 	updateList();
 }
@@ -757,7 +776,7 @@ function updateList() {
 
 	var activeThema = document.getElementById('themaSelector' + activeTab) ? document.getElementById('themaSelector' + activeTab).innerHTML : '';
 	// if (activeThema == 'Groen') activeThema = 'Groen en Openbare ruimte';
-	var activeGebied = document.getElementById('filterSelector').value ? document.getElementById('filterSelector').value : '';
+	var activeGebied = document.getElementById('filterSelector') && document.getElementById('filterSelector').value ? document.getElementById('filterSelector').value : '';
 
 	// show only the selected elements; display: none does not work well with gridder
 
@@ -1004,9 +1023,9 @@ function addToClassName(element, className) {
 }
 
 function removeFromClassName(element, className) {
-	// if (element) {
+	if (element) {
 		element.className = element.className.replace(new RegExp(' ?' + className + '(?: |$)' ), '');
-	// }
+	}
 }
 
 function formatEuros(amount, html) {
