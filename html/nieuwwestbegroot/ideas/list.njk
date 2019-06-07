@@ -198,7 +198,6 @@
 		 } else {
 			 document.getElementById('filterSelector').options[0].innerHTML = 'Alle thema\'s';
 		 }
-
 		 if (activeFilter == 0) {
 			 document.getElementById('themaSelector0').className += ' active';
 			 document.getElementById('filterSelector').className = document.getElementById('filterSelector').className.replace(/ ?active/g, '');
@@ -216,15 +215,14 @@
 	 }
 
 	 function updateDisplay() {
-		 // var activeThema = document.getElementById('themaSelector' + activeTab).innerHTML;
-		 var activeGebied = document.getElementById('filterSelector').value;
-
+		 var activeThema = document.getElementById('filterSelector').value;
+		 console.log(activeThema);
+		 
 		 let elements = document.getElementsByClassName('tile');
 		 Array.prototype.forEach.call(elements, function(element) {
-			 // var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
-			 var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
-			 //if ((( !activeTab || activeTab == 0 ) || activeThema == elementThema) && (( !activeFilter || activeFilter == 0 ) || activeGebied == elementGebied)) {
-			 if (!activeFilter || activeFilter == 0 || activeGebied == elementGebied) {
+			 var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
+			 console.log(activeThema);
+			 if (!activeFilter || activeFilter == 0 || elementThema == activeThema) {
 				 element.style.display = 'inline-block';
 			 } else {
 				 element.style.display = 'none';
