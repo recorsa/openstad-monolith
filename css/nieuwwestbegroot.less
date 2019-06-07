@@ -509,10 +509,28 @@ nav {
 				display: block;
 				border-bottom: #e6e6e6 1px solid;
 				font-size: 16px;
+
+				a{
+					display: block;
+				}
+
+				a:hover {
+					border-bottom: 0;
+				}
+			}
+			li.active {
+				a {
+					border-bottom: 0;
+				}
 			}
 			li.li-spacer {
 				height: 4px;
 				background-color: #e6e6e6;
+			}
+			li.li-spacer-black {
+				height: 4px;
+				background-color: #000;
+				border-bottom: 0;
 			}
 			li.li-secundair {
 				display: block;
