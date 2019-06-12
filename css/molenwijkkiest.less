@@ -1,3 +1,5 @@
+@import 'stemvan/base';
+
 .count .button-add-idea-to-budget {
 	&.unavailable {
 		width: 200px;
@@ -11,3 +13,45 @@
 	color: #164995;
 	margin-bottom: 20px;
 }
+
+#howDoesItWork {
+
+	.step {
+
+		@media @phone {
+			margin-top: 15px;
+		}
+
+		ul {
+			@media @phone {
+				padding-bottom: 0px;
+			}
+		}
+
+		.step-header {
+			margin-bottom: 10px;
+		}
+
+		.step-image {
+
+			width: 220px;
+			height: auto;
+			margin-bottom: 25px;
+			
+			@media @phone {
+				float: left;
+				width: 64px;
+				margin-right: 15px;
+			}
+		}
+
+		.step-text {
+			@media @phone {
+				float: left;
+				width: calc(100% - 79px);
+			}
+		}
+
+	}
+}
+

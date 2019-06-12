@@ -12,7 +12,7 @@
 // config
 
 // config vars; overwritten in template
-var votingType = votingType || 'budgeting'; // budgetting or count
+var votingType = votingType || 'budgeting'; // budgeting or count
 var maxIdeas = maxIdeas || 5;
 var minIdeas = minIdeas || 5;
 var initialAvailableBudget = initialAvailableBudget || 300000;
@@ -42,7 +42,7 @@ function addIdeaToSelection(id) {
 
 	if (votingType === 'count' && currentSelection.length < maxIdeas) {
 		currentSelection.push(id);
-	} else if (votingType === 'budgetting' && availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
+	} else if (votingType === 'budgeting' && availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
 		currentSelection.push(id);
 	}
 
@@ -145,7 +145,7 @@ function nextStep() {
 	if (currentStep == 1) {
 		if (!isSelectionValid()) {
 			var message;
-			if ((votingType === 'count' && currentSelection.length === 0) || initialAvailableBudget - availableBudgetAmount == 0) {
+			if ((votingType === 'count' && currentSelection.length === 0) || ( votingType === 'budgeting' && initialAvailableBudget - availableBudgetAmount == 0 )) {
 				message = 'Je hebt nog geen plannen geselecteerd.'
 			} else {
 				message = ( votingType === 'count' ? 'Je moet minimaal ' + minIdeas + ' plannen selecteren.' : 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.' );
@@ -820,7 +820,7 @@ function updateListElements() {
 	};
 
 	function updateElement(element) {
-		// is added to the budgetting selection
+		// is added to the budgeting selection
 		if (currentSelection.indexOf( element.ideaId ) != -1) {
 			var elements = element.querySelectorAll('.button-add-idea-to-budget');
 			for (var i=0; i<elements.length; i++) {
