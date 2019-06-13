@@ -190,6 +190,13 @@ function updateIdeaCounters() {
 	if (votingType === 'count') {
 		$('.current-ideas-count').text(currentSelection.length);
 		$('.available-ideas-count').text(maxIdeas - currentSelection.length);
+		
+		// misschien niet helemaal netjes hier
+		if (maxIdeas === currentSelection.length) {
+			$('.add-button').addClass('hidden');
+		} else {
+			$('.add-button').removeClass('hidden');
+		}
 	}
 }
 
@@ -1049,7 +1056,7 @@ function formatEuros(amount, html) {
 }
 
 function scrollToIdeas() {
-  scrollToResolver(document.querySelector('.tab-selector'));
+  scrollToResolver(document.querySelector('#ideasList'));
 }
 
 function scrollToBudget() {

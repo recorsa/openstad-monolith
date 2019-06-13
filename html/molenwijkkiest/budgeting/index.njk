@@ -11,7 +11,7 @@
 	{% if config["voting"].isActive %}
 		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
 			<div id="info-bewoners-west" class="info-block green">
-				Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
+				Bewoners uit Molenwijk kunnen stemmen t/m 7 juli 2019 met de stemcode die zij per post hebben ontvangen.
 				<div class="close-button" onclick="hideInfoBewonersWest()"></div>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 	<div id="ideasList" class="pageContent {{contentClass}} {{config["voting"].votingType}}">
 
 		<h1>
-			Plannen voor West ({{runningIdeas.length}})
+			Ideeën voor Molenwijk ({{runningIdeas.length}})
 		</h1>
 
 		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
