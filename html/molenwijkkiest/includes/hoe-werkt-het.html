@@ -1,0 +1,66 @@
+{% macro showBlock(openOrClosed) %}
+<div id="howDoesItWork" class="{{openOrClosed}}">
+	<a id="howDoesItWorkButton" href="javascript: (function() { document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+	<div class="pageContent">
+		<div class="steps">
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-1.svg" />
+				<div class="step-header">1. Jouw persoonlijke stemcode voor Molenwijk Kiest ontvang je per post</div>
+				<div class="step-text">
+					{% if config["voting"].isActive %}
+					Alle bewoners van Molenwijk die 12 jaar of ouder zijn, ontvangen in de week van maandag 17 juni 2019 een stemformulier met een persoonlijke stemcode via de post. Met deze stemcode kan je stemmen op jouw 5 favoriete ideeën van Molenwijk Kiest. Houd de envelop met op de buitenkant de tekst 'Molenwijk Kiest' goed in de gaten!
+					{% else %}
+					Alle bewoners van West van 18 jaar en ouder ontvingen rond 16 januari 2019 een persoonlijke stemcode via de post. Op de buitenkant van de envelop stond duidelijk dat daar jouw stemcode voor West Begroot in zat.
+					{% endif %}
+				</div>
+			</div>
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-2.svg" />
+				<div class="step-header">2. Uit welke ideeën kun je kiezen?</div>
+				<div class="step-text">
+					{% if config["voting"].isActive %}
+					Op deze website vind je de ideeën die meedoen aan Molenwijk Kiest. Lees de beschrijving goed en kies je 5 favoriete ideeën!
+					{% else %}
+					Op deze website kun je bekijken welke 30 plannen geselecteerd waren voor de stemfase van West Begroot. Je kunt meer lezen over de plannen en ze met elkaar vergelijken.
+					{% endif %}
+					<ul class="links-list">
+						<li><a href="/stemmen">Bekijk de ideeën op de stempagina</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-3.svg" />
+				<div class="step-header">3. Kies jouw 5 favoriete ideeën</div>
+				<div class="step-text">
+					{% if config["voting"].isActive %}
+					Kies de 5 ideeën die jij het beste vindt voor Molenwijk. Je hebt je persoonlijke stemcode hierbij nodig. Wil je zonder computer stemmen? Geen probleem. Kruis op de achterkant van het stemformulier je 5 favoriete ideeën aan, en doe deze in de stembus in de bibliotheek.
+					{% else %}
+					Van 16 januari t/m 13 februari 2019 kon je plannen selecteren voor een totaal bedrag van €300.000. Met een persoonlijke stemcode konden de keuzes worden verstuurd.
+					{% endif %}
+					{% if config["voting"].isActive %}
+					<ul class="links-list">
+						<li><a href="/stemmen">Ga naar stemmen</a></li>
+						<li><a href="#hulp-bij-stemmen">Hulp nodig bij het stemmen?</a></li>
+					</ul>
+					{% endif %}
+				</div>
+			</div>
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-4.svg" />
+				<div class="step-header">4. De ideeën met de meeste stemmen worden uitgevoerd</div>
+				<div class="step-text">
+					{% if config["voting"].isActive %}
+					{# Het idee of de ideeën die het vaakst zijn gekozen door bewoners van Molenwijk worden dit jaar uitgevoerd. In totaal hebben we € 25.000 beschikbaar. De ideeën waar je op kan stemmen kosten tussen de €1.000 en €25.000. Het meest favoriete idee gaan we, als er voldoende aanmeldingen zijn om ook mee te helpen, dit jaar uitvoeren. Mocht er daarna geld over zijn, dan voeren we ook het tweede (derde of vierde) idee uit. Dit kan betekenen dat er 1 idee van €25.000 wordt uitgevoerd, of meerdere ideeën die samen €25.000 kosten. Op woensdag 10 juli 2019 wordt de stemuitslag bekend gemaakt via  MolenwijkKiest.amsterdam.nl #}
+					In totaal is €25.000 beschikbaar. Er kan gestemd worden op ideeën die tussen de €1.000 en €25.000 kosten. De ideeën met de meeste stemmen die alleen of samen maximaal €25.000 kosten, worden dit jaar uitgevoerd. Dit kan betekenen dat er één idee wordt uitgevoerd dat €25.000 kost. Maar het kan ook zijn dat er veel gestemd wordt op ideeën die minder kosten waardoor er bijvoorbeeld 3 ideeën voor € 25.000 uitgevoerd kunnen worden.
+					{% else %}
+					De plannen die het vaakst zijn gekozen door bewoners van West en die binnen het budget passen worden uitgevoerd. Op 16 februari 2019 wordt bekend gemaakt welke plannen uitgevoerd worden.
+					<ul class="links-list">
+						<li><a href="/img/westbegroot/Uitslag.West.Begroot_20190215.pdf">Download de uitslag</a></li>
+					</ul>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endmacro %}
