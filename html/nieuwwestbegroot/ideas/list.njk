@@ -137,7 +137,7 @@
 					<p>{{idea.summary | safe | nl2br}}</p>
 					
 					<div class="ideaProgress">
-						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
+						<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*(100/30)}}%;"></div></div>
 					</div>
 					
 					<div class="ideaStats">
