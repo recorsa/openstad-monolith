@@ -593,8 +593,8 @@ function submitBudget() {
 		_csrf: csrfToken,
 	}
 
-
-	let url = '/api/site/15/budgeting';
+	// todo: hardcoded siteId !!!
+	let url = '/api/site/121/budgeting';
 
 	$.ajax({
     url: url,
