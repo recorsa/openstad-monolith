@@ -51,6 +51,9 @@
 
 			{% include 'partials/menu.html' %}
 
+			{% block photoBanner %}
+			{% endblock %}
+
 
 			<div id="content" class="pageContent {{contentClass}}">
 				{% for type,list in messages %}
