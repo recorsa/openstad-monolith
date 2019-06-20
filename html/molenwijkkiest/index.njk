@@ -5,14 +5,14 @@
 
 {% set contentClass = 'index' %}
 
-{# {% block photoBanner %}
-	<div id="photoBanner" style="background-image: url(/img/nieuwwestbegroot/SNO-luchtfoto-crop.jpg);"></div>
-{% endblock %} #}
+{% block photoBanner %}
+	<div id="photoBanner" style="background-image: url(/img/molenwijkkiest/luchtfoto-Molenwijk-crop.jpg);"></div>
+{% endblock %}
 
 {% block contentFullWidth %}
 
 	{# Add class 'hasPhotoBanner' below when needed #}
-	<div class="pageContent {{contentClass}}">
+	<div class="pageContent {{contentClass}} hasPhotoBanner">
 		{% include 'partials/main-icons.njk' %}
 	</div>
 
