@@ -1,0 +1,36 @@
+<nav id="mainMenu" role="navigation" class="menuBar">
+  <div>
+    <ul>
+      <li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
+      {% if config["voting"].isActive %}
+      <li class="{{'active' if activeMenu == 'budget'}}"><a href="/stemmen">Stemmen</a></li>
+      {% else %}
+      <li class="{{'active' if activeMenu == 'budget'}}"><a href="/plannen">Plannen</a></li>
+      {% endif %}
+    </ul>
+
+    {#
+    {% if user.hasCompletedRegistration() %}
+    <a href="/account" id="account" data-initials="{{user.initials}}">{{user.fullName}}</a>
+    {% else %}
+    <a href="/account" id="account" data-initials="">Mijn account</a>
+    {% endif %}
+
+    <a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur je plan in</a>
+    #}
+  </div>
+</nav>
+
+
+<nav id="subMenu" class="" role="navigation">
+  <div>
+    <ul>
+      {% if user.isLoggedIn() %}
+      {# <li><a href="/account">Mijn account</a></li> #}
+      <li><a href="/account/logout">Uitloggen</a></li>
+      {% else %}
+      <li><a href="/account/register">Aanmelden / inloggen</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>

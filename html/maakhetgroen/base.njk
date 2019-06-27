@@ -1,0 +1,180 @@
+{% from 'includes/mobile-menu.njk' import mobileMenu %}
+
+<!DOCTYPE html>
+<html lang="nl">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		{% if ogTitle %}
+			<meta property="og:title" content="{{ogTitle}}" />
+		{% endif %}
+		{% if ogImage %}
+			<meta property="og:image:secure_url" content="{{ogImage}}" />
+			<meta property="og:image:width" content="300" />
+			<meta property="og:image:height" content="300" />
+		{% endif %}
+
+		<link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+
+		<title>{{pageTitle+' — ' if pageTitle}}{{PAGENAME_POSTFIX}}</title>
+		<script src="/js/jquery-3.3.1.min.js"></script>
+
+		<script src="/js/cookies.js"></script>
+		<script src="/js/fetch2.js"></script>
+		<script src="/js/scroll-link.js"></script>
+
+		<meta name="viewport" content="initial-scale=1">
+		{% block head %}
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/stemvan/all.css">
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/westbegroot-phase-2.css">
+			<link rel="stylesheet" type="text/css" media="all"   href="/css/molenwijkkiest.css">
+			<link rel="stylesheet" type="text/css" media="print" href="/css/stemvan/print.css">
+		{% endblock %}
+	</head>
+	<body class="preload">
+		<div id="page">
+			<header>
+				<a href="/">
+					<img src="/img/andreas.svg" width="24" alt=""/>
+					<div id="amsterdam">
+						Gemeente<br>
+						Amsterdam
+					</div>
+					<h1><span>{{SITENAME}}</span></h1>
+				</a>
+				<!--
+						 <a href="javascript: alert('wat deze knop gaat doen is nog niet duidelijk')" class="page-button page-button-grey" target="_blank">
+						 Wat kan ik nog meer doen in mijn buurt?
+						 </a>
+				-->
+			</header>
+
+			{% include 'partials/menu.html' %}
+
+			{% block photoBanner %}
+			{% endblock %}
+
+
+			<div id="content" class="pageContent {{contentClass}}">
+				{% for type,list in messages %}
+					<div class="flashMessage {{type}}">
+						{% if type == 'error' %}
+							<h2>Er ging iets fout</h2>
+							<ul>
+								{% for message in list %}<li>{{message}}{% endfor %}
+							</ul>
+						{% elif type == 'success' %}
+							<h2>Gelukt!</h2>
+							{% for message in list %}{{message}}<br>{% endfor %}
+						{% elif type == 'include' %}
+							{% for file in list %}
+								{% include file %}
+							{% endfor %}
+						{% else %}
+							<h2>Informatie</h2>
+							{% for message in list %}{{message}}<br>{% endfor %}
+						{% endif %}
+
+						<a class="close"><img src="/img/close.svg" alt="" title="Melding sluiten"></a>
+					</div>
+				{% endfor %}
+			</div>
+
+			<div id="content" class="pageContent {{contentClass}}">
+				{% block content %}
+				{% endblock %}
+			</div>
+			<div style="clear: both"></div>
+
+			{% block contentFullWidth %}
+			{% endblock %}
+			<div style="clear: both"></div>
+
+			<footer-spacer></footer-spacer>
+
+			{{ mobileMenu() }}
+
+		</div>
+
+		{% block footer %}
+			{% include 'partials/footer.html' %}
+		{% endblock %}
+
+		<script>
+		 // Preload class is defined in `all.less` to disable all animations.
+			 document.body.className = '';
+		</script>
+		<script>
+		 // function $( el, query ) {
+		 //  	 query || (query = el, el = null);
+		 //  	 return Array.prototype.slice.call(
+			 //  		 (el || document).querySelectorAll(query), 0
+		 //  	 );
+		 // }
+		</script>
+		<script>
+		 // Account submenu
+		 // ---------------
+						// 				(function() {
+		 // 					var button  = document.querySelector('#account');
+		 // 					var subMenu = document.querySelector('#subMenu');
+		 // 					var active  = false;
+		 // 					button.addEventListener('click', function( event ) {
+		 // 						if( !active ) {
+		 // 							showMenu(event);
+		 // 						} else {
+		 // 							hideMenu(event);
+		 // 						}
+		 // 					});
+		 //
+		 // 					function showMenu( event ) {
+		 // 						event.preventDefault();
+		 // 						event.stopPropagation();
+		 //
+		 // 						document.body.addEventListener('click', hideMenu);
+		 // 						subMenu.addEventListener('click', menuClick);
+		 //
+		 // 						subMenu.className += ' active';
+		 // 						active = true;
+		 // 					}
+		 // 					function hideMenu( event ) {
+		 // 						event.preventDefault();
+		 // 						event.stopPropagation();
+		 //
+		 // 						document.body.removeEventListener('click', hideMenu);
+		 // 						subMenu.removeEventListener('click', menuClick);
+		 //
+		 // 						subMenu.className = subMenu.className.replace(/ ?active/, '');
+		 // 						active = false;
+		 // 					}
+		 // 					function menuClick( event ) {
+		 // 						event.stopPropagation();
+		 // 					}
+		 // 				})();
+		</script>
+		<script>
+			// Flash messages
+			// --------------
+			// Make close buttons interactive.
+			(function() {
+			var closeButtons = Array.prototype.slice.call(
+			document.querySelectorAll('#content > .flashMessage a:not([href])'), 0
+			);
+			closeButtons.forEach(function( a ) {
+			a.href = '';
+			a.addEventListener('click', function( event ) {
+			var message = a.parentNode;
+			message.parentNode.removeChild(message);
+							event.preventDefault();
+						});
+					});
+				})();
+		</script>
+
+		{% block scripts %}{% endblock %}
+
+		{% if ENV == 'production' %}
+			{% include 'includes/analytics.njk' %}
+		{% endif %}
+	</body>
+</html>

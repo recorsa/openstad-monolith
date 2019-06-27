@@ -1,0 +1,67 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+
+{% set pageTitle    = 'Veelgestelde vragen' %}
+{% set contentClass = 'article faq' %}
+
+{% block head %}
+	{{super()}}
+
+	<style type="text/css">
+	 #article h2 {
+		 background-color: #E3E4E5;
+		 font-size: 0.9rem;
+		 line-height: 1.5em;
+		 padding: 0.5em 10px;
+	 }
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="primary">
+		<h1>Veelgestelde vragen</h1>
+
+		<div id="summary">
+			{# <p>{{'2018-07-18' | date('LL')}}</p> #}
+
+			<h3>In het kort</h3>
+			<p>
+				Heb je vragen over het gebruik van {{SITENAME}}? Bekijk dan
+				eerst eens of je vraag op deze pagina beantwoord wordt.
+			</p>
+			<p class="strong">
+				Staat het antwoord op je vraag er niet tussen? Stuur dan een
+				e-mail naar <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.
+				De beheerders van {{SITENAME}} zullen je vraag dan zo snel
+				mogelijk beantwoorden!
+			</p>
+			<hr>
+		</div>
+
+		<div id="article">
+
+			
+			<h2>Ik woon of werk niet aan de  Zuidas maar wil wel graag stemmen. Kan dat?</h2>
+			Nee, alleen mensen die wonen of werken aan de Zuidas die 16 jaar of ouder zijn mogen stemmen.
+
+			<h2>Hoe weet ik zeker dat mijn stem is opgeslagen?</h2>
+			Je stem is goed opgeslagen als je een bevestiging ziet die aangeeft ‘Gelukt, je hebt gestemd!’. Het stemmen werkt in 4 stappen. In stap 1 kies je je 3 favoriete ideeën. In stap 2 controleer je of je tevreden bent met de gekozen ideeën. Bij stap 3 vul je e-mailadres en postcode in. Bij stap 4 klik je op de knop ‘Stemmen’.  
+
+			<h2>Kan ik voor anderen stemmen?</h2>
+			Het is de bedoeling dat iedereen zelf stemt. Uiteraard mag je mensen die het stemmen lastig vinden helpen. 
+
+			<h2>Ik wil graag meehelpen bij de voorbereiding en uitvoering van het idee, waar kan ik me aanmelden?</h2>
+			Als je mee wilt helpen bij de voorbereiding en uitvoering van de ideeën voor Zuidas Maak Het Groen horen wij dat graag! Ook voor het onderhouden of beheren na uitvoering van een moestuinbak of kruidentuin kun je je opgeven. Het opgeven kan via <a href="zuidasmaakhetgroen@amsterdam.nl">zuidasmaakhetgroen@amsterdam.nl</a>.
+
+			<h2>Waarom worden er 3 ideeën uitgevoerd?</h2>
+			Het kan zijn dat de top twee ideeën samen al €100.000 kosten, dan worden er twee ideeën uitgevoerd. De uitwerking van idee naar plan en de uitvoering van het plan kost ook tijd van het groenteam (projectmanagement, ontwerpers, beheerders, uitvoerders, ecoloog). Daarom is tijd gereserveerd voor maximaal drie projecten.
+
+				<br/>
+				<br/>
+				<br/>
+		</div>
+	</div>
+
+	<div class="secondary">
+	</div>
+{% endblock %}
