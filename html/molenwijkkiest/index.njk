@@ -45,7 +45,7 @@
 					</ul>
 				{% endif %} #}
 
-				<h3>Help bij de uitvoering van de ideeën!</h3>
+				<h3 id="help-mee">Help bij de uitvoering van de ideeën!</h3>
 				<p>Bij alle ideeën hebben we een aantal bewoners nodig die meedenken en meedoen bij de voorbereiding en uitvoering. Bijvoorbeeld bij het idee fitnesstoestellen in de wijk, hebben wij bewoners nodig die samen bepalen welke toestellen er komen.</p>
 				<p>Ook zijn voor een aantal ideeën, bijvoorbeeld de moestuin en de Pluk-, munt- en kruidentuin, bewoners nodig die actief mee blijven doen nadat het plan is uitgevoerd.</p>
 				<p>Wil je meedoen? Meld je aan via onderstaande link en geef aan bij welk idee je graag wil helpen.</p>
@@ -53,20 +53,22 @@
 					<li><a href="mailto:{{ EMAIL }}?subject=Ik wil graag meehelpen!">Meld je aan via {{ EMAIL }}</a></li>
 				</ul>
 
-				<h3 id="hulp-bij-stemmen">Hulp nodig bij het stemmen?</h3>
-				<p>Tijdens de stemperiode zijn wij op verschillende momenten aanwezig in de wijk om je te helpen. Neem het stemformulier met je persoonlijke stemcode mee.</p>
-				<p>Je vindt ons voor de ingang van het winkelcentrum op:</p>
-				<ul>
-					<li>Maandag 17 juni van 15.00 uur tot 17.00 uur</li>
-					<li>Dinsdag 25 juni van 16.00 uur tot 18.00 uur</li>
-					<li>Woensdag 26 juni van 10.00 uur tot 12.00 uur</li>
-					<li>Vrijdag 5 juli van 10.00 uur tot 12.00 uur</li>
-				</ul>
-				<p>Je vindt ons bij Basisscholen De Krijtmolen en De Bonkelaar (Molenwijk 8) op:</p>
-				<ul>
-					<li>Woensdag 19 juni van 14.00 uur tot 16.00 uur</li>
-					<li>Woensdag 3 juli van 14.00 uur tot 16.00 uur</li>
-				</ul>
+				{% if config["voting"].isActive %}
+					<h3 id="hulp-bij-stemmen">Hulp nodig bij het stemmen?</h3>
+					<p>Tijdens de stemperiode zijn wij op verschillende momenten aanwezig in de wijk om je te helpen. Neem het stemformulier met je persoonlijke stemcode mee.</p>
+					<p>Je vindt ons voor de ingang van het winkelcentrum op:</p>
+					<ul>
+						<li>Maandag 17 juni van 15.00 uur tot 17.00 uur</li>
+						<li>Dinsdag 25 juni van 16.00 uur tot 18.00 uur</li>
+						<li>Woensdag 26 juni van 10.00 uur tot 12.00 uur</li>
+						<li>Vrijdag 5 juli van 10.00 uur tot 12.00 uur</li>
+					</ul>
+					<p>Je vindt ons bij Basisscholen De Krijtmolen en De Bonkelaar (Molenwijk 8) op:</p>
+					<ul>
+						<li>Woensdag 19 juni van 14.00 uur tot 16.00 uur</li>
+						<li>Woensdag 3 juli van 14.00 uur tot 16.00 uur</li>
+					</ul>
+				{% endif %}
 
 				<h3>Spelregels</h3>
 				<ul class="checkmark-dot-list">

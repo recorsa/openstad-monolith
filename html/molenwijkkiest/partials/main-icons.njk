@@ -18,19 +18,20 @@
 				</div>
 			{% else %}
 				<h3>
-					Bewoners verdeelden<br/>€ 300.000 over plannen
+					Bewoners kozen hun 5 favoriete ideeën voor Molenwijk
 				</h3>
 				<p>
-					Alle bewoners uit West van 18 jaar en ouder konden stemmen op hun favoriete plannen voor West. Op 16 februari 2019 wordt bekend gemaakt welke plannen uitgevoerd worden.
+					Alle bewoners uit Molenwijk van 12 jaar en ouder konden stemmen op hun favoriete plannen voor de wijk. Op woensdag 10 juli wordt bekend gemaakt welke plannen uitgevoerd worden.
 				</p>
 				<div class="row-footer--desktop text-center">
 					<a href="/plannen" class="btn--blue ">
 						Bekijk de plannen
 					</a>
-					<br/>
+					{# TODO-UITSLAG uncomment uitslag knop #}
+					{# <br/>
 					<a href="/img/westbegroot/Uitslag.West.Begroot_20190215.pdf" class="btn--blue" style="background-color: #a8b900; margin-top: 10px;">
 						Download de uitslag
-					</a>
+					</a> #}
 				</div>
 			{% endif %}
     </div>
@@ -51,7 +52,7 @@
 				</p>
 			{% else %}
 				<p>
-					Hoe zag het stemproces eruit? Wat waren de spelregels en hoe werd bepaald welke plannen uiteindelijk uitgevoerd gaan worden?
+					Afgelopen jaren is vaak aan bewoners van Molenwijk gevraagd wat ze willen in de wijk. In het jubileumjaar '50 jaar Molenwijk' is al een aantal wensen uitgevoerd. Andere nog niet. Op deze site staan nog meer bewonersplannen voor Molenwijk. Met Molenwijk Kiest bepaalden jullie zelf welke ideeën dit jaar nog worden uitgevoerd.
 				</p>
 			{% endif %}
 			<div class="row-footer--desktop text-center">
@@ -80,17 +81,25 @@
 					Van de 209 ingestuurde plannen werden er 30 geselecteerd voor de stemfase van West Begroot. Zat jouw plan niet bij de geselecteerde plannen? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
 				</p>
 			{% endif %} #}
-		<h3>
-        Meedoen zonder computer
-      </h3>
 			{% if config["voting"].isActive %}
+				<h3>
+					Meedoen zonder computer
+				</h3>
 				<p>
 					Op deze site kan je stemmen op de plannen. Wil je meedoen zonder computer? Dat kan ook! Op de achterkant van het stemformulier dat je ontvangt per post kan je je 5 favoriete ideeën aankruisen. Het stemformulier kan je daarna in de stembus doen die staat in de bibliotheek.
 				</p>
 			{% else %}
+				<h3>
+					Help bij de uitvoering van de ideeën!
+				</h3>
 				<p>
-					Van de 209 ingestuurde plannen werden er 30 geselecteerd voor de stemfase van West Begroot. Zat jouw plan niet bij de geselecteerde plannen? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
+					We hebben bewoners nodig die meedenken en meedoen bij de voorbereiding en uitvoering van de ideeën. Wil je ook helpen? Lees hieronder hoe je je aanmeldt!
 				</p>
+				<div class="row-footer--desktop text-center">
+					<a href="#help-mee" class="btn--blue ">
+						Lees hoe je kan aanmelden
+					</a>
+				</div>
 			{% endif %}
     </div>
     <br class="visible-xs" />
