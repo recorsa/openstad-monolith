@@ -67,7 +67,7 @@ addApp('stemvan', [{
 	appName    : 'nieuwwestbegroot',
 	deployName : 'production_nieuwwestbegroot',
 	remotePath : '/var/www/nieuwwestbegroot.amsterdam.nl/www',
-	ref        : 'origin/projects/nieuwwestbegroot'
+	ref        : 'origin/projects/nieuwwestbegroot-tmp'
 }, {
 	appName    : 'stem-zorggoedvooronzestad',
 	deployName : 'production_zorggoedvooronzestad',
