@@ -11,7 +11,7 @@
 	{% if config["voting"].isActive %}
 		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
 			<div id="info-bewoners-west" class="info-block green">
-				Alle personen van 16 jaar en ouder, die wonen of werken aan de Zuidas mogen stemmen t/m 21 juli.
+				Alle bewoners, ondernemers en gebruikers van de Zuidas mogen stemmen t/m 21 juli.
 				<div class="close-button" onclick="hideInfoBewonersWest()"></div>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 	<div id="ideasList" class="pageContent {{contentClass}} {{config["voting"].votingType}}">
 
 		<h1>
-			Ideeën voor Molenwijk ({{runningIdeas.length}})
+			Plannen voor Zuidas ({{runningIdeas.length}})
 		</h1>
 
 		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
