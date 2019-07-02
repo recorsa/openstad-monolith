@@ -148,7 +148,7 @@ function nextStep() {
 			if ((votingType === 'count' && currentSelection.length === 0) || ( votingType === 'budgeting' && initialAvailableBudget - availableBudgetAmount == 0 )) {
 				message = 'Je hebt nog geen plannen geselecteerd.'
 			} else {
-				message = ( votingType === 'count' ? 'Je moet minimaal ' + minIdeas + ' plannen selecteren.' : 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.' );
+				message = ( votingType === 'count' ? 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.' : 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.' );
 			}
 			addError(document.querySelector('#current-budget-preview'), message)
 			return;

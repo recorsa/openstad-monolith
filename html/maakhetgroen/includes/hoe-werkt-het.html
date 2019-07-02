@@ -1,0 +1,55 @@
+{% macro showBlock(openOrClosed) %}
+<div id="howDoesItWork" class="{{openOrClosed}}">
+	<a id="howDoesItWorkButton" href="javascript: (function() { document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+	<div class="pageContent">
+		<div class="steps">
+			<div class="step">
+				<img class="step-image" src="/img/maakhetgroen/step-1.svg" />
+				<div class="step-header">1. Gebruik je e-mailadres om te stemmen</div>
+				<div class="step-text">
+					Woon, werk of verblijf je in de Zuidas? Dan kan je op deze website stemmen op jouw favoriete plannen van Zuidas Maak Het Groen.
+					{% if config["voting"].isActive %}
+					{% else %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-2.svg" />
+				<div class="step-header">2. Uit welke plannen kun je kiezen?</div>
+				<div class="step-text">
+					Op deze website vind je de plannen die meedoen aan Zuidas Maak Het Groen. Lees de beschrijving goed en kies je 3 favoriete plannen!
+					{% if config["voting"].isActive %}
+					{% else %}
+					{% endif %}
+					<ul class="links-list">
+						<li><a href="/stemmen">Bekijk de geselecteerde plannen</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-3.svg" />
+				<div class="step-header">3. Kies jouw top 3</div>
+				<div class="step-text">
+					Kies de 3 voorstellen die jij het beste vindt voor de Zuidas. Na het invoeren van je postcode en e-mailadres kun je stemmen.
+					{% if config["voting"].isActive %}
+					{% else %}
+					{% endif %}
+					{% if config["voting"].isActive %}
+					<ul class="links-list">
+						<li><a href="/stemmen">Ga naar stemmen</a></li>
+					</ul>
+					{% endif %}
+				</div>
+			</div>
+			<div class="step">
+				<img class="step-image" src="/img/westbegroot/step-4.svg" />
+				<div class="step-header">4. De meest populaire plannen worden uitgevoerd</div>
+				<div class="step-text">
+					De plannen die het vaakst zijn gekozen en die binnen het budget van €100.00 passen worden uitgevoerd. 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endmacro %}
+

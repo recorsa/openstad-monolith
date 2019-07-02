@@ -1,0 +1,111 @@
+{% extends 'base.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/hoe-werkt-het.html' as hoeWerktHet %}
+
+{% set contentClass = 'index' %}
+
+{% block photoBanner %}
+	<div id="photoBanner" style="background-image: url(/img/maakhetgroen/zuidas-maak-het-groen.jpg);"></div>
+{% endblock %}
+
+{% block contentFullWidth %}
+
+	{# Add class 'hasPhotoBanner' below when needed #}
+	<div class="pageContent {{contentClass}} hasPhotoBanner">
+		{% include 'partials/main-icons.njk' %}
+	</div>
+
+	{{hoeWerktHet.showBlock('closed')}}
+
+	<div class="pageContent {{contentClass}}">
+		<div class="primary">
+			<div id="achtergrondinformatie" class="text" name="info" id="info">
+				{# <h3>Waarom Molenwijk Kiest?</h3>
+				<p>Stadsdeel West maakt elk jaar gebiedsplannen. In deze gebiedsplannen staat waar het stadsdeel dat jaar extra in investeert. In 2019 wil West meer doen met ‘Groen en Openbare ruimte’, ‘Duurzaamheid’ en ‘Diversiteit en Inclusiviteit’. Omdat bewoners zelf vaak de beste ideeën hebben voor hun buurt, heeft het bestuur van West geld vrij gemaakt voor bewoners: om zelf met plannen te komen die bijdragen aan deze drie thema’s en om zelf te begroten.</p>
+
+				<h3>Wat ging eraan vooraf?</h3>
+				<p>
+				In oktober 2018 hebben bewoners, ondernemers en organisaties samen maar liefst 209 plannen<sup>*</sup> ingediend! Op deze plannen is 21.635 keer gestemd. 167 Plannen kregen meer dan 50 positieve likes en werden getoetst op haalbaarheid. Dat leverde 94 haalbare plannen op. Van deze 94 overgebleven plannen heeft de stadsdeelcommissie 30 plannen geselecteerd waarover bewoners uit West nu € 300.000 kunnen verdelen.<br/><br/>
+				<span style="font-size: 14px"><sup>*</sup>Oorspronkelijk werden er 216 plannen ingediend, maar nadat een aantal plannen door de indieners zelf zijn teruggetrokken bleven er 209 plannen over.</spn>
+				</p>
+
+				<h3>De meest populaire plannen worden uitgevoerd</h3>
+				<p>
+				De plannen die het vaakst zijn gekozen door bewoners van West en die binnen het budget passen worden uitgevoerd. Op 16 februari 2019 wordt bekend gemaakt welke plannen uitgevoerd worden met daarbij een uitleg hoe deze uitslag tot stand is gekomen.
+				</p>
+
+				{% if not config["voting"].isActive %}
+				<ul class="links-list">
+				<li><a href="/img/westbegroot/Uitslag.West.Begroot_20190215.pdf">Download de uitslag</a></li>
+				</ul>
+				<br/>
+				<ul class="links-list">
+				<li><a href="/plannen">Bekijk de plannen</a></li>
+				</ul>
+				{% endif %} #}
+
+				<h3>Achtergrondinformatie</h3>
+				<p>Met het Plan voor een groene Zuidas investeert Amsterdam in verschillende groene maatregelen in het gebied. Deze dragen bij aan de verdere ontwikkeling van Zuidas als bijzondere Amsterdamse wijk. Bewoners, ondernemers en gebruikers van de Zuidas konden hun plannen aanmelden tot 20 mei 2019. Deze plannen zijn op haalbaarheid beoordeeld en er kan €100.000 verdeeld worden over de 7 groene plannen die geselecteerd zijn.</p>
+
+				<h3>Spelregels</h3>
+				<ul class="checkmark-dot-list">
+					<li>Wie mogen er stemmen? Iedereen die woont, werkt of verblijft aan de Zuidas mag stemmen.</li>
+					<li>Hoe kun je stemmen? Vanaf 4 juli kun je je 3 favoriete plannen kiezen op de pagina ‘Stemmen’ van deze website, en je stem uitbrengen met je postcode & e-mailadres.</li>
+					<li>Hoe wordt de uitslag bepaald? De plannen met de meeste stemmen die alleen of samen maximaal €100.000 kosten, worden dit jaar uitgevoerd! Dit kan betekenen dat er 1 plan uitgevoerd wordt dat € 100.000 kost. Maar het kan ook zijn dat er veel gestemd wordt op plannen die minder kosten waardoor er bijvoorbeeld 3 plannen voor €100.000 uitgevoerd kunnen worden. De keuze is aan jullie!</li>
+					<li>Worden alle gekozen plannen uitgevoerd? We maken een inschatting van de kosten van de drie populairste plannen. Hierbij zit bijvoorbeeld ook de uitwerking en uitvoering van het plan, wat kost tijd van het groenteam (projectmanagement, ontwerpers, beheerders, uitvoerders, ecoloog). Mochten de kosten in totaal boven het budget van €100.000 uitkomen, dan voeren we eerst nummer 1 uit en daarna de rest van wat binnen het budget past.</li>
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="secondary">
+
+			<div id="agenda">
+				<h3>Tijdlijn</h3>
+
+				<div class="agenda">
+
+					<div class="box-grey agenda-period">
+						<div>
+							<h3>4 juli t/m 21 juli 2019</h3>
+							Stemmen op favoriete plannen
+						</div>
+					</div>
+
+					<div class="box-grey agenda-period">
+						<div>
+							<h3>31 juli 2019</h3>
+							Bekendmaking stemuitslag
+						</div>
+					</div>
+
+					<div class="box-grey agenda-period">
+						<div>
+							<h3>Najaar 2019</h3>
+							Winnende plan / plannen worden uitgevoerd en geplaatst in de wijk
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div style="clear: both; height: 20px;"></div>
+	<div class="pageContent {{contentClass}}">
+		<ul class="share">
+			<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
+			<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
+			<li><a class="email"    target="_blank" href="mailto:?subject=West Begroot">Email</a></li>
+		</ul>
+		<br/>
+		<br/>
+	</div>
+	</div>
+
+
+{% endblock %}

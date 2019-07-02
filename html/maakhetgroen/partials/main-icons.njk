@@ -1,0 +1,92 @@
+<div class="row row-eq-height--desktop relative padding-bottom-l">
+  <div class="col-sm-4 col-xs-12 text-center">
+    <div>
+			<div class="">
+				<img src="/img/westbegroot/main-checklist.svg" width="74" height="74"/>
+			</div>
+			{% if config["voting"].isActive %}
+				<h3>
+					Kies je 3 favoriete plannen voor meer groen in de Zuidas
+				</h3>
+				<p>
+					Woon, werk of verblijf je in Zuidas? Dan kun je tot en met zondag 21 juli stemmen op de ideeën van Zuidas Maak Het Groen.
+				</p>
+				<div class="row-footer--desktop text-center">
+					<a href="/stemmen" class="btn--blue ">
+						Begin met stemmen
+					</a>
+				</div>
+			{% else %}
+				<h3>
+					Bewoners verdeelden<br/>€100.000 over plannen
+				</h3>
+				<p>
+					???
+				</p>
+				<div class="row-footer--desktop text-center">
+					<a href="/plannen" class="btn--blue ">
+						Bekijk de plannen
+					</a>
+					<br/>
+					<a href="/img/westbegroot/Uitslag.West.Begroot_20190215.pdf" class="btn--blue" style="background-color: #a8b900; margin-top: 10px;">
+						Download de uitslag
+					</a>
+				</div>
+			{% endif %}
+    </div>
+    <br class="visible-xs" />
+    <br class="visible-xs" />
+  </div>
+  <div class="col-sm-4 col-xs-12 text-center">
+    <div>
+			<div>
+				<img src="/img/westbegroot/main-info.svg" width="74" height="74"/>
+			</div>
+			<h3>
+				Wil je meer informatie over Zuidas Maak Het Groen?
+			</h3>
+			{% if config["voting"].isActive %}
+				<p>
+					Hoe ziet het stemproces eruit en hoe wordt bepaald welke plannen uiteindelijk uitgevoerd worden?
+				</p>
+			{% else %}
+				<p>
+					Hoe zag het stemproces eruit? Wat waren de spelregels en hoe werd bepaald welke plannen uiteindelijk uitgevoerd gaan worden?
+				</p>
+			{% endif %}
+			<div class="row-footer--desktop text-center">
+  			<a href="#howDoesItWork" class="btn--blue scroll-link" onclick="document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open';">
+  				Lees hoe het werkt
+  			</a>
+      </div>
+    </div>
+    <br class="visible-xs" />
+    <br class="visible-xs" />
+  </div>
+  <div class="col-sm-4 col-xs-12 text-center">
+    <div>
+      <div class="">
+        <img src="/img/maakhetgroen/main-hammer.svg" width="74" height="74"/>
+      </div>
+			<h3>
+        Hoe zijn de ingestuurde plannen beoordeeld?
+      </h3>
+			{% if config["voting"].isActive %}
+				<p>
+					Bewoners, ondernemers en gebruikers konden plannen insturen voor het zichtbaar verbeteren of toevoegen van groen in de buurt. Benieuwd welke plannen zijn geselecteerd?
+				</p>
+				<div class="row-footer--desktop text-center">
+					<a href="/plannen" class="btn--blue ">
+						Bekijk de plannen
+					</a>
+				</div>
+			{% else %}
+				<p>
+					Van de 209 ingestuurde plannen werden er 30 geselecteerd voor de stemfase van West Begroot. Zat jouw plan niet bij de geselecteerde plannen? Klik op onderstaande knop om te zien wat het oordeel is over de ingestuurde plannen.
+				</p>
+			{% endif %}
+    </div>
+    <br class="visible-xs" />
+    <br class="visible-xs" />
+  </div>
+</div>
