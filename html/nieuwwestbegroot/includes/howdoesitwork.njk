@@ -23,10 +23,14 @@
 					<img class="step-image" src="/img/centrumbegroot/howto-2.svg" />
 					<div class="step-header">2. Stuur uw plan in en voer campagne</div>
 					<div class="step-text">
-						Iedereen mag een plan insturen. Voer campagne voor uw plan en zorg dat u in elk geval 30 positieve likes haalt. Anderen kunnen likes én argumenten plaatsen bij uw plan. 
+						Iedereen mag een plan insturen. Voer campagne voor uw plan en zorg dat u in elk geval 30 positieve likes haalt. Anderen kunnen likes én argumenten plaatsen bij uw plan.
 						{% if (config.ideas.addNewIdeas != 'closed') %}
 							<ul>
 								<li><a href="/plan/nieuw">Stuur uw plan in</a></li>
+							</ul>
+						{% else %}
+							<ul>
+								<li><a href="/plannen">Bekijk de ingestuurde plannen</a></li>
 							</ul>
 						{% endif %}
 					</div>
@@ -37,10 +41,12 @@
 					<div class="step-text">
 						{# Heeft uw plan minimaal 30 likes, dan toetst stadsdeel Nieuw-West of het haalbaar is. Na de haalbaarheidscheck selecteert de stadsdeelcommissie samen met bewoners van Slotermeer Noordoost de 40 beste plannen. #}
 						Heeft uw plan minimaal 30 likes, dan toetst stadsdeel Nieuw-West of het haalbaar is. Na de haalbaarheidscheck selecteert de stadsdeelcommissie de 40 beste plannen.
-						<ul>
-							<li><a href="/plan/nieuw">Hoe toetst het stadsdeel de plannen?</a></li>
-							{# <li><a href="/veelgestelde-vragen#faq-wat-gebeurt-er">Wat gebeurt er na de indien periode?</a></li> #}
-						</ul>
+						{% if (config.ideas.addNewIdeas != 'closed') %}
+							<ul>
+								<li><a href="/plan/nieuw">Hoe toetst het stadsdeel de plannen?</a></li>
+								{# <li><a href="/veelgestelde-vragen#faq-wat-gebeurt-er">Wat gebeurt er na de indien periode?</a></li> #}
+							</ul>
+						{% endif %}
 					</div>
 				</div>
 				<div class="step">

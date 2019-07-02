@@ -14,14 +14,15 @@
 			<img id="homebanner-img" src="img/centrumbegroot/home-banner.svg"/>
 			{% if (config.ideas.addNewIdeas == 'closed') %}
 				{% if (config.ideas.voteForIdeas == 'closed') %}
+					{# Plannen toevoegen gesloten, liken gesloten #}
 					<div id="homebanner-title">
-						<h2>Nieuw West Begroot!</h2>
-						<h3>Hoe zou jij € 500.000 besteden in stadsdeel Centrum?</h3>
+						<h2>Buurtbudget Slotermeer Noordoost</h2>
+						<h3>Maak uw droom voor de buurt waar!</h3>
 					</div>
 					<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
 					<div id="homebanner-text">
-						Er zijn XXXX plannen ingediend.<br/>
-						Op 9 juli 2019 wordt bekend gemaakt welke plannen haalbaar zijn en doorgaan naar de volgende ronde.
+						Er zijn [TODO] plannen ingediend.<br/>
+						In oktober wordt bekend gemaakt welke plannen haalbaar zijn en doorgaan naar de volgende ronde.
 						<br/>
 					</div>
 					<div id="homebanner-buttons">
@@ -33,14 +34,15 @@
 						</a>
 					</div>
 				{% else %}
+					{# Plannen toevoegen gesloten, liken open #}
 					<div id="homebanner-title">
-						<h2>Centrum Begroot!</h2>
-						<h3>Hoe zou jij € 500.000 besteden in stadsdeel Centrum?</h3>
+						<h2>Buurtbudget Slotermeer Noordoost</h2>
+						<h3>Maak uw droom voor de buurt waar!</h3>
 					</div>
 					<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
 					<div id="homebanner-text">
-						Wat vind jij een goed plan?<br/>
-						Stem op het plan wat jij het best vindt en bepaal  welke plannen doorgaan naar de volgende ronde!
+						Wat vindt u een goed plan?<br/>
+						Stem op uw favoriete plannen en bepaal welke plannen doorgaan naar de volgende ronde!
 						<br/>
 					</div>
 					<div id="homebanner-buttons">
@@ -53,6 +55,7 @@
 					</div>
 				{% endif %}
 			{% else %}
+				{# Plannen toevoegen open, liken open #}
 				<div id="homebanner-title">
 					<h2>Buurtbudget Slotermeer Noordoost</h2>
 					<h3>Maak uw droom voor de buurt waar!</h3>
@@ -118,13 +121,21 @@
 			<p>
 				{% if (config.ideas.addNewIdeas == 'closed') %}
 					{% if (config.ideas.voteForIdeas == 'closed') %}
-						<strong>TODO Waarom Centrum Begroot?</strong><br/>
+						{# <strong>TODO Waarom Centrum Begroot?</strong><br/>
 						TODO Om bewoners meer zeggenschap te geven en omdat bewoners vaak zelf de beste ideeën hebben voor hun buurt, stelt het bestuur van stadsdeel Centrum € 200.000,- beschikbaar. Stadsdeel Centrum is een druk stadsdeel. Bewoners, ondernemers en organisaties kunnen plannen indienen die bijdragen aan het verbeteren van de leefbaarheid in de buurt of plannen die de verbinding tussen bewoners onderling versterken.
 						<br/>
-						TODO In de maanden april en mei hebben bewoners, ondernemers en organisaties samen 144 plannen ingediend. Op deze plannen is 14272 gestemd. Daarmee hebben 94 plannen de drempel van 50 likes gehaald. Deze plannen zijn door de volgende ronde. Op dit moment onderzoekt het stadsdeel of de plannen haalbaar zijn.
+						TODO In de maanden april en mei hebben bewoners, ondernemers en organisaties samen 144 plannen ingediend. Op deze plannen is 14272 gestemd. Daarmee hebben 94 plannen de drempel van 50 likes gehaald. Deze plannen zijn door de volgende ronde. Op dit moment onderzoekt het stadsdeel of de plannen haalbaar zijn. #}
+						<strong>Waarom Buurtbudget Slotermeer Noordoost?</strong><br/>
+						<p>Bewoners weten wat goed is voor hun buurt. Daarom heeft de gemeente buurtbudgetten vrijgemaakt waar bewoners zelf over gaan. In Nieuw-West kunnen bewoners en ondernemers nu met plannen komen voor de buurt Slotermeer Noordoost en die zelf samen begroten.</p>
+						<p>In de maanden juni en juli hebben bewoners en ondernemers samen [TODO aantal] plannen ingediend. Op deze plannen is [TODO aantal] keer gestemd. Daarmee hebben [TODO aantal] plannen de drempel van minimaal 30 likes gehaald. Deze plannen zijn door naar de volgende ronde. Op dit moment onderzoekt het stadsdeel of de plannen haalbaar zijn.</p>
+						<p>Slotermeer Noordoost is 1 van de 4 wijken in Geuzenveld-Slotermeer. Het is een buurt met veel verschillende mensen en woningen, het mooie Gerbrandypark, het belangrijke economische gebied van Plein '40-'45 en de Burgemeester de Vlugtlaan. Tussen de hofjes, op het plein of in het groen zijn er al veel mooie initiatieven. Maar daar kan nog veel meer bij!</p>
 					{% else %}
-						<strong>TODO Waarom Centrum Begroot?</strong><br/>
-						TODO Om bewoners meer zeggenschap te geven en omdat bewoners vaak zelf de beste ideeën hebben voor hun buurt, stelt het bestuur van stadsdeel Centrum € 200.000,- beschikbaar. Stadsdeel Centrum is een druk stadsdeel. Bewoners, ondernemers en organisaties kunnen plannen indienen die bijdragen aan het verbeteren van de leefbaarheid in de buurt of plannen die de verbinding tussen bewoners onderling versterken.<br/>
+						{# <strong>TODO Waarom Centrum Begroot?</strong><br/>
+						TODO Om bewoners meer zeggenschap te geven en omdat bewoners vaak zelf de beste ideeën hebben voor hun buurt, stelt het bestuur van stadsdeel Centrum € 200.000,- beschikbaar. Stadsdeel Centrum is een druk stadsdeel. Bewoners, ondernemers en organisaties kunnen plannen indienen die bijdragen aan het verbeteren van de leefbaarheid in de buurt of plannen die de verbinding tussen bewoners onderling versterken.<br/> #}
+						<strong>Waarom Buurtbudget Slotermeer Noordoost?</strong><br/>
+						<p>Bewoners weten wat goed is voor hun buurt. Daarom heeft de gemeente buurtbudgetten vrijgemaakt waar bewoners zelf over gaan. In Nieuw-West konden bewoners en ondernemers met plannen komen voor de buurt Slotermeer Noordoost, en die in de volgende fase zelf samen begroten.</p>
+						<p>In de maanden juni en juli hebben bewoners en ondernemers samen [TODO aantal] plannen ingediend. Deze plannen kunnen deze week nog geliked worden, om de drempel van minimaal 30 likes te halen.</p>
+						<p>Slotermeer Noordoost is 1 van de 4 wijken in Geuzenveld-Slotermeer. Het is een buurt met veel verschillende mensen en woningen, het mooie Gerbrandypark, het belangrijke economische gebied van Plein '40-'45 en de Burgemeester de Vlugtlaan. Tussen de hofjes, op het plein of in het groen zijn er al veel mooie initiatieven. Maar daar kan nog veel meer bij!</p>
 					{% endif %}
 				{% else %}
 					<strong>Waarom Buurtbudget Slotermeer Noordoost?</strong><br/>
@@ -200,12 +211,12 @@
 					</div>
 				</div>
 
-				<div class="box-grey agenda-day">
+				{# <div class="box-grey agenda-day">
 					<div>
 						<h3>Oktober 2019</h3>
 						Bekendmaking plannen voor de stemfase
 					</div>
-				</div>
+				</div> #}
 
 				<div class="box-grey agenda-period">
 					<div>

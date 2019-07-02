@@ -10,8 +10,15 @@ Make your dream for the neighborhood come true!
 {% endblock %}
 
 {% block description %}
-    <p>Submit your plan for one of the 3 themes (Doing things together, Culture & opportunities, Safe & green) and decide how to spend €500.000.</p>
-    <p>The deadline for submission is 9 July.</p>
+    {% if (config.ideas.addNewIdeas == 'closed') %}
+        <p>What are your favorite plans?</p>
+        <p>Give your favorite plans a like and decide which plans will go to the next round!</p>
+        <p>The deadline for liking plans is July 16th.</p>
+    {% else %}
+        <p>Submit your plan for one of the 3 themes (Doing things together, Culture & opportunities, Safe & green) and decide how to spend €500.000.</p>
+        <p>The deadline for submission is 9 July.</p>
+    {% endif %}
+
 {% endblock %}
 
 {% block howDoesItWork %}
@@ -21,14 +28,18 @@ Make your dream for the neighborhood come true!
 {% block description2 %}
     <strong>Join us!</strong>
     <p>The website is in Dutch, but we want everyone to be able to participate!</p>
-    <ul>
-        <li>Do you have an idea but can’t write it in Dutch? Record it for us in a Whatsapp audiomessage and we will translate and upload it to the website.</li>
-        <li>
-            Need a bit of help writing and uploading your plan in Dutch? Get in touch or come by one of our office hours:
-            {{ officehours.officehours('english') }}
-        </li>
-        <li>Translate the website using Google Translate. It’s not perfect but a pretty decent translation!</li>
-    </ul>
+    {% if (config.ideas.addNewIdeas != 'closed') %}
+        <ul>
+            <li>Do you have an idea but can’t write it in Dutch? Record it for us in a Whatsapp audiomessage and we will translate and upload it to the website.</li>
+            <li>
+                Need a bit of help writing and uploading your plan in Dutch? Get in touch or come by one of our office hours:
+                {{ officehours.officehours('english') }}
+            </li>
+            <li>Translate the website using Google Translate. It’s not perfect but a pretty decent translation!</li>
+        </ul>
+    {% else %}
+    <p>You can try to translate the website using Google Translate. It’s not perfect but a pretty decent translation.</p>
+    {% endif %}
     <p>Any other questions? Get in touch via <a href="#whatsapp-banner">WhatsApp</a> or email: <a href="mailto:buurtbudgetSNO@amsterdam.nl">{{EMAIL}}</a></p>
 {% endblock %}
 
