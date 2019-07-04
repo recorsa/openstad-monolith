@@ -8,7 +8,7 @@
 
 {% block contentFullWidth %}
 
-	{% if config["voting"].isActive %}
+	{% if config["voting"].isActive or isHiddenVotePage %}
 		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
 			<div id="info-bewoners-west" class="info-block green">
 				Bewoners uit Molenwijk kunnen stemmen t/m 7 juli 2019 met de stemcode die zij per post hebben ontvangen.
@@ -23,7 +23,7 @@
 	 var userHasVoted = {{userHasVoted}};
 	 var userIsLoggedIn = {{userIsLoggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
-	 var defaultSort = 	{% if config["voting"].isActive %}'random'{% else %}'ranking'{% endif %}
+	 var defaultSort = 	{% if config["voting"].isActive or isHiddenVotePage %}'random'{% else %}'ranking'{% endif %}
 
 	</script>
 
@@ -35,7 +35,7 @@
 			Ideeën voor Molenwijk ({{runningIdeas.length}})
 		</h1>
 
-		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
+		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, isHiddenVotePage) }}
 
 	</div>
 {% endblock %}

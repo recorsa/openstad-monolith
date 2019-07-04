@@ -18,7 +18,7 @@ router
 router
 	.route('/')
 	.post(function( req, res, next ) {
-		if (config.voting && config.voting.isActive || config.budgeting && config.budgeting.isActive) {
+		if (config.voting && ( config.voting.isActive || config.voting.addHiddenVotePage ) || config.budgeting && config.budgeting.isActive) {
 			return next();
 		} else {
 			return next(createError(403, 'de stemperiode is geëindigd.'))

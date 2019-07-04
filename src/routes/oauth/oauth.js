@@ -96,7 +96,8 @@ router
 		// login done
 		// TODO: zie /login
 		// res.redirect(req.session.afterLoginRedirectUri || '/stemmen');
-		res.redirect('/stemmen');
+		let path = config.authorization['after-login-path'] || '/stemmen';
+		res.redirect(path);
 	})
 	.get(function( error, req, res, next ) {
 		// de error wil je tonen in de pagina, en wordt daarom meegestuurd in plaats van getoond
@@ -112,8 +113,9 @@ router
 	.route('/logout')
 	.get(function( req, res, next ) {
 
+		let path = config.authorization['after-logout-path'] || '/stemmen';
 		req.session.destroy(() => {
-			res.success('/', true);
+			res.success(path, true);
 		});
 
 	});

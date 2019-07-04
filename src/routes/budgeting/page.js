@@ -10,7 +10,7 @@ let router = express.Router({mergeParams: true});
 // toon de begroten pagina
 // -----------------------
 router
-	.route('/$')
+	.route('/$|')
 	.get(function( req, res, next ) {
 
 		if (!req.session || !req.session.userAccessToken) {
@@ -88,6 +88,13 @@ router
 		var authServerLogoutUrl = config.authorization['auth-server-url'] + config.authorization['auth-server-logout-path'];
 		authServerLogoutUrl = authServerLogoutUrl ? authServerLogoutUrl.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']) : '';
 
+		let isHiddenVotePage = false;
+		console.log(req.query);
+		if (config.voting.addHiddenVotePage && req.query['verborgen-stem-pagina'] && req.query['verborgen-stem-pagina'] == 'hUja34dh5d') {
+			isHiddenVotePage = true;
+		}
+		console.log(isHiddenVotePage);
+
 		var data = {
 			siteId             : config.siteId, // temp
 			accessToken        : req.session.userAccessToken, // temp voor dev opties
@@ -103,6 +110,7 @@ router
 			authServerLogoutUrl,
 
 			config,
+			isHiddenVotePage
 
 		};
 

@@ -1,4 +1,4 @@
-{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) %}
+{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, isHiddenVotePage) %}
 
 <!-- gridder: https://github.com/oriongunning/gridder -->
 <script src="js/jquery.gridder.js"></script>
@@ -10,7 +10,7 @@
 		{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-			{% if not config["voting"].isActive %}
+			{% if not config["voting"].isActive and not isHiddenVotePage %}
 			{# TODO-UITSLAG ranking uncommenten #}
 			{# <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div> #}
 			<div class="statustext {{idea.status}} ">Dit voorstel wordt uitgevoerd</div>
@@ -36,7 +36,7 @@
 				</div>
 				{% endif %}
 				<div class="col-xs-6">
-					{% if config["voting"].isActive %}
+					{% if config["voting"].isActive or isHiddenVotePage %}
 					<div class="button-add-idea-to-budget btn--blue stretch"></div>
 					{% else %}
 					{# TODO-UITSLAG aantal stemmen uncommenten #}
@@ -62,7 +62,7 @@
 							{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-								{% if not config["voting"].isActive %}
+								{% if not config["voting"].isActive and not isHiddenVotePage %}
 								{# TODO-UITSLAG ranking uncommenten #}
 								{# <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div> #}
 								<div class="statustext {{idea.status}}">Dit voorstel wordt uitgevoerd</div>
@@ -128,7 +128,7 @@
 						{% if not config["ideas-list"].hideBudgetLabels %}
 						<div class="budget">{{idea.budget}}</div>
 						{% endif %}
-						{% if config["voting"].isActive %}
+						{% if config["voting"].isActive or isHiddenVotePage %}
 						<div class="button-add-idea-to-budget btn--blue" onclick="toggleIdeaInSelection({{idea.id}})"></div>
 						{% endif %}
 					</div>
