@@ -69,16 +69,23 @@
 						<li>Woensdag 3 juli van 14.00 uur tot 16.00 uur</li>
 					</ul>
 				{% endif %}
-
+				
 				<h3>Spelregels</h3>
 				<ul class="checkmark-dot-list">
-					<li>Alle personen van 12 jaar en ouder, die op 7 juni 2019 ingeschreven staan op een adres in Molenwijk mogen stemmen</li>
-					<li>Je kan je 5 favoriete ideeën kiezen op de pagina 'Stemmen' van deze website met de persoonlijke stemcode die op het stemformulier staat die je per post hebt ontvangen. Als je liever geen gebruik maakt van de computer, kan je het stemformulier inleveren in de stembus die staat in de bibliotheek.</li>
-					<li>De laatste kans om het stemformulier in te leveren bij de bibliotheek is op zaterdag 6 juli tussen 11:00 en 17:00 uur. Op deze website kan je stemmen tot zondag 7 juli 23:59 uur.</li>
-					{# <li>In totaal is € 25.000 beschikbaar. Er kan gestemd worden op ideeën die tussen de € 1.000 en € 25.000 kosten. De ideeën met de meeste stemmen die alleen of samen maximaal €25.000 kosten, worden dit jaar uitgevoerd! Dit kan betekenen dat er 1 idee uitgevoerd wordt die  € 25.000 kost. Maar het kan ook zijn dat er veel gestemd wordt op ideeën die minder kosten waardoor er bijvoorbeeld 3 ideeën voor € 25.000 uitgevoerd kunnen worden. De keuze is aan jullie!</li> #}
-					{# <li>Bij alle ideeën zijn een aantal bewoners nodig die in een werkgroep meedenken en meedoen bij de uitvoering. Dit betekent dat als er op een idee veel is gestemd, maar er hebben zich geen bewoners aangemeld om te helpen bij de uitvoering dan kan het idee niet uitgevoerd worden. Voorbeeld: er is veel gestemd op het idee voor fitnesstoestellen in de wijk. In een werkgroep gaan bewoners die zich hiervoor aanmelden met elkaar bepalen welke toestellen er geplaatst worden. Als er geen bewoners zijn die hieraan willen meewerken, dan wordt het idee niet uitgevoerd.</li> #}
-					{# <li>Ook zijn voor een aantal ideeën bewoners nodig die actief mee blijven doen nadat het plan is uitgevoerd. Bijvoorbeeld als de moestuin tot de winnaars behoort, maar niemand wil een moestuin beheren en onderhouden. Dan kan dit idee niet worden uitgevoerd. Dit soort ideeën worden alleen uitgevoerd als minimaal 10 bewoners zich aanmelden om actief gebruik te maken van een moestuin. </li> #}
-					<li>De plannen die het vaakst zijn gekozen door bewoners van Molenwijk en die binnen het budget van €25.000 passen worden uitgevoerd.</li>
+					{% if config["voting"].isActive %}
+						<li>Alle personen van 12 jaar en ouder, die op 7 juni 2019 ingeschreven staan op een adres in Molenwijk mogen stemmen.</li>
+						<li>Je kan je 5 favoriete ideeën kiezen op de pagina 'Stemmen' van deze website met de persoonlijke stemcode die op het stemformulier staat die je per post hebt ontvangen. Als je liever geen gebruik maakt van de computer, kan je het stemformulier inleveren in de stembus die staat in de bibliotheek.</li>
+						<li>De laatste kans om het stemformulier in te leveren bij de bibliotheek is op zaterdag 6 juli tussen 11:00 en 17:00 uur. Op deze website kan je stemmen tot zondag 7 juli 23:59 uur.</li>
+						{# <li>In totaal is € 25.000 beschikbaar. Er kan gestemd worden op ideeën die tussen de € 1.000 en € 25.000 kosten. De ideeën met de meeste stemmen die alleen of samen maximaal €25.000 kosten, worden dit jaar uitgevoerd! Dit kan betekenen dat er 1 idee uitgevoerd wordt die  € 25.000 kost. Maar het kan ook zijn dat er veel gestemd wordt op ideeën die minder kosten waardoor er bijvoorbeeld 3 ideeën voor € 25.000 uitgevoerd kunnen worden. De keuze is aan jullie!</li> #}
+						{# <li>Bij alle ideeën zijn een aantal bewoners nodig die in een werkgroep meedenken en meedoen bij de uitvoering. Dit betekent dat als er op een idee veel is gestemd, maar er hebben zich geen bewoners aangemeld om te helpen bij de uitvoering dan kan het idee niet uitgevoerd worden. Voorbeeld: er is veel gestemd op het idee voor fitnesstoestellen in de wijk. In een werkgroep gaan bewoners die zich hiervoor aanmelden met elkaar bepalen welke toestellen er geplaatst worden. Als er geen bewoners zijn die hieraan willen meewerken, dan wordt het idee niet uitgevoerd.</li> #}
+						{# <li>Ook zijn voor een aantal ideeën bewoners nodig die actief mee blijven doen nadat het plan is uitgevoerd. Bijvoorbeeld als de moestuin tot de winnaars behoort, maar niemand wil een moestuin beheren en onderhouden. Dan kan dit idee niet worden uitgevoerd. Dit soort ideeën worden alleen uitgevoerd als minimaal 10 bewoners zich aanmelden om actief gebruik te maken van een moestuin. </li> #}
+						<li>De plannen die het vaakst zijn gekozen door bewoners van Molenwijk en die binnen het budget van €25.000 passen worden uitgevoerd.</li>
+					{% else %}
+						<li>Alle personen van 12 jaar en ouder, die op 7 juni 2019 ingeschreven stonden op een adres in Molenwijk mochten stemmen.</li>
+						<li>Je kon je 5 favoriete ideeën kiezen op de pagina 'Stemmen' van deze website met de persoonlijke stemcode die op het stemformulier staat die je per post hebt ontvangen. Als je liever geen gebruik maakte van de computer, kon je het stemformulier inleveren in de stembus die stond in de bibliotheek.</li>
+						<li>De laatste kans om het stemformulier in te leveren bij de bibliotheek was op zaterdag 6 juli tussen 11:00 en 17:00 uur. Op deze website kon je stemmen tot zondag 7 juli 23:59 uur.</li>
+						<li>De plannen die het vaakst zijn gekozen door bewoners van Molenwijk en die binnen het budget van €25.000 passen worden uitgevoerd.</li>
+					{% endif %}
 				</ul>
 				<p>Heb je een vraag? Kijk dan eerst of deze tussen de <a href="/veelgestelde-vragen">veelgestelde vragen</a> staat. Staat het antwoord op je vraag er niet tussen? Stuur dan een mail naar <a href="mailto:{{ EMAIL }}">{{ EMAIL }}</a>.</p>
 			</div>
