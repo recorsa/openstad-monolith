@@ -46,31 +46,39 @@
             </h2>
 
             {% block description %}
-            <p>Stuur uw plan in voor één van de 3 thema’s (Samen dingen doen; Cultuur & kansen creëren; Veilige, groene & prettige buurt) en bepaal waar het geld naar toe gaat.</p>
-            <p>U kunt plannen insturen tot 9 juli.</p>
+                {% if (config.ideas.addNewIdeas != 'closed') %}
+                    <p>Stuur uw plan in voor één van de 3 thema’s (Samen dingen doen; Cultuur & kansen creëren; Veilige, groene & prettige buurt) en bepaal waar het geld naar toe gaat.</p>
+                    <p>U kunt plannen insturen tot 9 juli.</p>
+                {% else %}
+                    <p>Wat vindt u een goed plan?</p>
+                    <p>Stem op uw favoriete plannen en bepaal welke plannen doorgaan naar de volgende ronde!</p>
+                    <p>U kunt plannen liken tot 16 juli.</p>
+                {% endif %}
             {% endblock %}
         </div>
     </div>
 {% endblock %}
 
 {% block howDoesItWork %}
-    {{howdoesitwork.howblock('closed')}}
+    {{howdoesitwork.howblock('open')}}
 {% endblock %}
 
 {% block content2 %}
     <div class="primary">
         {% block description2 %}
+            {% if (config.ideas.addNewIdeas != 'closed') %}
             <strong>Doe mee!</strong>
             <p>De website is in het Nederlands, maar wij willen dat iedereen mee kan doen!</p>
-            <ul>
-                <li>Heeft u een idee maar kunt u geen Nederlands schrijven? Stuur het op via een Whatsapp audiobericht en wij zullen het voor u vertalen naar Nederlands en op de website plaatsen.</li>
-                <li>
-                    Heeft u een beetje hulp nodig met het schrijven in Nederlands? Neem contact op of kom langs een van onze spreekuren:
-                    {{ officehours.officehours('dutch') }}
-                </li>
-                <li>Vertaal de website via Google Translate. Niet perfect maar een fatsoenlijk vertaling!</li>
-            </ul>
-            <p>Andere vragen? Neem contact op via <a href="#whatsapp-banner">WhatsApp</a> of email: <a href="mailto:buurtbudgetSNO@amsterdam.nl">{{EMAIL}}</a></p>
+                <ul>
+                    <li>Heeft u een idee maar kunt u geen Nederlands schrijven? Stuur het op via een Whatsapp audiobericht en wij zullen het voor u vertalen naar Nederlands en op de website plaatsen.</li>
+                    <li>
+                        Heeft u een beetje hulp nodig met het schrijven in Nederlands? Neem contact op of kom langs een van onze spreekuren:
+                        {{ officehours.officehours('dutch') }}
+                    </li>
+                    <li>Vertaal de website via Google Translate. Niet perfect maar een fatsoenlijk vertaling!</li>
+                </ul>
+                <p>Andere vragen? Neem contact op via <a href="#whatsapp-banner">WhatsApp</a> of email: <a href="mailto:buurtbudgetSNO@amsterdam.nl">{{EMAIL}}</a></p>
+            {% endif %}
         {% endblock %}
     </div>
 
