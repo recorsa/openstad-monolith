@@ -1086,13 +1086,13 @@ function scrollToResolver(elem) {
 		 } catch(err) {}
 	 };
 
-	 sessionStorage.setItem( name, value );
+	 localStorage.setItem( name, value );
 
  }
 
  function openstadGetStorage(name) {
 
-	 var value = sessionStorage.getItem(name);
+	 var value = localStorage.getItem(name);
 
 	 try {
 		 value = JSON.parse(value);
@@ -1103,7 +1103,7 @@ function scrollToResolver(elem) {
  }
 
  function openstadRemoveStorage(name) {
-   sessionStorage.removeItem(name)
+   localStorage.removeItem(name)
  }
 
 
