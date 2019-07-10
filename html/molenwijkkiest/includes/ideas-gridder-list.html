@@ -11,8 +11,8 @@
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
 			{% if not config["voting"].isActive and not isHiddenVotePage %}
-			{# TODO-UITSLAG ranking uncommenten #}
-			{# <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div> #}
+			{# TODO-UITSLAG-DONE ranking uncommenten #}
+			<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 			<div class="statustext {{idea.status}} ">Dit voorstel wordt uitgevoerd</div>
 			{% endif %}
 		</div>
@@ -20,13 +20,13 @@
 		<div class="info">
 			<div class="inner">
 				<h3 class="title">{{idea.title}}</h3>
-				{% if idea.extraData %}
+				{# {% if idea.extraData %}
 				<div class="thema-en-gebied underscription">
 					<span class="thema">{{idea.extraData.thema}}</span>
 					|
 					<span class="gebied">{{idea.extraData.gebied}}</span>
 				</div>
-				{% endif %}
+				{% endif %} #}
 			</div>
 			<div class="button-read-more link-caret--blue">Lees meer</div>
 			<div class="row">
@@ -39,8 +39,8 @@
 					{% if config["voting"].isActive or isHiddenVotePage %}
 					<div class="button-add-idea-to-budget btn--blue stretch"></div>
 					{% else %}
-					{# TODO-UITSLAG aantal stemmen uncommenten #}
-					{# <div class="btn--blue noOfVotes stretch">{{idea.extraData.aantalStemmen}} stemmen</div> #}
+					{# TODO-UITSLAG-DONE aantal stemmen uncommenten #}
+					<div class="btn--blue noOfVotes stretch">{{idea.extraData.aantalStemmen}} stemmen</div>
 					{% endif %}
 				</div>
 			</div>
@@ -63,22 +63,22 @@
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
 								{% if not config["voting"].isActive and not isHiddenVotePage %}
-								{# TODO-UITSLAG ranking uncommenten #}
-								{# <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div> #}
+								{# TODO-UITSLAG-DONE ranking uncommenten #}
+								<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 								<div class="statustext {{idea.status}}">Dit voorstel wordt uitgevoerd</div>
 								{% endif %}
 							</div>
 							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>
 
-						{% if idea.location %}
+						{# {% if idea.location %}
 						<div class="location-image-container">
 							<div class="location-image-mask">
 								<a href="{{idea.extraData.locationUrl}}" target="_blank" class="location-image" style="background-image: url('/img/westbegroot/locaties/{{idea.id}}.png')"></a>
 							</div>
 							<div class="location-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>
-						{% endif %}
+						{% endif %} #}
 
 					</div>
 
@@ -109,7 +109,7 @@
 					</div>
 					<br />
 
-					{% if idea.extraData %}
+					{# {% if idea.extraData %}
 					<table class="thema-en-gebied">
 						<tr class="thema">
 							<td>Thema: </td> <td><strong>{{idea.extraData.thema}}</strong>
@@ -118,7 +118,7 @@
 							<td>Gebied: </td>  <td><strong>{{idea.extraData.gebied}}</strong>
 						</tr>
 					</table>
-					{% endif %}
+					{% endif %} #}
 					{# <br />
 					<div class="margin-hor-10">
 						<a href="{{fullUrl}}/originele-plannen/plan/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
