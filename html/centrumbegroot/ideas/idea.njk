@@ -32,13 +32,15 @@
 					<div class="image"></div>
 				{% endif %}
 				{% if idea.status == 'CLOSED' %}
-					<div class="statusbalk {{idea.status}}">De stemperiode is afgelopen</div>
+					<div class="statusbalk {{idea.status}}">Dit plan is door de indiener ingetrokken</div>
 				{% elif idea.status == 'DENIED' %}
 					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
 				{% elif idea.status == 'BUSY' %}
 					<div class="statusbalk {{idea.status}}">Dit plan kreeg minder dan 50 likes</div>
+				{% elif idea.status == 'DONE' %}
+					<div class="statusbalk {{idea.status}}">Dit plan is niet haalbaar </div>
 				{% elif idea.status == 'ACCEPTED' %}
-					<div class="statusbalk {{idea.status}}">Dit plan is door naar de haalbaarheidstoets</div>
+					<div class="statusbalk {{idea.status}}">Dit plan is geselecteerd</div>
 				{% else %}
 					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
 				{% endif %}
