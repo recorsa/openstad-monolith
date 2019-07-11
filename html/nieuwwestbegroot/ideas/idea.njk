@@ -35,6 +35,8 @@
 					<div class="statusbalk {{idea.status}}">De periode om te liken is afgelopen</div>
 				{% elif idea.status == 'DENIED' %}
 					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
+				{% elif idea.status == 'ACCEPTED' %}
+					Haalbaarheidstoets
 				{% else %}
 					<div class="statusbalk {{idea.status}}">U kunt dit plan nu liken</div>
 				{% endif %}
@@ -201,6 +203,7 @@
 					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
 					<option {{'selected' if idea.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
 					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+					{# <option {{}} TODO hier bezig!! #}
 				</select>
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
