@@ -11,9 +11,14 @@ Hem mahallen için guzel olani yap, hem hayallerini gerçekleştir!
 
 {% block description %}
     {% if (config.ideas.addNewIdeas == 'closed') %}
-        <p>Planlar arasında en beğendiğiniz hangileri?</p>
-        <p>En beğendiğiniz planları beğen tuşuna basarak destekleyin bir sonraki tura hangi planların geçeceğine siz karar verin!</p>
-        <p>Planları beğenmek için son tarih 16 Temmuz.</p>
+        {% if (config.ideas.voteForIdeas != 'closed') %}
+            <p>Planlar arasında en beğendiğiniz hangileri?</p>
+            <p>En beğendiğiniz planları beğen tuşuna basarak destekleyin bir sonraki tura hangi planların geçeceğine siz karar verin!</p>
+            <p>Planları beğenmek için son tarih 16 Temmuz.</p>
+        {% else %}
+            <p>Başvuru sürecimiz 144 planın teslim alınmasıyla sona ermiştir.</p>
+            <p>Uygulanabilirlik açısından bir sonraki aşamaya geçmeye hak kazanan planlar Eylül ayında sizlere duyurulacaktır.</p>
+        {% endif %}
     {% else %}
         <p>Gerceklestirmek istediginiz plan 3 ana temaden birini icerebilir. Planınızi hazirlayin, bize gönderin ve semt bütcesinin nereye ve nasıl harcanacağını semt sakini olarak siz karar verin. </p>
         <p>Ana basliklar;</p>
