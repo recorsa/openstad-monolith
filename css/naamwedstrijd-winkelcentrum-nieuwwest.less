@@ -7,16 +7,37 @@
 
 .verkeersbord {
 	position: relative;
-	width: 700px;
-	height: 375px;
+	background-repeat: no-repeat;
+	background-size: cover;
 	background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background.jpg');
 
 	.verkeersbord-tekst {
 		position: absolute;
-		top: 130px;
-		left: 30px;
 		font-family: 'Roadgeek2005SeriesD';
-		font-size: 50px;
 		color: white;
 	}
+
+	&.large {
+		width: 700px;
+		height: 375px;
+
+		.verkeersbord-tekst {
+			top: 130px;
+			left: 30px;
+			font-size: 50px;
+		}
+	}
+
+	&.small {
+		width: 300px;
+		height: calc(300/700 * 375px);
+
+		.verkeersbord-tekst {
+			top: calc(300/700 * 130px);
+			left: calc(300/700 * 30px);
+			font-size: calc(300/700 * 50px);
+		}
+
+	}
+
 }
