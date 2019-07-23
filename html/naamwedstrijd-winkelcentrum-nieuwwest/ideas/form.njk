@@ -28,7 +28,12 @@
 				<div class="verkeersbord-tekst">Wat is jouw voorstel</div>
 			</div>
 			<script>
-			 function updatePreview(text) {
+			 function updatePreview(elem) {
+				 var text = elem.value;
+				 if (text.length > 17) {
+					 text = text.substring(0, 17);
+					 elem.value = text;
+				 }
 				 document.querySelector('.verkeersbord-tekst').innerHTML = text;
 			 }
 			</script>
@@ -41,7 +46,7 @@
 					<div class="form-info">
 						Geef aan onder welke naam jij denk dat het winkelcentrum moet krijgen.
 					</div>
-					<input type="text" name="title" value="{{title}}" onkeyup="updatePreview(this.value)"><br>
+					<input type="text" name="title" value="{{idea.title}}" onkeyup="updatePreview(this)"><br>
 					
 					<h2>Samenvatting</h2>
 					<div class="form-info">

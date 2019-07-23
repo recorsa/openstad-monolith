@@ -24,7 +24,7 @@ module.exports = function( app ) {
 				expires: 0
 			});
 			var extraScopes = [];
-			if (config.siteId == 'zorggoedvooronzestad2') {
+			if (config.siteId == 'zorggoedvooronzestad2' || config.siteId == 'naamwedstrijd' ) {
 				extraScopes.push('withUser');
 			}
 

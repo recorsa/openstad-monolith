@@ -1,43 +1,63 @@
 @font-face {
-  font-family: 'Roadgeek2005SeriesD';
-  src: url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/Roadgeek2005SeriesD.eot?#iefix') format('embedded-opentype'),  url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/Roadgeek2005SeriesD.woff') format('woff'), url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/Roadgeek2005SeriesD.ttf')  format('truetype'), url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/Roadgeek2005SeriesD.svg#Roadgeek2005SeriesD') format('svg');
+  font-family: 'HighwayGothic';
+  src: url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.eot?#iefix') format('embedded-opentype'),  url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.woff') format('woff'), url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.ttf')  format('truetype'), url('/fonts/naamwedstrijd-winkelcentrum-nieuwwest/HighwayGothic.svg#HighwayGothic') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 .verkeersbord {
 	position: relative;
+	width: 700px;
+	height: 303px;
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background.jpg');
+	background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background.png');
 
 	.verkeersbord-tekst {
 		position: absolute;
-		font-family: 'Roadgeek2005SeriesD';
-		color: white;
+		font-family: 'HighwayGothic';
+		color: black;
 	}
 
 	&.large {
 		width: 700px;
-		height: 375px;
+		height: 303px;
 
 		.verkeersbord-tekst {
-			top: 130px;
-			left: 30px;
-			font-size: 50px;
+			top: 118px;
+			left: 139px;
+			width: 430px;
+			font-size: 40px;
+			white-space: nowrap;
+			overflow: hidden;
 		}
 	}
 
 	&.small {
 		width: 300px;
-		height: calc(300/700 * 375px);
+		height: calc(300/700 * 303px);
 
 		.verkeersbord-tekst {
-			top: calc(300/700 * 130px);
-			left: calc(300/700 * 30px);
-			font-size: calc(300/700 * 50px);
+			top: calc(2px + ( 300/700 * 118px ));
+			left: calc(300/700 * 139px);
+			width: calc(300/550 * 430px);
+			font-size: calc(300/700 * 40px);
 		}
 
 	}
 
+}
+
+.pageContent {
+	&.ideasList {
+		.primary {
+			.tile {
+				.summary {
+					margin-top: 20px;
+					margin-bottom: 15px;
+					font-weight: normal;
+				}
+			}
+		}
+	}
 }
