@@ -1,0 +1,39 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image step-image-1"></div>
+					<div class="step-header">1. Stuur je naam voor het centrumgebied in</div>
+					<p>
+						Houd rekening met de spelregels en de voorwaarden waaraan je nieuwe gebiedsnaam moet voldoen.
+						<ul class="links-list">
+							<li><a href="#">Bekijk de spelregels [TODO link]</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-2"></div>
+					<div class="step-header">2. De jury selecteert de namen die doorgaan</div>
+					<p>
+						Wie zijn de juryleden en waarop baseren zij hun keuze welke namen doorgaan naar de stemronde? 
+						<ul class="links-list">
+							<li><a href="#">Bekijk de jury [TODO link]</a></li>
+						</ul>
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-3"></div>
+					<div class="step-header">3. Voer campagne voor jouw naam. Behaal de meeste stemmen!</div>
+					<p>Probeer zoveel mogelijk stemmen te verzamelen voor jouw naam. De naam met de meeste stemmen wint en wordt voorgelegd aan het college.</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-4"></div>
+					<div class="step-header">4. De winnende naam is overal te zien</div>
+					<p>Als jouw naam uiteindelijk de publieksprijs wint, dan zul je die de komende tijd steeds vaker terugzien in het straatbeeld.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}
