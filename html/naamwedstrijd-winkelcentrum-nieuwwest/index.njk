@@ -14,88 +14,39 @@
 	
 	<div id="banner">
 		<div id="homebanner">
-			<img id="homebanner-img" src="img/centrumbegroot/home-banner.svg"/>
 			{% if (config.ideas.addNewIdeas == 'closed') %}
 				{% if (config.ideas.voteForIdeas == 'closed') %}
 					{# Plannen toevoegen gesloten, liken gesloten #}
 					<div id="homebanner-title">
-						<h2>Buurtbudget Slotermeer Noordoost</h2>
-						<h3>Maak uw droom voor de buurt waar!</h3>
-					</div>
-					<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
-					<div id="homebanner-text">
-						Er zijn 144 plannen ingediend.<br/>
-						In september wordt bekend gemaakt welke plannen haalbaar zijn en doorgaan naar de volgende ronde.
-						<br/>
-					</div>
-					<div id="homebanner-buttons">
-						<a href="/themas" class="bekijk-de-themas">
-							Bekijk de thema's
-						</a>
-						<a href="/plannen" class="stuur-plan-in" style="width: 160px;">
-							Bekijk de plannen
-						</a>
 					</div>
 				{% else %}
 					{# Plannen toevoegen gesloten, liken open #}
 					<div id="homebanner-title">
-						<h2>Buurtbudget Slotermeer Noordoost</h2>
-						<h3>Maak uw droom voor de buurt waar!</h3>
-					</div>
-					<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
-					<div id="homebanner-text">
-						Wat vindt u een goed plan?<br/>
-						Like uw favoriete plannen en bepaal welke plannen doorgaan naar de volgende ronde!
-						<br/>
-					</div>
-					<div id="homebanner-buttons">
-						<a href="/themas" class="bekijk-de-themas">
-							Bekijk de thema's
-						</a>
-						<a href="/plannen" class="stuur-plan-in" style="width: 160px;">
-							Bekijk de plannen
-						</a>
 					</div>
 				{% endif %}
 			{% else %}
 				{# Plannen toevoegen open, liken open #}
 				<div id="homebanner-title">
-					<h2>Buurtbudget Slotermeer Noordoost</h2>
-					<h3>Maak uw droom voor de buurt waar!</h3>
+					<h2>Noem de Naam!</h2>
+					<h3>Bedenk jij de nieuwe naam voor het centrumgebied van Nieuw-West?</h3>
 				</div>
-				<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
 				<div id="homebanner-text">
-					Stuur uw plan in voor één van de 3 thema’s (Samen dingen doen; Cultuur & kansen creëren; Veilige, groene & prettige buurt) en bepaal waar €500.000 naar toe gaat. 
+					Hoe moet het centrum van Nieuw-West volgens jou gaan heten? Stem op je favorite naam en bepaal welke naam het centrumgebied krijgt!<br/>
 					<br/>
 				</div>
 				<div id="homebanner-buttons">
-					<a href="/themas" class="bekijk-de-themas">
-						Bekijk de thema's
+					<a href="https://www.amsterdam.nl/projecten/centrum-nieuw-west/" class="btn--blue" target="_blank">
+						Lees meer op Amsterdam.nl
 					</a>
-					{# <a href="/plan/nieuw" class="stuur-plan-in">
-					Stuur uw plan in
-					</a> #}
+					<a href="/inzendingen"  class="btn--blue" style="width: 160px;">
+						Bekijk de namen
+					</a>
 				</div>
 			{% endif %}
 		</div>
 		<div id="controls">
-			<span class="speechBubbleWhatsApp">
-				<img src="/img/WhatsApp_Logo.svg" />
-				<h3>WhatsApp helpdesk</h3>
-				<ul class="arrowed-link">
-					<li>
-						<a href="/helpdesk">Stuur een bericht!</a>
-					</li>
-					<li>
-						<a href="/engels">Send a message!</a>
-					</li>
-					<li>
-						<a href="/turks">Lütfen mesaj yollayın!</a>
-					</li>
-					<li>
-						<a href="/arabisch">أرسل رسالة</a>
-					</li>
-				</ul>
+			<span class="widget speechBubble newIdeaBubble">
+				Bedenk jij de beste nieuwe naam voor hét centrumgebied van Nieuw-West?
 			</span>
 			{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
 			{#
@@ -105,6 +56,12 @@
 			#}
 		</div>
 	</div>
+
+	<div class="text-in-index">
+		Er verandert veel op en rond het Osdorpplein, hét centrum van Nieuw-West. Het wordt een prachtig centrum met allerlei voorzieningen, geweldig gelegen aan de Sloterplas. Over een tijdje is dit dé plek waar je wilt zijn! En daar hoort volgens ons en volgens veel Nieuw-Westers een passende gebiedsnaam bij. Tot en met 30 augustus 2019 kun je jouw beste idee inzenden via deze site. Win de publieksprijs en verdien alle roem als de bedenker van de gebiedsnaam voor het centrum dat uitgroeit tot het hart van Nieuw-West.
+	</div>
+
+	
 {% endblock %}
 
 {% block howDoesItWork %}
