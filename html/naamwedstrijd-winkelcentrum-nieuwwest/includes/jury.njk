@@ -1,0 +1,33 @@
+{% macro howblock(openOrClosed) %}
+	<div id="howDoesItWork" class="{{openOrClosed}}">
+		<a id="howDoesItWorkButton" href="javascript: (function() { console.log('x'); document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">De jury <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+		<div class="pageContent">
+			<div class="steps">
+				<div class="step">
+					<div class="step-image step-image-1"></div>
+					<div class="step-header">Ronald Mauer</div>
+					<p>
+						Lid dagelijks bestuur stadsdeel Nieuw-West
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-2"></div>
+					<div class="step-header">Shirley Brandeis</div>
+					<p>
+						Journalist/tekstschrijver, docent en Nieuw-West-expert 
+					</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-3"></div>
+					<div class="step-header">Jean Paul de Mol</div>
+					<p>Voorzitter BIZ / eigenaar Citiez Hotel Osdorpplein</p>
+				</div>
+				<div class="step">
+					<div class="step-image step-image-4"></div>
+					<div class="step-header">mevrouw xx [TODO]</div>
+					<p>Bewoonster Osdorp</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

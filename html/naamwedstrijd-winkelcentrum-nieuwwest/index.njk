@@ -133,19 +133,8 @@
 			<p>De naam die uiteindelijk de wedstrijd wint, zal door stadsdeel Nieuw-West als nieuwe gebiedsnaam aan het college van B&W worden voorgelegd. Als het college akkoord gaat, zal de naam als officiele gebiedsnaam worden vastgelegd. De nieuwe naam zal te zien zijn op nieuwe borden naar het gebied en op andere manieren terug te zien zijn en gebruikt worden. De winnaar van de naamwedstrijd krijgt een uniek cadeau en een waardebon. Daarnaast is er een prijs te winnen voor de meest originele geuzenaam. Dit is een naam die niet geschikt is als gebiedsnaam maar die wel orgineel of vindingrijk is.</p>
 
 			<h3>Spelregels</h3>
-
 			<ul class="checkmark-dot-list">
-				<li>De naam moet iets zeggen over Osdorp en/of de ligging van het centrumgebied.</li>
-				<li>De naam moet iets zeggen over de groeiende centrumfunctie die het gebied heeft op Nieuw-West.</li>
-				<li>De naam moet Nederlands zijn.</li>
-				<li>De naam mag in schrijfwijze of klank niet teveel lijken op reeds bestaande namen in de stad.</li>
-				<li>Het gebruik van het woord ‘centrum’ in de naam heeft niet de voorkeur omdat dit verwarring oplevert met het centrum van Amsterdam.</li>
-				<li>De naam moet goed uitspreekbaar en niet te moeilijk te schrijven zijn.</li>
-				<li>De naam mag geen commerciële uiting of merknaam bevatten.</li>
-				<li>Bij verwijzingen naar historische zaken wordt de huidige spelling gebruikt.</li>
-				<li>De gebiedsnaam mag maximaal 19 karakters (incl. spaties) bevatten.</li>
-				<li>Er dient enige logica in de naam te zitten zodat de naam geografisch herkenbaar is.</li>
-				<li>Inzenden kan tot en met 30 augustus 2019. Veel succes!</li>
+				{% include 'includes/spelregels.njk' %}
 			</ul>
 			<p>Meer weten? Neem contact op met <a href="mailto:{{ EMAIL }}">{{ EMAIL }}</a></p>
 
@@ -203,20 +192,20 @@
 	</div>
 {% endblock %}
 
-{% block page %}
+{# {% block page %}
 	<div id="inspiration">
 		<div class="pageContent">
 			<h2>Inspiratie</h2>
 			<div id="inspiration-images"><div id="inspiration-1" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.1.jpg"></div><div id="inspiration-2" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.2.jpg"></div><div id="inspiration-3" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.3.jpg"></div><div id="inspiration-4" class="inspiration-image"><img src="/img/eberhardvanderlaan/inspiratie.4.jpg"></div></div>
 		</div>
 	</div>
-{% endblock %}
+{% endblock %} #}
 
 {% block content3 %}
 	<ul class="share">
 		<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">Facebook</a></li>
 		<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{url}}">Twitter</a></li>
-		<li><a class="email"    target="_blank" href="mailto:?subject=Ontwerp op Zorg goed voor onze stad en voor elkaar">Email</a></li>
+		<li><a class="email"    target="_blank" href="mailto:?subject=Naamwestrijd centrumgebied Nieuw-West">Email</a></li>
 	</ul>
 {% endblock %}
 
