@@ -44,8 +44,8 @@
 				<div>
 					<ul>
 						<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
-						<li class="{{'active' if activeMenu == 'about'}}"><a href="/wedstrijd"></a></li>
-						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Inzendingen</a></li>
+						<li class="{{'active' if activeMenu == 'about'}}"><a href="/wedstrijd">Wedstrijd</a></li>
+						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/inzendingen">Inzendingen</a></li>
 					</ul>
 					
 					{% if user.hasCompletedRegistration() %}
@@ -54,7 +54,7 @@
 						<a href="/account" id="account" data-initials="">Mijn account</a>
 					{% endif %}
 
-					<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">Stuur ontwerp in</a>
+					<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">Stuur naam in</a>
 
 				</div>
 			</nav>
