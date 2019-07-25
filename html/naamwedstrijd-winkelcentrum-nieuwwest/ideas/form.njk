@@ -39,7 +39,7 @@
 
 					<br/>
 					<div class="verkeersbord editor">
-						<div class="verkeersbord-tekst">{{ idea.title or "Wat is jouw voorstel" }}</div>
+						<div class="verkeersbord-tekst">{{ idea.title or "Wat is jouw voorstel?" }}</div>
 					</div>
 					<script>
 					 function updatePreview(elem) {
@@ -54,7 +54,7 @@
 
 					<h2>Samenvatting</h2>
 					<div class="form-info">
-						Vertel eens kort in minimaal 20 en maximaal 140 tekens iets meer over jouw naam. Een langere beschrijving voeg je in de volgende stap toe.
+						Vertel eens kort in minimaal 20 en maximaal 140 tekens iets meer over de door jou verzonnen naam. Een langere beschrijving voeg je in de volgende stap toe.
 					</div>
 					<textarea name="summary">{{idea.summary}}</textarea>
 					<div id="charsLeftSummary" class="charsLeft">
@@ -66,11 +66,11 @@
 				<div id="description">
 					<h2>Beschrijving</h2>
 					<div class="form-info">
-						Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
+						Gebruik de ruimte hieronder om iets meer over de naam te vertellen.
 						<ul>
-							<li>Wat is het verhaal achter jouw naam?</li>
-							<li>Waarom is het een goede weergave voor de boodschap van burgemeester Van der Laan?</li>
-							<li>Draag argumenten aan om je stadgenoten te overtuigen op jouw voorstel te stemmen.</li>
+							<li>Wat is het verhaal achter de naam?</li>
+							<li>Op welke manier past de naam bij het centrumgebied van Nieuw-West?</li>
+							<li>Draag argumenten aan om je buurtgenoten te overtuigen op de door jou verzonnen naam te stemmen.</li>
 						</ul>
 					</div>
 					<textarea name="description">{{idea.description}}</textarea>
