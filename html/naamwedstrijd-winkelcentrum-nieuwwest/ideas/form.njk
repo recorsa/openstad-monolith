@@ -24,30 +24,34 @@
 	{% if showForm %}
 		<div class="primary">
 
-			<div class="verkeersbord large">
-				<div class="verkeersbord-tekst">Wat is jouw voorstel</div>
-			</div>
-			<script>
-			 function updatePreview(elem) {
-				 var text = elem.value;
-				 if (text.length > 17) {
-					 text = text.substring(0, 17);
-					 elem.value = text;
-				 }
-				 document.querySelector('.verkeersbord-tekst').innerHTML = text;
-			 }
-			</script>
-			<br/>
-
 			<form method="post" id="js-form">
 				<div id="titleAndSummary">
+
+					<h4>Naam</h4>
+					<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
+					
 					
 					<h2>De naam die je hebt bedacht</h2>
 					<div class="form-info">
 						Geef aan onder welke naam jij denk dat het winkelcentrum moet krijgen.
 					</div>
 					<input type="text" name="title" value="{{idea.title}}" onkeyup="updatePreview(this)"><br>
-					
+
+					<br/>
+					<div class="verkeersbord editor">
+						<div class="verkeersbord-tekst">{{ idea.title "Wat is jouw voorstel" }}</div>
+					</div>
+					<script>
+					 function updatePreview(elem) {
+						 var text = elem.value;
+						 if (text.length > 19) {
+							 text = text.substring(0, 19);
+							 elem.value = text;
+						 }
+						 document.querySelector('.verkeersbord-tekst').innerHTML = text;
+					 }
+					</script>
+
 					<h2>Samenvatting</h2>
 					<div class="form-info">
 						Vertel eens kort in minimaal 20 en maximaal 140 tekens iets meer over jouw ontwerp. Een langere beschrijving voeg je in de volgende stap toe.

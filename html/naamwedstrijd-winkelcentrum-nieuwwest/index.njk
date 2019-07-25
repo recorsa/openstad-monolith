@@ -6,41 +6,105 @@
 {% set contentClass = 'index' %}
 
 {% block photoBanner %}
-	<div id="photoBanner" style="background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/winkelcentrum-nieuw-west.jpg);"></div>
 {% endblock %}
 
 {% block content %}
-    <div class="hasPhotoBanner">
-	<div id="home-banner" class="">
-		<div class="primary">
-			<div class="text">
-				<h2>Ontwerpwedstrijd muurtekst test</h2>
-				Komt jouw ontwerp voor de laatste boodschap van oud-burgemeester Eberhard van der Laan op de muur in de Baarsjes?
-			</div>
-			<div class="buttons">
-				<a href="/wedstrijd#delocatie" class="page-button page-button-white bekijk-de-locatie-button">
-					Bekijk de locatie
-				</a>
-				<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
-					Stuur je ontwerp in
-				</a>
-			</div>
-		</div>
-		<div class="secondary">
-			<div class="speechBubble">
-				“Zorg goed voor onze stad en voor elkaar.”
-				<div class="small">
-					Vaarwel,<br/><br/><br/><br/><br/>
-					Eberhard van der Laan
+
+	<div id="photoBanner" style="background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/winkelcentrum-nieuw-west.jpg);"></div>
+	
+	<div id="banner">
+		<div id="homebanner">
+			<img id="homebanner-img" src="img/centrumbegroot/home-banner.svg"/>
+			{% if (config.ideas.addNewIdeas == 'closed') %}
+				{% if (config.ideas.voteForIdeas == 'closed') %}
+					{# Plannen toevoegen gesloten, liken gesloten #}
+					<div id="homebanner-title">
+						<h2>Buurtbudget Slotermeer Noordoost</h2>
+						<h3>Maak uw droom voor de buurt waar!</h3>
+					</div>
+					<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
+					<div id="homebanner-text">
+						Er zijn 144 plannen ingediend.<br/>
+						In september wordt bekend gemaakt welke plannen haalbaar zijn en doorgaan naar de volgende ronde.
+						<br/>
+					</div>
+					<div id="homebanner-buttons">
+						<a href="/themas" class="bekijk-de-themas">
+							Bekijk de thema's
+						</a>
+						<a href="/plannen" class="stuur-plan-in" style="width: 160px;">
+							Bekijk de plannen
+						</a>
+					</div>
+				{% else %}
+					{# Plannen toevoegen gesloten, liken open #}
+					<div id="homebanner-title">
+						<h2>Buurtbudget Slotermeer Noordoost</h2>
+						<h3>Maak uw droom voor de buurt waar!</h3>
+					</div>
+					<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
+					<div id="homebanner-text">
+						Wat vindt u een goed plan?<br/>
+						Like uw favoriete plannen en bepaal welke plannen doorgaan naar de volgende ronde!
+						<br/>
+					</div>
+					<div id="homebanner-buttons">
+						<a href="/themas" class="bekijk-de-themas">
+							Bekijk de thema's
+						</a>
+						<a href="/plannen" class="stuur-plan-in" style="width: 160px;">
+							Bekijk de plannen
+						</a>
+					</div>
+				{% endif %}
+			{% else %}
+				{# Plannen toevoegen open, liken open #}
+				<div id="homebanner-title">
+					<h2>Buurtbudget Slotermeer Noordoost</h2>
+					<h3>Maak uw droom voor de buurt waar!</h3>
 				</div>
-			</div>
-			{{numberPlateButton.numberPlateButton('no-of-locations', 'ontwerpen', runningIdeas.length, '/plannen')}}
-			<a href="https://www.amsterdam.nl/zorggoedvooronzestad" class="page-button page-button-grey" target="_blank">
-				Lees meer op amsterdam.nl
+				<img id="homebanner-img-mobile" src="/img/centrumbegroot/home-banner.svg"/>
+				<div id="homebanner-text">
+					Stuur uw plan in voor één van de 3 thema’s (Samen dingen doen; Cultuur & kansen creëren; Veilige, groene & prettige buurt) en bepaal waar €500.000 naar toe gaat. 
+					<br/>
+				</div>
+				<div id="homebanner-buttons">
+					<a href="/themas" class="bekijk-de-themas">
+						Bekijk de thema's
+					</a>
+					{# <a href="/plan/nieuw" class="stuur-plan-in">
+					Stuur uw plan in
+					</a> #}
+				</div>
+			{% endif %}
+		</div>
+		<div id="controls">
+			<span class="speechBubbleWhatsApp">
+				<img src="/img/WhatsApp_Logo.svg" />
+				<h3>WhatsApp helpdesk</h3>
+				<ul class="arrowed-link">
+					<li>
+						<a href="/helpdesk">Stuur een bericht!</a>
+					</li>
+					<li>
+						<a href="/engels">Send a message!</a>
+					</li>
+					<li>
+						<a href="/turks">Lütfen mesaj yollayın!</a>
+					</li>
+					<li>
+						<a href="/arabisch">أرسل رسالة</a>
+					</li>
+				</ul>
+			</span>
+			{{numberPlateButton.numberPlateButton('no-of-locations', 'plannen', runningIdeas.length, '/plannen')}}
+			{#
+			<a href="https://www.amsterdam.nl/centrumbegroot" class="page-button page-button-grey" target="_blank">
+			Lees meer op amsterdam.nl
 			</a>
+			#}
 		</div>
 	</div>
-    </div>
 {% endblock %}
 
 {% block howDoesItWork %}
