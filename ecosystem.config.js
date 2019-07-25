@@ -96,7 +96,7 @@ addApp('stemvan', [{
 }, {
 	appName    : 'noemdenaam-staging',
 	deployName : 'staging_noemdenaam',
-	remotePath : '/var/www/noemdenaam.staging.openstad.amsterdam/www',
+	remotePath : '/var/www/noemdenaam.staging.openstadsdeel.nl/www',
 	ref        : 'origin/projects/naamwedstrijd-winkelcentrum-nieuwwest'
 }]);
 
