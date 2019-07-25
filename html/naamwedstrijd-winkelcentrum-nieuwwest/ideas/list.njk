@@ -3,12 +3,12 @@
 {% import 'includes/numberplatebutton.njk' as numberPlateButton %}
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 
-{% set pageTitle    = 'Ingestuurde ontwerpen' %}
+{% set pageTitle    = 'Ingestuurde namen' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
 	<div id="list-banner">
-		{{numberPlateButton.numberPlateButton('no-of-locations', 'ontwerpen', runningIdeas.length, '/plannen')}}
+		{{numberPlateButton.numberPlateButton('no-of-locations', 'namen', runningIdeas.length, '/plannen')}}
   </div>
 {% endblock %}
 
@@ -26,7 +26,7 @@
 	</div>
 	<script>
 	 if ( daysLeft > 0 ) {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kan t/m ' + endDateText + ': nog';
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Namen insturen kan t/m ' + endDateText + ': nog';
 		 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
 		 var value000 = parseInt(daysLeft/100) || 0;
 		 var value00  = parseInt(daysLeft/10) - value000;
@@ -34,7 +34,7 @@
 		 document.getElementById('end-date-number-plate-00').innerHTML = value00;
 		 document.getElementById('end-date-number-plate-0').innerHTML = value0;
 	 } else {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kon t/m ' + endDateText;
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Namen insturen kon t/m ' + endDateText;
 		 document.getElementById('number-plates').style.display = 'none';
 	 }
 	</script>
@@ -44,7 +44,7 @@
 {% block content2 %}
 	<div id="ideas" class="primary">
 		<h1>
-			Ingestuurde ontwerpen
+			Ingestuurde namen
 			<select>
 				<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
 				<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
@@ -68,16 +68,16 @@
 				{% endif %}
 
 				<div class="info">
-					<h3>{{idea.user.firstName}} {{idea.user.lastName}}</h3>
 					<div class="summary">
 						{{idea.summary}}
 					</div>
+					<i>{{idea.user.firstName}} {{idea.user.lastName}}</i>
 				</div>
 
 			</a>
 		</div>{%
 					else %}
-		<div class="empty-list" onclick="document.location.href='/plan/nieuw';"><div class="empty-list-content"> Stuur als eerste een ontwerp in!</div></div>
+		<div class="empty-list" onclick="document.location.href='/plan/nieuw';"><div class="empty-list-content"> Stuur als eerste een naam in!</div></div>
 		{% endfor %}
 		
 		{# {% if can('ideas:archive') %}
