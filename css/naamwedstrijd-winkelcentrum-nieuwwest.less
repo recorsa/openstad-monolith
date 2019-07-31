@@ -10,8 +10,7 @@
 
 .verkeersbord {
 	position: relative;
-	width: 700px;
-	height: 303px;
+	width: 100%;
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background.png');
@@ -20,49 +19,31 @@
 		position: absolute;
 		font-family: 'HighwayGothic';
 		color: black;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	&.large {
-		width: 700px;
-		height: 303px;
-
-		.verkeersbord-tekst {
-			top: 118px;
-			left: 139px;
-			width: 430px;
-			font-size: 40px;
-			white-space: nowrap;
-			overflow: hidden;
-		}
+		background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background-large.png');
 	}
 
 	&.small {
-		width: 300px;
-		height: calc(300/700 * 303px);
-
-		.verkeersbord-tekst {
-			top: calc(2px + ( 300/700 * 118px ));
-			left: calc(300/700 * 139px);
-			width: calc(300/550 * 430px);
-			font-size: calc(300/700 * 40px);
-		}
-
 	}
 
 
 	&.editor {
-		height: 168px;
-		background-size: 679px 168px;
-		background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background-editor.svg');
-		
+		width: 100%;
+		background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/verkeersbord-background-editor.png');
+
+		@media @phone {
+		}
+
 		.verkeersbord-tekst {
-			top: 57px;
-			left: 104px;
-			width: 500px;
-			font-size: 40px;
 			white-space: nowrap;
 			overflow: hidden;
 		}
+
+
 	}
 
 
@@ -84,9 +65,12 @@
   #banner {
 		width: 100%;
 		height: 302px;
-		position: relative;
-		overflow: hidden;;
-
+    max-width: 970px;
+    margin: -70px auto 30px auto;
+    padding: 0 15px 20px;
+    width: 100%;
+    position: relative;
+		
 		@media @phone {
 			display: block;
 			width: calc(100% + 30px);
@@ -107,6 +91,7 @@
 				float: none;
 				width: 100%;
 				margin-right: 0;
+				padding-bottom: 0;
 				margin-bottom: 20px;
 				padding-bottom: 0;
 				height: auto;
@@ -267,15 +252,6 @@
 
 }
 
-.pageContent #banner {
-    max-width: 970px;
-    margin: -70px auto 30px auto;
-    padding: 0 15px 20px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
 #content {
 	z-index: 100;
 }
@@ -366,3 +342,96 @@
 	// display: block;
 	width: 226px;
 }
+
+#howDoesItWork {
+	.step {
+
+		.step-image {
+			height: 220px;
+		}
+
+		.step-image-1 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-1.svg);
+		}
+		.step-image-2 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-2.svg);
+		}
+		.step-image-3 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-3.svg);
+		}
+		.step-image-4 {
+			background-size: 220px 220px;
+			background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/howto-4.svg);
+		}
+	}
+}
+
+#end-date-bar {
+	margin: 0 auto;
+	max-width: 940px;
+	padding: 10px 15px;
+	line-height: 26px;
+
+	#end-date-bar-start-text {
+		padding-right: 0px;
+	}
+
+	#end-date-bar-start-text-vervolg {
+    padding-right: 12px;
+	}
+	
+	@media @phone {
+		#number-plates,
+		#end-date-bar-start-text-vervolg,
+		#end-date-bar-end-text {
+			display: none;
+		}
+	}
+		
+}
+
+.pageContent {
+	#list-banner {
+		background-image: url(/img/naamwedstrijd-winkelcentrum-nieuwwest/inzendingen-banner.png);
+	}
+}
+
+.share {
+	&.home {
+		clear: both;
+		margin-top: 20px;		
+
+		@media @phone {
+			padding-top: 20px;
+		}
+
+	}
+}
+
+#inspiration {
+
+	.pageContent {
+
+		#inspiration-1 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-1.png')
+		}
+
+		#inspiration-2 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-2.png')
+		}
+
+		#inspiration-3 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-3.png')
+		}
+
+		#inspiration-4 {
+			background-image: url('/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-4.png')
+		}
+		
+	}
+	
+}
+

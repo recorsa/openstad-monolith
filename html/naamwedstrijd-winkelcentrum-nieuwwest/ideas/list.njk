@@ -19,6 +19,7 @@
 {% block endDateBar %}
 	<div id="end-date-bar">
 		<span id="end-date-bar-start-text" class="text"></span>
+		<span id="end-date-bar-start-text-vervolg" class="text">: nog</span>
 		<span id="number-plates">
 			<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
 		</span>
@@ -26,7 +27,7 @@
 	</div>
 	<script>
 	 if ( daysLeft > 0 ) {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Namen insturen kan t/m ' + endDateText + ': nog';
+		 document.getElementById('end-date-bar-start-text').innerHTML = 'Namen insturen kan t/m ' + endDateText;
 		 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
 		 var value000 = parseInt(daysLeft/100) || 0;
 		 var value00  = parseInt(daysLeft/10) - value000;
@@ -52,10 +53,22 @@
 		</h1>
 		
 		{# Weird formatting because of `display: inline-block` #}
-		
+
+		<script>
+		 function resizeNameEditor(elem) {
+			 var factor = elem.querySelector('.verkeersbord').offsetWidth / 700;
+			 console.log(factor)
+			 elem.querySelector('.verkeersbord').style.height = ( 303 * factor ) + 'px';
+			 elem.querySelector('.verkeersbord-tekst').style.top = ( 122 * factor ) + 'px';
+			 elem.querySelector('.verkeersbord-tekst').style.left = ( 139 * factor ) + 'px';
+			 elem.querySelector('.verkeersbord-tekst').style.width = ( 550 * factor ) + 'px';
+			 elem.querySelector('.verkeersbord-tekst').style.fontSize = ( 40 * factor ) + 'px';
+		 }
+		</script>
+
 		{% for idea in runningIdeas
 		%}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}" {% if (idea.posterImage) and (idea.posterImage.extraData) %}data-poster-extraData="{{idea.posterImage.extraData | dump}}"{% endif %}>
-			<a {{'href=/plan/'+idea.id+'' if (user.role == 'admin') or (user.id == idea.userId)}}>
+			<a {{'href=/plan/'+idea.id+'' if (user.role == 'admin') or (user.id == idea.userId)}} id="plan-{{idea.id}}">
 
 				<div class="verkeersbord small">
 					<div class="verkeersbord-tekst">{{idea.title}}</div>
@@ -73,6 +86,11 @@
 					</div>
 					<i>{{idea.user.firstName}} {{idea.user.lastName}}</i>
 				</div>
+
+				<script>
+				 window.addEventListener('load', function() { resizeNameEditor( document.querySelector('#plan-{{idea.id}}') ) });
+				 window.addEventListener('resize', function() { resizeNameEditor( document.querySelector('#plan-{{idea.id}}') ) });
+				</script>
 
 			</a>
 		</div>{%
@@ -107,9 +125,9 @@
 	 (function() {
 		 var tiles = $('#content2 > .primary > .tile:not([data-poster-url=""])');
 		 
-		 loadTileImages();
-		 window.addEventListener('scroll', loadTileImages);
-		 window.addEventListener('resize', loadTileImages);
+		 // loadTileImages();
+		 // window.addEventListener('scroll', loadTileImages);
+		 // window.addEventListener('resize', loadTileImages);
 		 
 		 // Checks the current scroll position, and loads all tile image that are in
 		 // the range 'top of the page' to '50% viewport height below the current viewport'.

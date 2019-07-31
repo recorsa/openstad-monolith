@@ -22,7 +22,7 @@
 	<div class="extraInfoBar">
 		<div class="text">
 			Let op: deze pagina is alleen voor jou zichtbaar.<br/>
-			Je kunt hier je inzending nog bewerken t/m 25 november.
+			Je kunt hier je inzending nog bewerken t/m 30 augustus.
 		</div>
 	</div>
 {% endblock %}
@@ -35,6 +35,19 @@
 
 			<div class="verkeersbord large">
 				<div class="verkeersbord-tekst">{{idea.title}}</div>
+				<script>
+				 function resizeNameEditor() {
+					 var factor = document.querySelector('.verkeersbord').offsetWidth / 700;
+					 console.log(factor)
+					 document.querySelector('.verkeersbord').style.height = ( 303 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.top = ( 118 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.left = ( 139 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.width = ( 550 * factor ) + 'px';
+					 document.querySelector('.verkeersbord-tekst').style.fontSize = ( 40 * factor ) + 'px';
+				 }
+				 window.addEventListener('load', resizeNameEditor);
+				 window.addEventListener('resize', resizeNameEditor);
+				</script>
 			</div>
 
 			<br/>

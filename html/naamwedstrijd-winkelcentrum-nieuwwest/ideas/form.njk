@@ -33,13 +33,17 @@
 					
 					<h2>De naam die je hebt bedacht</h2>
 					<div class="form-info">
-						Geef aan welke naam jij denk dat het winkelcentrum moet krijgen.
+						Geef aan welke naam jij hebt bedacht voor het centrumgebied.
 					</div>
 					<input type="text" name="title" value="{{idea.title}}" onkeyup="updatePreview(this)"><br>
+					<div id="charsLeftTitle" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
 
 					<br/>
 					<div class="verkeersbord editor">
-						<div class="verkeersbord-tekst">{{ idea.title or "Wat is jouw voorstel?" }}</div>
+						<div class="verkeersbord-tekst">{{ idea.title or "Jouw inzending" }}</div>
 					</div>
 					<script>
 					 function updatePreview(elem) {
@@ -50,6 +54,16 @@
 						 }
 						 document.querySelector('.verkeersbord-tekst').innerHTML = text;
 					 }
+					 function resizeNameEditor() {
+						 var factor = document.querySelector('.verkeersbord').offsetWidth / 700;
+						 document.querySelector('.verkeersbord').style.height = ( 168 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.top = ( 57 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.left = ( 104 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.width = ( 500 * factor ) + 'px';
+						 document.querySelector('.verkeersbord-tekst').style.fontSize = ( 40 * factor ) + 'px';
+					 }
+					 window.addEventListener('load', resizeNameEditor);
+					 window.addEventListener('resize', resizeNameEditor);
 					</script>
 
 					<h2>Samenvatting</h2>
@@ -134,14 +148,26 @@
 		 // a reference to each uploaded file. This reference list is used
 		 // by the server to connect the correct image uploads to this idea.
 			 var form = document.getElementById('js-form');
-		 initImageEditor(); // TODO: dit moet automatisch maar	 document.addEventListener('load', initImageEditor); werkt niet
+		 // initImageEditor(); // TODO: dit moet automatisch maar	 document.addEventListener('load', initImageEditor); werkt niet
 
 		</script>
 
 		<script src="/js/form.js"></script>
 		<script>
 		 window.addEventListener('load', function() {
-			 console.log('INIT')
+
+			 // name
+			 var minLen = 3;
+			 var maxLen = 19;
+			 
+			 var input     = document.querySelector('input[name="title"]');
+			 var charsLeft = document.querySelector('#charsLeftTitle');
+
+			 if( !charsLeft ) {
+				 return;
+			 }
+
+			 initCharactersLeft(input, charsLeft, minLen, maxLen);
 
 			 // summary
 			 var minLen = 20;
