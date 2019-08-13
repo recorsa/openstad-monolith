@@ -61,9 +61,9 @@ module.exports = function( app ) {
 				}})
 				.then( idea => {
 
-					let arguments = idea.argumentsFor.concat(idea.argumentsAgainst);
+					let args = idea.argumentsFor.concat(idea.argumentsAgainst);
 
-					let result = arguments.map( argument => { return {
+					let result = args.map( argument => { return {
 						id: argument.id,
 						commentNameUser: argument.user.firstName + ' ' + argument.user.lastName,
             commentDateCreated: new Date(argument.createdAt).toISOString(),
@@ -79,10 +79,10 @@ module.exports = function( app ) {
 							postDateCreated: new Date(idea.createdAt).toISOString(),
 							postUrl: req.protocol + '://' + req.hostname + '/idea/' + idea.id,
 							postDescription: idea.summary,
-							commentsTotal: arguments.length,
-							commentstotalThisfeed: arguments.length,
+							commentsTotal: args.length,
+							commentstotalThisfeed: args.length,
 							offset: 0,
-							max: arguments.length,
+							max: args.length,
 							"comments": result,
 						}
 					})
