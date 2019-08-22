@@ -7,9 +7,10 @@
 				<img class="step-image" src="/img/maakhetgroen/step-1.svg" />
 				<div class="step-header">1. Gebruik je e-mailadres om te stemmen</div>
 				<div class="step-text">
-					Woon, werk of verblijf je in Zuidas? Dan kan je op deze website stemmen op jouw favoriete plannen van Zuidas Maak Het Groen.
 					{% if config["voting"].isActive %}
+					Woon, werk of verblijf je in Zuidas? Dan kan je op deze website stemmen op jouw favoriete plannen van Zuidas Maak Het Groen.
 					{% else %}
+					Woon, werk of verblijf je in Zuidas? Dan kon je op deze website stemmen op jouw favoriete plannen van Zuidas Maak Het Groen
 					{% endif %}
 				</div>
 			</div>
@@ -17,9 +18,10 @@
 				<img class="step-image" src="/img/westbegroot/step-2.svg" />
 				<div class="step-header">2. Uit welke plannen kun je kiezen?</div>
 				<div class="step-text">
-					Op deze website vind je de plannen die meedoen aan Zuidas Maak Het Groen. Lees de beschrijving goed en kies je 3 favoriete plannen!
 					{% if config["voting"].isActive %}
+					Op deze website vind je de plannen die meedoen aan Zuidas Maak Het Groen. Lees de beschrijving goed en kies je 3 favoriete plannen!
 					{% else %}
+					Op deze website vind je de plannen die meedoen aan Zuidas Maak Het Groen.
 					{% endif %}
 					<ul class="links-list">
 						<li><a href="/stemmen">Bekijk de geselecteerde plannen</a></li>
@@ -30,9 +32,10 @@
 				<img class="step-image" src="/img/westbegroot/step-3.svg" />
 				<div class="step-header">3. Kies jouw top 3</div>
 				<div class="step-text">
-					Kies de 3 voorstellen die jij het beste vindt voor Zuidas. Na het invoeren van je postcode en e-mailadres kun je stemmen.
 					{% if config["voting"].isActive %}
+					Kies de 3 voorstellen die jij het beste vindt voor Zuidas. Na het invoeren van je postcode en e-mailadres kun je stemmen.
 					{% else %}
+					Uit alle geselecteerde plannen kon je de drie voorstellen kiezen die jij het belangrijkste vindt voor Zuidas.
 					{% endif %}
 					{% if config["voting"].isActive %}
 					<ul class="links-list">

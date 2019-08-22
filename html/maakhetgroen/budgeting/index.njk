@@ -23,8 +23,8 @@
 	 var userHasVoted = {{userHasVoted}};
 	 var userIsLoggedIn = {{userIsLoggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
-	 var defaultSort = 	{% if config["voting"].isActive %}'random'{% else %}'ranking'{% endif %}
-
+	 var defaultSort = 	'random';
+	 // var defaultSort = 	{% if config["voting"].isActive %}'random'{% else %}'ranking'{% endif %}
 	</script>
 
 	{% include 'includes/end-date-bar.njk' %}
