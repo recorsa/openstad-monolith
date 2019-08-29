@@ -18,6 +18,11 @@
 				{% if (config.ideas.voteForIdeas == 'closed') %}
 					{# Plannen toevoegen gesloten, liken gesloten #}
 					<div id="homebanner-title">
+						<h2>Noem de Naam!</h2>
+						<h3>Wat wordt de nieuwe naam voor het centrumgebied van Nieuw-West?</h3>
+					</div>
+					<div id="homebanner-text">
+						Er verandert veel op en rond het Osdorpplein. Het wordt een prachtig centrumgebied met allerlei voorzieningen, gelegen aan de Sloterplas. Hoe moet het gebied volgens jou gaan heten? Stem vanaf 2 oktober mee over de officiële gebiedsnaam voor hét centrum van Nieuw-West!
 					</div>
 				{% else %}
 					{# Plannen toevoegen gesloten, liken open #}
@@ -97,13 +102,17 @@
 
 			<p>Meer weten? Neem contact op met <a href="mailto:{{ EMAIL }}">{{ EMAIL }}</a></p>
 
-			<p><a href="/plan/new">Lees hier hoe de jury je inzending toetst.</a></p>
+			{% if (config.ideas.addNewIdeas != 'closed') %}
 
-			<h4>Hulp nodig?</h4>
+				<p><a href="/plan/new">Lees hier hoe de jury je inzending toetst.</a></p>
+				
+				<h4>Hulp nodig?</h4>
 
-			<p>
-				Mensen die niet zo handig zijn met computers of niet online een naam kunnen of willen insturen, kunnen uiteraard hulp zoeken van buren of familie. Ook zijn zij van harte welkom bij het Jongeren Informatie Punt Nieuw-West (Osdorpplein 819, tegenover de OBA) op dinsdag 13, dinsdag 20 en dinsdag 27 augustus tussen 15.00 en 17.00.
-			</p>
+				<p>
+					Mensen die niet zo handig zijn met computers of niet online een naam kunnen of willen insturen, kunnen uiteraard hulp zoeken van buren of familie. Ook zijn zij van harte welkom bij het Jongeren Informatie Punt Nieuw-West (Osdorpplein 819, tegenover de OBA) op dinsdag 13, dinsdag 20 en dinsdag 27 augustus tussen 15.00 en 17.00.
+				</p>
+
+			{% endif %}
 
 			{# <div class="buttons">
 			<a href="/wedstrijd#delocatie" class="page-button page-button-grey bekijk-de-locatie-button">
@@ -160,12 +169,14 @@
 {% endblock %}
 
 {% block page %}
-	<div id="inspiration">
-		<div class="pageContent">
-			<h2>Inspiratie</h2>
-			<div id="inspiration-images"><div id="inspiration-1" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-1.png"></div><div id="inspiration-2" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-2.png"></div><div id="inspiration-3" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-3.png"></div><div id="inspiration-4" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-4.png"></div></div>
+	{% if (config.ideas.addNewIdeas != 'closed') %}
+		<div id="inspiration">
+			<div class="pageContent">
+				<h2>Inspiratie</h2>
+				<div id="inspiration-images"><div id="inspiration-1" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-1.png"></div><div id="inspiration-2" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-2.png"></div><div id="inspiration-3" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-3.png"></div><div id="inspiration-4" class="inspiration-image"><img src="/img/naamwedstrijd-winkelcentrum-nieuwwest/inspiratie-4.png"></div></div>
+			</div>
 		</div>
-	</div>
+	{% endif %}
 {% endblock %}
 
 {% block content3 %}

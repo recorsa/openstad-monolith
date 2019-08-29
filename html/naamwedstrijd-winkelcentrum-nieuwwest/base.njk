@@ -1,3 +1,4 @@
+
 {% from 'includes/mobile-menu.njk' import mobileMenu %}
 
 <!DOCTYPE html>
@@ -54,8 +55,9 @@
 						<a href="/account" id="account" data-initials="">Mijn account</a>
 					{% endif %}
 
-					<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">Stuur naam in</a>
-
+					{% if (config.ideas.voteForIdeas != 'closed') %}
+						<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">Stuur naam in</a>
+					{% endif %}
 				</div>
 			</nav>
 			

@@ -5,28 +5,34 @@
 {% set activeMenu = 'about' %}
 
 {% block extraInfoBar %}
-	<div id="end-date-bar">
-		<span id="end-date-bar-start-text" class="text"></span>
-		<span id="end-date-bar-start-text-vervolg" class="text">: nog</span>
-		<span id="number-plates">
-			<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
-		</span>
-		<span id="end-date-bar-end-text" class="text"></span>
-	</div>
-	<script>
-	 if ( daysLeft > 0 ) {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Namen insturen kan t/m ' + endDateText;
-		 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
-		 var value000 = parseInt(daysLeft/100) || 0;
-		 var value00  = parseInt(daysLeft/10) - value000;
-		 var value0   = daysLeft - value000 * 100 - value00 * 10;
-		 document.getElementById('end-date-number-plate-00').innerHTML = value00;
-		 document.getElementById('end-date-number-plate-0').innerHTML = value0;
-	 } else {
-		 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kon t/m ' + endDateText;
-		 document.getElementById('number-plates').style.display = 'none';
-	 }
-	</script>
+	{% if (config.ideas.addNewIdeas != 'closed') %}
+		<div id="end-date-bar">
+			<span id="end-date-bar-start-text" class="text"></span>
+			<span id="end-date-bar-start-text-vervolg" class="text">: nog</span>
+			<span id="number-plates">
+				<span id="end-date-number-plate-00" class="number-plate"> 0 </span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
+			</span>
+			<span id="end-date-bar-end-text" class="text"></span>
+		</div>
+		<script>
+		 if ( daysLeft > 0 ) {
+			 document.getElementById('end-date-bar-start-text').innerHTML = 'Namen insturen kan t/m ' + endDateText;
+			 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
+			 var value000 = parseInt(daysLeft/100) || 0;
+			 var value00  = parseInt(daysLeft/10) - value000;
+			 var value0   = daysLeft - value000 * 100 - value00 * 10;
+			 document.getElementById('end-date-number-plate-00').innerHTML = value00;
+			 document.getElementById('end-date-number-plate-0').innerHTML = value0;
+		 } else {
+			 document.getElementById('end-date-bar-start-text').innerHTML = 'Ontwerpen insturen kon t/m ' + endDateText;
+			 document.getElementById('number-plates').style.display = 'none';
+		 }
+		</script>
+	{% else %}
+		<div id="end-date-bar">
+			<span id="end-date-bar-start-text" class="text">Stemmen op een naam kan vanaf 2 oktober</span>
+		</div>
+	{% endif %}
 {% endblock %}
 
 {% block content %}
