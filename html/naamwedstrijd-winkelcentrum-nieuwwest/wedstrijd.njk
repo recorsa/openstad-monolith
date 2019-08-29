@@ -65,7 +65,9 @@
 			</p>
 		</div>
 
-		<a href="/plan/nieuw" class="page-button page-button-blue">Stuur naam in</a>
+		{% if (config.ideas.addNewIdeas != 'closed') %}
+			<a href="/plan/nieuw" class="page-button page-button-blue">Stuur naam in</a>
+		{% endif %}
 		<br/><br/><br/>
 
 	</div>
