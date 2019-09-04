@@ -37,6 +37,10 @@
 					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
 				{% elif idea.status == 'ACCEPTED' %}
 					<div class="statusbalk {{idea.status}}">Haalbaarheidstoets</div>
+				{% elif idea.status == 'BUSY' %}
+					<div class="statusbalk {{idea.status}}">Dit plan is haalbaar</div>
+				{% elif idea.status == 'OPEN' %}
+					<div class="statusbalk {{idea.status}}">Dit plan is niet haalbaar</div>
 				{% else %}
 					<div class="statusbalk {{idea.status}}">U kunt dit plan nu liken</div>
 				{% endif %}
@@ -94,9 +98,11 @@
 							{% elif idea.status == 'ACCEPTED' %}
 								<div>Haalbaarheidstoets</div>
 							{% elif idea.status == 'BUSY' %}
-								<div>Dit voorstel wordt uitgevoerd. Lees op deze pagina over de voortgang.</div>
+								<div>Dit plan is haalbaar en doet mee tijdens de selectie avond.</div>
 							{% elif idea.status == 'DONE' %}
 								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
+							{% elif idea.status == 'OPEN' %}
+								<div>Dit plan is niet haalbaar. Lees daar meer over op deze pagina.</div>
 							{% else %}
 								<div id ="nog-xxx-om-te-stemmen"></div>
 								<script>
@@ -200,10 +206,11 @@
 
 			<form method="POST" action="/plan/{{idea.id}}/status">
 				<select name="status" onchange="this.form.submit();" class="button status">
-					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+					<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Niet haalbaar</option>
 					<option {{'selected' if idea.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
 					<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
 					<option {{'selected' if idea.status=='ACCEPTED'}} value="ACCEPTED">Status: Haalbaarheidstoets</option>
+					<option {{'selected' if idea.status=='BUSY'}} value="BUSY">Status: Haalbaar</option>
 				</select>
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="_csrf" value="{{csrfToken}}">
