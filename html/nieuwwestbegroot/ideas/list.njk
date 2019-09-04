@@ -148,15 +148,13 @@
 
 				<div class="duration">
 					{% if idea.status == 'DENIED' %}
-						Dit voorstel is afgewezen
+						Dit plan is niet haalbaar
 					{% elif idea.status == 'CLOSED' %}
 						Minder dan 30 likes
 					{% elif idea.status == 'ACCEPTED' %}
 						Haalbaarheidstoets
 					{% elif idea.status == 'BUSY' %}
 						Dit plan is haalbaar
-					{% elif idea.status == 'OPEN' %}
-						Dit plan is niet haalbaar
 					{% endif %}
 				</div>
 
