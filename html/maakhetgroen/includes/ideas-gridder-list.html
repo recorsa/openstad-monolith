@@ -10,11 +10,8 @@
 		{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-			{% if not config["voting"].isActive %}
-      {#
-			<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
+			{% if idea.status == 'ACCEPTED' %}
 			<div class="statustext {{idea.status}} ">Dit voorstel wordt uitgevoerd</div>
-      #}
 			{% endif %}
 		</div>
 
@@ -57,11 +54,8 @@
 							{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-								{% if not config["voting"].isActive %}
-                {#
-								<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
+			          {% if idea.status == 'ACCEPTED' %}
 								<div class="statustext {{idea.status}}">Dit voorstel wordt uitgevoerd</div>
-                #}
 								{% endif %}
 							</div>
 							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
