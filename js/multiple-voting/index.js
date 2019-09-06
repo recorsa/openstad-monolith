@@ -711,6 +711,11 @@ function initSortedElements() {
 
 function doSort(which) {
 
+  // overrule: accepted eerst
+	sortedElements = sortedElements.sort( function(a,b) { return ( b.querySelector('.statustext') ? 1 : 0 ) - ( a.querySelector('.statustext') ? 1 : 0 ) });
+
+  // igrnore de rest
+
 	sortOrder = which;
 	openstadSetStorage('sortOrder', sortOrder);
 

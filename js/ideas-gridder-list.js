@@ -14,7 +14,6 @@ $(function() {
     closeText: "", // Close button text                // Close button text
     onStart: function(target) {
 
-			console.log('fsdsdfsdfsfd');
 			var stickyHeight = $(window).width() > 767 ? 76 : 109;
 
 			var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
