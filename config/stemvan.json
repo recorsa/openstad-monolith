@@ -23,7 +23,7 @@
 				"./middleware/force_registration",
 				"./middleware/confirm_arguments",
 				"./middleware/nocache",
-				"./routes/stemvan/default",
+				// "./routes/stemvan/default",
 				"./routes/stemvan/ab",
 				"./routes/stemvan/account",
 				"./routes/stemvan/agenda",
