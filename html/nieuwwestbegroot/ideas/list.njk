@@ -3,10 +3,17 @@
 {% import 'includes/howdoesitwork.njk' as howdoesitwork %}
 {% import 'includes/openstad-map.njk' as openStadMap %}
 
-{% set pageTitle    = 'Plannen' %}
+{% set pageTitle    = 'Archief' %}
 {% set contentClass = 'ideasList' %}
 
 {% block content %}
+	<div>
+		<a href="https://buurtbudgetsno.amsterdam.nl/">< Terug</a>
+		<h1>Archief: Buurtbudget Slotermeer Noordoost</h1>
+		<p>
+			In juni en juli 2019 hebben bewoners, ondernemers en organisaties samen maar liefst 144 plannen ingediend. In totaal haalden 103 plannen de drempel van 30 likes (enkele door het ophalen van handtekeningen) en bleken 86 van deze plannen haalbaar te zijn. Hiervan is vervolgens op 10 september door bewoners, ondernemers en de stadsdeelcommissie een selectie van 40 plannen gemaakt welke door zijn gegaan naar de stemronde. Op deze pagina vindt je alle 144 ingestuurde plannen terug, met een korte uitleg van de beoordeling die zij hebben gekregen.
+		</p>
+	</div>
 	<div id="map-with-buttons-container">
 		<div id="mapcontainer">
 			{{openStadMap.map(googleKey = config.openStadMap.googleKey, ideas = runningIdeas)}}
@@ -20,90 +27,7 @@
 	</div>
 {% endblock %}
 
-{% block endDateBar %}
-	<div id="endDateBar" class="pageContent">
-		{% if (config.ideas.voteForIdeas != 'closed') %}
-			<div id="end-date-bar-1">
-				<div id="end-date-bar-text-container-1">
-					<span id="end-date-bar-start-text-1" class="text"></span>
-					<span id="number-plates-1">
-						<span id="end-date-number-plate-00-1" class="number-plate"> 0 </span><span id="end-date-number-plate-0-1" class="number-plate"> 0 </span>
-					</span>
-					<span id="end-date-bar-end-text-1" class="text"></span>
-				</div>
-			</div>
-			<script>
-			if ( daysLeft1 > 0 ) {
-				document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen t/m ' + endDateText1 + '';
-				document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-				var value000 = parseInt(daysLeft1/100) || 0;
-				var value00  = parseInt(daysLeft1/10) - value000;
-				var value0   = daysLeft1 - value000 * 100 - value00 * 10;
-				document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
-				document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
-			} else {
-				document.getElementById('end-date-bar-start-text-1').innerHTML = 'Plannen insturen t/m ' + endDateText1 + '';
-				document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-				document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
-				document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
-			}
-			</script>
 
-			<div id="end-date-bar-2" style="margin-top: 3px;">
-				<div id="end-date-bar-text-container-2">
-					<span id="end-date-bar-start-text-2" class="text"></span>
-					<span id="number-plates-2">
-						<span id="end-date-number-plate-00-2" class="number-plate"> 0 </span><span id="end-date-number-plate-0-2" class="number-plate"> 0 </span>
-					</span>
-					<span id="end-date-bar-end-text-2" class="text"></span>
-				</div>
-			</div>
-			<script>
-			if ( daysLeft2 > 0 ) {
-				var date1Text = startDateText.replace(/ \d{4}$/, '');
-				document.getElementById('end-date-bar-start-text-2').innerHTML = 'Plannen liken t/m ' + endDateText2 + '';
-				document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
-				var value000 = parseInt(daysLeft2/100) || 0;
-				var value00  = parseInt(daysLeft2/10) - value000;
-				var value0   = daysLeft2 - value000 * 100 - value00 * 10;
-				document.getElementById('end-date-number-plate-00-2').innerHTML = value00;
-				document.getElementById('end-date-number-plate-0-2').innerHTML = value0;
-			} else {
-				document.getElementById('end-date-bar-start-text-2').innerHTML = 'Plannen liken t/m ' + endDateText2 + '';
-				document.getElementById('end-date-bar-end-text-2').innerHTML = 'dagen';
-				document.getElementById('end-date-number-plate-00-2').innerHTML = 0;
-				document.getElementById('end-date-number-plate-0-2').innerHTML = 0;
-			}
-			</script>
-		{% else %}
-			<div id="end-date-bar-1">
-				<div id="end-date-bar-text-container-1">
-					<span id="end-date-bar-start-text-1" class="text"></span>
-					<span id="number-plates-1">
-						<span id="end-date-number-plate-00-1" class="number-plate"> 0 </span><span id="end-date-number-plate-0-1" class="number-plate"> 0 </span>
-					</span>
-					<span id="end-date-bar-end-text-1" class="text"></span>
-				</div>
-			</div>
-			<script>
-			if ( daysLeft3 > 0 ) {
-				document.getElementById('end-date-bar-start-text-1').innerHTML = 'Stemmen kan vanaf ' + startDateText2 + '';
-				document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-				var value000 = parseInt(daysLeft3/100) || 0;
-				var value00  = parseInt(daysLeft3/10) - value000;
-				var value0   = daysLeft3 - value000 * 100 - value00 * 10;
-				document.getElementById('end-date-number-plate-00-1').innerHTML = value00;
-				document.getElementById('end-date-number-plate-0-1').innerHTML = value0;
-			} else {
-				document.getElementById('end-date-bar-start-text-1').innerHTML = 'Stemmen kan vanaf ' + startDateText2 + '';
-				document.getElementById('end-date-bar-end-text-1').innerHTML = 'dagen';
-				document.getElementById('end-date-number-plate-00-1').innerHTML = 0;
-				document.getElementById('end-date-number-plate-0-1').innerHTML = 0;
-			}
-			</script>
-		{% endif %}
-	</div>
-{% endblock %}
 
 {% block content2 %}
 	<div id="ideas" class="primary">
@@ -127,8 +51,8 @@
 				<select class="default-select">
 					<option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
 					<option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
-					<option {{'selected' if sort == 'votes_desc'}} value="votes_desc">Meeste stemmen</option>
-					<option {{'selected' if sort == 'votes_asc'}} value="votes_asc">Minste stemmen</option>
+					<option {{'selected' if sort == 'votes_desc'}} value="votes_desc">Meeste likes</option>
+					<option {{'selected' if sort == 'votes_asc'}} value="votes_asc">Minste likes</option>
 				</select>
 			</div>
 
