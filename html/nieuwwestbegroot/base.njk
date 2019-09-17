@@ -99,49 +99,25 @@
 				{# <div id="mobile-menu-toggle" onclick="document.getElementById('menuItems').classList.toggle('hidden-mobile');"></div> #}
 				<div id="mobile-menu-toggle"></div>
 				{% if user.hasCompletedRegistration() %}
-					<a href="/account" id="account-mobile">{{user.initials}}</a>
+					<a href="#" id="account-mobile"></a>
 				{% else %}
-					<a href="/account" id="account-mobile">Mijn account</a>
+					<a href="#" id="account-mobile"></a>
 				{% endif %}
 			</div>
 
 			<nav id="mainMenuNieuwWest" role="navigation">
 				<div>
 					<ul id="menuItems" class="nieuwwest-nav nav-primair hidden-mobile">
-						<li class="{{'active' if activeMenu == 'home'}}"><a href="/">Home</a></li>
-						<li class="{{'active' if activeMenu == 'about'}}"><a href="/themas">Thema's</a></li>
-						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Plannen</a></li>
+						<li><a href="https://buurtbudgetsno.amsterdam.nl/">Home</a></li>
+						<li><a href="https://buurtbudgetsno.amsterdam.nl/stemmen">Stemmen</a></li>
 						<li class="li-spacer"></li>
-						<li class="li-secundair"><a href="/engels">English</a></li>
-						<li class="li-secundair"><a href="/turks">Türkçe</a></li>
-						<li class="li-secundair"><a href="/arabisch">العربية</a></li>
+						<li class="li-secundair"><a href="https://buurtbudgetsno.amsterdam.nl/engels">English</a></li>
+						<li class="li-secundair"><a href="https://buurtbudgetsno.amsterdam.nl/turks">Türkçe</a></li>
+						<li class="li-secundair"><a href="https://buurtbudgetsno.amsterdam.nl/arabisch">العربية</a></li>
 						{# <li class="li-stuur-plan-in"><a href="/plan/nieuw">Stuur uw plan in</a></li> #}
 						<li class="li-spacer-black"></li>
 					</ul>
-
-					{% if user.hasCompletedRegistration() %}
-						<a href="/account" id="account" data-initials="{{user.initials}}">{{user.fullName}}</a>
-					{% else %}
-						<a href="/account" id="account" data-initials="">Mijn account</a>
-					{% endif %}
-
-					{% if (config.ideas.addNewIdeas != 'closed') %}
-						{# <a href="/plan/nieuw" class="stuur-plan-in" data-initials="">Stuur uw plan in</a> #}
-					{% endif %}
 					
-				</div>
-			</nav>
-
-			<nav id="subMenu" class="" role="navigation">
-				<div>
-					<ul>
-						{% if user.isLoggedIn() %}
-							{# <li><a href="/account">Mijn account</a></li> #}
-							<li><a href="/account/logout">Uitloggen</a></li>
-						{% else %}
-							<li><a href="/account/register">Aanmelden / inloggen</a></li>
-						{% endif %}
-					</ul>
 				</div>
 			</nav>
 
