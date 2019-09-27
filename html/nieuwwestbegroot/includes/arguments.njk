@@ -43,11 +43,14 @@
 
 
 	{% for arg in arguments %}
-		{% set mayEdit         = user.can('arg:edit', idea, arg) %}
-		{% set mayDelete       = user.can('arg:delete', idea, arg) %}
+		{# {% set mayEdit         = user.can('arg:edit', idea, arg) %} #}
+		{% set mayEdit         = false %}
+		{# {% set mayDelete       = user.can('arg:delete', idea, arg) %} #}
+		{% set mayDelete       = false %}
 		{# {% set maySeeReplyForm = user.can('arg:reply:form', idea, arg) %} #}
 		{% set maySeeReplyForm = false %}
-		{% set mayReply        = user.can('arg:reply', idea, arg) %}
+		{# {% set mayReply        = user.can('arg:reply', idea, arg) %} #}
+		{% set mayReply        = false %}
 
 		<div class="argument" data-id="{{arg.id}}" id="arg{{arg.id}}">
 			<div class="user {{'admin' if arg.user.isAdmin()}}">
