@@ -64,6 +64,11 @@ addApp('stemvan', [{
 	remotePath : '/var/www/nieuwwestbegroot.staging.openstadsdeel.nl/www',
 	ref        : 'origin/projects/nieuwwestbegroot'
 }, {
+	appName    : 'nieuwwestbegroot-archief',
+	deployName : 'production_nieuwwestbegrootarchief',
+	remotePath : '/var/www/nieuwwestbegroot-archief.openstad.amsterdam/www',
+	ref        : 'origin/projects/nieuwwestbegroot-archief'
+}, {
 	appName    : 'nieuwwestbegroot',
 	deployName : 'production_nieuwwestbegroot',
 	remotePath : '/var/www/nieuwwestbegroot.amsterdam.nl/www',
