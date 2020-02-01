@@ -33,7 +33,7 @@
 				<div>
 					<ul>
 						<li class="{{'active' if activeMenu == 'home' or not activeMenu}}"><a href="/">Home</a></li>
-						<li class="{{'active' if activeMenu == 'about'}}"><a href="/about" title="Stadsdeelcommissie"></a></li>
+						<li class="{{'active' if activeMenu == 'about'}}"><a href="/about" title="Stadsdeelcommissie">Stadsdeelcommissie</a></li>
 						<li class="{{'active' if activeMenu == 'ideas'}}"><a href="/plannen">Plannen</a></li>
 					</ul>
 					
@@ -215,6 +215,6 @@
 		
 		{% if ENV == 'production' %}
 			{% include 'includes/analytics.njk' %}
-	{% endif %}
+	  {% endif %}
 </body>
 </html>
