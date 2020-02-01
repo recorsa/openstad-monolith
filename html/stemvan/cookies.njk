@@ -1,0 +1,71 @@
+{% extends 'base.njk' %}
+{% import 'includes/secondary.njk' as sec %}
+
+{% set pageTitle    = 'Cookies op deze site' %}
+{% set contentClass = 'article proclaimer' %}
+
+{% block content %}
+	<div class="primary cookie-consent">
+
+    <script>
+     function setCookieConsent(what) {
+       document.cookie = "cookieConsent=" + (what ? '1' : '-1') + '; expires=Thu, 31 Dec 2025 23:59:00 UTC;';
+       document.location.reload();
+     }
+    </script>
+
+		<h1>Cookies op deze site</h1>
+
+    <p>
+      <strong>Een cookie is een klein bestandje dat met pagina's van deze website wordt meegestuurd en door uw browser op uw computer wordt opgeslagen. Wij gebruiken cookies om de website goed te laten functioneren en om het gebruik van de website te analyseren.</strong>
+    </p>
+
+		<h2>Cookie voorkeur wijzigen voor deze site</h2>
+
+    <p>
+      U kunt altijd uw cookievoorkeur wijzigen. Als u cookies niet accepteert kunnen bepaalde onderdelen van deze site minder goed werken. Omdat wij gebruikmaken van externe applicaties, kan het bijvoorbeeld zijn dat video's of kaarten niet worden ingeladen als u cookies heeft geweigerd.
+    </p>
+
+    <div class="cookie-consent-change-container">
+      {% if cookieConsent == '1' %}
+        <strong>Uw voorkeur:</strong> Cookies toegestaan.<br/>
+        <strong>Pas hier uw voorkeur aan:</strong><br/>
+        <a href="#" class="cookie-button cookie-button-gray">Cookies van derden toestaan</a>
+        <a href="javascript: void setCookieConsent(false)" class="cookie-button cookie-button-white">Cookies van derden weigeren</a>
+      {% else %}
+        <strong>Uw voorkeur:</strong> Cookies geweigerd.<br/>
+        <strong>Pas hier uw voorkeur aan:</strong><br/>
+        <a href="javascript: void setCookieConsent(true)" class="cookie-button cookie-button-blue">Cookies van derden toestaan</a>
+        <a href="#" class="cookie-button cookie-button-gray">Cookies van derden weigeren</a>
+      {% endif %}
+    </div>
+
+		<br/>
+		
+    <div id="accordeon-1" class="accordeon closed">
+      <a href="javascript: (function() { var element = document.getElementById('accordeon-1'); if( element.className.match(' closed') ){ element.className = element.className.replace(' closed', ' open');  } else { element.className = element.className.replace(' open', ' closed'); }   })()" class="accordeon-button">Hoe werken cookies?</a>
+      <div class="accordeon-content">
+				We kennen drie typen cookies
+				<h4>Functionele cookies</h4>
+				Deze cookies zijn nodig om de website te laten functioneren en instellingen of voorkeuren vast te houden tijdens een bezoek aan de website of tot een volgend bezoek. Bijvoorbeeld taalinstellingen, of ingevulde velden in een formulier.
+				<h4>Analytische cookies</h4>
+				Deze cookies laten zien hoe u de website gebruikt. Wij weten dan welke delen van de website interessant zijn en welke niet, of de website goed werkt en hoe we de website kunnen verbeteren.
+				<h4>Cookies van websites van derden</h4>
+				Bij onderdelen van de website zetten websites van derden cookies. Het gaat dan om handige extra’s: zoals een Google-plattegrond met interactieve routebeschrijving, een 'like'-knop van Facebook, of de mogelijkheid om iets door te twitteren. Door deze cookies 'weet' de website die u bekijkt, of u bij Google, Facebook of Twitter bent ingelogd.
+      </div>
+    </div>
+		
+    <div id="accordeon-2" class="accordeon closed">
+      <a href="javascript: (function() { var element = document.getElementById('accordeon-2'); if( element.className.match(' closed') ){ element.className = element.className.replace(' closed', ' open');  } else { element.className = element.className.replace(' open', ' closed'); }   })()" class="accordeon-button">Cookies verwijderen?</a>
+      <div class="accordeon-content">
+				U kunt uw cookies verwijderen via de instelling van uw browser. Ook kunt u via de instelling van uw browser de plaatsing van cookies helemaal of ten dele uitsluiten. Meer informatie over cookies en het uitschakelen van cookies vindt u op <a href="https://veiliginternetten.nl/" target="_blank">veiliginternetten.nl</a>. Voor professionals: <a href="https://www.ncsc.nl/" target="_blank">Nationaal Cyber Security Centrum</a>.
+      </div>
+    </div>
+    
+    <br/><br/>
+		
+	</div>
+	
+	<div class="secondary">
+	</div>
+{% endblock %}
